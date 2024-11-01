@@ -1,4 +1,5 @@
 \chapter{Designing Classes}
+\label{designing-classes}
 
 \index{object!type}
 \index{type!object}
@@ -36,6 +37,7 @@ In this chapter, you will learn to design classes that represent {\em useful} ob
 Think of a class as a blueprint for a house: you can use the same blueprint to build any number of houses.
 
 \section{The Time Class}
+\label{designing-classes_time-class}
 
 %\index{data encapsulation}
 %\index{encapsulation!data}
@@ -86,6 +88,7 @@ This kind of isolation is called {\bf information hiding}.
 
 
 \section{Constructors}
+\label{designing-classes_constructors}
 
 \index{constructor}
 \index{method!constructor}
@@ -178,6 +181,7 @@ Doing so causes an infinite recursion, since \java{new} invokes the {\em same} c
 
 
 \section{Value Constructors}
+\label{designing-classes_value-constructors}
 
 \index{overload}
 
@@ -248,6 +252,7 @@ As a result, this constructor copies the values from the parameters to the insta
 
 
 \section{Getters and Setters}
+\label{designing-classes_getters-setters}
 
 Recall that the instance variables of \java{Time} are \java{private}.
 We can access them from within the \java{Time} class, but if we try to read or write them from another class, the compiler reports an error.
@@ -355,6 +360,7 @@ Writing getters and setters can get boring, but many IDEs can generate them for 
 
 
 \section{Displaying Objects}
+\label{designing-classes_displaying-objects}
 
 To display \java{Time} objects, we can write a method to display the hour, minute, and second.
 Using \java{printTime} in Section~\ref{multparam} as a starting point, we could write the following:
@@ -394,6 +400,7 @@ A more idiomatic solution is to provide a special method called \java{toString}.
 
 
 \section{The toString Method}
+\label{designing-classes_tostring-method}
 
 Every object has a method called \java{toString} that returns a string representation of the object.
 When you display an object using \java{print} or \java{println}, Java invokes the object's \java{toString} method.
@@ -476,6 +483,7 @@ Either way, when you use \java{this} inside \java{toString}, it refers to the sa
 
 
 \section{The equals Method}
+\label{designing-classes_equals-method}
 \label{equals}
 
 \index{== equals operator}
@@ -580,6 +588,7 @@ But other definitions are possible.
 
 
 \section{Adding Times}
+\label{designing-classes_adding-times}
 \label{addingtime}
 
 Suppose you are going to a movie that starts at 18:50 (that is, 6:50 PM), and the running time is 2 hours, 16 minutes.
@@ -703,6 +712,7 @@ If \java{hour} exceeds 23, we subtract 24 hours, but there's no
 
 
 \section{Vocabulary}
+\label{designing-classes_vocabulary}
 
 \begin{description}
 
@@ -757,6 +767,7 @@ Objects that are equal in value, as defined by the \java{equals} method.
 
 
 \section{Exercises}
+\label{designing-classes_exercises}
 
 The code for this chapter is in the {\it ch11} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.

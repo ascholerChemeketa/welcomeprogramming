@@ -1,4 +1,5 @@
 \chapter{Arrays of Arrays}
+\label{arrays-arrays}
 \label{conway}
 
 The last three chapters of this book use 2D graphics to illustrate more advanced object-oriented concepts.
@@ -7,6 +8,7 @@ In this chapter, we use these classes to draw images and animations, and to run 
 
 
 \section{Conway's Game of Life}
+\label{arrays-arrays_conways-game-life}
 
 The Game of Life, or GoL for short, was developed by John Conway and popularized in 1970 in Martin Gardner's column in {\it Scientific American}.
 Conway calls it a ``zero-player game'' because no players are needed to choose strategies or make decisions.
@@ -77,6 +79,7 @@ We'll first implement the cells, then the grid of cells, and finally the game it
 
 
 \section{The Cell Class}
+\label{arrays-arrays_cell-class}
 
 When drawing a cell, we'll need to know its location on the screen and size in pixels.
 To represent the location, we use the \java{x} and \java{y} coordinates of the upper-left corner.
@@ -164,6 +167,7 @@ public void turnOn() {
 
 
 \section{Two-Dimensional Arrays}
+\label{arrays-arrays_twodimensional-arrays}
 
 \index{multidimensional array}
 
@@ -214,6 +218,7 @@ This way of representing 2D data is known as {\bf row-major order}.
 
 
 \section{The GridCanvas Class}
+\label{arrays-arrays_gridcanvas-class}
 
 Now that we have a \java{Cell} class and a way to represent a 2D array of cells, we can write a class to represent a grid of cells.
 We encapsulate the code from the previous section and generalize it to construct a grid with any number of rows and columns:
@@ -279,6 +284,7 @@ public void paint(Graphics g) {
 
 
 \section{Other Grid Methods}
+\label{arrays-arrays_other-grid-methods}
 
 In addition to \java{draw} and \java{paint}, the \java{GridCanvas} class provides methods for working with the grid itself.
 \java{numRows} and \java{numCols} return the number of rows and columns.
@@ -313,6 +319,7 @@ public void turnOn(int r, int c) {
 
 
 \section{Starting the Game}
+\label{arrays-arrays_starting-game}
 \label{conwaymain}
 
 Now we're ready to implement the game.
@@ -379,6 +386,7 @@ Figure~\ref{fig:conway} shows the result.
 
 
 \section{The Simulation Loop}
+\label{arrays-arrays_simulation-loop}
 \label{mainloop}
 
 At the end of \java{main}, we call \java{mainloop}, which uses a \java{while} loop to simulate the time steps of the Game of Life.
@@ -415,6 +423,7 @@ This message means we need to do some exception handling.
 
 
 \section{Exception Handling}
+\label{arrays-arrays_exception-handling}
 
 So far, the only exceptions you have seen are run-time errors like ``array index out of bounds'' and ``null pointer''.
 When one of these exceptions occurs, Java displays a message and ends the program.
@@ -452,6 +461,7 @@ You can read about exceptions in the Java tutorials (see \url{https://thinkjava.
 
 
 \section{Counting Neighbors}
+\label{arrays-arrays_counting-neighbors}
 
 \index{neighbor}
 
@@ -531,6 +541,7 @@ Because \java{test} handles ``out of bounds'' exceptions, \java{countAlive} work
 
 
 \section{Updating the Grid}
+\label{arrays-arrays_updating-grid}
 \label{sec:update}
 
 Now we are ready to write \java{update}, which gets invoked each time through the simulation loop.
@@ -633,6 +644,7 @@ But more importantly, this example is meant to demonstrate the use of 2D arrays 
 
 
 \section{Vocabulary}
+\label{arrays-arrays_vocabulary}
 
 \begin{description}
 
@@ -646,6 +658,7 @@ Storing data in a 2D array, first by rows and then by columns.
 
 
 \section{Exercises}
+\label{arrays-arrays_exercises}
 
 The code for this chapter is in the {\it ch15} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.

@@ -1,4 +1,5 @@
 \chapter{Variables and Operators}
+\label{variables-operators}
 \label{variables}
 
 This chapter describes how to write statements using {\em variables}, which store values like numbers and words, and {\em operators}, which are symbols that perform a computation.
@@ -11,6 +12,7 @@ Throughout the book, we often omit class and method definitions to keep the exam
 
 
 \section{Declaring Variables}
+\label{variables-operators_declaring-variables}
 
 %NOTE: in response to review comments, I am cleaning up the use of
 % ``memory''.  I would like to avoid talking about hardware, or being
@@ -90,6 +92,7 @@ And the compiler will complain even if one does sneak past you and your editor.
 
 
 \section{Assigning Variables}
+\label{variables-operators_assigning-variables}
 
 \index{assignment}
 \index{= assignment operator}
@@ -157,6 +160,7 @@ int minute = 59;
 
 
 \section{Memory Diagrams}
+\label{variables-operators_memory-diagrams}
 \label{state}
 
 Because Java uses the \java{=} symbol for assignment, it is tempting to interpret the statement \java{a = b} as a statement of equality.
@@ -211,6 +215,7 @@ For example, if we added the line \java{int c = 0;} to the previous example, the
 
 
 \section{Printing Variables}
+\label{variables-operators_printing-variables}
 \label{sec:printvar}
 
 You can display the current value of a variable by using \java{print} or \java{println}.
@@ -268,6 +273,7 @@ If you omit the \java{println}, the program might display the stored output at u
 
 
 \section{Arithmetic Operators}
+\label{variables-operators_arithmetic-operators}
 
 %Recall that Java programs are organized into {\em classes}, each of which has one or more {\em methods}, each of which has one or more {\em statements}.
 %Most statements consist of one or more {\bf expressions}.
@@ -351,6 +357,7 @@ Again the result is rounded down, but at least now it's approximately correct.
 
 
 \section{Floating-Point Numbers}
+\label{variables-operators_floatingpoint-numbers}
 
 \index{floating-point}
 \index{double}
@@ -429,6 +436,7 @@ The compiler won't make you do it, but you never know when a simple mistake will
 
 
 \section{Rounding Errors}
+\label{variables-operators_rounding-errors}
 \label{rounderr}
 
 %The operations we have seen so far---addition, subtraction, multiplication, and division---also work on floating-point values, although you might be interested to know that the underlying mechanism is completely different.
@@ -491,6 +499,7 @@ This solution works as long as the number of cents doesn't exceed the largest \j
 
 
 \section{Operators for Strings}
+\label{variables-operators_operators-for-strings}
 
 \index{string!operator}
 \index{operator!string}
@@ -527,6 +536,7 @@ But in the second line, \java{"Hello" + 1} is \java{"Hello1"}, and \java{"Hello1
 
 
 %\section{Order of Operations}
+\label{variables-operators_order-operations}
 
 \index{order of operations}
 \index{precedence}
@@ -559,6 +569,7 @@ But over time, you should internalize these kinds of details about the Java lang
 
 
 \section{Compiler Error Messages}
+\label{variables-operators_compiler-error-messages}
 
 \index{error!message}
 
@@ -627,6 +638,7 @@ As you gain experience, you will make fewer mistakes and find them more quickly.
 
 
 \section{Other Types of Errors}
+\label{variables-operators_other-types-errors}
 \label{exception}
 
 \index{run-time error}
@@ -661,6 +673,7 @@ It also reports the file where the method is defined, {\tt Hello.java}, and the 
 %Keep in mind that the line where the program crashed may not be the line that needs to be corrected.
 
 %\subsection{Logic Errors}
+\label{variables-operators_logic-errors}
 
 \index{logic error}
 \index{error!logic}
@@ -696,6 +709,7 @@ Usually, the compiler and the interpreter can't help you, since they don't know 
 
 
 \section{Vocabulary}
+\label{variables-operators_vocabulary}
 
 \begin{description}
 
@@ -776,6 +790,7 @@ An error in a program that makes it do something other than what the programmer 
 
 
 \section{Exercises}
+\label{variables-operators_exercises}
 
 The code for this chapter is in the {\it ch02} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.

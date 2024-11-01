@@ -1,4 +1,5 @@
 \chapter{Extending Classes}
+\label{extending-classes}
 \label{eights}
 
 \index{Crazy Eights}
@@ -33,6 +34,7 @@ You can read \url{https://en.wikipedia.org/wiki/Crazy_Eights} for more details, 
 
 
 \section{CardCollection}
+\label{extending-classes_cardcollection}
 
 To implement Crazy Eights, we need to represent a deck of cards, a discard pile, a draw pile, and a hand for each player.
 And we need to be able to deal, draw, and discard cards.
@@ -173,6 +175,7 @@ public void shuffle() {
 
 
 \section{Inheritance}
+\label{extending-classes_inheritance}
 
 At this point, we have a class that represents a collection of cards.
 It provides functionality common to decks of cards, piles of cards, hands of cards, and potentially other collections.
@@ -274,6 +277,7 @@ And a \java{Hand} is just like a \java{CardCollection}, but it provides an addit
 
 
 \section{Dealing Cards}
+\label{extending-classes_dealing-cards}
 \label{dealing}
 
 To begin the game, we need to deal cards to each of the players.
@@ -357,6 +361,7 @@ But not every animal is a mammal, and not every mammal is a cat.
 
 
 \section{The Player Class}
+\label{extending-classes_player-class}
 
 The \java{Deck} and \java{Hand} classes we have defined so far could be used for any card game; we have not yet implemented any of the rules specific to Crazy Eights.
 And that's probably a good thing, since it makes it easy to reuse these classes if we want to make another game in the future.
@@ -472,6 +477,7 @@ Finally, \java{Player} provides a \java{score} method, which computes penalty po
 
 
 \section{The Eights Class}
+\label{extending-classes_eights-class}
 
 \index{top-down design}
 
@@ -646,6 +652,7 @@ The difference is the development process we used to arrive at this solution.
 
 
 \section{Class Relationships}
+\label{extending-classes_class-relationships}
 
 \index{class!relationships}
 
@@ -699,6 +706,7 @@ And class diagrams are only one of many graphical representations defined in the
 
 
 \section{Vocabulary}
+\label{extending-classes_vocabulary}
 
 \begin{description}
 
@@ -727,6 +735,7 @@ A relationship between two classes in which one class extends another class; the
 
 
 \section{Exercises}
+\label{extending-classes_exercises}
 
 The code for this chapter is in the {\it ch14} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.

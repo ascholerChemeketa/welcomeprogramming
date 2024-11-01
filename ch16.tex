@@ -1,4 +1,5 @@
 \chapter{Reusing Classes}
+\label{reusing-classes}
 
 In Chapter~\ref{conway}, we developed classes to implement Conway's Game of Life.
 %As an exercise, you had a chance to implement Langton's Ant.
@@ -22,6 +23,7 @@ In this chapter, we present an implementation of Langton's Ant and use it to dem
 
 
 \section{Langton's Ant}
+\label{reusing-classes_langtons-ant}
 
 We begin by defining a \java{Langton} class that has a grid and information about the ant.
 The constructor takes the grid dimensions as parameters:
@@ -121,6 +123,7 @@ However, we now have two copies of \java{main} and \java{mainloop}---one in \jav
 
 
 \section{Refactoring}
+\label{reusing-classes_refactoring}
 \label{refactor}
 
 Whenever you see repeated code like \java{main}, you should think about ways to remove it.
@@ -184,6 +187,7 @@ We're almost finished; we just need to redesign \java{Conway} and \java{Langton}
 
 
 \section{Abstract Classes}
+\label{reusing-classes_abstract-classes}
 
 If we were not planning to implement any other zero-person games, we could leave well enough alone.
 But there are a few problems with the current design:
@@ -268,6 +272,7 @@ But they also provide attributes and methods to be inherited, thus eliminating r
 
 
 \section{UML Diagram}
+\label{reusing-classes_uml-diagram}
 
 At the beginning of the chapter, we had three classes: \java{Cell}, \java{GridCanvas}, and \java{Conway}.
 We then developed \java{Langton}, which had almost the same \java{main} and \java{mainloop} methods as \java{Conway}.
@@ -308,6 +313,7 @@ UML class diagrams can help.
 
 
 \section{Vocabulary}
+\label{reusing-classes_vocabulary}
 
 \begin{description}
 
@@ -324,6 +330,7 @@ A class that is {\em not} declared as \java{abstract}; each of its methods must 
 
 
 \section{Exercises}
+\label{reusing-classes_exercises}
 
 The code for this chapter is in the {\it ch16} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.

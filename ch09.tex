@@ -1,4 +1,5 @@
 \chapter{Immutable Objects}
+\label{immutable-objects}
 \label{immutable}
 
 \index{object-oriented}
@@ -21,6 +22,7 @@ We will explore some of these methods in this chapter.
 
 
 \section{Primitives vs Objects}
+\label{immutable-objects_primitives-vs-objects}
 
 \index{primitive}
 
@@ -97,6 +99,7 @@ The \java{==} operator, when applied to string variables, tests only whether the
 
 
 \section{The null Keyword}
+\label{immutable-objects_null-keyword}
 
 Often when you declare an object variable, you assign it to reference an object.
 But sometimes you want to declare a variable that doesn't refer to an object, at least initially.
@@ -136,6 +139,7 @@ In these situations, \java{null} is often used to represent a special condition 
 
 
 \section{Strings Are Immutable}
+\label{immutable-objects_strings-are-immutable}
 
 If the Java library didn't have a \java{String} class, we would have to use character arrays to store and manipulate text.
 Operations like concatenation~(\java{+}), \java{indexOf}, and \java{substring} would be difficult and inconvenient.
@@ -200,6 +204,7 @@ And since the contents of a string can never change, two variables can reference
 
 
 \section{Wrapper Classes}
+\label{immutable-objects_wrapper-classes}
 
 Primitive types like \java{int}, \java{double}, and \java{char} cannot be \java{null}, and they do not provide methods.
 For example, you can't invoke \java{equals} on an \java{int}:
@@ -280,6 +285,7 @@ int num = Integer.parseInt(str);  // NumberFormatException
 
 
 \section{Command-Line Arguments}
+\label{immutable-objects_commandline-arguments}
 
 \index{args}
 \index{command-line interface}
@@ -365,6 +371,7 @@ For example, if you run {\tt javac} or {\tt java} from the command line without 
 
 
 \section{Argument Validation}
+\label{immutable-objects_argument-validation}
 
 As we discussed in Section~\ref{validate}, you should never assume that program input will be in the correct format.
 Sometimes users make mistakes, such as pressing the wrong key or misreading instructions.
@@ -450,6 +457,7 @@ As a result, \java{str.isEmpty()} will not be called.
 
 
 \section{BigInteger Arithmetic}
+\label{immutable-objects_biginteger-arithmetic}
 % CSM based on text from V6 Exercise 10.4
 
 It might not be clear at this point why you would ever need an integer object when you can just use an \java{int} or \java{long}.
@@ -512,6 +520,7 @@ Interestingly, \java{BigDecimal} objects represent floating-point numbers intern
 
 
 \section{Incremental Design}
+\label{immutable-objects_incremental-design}
 \label{encapsulation}
 
 %This chapter introduces two main concepts: objects encapsulate other types of data, and they can be designed to be immutable.
@@ -628,6 +637,7 @@ And the output looks like this:
 
 
 \section{More Generalization}
+\label{immutable-objects_more-generalization}
 
 The previous result is similar to the ``nested loops'' approach in Section~\ref{nested}.
 However, the inner loop is now encapsulated in the \java{printRow} method.
@@ -737,6 +747,7 @@ Generalization makes code more versatile, more likely to be reused, and sometime
 
 
 \section{Vocabulary}
+\label{immutable-objects_vocabulary}
 
 \begin{description}
 
@@ -777,6 +788,7 @@ To replace something unnecessarily specific (like a constant value) with somethi
 
 
 \section{Exercises}
+\label{immutable-objects_exercises}
 
 The code for this chapter is in the {\it ch09} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.

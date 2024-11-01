@@ -1,4 +1,5 @@
 \chapter{Advanced Topics}
+\label{advanced-topics}
 
 \index{inheritance}
 \index{generalization}
@@ -24,6 +25,7 @@ We'll continue to develop graphical simulations as a running example, but this t
 
 
 \section{Polygon Objects}
+\label{advanced-topics_polygon-objects}
 
 The word polygon means ``many angles''; the most basic polygons are triangles (three angles), rectangles (four angles), pentagons (five angles), and so forth.
 Polygons are an important part of computer graphics because they are used to compose more complex images.
@@ -59,6 +61,7 @@ We'll get to those later, but first we're going to do some specialization.
 
 
 \section{Adding Color}
+\label{advanced-topics_adding-color}
 
 Specialization is useful for adding new features to an existing class, especially when you can't (or don't want to) change its design.
 For example, we can extend the \java{Polygon} class by adding a \java{draw} method and a \java{Color} attribute:
@@ -100,6 +103,7 @@ p.color = Color.GREEN;
 
 
 \section{Regular Polygons}
+\label{advanced-topics_regular-polygons}
 
 In mathematics, a regular polygon has all sides the same length and all angles equal in measure.
 Regular polygons are a special case of polygons, so we will use specialization to define a class for them.
@@ -189,6 +193,7 @@ The result is a six-sided polygon with radius 50 centered at the point $(100, 10
 
 
 \section{More Constructors}
+\label{advanced-topics_more-constructors}
 
 Classes in the Java library often have more than one constructor for convenience.
 We can do the same with \java{RegularPolygon}.
@@ -253,6 +258,7 @@ Because we added this code to the most general constructor, we don't have to add
 
 
 \section{An Initial Drawing}
+\label{advanced-topics_initial-drawing}
 \label{sec:drawing}
 
 Now that we have \java{DrawablePolygon} and \java{RegularPolygon}, let's take them for a test drive.
@@ -364,6 +370,7 @@ And the \java{ArrayList} in \java{Drawing} is a polymorphic data structure, beca
 
 
 \section{Blinking Polygons}
+\label{advanced-topics_blinking-polygons}
 
 At this point, we have a simple program that draws polygons; we can make it more fun by adding animation.
 Chapter~\ref{conway} introduced the idea of simulating time steps.
@@ -449,6 +456,7 @@ Every 10 time steps, it toggles \java{visible} and resets \java{count} to 0.
 
 
 \section{Interfaces}
+\label{advanced-topics_interfaces}
 
 You might be getting tired of polygons at this point.
 Can't we draw anything else?
@@ -544,6 +552,7 @@ Java library classes often implement multiple interfaces.
 
 
 \section{Event Listeners}
+\label{advanced-topics_event-listeners}
 
 \index{sprite}
 
@@ -698,6 +707,7 @@ The \java{setFocusable} method ensures that \java{drawing} will have the focus i
 
 
 \section{Timers}
+\label{advanced-topics_timers}
 
 %When you run this program, the arrow keys might not work initially.
 %If that happens, click on the drawing to give it the keyboard focus.
@@ -767,6 +777,7 @@ Congratulations on making it to the end!
 
 
 \section{Vocabulary}
+\label{advanced-topics_vocabulary}
 
 \begin{description}
 
@@ -786,6 +797,7 @@ A computer graphic that may be moved or otherwise manipulated on the screen.
 
 
 \section{Exercises}
+\label{advanced-topics_exercises}
 
 The code for this chapter is in the {\it ch17} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.
