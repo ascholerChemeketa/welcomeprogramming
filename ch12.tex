@@ -1,4 +1,5 @@
 \chapter{Arrays of Objects}
+\label{arrays-objects}
 
 During the next three chapters, we will develop programs that work with playing cards and decks of cards.
 Here is an outline of the road ahead:
@@ -35,6 +36,7 @@ If you are unfamiliar with traditional playing cards, now would be a good time t
 
 
 \section{Card Objects}
+\label{arrays-objects_card-objects}
 
 \index{Card}
 
@@ -107,6 +109,7 @@ The result is a reference to a \java{Card} that represents the 3 of Clubs.
 
 
 \section{Card toString}
+\label{arrays-objects_card-tostring}
 
 When you create a new class, the first step is to declare the instance variables and write constructors.
 A good next step is to write \java{toString}, which is useful for debugging and incremental development.
@@ -194,7 +197,7 @@ System.out.println(card);
 
 
 \section{Class Variables}
-\label{classvar}
+\label{arrays-objects_class-variables}
 
 \index{class variable}
 
@@ -252,6 +255,7 @@ They may also be needed in other methods and classes, so it's helpful to make th
 
 
 \section{The compareTo Method}
+\label{arrays-objects_compareto-method}
 
 \index{equivalent}
 
@@ -322,6 +326,7 @@ If the ranks are also the same, it returns \java{0}.
 
 
 \section{Cards Are Immutable}
+\label{arrays-objects_cards-are-immutable}
 
 The instance variables of \java{Card} are \java{private}, so they can't be accessed from other classes.
 We can provide getters to allow other classes to read the \java{rank} and \java{suit} values:
@@ -364,7 +369,7 @@ This kind of safeguard helps prevent future mistakes and hours of debugging.
 
 
 \section{Arrays of Cards}
-\label{cardarray}
+\label{arrays-objects_arrays-cards}
 
 %\index{composition}
 
@@ -487,6 +492,7 @@ System.out.println(Arrays.toString(cards))
 
 
 \section{Sequential Search}
+\label{arrays-objects_sequential-search}
 
 \index{sequential search}
 
@@ -526,6 +532,7 @@ If you pay the price to keep the array sorted, finding elements becomes much eas
 
 
 \section{Binary Search}
+\label{arrays-objects_binary-search}
 
 % ABD:  I wonder if we need a different example.  I don't know how many students have looked up a word in a paper dictionary.
 
@@ -595,6 +602,7 @@ This algorithm depends on only the \java{compareTo} method of the object, so we 
 
 
 \section{Tracing the Code}
+\label{arrays-objects_tracing-code}
 
 \index{tracing}
 
@@ -653,6 +661,7 @@ For large values of $n$, binary search is substantially faster.
 
 
 \section{Vocabulary}
+\label{arrays-objects_vocabulary}
 
 \begin{description}
 
@@ -673,6 +682,7 @@ An algorithm that searches a sorted array by starting in the middle, comparing a
 
 
 \section{Exercises}
+\label{arrays-objects_exercises}
 
 The code for this chapter is in the {\it ch12} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.

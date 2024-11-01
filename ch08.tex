@@ -1,4 +1,5 @@
 \chapter{Recursive Methods}
+\label{recursive-methods}
 
 \index{iterative}
 \index{recursive}
@@ -12,7 +13,7 @@ A method that invokes itself is called {\bf recursive}.
 
 
 \section{Recursive Void Methods}
-\label{recursion}
+\label{recursive-methods_recursive-void-methods}
 
 \index{countdown}
 
@@ -99,6 +100,7 @@ The total number of newlines is $1 + (n - 1)$, which is just what we wanted: $n$
 
 
 \section{Recursive Stack Diagrams}
+\label{recursive-methods_recursive-stack-diagrams}
 
 \index{stack diagram}
 \index{diagram!stack}
@@ -152,7 +154,7 @@ Try this example on your computer---you might be surprised by how long the error
 
 
 \section{Value-Returning Methods}
-\label{factorial}
+\label{recursive-methods_valuereturning-methods}
 
 %\index{Turing complete}
 %\index{language!complete}
@@ -275,7 +277,7 @@ Notice that \java{recurse} and \java{result} do not exist in the last frame, bec
 
 
 \section{The Leap of Faith}
-\label{leap_of_faith}
+\label{recursive-methods_leap-faith}
 
 \index{leap of faith}
 
@@ -328,7 +330,7 @@ But that's why it's called a leap of faith!
 
 
 %\section{Fibonacci Sequence}
-\label{fibonacci}
+\label{recursive-methods_fibonacci-sequence}
 
 \index{fibonacci}
 
@@ -357,7 +359,7 @@ But if we take a leap of faith and assume that the two recursive invocations wor
 
 
 \section{Counting Up Recursively}
-\label{countup}
+\label{recursive-methods_counting-up-recursively}
 
 The \java{countdown} example in Section~\ref{recursion} has three parts: (1) it checks the base case, (2) it displays something, and (3) it makes a recursive call.
 What do you think happens if you reverse steps 2 and 3, making the recursive call {\em before} displaying?
@@ -387,7 +389,7 @@ Blastoff!
 Keep this in mind for the next example, which displays numbers in binary.
 
 \section{Binary Number System}
-\label{binary}
+\label{recursive-methods_binary-number-system}
 
 You are probably aware that computers can store only 1s and 0s.
 That's because processors and memory are made up of billions of tiny on-off switches.
@@ -493,6 +495,7 @@ Reading these remainders from bottom to top, 23 in binary is 10111.
 
 
 \section{Recursive Binary Method}
+\label{recursive-methods_recursive-binary-method}
 
 Now, to display a number in binary, we can combine the algorithm from the previous section and the ``count up'' pattern from Section~\ref{countup}.
 
@@ -534,6 +537,7 @@ System.out.println();
 
 
 \section{CodingBat Problems}
+\label{recursive-methods_codingbat-problems}
 
 In the past several chapters, you've seen methods, conditions, loops, strings, arrays, and recursion.
 A great resource for practicing all of these concepts is \url{https://codingbat.com/}.
@@ -653,6 +657,7 @@ Many algorithms can be written concisely with recursive methods that perform com
 
 
 \section{Vocabulary}
+\label{recursive-methods_vocabulary}
 
 \begin{description}
 
@@ -691,6 +696,7 @@ Also known as ``base 2''.
 
 
 \section{Exercises}
+\label{recursive-methods_exercises}
 
 The code for this chapter is in the {\it ch08} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.

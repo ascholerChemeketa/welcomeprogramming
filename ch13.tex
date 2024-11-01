@@ -1,4 +1,5 @@
 \chapter{Objects of Arrays}
+\label{objects-arrays}
 
 \index{array!of cards}
 
@@ -17,7 +18,7 @@ Finally, we introduce \java{ArrayList} from the Java library and use it to repre
 
 
 \section{Decks of Cards}
-\label{deck}
+\label{objects-arrays_decks-cards}
 
 \index{Deck}
 
@@ -105,7 +106,7 @@ deck.print();
 
 
 \section{Shuffling Decks}
-\label{shuffle}
+\label{objects-arrays_shuffling-decks}
 
 \index{shuffle}
 
@@ -172,7 +173,7 @@ Do you understand why?
 
 
 \section{Selection Sort}
-\label{sorting}
+\label{objects-arrays_selection-sort}
 
 \index{selection sort}
 \index{sort!selection}
@@ -207,7 +208,7 @@ One of the exercises at the end of the chapter asks you to write \java{indexLowe
 
 
 \section{Merge Sort}
-\label{mergesort}
+\label{objects-arrays_merge-sort}
 
 \index{efficiency}
 
@@ -248,6 +249,7 @@ In the next few sections, we'll explain how to implement this algorithm in Java.
 
 
 \section{Subdecks}
+\label{objects-arrays_subdecks}
 
 \index{subdeck}
 \label{subdeck}
@@ -308,6 +310,7 @@ And it saves some memory because we don't create duplicate \java{Card} objects.
 
 
 \section{Merging Decks}
+\label{objects-arrays_merging-decks}
 
 \index{merge}
 
@@ -353,6 +356,7 @@ But it is still not very efficient, because it uses \java{selectionSort} to sort
 We can make it more efficient if we use \java{mergeSort} instead, but that means we have to make it recursive!
 
 \section{Adding Recursion}
+\label{objects-arrays_adding-recursion}
 
 To make \java{mergeSort} work recursively, you have to add a base case; otherwise, it repeats forever.
 The simplest base case is a subdeck with one card.
@@ -393,6 +397,7 @@ As an exercise at the end of this chapter, you'll have a chance to finish off th
 
 
 \section{Static Context}
+\label{objects-arrays_static-context}
 
 Figure~\ref{fig.deck} shows a UML class diagram for \java{Deck}, including the instance variable, \java{cards}, and the methods we have so far.
 In UML diagrams, \java{private} attributes and methods begin with a minus sign (\java{-}) and \java{static} methods are underlined.
@@ -487,6 +492,7 @@ We hope this section helps.
 
 
 \section{Piles of Cards}
+\label{objects-arrays_piles-cards}
 
 \index{War (card game)}
 
@@ -594,6 +600,7 @@ But that won't be a problem because cards are immutable.
 
 
 \section{Playing War}
+\label{objects-arrays_playing-war}
 
 Now we can use \java{Deck} and \java{Pile} to implement the game.
 We'll start by creating a deck and shuffling:
@@ -657,6 +664,7 @@ Take a minute to read the documentation, which you can find by doing a web searc
 
 
 \section{Vocabulary}
+\label{objects-arrays_vocabulary}
 
 \begin{description}
 
@@ -694,6 +702,7 @@ A method that calls another method without doing much additional work.
 
 
 \section{Exercises}
+\label{objects-arrays_exercises}
 
 The code for this chapter is in the {\it ch13} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.

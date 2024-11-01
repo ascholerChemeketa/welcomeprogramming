@@ -1,5 +1,5 @@
 \chapter{Mutable Objects}
-\label{mutable}
+\label{mutable-objects}
 
 \index{String class}
 \index{type!String}
@@ -13,7 +13,7 @@ You will also look at the source code for the Java library.
 
 
 \section{Point Objects}
-\label{point}
+\label{mutable-objects_point-objects}
 
 \index{coordinate}
 
@@ -70,6 +70,7 @@ The arrow points to the \java{Point} object, which contains two variables, \java
 
 
 %\section{Attributes}
+\label{mutable-objects_attributes}
 
 \index{attribute}
 \index{dot notation}
@@ -102,6 +103,7 @@ The second line calculates the value \java{25}.
 
 
 \section{Objects as Parameters}
+\label{mutable-objects_objects-as-parameters}
 
 \index{parameter}
 \index{object!as parameter}
@@ -155,7 +157,7 @@ When you call \java{println} with objects, it {\em automatically} calls \java{to
 
 
 \section{Objects as Return Values}
-\label{sec:Rectangle}
+\label{mutable-objects_objects-as-return-values}
 
 \index{Rectangle}
 
@@ -212,6 +214,7 @@ The last line creates a new \java{Point} object and returns a reference to it.
 %The center of this rectangle is \java{(50, 100)}, which is 50 pixels to the right and 100 pixels down from the origin.
 
 \section{Rectangles Are Mutable}
+\label{mutable-objects_rectangles-are-mutable}
 
 \index{mutable}
 \index{object!mutable}
@@ -275,7 +278,7 @@ This syntax---using dot notation to invoke a method on an object, rather than pa
 
 
 \section{Aliasing Revisited}
-\label{aliasing}
+\label{mutable-objects_aliasing-revisited}
 
 \index{reference}
 
@@ -335,7 +338,7 @@ As you can tell from this simple example, code that involves aliasing can get co
 
 
 \section{Java Library Source}
-\label{src.zip}
+\label{mutable-objects_java-library-source}
 
 \index{library}
 \index{source code}
@@ -392,7 +395,7 @@ There is more to them than you may have expected.
 
 
 \section{Class Diagrams}
-\label{UML}
+\label{mutable-objects_class-diagrams}
 
 To summarize what you've learned so far, \java{Point} and \java{Rectangle} objects have attributes and methods.
 Attributes are an object's {\em data}; methods are an object's {\em code}.
@@ -431,6 +434,7 @@ In contrast to memory diagrams, which visualize objects (and variables) at run-t
 
 
 \section{Scope Revisited}
+\label{mutable-objects_scope-revisited}
 
 \index{scope}
 
@@ -477,6 +481,7 @@ The compiler first looks for local variables, then parameters, then attributes.
 
 
 %\section{Shadowing}
+\label{mutable-objects_shadowing}
 %
 % CSM: We now discuss shadowing in Chapter 11.
 % @Deprecated is a nice idea, but unnecessary.
@@ -516,7 +521,7 @@ The compiler first looks for local variables, then parameters, then attributes.
 
 
 \section{Garbage Collection}
-\label{garbage}
+\label{mutable-objects_garbage-collection}
 
 In the previous section, we said that attributes exist as long as the object exists.
 But when does an object cease to exist?
@@ -559,6 +564,7 @@ But in high-performance applications, you may notice a slight delay every now an
 
 
 \section{Mutable vs Immutable}
+\label{mutable-objects_mutable-vs-immutable}
 
 \index{mutable}
 \index{immutable}
@@ -610,7 +616,7 @@ Neither design is always better, which is why you will see both.
 
 
 \section{StringBuilder Objects}
-\label{stringbuilder}
+\label{mutable-objects_stringbuilder-objects}
 
 Here's an example in which mutable objects are efficient and arguably more natural: building a long string by concatenating lots of small pieces.
 
@@ -665,6 +671,7 @@ Programs that manipulate large amounts of text run much faster if you use \java{
 
 
 \section{Vocabulary}
+\label{mutable-objects_vocabulary}
 
 \begin{description}
 
@@ -695,6 +702,7 @@ Points and rectangles are mutable by design.
 
 
 \section{Exercises}
+\label{mutable-objects_exercises}
 
 The code for this chapter is in the {\it ch10} directory of {\it ThinkJavaCode2}.
 See page~\pageref{code} for instructions on how to download the repository.

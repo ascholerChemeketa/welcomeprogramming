@@ -36,6 +36,7 @@ The following sections are organized by error type; some techniques are useful f
 
 
 \section{Compile-Time Errors}
+\label{debugging_compiletime-errors}
 
 The best kind of debugging is the kind you don't have to do because you avoid making errors in the first place.
 Incremental development, which we presented in Section~\ref{distance}, can help.
@@ -47,6 +48,7 @@ For each situation, we have some suggestions about how to proceed.
 
 
 \subsection*{The compiler is spewing error messages.}
+\label{debugging_compiler-is-spewing-error-messages}
 
 \index{compile}
 \index{error!message}
@@ -61,6 +63,7 @@ You may find that one semicolon or brace ``fixes'' 100 errors.
 
 
 \subsection*{I'm getting a weird compiler message, and it won't go away.}
+\label{debugging_im-getting-a-weird-compiler-message-it-wont-go-away}
 
 First of all, read the error message carefully.
 It may be written in terse jargon, but often there is a carefully hidden kernel of information.
@@ -115,6 +118,7 @@ If nothing works, move on to the next section\ldots
 
 
 \subsection*{I can't get my program to compile no matter what I do.}
+\label{debugging_i-cant-get-my-program-to-compile-no-matter-what-i-do}
 
 If the compiler says there is an error and you don't see it, that might be because you and the compiler are not looking at the same code.
 Check your development environment to make sure the program you are editing is the program the compiler is compiling.
@@ -157,6 +161,7 @@ It works for other programming languages too!
 
 
 \subsection*{I did what the compiler told me to do, but it still doesn't work.}
+\label{debugging_i-did-what-compiler-told-me-to-do-but-it-still-doesnt-work}
 
 Some error messages come with tidbits of advice, like ``class Golfer must be declared abstract.
 It does not define int compareTo(java.lang.Object) from interface java.lang.Comparable.''
@@ -170,11 +175,13 @@ Error messages give you evidence that something is wrong, but the remedies they 
 
 
 \section{Run-Time Errors}
+\label{debugging_runtime-errors}
 
 It's not always clear what causes a run-time error, but you can often figure things out by adding print statements to your program.
 
 
 \subsection*{My program hangs.}
+\label{debugging_my-program-hangs}
 
 \index{hanging}
 \index{infinite loop}
@@ -204,7 +211,7 @@ Go to the section titled ``Flow of execution''.% on page~\pageref{flowexec}.
 
 
 \subsubsection*{Infinite loop}
-\label{infloop}
+\label{debugging_infinite-loop}
 
 If you think you have an infinite loop and you know which loop it is, add a print statement at the end of the loop that displays the values of the variables in the condition, and the value of the condition.
 
@@ -227,7 +234,7 @@ If the loop keeps going, you will see the values of \java{x} and \java{y}, and y
 
 
 \subsubsection*{Infinite recursion}
-\label{infrec}
+\label{debugging_infinite-recursion}
 
 \index{recursion!infinite}
 \index{infinite recursion}
@@ -246,7 +253,7 @@ If the parameters are not moving toward the base case, you might see why not.
 
 
 \subsubsection*{Flow of execution}
-\label{flowexec}
+\label{debugging_flow-execution}
 
 \index{flow of execution}
 \index{tracing}
@@ -259,6 +266,7 @@ When you run the program, check whether the values are reasonable, and check for
 
 
 \subsection*{When I run the program, I get an exception.}
+\label{debugging_when-i-run-program-i-get-exception}
 
 \index{exception}
 \index{stack trace}
@@ -313,6 +321,7 @@ Something went wrong during an arithmetic operation; for example, division by ze
 
 
 \subsection*{I added so many print statements I get inundated with output.}
+\label{debugging_i-added-so-many-print-statements-i-get-inundated-with-output}
 
 \index{print statement}
 \index{statement!print}
@@ -342,9 +351,11 @@ If you make a change that you think doesn't affect the program, and it does, tha
 
 
 \section{Logic Errors}
+\label{debugging_logic-errors}
 
 
 \subsection*{My program doesn't work.}
+\label{debugging_my-program-doesnt-work}
 
 Logic errors are hard to find because the compiler and interpreter provide no information about what is wrong.
 Only you know what the program is supposed to do, and only you know that it isn't doing it.
@@ -408,6 +419,7 @@ See ``Flow of execution'' on page~\pageref{flowexec}.
 
 
 \subsection*{I've got a big, hairy expression and it doesn't do what I expect.}
+\label{debugging_ive-got-a-big-hairy-expression-it-doesnt-do-what-i-expect}
 
 \index{expression!big and hairy}
 
@@ -461,6 +473,7 @@ This version is correct, and more readable for other people who haven't memorize
 
 
 \subsection*{My method doesn't return what I expect.}
+\label{debugging_my-method-doesnt-return-what-i-expect}
 
 \index{return statement}
 \index{statement!return}
@@ -496,6 +509,7 @@ And by reusing \java{x1} and \java{y1}, you made the code smaller too.
 
 
 \subsection*{My print statement isn't doing anything.}
+\label{debugging_my-print-statement-isnt-doing-anything}
 
 \index{print statement}
 \index{statement!print}
@@ -506,6 +520,7 @@ If you suspect that this is happening, change some or all of the \java{print} st
 
 
 \subsection*{I'm really, really stuck and I need help.}
+\label{debugging_im-really-really-stuck-i-need-help}
 
 First, get away from the computer for a few minutes.
 Computers emit waves that affect the brain, causing the following symptoms:
@@ -532,6 +547,7 @@ Good places to find bugs are buses, showers, and bed.
 
 
 \subsection*{No, I really need help.}
+\label{debugging_no-i-really-need-help}
 
 It happens.
 Even the best programmers get stuck.
@@ -585,6 +601,7 @@ See \url{https://en.wikipedia.org/wiki/Rubber_duck_debugging}.
 
 
 \subsection*{I found the bug!}
+\label{debugging_i-found-bug}
 
 When you find the bug, the way to fix it is usually obvious.
 But not always.
