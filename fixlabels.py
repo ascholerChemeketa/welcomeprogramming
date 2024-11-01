@@ -28,7 +28,9 @@ for item in os.listdir('.'):
         with open(file, 'r') as f:
             lines = f.readlines()
             curChapter = ""
-            for i, line in enumerate(lines):
+            i = 0
+            while i < len(lines):
+                line = lines[i]
                 outLines.append(line)
                 if re.search(r'chapter\*?{', line):
                     title = re.search(r'chapter\*?{(.+?)}', line).group(1)
@@ -37,12 +39,18 @@ for item in os.listdir('.'):
                     curChapter = label
                     print("   label " + label)
                     outLines.append("\\label{" + label + "}\n")
+                    if re.search(r'label{', lines[i + 1]):
+                        print(" HAS LABEL")
+                        i += 1
                 if re.search(r'section\*?{', line):
                     title = re.search(r'section\*?{(.+?)}', line).group(1)
                     print(" section " + title)
                     label = curChapter + "_" + makeLabel(title)
                     print("   label " + label)
                     outLines.append("\\label{" + label + "}\n")
+                    if re.search(r'label{', lines[i + 1]):
+                        i += 1
+                i += 1
         text = "".join(outLines)
         # print(text)
         with open(file, 'w') as f:
