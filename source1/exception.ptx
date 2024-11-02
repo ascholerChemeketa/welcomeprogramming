@@ -1,0 +1,68 @@
+<section xml:id="exception">
+<title>Other Types of Errors</title>
+<p>
+The second type of error is a <em>run-time error</em>, so-called because it does not appear until after the program has started running.
+In Java, these errors occur while the interpreter is executing byte code and something goes wrong.
+These errors are also called <q>exceptions</q> because they usually indicate that something unexpected has happened.
+<idx><h>run-time error</h></idx>
+<idx><h>error</h><h>run-time</h></idx>
+<idx><h>exception</h></idx>
+Run-time errors are rare in the simple programs you will see in the first few chapters, so it might be a while before you encounter one.
+When a run-time error occurs, the program <q>crashes</q> (terminates) and displays an error message that explains what happened and where.
+For example, if you accidentally divide by zero, you will get a message like this:
+</p>
+
+<console>
+<output>
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+at Hello.main(Hello.java:5)
+</output>
+</console>
+
+<p>
+Error messages are very useful for debugging.
+The first line includes the name of the exception, <c>ArithmeticException</c>, and a message that indicates more specifically what happened, division by zero.
+The next line shows the method where the error occurred; <c>Hello.main</c> indicates the method <c>main</c> in the class <c>Hello</c>.
+It also reports the file where the method is defined, <c>Hello.java</c>, and the line number where the error occurred, <c>5</c>.
+<idx><h>ArithmeticException</h></idx>
+<idx><h>exception</h><h>Arithmetic</h></idx> <idx><h>logic error</h></idx>
+<idx><h>error</h><h>logic</h></idx>
+The third type of error is a <em>logic error</em>.
+If your program has a logic error, it will compile and run without generating error messages, but it will not do the right thing.
+Instead, it will do exactly what you told it to do.
+For example, here is a version of the Hello World program with a logic error:
+</p>
+
+<listing filename="Hello.java">
+<program interactive="activecode">
+public class Hello {
+
+public static void main(String[] args) {
+System.out.println("Hello, ");
+System.out.println("World!");
+}
+}
+</program>
+</listing>
+
+<p>
+This program compiles and runs just fine, but the output is as follows:
+</p>
+
+<console>
+<output>
+Hello,
+World!
+</output>
+</console>
+
+<p>
+Assuming that we wanted the output on one line, this is not correct.
+The problem is that the first line uses <c>println</c>, when we probably meant to use <c>print</c> (see the <q>Goodbye, cruel world</q> example of <xref ref="goodbye">Section</xref>).
+</p>
+
+<p>
+Identifying logic errors can be hard because you have to work backward, looking at the output of the program, trying to figure out why it is doing the wrong thing, and how to make it do the right thing.
+Usually, the compiler and the interpreter can't help you, since they don't know what the right thing is.
+</p>
+</section>

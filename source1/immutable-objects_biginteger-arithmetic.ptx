@@ -1,0 +1,69 @@
+<section xml:id="immutable-objects_biginteger-arithmetic">
+<title>BigInteger Arithmetic</title>
+<p>
+It might not be clear at this point why you would ever need an integer object when you can just use an <c>int</c> or <c>long</c>.
+One advantage is the variety of methods that <c>Integer</c> and <c>Long</c> provide.
+But there is another reason: when you need very large integers that exceed <c>Long.MAX_VALUE</c>.
+</p>
+
+<p>
+<idx><h>BigInteger</h></idx>
+<c>BigInteger</c> is a Java class that can represent arbitrarily large integers.
+There is no upper bound except the limitations of memory size and processing speed.
+Take a minute to read the documentation, which you can find by doing a web search for <q>Java BigInteger</q>.
+</p>
+
+<p>
+<idx><h>java.math</h></idx>
+To use BigIntegers, you have to <c>import java.math.BigInteger</c> at the beginning of your program.
+There are several ways to create a BigInteger, but the simplest uses <c>valueOf</c>.
+The following code converts a <c>long</c> to a <c>BigInteger</c>:
+</p>
+
+<program>
+long x = 17;
+BigInteger big = BigInteger.valueOf(x);
+</program>
+
+<p>
+You can also create BigIntegers from strings.
+For example, here is a 20-digit integer that is too big to store using a <c>long</c>:
+</p>
+
+<program>
+String s = "12345678901234567890";
+BigInteger bigger = new BigInteger(s);
+</program>
+
+<p>
+Notice the difference in the previous two examples: you use <c>valueOf</c> to convert integers, and <c>new BigInteger</c> to convert strings.
+</p>
+
+<p>
+Since BigIntegers are not primitive types, the usual math operators don't work.
+Instead, we have to use methods like <c>add</c>.
+To add two BigIntegers, we invoke <c>add</c> on one and pass the other as an argument:
+</p>
+
+<program>
+BigInteger a = BigInteger.valueOf(17);
+BigInteger b = BigInteger.valueOf(1700000000);
+BigInteger c = a.add(b);
+</program>
+
+<p>
+Like strings, <c>BigInteger</c> objects are immutable.
+Methods like <c>add</c>, <c>multiply</c>, and <c>pow</c> all return new BigIntegers, rather than modify an existing one.
+</p>
+
+<p>
+Internally, a <c>BigInteger</c> is implemented using an array of <c>int</c>s, similar to the way a string is implemented using an array of <c>char</c>s.
+Each <c>int</c> in the array stores a portion of the BigInteger.
+The methods of <c>BigInteger</c> traverse this array to perform addition, multiplication, etc.
+</p>
+
+<p>
+For very long floating-point values, take a look at <c>java.math.BigDecimal</c>.
+Interestingly, <c>BigDecimal</c> objects represent floating-point numbers internally by using a <c>BigInteger</c>!
+</p>
+</section>

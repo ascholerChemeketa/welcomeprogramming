@@ -1,0 +1,68 @@
+<section xml:id="mutable-objects_objects-as-parameters">
+<title>Objects as Parameters</title>
+<p>
+<idx><h>parameter</h></idx>
+<idx><h>object</h><h>as parameter</h></idx>
+You can pass objects as parameters in the usual way.
+For example:
+</p>
+
+<p>
+<idx><h>printPoint</h></idx>
+</p>
+
+<program>
+public static void printPoint(Point p) {
+System.out.println("(" + p.x + ", " + p.y + ")");
+}
+</program>
+
+<p>
+This method takes a point as an argument and displays its attributes in parentheses.
+If you invoke <c>printPoint(blank)</c>, it displays <c>(3, 4)</c>.
+</p>
+
+<p>
+As another example, we can rewrite the <c>distance</c> method from <xref ref="distance">Section</xref> so that it takes two <c>Point</c>s as parameters instead of four <c>double</c>s:
+</p>
+
+<program>
+public static double distance(Point p1, Point p2) {
+int dx = p2.x - p1.x;
+int dy = p2.y - p1.y;
+return Math.sqrt(dx * dx + dy * dy);
+}
+</program>
+
+<p>
+Passing objects as parameters makes the source code more readable and less error-prone because related values are bundled together.
+</p>
+
+<p>
+You actually don't need to write a <c>distance</c> method, because <c>Point</c> objects already have one.
+To compute the distance between two points, we invoke <c>distance</c> on one and pass the other as an argument:
+</p>
+
+<program>
+Point p1 = new Point(0, 0);
+Point p2 = new Point(3, 4);
+double dist = p1.distance(p2); // dist is 5.0
+</program>
+
+<p>
+It turns out you don't need the <c>printPoint</c> method either.
+If you invoke <c>System.out.println(blank)</c>, it prints the type of the object and the values of the attributes:
+</p>
+
+<console>
+<output>
+java.awt.Point[x=3,y=4]
+</output>
+</console>
+
+<p>
+<idx><h>toString</h></idx>
+<c>Point</c> objects provide a method called <c>toString</c> that returns a string representation of a point.
+When you call <c>println</c> with objects, it <em>automatically</em> calls <c>toString</c> and displays the result.
+</p>
+</section>

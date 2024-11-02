@@ -1,0 +1,44 @@
+<section xml:id="conditionals-logic_relational-operators">
+<title>Relational Operators</title>
+<p>
+<idx><h>operator</h><h>relational</h></idx>
+<idx><h>relational operator</h></idx>
+<idx><h>comparison operator</h></idx>
+Java has six <em>relational operators</em> that test the relationship between two values (e.g., whether they are equal, or whether one is greater than the other).
+The following expressions show how they are used:
+</p>
+
+<program>
+x == y // x is equal to y
+x != y // x is not equal to y
+x > y // x is greater than y
+x &lt; y // x is less than y
+x >= y // x is greater than or equal to y
+x &lt;= y // x is less than or equal to y
+</program>
+
+<p>
+<idx><h>Boole, George</h></idx>
+The result of a relational operator is one of two special values: <c>true</c> or <c>false</c>.
+These values belong to the data type <c>boolean</c>, named after the mathematician George Boole.
+He developed an algebraic way of representing logic.
+</p>
+
+<p>
+<idx><h>assignment</h></idx>
+<idx><h>operator</h><h>assignment</h></idx>
+<idx><h>== equals operator</h></idx>
+You are probably familiar with these operators, but notice how Java is different from mathematical symbols like <m>=</m>, <m>\neq</m>, and <m>\geq</m>.
+A common error is to use a single <c>=</c> instead of a double <c>==</c> when comparing values.
+Remember that <c>=</c> is the <em>assignment</em> operator, and <c>==</c> is a <em>relational</em> operator.
+Also, the operators <c>=&lt;</c> and <c>=&gt;</c> do not exist.
+</p>
+
+<p>
+<idx><h>automatic conversion</h></idx>
+The two sides of a relational operator have to be compatible.
+For example, the expression <c>5 &lt; "6"</c> is invalid because <c>5</c> is an <c>int</c> and <c>"6"</c> is a <c>String</c>.
+When comparing values of different numeric types, Java applies the same conversion rules you saw previously with the assignment operator.
+For example, when evaluating the expression <c>5 &lt; 6.0</c>, Java automatically converts the <c>5</c> to <c>5.0</c>.
+</p>
+</section>

@@ -1,0 +1,108 @@
+<section xml:id="objects-arrays_static-context">
+<title>Static Context</title>
+<p>
+<xref ref="fig_deck">Figure</xref> shows a UML class diagram for <c>Deck</c>, including the instance variable, <c>cards</c>, and the methods we have so far.
+In UML diagrams, <c>private</c> attributes and methods begin with a minus sign (<c>-</c>) and <c>static</c> methods are underlined.
+</p>
+
+<p>
+<idx><h>UML</h></idx>
+<idx><h>class diagram</h></idx>
+<idx><h>diagram</h><h>class</h></idx>
+</p>
+<figure xml:id="fig_deck" >
+<caption>UML diagram for the <c>Deck</c> class.</caption>
+<image width="73%" source="images/deck.png" />
+</figure>
+<p>
+The helper methods <c>randomInt</c> and <c>merge</c> are <c>static</c>, because they do not read or write any instance variables.
+All other methods are instance methods, because they access the instance variable, <c>cards</c>.
+</p>
+
+<p>
+When you have static methods and instance methods in the same class, it is easy to get them confused.
+</p>
+
+<p>
+To invoke an instance method, you need an instance:
+</p>
+
+<program>
+Deck deck = new Deck();
+deck.print(); // correct
+</program>
+
+<p>
+<c>Deck</c> with a capital <c>D</c> is a class, and <c>deck</c> with a lowercase <c>d</c> is an object.
+</p>
+
+<p>
+Say you try to invoke <c>print</c> like this:
+</p>
+
+<program>
+Deck.print(); // wrong!
+</program>
+
+<p>
+<idx><h>static context</h></idx>
+<idx><h>this</h></idx>
+You get a compiler error like this:
+</p>
+
+<console>
+<output>
+Non-static method print() cannot be referenced from a
+static context.
+</output>
+</console>
+
+<p>
+By <q>static context</q>, the compiler means you are trying to invoke a method in a context that requires a static method.
+</p>
+
+<p>
+On the other hand, if you have a <c>Deck</c> object, you can use it to invoke a static method:
+</p>
+
+<program>
+Deck deck = new Deck();
+int i = deck.randomInt(0, 51); // legal, but not good style
+</program>
+
+<p>
+This is legal, but it is not considered good style, because someone reading this code would expect <c>randomInt</c> to be an instance method.
+</p>
+
+<p>
+Another common error is to use <c>this</c> in a static method.
+For example, say you write something like this:
+</p>
+
+<program>
+private static Deck merge(Deck d1, Deck d2) {
+return this.cards; // wrong!
+}
+</program>
+
+<p>
+You get a compiler error like this:
+</p>
+
+<console>
+<output>
+Non-static variable this cannot be referenced from a
+static context.
+</output>
+</console>
+
+<p>
+The problem is that <c>cards</c> is an instance variable, so it is <em>non-static</em>; therefore, you can't access it from a static method.
+In general, you can't use <c>this</c> in a static method, because a static method is not invoked on an object.
+</p>
+
+<p>
+For beginners, error messages about non-static context can be confusing and frustrating.
+We hope this section helps.
+</p>
+</section>

@@ -1,0 +1,51 @@
+<section xml:id="checkstyle">
+<title>Running Checkstyle</title>
+<p>
+<idx><h>Checkstyle</h></idx>
+Checkstyle is a command-line tool that can be used to determine if your source code follows a set of style rules.
+It also checks for common programming mistakes, such as class and method design problems.
+</p>
+
+<p>
+You can download the latest version as a JAR file from \url{https://checkstyle.sourceforge.io/}.
+To run Checkstyle, move (or copy) the JAR file to the same directory as your program.
+Open a terminal in that location, and run the following command:
+</p>
+
+<console>
+<output>
+java -jar checkstyle-*-all.jar -c /google_checks.xml *.java
+</output>
+</console>
+
+<p>
+<idx><h>wildcard</h></idx>
+The <c>*</c> characters are <em>wildcards</em> that match whatever version of Checkstyle you have and whatever Java source files are present.
+The output indicates the file and line number of each problem.
+This example refers to a method beginning on line 93, column 5 of <em>Hello.java</em>:
+</p>
+
+<console>
+<output>
+Hello.java:93:5: Missing a Javadoc comment
+</output>
+</console>
+
+<p>
+The file <c>/google_checks.xml</c> is inside the JAR file and represents most of Google's style rules.
+You can alternatively use <c>/sun_checks.xml</c> or provide your own configuration file.
+See Checkstyle's website for more information.
+</p>
+
+<p>
+If you apply Checkstyle to your source code often, you will likely internalize good style habits over time.
+But there are limits to what automatic style checkers can do.
+In particular, they can't evaluate the <em>quality</em> of your comments, the <em>meaning</em> of your variable names, or the <em>structure</em> of your algorithms.
+</p>
+
+<p>
+Good comments make it easier for experienced developers to identify errors in your code.
+Good variable names communicate the intent of your program and how the data is organized.
+And good programs are designed to be efficient and demonstrably correct.
+</p>
+</section>

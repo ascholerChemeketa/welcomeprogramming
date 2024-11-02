@@ -1,0 +1,54 @@
+<section xml:id="graphics_example-drawing">
+<title>Example Drawing</title>
+<p>
+<idx><h>Mickey Mouse</h></idx>
+Suppose we want to draw a <q>Hidden Mickey</q>, which is an icon that represents Mickey Mouse (see \url{https://en.wikipedia.org/wiki/Hidden_Mickey}).
+We can use the oval we just drew as the face, and then add two ears.
+To make the code more readable, let's use <c>Rectangle</c> objects to represent bounding boxes.
+</p>
+
+<p>
+Here's a method that takes a <c>Rectangle</c> and invokes <c>fillOval</c>:
+</p>
+
+<program>
+public void boxOval(Graphics g, Rectangle bb) {
+g.fillOval(bb.x, bb.y, bb.width, bb.height);
+}
+</program>
+
+<p>
+And here's a method that draws Mickey Mouse:
+</p>
+
+<program>
+public void mickey(Graphics g, Rectangle bb) {
+boxOval(g, bb);
+
+int hx = bb.width / 2;
+int hy = bb.height / 2;
+Rectangle half = new Rectangle(bb.x, bb.y, hx, hy);
+
+half.translate(-hx / 2, -hy / 2);
+boxOval(g, half);
+
+half.translate(hx * 2, 0);
+boxOval(g, half);
+}
+</program>
+
+<p>
+The first line draws the face.
+The next three lines create a smaller rectangle for the ears.
+We <c>translate</c> the rectangle up and left for the first ear, then to the right for the second ear.
+The result is shown in <xref ref="fig_mickey">Figure</xref>.
+</p>
+<figure xml:id="fig_mickey" >
+<caption>A Hidden Mickey drawn using Java graphics.</caption>
+<image width="73%" source="images/mickey.png" />
+</figure>
+<p>
+You can read more about <c>Rectangle</c> and <c>translate</c> in <xref ref="mutable">Chapter</xref>.
+See the exercises at the end of this appendix for more example drawings.
+</p>
+</section>

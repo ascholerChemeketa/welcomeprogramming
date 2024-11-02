@@ -1,0 +1,65 @@
+<section xml:id="conditionals-logic_example-program">
+<title>Example Program</title>
+<p>
+In this chapter, you have seen relational and logical operators, <c>if</c> statements, boolean methods, and validating input.
+The following program shows how the individual code examples in the previous section fit together:
+</p>
+
+<p>
+<idx><h>Logarithm.java</h></idx>
+</p>
+
+<listing filename="Logarithm.java">
+<program interactive="activecode">
+import java.util.Scanner;
+
+/**
+* Demonstrates input validation using if statements.
+*/
+public class Logarithm {
+
+public static void main(String[] args) {
+
+// prompt for input
+Scanner in = new Scanner(System.in);
+System.out.print("Enter a number: ");
+
+// check the format
+if (!in.hasNextDouble()) {
+String word = in.next();
+System.err.println(word + " is not a number");
+return;
+}
+
+// check the range
+double x = in.nextDouble();
+if (x > 0) {
+double y = Math.log(x);
+System.out.println("The log is " + y);
+} else {
+System.out.println("The log is undefined");
+}
+}
+}
+</program>
+</listing>
+
+<p>
+<idx><h>return</h></idx>
+<idx><h>statement</h><h>return</h></idx>
+Notice that the <c>return</c> statement allows you to exit a method before you reach the end of it.
+Returning from <c>main</c> terminates the program.
+</p>
+
+<p>
+What started as five lines of code at the beginning of <xref ref="validate">Section</xref> is now a 30-line program.
+Making programs robust (and secure) often requires a lot of additional checking, as shown in this example.
+</p>
+
+<p>
+<idx><h>comment</h></idx>
+It's important to write comments every few lines to make your code easier to understand.
+Comments not only help other people read your code, but also help you document what you're trying to do.
+If there's a mistake in the code, finding it will be a lot easier when there are good comments.
+</p>
+</section>

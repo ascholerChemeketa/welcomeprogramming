@@ -1,0 +1,39 @@
+<section xml:id="stack">
+<title>Stack Diagrams</title>
+<p>
+<idx><h>stack diagram</h></idx>
+<idx><h>diagram</h><h>stack</h></idx>
+<idx><h>frame</h></idx>
+One way to keep track of variables is to draw a <em>stack diagram</em>, which is a memory diagram (see <xref ref="state">Section</xref>) that shows currently running methods.
+For each method there is a box, called a <em>frame</em>, that contains the method's parameters and local variables.
+The name of the method appears outside the frame; the variables and parameters appear inside.
+</p>
+
+<p>
+As with memory diagrams, stack diagrams show variables and methods at a particular point in time.
+<xref ref="fig_stack">Figure</xref> is a stack diagram at the beginning of the <c>printTime</c> method.
+Notice that <c>main</c> is on top, because it executed first.
+</p>
+<figure xml:id="fig_stack" >
+<caption>Stack diagram for <c>printTime(hour + 1, 0)</c>.</caption>
+<image width="73%" source="images/stack1.png" />
+</figure>
+<p>
+<idx><h>scope</h></idx>
+Stack diagrams help you to visualize the <em>scope</em> of a variable, which is the area of a program where a variable can be used.
+</p>
+
+<p>
+<idx><h>Java Tutor</h></idx>
+<idx><h>tracing</h></idx>
+<idx><h>mental model</h></idx>
+Stack diagrams are a good mental model for how variables and methods work at run-time.
+Learning to trace the execution of a program on paper (or on a whiteboard) is a useful skill for communicating with other programmers.
+</p>
+
+<p>
+Educational tools can automatically draw stack diagrams for you.
+For example, Java Tutor (\url{https://thinkjava.org/javatutor}) allows you to step through an entire program, both forward and backward, and see the stack frames and variables at each step.
+If you haven't already, you should check out the Java examples on that website.
+</p>
+</section>

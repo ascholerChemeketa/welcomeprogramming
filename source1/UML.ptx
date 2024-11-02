@@ -1,0 +1,43 @@
+<section xml:id="UML">
+<title>Class Diagrams</title>
+<p>
+To summarize what you've learned so far, <c>Point</c> and <c>Rectangle</c> objects have attributes and methods.
+Attributes are an object's <em>data</em>; methods are an object's <em>code</em>.
+An object's <em>class</em> definition specifies the attributes and methods that it has.
+</p>
+
+<p>
+<idx><h>UML</h></idx>
+<em>Unified Modeling Language</em> (UML) defines a graphical way to summarize this information.
+<xref ref="fig_umlPoint">Figure</xref> shows two examples, the UML <em>class diagrams</em> for the <c>Point</c> and <c>Rectangle</c> classes.
+</p>
+<figure xml:id="fig_umlPoint" >
+<caption>UML class diagrams for <c>Point</c> and <c>Rectangle</c>.</caption>
+<image width="73%" source="images/point-rect.png" />
+</figure>
+<p>
+<idx><h>class diagram</h></idx>
+<idx><h>diagram</h><h>class</h></idx>
+Each class is represented by a box with the name of the class,
+a list of attributes, and a list of methods.
+</p>
+
+<p>
+<idx><h>private</h></idx>
+<idx><h>variable</h><h>private</h></idx>
+To identify the types of attributes and parameters, UML uses a language-independent syntax, like <c>x: int</c> rather than Java syntax, <c>int x</c>.
+</p>
+
+<p>
+The plus sign (<c>+</c>) identifies <c>public</c> attributes and methods.
+A minus sign (<c>-</c>) identifies <c>private</c> attributes and methods, which we discuss in the next chapter.
+</p>
+
+<p>
+Both <c>Point</c> and <c>Rectangle</c> have additional methods; we show only the ones introduced in this chapter.
+</p>
+
+<p>
+In contrast to memory diagrams, which visualize objects (and variables) at run-time, a class diagram visualizes the source code at compile-time.
+</p>
+</section>
