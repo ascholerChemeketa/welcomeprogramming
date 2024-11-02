@@ -1,0 +1,32 @@
+<section xml:id="reusing-classes_exercises">
+<title>Exercises</title>
+<p>
+The code for this chapter is in the <em>ch16</em> directory of <em>ThinkJavaCode2</em>.
+See <xref ref="code">page</xref> for instructions on how to download the repository.
+Before you start the exercises, we recommend that you compile and run the examples.
+</p>
+<exercise>
+<statement>
+<p>
+The last section of this chapter introduced <c>Automaton</c> as an abstract class and rewrote <c>Conway</c> as a subclass of <c>Automaton</c>.
+Now it's your turn: rewrite <c>Langton</c> as a subclass of <c>Automaton</c>, removing the code that's no longer needed.
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+Mathematically speaking, Game of Life and Langton's Ant are <em>cellular automata</em>.
+<q>Cellular</q> means it has cells, and <q>automaton</q> means it runs itself.
+See \url{https://en.wikipedia.org/wiki/Cellular_automaton} for more discussion.
+</p>
+
+<p>
+Implement another cellular automaton of your choice.
+You may have to modify <c>Cell</c> and/or <c>GridCanvas</c>, in addition to extending <c>Automaton</c>.
+For example, Brian's Brain (\url{https://en.wikipedia.org/wiki/Brian's_Brain}) requires three states: <q>on</q>, <q>dying</q>, and <q>off</q>.
+</p>
+</statement>
+</exercise>
+</section>

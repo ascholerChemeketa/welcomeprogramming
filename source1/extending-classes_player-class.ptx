@@ -1,0 +1,119 @@
+<section xml:id="extending-classes_player-class">
+<title>The Player Class</title>
+<p>
+The <c>Deck</c> and <c>Hand</c> classes we have defined so far could be used for any card game; we have not yet implemented any of the rules specific to Crazy Eights.
+And that's probably a good thing, since it makes it easy to reuse these classes if we want to make another game in the future.
+</p>
+
+<p>
+<idx><h>state</h></idx>
+But now it's time to implement the rules.
+We'll use two classes: <c>Player</c>, which encapsulates player strategy, and <c>Eights</c>, which creates and maintains the state of the game.
+Here is the beginning of the <c>Player</c> definition:
+</p>
+
+<p>
+<idx><h>Player</h></idx>
+</p>
+
+<program>
+public class Player {
+
+private String name;
+private Hand hand;
+
+public Player(String name) {
+this.name = name;
+this.hand = new Hand(name);
+}
+</program>
+
+<p>
+A <c>Player</c> has two <c>private</c> attributes: a name and a hand.
+The constructor takes the player's name as a string and saves it in an instance variable.
+In this example, we have to use <c>this</c> to distinguish between the instance variable and the parameter with the same name.
+</p>
+
+<p>
+The primary method that <c>Player</c> provides is <c>play</c>, which decides which card to discard during each turn:
+</p>
+
+<program>
+public Card play(Eights eights, Card prev) {
+Card card = searchForMatch(prev);
+if (card == null) {
+card = drawForMatch(eights, prev);
+}
+return card;
+}
+</program>
+
+<p>
+The first parameter is a reference to the <c>Eights</c> object that encapsulates the state of the game (coming up in the next section).
+The second parameter, <c>prev</c>, is the card on top of the discard pile.
+</p>
+
+<p>
+<c>play</c> invokes two helper methods: <c>searchForMatch</c> and <c>drawForMatch</c>.
+Since we have not written them yet, this is an example of top-down design.
+</p>
+
+<p>
+Here's <c>searchForMatch</c>, which looks in the player's hand for a card that matches the previously played card:
+</p>
+
+<program>
+public Card searchForMatch(Card prev) {
+for (int i = 0; i &lt; hand.size(); i++) {
+Card card = hand.getCard(i);
+if (cardMatches(card, prev)) {
+return hand.popCard(i);
+}
+}
+return null;
+}
+</program>
+
+<p>
+The strategy is pretty simple: the <c>for</c> loop searches for the first card that's legal to play and returns it.
+If there are no cards that match, it returns <c>null</c>.
+In that case, we have to draw cards until we get a match, which is what <c>drawForMatch</c> does:
+</p>
+
+<program>
+public Card drawForMatch(Eights eights, Card prev) {
+while (true) {
+Card card = eights.drawCard();
+System.out.println(name + " draws " + card);
+if (cardMatches(card, prev)) {
+return card;
+}
+hand.addCard(card);
+}
+}
+</program>
+
+<p>
+The <c>while</c> loop runs until it finds a match (we'll assume for now that it always finds one).
+The loop uses the <c>Eights</c> object to draw a card.
+If it matches, <c>drawForMatch</c> returns the card.
+Otherwise it adds the card to the player's hand and repeats.
+</p>
+
+<p>
+Both <c>searchForMatch</c> and <c>drawForMatch</c> use <c>cardMatches</c>, which is a static method, also defined in <c>Player</c>.
+This method is a straightforward translation of the rules of the game:
+</p>
+
+<program>
+public static boolean cardMatches(Card card1, Card card2) {
+return card1.getSuit() == card2.getSuit()
+|| card1.getRank() == card2.getRank()
+|| card1.getRank() == 8;
+}
+</program>
+
+<p>
+Finally, <c>Player</c> provides a <c>score</c> method, which computes penalty points for cards left in a player's hand at the end of the game.
+</p>
+</section>

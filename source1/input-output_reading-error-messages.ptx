@@ -1,0 +1,55 @@
+<section xml:id="input-output_reading-error-messages">
+<title>Reading Error Messages</title>
+<p>
+Notice that the values you pass to <c>printf</c> are separated by commas.
+If you are used to using the <c>+</c> operator to concatenate strings, you might write something like this by accident:
+</p>
+
+<program>
+System.out.printf("inches =
+</program>
+
+<p>
+This line of code is legal, so the compiler won't catch the mistake.
+Instead, when you run the program, it causes an exception:
+</p>
+
+<p>
+<idx><h>MissingFormatArgumentException</h></idx>
+<idx><h>exception</h><h>MissingFormatArgument</h></idx>
+\begin{stdout}
+Exception in thread "main" java.util.MissingFormatArgumentException:
+Format specifier '
+at java.util.Formatter.format(Formatter.java:2519)
+at java.io.PrintStream.format(PrintStream.java:970)
+at java.io.PrintStream.printf(PrintStream.java:871)
+at Example.main(Example.java:10)
+\end{stdout}
+As you saw in <xref ref="exception">Section</xref>, the error message includes the name of the exception, <c>MissingFormatArgumentException</c>, followed by additional details, <c>Format specifier '%d'</c>.
+That means it doesn't know what value to substitute for <c>%d</c>.
+</p>
+
+<p>
+The problem is that concatenation happens first, before <c>printf</c> executes.
+If the value of <c>inch</c> is <c>100</c>, the result of concatenation is <c>"inches = %d100"</c>.
+So <c>printf</c> gets the format string, but it doesn't get any values to format.
+</p>
+
+<p>
+<idx><h>stack trace</h></idx>
+The error message also includes a <em>stack trace</em> that shows the method that was running when the error was detected, <c>java.util.Formatter.format</c>; the method that ran it, <c>java.io.PrintStream.format</c>; the method that ran <em>that</em>, <c>java.io.PrintStream.printf</c>; and finally the method you actually wrote, <c>Example.main</c>.
+</p>
+
+<p>
+Each line also names the source file of the method and the line it was on (e.g., <c>Example.java:10</c>).
+That's a lot of information, and it includes method names and filenames you have no reason to know at this point.
+But don't be overwhelmed.
+</p>
+
+<p>
+When you see an error message like this, read the first line carefully to see <em>what</em> happened.
+Then read the last line to see <em>where</em> it happened.
+In some IDEs, you can click the error message, and it will take you to the line of code that was running.
+But remember that where the error is discovered is not always where it was caused.
+</p>
+</section>

@@ -1,0 +1,67 @@
+<section xml:id="arrays-objects_binary-search">
+<title>Binary Search</title>
+<p>
+<idx><h>binary search</h></idx>
+When you look for a word in a dictionary, you don't search page by page from front to back.
+Since the words are in alphabetical order, you probably use a <em>binary search</em> algorithm:
+<ol>
+<li><p>Start on a page near the middle of the dictionary.</p></li>
+<li><p>Compare a word on the page to the word you are looking for.
+If you find it, stop.</p></li>
+<li><p>If the word on the page comes before the word you are looking for, flip to somewhere later in the dictionary and go to step 2.</p></li>
+<li><p>If the word on the page comes after the word you are looking for, flip to somewhere earlier in the dictionary and go to step 2.</p></li>
+</ol>
+</p>
+
+<p>
+This algorithm is much faster than sequential search, because it rules out half of the remaining words each time you make a comparison.
+If at any point you find two adjacent words on the page, and your word comes between them, you can conclude that your word is not in the dictionary.
+</p>
+
+<p>
+Getting back to the array of cards, we can write a faster version of <c>search</c> if we know the cards are in order:
+</p>
+
+<program>
+public static int binarySearch(Card[] cards, Card target) {
+int low = 0;
+int high = cards.length - 1;
+while (low &lt;= high) {
+int mid = (low + high) / 2; // step 1
+int comp = cards[mid].compareTo(target);
+
+if (comp == 0) { // step 2
+return mid;
+} else if (comp &lt; 0) { // step 3
+low = mid + 1;
+} else { // step 4
+high = mid - 1;
+}
+}
+return -1;
+}
+</program>
+
+<p>
+First, we declare <c>low</c> and <c>high</c> variables to represent the range we are searching.
+Initially, we search the entire array, from <c>0</c> to <c>cards.length - 1</c>.
+</p>
+
+<p>
+Inside the <c>while</c> loop, we repeat the four steps of binary search:
+<ol>
+<li><p>Choose an index between <c>low</c> and <c>high</c><mdash/>call it <c>mid</c><mdash/>and compare the card at <c>mid</c> to the target.</p></li>
+<li><p>If you found the target, return its index (which is <c>mid</c>).</p></li>
+<li><p>If the card at <c>mid</c> is lower than the target, search the range from <c>mid + 1</c> to <c>high</c>.</p></li>
+<li><p>If the card at <c>mid</c> is higher than the target, search the range from <c>low</c> to <c>mid - 1</c>.</p></li>
+</ol>
+</p>
+
+<p>
+If <c>low</c> exceeds <c>high</c>, there are no cards in the range, so we terminate the loop and return <c>-1</c>.
+</p>
+
+<p>
+This algorithm depends on only the <c>compareTo</c> method of the object, so we can use this code with any object type that provides <c>compareTo</c>.
+</p>
+</section>

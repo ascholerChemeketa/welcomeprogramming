@@ -1,0 +1,71 @@
+<section xml:id="immutable-objects_strings-are-immutable">
+<title>Strings Are Immutable</title>
+<p>
+If the Java library didn't have a <c>String</c> class, we would have to use character arrays to store and manipulate text.
+Operations like concatenation<nbsp/>(<c>+</c>), <c>indexOf</c>, and <c>substring</c> would be difficult and inconvenient.
+Fortunately, Java does have a <c>String</c> class that provides these and other methods.
+</p>
+
+<p>
+<idx><h>toUpperCase</h></idx>
+<idx><h>toLowerCase</h></idx>
+<idx><h>immutable</h></idx>
+For example, the methods <c>toLowerCase</c> and <c>toUpperCase</c> convert uppercase letters to lowercase, and vice versa.
+These methods are often a source of confusion, because it sounds like they modify strings.
+But neither these methods nor any others can change a string, because strings are <em>immutable</em>.
+</p>
+
+<p>
+When you invoke <c>toUpperCase</c> on a string, you get a new <c>String</c> object as a result.
+For example:
+</p>
+
+<program>
+String name = "Alan Turing";
+String upperName = name.toUpperCase();
+</program>
+
+<p>
+After these statements run, <c>upperName</c> refers to the string <c>"ALAN TURING"</c>.
+But <c>name</c> still refers to <c>"Alan Turing"</c>.
+A common mistake is to assume that <c>toUpperCase</c> somehow affects the original string:
+</p>
+
+<program>
+String name = "Alan Turing";
+name.toUpperCase(); // ignores the return value
+System.out.println(name);
+</program>
+
+<p>
+The previous code displays <c>"Alan Turing"</c>, because the value of <c>name</c>, which refers to the original <c>String</c> object, never changes.
+If you want to change <c>name</c> to be uppercase, then you need to assign the return value:
+</p>
+
+<program>
+String name = "Alan Turing";
+name = name.toUpperCase(); // references the new string
+System.out.println(name);
+</program>
+
+<p>
+<idx><h>replace</h></idx>
+A similar method is <c>replace</c>, which finds and replaces instances of one string within another.
+This example replaces <c>"Computer Science"</c> with <c>"CS"</c>:
+</p>
+
+<program>
+String text = "Computer Science is fun!";
+text = text.replace("Computer Science", "CS");
+</program>
+
+<p>
+As with <c>toUpperCase</c>, assigning the return value (to <c>text</c>) is important.
+If you don't assign the return value, invoking <c>text.replace</c> has no effect.
+</p>
+
+<p>
+Strings are immutable by design, because it simplifies passing them as parameters and return values.
+And since the contents of a string can never change, two variables can reference the same string without one accidentally corrupting the other.
+</p>
+</section>

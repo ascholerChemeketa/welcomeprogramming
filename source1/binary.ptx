@@ -1,0 +1,99 @@
+<section xml:id="binary">
+<title>Binary Number System</title>
+<p>
+You are probably aware that computers can store only 1s and 0s.
+That's because processors and memory are made up of billions of tiny on-off switches.
+</p>
+
+<p>
+The value 1 means a switch is on; the value 0 means a switch is off.
+All types of data, whether integer, floating-point, text, audio, video, or something else, are represented by 1s and 0s.
+</p>
+
+<p>
+<idx><h>binary</h></idx>
+Fortunately, we can represent any integer as a <em>binary</em> number.
+<xref ref="tab_binary">Table</xref> shows the first eight numbers in binary and decimal.
+</p>
+<table xml:id="tab_binary" >
+<title>The first eight binary numbers</title>
+<tabular>
+<row bottom="minor"><cell></cell><cell></cell></row>
+<row><cell>Binary</cell><cell>Decimal</cell></row>
+<row bottom="minor"><cell></cell><cell></cell></row>
+<row><cell>0</cell><cell>0</cell></row>
+<row bottom="minor"><cell></cell><cell></cell></row>
+<row><cell>1</cell><cell>1</cell></row>
+<row bottom="minor"><cell></cell><cell></cell></row>
+<row><cell>10</cell><cell>2</cell></row>
+<row bottom="minor"><cell></cell><cell></cell></row>
+<row><cell>11</cell><cell>3</cell></row>
+<row bottom="minor"><cell></cell><cell></cell></row>
+<row><cell>100</cell><cell>4</cell></row>
+<row bottom="minor"><cell></cell><cell></cell></row>
+<row><cell>101</cell><cell>5</cell></row>
+<row bottom="minor"><cell></cell><cell></cell></row>
+<row><cell>110</cell><cell>6</cell></row>
+<row bottom="minor"><cell></cell><cell></cell></row>
+<row><cell>111</cell><cell>7</cell></row>
+<row bottom="minor"><cell></cell><cell></cell></row>
+</tabular>
+</table>
+<p>
+In decimal there are 10 digits, and the written representation of numbers is based on powers of 10.
+For example, the number 456 has 4 in the 100's place, 5 in the 10's place, and 6 in the 1's place.
+So the value is 400 + 50 + 6:
+</p>
+<tabular>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
+<row><cell>4</cell><cell>5</cell><cell>6</cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
+<row><cell><m>10^2</m></cell><cell><m>10^1</m></cell><cell><m>10^0</m></cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
+</tabular>
+<p>
+In binary there are two digits, and the written representation of numbers is based on powers of two.
+For example, the number 10111 has 1 in the 16's place, 0 in the 8's place, 1 in the 4's place, 1 in the 2's place, and 1 in the 1's place.
+So the value is 16 + 0 + 4 + 2 + 1, which is 23 in decimal.
+</p>
+<tabular>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row><cell>1</cell><cell>0</cell><cell>1</cell><cell>1</cell><cell>1</cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row><cell><m>2^4</m></cell><cell><m>2^3</m></cell><cell><m>2^2</m></cell><cell><m>2^1</m></cell><cell><m>2^0</m></cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+</tabular>
+<p>
+To get the digits of a decimal number, we can use repeated division.
+For example, if we divide 456 by 10, we get 45 with remainder 6.
+The remainder is the rightmost digit of 456.
+</p>
+
+<p>
+If we divide the result again, we get 4 with remainder 5.
+The remainder is the second rightmost digit of 456.
+And if we divide again, we get 0 with remainder 4.
+The remainder is the third rightmost digit of 456, and the result, 0, tells us that we're done.
+</p>
+
+<p>
+We can do the same thing in binary if we divide by 2.
+When you divide by 2, the remainder is the right-most digit, either 0 or 1.
+If you divide the result again, you get the second rightmost digit.
+If you keep going, and write down the remainders, you'll have your number in binary:
+</p>
+
+<console>
+<output>
+23 / 2 is 11 remainder 1
+11 / 2 is 5 remainder 1
+5 / 2 is 2 remainder 1
+2 / 2 is 1 remainder 0
+1 / 2 is 0 remainder 1
+</output>
+</console>
+
+<p>
+Reading these remainders from bottom to top, 23 in binary is 10111.
+</p>
+</section>

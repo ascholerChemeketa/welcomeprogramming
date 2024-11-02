@@ -1,0 +1,99 @@
+<section xml:id="sec_update">
+<title>Updating the Grid</title>
+<p>
+Now we are ready to write <c>update</c>, which gets invoked each time through the simulation loop.
+It uses the GoL rules to compute the state of the grid after the next time step:
+</p>
+
+<program>
+public void update() {
+int[][] counts = countNeighbors();
+updateGrid(counts);
+}
+</program>
+
+<p>
+The rules of GoL specify that you have to update the cells <q>simultaneously</q>; that is, you have to count the neighbors for all cells before you can update any of them.
+</p>
+
+<p>
+We do that by traversing the grid twice: first, <c>countNeighbors</c> counts the live neighbors for each cell and puts the results in an array named <c>counts</c>; second, <c>updateGrid</c> updates the cells.
+Here's <c>countNeighbors</c>:
+</p>
+
+<program>
+private int[][] countNeighbors() {
+int rows = grid.numRows();
+int cols = grid.numCols();
+
+int[][] counts = new int[rows][cols];
+for (int r = 0; r &lt; rows; r++) {
+for (int c = 0; c &lt; cols; c++) {
+counts[r][c] = countAlive(r, c);
+}
+}
+return counts;
+}
+</program>
+
+<p>
+<c>countNeighbors</c> traverses the cells in the grid and uses <c>countAlive</c> from the previous section to count the neighbors.
+The return value is a 2D array of integers with the same size as <c>grid</c>.
+<xref ref="fig_countNeigh">Figure</xref> illustrates an example.
+</p>
+<figure xml:id="fig_countNeigh" >
+<caption>The result of <c>countNeighbors</c> for the grid in <xref ref="conwaymain">Section</xref>.</caption>
+<image width="93%" source="images/figure15-6.png" />
+</figure>
+<p>
+In contrast to the <c>draw</c> method of <c>GridCanvas</c>, which uses enhanced <c>for</c> loops, <c>countNeighbors</c> uses standard <c>for</c> loops.
+The reason is that, in this example, we need the indexes <c>r</c> and <c>c</c> to store the neighbor counts.
+</p>
+
+<p>
+<c>updateGrid</c> uses <c>getCell</c> to select each <c>Cell</c> in the grid, and <c>updateCell</c> to do the update:
+</p>
+
+<program>
+private void updateGrid(int[][] counts) {
+int rows = grid.numRows();
+int cols = grid.numCols();
+
+for (int r = 0; r &lt; rows; r++) {
+for (int c = 0; c &lt; cols; c++) {
+Cell cell = grid.getCell(r, c);
+updateCell(cell, counts[r][c]);
+}
+}
+}
+</program>
+
+<p>
+<c>updateCell</c> implements the GoL rules: if the cell is alive, it dies if it has fewer than two or more than three neighbors; if the cell is dead, it comes to life if it has exactly three:
+</p>
+
+<program>
+private static void updateCell(Cell cell, int count) {
+if (cell.isOn()) {
+if (count &lt; 2 || count > 3) {
+cell.turnOff();
+}
+} else {
+if (count == 3) {
+cell.turnOn();
+}
+}
+}
+</program>
+
+<p>
+Notice that <c>updateGrid</c> and <c>updateCell</c> are both <c>private</c>, because they are helper methods not intended to be invoked from outside the class.
+<c>updateCell</c> is also <c>static</c>, because it does not depend on <c>grid</c>.
+</p>
+
+<p>
+Now our implementation of the Game of Life is complete.
+We think it's is pretty fun, and we hope you agree.
+But more importantly, this example is meant to demonstrate the use of 2D arrays and an object-oriented design that's a little more substantial than in previous chapters.
+</p>
+</section>

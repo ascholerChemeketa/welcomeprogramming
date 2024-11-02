@@ -1,0 +1,110 @@
+<section xml:id="printf">
+<title>Formatting Output</title>
+<p>
+When you output a <c>double</c> by using <c>print</c> or <c>println</c>, it displays up to 16 decimal places:
+</p>
+
+<program>
+System.out.print(4.0 / 3.0);
+</program>
+
+<p>
+The result is as follows:
+</p>
+
+<console>
+<output>
+1.3333333333333333
+</output>
+</console>
+
+<p>
+<idx><h>printf</h></idx>
+That might be more than you want.
+<c>System.out</c> provides another method, called <c>printf</c>, that gives you more control of the format.
+The <q>f</q> in <c>printf</c> stands for <q>formatted</q>.
+Here's an example:
+</p>
+
+<program>
+System.out.printf("Four thirds =
+</program>
+
+<p>
+<idx><h>format string</h></idx>
+<idx><h>format specifier</h></idx>
+The first value in the parentheses is a <em>format string</em> that specifies how the output should be displayed.
+This format string contains ordinary text followed by a <em>format specifier</em>, which is a special sequence that starts with a percent sign.
+The format specifier <c>%.3f</c> indicates that the following value should be displayed as floating-point, rounded to three decimal places:
+</p>
+
+<console>
+<output>
+Four thirds = 1.333
+</output>
+</console>
+
+<p>
+The format string can contain any number of format specifiers; here's an example with two of them:
+</p>
+
+<program>
+int inch = 100;
+double cm = inch * CM_PER_INCH;
+System.out.printf("
+</program>
+
+<p>
+The result is as follows:
+</p>
+
+<console>
+<output>
+100 in = 254.000000 cm
+</output>
+</console>
+
+<p>
+Like <c>print</c>, <c>printf</c> does not append a newline.
+So format strings often end with a newline character.
+</p>
+
+<p>
+The format specifier <c>%d</c> displays integer values (<q>d</q> stands for <q>decimal</q>, meaning base 10 integer).
+The values are matched up with the format specifiers in order, so <c>inch</c> is displayed using <c>%d</c>, and <c>cm</c> is displayed using <c>%f</c>.
+</p>
+
+<p>
+Learning about format strings is like learning a sublanguage within Java.
+There are many options, and the details can be overwhelming.
+<xref ref="tab_format">Table</xref> lists a few common uses, to give you an idea of how things work.
+</p>
+
+<p>
+<idx><h>hexadecimal</h></idx>
+</p>
+<table xml:id="tab_format" >
+<title>Example format specifiers</title>
+<tabular>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
+<row><cell><c>%d</c></cell><cell>Integer in base 10 (<q>decimal</q>)</cell><cell><c>12345</c></cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
+<row><cell><c>%,d</c></cell><cell>Integer with comma separators</cell><cell><c>12,345</c></cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
+<row><cell><c>%08d</c></cell><cell>Padded with zeros, at least 8 digits wide</cell><cell><c>00012345</c></cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
+<row><cell><c>%f</c></cell><cell>Floating-point number</cell><cell><c>6.789000</c></cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
+<row><cell><c>%.2f</c></cell><cell>Rounded to 2 decimal places</cell><cell><c>6.79</c></cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
+<row><cell><c>%s</c></cell><cell>String of characters</cell><cell><c>"Hello"</c></cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
+<row><cell><c>%x</c></cell><cell>Integer in base 16 (<q>hexadecimal</q>)</cell><cell><c>bc614e</c></cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
+</tabular>
+</table>
+<p>
+For more details, refer to the documentation of <c>java.util.Formatter</c>.
+The easiest way to find documentation for Java classes is to do a web search for <q>Java</q> and the name of the class.
+</p>
+</section>

@@ -1,0 +1,110 @@
+<section xml:id="sec_drawing">
+<title>An Initial Drawing</title>
+<p>
+Now that we have <c>DrawablePolygon</c> and <c>RegularPolygon</c>, let's take them for a test drive.
+We'll need a <c>Canvas</c> for drawing them, so we define a new class, <c>Drawing</c>, that extends <c>Canvas</c>:
+</p>
+
+<program>
+public class Drawing extends Canvas {
+private ArrayList&lt;DrawablePolygon> list;
+
+public Drawing(int width, int height) {
+setSize(width, height);
+setBackground(Color.WHITE);
+list = new ArrayList&lt;DrawablePolygon>();
+}
+</program>
+
+<program>
+public void add(DrawablePolygon dp) {
+list.add(dp);
+}
+
+public void paint(Graphics g) {
+for (DrawablePolygon dp : list) {
+dp.draw(g);
+}
+}
+}
+</program>
+
+<p>
+The <c>Drawing</c> class has an <c>ArrayList</c> of <c>DrawablePolygon</c> objects.
+When we create a <c>Drawing</c> object, the list is initially empty.
+The <c>add</c> method takes a <c>DrawablePolygon</c> and adds it to the list.
+</p>
+
+<p>
+<c>Drawing</c> overrides the <c>paint</c> method that it inherits from <c>Canvas</c>.
+<c>paint</c> loops through the list of <c>DrawablePolygon</c> objects and invokes <c>draw</c> on each one.
+</p>
+
+<p>
+Here is an example that creates three <c>RegularPolygon</c> objects and draws them.
+<xref ref="fig_drawing">Figure</xref> shows the result.
+</p>
+
+<program>
+public static void main(String[] args) {
+
+// create some regular polygons
+DrawablePolygon p1 = new RegularPolygon(3, 50, Color.GREEN);
+DrawablePolygon p2 = new RegularPolygon(6, 50, Color.ORANGE);
+DrawablePolygon p3 = new RegularPolygon(360, 50, Color.BLUE);
+
+// move them out of the corner
+p1.translate(100, 80);
+p2.translate(250, 120);
+p3.translate(400, 160);
+
+// create drawing, add polygons
+Drawing drawing = new Drawing(500, 250);
+drawing.add(p1);
+drawing.add(p2);
+drawing.add(p3);
+</program>
+
+<program>
+// set up the window frame
+JFrame frame = new JFrame("Drawing");
+frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+frame.add(drawing);
+frame.pack();
+frame.setVisible(true);
+}
+</program>
+<figure xml:id="fig_drawing" >
+<caption>Initial drawing of three <c>RegularPolygon</c> objects.</caption>
+<image width="75%" source="images/drawing.png" />
+</figure>
+<p>
+The first block of code creates <c>RegularPolygon</c> objects with 3, 6, and 360 sides.
+As you can see, a polygon with 360 sides is a pretty good approximation of a circle.
+</p>
+
+<p>
+The second block of code translates the polygons to different locations.
+The third block of code creates the <c>Drawing</c> and adds the polygons to it.
+And the fourth block of code creates a <c>JFrame</c>, adds the <c>Drawing</c> to it, and displays the result.
+</p>
+
+<p>
+Most of these pieces should be familiar, but one part of this program might surprise you.
+When we create the <c>RegularPolygon</c> objects, we assign them to <c>DrawablePolygon</c> variables.
+It might not be obvious why that's legal.
+</p>
+
+<p>
+<idx><h>IS-A</h></idx>
+<c>RegularPolygon</c> extends <c>DrawablePolygon</c>, so every <c>RegularPolygon</c> object is also a <c>DrawablePolygon</c>.
+The parameter of <c>Drawing.add</c> has to be a <c>DrawablePolygon</c>, but it can be any type of <c>DrawablePolygon</c>, including <c>RegularPolygon</c> and other subclasses.
+</p>
+
+<p>
+<idx><h>polymorphism</h></idx>
+This design is an example of <em>polymorphism</em>, a fancy word that means <q>having many forms</q>.
+<c>Drawing.add</c> is a polymorphic method, because the parameter can be one of many types.
+And the <c>ArrayList</c> in <c>Drawing</c> is a polymorphic data structure, because the elements can be different types.
+</p>
+</section>

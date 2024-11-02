@@ -1,0 +1,67 @@
+<section xml:id="mutable-objects_mutable-vs-immutable">
+<title>Mutable vs Immutable</title>
+<p>
+<idx><h>mutable</h></idx>
+<idx><h>immutable</h></idx>
+<c>Point</c>s and <c>Rectangle</c>s are <em>mutable</em> objects, because their attributes can be modified.
+You can modify their attributes directly, like <c>box.x = 15</c>, or you can invoke methods that modify their attributes, like <c>box.translate(15, 0)</c>.
+</p>
+
+<p>
+In contrast, immutable objects like <c>String</c>s and <c>Integer</c>s cannot be modified.
+They don't allow direct access to their attributes or provide methods that change them.
+</p>
+
+<p>
+Immutable objects have advantages that help improve the reliability and performance of programs.
+You can pass strings (and other immutable objects) to methods without worrying about their contents changing as a side-effect of the method.
+That makes programs easier to debug and more reliable.
+</p>
+
+<p>
+Also, two strings that contain the same characters can be stored in memory only once.
+That can reduce the amount of memory the program uses and can speed it up.
+</p>
+
+<p>
+In the following example, <c>s1</c> and <c>s2</c> are created differently, but they refer to equivalent strings; that is, the two strings contain the same characters:
+</p>
+
+<p>
+<idx><h>Surprise.java</h></idx>
+</p>
+
+<listing filename="Surprise.java">
+<program interactive="activecode">
+public class Surprise {
+public static void main(String[] args) {
+String s1 = "Hi, Mom!";
+String s2 = "Hi, " + "Mom!";
+if (s1 == s2) { // true!
+System.out.println("s1 and s2 are the same");
+}
+}
+}
+</program>
+</listing>
+
+<p>
+Because both strings are specified at compile time, the compiler can tell that they are equivalent.
+And because strings are immutable, there is no need to make two copies; the compiler can create one <c>String</c> and make both variables refer to it.
+</p>
+
+<p>
+As a result, the test <c>s1 == s2</c> turns out to be true, which means that <c>s1</c> and <c>s2</c> refer to the same object.
+In other words, they are not just equivalent; they are identical.
+</p>
+
+<p>
+Although immutable objects have some advantages, mutable objects have other advantages.
+Sometimes it is more efficient to modify an existing object, rather than create a new one.
+And some computations can be expressed more naturally using mutation.
+</p>
+
+<p>
+Neither design is always better, which is why you will see both.
+</p>
+</section>

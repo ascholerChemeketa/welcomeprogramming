@@ -1,0 +1,111 @@
+<section xml:id="immutable-objects_commandline-arguments">
+<title>Command-Line Arguments</title>
+<p>
+<idx><h>args</h></idx>
+<idx><h>command-line interface</h></idx>
+Now that you know about strings, arrays, and wrapper classes, we can <em>finally</em> explain the <c>args</c> parameter of the <c>main</c> method, which we have been ignoring since <xref ref="theway">Chapter</xref>.
+If you are unfamiliar with the command-line interface, please read <xref ref="commandline">Appendix</xref>.
+</p>
+
+<p>
+Let's write a program to find the maximum value in a sequence of numbers.
+Rather than read the numbers from <c>System.in</c> by using a <c>Scanner</c>, we'll pass them as command-line arguments.
+Here is a starting point:
+</p>
+
+<program>
+import java.util.Arrays;
+public class Max {
+public static void main(String[] args) {
+System.out.println(Arrays.toString(args));
+}
+}
+</program>
+
+<p>
+You can run this program from the command line by typing this:
+</p>
+
+<console>
+<output>
+java Max
+</output>
+</console>
+
+<p>
+<idx><h>empty array</h></idx>
+The output indicates that <c>args</c> is an <em>empty array</em>; that is, it has no elements:
+</p>
+
+<console>
+<output>
+[]
+</output>
+</console>
+
+<p>
+If you provide additional values on the command line, they are passed as arguments to <c>main</c>.
+For example, say you run the program like this:
+</p>
+
+<console>
+<output>
+java Max 10 -3 55 0 14
+</output>
+</console>
+
+<p>
+The output is shown here:
+</p>
+
+<console>
+<output>
+[10, -3, 55, 0, 14]
+</output>
+</console>
+
+<p>
+It's not clear from the output, but the elements of <c>args</c> are strings.
+So <c>args</c> is the array <c>\{"10", "-3", "55", "0", "14"\}</c>.
+To find the maximum number, we have to convert the arguments to integers.
+</p>
+
+<p>
+The following code uses an enhanced <c>for</c> loop (see <xref ref="enhanced">Section</xref>) to parse the arguments and find the largest value:
+</p>
+
+<program>
+int max = Integer.MIN_VALUE;
+for (String arg : args) {
+int value = Integer.parseInt(arg);
+if (value > max) {
+max = value;
+}
+}
+System.out.println("The max is " + max);
+</program>
+
+<p>
+We begin by initializing <c>max</c> to the smallest (most negative) number an <c>int</c> can represent.
+That way, the first value we parse will replace <c>max</c>.
+As we find larger values, they will replace <c>max</c> as well.
+</p>
+
+<p>
+If <c>args</c> is empty, the result will be <c>MIN_VALUE</c>.
+We can prevent this situation from happening by checking <c>args</c> at the beginning of the program:
+</p>
+
+<program>
+if (args.length == 0) {
+System.err.println("Usage: java Max &lt;numbers>");
+return;
+}
+</program>
+
+<p>
+<idx><h>javac</h></idx>
+It's customary for programs that require command-line arguments to display a <q>usage</q> message if the arguments are not valid.
+For example, if you run <c>javac</c> or <c>java</c> from the command line without any arguments, you will get a very long message.
+</p>
+</section>

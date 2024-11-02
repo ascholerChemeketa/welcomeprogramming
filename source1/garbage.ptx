@@ -1,0 +1,39 @@
+<section xml:id="garbage">
+<title>Garbage Collection</title>
+<p>
+In the previous section, we said that attributes exist as long as the object exists.
+But when does an object cease to exist?
+Here is a simple example:
+</p>
+
+<program>
+Point blank = new Point(3, 4);
+blank = null;
+</program>
+
+<p>
+The first line creates a new <c>Point</c> object and makes <c>blank</c> refer to it.
+The second line changes <c>blank</c> so that instead of referring to the object, it refers to nothing.
+As shown in <xref ref="fig_reference3">Figure</xref>, after the second assignment, there are no references to the <c>Point</c> object.
+</p>
+<figure xml:id="fig_reference3" >
+<caption>Memory diagram showing the effect of setting a variable to <c>null</c>.</caption>
+<image width="73%" source="images/reference3.png" />
+</figure>
+<p>
+If there are no references to an object, there is no way to access its attributes or invoke a method on it.
+From the program's point of view, it ceases to exist.
+However, it's still present in the computer's memory, taking up space.
+</p>
+
+<p>
+<idx><h>garbage collection</h></idx>
+As your program runs, the system automatically looks for stranded objects and deletes them; then the space can be reused for new objects.
+This process is called <em>garbage collection</em>.
+</p>
+
+<p>
+You don't have to do anything to make garbage collection happen, and in general, you don't have to be aware of it.
+But in high-performance applications, you may notice a slight delay every now and then while Java reclaims space from discarded objects.
+</p>
+</section>
