@@ -1,0 +1,96 @@
+<section xml:id="equals">
+<title>The equals Method</title>
+<p>
+<idx><h>== equals operator</h></idx>
+<idx><h>equals</h></idx>
+<idx><h>method</h><h>equals</h></idx>
+We have seen two ways to check whether values are equal: the <c>==</c> operator and the <c>equals</c> method.
+With objects, you can use either one, but they are not the same:
+</p>
+
+<p>
+<idx><h>identical</h></idx>
+<idx><h>equivalent</h></idx>
+<ul>
+<li><p>The <c>==</c> operator checks whether two references are <em>identical</em>; that is, whether they refer to the same object.</p></li>
+<li><p>The <c>equals</c> method checks whether two objects are <em>equivalent</em>; that is, whether they have the same values.</p></li>
+</ul>
+</p>
+
+<p>
+The definition of <em>identity</em> is always the same, so the <c>==</c> operator always does the same thing.
+But the definition of <em>equivalence</em> is different for different objects, so objects can define their own <c>equals</c> methods.
+</p>
+
+<p>
+Consider the following variables and the corresponding memory diagram in <xref ref="fig_time2">Figure</xref>:
+</p>
+
+<program>Time time1 = new Time(9, 30, 0.0);
+Time time2 = time1;
+Time time3 = new Time(9, 30, 0.0);</program>
+
+<p>
+<idx><h>memory diagram</h></idx>
+<idx><h>diagram</h><h>memory</h></idx>
+</p>
+<figure xml:id="fig_time2" >
+<caption>Memory diagram of three <c>Time</c> variables.</caption>
+<image width="73%" source="images/time2.png" />
+</figure>
+<p>
+The assignment operator copies references, so <c>time1</c> and <c>time2</c> refer to the same object.
+Because they are identical, <c>time1 == time2</c> is true.
+But <c>time1</c> and <c>time3</c> refer to two different objects.
+Because they are not identical, <c>time1 == time3</c> is false.
+</p>
+
+<p>
+By default, the <c>equals</c> method does the same thing as <c>==</c>.
+For <c>Time</c> objects, that's probably not what we want.
+For example, <c>time1</c> and <c>time3</c> represent the same time of day, so we should consider them equivalent.
+</p>
+
+<p>
+<idx><h>equals</h></idx>
+<idx><h>method</h><h>equals</h></idx>
+We can provide an <c>equals</c> method that implements this idea:
+</p>
+
+<program>public boolean equals(Time that) {
+    final double DELTA = 0.001;
+    return this.hour == that.hour
+        &amp;&amp; this.minute == that.minute
+        &amp;&amp; Math.abs(this.second - that.second) &lt; DELTA;
+}</program>
+
+<p>
+<c>equals</c> is an instance method, so it doesn't have the keyword <c>static</c>.
+It uses <c>this</c> to refer to the current object, and <c>that</c> to refer to the other.
+<c>that</c> is <em>not</em> a keyword, so we could have given this parameter a different name.
+But using <c>that</c> makes the code nicely readable.
+</p>
+
+<p>
+We can invoke <c>equals</c> like this:
+</p>
+
+<program>time1.equals(time3);</program>
+
+<p>
+Inside the <c>equals</c> method, <c>this</c> refers to the same object as <c>time1</c>, and <c>that</c> refers to the same object as <c>time3</c>.
+Since their instance variables are <q>equal</q>, the result is <c>true</c>.
+</p>
+
+<p>
+Because <c>hour</c> and <c>minute</c> are integers, we compare them with <c>==</c>.
+But <c>second</c> is a floating-point number.
+Because of rounding errors, it is not good to compare floating-point numbers with <c>==</c> (see <xref ref="rounderr">Section</xref>).
+Instead, we check whether the difference is smaller than a threshold, <c>DELTA</c>.
+</p>
+
+<p>
+Many objects have a similar notion of equivalence; that is, two objects are considered equal if their instance variables are equal.
+But other definitions are possible.
+</p>
+</section>

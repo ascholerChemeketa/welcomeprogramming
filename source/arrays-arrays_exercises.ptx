@@ -1,0 +1,137 @@
+<section xml:id="arrays-arrays_exercises">
+<title>Exercises</title>
+<p>
+The code for this chapter is in the <em>ch15</em> directory of <em>ThinkJavaCode2</em>.
+See <xref ref="code">page</xref> for instructions on how to download the repository.
+Before you start the exercises, we recommend that you compile and run the examples.
+</p>
+<exercise>
+<statement>
+<p>
+In <c>GridCanvas</c>, write a method named <c>countOn</c> that returns the total number of cells that are <q>on</q>.
+This method can be used, for example, to track the population in Game of Life over time.
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+In our version of the Game of Life, the grid has a finite size.
+As a result, moving objects such as Gliders either crash into the wall or go out of bounds.
+</p>
+
+<p>
+An interesting variation of the Game of Life is a <q>toroidal</q> grid, meaning that the cells <q>wrap around</q> on the edges.
+Modify the <c>test</c> method of <c>GridCanvas</c> so that the coordinates <c>r</c> and <c>c</c> map to the opposite side of the grid if they are too low or two high.
+</p>
+
+<p>
+Run your code with a Glider (see <xref ref="fig_glider">Figure</xref>) to see if it works.
+You can initialize the Glider by modifying the constructor in the <c>Conway</c> class, or by reading it from a file (see the next exercise).
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+The LifeWiki site (\url{https://conwaylife.com/wiki/}) has a fascinating collection of patterns for the Game of Life.
+These patterns are stored in a file format that is easy to read, in files with the suffix <q>.cells</q>.
+</p>
+
+<p>
+For example, here is an \mbox{8 x 10} grid with a Glider near the upper-left corner:
+</p>
+
+<console>
+<output>
+!Name: Glider
+..........
+..O.......
+...O......
+.OOO......
+..........
+..........
+..........
+..........
+</output>
+</console>
+
+<p>
+Lines that begin with <c>!</c> are comments and should be ignored.
+The rest of the file describes the grid, row by row.
+A period represents a dead cell, and an uppercase <c>O</c> represents a live cell.
+See \url{https://conwaylife.com/wiki/Plaintext} for more examples.
+<ol>
+<li><p>Create a plain text file with the contents shown above, and save the file as <em>glider.cells</em> in the same directory as your code.</p></li>
+<li><p>Define a constructor for the <c>Conway</c> class that takes a string representing the name (or path) of a <q>.cells</q> file.
+Here is a starting point:
+
+
+<program>public Conway(String path) {
+    File file = new File(path);
+    Scanner scan = new Scanner(file);
+}</program>
+</p></li>
+<li><p>Modify the <c>main</c> method to invoke the constructor as follows:
+
+
+<program>Conway game = new Conway("glider.cells");</program>
+</p></li>
+<li><p>Handle the <c>FileNotFoundException</c> that may be thrown when creating a <c>Scanner</c> for a <c>File</c> by invoking <c>printStackTrace</c> on the exception object and calling <c>System.exit()</c> with a status of <c>1</c>, indicating an error.</p></li>
+<li><p>Continue implementing the constructor by reading all non-comment lines into an <c>ArrayList</c> via <c>hasNextLine</c> and <c>nextLine</c> of the <c>Scanner</c>.</p></li>
+<li><p>Determine the number of rows and columns of the grid by examining the <c>ArrayList</c> contents.</p></li>
+<li><p>Create and initialize a <c>GridCanvas</c> based on the <c>ArrayList</c>.</p></li>
+</ol>
+</p>
+
+<p>
+Once your constructor is working, you will be able to run many of the patterns on the LifeWiki.
+You might want to add a margin of empty cells around the initial pattern, to give it room to grow.
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+Some files on the LifeWiki use <q>run-length encoding</q> (RLE) instead of plain text.
+The basic idea of RLE is to describe the number of dead and alive cells, rather than type out each individual cell.
+</p>
+
+<p>
+For example, <em>glider.cells</em> from the previous exercise could be represented this way with RLE:
+</p>
+
+<console>
+<output>
+#C Name: Glider
+x = 10, y = 8
+<m>2bo</m>3bo$b3o!
+</output>
+</console>
+
+<p>
+The first line specifies <c>x</c> (the number of columns) and <c>y</c> (the number of rows).
+Subsequent lines consist of the letters <c>b</c> (dead), <c>o</c> (alive), and <c>$</c> (end of line), optionally preceded by a count.
+The pattern ends with <c>!</c>, after which any remaining file contents are ignored.
+</p>
+
+<p>
+Lines beginning with <c>#</c> have special meaning and are not part of the pattern.
+For example, <c>#C</c> is a comment line.
+You can read more about RLE format on \url{https://conwaylife.com/wiki/RLE}.
+<ol>
+<li><p>Create a plain text file with the preceding contents, and save the file as <em>glider.rle</em> in the same directory as your code.</p></li>
+<li><p>Modify your constructor from the previous exercise to check the last three characters of the <c>path</c>.
+If they are <c>"rle"</c>, then you will need to process the file as RLE.
+Otherwise, assume the file is in <q>.cells</q> format.</p></li>
+<li><p>In the end, your constructor should be able to read and initialize grids in both formats.
+Test your constructor by modifying the <c>main</c> method to read different files.</p></li>
+</ol>
+
+</p>
+</statement>
+</exercise>
+</section>

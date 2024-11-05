@@ -1,0 +1,45 @@
+<chapter xmlns:xi="http://www.w3.org/2001/XInclude"  xml:id="advanced-topics">
+<title>Advanced Topics</title>
+
+
+<introduction>
+<p>
+<idx><h>inheritance</h></idx>
+<idx><h>generalization</h></idx>
+When we first looked at inheritance in <xref ref="eights">Chapter</xref>, our purpose was to avoid duplicating code.
+We noticed that <q>decks of cards</q> and <q>hands of cards</q> had common functionality, and we designed a <c>CardCollection</c> class to provide it.
+This technique is an example of <em>generalization</em>.
+By generalizing the code, we were able to reuse it in the <c>Deck</c> and <c>Hand</c> classes.
+</p>
+
+<p>
+<idx><h>specialization</h></idx>
+In <xref ref="conway">Chapter</xref>, we looked at inheritance from a different point of view.
+When designing <c>GridCanvas</c> to represent a grid of cells, we extended <c>Canvas</c> and overrode its <c>paint</c> method.
+This design is an example of <em>specialization</em>.
+Using the code provided by <c>Canvas</c>, we created a specialized subclass with minimal additional code.
+</p>
+
+<p>
+We didn't write the code for <c>Canvas</c>; it's part of the Java library.
+But we were able to customize it for our own purposes.
+In fact, the <c>Canvas</c> class was explicitly designed to be extended.
+</p>
+
+<p>
+In this chapter, we'll explore the concept of inheritance more fully and present event-driven programming.
+We'll continue to develop graphical simulations as a running example, but this time in varying shapes and colors!
+</p>
+</introduction>
+<xi:include  href="advanced-topics_polygon-objects.ptx" />
+<xi:include  href="advanced-topics_adding-color.ptx" />
+<xi:include  href="advanced-topics_regular-polygons.ptx" />
+<xi:include  href="advanced-topics_more-constructors.ptx" />
+<xi:include  href="sec_drawing.ptx" />
+<xi:include  href="advanced-topics_blinking-polygons.ptx" />
+<xi:include  href="advanced-topics_interfaces.ptx" />
+<xi:include  href="advanced-topics_event-listeners.ptx" />
+<xi:include  href="advanced-topics_timers.ptx" />
+<xi:include  href="advanced-topics_vocabulary.ptx" />
+<xi:include  href="advanced-topics_exercises.ptx" />
+</chapter>

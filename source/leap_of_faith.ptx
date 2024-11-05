@@ -1,0 +1,96 @@
+<section xml:id="leap_of_faith">
+<title>The Leap of Faith</title>
+
+
+<introduction>
+<p>
+<idx><h>leap of faith</h></idx>
+Following the flow of execution is one way to read programs, but it can quickly become overwhelming.
+Another way to understand recursion is the <em>leap of faith</em>:
+when you come to a method invocation, instead of following the flow of execution, you <em>assume</em> that the method works correctly and returns the appropriate value.
+</p>
+
+<p>
+In fact, you are already practicing this leap of faith when you use methods in the Java library.
+When you invoke <c>Math.cos</c> or <c>System.out.println</c>, you don't think about the implementations of those methods.
+You just assume that they work properly.
+</p>
+
+<p>
+The same is true of other methods.
+For example, consider the method from <xref ref="boolmeth">Section</xref> that determines whether an integer has only one digit:
+</p>
+
+<program>public static boolean isSingleDigit(int x) {
+    return x > -10 &amp;&amp; x &lt; 10;
+}</program>
+
+<p>
+Once you convince yourself that this method is correct<mdash/>by examining and testing the code<mdash/>you can just use the method without ever looking at the implementation again.
+</p>
+
+<p>
+Recursive methods are no different.
+When you get to a recursive call, don't think about the flow of execution.
+Instead, <em>assume</em> that the recursive call produces the desired result.
+</p>
+
+<p>
+For example, <q>Assuming that I can find the factorial of <m>n-1</m>, can I compute the factorial of <m>n</m>?</q>
+Yes you can, by multiplying by <m>n</m>.
+Here's an implementation of <c>factorial</c> with the temporary variables removed:
+</p>
+
+<program>public static int factorial(int n) {
+    if (n == 0) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}</program>
+
+<p>
+Notice how similar this version is to the original mathematical definition:
+<md>
+  <mrow>  \amp \amp   0! = 1</mrow>
+  <mrow>  \amp \amp   n! = n \cdot(n-1)!</mrow>
+</md>
+</p>
+
+<p>
+Of course, it is strange to assume that the method works correctly when you have not finished writing it.
+But that's why it's called a leap of faith!
+</p>
+</introduction>
+
+
+<subsection xml:id="fibonacci">
+<title>Fibonacci Sequence</title>
+<p>
+<idx><h>fibonacci</h></idx>
+Another common recursively defined mathematical function is the Fibonacci sequence, which has the following definition:
+<md>
+  <mrow>  \amp \amp  fibonacci(1) = 1</mrow>
+  <mrow>  \amp \amp  fibonacci(2) = 1</mrow>
+  <mrow>  \amp \amp  fibonacci(n) = fibonacci(n-1) + fibonacci(n-2)</mrow>
+</md>
+</p>
+
+<p>
+Notice that each Fibonacci number is the sum of the two preceding Fibonacci numbers.
+Translated into Java, this function is as follows:
+</p>
+
+<program>public static int fibonacci(int n) {
+    if (n == 1 || n == 2) {
+        return 1;
+    }
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}</program>
+
+<p>
+If you try to follow the flow of execution here, even for small values of <c>n</c>, your head will explode.
+But if we take a leap of faith and assume that the two recursive invocations work correctly, then it is clear, looking at the definition, that our implementation is correct.
+</p>
+</subsection>
+
+</section>

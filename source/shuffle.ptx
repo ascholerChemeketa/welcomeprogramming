@@ -1,0 +1,76 @@
+<section xml:id="shuffle">
+<title>Shuffling Decks</title>
+<p>
+<idx><h>shuffle</h></idx>
+For most card games, you have to shuffle the deck; that is, put the cards in a random order.
+In <xref ref="random">Section</xref> you saw how to generate random numbers, but it is not obvious how to use them to shuffle a deck.
+</p>
+
+<p>
+One possibility is to model the way humans shuffle; for example, we could divide the deck in two halves and then choose alternately from each one.
+Humans usually don't shuffle perfectly, so after about seven iterations, the order of the deck is pretty well randomized.
+</p>
+
+<p>
+But a computer program would have the annoying property of doing a perfect shuffle every time, which is not very random.
+In fact, after eight perfect shuffles, you would find the deck back in the order you started in!
+For more on this, see \url{https://en.wikipedia.org/wiki/Faro_shuffle}.
+</p>
+
+<p>
+<idx><h>pseudocode</h></idx>
+A better shuffling algorithm is to traverse the deck one card at a time, and at each iteration, choose two cards and swap them.
+To outline this algorithm, we'll use a combination of Java statements and English comments.
+This technique is sometimes called <em>pseudocode</em>:
+</p>
+
+<p>
+<idx><h>shuffle</h></idx>
+</p>
+
+<program>public void shuffle() {
+    for each index i {
+        // choose a random number between i and length - 1
+        // swap the ith card and the randomly-chosen card
+    }
+}</program>
+
+<p>
+<idx><h>helper method</h></idx>
+<idx><h>method</h><h>helper</h></idx>
+The nice thing about pseudocode is that it often makes clear what other methods you are going to need.
+In this case, we need a method that chooses a random integer in a given range and a method that takes two indexes and swaps the cards at those positions:
+</p>
+
+<program>private static int randomInt(int low, int high) {
+    // return a random number between low and high,
+    // including both
+}
+
+private void swapCards(int i, int j) {
+    // swap the ith and the jth cards in the array
+}</program>
+
+<p>
+<idx><h>randomInt</h></idx>
+<idx><h>swapCards</h></idx>
+Methods like <c>randomInt</c> and <c>swapCards</c> are called <em>helper methods</em>, because they help you solve parts of the problem.
+Helper methods are often <c>private</c>, because they are used only by methods in the class and are not needed by methods in other classes.
+</p>
+
+<p>
+<idx><h>top-down design</h></idx>
+<idx><h>design process</h></idx>
+The process of writing pseudocode first and then writing helper methods to make it work is a kind of <em>top-down design</em> (see \url{https://en.wikipedia.org/wiki/Top-down_and_bottom-up_design}).
+It is an alternative to <q>incremental development</q> and <q>encapsulation and generalization</q>, the other design processes you have seen in this book.
+</p>
+
+<p>
+One of the exercises at the end of the chapter asks you to write the helper methods <c>randomInt</c> and <c>swapCards</c>, and use them to implement <c>shuffle</c>.
+</p>
+
+<p>
+When you do the exercise, notice that <c>randomInt</c> is a class method and <c>swapCards</c> is an instance method.
+Do you understand why?
+</p>
+</section>

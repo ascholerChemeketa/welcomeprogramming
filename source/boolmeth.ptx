@@ -1,0 +1,59 @@
+<section xml:id="boolmeth">
+<title>Boolean Methods</title>
+<p>
+<idx><h>boolean</h></idx>
+<idx><h>method</h><h>boolean</h></idx>
+Methods can return <c>boolean</c> values, just like any other type, which is often convenient for hiding tests inside methods.
+For example:
+</p>
+
+<program>public static boolean isSingleDigit(int x) {
+    if (x > -10 &amp;&amp; x &lt; 10) {
+        return true;
+    } else {
+        return false;
+    }
+}</program>
+
+<p>
+The name of this method is <c>isSingleDigit</c>.
+It is common to give <c>boolean</c> methods names that sound like yes/no questions.
+Since the return type is <c>boolean</c>, the return statement has to provide a boolean expression.
+</p>
+
+<p>
+The code itself is straightforward, although it is longer than it needs to be.
+Remember that the expression <c>x > -10 &amp;&amp; x &lt; 10</c> has type <c>boolean</c>, so there is nothing wrong with returning it directly (without the <c>if</c> statement):
+</p>
+
+<program>public static boolean isSingleDigit(int x) {
+    return x > -10 &amp;&amp; x &lt; 10;
+}</program>
+
+<p>
+In <c>main</c>, you can invoke the method in the usual ways:
+</p>
+
+<program>System.out.println(isSingleDigit(2));
+boolean bigFlag = !isSingleDigit(17);</program>
+
+<p>
+The first line displays <c>true</c> because 2 is a single-digit number.
+The second line sets <c>bigFlag</c> to <c>true</c>, because 17 is <em>not</em> a single-digit number.
+</p>
+
+<p>
+Conditional statements often invoke <c>boolean</c> methods and use the result as the condition:
+</p>
+
+<program>if (isSingleDigit(z)) {
+    System.out.println("z is small");
+} else {
+    System.out.println("z is big");
+}</program>
+
+<p>
+Examples like this one almost read like English:
+<q>If is single digit z, print z is small else print z is big.</q>
+</p>
+</section>

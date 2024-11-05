@@ -1,0 +1,37 @@
+<section xml:id="advanced-topics_polygon-objects">
+<title>Polygon Objects</title>
+<p>
+The word polygon means <q>many angles</q>; the most basic polygons are triangles (three angles), rectangles (four angles), pentagons (five angles), and so forth.
+Polygons are an important part of computer graphics because they are used to compose more complex images.
+</p>
+
+<p>
+Java provides a <c>Polygon</c> class (in <c>java.awt</c>) that we can use to represent and draw polygons.
+The following code creates an empty <c>Polygon</c> and adds three points, forming a triangle:
+</p>
+
+<program>Polygon p = new Polygon();
+p.addPoint(57, 110);
+p.addPoint(100, 35);
+p.addPoint(143, 110);</program>
+
+<p>
+Internally, <c>Polygon</c> objects have three attributes:
+<ul>
+<li><p><c>public int npoints;</c> <c>     </c> <c>// total number of points</c></p></li>
+<li><p><c>public int[] xpoints;</c> <c> </c> <c>// array of X coordinates</c></p></li>
+<li><p><c>public int[] ypoints;</c> <c> </c> <c>// array of Y coordinates</c></p></li>
+</ul>
+</p>
+
+<p>
+When a <c>Polygon</c> is created, <c>npoints</c> is <c>0</c> and the two arrays are initialized with length 4.
+As points are added, <c>npoints</c> is incremented.
+If <c>npoints</c> exceeds the length of the arrays, larger arrays are created, and the previous values are copied over (similar to how <c>ArrayList</c> works).
+</p>
+
+<p>
+The <c>Polygon</c> class provides many useful methods, like <c>contains</c>, <c>intersects</c>, and <c>translate</c>.
+We'll get to those later, but first we're going to do some specialization.
+</p>
+</section>

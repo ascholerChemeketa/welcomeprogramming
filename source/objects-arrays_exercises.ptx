@@ -1,0 +1,124 @@
+<section xml:id="objects-arrays_exercises">
+<title>Exercises</title>
+<p>
+The code for this chapter is in the <em>ch13</em> directory of <em>ThinkJavaCode2</em>.
+See <xref ref="code">page</xref> for instructions on how to download the repository.
+Before you start the exercises, we recommend that you compile and run the examples.
+</p>
+<exercise>
+<statement>
+<p>
+Write a <c>toString</c> method for the <c>Deck</c> class.
+It should return a single string that represents the cards in the deck.
+When it's printed, this string should display the same results as the <c>print</c> method in <xref ref="deck">Section</xref>.
+</p>
+
+<p>
+<idx><h>StringBuilder</h></idx>
+<idx><h>efficiency</h></idx>
+<em>Hint:</em> You can use the <c>+</c> operator to concatenate strings, but that is not very efficient.
+Consider using <c>StringBuilder</c> instead; see <xref ref="stringbuilder">Section</xref>.
+</p>
+</statement>
+</exercise>
+
+<exercise xml:id="ex_shuffle">
+<statement>
+<p>
+The goal of this exercise is to implement the shuffling algorithm from this chapter.
+<ol>
+<li><p>In the repository for this book, you should find the file named <em>Deck.java</em>.
+Check that you can compile it in your environment.</p></li>
+<li><p>Implement the <c>randomInt</c> method.
+You can use the <c>nextInt</c> method provided by <c>java.util.Random</c>, which you saw in <xref ref="random">Section</xref>.
+
+<em>Hint:</em> To avoid creating a <c>Random</c> object every time <c>randomInt</c> is invoked, consider defining a class variable.</p></li>
+<li><p>Write a <c>swapCards</c> method that takes two indexes and swaps the cards at the given locations.</p></li>
+<li><p>Fill in the <c>shuffle</c> method by using the algorithm in <xref ref="shuffle">Section</xref>.</p></li>
+</ol>
+
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+The goal of this exercise is to implement the sorting algorithms from this chapter.
+Use the <em>Deck.java</em> file from the previous exercise or create a new one from scratch.
+<ol>
+<li><p>Implement the <c>indexLowest</c> method.
+Use the <c>Card.compareTo</c> method to find the lowest card in a given range of the deck, from <c>lowIndex</c> to <c>highIndex</c>, including both.</p></li>
+<li><p>Fill in <c>selectionSort</c> by using the algorithm in <xref ref="sorting">Section</xref>.</p></li>
+<li><p>Using the pseudocode in <xref ref="mergesort">Section</xref>, implement the <c>merge</c> method.
+The best way to test it is to build and shuffle a deck.
+Then use <c>subdeck</c> to form two small subdecks, and use selection sort to sort them.
+Finally, pass the two halves to <c>merge</c> and see if it works.
+<idx><h>testing</h></idx></p></li>
+<li><p>Fill in <c>almostMergeSort</c>, which divides the deck in half, then uses <c>selectionSort</c> to sort the two halves, and uses <c>merge</c> to create a new, sorted deck.
+You should be able to reuse code from the previous step.</p></li>
+<li><p>Implement <c>mergeSort</c> recursively.
+Remember that <c>selectionSort</c> is <c>void</c> and <c>mergeSort</c> returns a new <c>Deck</c>, which means that they get invoked differently:
+
+
+<program>deck.selectionSort();      // modifies an existing deck
+deck = deck.mergeSort();   // replaces old deck with new</program>
+</p></li>
+</ol>
+
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+You can learn more about the sorting algorithms presented in this chapter at \url{https://www.toptal.com/developers/sorting-algorithms}.
+This site provides explanations of the algorithms, along with animations that show how they work.
+It also includes an analysis of their efficiency.
+</p>
+
+<p>
+For example, <q>insertion sort</q> is an algorithm that inserts elements into place, one at a time.
+Read about it on the website and play the animations.
+Then write a method named <c>insertionSort</c> that implements this algorithm.
+</p>
+
+<p>
+One goal of this exercise is to practice top-down design.
+Your solution should use a helper method, named <c>insert</c>, that implements the inner loop of the algorithm.
+<c>insertionSort</c> should invoke this method <m>n-1</m> times.
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+Find and open the file <em>War.java</em> in the repository.
+The <c>main</c> method contains all the code from the last section of this chapter.
+Check that you can compile and run this code before proceeding.
+</p>
+
+<p>
+The program is incomplete; it does not handle the case when two cards have the same rank.
+Finish implementing the <c>main</c> method, beginning at the line that says: <c>// it's a tie</c>.
+</p>
+
+<p>
+When there's a tie, draw three cards from each pile and store them in a collection, along with the original two.
+Then draw one more card from each pile and compare them.
+Whoever wins the tie takes all ten of these cards.
+</p>
+
+<p>
+If one pile does not have at least four cards, the game ends immediately.
+If a tie ends with a tie, draw three more cards, and so on.
+</p>
+
+<p>
+Notice that this program depends on <c>Deck.shuffle</c>, so you might have to do <xref ref="ex_shuffle">Exercise</xref> first.
+</p>
+</statement>
+</exercise>
+</section>

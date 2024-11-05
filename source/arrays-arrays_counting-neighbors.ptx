@@ -1,0 +1,65 @@
+<section xml:id="arrays-arrays_counting-neighbors">
+<title>Counting Neighbors</title>
+<p>
+<idx><h>neighbor</h></idx>
+Now that you know about <c>try</c> and <c>catch</c>, we can use them to implement a useful method in <c>GridCanvas</c>.
+Part of the GoL logic is to count the number of live neighbors.
+Most cells have eight neighbors, as shown in <xref ref="fig_neighbors">Figure</xref>.
+</p>
+
+<p>
+However, cells on the edges and in the corners have fewer neighbors.
+If we try to count all possible neighbors, we'll go out of bounds.
+The following method uses a <c>try</c>-<c>catch</c> statement to deal with these special cases:
+</p>
+
+<program>public int test(int r, int c) {
+    try {
+        if (array[r][c].isOn()) {
+            return 1;
+        }
+    } catch (ArrayIndexOutOfBoundsException e) {
+        // cell doesn't exist
+    }
+    return 0;
+}</program>
+  <figure xml:id="fig_neighbors" >
+<caption>Cells in the interior of the grid have eight neighbors.
+Cells in the corners and along the edges have fewer neighbors.</caption>
+<image width="73%" source="images/grid.png" />
+</figure>
+<p>
+The <c>test</c> method takes a row index, <c>r</c>, and a column index, <c>c</c>.
+It tries to look up the <c>Cell</c> at that location.
+If both indexes are in bounds, the <c>Cell</c> exists.
+In that case, <c>test</c> returns <c>1</c> if the <c>Cell</c> is on.
+Otherwise, it skips the catch block and returns <c>0</c>.
+</p>
+
+<p>
+If either index is out of bounds, the array lookup throws an exception, but the catch block ignores it.
+Then <c>test</c> resumes and returns <c>0</c>.
+So the non-existent cells around the perimeter are considered to be off.
+</p>
+
+<p>
+Now we can use <c>test</c> to implement <c>countAlive</c>, which takes a grid location, <c>(r, c)</c>, and returns the number of live neighbors surrounding that location:
+</p>
+
+<program>private int countAlive(int r, int c) {
+    int count = 0;
+    count += grid.test(r - 1, c - 1);
+    count += grid.test(r - 1, c);
+    count += grid.test(r - 1, c + 1);
+    count += grid.test(r, c - 1);
+    count += grid.test(r, c + 1);
+    count += grid.test(r + 1, c - 1);
+    count += grid.test(r + 1, c);
+    count += grid.test(r + 1, c + 1);
+    return count;
+}</program>
+
+<p>
+Because <c>test</c> handles <q>out of bounds</q> exceptions, <c>countAlive</c> works for any values of <c>r</c> and <c>c</c>.
+</p>
+</section>

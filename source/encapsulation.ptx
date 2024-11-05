@@ -1,0 +1,106 @@
+<section xml:id="encapsulation">
+<title>Incremental Design</title>
+<p>
+<idx><h>design process</h></idx>
+<idx><h>encapsulation</h><h>and generalization</h></idx>
+One challenge of programming, especially for beginners, is figuring out how to divide a program into methods.
+In this section, we present a <em>design process</em> that allows you to divide a program into methods as you go along.
+The process is called <q>encapsulation and generalization</q>.
+The essential steps are as follows:
+<ol>
+<li><p>Write a few lines of code in <c>main</c> or another method, and test them.</p></li>
+<li><p>When they are working, wrap them in a new method and test again.</p></li>
+<li><p>If it's appropriate, replace literal values with variables and parameters.</p></li>
+</ol>
+</p>
+
+<p>
+<idx><h>table</h><h>two-dimensional</h></idx>
+To demonstrate this process, we'll develop methods that display multiplication tables.
+We begin by writing and testing a few lines of code.
+Here is a loop that displays the multiples of two, all on one line:
+</p>
+
+<program>for (int i = 1; i &lt;= 6; i++) {
+    System.out.printf("%4d", 2 * i);
+}
+System.out.println();</program>
+
+<p>
+Each time through the loop, we display the value of <c>2 * i</c>, padded with spaces so it's four characters wide.
+Since we use <c>System.out.printf</c>, the output appears on a single line.
+</p>
+
+<p>
+After the loop, we call <c>println</c> to print a newline character.
+Remember that in some environments, none of the output is displayed until the line is complete.
+The output of the code so far is shown here:
+</p>
+
+<console>
+<output>
+2   4   6   8  10  12
+</output>
+</console>
+
+<p>
+<idx><h>encapsulate</h></idx>
+The next step is to <em>encapsulate</em> the code; that is, we <q>wrap</q> the code in a method:
+</p>
+
+<program>public static void printRow() {
+    for (int i = 1; i &lt;= 6; i++) {
+        System.out.printf("%4d", 2 * i);
+    }
+    System.out.println();
+}</program>
+
+<p>
+<idx><h>generalize</h></idx>
+Finally, we <em>generalize</em> the method to print multiples of other numbers by replacing the constant value <c>2</c> with a parameter <c>n</c>.
+This step is called <q>generalization</q>, because it makes the method more general (less specific):
+</p>
+
+<program>public static void printRow(int n) {
+    for (int i = 1; i &lt;= 6; i++) {
+        System.out.printf("%4d", n * i);  // generalized n
+    }
+    System.out.println();
+}</program>
+
+<p>
+Invoking this method with the argument <c>2</c> yields the same output as before.
+With the argument <c>3</c>, the output is as follows:
+</p>
+
+<console>
+<output>
+3   6   9  12  15  18
+</output>
+</console>
+
+<p>
+By now, you can probably guess how we are going to display a multiplication table: we'll invoke <c>printRow</c> repeatedly with different arguments.
+In fact, we'll use another loop to iterate through the rows:
+</p>
+
+<program>for (int i = 1; i &lt;= 6; i++) {
+    printRow(i);
+}</program>
+
+<p>
+And the output looks like this:
+</p>
+
+<console>
+<output>
+1   2   3   4   5   6
+   2   4   6   8  10  12
+   3   6   9  12  15  18
+   4   8  12  16  20  24
+   5  10  15  20  25  30
+   6  12  18  24  30  36
+</output>
+</console>
+
+</section>

@@ -1,0 +1,90 @@
+<section xml:id="designing-classes_constructors">
+<title>Constructors</title>
+<p>
+<idx><h>constructor</h></idx>
+<idx><h>method</h><h>constructor</h></idx>
+After declaring instance variables, the next step is to define a <em>constructor</em>, which is a special method that initializes the object.
+The syntax for constructors is similar to that of other methods, except for the following:
+</p>
+
+<p>
+<idx><h>static</h></idx>
+<ul>
+<li><p>The name of the constructor is the same as the name of the class.</p></li>
+<li><p>Constructors have no return type (and no return value).</p></li>
+<li><p>The keyword <c>static</c> is omitted.</p></li>
+</ul>
+</p>
+
+<p>
+Here is an example constructor for the <c>Time</c> class:
+</p>
+
+<program>public Time() {
+    this.hour = 0;
+    this.minute = 0;
+    this.second = 0.0;
+}</program>
+
+<p>
+This constructor does not take any arguments.
+Each line initializes an instance variable to <c>0</c> (which is midnight for a <c>Time</c> object).
+</p>
+
+<p>
+<idx><h>this</h></idx>
+<idx><h>keyword</h></idx>
+The name <c>this</c> is a keyword that refers to the object we are creating.
+You can use <c>this</c> the same way you use the name of any other object.
+For example, you can read and write the instance variables of <c>this</c>, and you can pass <c>this</c> as an argument to other methods.
+But you do not declare <c>this</c>, and you can't make an assignment to it.
+</p>
+
+<p>
+A common error when writing constructors is to put a <c>return</c> statement at the end.
+Like <c>void</c> methods, constructors do not return values.
+</p>
+
+<p>
+To create a <c>Time</c> object, you must use the <c>new</c> operator:
+</p>
+
+<program>public static void main(String[] args) {
+    Time time = new Time();
+}</program>
+
+<p>
+<idx><h>new</h></idx>
+<idx><h>operator</h><h>new</h></idx>
+When you use <c>new</c>, Java creates the object and invokes your constructor to initialize the instance variables.
+When the constructor is done, <c>new</c> returns a reference to the new object.
+In this example, the reference gets assigned to the variable <c>time</c>, which has type <c>Time</c>.
+<xref ref="fig_time">Figure</xref> shows the result.
+</p>
+
+<p>
+<idx><h>memory diagram</h></idx>
+<idx><h>diagram</h><h>memory</h></idx>
+</p>
+<figure xml:id="fig_time" >
+<caption>Memory diagram of a <c>Time</c> object.</caption>
+<image width="73%" source="images/time.png" />
+</figure>
+<p>
+<idx><h>recursion</h><h>infinite</h></idx>
+<idx><h>infinite recursion</h></idx>
+<idx><h>StackOverflowError</h></idx>
+Beginners sometimes make the mistake of using <c>new</c> in the constructor:
+</p>
+
+<program>public Time() {
+    new Time();         // StackOverflowError
+    this.hour = 0;
+    this.minute = 0;
+    this.second = 0.0;
+}</program>
+
+<p>
+Doing so causes an infinite recursion, since <c>new</c> invokes the <em>same</em> constructor, which uses <c>new</c> again, which invokes the constructor again, and so on.
+</p>
+</section>

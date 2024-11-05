@@ -1,0 +1,196 @@
+<section xml:id="immutable-objects_exercises">
+<title>Exercises</title>
+<p>
+The code for this chapter is in the <em>ch09</em> directory of <em>ThinkJavaCode2</em>.
+See <xref ref="code">page</xref> for instructions on how to download the repository.
+Before you start the exercises, we recommend that you compile and run the examples.
+</p>
+<exercise>
+<statement>
+<p>
+The point of this exercise is to explore Java types and fill in some of the details that aren't covered in the chapter.
+</p>
+
+<p>
+<idx><h>concatenate</h></idx>
+<ol>
+<li><p>Create a new program named <em>Test.java</em> and write a <c>main</c> method that contains expressions that combine various types using the <c>+</c> operator.
+For example, what happens when you <q>add</q> a <c>String</c> and a <c>char</c>?
+Does it perform character addition or string concatenation?
+What is the type of the result?</p></li>
+<li><p>Make a bigger copy of the following table and fill it in.
+At the intersection of each pair of types, you should indicate whether it is legal to use the <c>+</c> operator with these types, the operation that is performed (addition or concatenation), and the type of the result.
+<tabular>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row><cell></cell><cell>boolean</cell><cell><nbsp/>char<nbsp/></cell><cell><nbsp/><nbsp/><nbsp/><nbsp/>int<nbsp/><nbsp/><nbsp/><nbsp/></cell><cell>double</cell><cell>String</cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row><cell>boolean</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row><cell>char</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row><cell>int</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row><cell>double</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row><cell>String</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+</tabular></p></li>
+<li><p>Think about some of the choices the designers of Java made, based on this table.
+How many of the entries seem unavoidable, as if there was no other choice?
+How many seem like arbitrary choices from several equally reasonable possibilities?
+Which entries seem most problematic?</p></li>
+<li><p>Here's a puzzler: normally, the statement <c>x++</c> is exactly equivalent to <c>x = x + 1</c>.
+But if <c>x</c> is a <c>char</c>, it's not exactly the same!
+In that case, <c>x++</c> is legal, but <c>x = x + 1</c> causes an error.
+Try it out.
+See what the error message is, and then see if you can figure out what is going on.</p></li>
+<li><p>What happens when you add <c>""</c> (the empty string) to the other types; for example, <c>"" + 5</c>?</p></li>
+</ol>
+
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+<idx><h>factorial</h></idx>
+You might be sick of the <c>factorial</c> method by now, but we're going to do one more version.
+<ol>
+<li><p>Create a new program called <em>Big.java</em> and write an iterative version of <c>factorial</c> (using a <c>for</c> loop).</p></li>
+<li><p>Display a table of the integers from 0 to 30 along with their factorials.
+At some point around 15, you will probably see that the answers are not correct anymore.
+Why not?</p></li>
+<li><p>Convert <c>factorial</c> so that it performs its calculation using BigIntegers and returns a <c>BigInteger</c> as a result.
+You can leave the parameter alone; it will still be an integer.</p></li>
+<li><p>Try displaying the table again with your modified factorial method.
+Is it correct up to 30?
+How high can you make it go?</p></li>
+</ol>
+
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+Many encryption algorithms depend on the ability to raise large integers to a power.
+Here is a method that implements an efficient algorithm for integer exponentiation:
+</p>
+
+<program>public static int pow(int x, int n) {
+    if (n == 0) return 1;
+
+    // find x to the n/2 recursively
+    int t = pow(x, n / 2);
+
+    // if n is even, the result is t squared
+    // if n is odd, the result is t squared times x
+    if (n % 2 == 0) {
+        return t * t;
+    } else {
+        return t * t * x;
+    }
+}</program>
+
+<p>
+The problem with this method is that it works only if the result is small enough to be represented by an <c>int</c>.
+Rewrite it so that the result is a <c>BigInteger</c>.
+The parameters should still be integers, though.
+</p>
+
+<p>
+You should use the <c>BigInteger</c> methods <c>add</c> and <c>multiply</c>.
+But don't use <c>BigInteger.pow</c>; that would spoil the fun.
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+One way to calculate <m>e^x</m> is to use the following infinite series expansion.
+The <m>i</m>th term in the series is <m>x^i / i!</m>.
+<me>
+  e^x = 1 + x + x^2 / 2! + x^3 / 3! + x^4 / 4! + \ldots
+</me>
+<ol>
+<li><p>Write a method called <c>myexp</c> that takes <c>x</c> and <c>n</c> as parameters and estimates <m>e^x</m> by adding the first <c>n</c> terms of this series.
+You can use the <c>factorial</c> method from <xref ref="factorial">Section</xref> or your iterative version from the previous exercise.
+
+<idx><h>efficiency</h></idx></p></li>
+<li><p>You can make this method more efficient by observing that the numerator of each term is the same as its predecessor multiplied by <c>x</c>, and the denominator is the same as its predecessor multiplied by <c>i</c>.
+
+Use this observation to eliminate the use of <c>Math.pow</c> and <c>factorial</c>, and check that you get the same result.</p></li>
+<li><p>Write a method called <c>check</c> that takes a parameter, <c>x</c>, and displays <c>x</c>, <c>myexp(x)</c>, and <c>Math.exp(x)</c>.
+The output should look like this:
+
+
+<console>
+<output>
+1.0     2.708333333333333     2.718281828459045
+</output>
+</console>
+ 
+
+Use the escape sequence <c>'
+t'</c> to display a tab character between each of the values.</p></li>
+<li><p>Vary the number of terms in the series (the second argument that <c>check</c> sends to <c>myexp</c>) and see the effect on the accuracy of the result.
+Adjust this value until the estimated value agrees with the correct answer when <c>x</c> is 1.</p></li>
+<li><p>Write a loop in <c>main</c> that invokes <c>check</c> with the values 0.1, 1.0, 10.0, and 100.0.
+How does the accuracy of the result vary as <c>x</c> varies?
+Compare the number of digits of agreement rather than the difference between the actual and estimated values.</p></li>
+<li><p>Add a loop in <c>main</c> that checks <c>myexp</c> with the values -0.1, -1.0, -10.0, and -100.0.
+Comment on the accuracy.</p></li>
+</ol>
+
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+The goal of this exercise is to practice encapsulation and generalization using some of the examples in previous chapters.
+<ol>
+<li><p>Starting with the code in <xref ref="traversal">Section</xref>, write a method called <c>powArray</c> that takes a <c>double</c> array, <c>a</c>, and returns a new array that contains the elements of <c>a</c> squared.
+Generalize it to take a second argument and raise the elements of <c>a</c> to the given power.</p></li>
+<li><p>Starting with the code in <xref ref="enhanced">Section</xref>, write a method called <c>histogram</c> that takes an <c>int</c> array of scores from 0 to (but not including) 100, and returns a histogram of 100 counters.
+Generalize it to take the number of counters as an argument.</p></li>
+</ol>
+
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+<idx><h>encapsulation</h></idx>
+<idx><h>generalization</h></idx>
+The following code fragment traverses a string and checks whether it has the same number of opening and closing parentheses:
+</p>
+
+<program>String s = "((3 + 7) * 2)";
+int count = 0;
+
+for (int i = 0; i &lt; s.length(); i++) {
+    char c = s.charAt(i);
+    if (c == '(') {
+        count++;
+    } else if (c == ')') {
+        count--;
+    }
+}
+
+System.out.println(count);</program>
+
+<ol>
+<li><p>Encapsulate this fragment in a method that takes a string argument and returns the final value of <c>count</c>.</p></li>
+<li><p>Test your method with multiple strings, including some that are balanced and some that are not.</p></li>
+<li><p>Generalize the code so that it works on any string. What could you do to generalize it more?</p></li>
+</ol>
+</statement>
+</exercise>
+</section>

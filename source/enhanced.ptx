@@ -1,0 +1,54 @@
+<section xml:id="enhanced">
+<title>The Enhanced for Loop</title>
+<p>
+Since traversing arrays is so common, Java provides an alternative syntax that makes the code more compact.
+Consider a <c>for</c> loop that displays the elements of an array on separate lines:
+</p>
+
+<program>for (int i = 0; i &lt; values.length; i++) {
+    int value = values[i];
+    System.out.println(value);
+}</program>
+
+<p>
+We could rewrite the loop like this:
+</p>
+
+<program>for (int value : values) {
+    System.out.println(value);
+}</program>
+
+<p>
+<idx><h>enhanced for loop</h></idx>
+<idx><h>for</h><h>enhanced</h></idx>
+This statement is called an <em>enhanced for loop</em>, also known as the <q>for each</q> loop.
+You can read the code as, <q>for each <c>value</c> in <c>values</c></q>.
+It's conventional to use plural nouns for array variables and singular nouns for element variables.
+</p>
+
+<p>
+Notice how the single line <c>for (int value : values)</c> replaces the first two lines of the standard <c>for</c> loop.
+It hides the details of iterating each index of the array, and instead, focuses on the values themselves.
+</p>
+
+<p>
+Using the enhanced <c>for</c> loop, and removing the temporary variable, we can write the histogram code from the previous section more concisely:
+</p>
+
+<program>int[] counts = new int[100];
+for (int score : scores) {
+    counts[score]++;
+}</program>
+
+<p>
+Enhanced <c>for</c> loops often make the code more readable, especially for accumulating values.
+But they are not helpful when you need to refer to the index, as in search operations:
+</p>
+
+<program>for (double d : array) {
+    if (d == target) {
+        // array contains d, but we don't know where
+    }
+}</program>
+
+</section>

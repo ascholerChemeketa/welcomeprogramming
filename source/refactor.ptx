@@ -1,0 +1,70 @@
+<section xml:id="refactor">
+<title>Refactoring</title>
+<p>
+Whenever you see repeated code like <c>main</c>, you should think about ways to remove it.
+In <xref ref="eights">Chapter</xref>, we used inheritance to eliminate repeated code.
+We'll do something similar with <c>Conway</c> and <c>Langton</c>.
+</p>
+
+<p>
+First, we define a superclass named <c>Automaton</c>, in which we will put the code that <c>Conway</c> and <c>Langton</c> have in common:
+</p>
+
+<program>public class Automaton {
+    private GridCanvas grid;
+
+    public void run(String title, int rate) {
+        JFrame frame = new JFrame(title);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.add(this.grid);
+        frame.pack();
+        frame.setVisible(true);
+        this.mainloop(rate);
+    }
+}</program>
+
+<p>
+<c>Automaton</c> declares <c>grid</c> as an instance variable, so every <c>Automaton</c> <q>has<nbsp/>a</q> <c>GridCanvas</c>.
+It also provides <c>run</c>, which contains the code that creates and configures the <c>JFrame</c>.
+</p>
+
+<p>
+The <c>run</c> method takes two parameters: the window <c>title</c> and the frame <c>rate</c>; that is, the number of time steps to show per second.
+It uses <c>title</c> when creating the <c>JFrame</c>, and it passes <c>rate</c> to <c>mainloop</c>:
+</p>
+
+<program>private void mainloop(int rate) {
+    while (true) {
+
+        // update the drawing
+        this.update();
+        grid.repaint();
+
+        // delay the simulation
+        try {
+            Thread.sleep(1000 / rate);
+        } catch (InterruptedException e) {
+            // do nothing
+        }
+    }
+}</program>
+
+<p>
+<c>mainloop</c> contains the code you first saw in <xref ref="mainloop">Section</xref>.
+It runs a <c>while</c> loop forever (or until the window closes).
+Each time through the loop, it runs <c>update</c> to update <c>grid</c> and then <c>repaint</c> to redraw the grid.
+</p>
+
+<p>
+Then it calls <c>Thread.sleep</c> with a delay that depends on <c>rate</c>.
+For example, if <c>rate</c> is 2, we should draw two frames per second, so the delay is a half second, or 500 milliseconds.
+</p>
+
+<p>
+<idx><h>refactor</h></idx>
+<idx><h>design process</h></idx>
+This process of reorganizing existing code, without changing its behavior, is known as <em>refactoring</em>.
+We're almost finished; we just need to redesign <c>Conway</c> and <c>Langton</c> to extend <c>Automaton</c>.
+</p>
+</section>

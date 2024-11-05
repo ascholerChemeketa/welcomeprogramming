@@ -1,0 +1,95 @@
+<section xml:id="cardarray">
+<title>Arrays of Cards</title>
+<p>
+<idx><h>array</h><h>of objects</h></idx>
+<idx><h>object</h><h>array of</h></idx>
+Just as you can create an array of <c>String</c> objects, you can create an array of <c>Card</c> objects.
+The following statement creates an array of 52 cards.
+<xref ref="fig_cardarray">Figure</xref> shows the memory diagram for this array.
+</p>
+
+<program>Card[] cards = new Card[52];</program>
+  <figure xml:id="fig_cardarray" >
+<caption>Memory diagram of an unpopulated <c>Card</c> array.</caption>
+<image width="73%" source="images/cardarray.png" />
+</figure>
+<p>
+<idx><h>null</h></idx>
+Although we call it an <q>array of cards</q>, the array contains <em>references</em> to cards; it does not contain the <c>Card</c> objects themselves.
+Initially the references are all <c>null</c>.
+</p>
+
+<p>
+Even so, you can access the elements of the array in the usual way:
+</p>
+
+<program>if (cards[0] == null) {
+    System.out.println("No card yet!");
+}</program>
+
+<p>
+<idx><h>exception</h><h>NullPointer</h></idx>
+<idx><h>run-time error</h></idx>
+But if you try to access the instance variables of non-existent <c>Card</c> objects, you will get a <c>NullPointerException</c>:
+</p>
+
+<program>System.out.println(cards[0].rank);  // NullPointerException</program>
+
+<p>
+<idx><h>nesting</h></idx>
+<idx><h>loop</h><h>nested</h></idx>
+That code won't work until we put cards in the array.
+One way to populate the array is to write nested <c>for</c> loops:
+</p>
+
+<program>int index = 0;
+for (int suit = 0; suit &lt;= 3; suit++) {
+    for (int rank = 1; rank &lt;= 13; rank++) {
+        cards[index] = new Card(rank, suit);
+        index++;
+    }
+}</program>
+
+<p>
+The outer loop iterates suits from 0 to 3.
+For each suit, the inner loop iterates ranks from 1 to 13.
+Since the outer loop runs 4 times, and the inner loop runs 13 times for each suit, the body is executed 52 times.
+</p>
+
+<p>
+<idx><h>index</h></idx>
+We use a separate variable <c>index</c> to keep track of where in the array the next card should go.
+<xref ref="fig_cardarray2">Figure</xref> shows what the array looks like after the first two cards have been created.
+</p>
+<figure xml:id="fig_cardarray2" >
+<caption>Memory diagram of a <c>Card</c> array with two cards.</caption>
+<image width="73%" source="images/cardarray2.png" />
+</figure>
+<p>
+When you work with arrays, it is convenient to have a method that displays the contents.
+You have seen the pattern for traversing an array several times, so the following method should be familiar:
+</p>
+
+<p>
+<idx><h>printDeck</h></idx>
+</p>
+
+<program>public static void printDeck(Card[] cards) {
+    for (Card card : cards) {
+        System.out.println(card);
+    }
+}</program>
+
+<p>
+Since <c>cards</c> has type <c>Card[]</c>, pronounced <q>card array</q>, an element of <c>cards</c> has type <c>Card</c>.
+So <c>println</c> invokes the <c>toString</c> method in the <c>Card</c> class.
+</p>
+
+<p>
+Then again, we don't have to write our own <c>printDeck</c> method.
+The <c>Arrays</c> class provides a <c>toString</c> method that invokes <c>toString</c> on the elements of an array and concatenates the results:
+</p>
+
+<program>System.out.println(Arrays.toString(cards))</program>
+
+</section>

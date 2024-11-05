@@ -1,0 +1,95 @@
+<section xml:id="loops-strings_characters">
+<title>Characters</title>
+<p>
+Some of the most interesting problems in computer science involve searching and manipulating text.
+In the next few sections, we'll discuss how to apply loops to strings.
+Although the examples are short, the techniques work the same whether you have one word or one million words.
+</p>
+
+<p>
+<idx><h>charAt</h></idx>
+<idx><h>char</h></idx>
+<idx><h>type</h><h>char</h></idx>
+Strings provide a method named <c>charAt</c>.
+It returns a <c>char</c>, a data type that stores an individual character (as opposed to strings of them):
+</p>
+
+<program>String fruit = "banana";
+char letter = fruit.charAt(0);</program>
+
+<p>
+The argument <c>0</c> means that we want the character at <em>index</em> 0.
+String indexes range from 0 to <m>n-1</m>, where <m>n</m> is the length of the string.
+So the character assigned to <c>letter</c> is <c>'b'</c>:
+</p>
+
+<p>
+\ttfamily
+</p>
+<tabular>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row><cell>b</cell><cell>a</cell><cell>n</cell><cell>a</cell><cell>n</cell><cell>a</cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row><cell>0</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>4</cell><cell>5</cell></row>
+</tabular>
+<p>
+Characters work like the other data types you have seen.
+You can compare them using relational operators:
+</p>
+
+<program>if (letter == 'A') {
+    System.out.println("It's an A!");
+}</program>
+
+<p>
+<idx><h>quote mark</h></idx>
+<idx><h>escape sequence</h></idx>
+Character literals, like <c>'A'</c>, appear in single quotes.
+Unlike string literals, which appear in double quotes, character literals can contain only a single character.
+Escape sequences, like <c>'
+t'</c>, are legal because they represent a single character.
+</p>
+
+<p>
+The increment and decrement operators also work with characters.
+So this loop displays the letters of the alphabet:
+</p>
+
+<program>System.out.print("Roman alphabet: ");
+for (char c = 'A'; c &lt;= 'Z'; c++) {
+    System.out.print(c);
+}
+System.out.println();</program>
+
+<p>
+The output is shown here:
+</p>
+
+<console>
+<output>
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+</output>
+</console>
+
+<p>
+<idx><h>Unicode</h></idx>
+Java uses <em>Unicode</em> to represent characters, so strings can store text in other alphabets like Cyrillic and Greek, and non-alphabetic languages like Chinese.
+You can read more about it at the Unicode website (\url{https://unicode.org/}).
+</p>
+
+<p>
+In Unicode, each character is represented by a <q>code point</q>, which you can think of as an integer.
+The code points for uppercase Greek letters run from 913 to 937, so we can display the Greek alphabet like this:
+</p>
+
+<program>System.out.print("Greek alphabet: ");
+for (int i = 913; i &lt;= 937; i++) {
+    System.out.print((char) i);
+}
+System.out.println();</program>
+
+<p>
+This example uses a type cast to convert each integer (in the range) to the corresponding character.
+Try running the code and see what happens.
+</p>
+</section>

@@ -1,0 +1,68 @@
+<section xml:id="computer-programming_using-escape-sequences">
+<title>Using Escape Sequences</title>
+<p>
+It's possible to display multiple lines of output with only one line of code.
+You just have to tell Java where to put the line breaks:
+</p>
+
+<listing filename="Hello3.java">
+<program interactive="activecode">
+public class Hello3 {
+
+    public static void main(String[] args) {
+        System.out.print("Hello!\nHow are you doing?\n");
+    }
+}
+</program>
+</listing>
+
+<p>
+The output is two lines, each ending with a newline character:
+</p>
+
+<console>
+<output>
+Hello!
+How are you doing?
+</output>
+</console>
+
+<p>
+<idx><h>escape sequence</h></idx>
+Each <c>\n</c> is an <em>escape sequence</em>, or two characters of source code that represent a single character.
+(The backslash allows you to <em>escape</em> the string to write special characters.)
+Notice there is no space between <c>\n</c> and <c>How</c>.
+If you add a space there, there will be a space at the beginning of the second line.
+</p>
+<table xml:id="tab_escape" >
+<title>Common escape sequences</title>
+<tabular>
+<row bottom="minor"><cell></cell><cell></cell></row>
+<row><cell><c>\n</c></cell><cell>newline</cell></row>
+<row bottom="minor"><cell></cell><cell></cell></row>
+<row><cell><c>\t</c></cell><cell>tab</cell></row>
+<row bottom="minor"><cell></cell><cell></cell></row>
+<row><cell><c>\"</c></cell><cell>double quote</cell></row>
+<row bottom="minor"><cell></cell><cell></cell></row>
+<row><cell><c>\\</c></cell><cell>backslash</cell></row>
+<row bottom="minor"><cell></cell><cell></cell></row>
+</tabular>
+</table>
+<p>
+Java has a total of eight escape sequences, and the four most commonly used ones are listed in <xref ref="tab_escape">Table</xref>.
+For example, to write quotation marks inside of strings, you need to escape them with a backslash:
+</p>
+
+<program>System.out.println("She said \ "Hello!\ " to me.");</program>
+
+<p>
+The result is as follows:
+</p>
+
+<console>
+<output>
+She said "Hello!" to me.
+</output>
+</console>
+
+</section>

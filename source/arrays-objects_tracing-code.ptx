@@ -1,0 +1,61 @@
+<section xml:id="arrays-objects_tracing-code">
+<title>Tracing the Code</title>
+<p>
+<idx><h>tracing</h></idx>
+To see how binary search works, it's helpful to add the following print statement at the beginning of the loop:
+</p>
+
+<program>System.out.println(low + ", " + high);</program>
+
+<p>
+Using a sorted deck of cards, we can search for the Jack of Clubs like this:
+</p>
+
+<program>Card card = new Card(11, 0);
+System.out.println(binarySearch(cards, card));</program>
+
+<p>
+We expect to find this card at position 10 (since the Ace of Clubs is at position 0).
+Here is the output of <c>binarySearch</c>:
+</p>
+
+<console>
+<output>
+0, 51
+0, 24
+0, 11
+6, 11
+9, 11
+10
+</output>
+</console>
+
+<p>
+You can see the range of cards shrinking as the <c>while</c> loop runs, until eventually index 10 is found.
+If we search for a card that's not in the array<mdash/>like <c>new Card(15, 1)</c>, or the 15 of Diamonds<mdash/>we get the following:
+</p>
+
+<console>
+<output>
+0, 51
+26, 51
+26, 37
+26, 30
+26, 27
+-1
+</output>
+</console>
+
+<p>
+Each time through the loop, we cut the distance between <c>low</c> and <c>high</c> in half.
+After <m>k</m> iterations, the number of remaining cards is <m>52 / 2^k</m>.
+To find the number of iterations it takes to complete, we set <m>52 / 2^k = 1</m> and solve for <m>k</m>.
+The result is <m>\log_2 52</m>, which is about 5.7.
+So we might have to look at 5 or 6 cards, as opposed to all 52 if we did a sequential search.
+</p>
+
+<p>
+More generally, if the array contains <m>n</m> elements, binary search requires <m>\log_2 n</m> comparisons, and sequential search requires <m>n</m>.
+For large values of <m>n</m>, binary search is substantially faster.
+</p>
+</section>

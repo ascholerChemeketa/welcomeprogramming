@@ -1,0 +1,83 @@
+<section xml:id="graphics_graphics-methods">
+<title>Graphics Methods</title>
+<p>
+<idx><h>coordinate</h></idx>
+You are probably used to Cartesian <em>coordinates</em>, where <m>x</m> and <m>y</m> values can be positive or negative.
+In contrast, Java uses a coordinate system where the origin is in the upper-left corner.
+That way, <m>x</m> and <m>y</m> can always be positive integers.
+<xref ref="fig_coordinates">Figure</xref> shows these coordinate systems side by side.
+</p>
+<figure xml:id="fig_coordinates" >
+<caption>The difference between Cartesian coordinates and Java graphical coordinates.</caption>
+<image width="93%" source="images/coordinates.png" />
+</figure>
+<p>
+<idx><h>pixel</h></idx>
+Graphical coordinates are measured in <em>pixels</em>; each pixel corresponds to a dot on the screen.
+</p>
+
+<p>
+To draw on the canvas, you invoke methods on a <c>Graphics</c> object.
+You don't have to create the <c>Graphics</c> object; it gets created when you create the <c>Canvas</c>, and it gets passed as an argument to <c>paint</c>.
+</p>
+
+<p>
+The previous example used <c>fillOval</c>, which has the following signature:
+</p>
+
+<program>/**
+ * Fills an oval bounded by the specified rectangle with
+ * the current color.
+ */
+public void fillOval(int x, int y, int width, int height)</program>
+
+<p>
+<idx><h>bounding box</h></idx>
+The four parameters specify a <em>bounding box</em>, which is the rectangle in which the oval is drawn.
+<c>x</c> and <c>y</c> specify the location of the upper-left corner of the bounding box.
+The bounding box itself is not drawn (see <xref ref="fig_circle">Figure</xref>).
+</p>
+<figure xml:id="fig_circle" >
+<caption>An oval inside its bounding box.</caption>
+<image width="73%" source="images/circle.png" />
+</figure>
+<p>
+<idx><h>Color</h></idx>
+To choose the color of a shape, invoke <c>setColor</c> on the <c>Graphics</c> object:
+</p>
+
+<program>g.setColor(Color.RED);</program>
+
+<p>
+The <c>setColor</c> method determines the color of everything that gets drawn afterward.
+<c>Color.red</c> is a constant provided by the <c>Color</c> class; to use it, you have to <c>import java.awt.Color</c>.
+Other colors include the following:
+</p>
+
+<console>
+<output>
+BLACK       BLUE      CYAN     DARKGRAY   GRAY    LIGHTGRAY
+GREEN       MAGENTA   ORANGE   PINK       WHITE   YELLOW
+</output>
+</console>
+
+<p>
+<idx><h>RGB</h></idx>
+You can create your own colors by specifying the red, green, and blue (<em>RGB</em>) components.
+For example:
+</p>
+
+<program>Color purple = new Color(128, 0, 128);</program>
+
+<p>
+Each value is an integer in the range 0 (darkest) to 255 (lightest).
+The color <c>(0, 0, 0)</c> is black, and <c>(255, 255, 255)</c> is white.
+</p>
+
+<p>
+You can set the background color of the <c>Canvas</c> by invoking <c>setBackground</c>:
+</p>
+
+<program>canvas.setBackground(Color.WHITE);</program>
+
+</section>

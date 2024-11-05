@@ -1,0 +1,85 @@
+<section xml:id="immutable-objects_argument-validation">
+<title>Argument Validation</title>
+<p>
+As we discussed in <xref ref="validate">Section</xref>, you should never assume that program input will be in the correct format.
+Sometimes users make mistakes, such as pressing the wrong key or misreading instructions.
+</p>
+
+<p>
+<idx><h>hacker</h></idx>
+Or even worse, someone might make intentional <q>mistakes</q> to see what your program will do.
+One way hackers break into computer systems is by entering malicious input that causes a program to fail.
+</p>
+
+<p>
+Programmers can make mistakes too.
+It's difficult to write bug-free software, especially when working in teams on large projects.
+</p>
+
+<p>
+<idx><h>validate</h></idx>
+For all of these reasons, it's good practice to validate arguments passed to methods, including the <c>main</c> method.
+In the previous section, we did this by ensuring that <c>args.length</c> was not 0.
+</p>
+
+<p>
+<idx><h>Character</h></idx>
+As a further example, consider a method that checks whether the first word of a sentence is capitalized.
+We can write this method using the <c>Character</c> wrapper class:
+</p>
+
+<program>public static boolean isCapitalized(String str) {
+    return Character.isUpperCase(str.charAt(0));
+}</program>
+
+<p>
+The expression <c>str.charAt(0)</c> makes two assumptions: the string object referenced by <c>str</c> exists, and it has at least one character.
+What if these assumptions don't hold at run-time?
+</p>
+
+<p>
+<idx><h>NullPointerException</h></idx>
+<idx><h>exception</h><h>NullPointer</h></idx>
+<ul>
+<li><p>If <c>str</c> is <c>null</c>, invoking <c>charAt</c> will cause a <c>NullPointerException</c>, because you can't invoke a method on <c>null</c>.</p></li>
+<li><p>If <c>str</c> refers to an empty string, which is a <c>String</c> object with no characters, <c>charAt</c> will cause a <c>StringIndexOutOfBoundsException</c>, because there is no character at index <c>0</c>.</p></li>
+</ul>
+</p>
+
+<p>
+<idx><h>StringIndexOutOfBoundsException</h></idx>
+<idx><h>exception</h><h>StringIndexOutOfBounds</h></idx>
+We can prevent these exceptions by validating <c>str</c> <em>at the start</em> of the method.
+If it's invalid, we return before executing the rest of the method:
+</p>
+
+<program>public static boolean isCapitalized(String str) {
+    if (str == null || str.isEmpty()) {
+        return false;
+    }
+    return Character.isUpperCase(str.charAt(0));
+}</program>
+
+<p>
+Notice that <c>null</c> and <em>empty</em> are different concepts, as shown in <xref ref="fig_nullempty">Figure</xref>.
+The variable <c>str1</c> is <c>null</c>, meaning that it doesn't reference an object.
+The variable <c>str2</c> refers to the empty string, an object that exists.
+</p>
+<figure xml:id="fig_nullempty" >
+<caption>Memory diagram of <c>null</c> and empty string.</caption>
+<image width="73%" source="images/nullempty.png" />
+</figure>
+<p>
+Beginners sometimes make the mistake of checking for empty first.
+Doing so causes a <c>NullPointerException</c>, because you can't invoke methods on variables that are <c>null</c>:
+</p>
+
+<program>if (str.isEmpty() || str == null) {    // wrong!</program>
+
+<p>
+<idx><h>short circuit</h></idx>
+Checking for <c>null</c> first prevents the <c>NullPointerException</c>.
+If <c>str</c> is <c>null</c>, the <c>||</c> operator will short circuit (see <xref ref="shortcircuit">Section</xref>) and evaluate to <c>true</c> immediately.
+As a result, <c>str.isEmpty()</c> will not be called.
+</p>
+</section>

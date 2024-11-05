@@ -1,0 +1,69 @@
+<section xml:id="arrays-arrays_gridcanvas-class">
+<title>The GridCanvas Class</title>
+<p>
+Now that we have a <c>Cell</c> class and a way to represent a 2D array of cells, we can write a class to represent a grid of cells.
+We encapsulate the code from the previous section and generalize it to construct a grid with any number of rows and columns:
+</p>
+
+<program>public class GridCanvas extends Canvas {
+    private Cell[][] array;
+
+    public GridCanvas(int rows, int cols, int size) {
+        array = new Cell[rows][cols];
+        for (int r = 0; r &lt; rows; r++) {
+            int y = r * size;
+            for (int c = 0; c &lt; cols; c++) {
+                int x = c * size;
+                array[r][c] = new Cell(x, y, size);
+            }
+        }
+
+        // set the canvas size
+        setSize(cols * size, rows * size);
+    }
+}</program>
+
+<p>
+<idx><h>IS-A</h></idx>
+<idx><h>HAS-A</h></idx>
+<idx><h>Graphics</h></idx>
+Using vocabulary from the previous chapter, <c>GridCanvas</c> <q>is<nbsp/>a</q> <c>Canvas</c> that <q>has<nbsp/>a</q> 2D array of cells.
+By extending the <c>Canvas</c> class from <c>java.awt</c>, we inherit methods for drawing graphics on the screen.
+</p>
+
+<p>
+<idx><h>nested</h><h>arrays</h></idx>
+<idx><h>traversal</h></idx>
+In fact, the code is surprisingly straightforward: to draw the grid, we simply draw each cell.
+We use nested <c>for</c> loops to traverse the 2D array:
+</p>
+
+<program>public void draw(Graphics g) {
+    for (Cell[] row : array) {
+        for (Cell cell : row) {
+            cell.draw(g);
+        }
+    }
+}</program>
+
+<p>
+The outer loop traverses the rows; the inner loop traverses the cells in each row.
+You can almost read this method in English: <q>For each <c>row</c> in the <c>array</c>, and for each <c>cell</c> in the <c>row</c>, draw the <c>cell</c> in the graphics context.</q>
+Each cell contains its coordinates and size, so it knows how to draw itself.
+</p>
+
+<p>
+Classes that extend <c>Canvas</c> are supposed to provide a method called <c>paint</c> that <q>paints</q> the contents of the <c>Canvas</c>.
+It gets invoked when the <c>Canvas</c> is created and anytime it needs to be redrawn; for example, when its window is moved or resized.
+</p>
+
+<p>
+Here's the <c>paint</c> method for <c>GridCanvas</c>.
+When the window management system calls <c>paint</c>, <c>paint</c> calls <c>draw</c>, which draws the cells:
+</p>
+
+<program>public void paint(Graphics g) {
+    draw(g);
+}</program>
+
+</section>

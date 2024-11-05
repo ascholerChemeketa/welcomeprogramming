@@ -1,0 +1,85 @@
+<section xml:id="scanner">
+<title>The Scanner Class</title>
+<p>
+<idx><h>Scanner</h></idx>
+<idx><h>System.in</h></idx>
+The <c>System</c> class also provides the special value <c>System.in</c>, which is an <c>InputStream</c> that has methods for reading input from the keyboard.
+These methods are not convenient to use, but fortunately Java provides other classes that make it easy to handle common input tasks.
+</p>
+
+<p>
+<idx><h>class</h><h>utility</h></idx>
+<idx><h>utility class</h></idx>
+<idx><h>java.util</h></idx>
+For example, <c>Scanner</c> is a class that provides methods for inputting words, numbers, and other data.
+<c>Scanner</c> is provided by <c>java.util</c>, which is a package that contains various <q>utility classes</q>.
+Before you can use <c>Scanner</c>, you have to import it like this:
+</p>
+
+<program>import java.util.Scanner;</program>
+
+<p>
+<idx><h>import statement</h></idx>
+<idx><h>statement</h><h>import</h></idx>
+This <em>import statement</em> tells the compiler that when you refer to <c>Scanner</c>, you mean the one defined in <c>java.util</c>.
+Using an import statement is necessary because there might be another class named <c>Scanner</c> in another package.
+</p>
+
+<p>
+Next you have to initialize the <c>Scanner</c>.
+This line declares a <c>Scanner</c> variable named <c>in</c> and creates a <c>Scanner</c> that reads input from <c>System.in</c>:
+</p>
+
+<p>
+<idx><h>new</h></idx>
+<idx><h>operator</h><h>new</h></idx>
+</p>
+
+<program>Scanner in = new Scanner(System.in);</program>
+
+<p>
+The <c>Scanner</c> class provides a method called <c>nextLine</c> that reads a line of input from the keyboard and returns a <c>String</c>.
+Here's a complete example that reads two lines and repeats them back to the user:
+</p>
+
+<p>
+<idx><h>Echo.java</h></idx>
+</p>
+
+<listing filename="Echo.java">
+<program interactive="activecode">
+import java.util.Scanner;
+
+public class Echo {
+
+    public static void main(String[] args) {
+        String line;
+        Scanner in = new Scanner(System.in);
+
+        System.out.print("Type something: ");
+        line = in.nextLine();
+        System.out.println("You said: " + line);
+
+        System.out.print("Type something else: ");
+        line = in.nextLine();
+        System.out.println("You also said: " + line);
+    }
+}
+</program>
+</listing>
+
+<p>
+Import statements can't be inside a class definition.
+By convention, they are usually at the beginning of the file.
+If you omit the import statement, you get a compiler error like <q>cannot find symbol</q>.
+That means the compiler doesn't know where to find the definition for <c>Scanner</c>.
+</p>
+
+<p>
+<idx><h>java.lang</h></idx>
+You might wonder why we can use the <c>System</c> class without importing it.
+<c>System</c> belongs to the <c>java.lang</c> package, which is imported automatically.
+According to the documentation, <c>java.lang</c> <q>provides classes that are fundamental to the design of the Java programming language.</q>
+The <c>String</c> class is also part of <c>java.lang</c>.
+</p>
+</section>

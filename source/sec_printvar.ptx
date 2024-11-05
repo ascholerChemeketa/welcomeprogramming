@@ -1,0 +1,58 @@
+<section xml:id="sec_printvar">
+<title>Printing Variables</title>
+<p>
+You can display the current value of a variable by using <c>print</c> or <c>println</c>.
+The following statements declare a variable named <c>firstLine</c>, assign it the value <c>"Hello, again!"</c>, and display that value:
+</p>
+
+<program>String firstLine = "Hello, again!";
+System.out.println(firstLine);</program>
+
+<p>
+When we talk about displaying a variable, we generally mean the <em>value</em> of the variable.
+To display the <em>name</em> of a variable, you have to put it in quotes:
+</p>
+
+<program>System.out.print("The value of firstLine is ");
+System.out.println(firstLine);</program>
+
+<p>
+For this example, the output is as follows:
+</p>
+
+<console>
+<output>
+The value of firstLine is Hello, again!
+</output>
+</console>
+
+<p>
+Conveniently, the code for displaying a variable is the same regardless of its type.
+For example:
+</p>
+
+<program>int hour = 11;
+int minute = 59;
+System.out.print("The current time is ");
+System.out.print(hour);
+System.out.print(":");
+System.out.print(minute);
+System.out.println(".");</program>
+
+<p>
+The output of this program is shown here:
+</p>
+
+<console>
+<output>
+The current time is 11:59.
+</output>
+</console>
+
+<p>
+To output multiple values on the same line, it's common to use several <c>print</c> statements followed by <c>println</c> at the end.
+But don't forget the <c>println</c>!
+On many computers, the output from <c>print</c> is stored without being displayed until <c>println</c> is run; then the entire line is displayed at once.
+If you omit the <c>println</c>, the program might display the stored output at unexpected times or even terminate without displaying anything.
+</p>
+</section>

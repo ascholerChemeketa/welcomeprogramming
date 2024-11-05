@@ -1,0 +1,89 @@
+<section xml:id="recursion">
+<title>Recursive Void Methods</title>
+<p>
+<idx><h>countdown</h></idx>
+Consider the following example:
+</p>
+
+<program>public static void countdown(int n) {
+    if (n == 0) {
+        System.out.println("Blastoff!");
+    } else {
+        System.out.println(n);
+        countdown(n - 1);
+    }
+}</program>
+
+<p>
+The name of the method is <c>countdown</c>; it takes a single integer as a parameter.
+If the parameter is 0, it displays the word <c>Blastoff!</c>.
+Otherwise, it displays the number and then invokes itself, passing <c>n - 1</c> as the argument.
+</p>
+
+<p>
+What happens if we invoke <c>countdown(3)</c> from <c>main</c>?
+</p>
+<blockquote>
+The execution of <c>countdown</c> begins with <c>n == 3</c>, and since <c>n</c> is not 0, it displays the value 3, and then invokes itself...
+<blockquote>
+The execution of <c>countdown</c> begins with <c>n == 2</c>, and since <c>n</c> is not 0, it displays the value 2, and then invokes itself...
+<blockquote>
+The execution of <c>countdown</c> begins with <c>n == 1</c>, and since <c>n</c> is not 0, it displays the value 1, and then invokes itself...
+<blockquote>
+The execution of <c>countdown</c> begins with <c>n == 0</c>, and since <c>n</c> is 0, it displays the word <c>Blastoff!</c><nbsp/>and then returns.
+</blockquote>
+The <c>countdown</c> that got <c>n == 1</c> returns.
+</blockquote>
+The <c>countdown</c> that got <c>n == 2</c> returns.
+</blockquote>
+The <c>countdown</c> that got <c>n == 3</c> returns.
+</blockquote>
+<p>
+And then you're back in <c>main</c>.
+So the total output looks like this:
+</p>
+
+<console>
+<output>
+3
+2
+1
+Blastoff!
+</output>
+</console>
+
+<p>
+As a second example, we'll rewrite the methods <c>newLine</c> and <c>threeLine</c> from <xref ref="adding_methods">Section</xref>.
+Here they are again:
+</p>
+
+<program>public static void newLine() {
+    System.out.println();
+}
+
+public static void threeLine() {
+    newLine();
+    newLine();
+    newLine();
+}</program>
+
+<p>
+<idx><h>newline</h></idx>
+Although these methods work, they would not help if we wanted to display two newlines, or maybe 100.
+A more general alternative would be the following:
+</p>
+
+<program>public static void nLines(int n) {
+    if (n > 0) {
+        System.out.println();
+        nLines(n - 1);
+    }
+}</program>
+
+<p>
+This method takes an integer, <c>n</c>, as a parameter and displays <c>n</c> newlines.
+The structure is similar to <c>countdown</c>.
+As long as <m>n</m> is greater than 0, it displays a newline and then invokes itself to display <m>(n-1)</m> additional newlines.
+The total number of newlines is <m>1 + (n - 1)</m>, which is just what we wanted: <m>n</m>.
+</p>
+</section>

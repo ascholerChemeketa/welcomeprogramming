@@ -1,0 +1,54 @@
+<section xml:id="aliasing">
+<title>Aliasing Revisited</title>
+<p>
+<idx><h>reference</h></idx>
+Remember that when you assign an object to a variable, you are assigning a <em>reference</em> to an object.
+It is possible to have multiple variables that refer to the same object.
+For example, this code creates two variables that refer to the same <c>Rectangle</c>:
+</p>
+
+<program>Rectangle box1 = new Rectangle(0, 0, 100, 200);
+Rectangle box2 = box1;</program>
+
+<p>
+<xref ref="fig_aliasing">Figure</xref> shows the result: <c>box1</c> and <c>box2</c> refer to the same object, so any changes that affect one variable also affect the other.
+</p>
+<figure xml:id="fig_aliasing" >
+<caption>Memory diagram showing two variables that refer to the same <c>Rectangle</c> object.</caption>
+<image width="73%" source="images/aliasing.png" />
+</figure>
+<p>
+For example, the following code uses <c>grow</c> to make <c>box1</c> bigger by 50 units in all directions.
+It decreases <c>x</c> and <c>y</c> by 50, and it increases <c>height</c> and <c>width</c> by 100:
+</p>
+
+<program>box1.grow(50, 50);                // grow box1 (alias)</program>
+
+<p>
+The result is shown in <xref ref="fig_aliasing2">Figure</xref>.
+</p>
+<figure xml:id="fig_aliasing2" >
+<caption>Memory diagram showing the effect of invoking <c>grow</c>.</caption>
+<image width="73%" source="images/aliasing2.png" />
+</figure>
+<p>
+Now, if we print <c>box1</c>, we are not surprised to see that it has changed:
+</p>
+
+<program>java.awt.Rectangle[x=-50,y=-50,width=200,height=300]</program>
+
+<p>
+And if we print <c>box2</c>, we should not be surprised to see that it has changed too, because it refers to the same object:
+</p>
+
+<program>java.awt.Rectangle[x=-50,y=-50,width=200,height=300]</program>
+
+<p>
+<idx><h>aliasing</h></idx>
+This scenario is called <q>aliasing</q> because a single object has multiple names, or aliases, that refer to it.
+</p>
+
+<p>
+As you can tell from this simple example, code that involves aliasing can get confusing fast, and it can be difficult to debug.
+</p>
+</section>
