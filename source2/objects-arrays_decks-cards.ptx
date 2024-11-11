@@ -1,0 +1,83 @@
+<section xml:id="objects-arrays_decks-cards">
+<title>Decks of Cards</title>
+<p>
+<idx><h>Deck</h></idx>
+Here is the beginning of a <c>Deck</c> class that encapsulates an array of <c>Card</c> objects:
+</p>
+
+<program>
+public class Deck {
+    private Card[] cards;
+
+    public Deck(int n) {
+        this.cards = new Card[n];
+    }
+
+    public Card[] getCards() {
+        return this.cards;
+    }
+}
+</program>
+
+<p>
+<idx><h>constructor</h></idx>
+<idx><h>memory diagram</h></idx>
+<idx><h>diagram</h><h>memory</h></idx>
+The constructor initializes the instance variable with an array of <c>n</c> cards, but it doesn't create any <c>Card</c> objects.
+<xref ref="fig_deckobject">Figure</xref> shows what a <c>Deck</c> looks like with no cards.
+</p>
+<figure xml:id="fig_deckobject" >
+<caption>Memory diagram of an unpopulated <c>Deck</c> object.</caption>
+<image width="73%" source="images/deckobject.png" />
+</figure>
+<p>
+We'll add another constructor that creates a standard 52-card array and populates it with <c>Card</c> objects:
+</p>
+
+<program>
+public Deck() {
+    this.cards = new Card[52];
+    int index = 0;
+    for (int suit = 0; suit &lt;= 3; suit++) {
+        for (int rank = 1; rank &lt;= 13; rank++) {
+            this.cards[index] = new Card(rank, suit);
+            index++;
+        }
+    }
+}
+</program>
+
+<p>
+This method is similar to the example in <xref ref="cardarray">Section</xref>; we just turned it into a constructor.
+We can use it to create a complete <c>Deck</c> like this:
+</p>
+
+<program>
+Deck deck = new Deck();
+</program>
+
+<p>
+<idx><h>printDeck</h></idx>
+Now that we have a <c>Deck</c> class, we have a logical place to put methods that pertain to decks.
+Looking at the methods we have written so far, one obvious candidate is <c>printDeck</c> from <xref ref="cardarray">Section</xref>.
+Here's how it looks, rewritten as an instance method of <c>Deck</c>:
+</p>
+
+<program>
+public void print() {
+    for (Card card : this.cards) {
+        System.out.println(card);
+    }
+}
+</program>
+
+<p>
+Notice that when we transform a static method into an instance method, the code is shorter.
+Here's how we invoke it:
+</p>
+
+<program>
+deck.print();
+</program>
+
+</section>

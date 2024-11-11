@@ -1,0 +1,111 @@
+<section xml:id="javadoc_reading-documentation">
+<title>Reading Documentation</title>
+<p>
+<idx><h>documentation</h></idx>
+As an example, let's look at the documentation for <c>Scanner</c>, a class we first used in <xref ref="scanner">Section</xref>.
+You can find the documentation quickly by doing a web search for <q>Java Scanner</q>.
+<xref ref="fig_scanner">Figure</xref> shows a screenshot of the page.
+</p>
+<figure xml:id="fig_scanner" >
+<caption>The documentation for <c>Scanner</c>.</caption>
+<image width="95%" source="images/scanner.png" />
+</figure>
+<p>
+Documentation for other classes uses a similar format.
+The first line is the package that contains the class, such as <c>java.util</c>.
+The second line is the name of the class.
+The <q>All Implemented Interfaces</q> section lists some of the functionality a <c>Scanner</c> has.
+</p>
+
+<p>
+The next section of the documentation is a narrative that explains the purpose of the class and includes examples of how to use it.
+This text can be difficult to read, because it may use terms you have not yet learned.
+But the examples are often very useful.
+A good way to get started with a new class is to paste the examples into a test file and see if you can compile and run them.
+</p>
+
+<p>
+One of the examples shows how you can use a <c>Scanner</c> to read input from a <c>String</c> instead of <c>System.in</c>:
+</p>
+
+<program>
+String input = "1 fish 2 fish red fish blue fish";
+Scanner s = new Scanner(input);
+</program>
+
+<p>
+After the narrative, code examples, and other details, you will find the following tables:
+<ul>
+<li>
+<title>Constructor Summary:</title>
+<p>
+Ways of creating, or constructing, a <c>Scanner</c>.</p></li>
+<li>
+<title>Method Summary:</title>
+<p>
+The list of methods that the <c>Scanner</c> class provides.</p></li>
+<li>
+<title>Constructor Detail:</title>
+<p>
+More information about how to create a <c>Scanner</c>.</p></li>
+<li>
+<title>Method Detail:</title>
+<p>
+More information about each method.</p></li>
+</ul>
+</p>
+
+<p>
+For example, here is the summary information for <c>nextInt</c>:
+</p>
+
+<console>
+<output>
+public int nextInt()
+Scans the next token of the input as an int.
+</output>
+</console>
+
+<p>
+<idx><h>signature</h></idx>
+The first line is the method's <em>signature</em>, which specifies the name of the method and its parameters (none). The type it returns (<c>int</c>) is not part of the signature.
+The next line is a short description of what it does.
+</p>
+
+<p>
+The <q>Method Detail</q> explains more:
+</p>
+
+<console>
+<output>
+public int nextInt()
+Scans the next token of the input as an int.
+
+An invocation of this method of the form nextInt() behaves in
+exactly the same way as the invocation nextInt(radix), where
+radix is the default radix of this scanner.
+
+Returns:
+the int scanned from the input
+
+Throws:
+InputMismatchException - if the next token does not match
+    the Integer regular expression, or is out of range
+NoSuchElementException - if input is exhausted
+IllegalStateException - if this scanner is closed
+</output>
+</console>
+
+<p>
+The <q>Returns</q> section describes the result when the method succeeds.
+In contrast, the <q>Throws</q> section describes possible errors and exceptions that may occur.
+Exceptions are said to be thrown, like a referee throwing a flag, or like a toddler throwing a fit.
+</p>
+
+<p>
+It might take you some time to get comfortable reading documentation and learning which parts to ignore.
+But it's worth the effort.
+Knowing what's available in the library helps you avoid reinventing the wheel.
+And a little bit of documentation can save you a lot of debugging.
+</p>
+</section>

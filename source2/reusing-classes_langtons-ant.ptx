@@ -1,0 +1,119 @@
+<section xml:id="reusing-classes_langtons-ant">
+<title>Langton's Ant</title>
+<p>
+We begin by defining a <c>Langton</c> class that has a grid and information about the ant.
+The constructor takes the grid dimensions as parameters:
+</p>
+
+<program>
+public class Langton {
+    private GridCanvas grid;
+    private int xpos;
+    private int ypos;
+    private int head; // 0=North, 1=East, 2=South, 3=West
+
+    public Langton(int rows, int cols) {
+        grid = new GridCanvas(rows, cols, 10);
+        xpos = rows / 2;
+        ypos = cols / 2;
+        head = 0;
+    }
+}
+</program>
+
+<p>
+<idx><h>state</h></idx>
+<c>grid</c> is a <c>GridCanvas</c> object, which represents the state of the cells.
+<c>xpos</c> and <c>ypos</c> are the coordinates of the ant, and <c>head</c> is the <q>heading</q> of the ant; that is, which direction it is facing.
+<c>head</c> is an integer with four possible values, where <c>0</c> means the ant is facing <q>north</q> (i.e., toward the top of the screen), <c>1</c> means <q>east</q>, etc.
+</p>
+
+<p>
+Here's an <c>update</c> method that implements the rules for Langton's Ant:
+</p>
+
+<program>
+public void update() {
+    flipCell();
+    moveAnt();
+}
+</program>
+
+<p>
+The <c>flipCell</c> method gets the <c>Cell</c> at the ant's location, figures out which way to turn, and changes the state of the cell:
+</p>
+
+<program>
+private void flipCell() {
+    Cell cell = grid.getCell(xpos, ypos);
+    if (cell.isOff()) {
+        head = (head + 1) % 4;    // turn right
+        cell.turnOn();
+    } else {
+        head = (head + 3) % 4;    // turn left
+        cell.turnOff();
+    }
+}
+</program>
+
+<p>
+We use the remainder operator, <c>%</c>, to make <c>head</c> wrap around: if <c>head</c> is 3 and we turn right, it wraps around to 0; if <c>head</c> is 0 and we turn left, it wraps around to 3.
+</p>
+
+<p>
+Notice that to turn right, we add 1 to <c>head</c>.
+To turn left, we could subtract 1, but <c>-1 % 4</c> is <c>-1</c> in Java.
+So we add 3 instead, since one left turn is the same as three right turns.
+</p>
+
+<p>
+The <c>moveAnt</c> method moves the ant forward one square, using <c>head</c> to determine which way is forward:
+</p>
+
+<program>
+private void moveAnt() {
+    if (head == 0) {
+        ypos -= 1;
+    } else if (head == 1) {
+        xpos += 1;
+    } else if (head == 2) {
+        ypos += 1;
+    } else {
+        xpos -= 1;
+    }
+}
+</program>
+
+<p>
+Here is the <c>main</c> method we use to create and display the <c>Langton</c> object:
+</p>
+
+<program>
+public static void main(String[] args) {
+    String title = "Langton's Ant";
+    Langton game = new Langton(61, 61);
+    JFrame frame = new JFrame(title);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setResizable(false);
+    frame.add(game.grid);
+    frame.pack();
+    frame.setVisible(true);
+    game.mainloop();
+}
+</program>
+
+<p>
+Most of this code is the same as the <c>main</c> we used to create and run <c>Conway</c>, in <xref ref="conwaymain">Section</xref>.
+It creates and configures a <c>JFrame</c> and runs <c>mainloop</c>.
+</p>
+
+<p>
+And that's everything!
+If you run this code with a grid size of \mbox{61 x 61} or larger, you will see the ant eventually settle into a repeating pattern.
+</p>
+
+<p>
+Because we designed <c>Cell</c> and <c>GridCanvas</c> to be reusable, we didn't have to modify them at all.
+However, we now have two copies of <c>main</c> and <c>mainloop</c><mdash/>one in <c>Conway</c>, and one in <c>Langton</c>.
+</p>
+</section>

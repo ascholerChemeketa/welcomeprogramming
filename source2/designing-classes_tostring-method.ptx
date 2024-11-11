@@ -1,0 +1,93 @@
+<section xml:id="designing-classes_tostring-method">
+<title>The toString Method</title>
+<p>
+Every object has a method called <c>toString</c> that returns a string representation of the object.
+When you display an object using <c>print</c> or <c>println</c>, Java invokes the object's <c>toString</c> method.
+</p>
+
+<p>
+<idx><h>override</h></idx>
+By default, it simply displays the type of the object and its address in hexadecimal.
+So, say you create a <c>Time</c> object and display it with <c>println</c>:
+</p>
+
+<program>
+public static void main(String[] args) {
+    Time time = new Time(11, 59, 59.9);
+    System.out.println(time);
+}
+</program>
+
+<p>
+<idx><h>print</h></idx>
+<idx><h>statement</h><h>print</h></idx>
+<idx><h>object</h><h>displaying</h></idx>
+The output looks something like this:
+</p>
+
+<console>
+<output>
+Time@80cc7c0
+</output>
+</console>
+
+<p>
+<idx><h>address</h></idx>
+<idx><h>hexadecimal</h></idx>
+This address can be useful for debugging, if you want to keep track of individual objects.
+</p>
+
+<p>
+<idx><h>toString</h></idx>
+<idx><h>method</h><h>toString</h></idx>
+But you can <em>override</em> this behavior by providing your own <c>toString</c> method.
+For example, here is a <c>toString</c> method for <c>Time</c>:
+</p>
+
+<program>
+public String toString() {
+    return String.format("%02d:%02d:%04.1f\n",
+        this.hour, this.minute, this.second);
+}
+</program>
+
+<p>
+<idx><h>instance method</h></idx>
+<idx><h>method</h><h>instance</h></idx>
+The definition does not have the keyword <c>static</c>, because it is not a static method.
+It is an <em>instance method</em>, so called because when you invoke it, you invoke it on an instance of the class.
+Instance methods are sometimes called <q>non-static</q>; you might see this term in an error message.
+</p>
+
+<p>
+The body of the method is similar to <c>printTime</c> in the previous section, with two changes:
+<ul>
+<li><p>Inside the method, we use <c>this</c> to refer to the current instance; that is, the object the method is invoked on.</p></li>
+<li><p>Instead of <c>printf</c>, it uses <c>String.format</c>, which returns a formatted <c>String</c> rather than displaying it.</p></li>
+</ul>
+</p>
+
+<p>
+<idx><h>string</h><h>format</h></idx>
+Now you can call <c>toString</c> directly:
+</p>
+
+<program>
+Time time = new Time(11, 59, 59.9);
+String s = time.toString();
+</program>
+
+<p>
+The value of <c>s</c> is the string <c>"11:59:59.9"</c>.
+You can also invoke <c>toString</c> indirectly by invoking <c>print</c> or <c>println</c>:
+</p>
+
+<program>
+System.out.println(time);
+</program>
+
+<p>
+This code displays the string <c>"11:59:59.9"</c>.
+Either way, when you use <c>this</c> inside <c>toString</c>, it refers to the same object as <c>time</c>.
+</p>
+</section>

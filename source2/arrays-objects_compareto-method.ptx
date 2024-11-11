@@ -1,0 +1,78 @@
+<section xml:id="arrays-objects_compareto-method">
+<title>The compareTo Method</title>
+<p>
+<idx><h>equivalent</h></idx>
+As you saw in <xref ref="equals">Section</xref>, it's helpful to create an <c>equals</c> method to test whether two objects are equivalent:
+</p>
+
+<program>
+public boolean equals(Card that) {
+    return this.rank == that.rank
+        &amp;&amp; this.suit == that.suit;
+}
+</program>
+
+<p>
+<idx><h>operator</h><h>logical</h></idx>
+<idx><h>logical operator</h></idx>
+It would also be nice to have a method for comparing cards, so we can tell if one is higher or lower than another.
+For primitive types, we can use comparison operators like <c>LESS</c> and <c>MORE</c> to compare values.
+But these operators don't work for object types.
+</p>
+
+<p>
+For strings, Java provides a <c>compareTo</c> method, as you saw in <xref ref="strcmp">Section</xref>.
+We can write our own version of <c>compareTo</c> for the classes that we define, as we did for the <c>equals</c> method.
+</p>
+
+<p>
+<idx><h>ordering</h></idx>
+<idx><h>complete ordering</h></idx>
+<idx><h>partial ordering</h></idx>
+Some types are <q>totally ordered</q>, which means that you can compare any two values and tell which is bigger.
+Integers and strings are totally ordered.
+Other types are <q>unordered</q>, which means that there is no meaningful way to say that one element is bigger than another.
+In Java, the <c>boolean</c> type is unordered; if you try to compare <c>true LESS false</c>, you get a compiler error.
+</p>
+
+<p>
+The set of playing cards is <q>partially ordered</q>, which means that sometimes we can compare cards and sometimes not.
+For example, we know that the 3 of Clubs is higher than the 2 of Clubs, and the 3 of Diamonds is higher than the 3 of Clubs.
+But which is better, the 3 of Clubs or the 2 of Diamonds?
+One has a higher rank, but the other has a higher suit.
+</p>
+
+<p>
+<idx><h>compareTo</h></idx>
+To make cards comparable, we have to decide which is more important: rank or suit.
+The choice is arbitrary, and it might be different for different games.
+But when you buy a new deck of cards, it comes sorted with all the Clubs together, followed by all the Diamonds, and so on.
+So for now, let's say that suit is more important.
+With that decided, we can write <c>compareTo</c> as follows:
+</p>
+
+<program>
+public int compareTo(Card that) {
+    if (this.suit &lt; that.suit) {
+        return -1;
+    }
+    if (this.suit > that.suit) {
+        return 1;
+    }
+    if (this.rank &lt; that.rank) {
+        return -1;
+    }
+    if (this.rank > that.rank) {
+        return 1;
+    }
+    return 0;
+}
+</program>
+
+<p>
+<c>compareTo</c> returns <c>-1</c> if <c>this</c> is a lower card, <c>+1</c> if <c>this</c> is a higher card, and <c>0</c> if <c>this</c> and <c>that</c> are equivalent.
+It compares suits first.
+If the suits are the same, it compares ranks.
+If the ranks are also the same, it returns <c>0</c>.
+</p>
+</section>

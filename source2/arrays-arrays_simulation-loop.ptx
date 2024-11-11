@@ -1,0 +1,42 @@
+<section xml:id="arrays-arrays_simulation-loop">
+<title>The Simulation Loop</title>
+<p>
+At the end of <c>main</c>, we call <c>mainloop</c>, which uses a <c>while</c> loop to simulate the time steps of the Game of Life.
+Here's a rough draft of this method:
+</p>
+
+<program>
+private void mainloop() {
+    while (true) {
+        this.update();
+        grid.repaint();
+        Thread.sleep(500);    // compiler error
+    }
+}
+</program>
+
+<p>
+During each time step, we update the state of the game and repaint the <c>grid</c>.
+We will present the <c>update</c> method in <xref ref="sec_update">Section</xref>.
+</p>
+
+<p>
+<c>repaint</c> comes from the <c>Canvas</c> class.
+By default, it calls the <c>paint</c> method we provided, which calls <c>draw</c>.
+The reason we use it here is that <c>repaint</c> does not require a <c>Graphics</c> object as a parameter.
+</p>
+
+<p>
+<idx><h>Thread.sleep</h></idx>
+<idx><h>sleep</h></idx>
+<c>Thread.sleep(500)</c> causes the program to <q>sleep</q> for 500 milliseconds, or a half second.
+Otherwise, the program would run so fast we would not be able to see the animation.
+</p>
+
+<p>
+<idx><h>InterruptedException</h></idx>
+<idx><h>exception</h><h>Interrupted</h></idx>
+There's just one problem: compiling this code results in the error <q>unreported exception InterruptedException</q>.
+This message means we need to do some exception handling.
+</p>
+</section>

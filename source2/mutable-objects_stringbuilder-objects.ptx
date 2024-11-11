@@ -1,0 +1,70 @@
+<section xml:id="mutable-objects_stringbuilder-objects">
+<title>StringBuilder Objects</title>
+<p>
+Here's an example in which mutable objects are efficient and arguably more natural: building a long string by concatenating lots of small pieces.
+</p>
+
+<p>
+Strings are particularly inefficient for this operation.
+For example, consider the following program, which reads 10 lines from <c>System.in</c> and concatenates them into a single <c>String</c>:
+</p>
+
+<program>
+String text = "";
+for (int i = 0; i &lt; 10; i++) {
+    String line = in.nextLine();        // new string
+    text = text + line + '\n';    // two more strings
+}
+System.out.print("You entered:\n" + text);
+</program>
+
+<p>
+Inside the <c>for</c> loop, <c>in.nextLine()</c> returns a new string each time it is invoked.
+The next line of code concatenates <c>text</c> and <c>line</c>, which creates another string, and then appends the newline character, which creates yet another string.
+</p>
+
+<p>
+As a result, this loop creates 30 <c>String</c> objects!
+At the end, <c>text</c> refers to the most recent <c>String</c>.
+Garbage collection deletes the rest, but that's a lot of garbage for a seemingly simple program.
+</p>
+
+<p>
+<idx><h>StringBuilder</h></idx>
+The Java library provides the <c>StringBuilder</c> class for just this reason.
+It's part of the <c>java.lang</c> package, so you don't need to import it.
+Because <c>StringBuilder</c> objects are mutable, they can implement concatenation more efficiently.
+</p>
+
+<p>
+Here's a version of the program that uses <c>StringBuilder</c>:
+</p>
+
+<program>
+StringBuilder text = new StringBuilder();
+for (int i = 0; i &lt; 10; i++) {
+    String line = in.nextLine();
+    text.append(line);
+    text.append('\n');
+}
+System.out.print("You entered:\n" + text);
+</program>
+
+<p>
+The <c>append</c> method takes a <c>String</c> as a parameter and appends it to the end of the <c>StringBuilder</c>.
+Each time it is invoked, it modifies the <c>StringBuilder</c>; it doesn't create any new objects.
+</p>
+
+<p>
+If needed, you can return the <c>StringBuilder</c>'s contents as a string by calling the <c>toString</c> method:
+</p>
+
+<program>
+String result = text.toString();
+</program>
+
+<p>
+The <c>StringBuilder</c> class also provides methods for inserting and deleting parts of strings efficiently.
+Programs that manipulate large amounts of text run much faster if you use <c>StringBuilder</c> instead of <c>String</c>.
+</p>
+</section>

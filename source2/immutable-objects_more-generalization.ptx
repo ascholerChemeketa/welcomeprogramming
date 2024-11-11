@@ -1,0 +1,110 @@
+<section xml:id="immutable-objects_more-generalization">
+<title>More Generalization</title>
+<p>
+The previous result is similar to the <q>nested loops</q> approach in <xref ref="nested">Section</xref>.
+However, the inner loop is now encapsulated in the <c>printRow</c> method.
+We can encapsulate the outer loop in a method too:
+</p>
+
+<program>
+public static void printTable() {
+    for (int i = 1; i &lt;= 6; i++) {
+        printRow(i);
+    }
+}
+</program>
+
+<p>
+The initial version of <c>printTable</c> always displays six rows.
+We can generalize it by replacing the literal <c>6</c> with a parameter:
+</p>
+
+<program>
+public static void printTable(int rows) {
+    for (int i = 1; i &lt;= rows; i++) {     // generalized rows
+        printRow(i);
+    }
+}
+</program>
+
+<p>
+Here is the output of <c>printTable(7)</c>:
+</p>
+
+<console>
+<output>
+1   2   3   4   5   6
+   2   4   6   8  10  12
+   3   6   9  12  15  18
+   4   8  12  16  20  24
+   5  10  15  20  25  30
+   6  12  18  24  30  36
+   7  14  21  28  35  42
+</output>
+</console>
+
+<p>
+That's better, but it always displays the same number of columns.
+We can generalize more by adding a parameter to <c>printRow</c>:
+</p>
+
+<program>
+public static void printRow(int n, int cols) {
+    for (int i = 1; i &lt;= cols; i++) {     // generalized cols
+        System.out.printf("%4d", n * i);
+    }
+    System.out.println();
+}
+</program>
+
+<p>
+Now <c>printRow</c> takes two parameters: <c>n</c> is the value whose multiples should be displayed, and <c>cols</c> is the number of columns.
+Since we added a parameter to <c>printRow</c>, we also have to change the line in <c>printTable</c> where it is invoked:
+</p>
+
+<program>
+public static void printTable(int rows) {
+    for (int i = 1; i &lt;= rows; i++) {
+        printRow(i, rows);
+    }
+}
+</program>
+
+<p>
+When this line executes, it evaluates <c>rows</c> and passes the value, which is <c>7</c> in this example, as an argument.
+In <c>printRow</c>, this value is assigned to <c>cols</c>.
+As a result, the number of columns equals the number of rows, so we get a square \mbox{7 x 7} table, instead of the previous \mbox{7 x 6} table.
+</p>
+
+<p>
+When you generalize a method appropriately, you often find that it has capabilities you did not plan.
+For example, you might notice that the multiplication table is symmetric.
+Since <m>ab = ba</m>, all the entries in the table appear twice.
+You could save ink by printing half of the table, and you would have to change only <em>one line</em> of <c>printTable</c>:
+</p>
+
+<program>
+printRow(i, i);  // using i for both n and cols
+</program>
+
+<p>
+This means the length of each row is the same as its row number.
+The result is a triangular multiplication table:
+</p>
+
+<console>
+<output>
+1
+   2   4
+   3   6   9
+   4   8  12  16
+   5  10  15  20  25
+   6  12  18  24  30  36
+   7  14  21  28  35  42  49
+</output>
+</console>
+
+<p>
+Generalization makes code more versatile, more likely to be reused, and sometimes easier to write.
+</p>
+</section>

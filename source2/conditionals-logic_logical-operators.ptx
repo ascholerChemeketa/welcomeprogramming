@@ -1,0 +1,81 @@
+<section xml:id="conditionals-logic_logical-operators">
+<title>Logical Operators</title>
+<p>
+<idx><h>logical operator</h></idx>
+<idx><h>operator</h><h>logical</h></idx>
+<idx><h>and operator</h></idx>
+<idx><h>or operator</h></idx>
+<idx><h>not operator</h></idx>
+In addition to the relational operators, Java also has three <em>logical operators</em>: <c>ANDAND</c>, <c>||</c>, and <c>!</c>, which respectively stand for <em>and</em>, <em>or</em>, and <em>not</em>.
+The results of these operators are similar to their meanings in English.
+For example:
+<ul>
+<li><p><c>x MORE 0 ANDAND x LESS 10</c> is true when <c>x</c> is greater than 0 <em>and</em> less than 10.</p></li>
+<li><p><c>x LESS 0 || x MORE 10</c> is true if either condition is true; that is, if <c>x</c> is less than 0 <em>or</em> greater than 10.</p></li>
+<li><p><c>!(x MORE 0)</c> is true if <c>x</c> is <em>not</em> greater than 0.
+The parentheses are necessary in this example because, in the order of operations, <c>!</c> comes before <c>MORE</c>.</p></li>
+</ul>
+</p>
+
+<p>
+In order for an expression with <c>ANDAND</c> to be true, both sides of the <c>ANDAND</c> operator must be true.
+And in order for an expression with <c>||</c> to be false, both sides of the <c>||</c> operator must be false.
+</p>
+
+<p>
+The <c>ANDAND</c> operator can be used to simplify nested <c>if</c> statements.
+For example, the following code can be rewritten with a single condition:
+</p>
+
+<program>
+if (x == 0) {
+    if (y == 0) {
+        System.out.println("Both x and y are zero");
+    }
+}
+</program>
+  
+<program>
+// combined
+if (x == 0 &amp;&amp; y == 0) {
+    System.out.println("Both x and y are zero");
+}
+</program>
+
+<p>
+Likewise, the <c>||</c> operator can simplify chained <c>if</c> statements.
+Since the branches are the same, there is no need to duplicate that code:
+</p>
+
+<program>
+if (x == 0) {
+    System.out.println("Either x or y is zero");
+} else if (y == 0) {
+    System.out.println("Either x or y is zero");
+}
+</program>
+  
+<program>
+// combined
+if (x == 0 || y == 0) {
+    System.out.println("Either x or y is zero");
+}
+</program>
+
+<p>
+Then again, if the statements in the branches were different, we could not combine them into one block.
+But it's useful to explore different ways of representing the same logic, especially when it's complex.
+</p>
+
+<p>
+<idx><h>short circuit</h></idx> Logical operators evaluate the second expression <em>only when necessary</em>.
+For example, <c>true || anything</c> is always true, so Java does not need to evaluate the expression <c>anything</c>.
+Likewise, <c>false ANDAND anything</c> is always false.
+</p>
+
+<p>
+Ignoring the second operand, when possible, is called <em>short-circuit</em> evaluation, by analogy with an electrical circuit.
+Short-circuit evaluation can save time, especially if <c>anything</c> takes a long time to evaluate.
+It can also avoid unnecessary errors, if <c>anything</c> might fail.
+</p>
+</section>

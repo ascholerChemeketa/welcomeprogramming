@@ -1,0 +1,77 @@
+<section xml:id="input-output_type-cast-operators">
+<title>Type Cast Operators</title>
+<p>
+Now suppose we have a measurement in centimeters, and we want to round it off to the nearest inch.
+It is tempting to write this:
+</p>
+
+<program>
+inch = cm / CM_PER_INCH;  // syntax error
+</program>
+
+<p>
+But the result is an error<mdash/>you get something like, <q>incompatible types: possible lossy conversion from double to int</q>.
+The problem is that the value on the right is floating-point, and the variable on the left is an integer.
+</p>
+
+<p>
+<idx><h>automatic conversion</h></idx>
+Java converts an <c>int</c> to a <c>double</c> automatically, since no information is lost in the process.
+On the other hand, going from <c>double</c> to <c>int</c> would lose the decimal places.
+Java doesn't perform this operation automatically in order to ensure that you are aware of the loss of the fractional part of the number.
+</p>
+
+<p>
+<idx><h>type cast</h></idx>
+<idx><h>operator</h><h>cast</h></idx>
+The simplest way to convert a floating-point value to an integer is to use a <em>type cast</em>, so called because it molds, or <q>casts</q>, a value from one type to another.
+The syntax for type casting is to put the name of the type in parentheses and use it as an operator:
+</p>
+
+<program>
+double pi = 3.14159;
+int x = (int) pi;
+</program>
+
+<p>
+The <c>(int)</c> operator has the effect of converting what follows into an integer.
+In this example, <c>x</c> gets the value <c>3</c>.
+Like integer division, casting to an integer always rounds toward zero, even if the fractional part is <c>0.999999</c> (or <c>-0.999999</c>).
+In other words, it simply throws away the fractional part.
+</p>
+
+<p>
+In order to use a cast operator, the types must be compatible.
+For example, you can't cast a <c>String</c> to an <c>int</c> because a string is not a number:
+</p>
+
+<program>
+String str = "3";
+int x = (int) str;  // error: incompatible types
+</program>
+
+<p>
+Type casting takes precedence over arithmetic operations.
+In the following example, the value of <c>pi</c> gets converted to an integer before the multiplication:
+</p>
+
+<program>
+double pi = 3.14159;
+double x = (int) pi * 20.0;  // result is 60.0, not 62.0
+</program>
+
+<p>
+Keeping that in mind, here's how we can convert centimeters to inches:
+</p>
+
+<program>
+inch = (int) (cm / CM_PER_INCH);
+System.out.printf("%f cm = %d in\n", cm, inch);
+</program>
+
+<p>
+The parentheses after the cast operator require the division to happen before the type cast.
+And the result is rounded toward zero.
+You will see in the next chapter how to round floating-point numbers to the closest integer.
+</p>
+</section>

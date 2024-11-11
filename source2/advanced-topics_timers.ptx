@@ -1,0 +1,78 @@
+<section xml:id="advanced-topics_timers">
+<title>Timers</title>
+<p>
+<idx><h>efficiency</h></idx>
+Now that you know about interfaces and events, we can show you a better way to create animations.
+Previously, we implemented the animation loop by using <c>while (true)</c> and <c>Thread.sleep</c>.
+Java provides a <c>Timer</c> class (in <c>javax.swing</c>) that encapsulates this behavior.
+</p>
+
+<p>
+A <c>Timer</c> is useful for executing code at regular intervals.
+The constructor for <c>Timer</c> takes two parameters:
+<ul>
+<li><p><c>int delay</c> <c>                         </c> <c>// milliseconds between events</c></p></li>
+<li><p><c>ActionListener listener</c> <c> </c> <c>// for handling timer events</c></p></li>
+</ul>
+</p>
+
+<p>
+The <c>ActionListener</c> interface requires only one method, <c>actionPerformed</c>.
+This is the method the <c>Timer</c> invokes after the given delay.
+</p>
+
+<p>
+Using a <c>Timer</c>, we can reorganize the code in <c>main</c> by defining a class that implements <c>ActionListener</c>:
+</p>
+
+<program>
+public class VideoGame implements ActionListener {
+    private Drawing drawing;
+
+    public VideoGame() {
+        Sprite sprite = new Sprite("face-smile.png", 50, 50);
+        drawing = new Drawing(800, 600);
+        drawing.add(sprite);
+        drawing.addKeyListener(sprite);
+        drawing.setFocusable(true);
+
+        JFrame frame = new JFrame("Video Game");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(drawing);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        drawing.step();
+    }
+
+    public static void main(String[] args) {
+        VideoGame game = new VideoGame();
+        Timer timer = new Timer(33, game);
+        timer.start();
+    }
+}
+</program>
+
+<p>
+The <c>main</c> method constructs a <c>VideoGame</c> object, which creates a <c>Sprite</c>, a <c>Drawing</c>, and a <c>JFrame</c>.
+Then it constructs a <c>Timer</c> object and starts the timer.
+Every 33 milliseconds, the <c>Timer</c> invokes <c>actionPerformed</c>, which invokes <c>step</c> on the <c>Drawing</c>.
+</p>
+
+<p>
+<c>Drawing.step</c> invokes <c>step</c> on all of its <c>Actor</c> objects, which causes them to update their position, color, or other aspects of their appearance.
+The <c>Drawing.step</c> then repaints the <c>Canvas</c>, and the time step is done.
+</p>
+
+<p>
+At this point, you have all of the elements you need to write your own video games.
+In the exercises at the end of this chapter, we have some suggestions for getting started.
+</p>
+
+<p>
+We hope this final chapter has been a helpful summary of topics presented throughout the book, including input and output, decisions and loops, classes and methods, arrays and objects, inheritance, and graphics.
+Congratulations on making it to the end!
+</p>
+</section>

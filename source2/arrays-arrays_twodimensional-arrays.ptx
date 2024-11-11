@@ -1,0 +1,51 @@
+<section xml:id="arrays-arrays_twodimensional-arrays">
+<title>Two-Dimensional Arrays</title>
+<p>
+<idx><h>multidimensional array</h></idx>
+To represent a grid of cells, we can use a <em>multidimensional array</em>.
+To create a 2D array, we specify the number of rows and columns:
+</p>
+
+<program>
+int rows = 4;
+int cols = 3;
+Cell[][] array = new Cell[rows][cols];
+</program>
+
+<p>
+The result is an array with four rows and three columns.
+Initially, the elements of the array are <c>null</c>.
+We can fill the array with <c>Cell</c> objects like this:
+</p>
+
+<program>
+for (int r = 0; r &lt; rows; r++) {
+    int y = r * size;
+    for (int c = 0; c &lt; cols; c++) {
+        int x = c * size;
+        array[r][c] = new Cell(x, y, size);
+    }
+}
+</program>
+
+<p>
+The loop variables <c>r</c> and <c>c</c> are the row and column indexes of the cells.
+The variables <c>x</c> and <c>y</c> are the coordinates, respectively.
+For example, if <c>size</c> is 10 pixels, the cell at index (1, 2) would be at coordinates (10, 20) on the screen.
+</p>
+
+<p>
+In Java, a 2D array is really an array of arrays.
+You can think of it as an array of rows, where each row is an array.
+<xref ref="fig_2D-array">Figure</xref> shows what it looks like.
+</p>
+<figure xml:id="fig_2D-array" >
+<caption>Storing rows and columns with a 2D array.</caption>
+<image width="73%" source="images/2D-array.png" />
+</figure>
+<p>
+<idx><h>row-major order</h></idx>
+When we write <c>array[r][c]</c>, Java uses the first index to select a row and the second index to select an element from the row.
+This way of representing 2D data is known as <em>row-major order</em>.
+</p>
+</section>

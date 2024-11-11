@@ -1,0 +1,95 @@
+<section xml:id="arrays-references_accessing-elements">
+<title>Accessing Elements</title>
+<p>
+When you create an array with the <c>new</c> operator, the elements are initialized to zero.
+<xref ref="fig_array">Figure</xref> shows a memory diagram of the <c>counts</c> array so far.
+</p>
+<figure xml:id="fig_array" >
+<caption>Memory diagram of an <c>int</c> array.</caption>
+<image width="73%" source="images/array.png" />
+</figure>
+<p>
+<idx><h>reference</h></idx>
+The arrow indicates that the value of <c>counts</c> is a <em>reference</em> to the array.
+You should think of <em>the array</em> and <em>the variable</em> that refers to it as two different things.
+As you'll soon see, we can assign a different variable to refer to the same array, and we can change the value of <c>counts</c> to refer to a different array.
+</p>
+
+<p>
+<idx><h>element</h></idx>
+<idx><h>index</h></idx>
+<idx><h>array</h><h>element</h></idx>
+<idx><h>array</h><h>index</h></idx>
+The boldface numbers inside the boxes are the elements of the array.
+The lighter numbers outside the boxes are the <em>indexes</em> used to identify each location in the array.
+As with strings, the index of the first element is 0, not 1.
+For this reason, we sometimes refer to the first element as the <q>zeroth</q> element.
+</p>
+
+<p>
+The <c>[]</c> operator selects elements from an array:
+</p>
+
+<program>
+System.out.println("The zeroth element is " + counts[0]);
+</program>
+
+<p>
+You can use the <c>[]</c> operator anywhere in an expression:
+</p>
+
+<program>
+counts[0] = 7;
+counts[1] = counts[0] * 2;
+counts[2]++;
+counts[3] -= 60;
+</program>
+
+<p>
+<xref ref="fig_array2">Figure</xref> shows the result of these statements.
+</p>
+<figure xml:id="fig_array2" >
+<caption>Memory diagram after several assignment statements.</caption>
+<image width="73%" source="images/array2.png" />
+</figure>
+<p>
+You can use any expression as an index, as long as it has type <c>int</c>.
+One of the most common ways to index an array is with a loop variable.
+For example:
+</p>
+
+<program>
+int i = 0;
+while (i &lt; 4) {
+    System.out.println(counts[i]);
+    i++;
+}
+</program>
+
+<p>
+This <c>while</c> loop counts up from 0 to 4.
+When <c>i</c> is 4, the condition fails and the loop terminates.
+So the body of the loop is executed only when <c>i</c> is 0, 1, 2, or 3.
+In this context, the variable name <c>i</c> is short for <q>index</q>.
+</p>
+
+<p>
+<idx><h>loop variable</h></idx>
+<idx><h>variable</h><h>loop</h></idx>
+Each time through the loop, we use <c>i</c> as an index into the array, displaying the <m>i</m>th element.
+This type of array processing is usually written as a <c>for</c> loop:
+</p>
+
+<program>
+for (int i = 0; i &lt; 4; i++) {
+    System.out.println(counts[i]);
+}
+</program>
+
+<p>
+<idx><h>ArrayIndexOutOfBoundsException</h></idx>
+<idx><h>exception</h><h>ArrayIndexOutOfBounds</h></idx>
+For the <c>counts</c> array, the only legal indexes are 0, 1, 2, and 3.
+If the index is negative or greater than 3, the result is an <c>ArrayIndexOutOfBoundsException</c>.
+</p>
+</section>

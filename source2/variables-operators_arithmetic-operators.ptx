@@ -1,0 +1,103 @@
+<section xml:id="variables-operators_arithmetic-operators">
+<title>Arithmetic Operators</title>
+<p>
+<idx><h>operator</h></idx>
+<idx><h>addition</h><h>integer</h></idx>
+<em>Operators</em> are symbols that represent simple computations.
+For example, the addition operator is <c>+</c>, subtraction is <c>-</c>, multiplication is <c>*</c>, and division is <c>/</c>.
+</p>
+
+<p>
+The following program converts a time of day to minutes:
+</p>
+
+<program>
+int hour = 11;
+int minute = 59;
+System.out.print("Number of minutes since midnight: ");
+System.out.println(hour * 60 + minute);
+</program>
+
+<p>
+The output is as follows:
+</p>
+
+<console>
+<output>
+Number of minutes since midnight: 719
+</output>
+</console>
+
+<p>
+<idx><h>expression</h></idx>
+<idx><h>operand</h></idx>
+In this program, <c>hour * 60 + minute</c> is an <em>expression</em>, which represents a single value to be computed (<c>719</c>).
+When the program runs, each variable is replaced by its current value, and then the operators are applied.
+The values that operators work with are called <em>operands</em>.
+</p>
+
+<p>
+Expressions are generally a combination of numbers, variables, and operators.
+When compiled and executed, they become a single value.
+For example, the expression <c>1 + 1</c> has the value <c>2</c>.
+In the expression <c>hour - 1</c>, Java replaces the variable with its value, yielding <c>11 - 1</c>, which has the value <c>10</c>.
+</p>
+
+<p>
+In the expression <c>hour * 60 + minute</c>, both variables get replaced, yielding <c>11 * 60 + 59</c>.
+The multiplication happens first, yielding <c>660 + 59</c>.
+Then the addition yields <c>719</c>.
+</p>
+
+<p>
+Addition, subtraction, and multiplication all do what you expect, but you might be surprised by division.
+For example, the following fragment tries to compute the fraction of an hour that has elapsed:
+</p>
+
+<program>
+System.out.print("Fraction of the hour that has passed: ");
+System.out.println(minute / 60);
+</program>
+
+<p>
+The output is as follows:
+</p>
+
+<console>
+<output>
+Fraction of the hour that has passed: 0
+</output>
+</console>
+
+<p>
+<idx><h>division</h><h>integer</h></idx>
+<idx><h>integer division</h></idx>
+This result often confuses people.
+The value of <c>minute</c> is <c>59</c>, and 59 divided by 60 should be 0.98333, not 0.
+The problem is that Java performs <em>integer division</em> when the operands are integers.
+By design, integer division always rounds toward zero, even in cases like this one where the next integer is close.
+</p>
+
+<p>
+As an alternative, we can calculate a percentage rather than a fraction:
+</p>
+
+<program>
+System.out.print("Percent of the hour that has passed: ");
+System.out.println(minute * 100 / 60);
+</program>
+
+<p>
+The new output is as follows:
+</p>
+
+<console>
+<output>
+Percent of the hour that has passed: 98
+</output>
+</console>
+
+<p>
+Again the result is rounded down, but at least now it's approximately correct.
+</p>
+</section>

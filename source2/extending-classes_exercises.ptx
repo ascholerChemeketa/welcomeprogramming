@@ -1,0 +1,68 @@
+<section xml:id="extending-classes_exercises">
+<title>Exercises</title>
+<p>
+The code for this chapter is in the <em>ch14</em> directory of <em>ThinkJavaCode2</em>.
+See <xref ref="code">page</xref> for instructions on how to download the repository.
+Before you start the exercises, we recommend that you compile and run the examples.
+</p>
+<exercise>
+<statement>
+<p>
+Design a better strategy for the <c>Player.play</c> method.
+For example, if there are multiple cards you can play, and one of them is an 8, you might want to play the 8.
+</p>
+
+<p>
+<idx><h>override</h></idx>
+Think of other ways you can minimize penalty points, such as playing the highest-ranking cards first.
+Write a new class that extends <c>Player</c> and overrides <c>play</c> to implement your strategy.
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+Write a loop that plays the game 100 times and keeps track of how many times each player wins.
+If you implemented multiple strategies in the previous exercise, you can play them against each other to evaluate which one works best.
+</p>
+
+<p>
+<em>Hint:</em> Design a <c>Genius</c> class that extends <c>Player</c> and overrides the <c>play</c> method, and then replace one of the players with a <c>Genius</c> object.
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+One limitation of the program we wrote in this chapter is that it handles only two players.
+Modify the <c>Eights</c> class to create an <c>ArrayList</c> of players, and modify <c>nextPlayer</c> to select the next player.
+</p>
+</statement>
+</exercise>
+
+<exercise>
+<statement>
+<p>
+When we designed the program for this chapter, we tried to minimize the number of classes.
+As a result, we ended up with a few awkward methods.
+For example, <c>cardMatches</c> is a static method in <c>Player</c>, but it would be more natural if it were an instance method in <c>Card</c>.
+</p>
+
+<p>
+The problem is that <c>Card</c> is supposed to be useful for any card game, not just Crazy Eights.
+You can solve this problem by adding a new class, <c>EightsCard</c>, that extends <c>Card</c> and provides a method, <c>match</c>, that checks whether two cards match according to the rules of Crazy Eights.
+</p>
+
+<p>
+At the same time, you could create a new class, <c>EightsHand</c>, that extends <c>Hand</c> and provides a method, <c>scoreHand</c>, that adds up the scores of the cards in the hand.
+And while you're at it, you could add a method named <c>scoreCard</c> to <c>EightsCard</c>.
+</p>
+
+<p>
+Whether or not you actually make these changes, draw a UML class diagram that shows this alternative object hierarchy.
+</p>
+</statement>
+</exercise>
+</section>

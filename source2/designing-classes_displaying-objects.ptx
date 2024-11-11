@@ -1,0 +1,50 @@
+<section xml:id="designing-classes_displaying-objects">
+<title>Displaying Objects</title>
+<p>
+To display <c>Time</c> objects, we can write a method to display the hour, minute, and second.
+Using <c>printTime</c> in <xref ref="multparam">Section</xref> as a starting point, we could write the following:
+</p>
+
+<p>
+<idx><h>printTime</h></idx>
+</p>
+
+<program>
+public static void printTime(Time t) {
+    System.out.print(t.hour);
+    System.out.print(":");
+    System.out.print(t.minute);
+    System.out.print(":");
+    System.out.println(t.second);
+}
+</program>
+
+<p>
+The output of this method, given the <c>time</c> object from the first example, would be <c>11:59:59.9</c>.
+We can use <c>printf</c> to make the code more concise:
+</p>
+
+<p>
+<idx><h>printf</h></idx>
+<idx><h>print statement</h></idx>
+<idx><h>format string</h></idx>
+</p>
+
+<program>
+public static void printTime(Time t) {
+    System.out.printf("%02d:%02d:%04.1f\n",
+        t.hour, t.minute, t.second);
+}
+</program>
+
+<p>
+As a reminder, you need to use <c>%d</c> with integers, and <c>%f</c> with floating-point numbers.
+The <c>02</c> option means <q>total width 2, with leading zeros if necessary</q>, and the <c>04.1</c> option means <q>total width 4, one digit after the decimal point, leading zeros if necessary</q>.
+The output is the same: <c>11:59:59.9</c>.
+</p>
+
+<p>
+There's nothing wrong with a method like <c>printTime</c>, but it is not consistent with object-oriented style.
+A more idiomatic solution is to provide a special method called <c>toString</c>.
+</p>
+</section>

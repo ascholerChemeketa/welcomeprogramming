@@ -1,0 +1,76 @@
+<section xml:id="arrays-references_displaying-arrays">
+<title>Displaying Arrays</title>
+<p>
+<idx><h>array</h><h>printing</h></idx>
+You can use <c>println</c> to display an array, but it probably doesn't do what you would like.
+For example, say you print an array like this:
+</p>
+
+<program>
+int[] a = {1, 2, 3, 4};
+System.out.println(a);
+</program>
+
+<p>
+The output is something like this:
+</p>
+
+<console>
+<output>
+I@bf3f7e0
+</output>
+</console>
+
+<p>
+The bracket indicates that the value is an array, <c>I</c> stands for <q>integer</q>, and the rest represents the address of the array in memory.
+</p>
+
+<p>
+If we want to display the elements of the array, we can do it ourselves:
+</p>
+
+<p>
+<idx><h>printArray</h></idx>
+</p>
+
+<program>
+public static void printArray(int[] a) {
+    System.out.print("{" + a[0]);
+    for (int i = 1; i &lt; a.length; i++) {
+        System.out.print(", " + a[i]);
+    }
+    System.out.println("}");
+}
+</program>
+
+<p>
+Given the previous array, the output of <c>printArray</c> is as follows:
+</p>
+
+<console>
+<output>
+{1, 2, 3, 4}
+</output>
+</console>
+
+<p>
+<idx><h>utility class</h></idx>
+<idx><h>Arrays class</h></idx>
+The Java library includes a class, <c>java.util.Arrays</c>, that provides methods for working with arrays.
+One of them, <c>toString</c>, returns a string representation of an array.
+After importing <c>Arrays</c>, we can invoke <c>toString</c> like this:
+</p>
+
+<program>
+System.out.println(Arrays.toString(a));
+</program>
+
+<p>
+And the output is shown here:
+</p>
+
+<p>
+Notice that <c>Arrays.toString</c> uses square brackets instead of curly braces.
+But it beats writing your own <c>printArray</c> method.
+</p>
+</section>

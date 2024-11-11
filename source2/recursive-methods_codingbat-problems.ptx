@@ -1,0 +1,144 @@
+<section xml:id="recursive-methods_codingbat-problems">
+<title>CodingBat Problems</title>
+<p>
+In the past several chapters, you've seen methods, conditions, loops, strings, arrays, and recursion.
+A great resource for practicing all of these concepts is \url{https://codingbat.com/}.
+</p>
+
+<p>
+<idx><h>CodingBat</h></idx>
+<em>CodingBat</em> is a free website of programming problems developed by Nick Parlante, a computer science lecturer at Stanford University.
+As you work on these problems, CodingBat saves your progress (if you create an account).
+</p>
+
+<p>
+To conclude this chapter, we consider two problems in the <em>Recursion-1</em> section of CodingBat.
+One of them deals with strings, and the other deals with arrays.
+Both of them have the same recursive idea: check the base case, look at the current index, and recursively handle the rest.
+</p>
+
+<p>
+The first problem is available at \url{https://codingbat.com/prob/p118230}:
+</p>
+<blockquote>
+<em>Recursion-1 <nbsp/>noX</em>
+
+Given a string, compute recursively a new string where all the <c>'x'</c> chars have been removed.
+
+\ttfamily
+noX("xaxb") <m>\rightarrow</m> "ab" 
+
+noX("abc") <m>\rightarrow</m> "abc" 
+
+noX("xx") <m>\rightarrow</m> ""
+</blockquote>
+<p>
+When solving recursive problems, it helps to think about the base case first.
+The base case is the easiest version of the problem; for <c>noX</c>, it's the empty string.
+If the argument is an empty string, there are no <c>x</c>'s to be removed:
+</p>
+
+<program>
+if (str.length() == 0) {
+    return "";
+}
+</program>
+
+<p>
+Next comes the more difficult part.
+To solve a problem recursively, you need to think of a simpler instance of the same problem.
+For <c>noX</c>, it's removing all the <c>x</c>'s from a shorter string.
+</p>
+
+<p>
+So let's split the string into two parts, the first letter and the rest:
+</p>
+
+<program>
+char first = str.charAt(0);
+String rest = str.substring(1);
+</program>
+
+<p>
+Now we can make a recursive call to remove the <c>x</c>'s from <c>rest</c>:
+</p>
+
+<program>
+String recurse = noX(rest);
+</program>
+
+<p>
+If <c>first</c> happens to be an <c>x</c>, we're done; we just have to return <c>recurse</c>.
+Otherwise, we have to concatenate <c>first</c> and <c>recurse</c>.
+Here's the <c>if</c> statement we need:
+</p>
+
+<program>
+if (first == 'x') {
+    return recurse;
+} else {
+    return first + recurse;
+}
+</program>
+
+<p>
+You can run this solution on CodingBat by pasting these snippets into the provided method definition.
+</p>
+
+<p>
+The second problem is available at \url{https://codingbat.com/prob/p135988}:
+</p>
+<blockquote>
+<em>Recursion-1 <nbsp/>array11</em>
+
+Given an array of ints, compute recursively the number of times that the value 11 appears in the array.
+
+\ttfamily
+array11([1, 2, 11], 0) <m>\rightarrow</m> 1 
+
+array11([11, 11], 0) <m>\rightarrow</m> 2 
+
+array11([1, 2, 3, 4], 0) <m>\rightarrow</m> 0
+</blockquote>
+<p>
+This problem uses the convention of passing the index as an argument.
+So the base case is when we've reached the end of the array.
+At that point, we know there are no more <c>11</c>s:
+</p>
+
+<program>
+if (index >= nums.length) {
+    return 0;
+}
+</program>
+
+<p>
+Next we look at the current number (based on the given index), and check if it's an <c>11</c>.
+After that, we can recursively check the rest of the array.
+Similar to the <c>noX</c> problem, we look at only one integer per method call:
+</p>
+
+<program>
+int recurse = array11(nums, index + 1);
+if (nums[index] == 11) {
+    return recurse + 1;
+} else {
+    return recurse;
+}
+</program>
+
+<p>
+Again, you can run this solutions on CodingBat by pasting the snippets into the method definition.
+</p>
+
+<p>
+<idx><h>Java Tutor</h></idx>
+To see how these solutions actually work, you might find it helpful to step through them with a debugger (see <xref ref="debugger">Appendix</xref>) or Java Tutor (\url{https://thinkjava.org/javatutor}).
+Then try solving other CodingBat problems on your own.
+</p>
+
+<p>
+Learning to think recursively is an important part of learning to think like a computer scientist.
+Many algorithms can be written concisely with recursive methods that perform computations on the way down, on the way up, or both.
+</p>
+</section>

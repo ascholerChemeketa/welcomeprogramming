@@ -1,0 +1,47 @@
+<section xml:id="loops-strings_increment-decrement">
+<title>Increment and Decrement</title>
+<p>
+Here is another <c>while</c> loop example; this one displays the numbers 1 to 5:
+</p>
+
+<program>
+int i = 1;
+while (i &lt;= 5) {
+    System.out.println(i);
+    i++;  // add 1 to i
+}
+</program>
+
+<p>
+<idx><h>increment</h></idx>
+<idx><h>decrement</h></idx>
+Assignments like <c>i = i + 1</c> don't often appear in loops, because Java provides a more concise way to add and subtract by one.
+Specifically, <c>++</c> is the <em>increment</em> operator; it has the same effect as <c>i = i + 1</c>.
+And <c><ndash/></c> is the <em>decrement</em> operator; it has the same effect as <c>i = i - 1</c>.
+</p>
+
+<p>
+If you want to increment or decrement a variable by an amount other than <c>1</c>, you can use <c>+=</c> and <c>-=</c>.
+For example, <c>i += 2</c> increments <c>i</c> by <c>2</c>:
+</p>
+
+<program>
+int i = 2;
+while (i &lt;= 8) {
+    System.out.print(i + ", ");
+    i += 2;  // add 2 to i
+}
+System.out.println("Who do we appreciate?");
+</program>
+
+<p>
+And the output is as follows:
+</p>
+
+<console>
+<output>
+2, 4, 6, 8, Who do we appreciate?
+</output>
+</console>
+
+</section>

@@ -1,0 +1,126 @@
+<section xml:id="conditionals-logic_ifelse-statement">
+<title>The if-else Statement</title>
+<p>
+<idx><h>conditional statement</h></idx>
+<idx><h>statement</h><h>conditional</h></idx>
+<idx><h>if statement</h></idx>
+<idx><h>statement</h><h>if</h></idx>
+To write useful programs, we almost always need to check conditions and react accordingly.
+<em>Conditional statements</em> give us this ability.
+The simplest conditional statement in Java is the <c>if</c> statement:
+</p>
+
+<program>
+if (x > 0) {
+    System.out.println("x is positive");
+}
+</program>
+
+<p>
+<idx><h>block</h></idx>
+The expression in parentheses is called the <em>condition</em>.
+If it is true, the statements in braces get executed.
+If the condition is false, execution skips over that <em>block</em> of code.
+The condition in parentheses can be any <c>boolean</c> expression.
+</p>
+
+<p>
+<idx><h>branch</h></idx>
+<idx><h>statement</h><h>else</h></idx>
+A second form of conditional statement has two possibilities, indicated by <c>if</c> and <c>else</c>.
+The possibilities are called <em>branches</em>, and the condition determines which branch gets executed:
+</p>
+
+<program>
+if (x % 2 == 0) {
+    System.out.println("x is even");
+} else {
+    System.out.println("x is odd");
+}
+</program>
+
+<p>
+If the remainder when <c>x</c> is divided by 2 is 0, we know that <c>x</c> is even, and the program displays a message to that effect.
+If the condition is false, the second print statement is executed instead.
+Since the condition must be true or false, exactly one of the branches will run.
+</p>
+
+<p>
+The braces are optional for branches that have only one statement.
+So we could have written the previous example this way:
+</p>
+
+<program>
+if (x % 2 == 0)
+    System.out.println("x is even");
+else
+    System.out.println("x is odd");
+</program>
+
+<p>
+However, it's better to use braces<mdash/>even when they are optional<mdash/>to avoid making the mistake of adding statements to a one-line <c>if</c> or <c>else</c> block.
+This code is misleading because it's not indented correctly:
+</p>
+
+<program>
+if (x > 0)
+    System.out.println("x is positive");
+    System.out.println("x is not zero");
+</program>
+
+<p>
+Since there are no braces, only the first <c>println</c> is part of the <c>if</c> statement.
+Here is what the compiler actually sees:
+</p>
+
+<program>
+if (x > 0) {
+    System.out.println("x is positive");
+}
+    System.out.println("x is not zero");
+</program>
+
+<p>
+As a result, the second <c>println</c> runs no matter what.
+Even experienced programmers make this mistake; search the web for Apple's <q>goto fail</q> bug.
+</p>
+
+<p>
+<idx><h>\{\} curly braces</h></idx>
+In all previous examples, notice that there is no semicolon at the end of the <c>if</c> or <c>else</c> lines.
+Instead, a new block should be defined using braces.
+Another common mistake is to put a semicolon after the condition, like this:
+</p>
+
+<program>
+int x = 1;
+if (x % 2 == 0); {  // incorrect semicolon
+    System.out.println("x is even");
+}
+</program>
+
+<p>
+This code will compile, but the program will output <c>"x is even"</c> regardless of the value of <c>x</c>.
+Here is the same incorrect code with better formatting:
+</p>
+
+<program>
+int x = 1;
+if (x % 2 == 0)
+    ;  // empty statement
+{
+    System.out.println("x is even");
+}
+</program>
+
+<p>
+Because of the semicolon, the <c>if</c> statement compiles as if there are no braces, and the subsequent block runs independently.
+As a general rule, each line of Java code should end with a semicolon or brace<mdash/>but not both.
+</p>
+
+<p>
+The compiler won't complain if you omit optional braces or write empty statements.
+Doing so is allowed by the Java language, but it often results in bugs that are difficult to find.
+Development tools like Checkstyle (see <xref ref="checkstyle">Appendix</xref>) can warn you about these and other kinds of programming mistakes.
+</p>
+</section>

@@ -1,0 +1,37 @@
+<section xml:id="recursive-methods_counting-up-recursively">
+<title>Counting Up Recursively</title>
+<p>
+The <c>countdown</c> example in <xref ref="recursion">Section</xref> has three parts: (1) it checks the base case, (2) it displays something, and (3) it makes a recursive call.
+What do you think happens if you reverse steps 2 and 3, making the recursive call <em>before</em> displaying?
+</p>
+
+<program>
+public static void countup(int n) {
+    if (n == 0) {
+        System.out.println("Blastoff!");
+    } else {
+        countup(n - 1);
+        System.out.println(n);
+    }
+}
+</program>
+
+<p>
+The stack diagram is the same as before, and the method is still called <m>n</m> times.
+But now the <c>System.out.println</c> happens just before each recursive call returns.
+As a result, it counts <em>up</em> instead of down:
+</p>
+
+<console>
+<output>
+Blastoff!
+1
+2
+3
+</output>
+</console>
+
+<p>
+Keep this in mind for the next example, which displays numbers in binary.
+</p>
+</section>

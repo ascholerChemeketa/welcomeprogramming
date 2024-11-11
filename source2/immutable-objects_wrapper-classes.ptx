@@ -1,0 +1,98 @@
+<section xml:id="immutable-objects_wrapper-classes">
+<title>Wrapper Classes</title>
+<p>
+Primitive types like <c>int</c>, <c>double</c>, and <c>char</c> cannot be <c>null</c>, and they do not provide methods.
+For example, you can't invoke <c>equals</c> on an <c>int</c>:
+</p>
+
+<program>
+int i = 5;
+System.out.println(i.equals(5));  // compiler error
+</program>
+
+<p>
+<idx><h>wrapper class</h></idx>
+<idx><h>class</h><h>wrapper</h></idx>
+<idx><h>Character</h></idx>
+<idx><h>Integer</h></idx>
+<idx><h>Double</h></idx>
+But for each primitive type, there is a corresponding <em>wrapper class</em> in the Java library.
+The wrapper class for <c>int</c> is named <c>Integer</c>, with a capital <c>I</c>:
+</p>
+
+<program>
+Integer i = Integer.valueOf(5);
+System.out.println(i.equals(5));  // displays true
+</program>
+
+<p>
+Other wrapper classes include <c>Boolean</c>, <c>Character</c>, <c>Double</c>, and <c>Long</c>.
+They are in the <c>java.lang</c> package, so you can use them without importing them.
+</p>
+
+<p>
+Like strings, objects from wrapper classes are immutable, and you have to use the <c>equals</c> method to compare them:
+</p>
+
+<program>
+Integer x = Integer.valueOf(123);
+Integer y = Integer.valueOf(123);
+if (x == y) {                     // false
+    System.out.println("x and y are the same object");
+}
+if (x.equals(y)) {                // true
+    System.out.println("x and y have the same value");
+}
+</program>
+
+<p>
+Because <c>x</c> and <c>y</c> refer to different objects, this code displays only <q>x and y have the same value</q>.
+</p>
+
+<p>
+Each wrapper class defines the constants <c>MIN_VALUE</c> and <c>MAX_VALUE</c>.
+For example, <c>Integer.MIN_VALUE</c> is <c>-2147483648</c>, and <c>Integer.MAX_VALUE</c> is <c>2147483647</c>.
+Because these constants are available in wrapper classes, you don't have to remember them, and you don't have to write them yourself.
+</p>
+
+<p>
+<idx><h>parse</h></idx>
+Wrapper classes also provide methods for converting strings to and from primitive types.
+For example, <c>Integer.parseInt</c> converts a string to an <c>int</c>.
+In this context, <em>parse</em> means <q>read and translate</q>.
+</p>
+
+<program>
+String str = "12345";
+int num = Integer.parseInt(str);
+</program>
+
+<p>
+Other wrapper classes provide similar methods, like <c>Double.parseDouble</c> and <c>Boolean.parseBoolean</c>.
+They also provide <c>toString</c>, which returns a string representation of a value:
+</p>
+
+<program>
+int num = 12345;
+String str = Integer.toString(num);
+</program>
+
+<p>
+The result is the <c>String</c> object <c>"12345"</c>.
+</p>
+
+<p>
+<idx><h>NumberFormatException</h></idx>
+<idx><h>exception</h><h>NumberFormat</h></idx>
+It's always possible to convert a primitive value to a string, but not the other way around. For example, say we try to parse an invalid string like this:
+</p>
+
+<program>
+String str = "five";
+int num = Integer.parseInt(str);  // NumberFormatException
+</program>
+
+<p>
+<c>parseInt</c> throws a <c>NumberFormatException</c>, because the characters in the string <c>"five"</c> are not digits.
+</p>
+</section>

@@ -1,0 +1,91 @@
+<section xml:id="input-output_scanner-bug">
+<title>The Scanner Bug</title>
+<p>
+Now that you've had some experience with <c>Scanner</c>, we want to warn you about an unexpected behavior.
+The following code fragment asks users for their name and age:
+</p>
+
+<program>
+System.out.print("What is your name? ");
+name = in.nextLine();
+System.out.print("What is your age? ");
+age = in.nextInt();
+System.out.printf("Hello %s, age %d\n", name, age);
+</program>
+
+<p>
+The output might look something like this:
+</p>
+
+<console>
+<output>
+Hello Grace Hopper, age 45
+</output>
+</console>
+
+<p>
+When you read a <c>String</c> followed by an <c>int</c>, everything works just fine.
+But when you read an <c>int</c> followed by a <c>String</c>, something strange happens:
+</p>
+
+<program>
+System.out.print("What is your age? ");
+age = in.nextInt();
+System.out.print("What is your name? ");
+name = in.nextLine();
+System.out.printf("Hello %s, age %d\n", name, age);
+</program>
+
+<p>
+Try running this example code.
+It doesn't let you input your name, and it immediately displays the output:
+</p>
+
+<console>
+<output>
+What is your name? Hello , age 45
+</output>
+</console>
+
+<p>
+To understand what is happening, you need to realize that <c>Scanner</c> doesn't see input as multiple lines as we do.
+Instead, it gets a <em>stream of characters</em> as shown in <xref ref="fig_hopper1">Figure</xref>.
+</p>
+<figure xml:id="fig_hopper1" >
+<caption>A stream of characters as seen by a <c>Scanner</c>.</caption>
+<image width="73%" source="images/hopper1.png" />
+</figure>
+<p>
+<idx><h>state</h></idx>
+The arrow indicates the next character to be read by <c>Scanner</c>.
+When you run <c>nextInt</c>, it reads characters until it gets to a non-digit.
+<xref ref="fig_hopper2">Figure</xref> shows the state of the stream after <c>nextInt</c> runs.
+</p>
+<figure xml:id="fig_hopper2" >
+<caption>A stream of characters after <c>nextInt</c> runs.</caption>
+<image width="73%" source="images/hopper2.png" />
+</figure>
+<p>
+At this point, <c>nextInt</c> returns the value <c>45</c>.
+The program then displays the prompt <c>"What is your name? "</c> and runs <c>nextLine</c>, which reads characters until it gets to a newline.
+But since the next character is already a newline, <c>nextLine</c> returns the empty string <c>""</c>.
+</p>
+
+<p>
+To solve this problem, you need an extra <c>nextLine</c> after <c>nextInt</c>:
+</p>
+
+<program>
+System.out.print("What is your age? ");
+age = in.nextInt();
+in.nextLine();  // read the newline
+System.out.print("What is your name? ");
+name = in.nextLine();
+System.out.printf("Hello %s, age %d\n", name, age);
+</program>
+
+<p>
+This technique is common when reading <c>int</c> or <c>double</c> values that appear on their own line.
+First you read the number, and then you read the rest of the line, which is just a newline character.
+</p>
+</section>

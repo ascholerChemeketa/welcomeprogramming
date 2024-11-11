@@ -1,0 +1,118 @@
+<section xml:id="arrays-references_counting-characters">
+<title>Counting Characters</title>
+<p>
+We now return to the example from the beginning of the chapter and present a solution to <xref ref="doubloon">Exercise</xref> using arrays.
+Here is the problem again:
+</p>
+<blockquote>
+A word is said to be a <q>doubloon</q> if every letter that appears in the word appears exactly twice.
+Write a method called <c>isDoubloon</c> that takes a string and checks whether it is a doubloon.
+To ignore case, invoke the <c>toLowerCase</c> method before checking.
+</blockquote>
+<p>
+Based on the approach from <xref ref="singlepass">Section</xref>, we will create an array of 26 integers to count how many times each letter appears.
+We convert the string to lowercase, so that we can treat <c>'A'</c> and <c>'a'</c> (for example) as the same letter.
+</p>
+
+<program>
+int[] counts = new int[26];
+String lower = s.toLowerCase();
+</program>
+
+<p>
+We can use a <c>for</c> loop to iterate each character in the string.
+To update the <c>counts</c> array, we need to compute the index that corresponds to each character.
+Fortunately, Java allows you to perform arithmetic on characters:
+</p>
+
+<program>
+for (int i = 0; i &lt; lower.length(); i++) {
+    char letter = lower.charAt(i);
+    int index = letter - 'a';
+    counts[index]++;
+}
+</program>
+
+<p>
+If <c>letter</c> is <c>'a'</c>, the value of <c>index</c> is <c>0</c>;
+if <c>letter</c> is <c>'b'</c>, the value of <c>index</c> is <c>1</c>,
+and so on.
+</p>
+
+<p>
+Then we use <c>index</c> to increment the corresponding element of <c>counts</c>.
+At the end of the loop, <c>counts</c> contains a histogram of the letters in the string <c>lower</c>.
+</p>
+
+<p>
+<idx><h>toCharArray</h></idx>
+We can simplify this code with an enhanced <c>for</c> loop, but it doesn't work with strings; we have to convert <c>lower</c> to an array of characters, like this:
+</p>
+
+<program>
+for (char letter : lower.toCharArray()) {
+    int index = letter - 'a';
+    counts[index]++;
+}
+</program>
+
+<p>
+Once we have the counts, we can use a second <c>for</c> loop to check whether each letter appears zero or two times:
+</p>
+
+<program>
+for (int count : counts) {
+    if (count != 0 &amp;&amp; count != 2) {
+        return false;  // not a doubloon
+    }
+}
+return true;  // is a doubloon
+</program>
+
+<p>
+If we find a count that is neither 0 or 2, we know the word is not a doubloon and we can return immediately.
+If we make it all the way through the <c>for</c> loop, we know that all counts are 0 or 2, which means the word is a doubloon.
+</p>
+
+<p>
+Pulling together the code fragments, and adding some comments and test cases, here's the entire program:
+</p>
+
+<p>
+<idx><h>Doubloon.java</h></idx>
+</p>
+
+<listing filename="Doubloon.java">
+<program interactive="activecode">
+public class Doubloon {
+
+    public static boolean isDoubloon(String s) {
+        // count the number of times each letter appears
+        int[] counts = new int[26];
+        String lower = s.toLowerCase();
+        for (char letter : lower.toCharArray()) {
+            int index = letter - 'a';
+            counts[index]++;
+        }
+        // determine whether the given word is a doubloon
+        for (int count : counts) {
+            if (count != 0 &amp;&amp; count != 2) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(isDoubloon("Mama"));  // true
+        System.out.println(isDoubloon("Lama"));  // false
+    }
+}
+</program>
+</listing>
+
+<p>
+This example uses methods, <c>if</c> statements, <c>for</c> loops, arithmetic and logical operators, integers, characters, strings, booleans, and arrays.
+We hope you'll take a second to appreciate how much you've learned!
+</p>
+</section>

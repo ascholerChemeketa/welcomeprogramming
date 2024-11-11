@@ -1,0 +1,57 @@
+<section xml:id="recursive-methods_recursive-stack-diagrams">
+<title>Recursive Stack Diagrams</title>
+<p>
+<idx><h>stack diagram</h></idx>
+<idx><h>diagram</h><h>stack</h></idx>
+<idx><h>state</h></idx>
+In <xref ref="stack">Section</xref>, we used a stack diagram to represent the state of a program during a method invocation.
+The same kind of diagram can make it easier to interpret a recursive method.
+</p>
+
+<p>
+Remember that every time a method gets called, Java creates a new frame that contains the method's parameters and variables.
+<xref ref="fig_stack2">Figure</xref> is a stack diagram for <c>countdown</c>, called with <c>n == 3</c>.
+</p>
+<figure xml:id="fig_stack2" >
+<caption>Stack diagram for the <c>countdown</c> program.</caption>
+<image width="73%" source="images/stack2.png" />
+</figure>
+<p>
+By convention, the frame for <c>main</c> is at the top, and the stack of other frames grows down.
+That way, we can draw stack diagrams on paper without needing to guess how far they will grow.
+The frame for <c>main</c> is empty because <c>main</c> does not have any variables.
+(It has the parameter <c>args</c>, but since we're not using it, we left it out of the diagram.)
+</p>
+
+<p>
+<idx><h>base case</h></idx>
+There are four frames for <c>countdown</c>, each with a different value for the parameter <c>n</c>.
+The last frame, with <c>n == 0</c>, is called the <em>base case</em>.
+It does not make a recursive call, so there are no more frames below it.
+</p>
+
+<p>
+<idx><h>StackOverflowError</h></idx>
+<idx><h>exception</h><h>StackOverflow</h></idx>
+If there is no base case in a recursive method, or if the base case is never reached, the stack would grow forever<mdash/>at least in theory.
+In practice, the size of the stack is limited.
+If you exceed the limit, you get a <c>StackOverflowError</c>.
+</p>
+
+<p>
+For example, here is a recursive method without a base case:
+</p>
+
+<program>
+public static void forever(String s) {
+    System.out.println(s);
+    forever(s);
+}
+</program>
+
+<p>
+<idx><h>call stack</h></idx>
+This method displays the given string until the stack overflows, at which point it throws an error.
+Try this example on your computer<mdash/>you might be surprised by how long the error message is!
+</p>
+</section>

@@ -1,0 +1,41 @@
+<section xml:id="immutable-objects_null-keyword">
+<title>The null Keyword</title>
+<p>
+Often when you declare an object variable, you assign it to reference an object.
+But sometimes you want to declare a variable that doesn't refer to an object, at least initially.
+</p>
+
+<p>
+<idx><h>null</h></idx>
+In Java, the keyword <c>null</c> is a special value that means <q>no object</q>.
+You can initialize object and array variables this way:
+</p>
+
+<program>
+String name = null;
+int[] combo = null;
+</program>
+
+<p>
+The value <c>null</c> is represented in memory diagrams by a small box with no arrow, as in <xref ref="fig_mem4">Figure</xref>.
+</p>
+<figure xml:id="fig_mem4" >
+<caption>Memory diagram showing variables that are <c>null</c>.</caption>
+<image width="73%" source="images/mem4.png" />
+</figure>
+<p>
+<idx><h>NullPointerException</h></idx>
+<idx><h>exception</h><h>NullPointer</h></idx>
+If you try to use a variable that is <c>null</c> by invoking a method or accessing an element, Java throws a <c>NullPointerException</c>:
+</p>
+
+<program>
+System.out.println(name.length());  // NullPointerException
+System.out.println(combo[0]);       // NullPointerException
+</program>
+
+<p>
+On the other hand, it is perfectly fine to pass a <c>null</c> reference as an argument to a method, or to receive one as a return value.
+In these situations, <c>null</c> is often used to represent a special condition or indicate an error.
+</p>
+</section>

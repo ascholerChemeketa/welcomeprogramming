@@ -1,0 +1,90 @@
+<section xml:id="reusing-classes_abstract-classes">
+<title>Abstract Classes</title>
+<p>
+If we were not planning to implement any other zero-person games, we could leave well enough alone.
+But there are a few problems with the current design:
+<ul>
+<li><p>The <c>grid</c> attribute is <c>private</c>, making it inaccessible in <c>Conway</c> and <c>Langton</c>.
+We could make it <c>public</c>, but then other (unrelated) classes would have access to it as well.</p></li>
+<li><p>The <c>Automaton</c> class has no constructors, and even if it did, there would be no reason to create an instance of this class.</p></li>
+<li><p>The <c>Automaton</c> class does not provide an implementation of <c>update</c>.
+In order to work properly, subclasses need to provide one.</p></li>
+</ul>
+</p>
+
+<p>
+<idx><h>protected</h></idx>
+<idx><h>abstract class</h></idx>
+<idx><h>method</h><h>abstract</h></idx>
+Java provides language features to solve these problems:
+<ul>
+<li><p>We can make the <c>grid</c> attribute <c>protected</c>, which means it's accessible to subclasses but not other classes.</p></li>
+<li><p>We can make the class <c>abstract</c>, which means it cannot be instantiated.
+If you attempt to create an object for an abstract class, you will get a compiler error.</p></li>
+<li><p>We can declare <c>update</c> as an <c>abstract</c> method, meaning that it must be overridden in subclasses.
+If the subclass does not override an abstract method, you will get a compiler error.</p></li>
+</ul>
+</p>
+
+<p>
+Here's what <c>Automaton</c> looks like as an abstract class (using the methods <c>mainloop</c> and <c>run</c> from <xref ref="refactor">Section</xref>):
+</p>
+
+<program>
+public abstract class Automaton {
+    protected GridCanvas grid;
+
+    public abstract void update();
+
+    private void mainloop(int rate) {
+        // this method invokes update
+    }
+
+    public void run(String title, int rate) {
+        // this method invokes mainloop
+    }
+}
+</program>
+
+<p>
+Notice that the <c>update</c> method has no body.
+The declaration specifies the name, arguments, and return type.
+But it does not provide an implementation, because it is an abstract method.
+</p>
+
+<p>
+Notice also the word <c>abstract</c> on the first line, which declares that <c>Automaton</c> is an abstract class.
+In order to have any abstract methods, a class must be declared as abstract.
+</p>
+
+<p>
+Any class that extends <c>Automaton</c> must provide an implementation of <c>update</c>; the declaration here allows the compiler to check.
+</p>
+
+<p>
+Here's what <c>Conway</c> looks like as a subclass of <c>Automaton</c>:
+</p>
+
+<program>
+public class Conway extends Automaton {
+
+    // same methods as before, except mainloop is removed
+
+    public static void main(String[] args) {
+        String title = "Conway's Game of Life";
+        Conway game = new Conway();
+        game.run(title, 2);
+    }
+}
+</program>
+
+<p>
+<c>Conway</c> extends <c>Automaton</c>, so it inherits the <c>protected</c> instance variable <c>grid</c> and the methods <c>mainloop</c> and <c>run</c>.
+But because <c>Automaton</c> is abstract, <c>Conway</c> has to provide <c>update</c> and a constructor (which it has already).
+</p>
+
+<p>
+Abstract classes are essentially <q>incomplete</q> class definitions that specify methods to be implemented by subclasses.
+But they also provide attributes and methods to be inherited, thus eliminating repeated code.
+</p>
+</section>

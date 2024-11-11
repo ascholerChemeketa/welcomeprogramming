@@ -1,0 +1,68 @@
+<section xml:id="mutable-objects_rectangles-are-mutable">
+<title>Rectangles Are Mutable</title>
+<p>
+<idx><h>mutable</h></idx>
+<idx><h>object</h><h>mutable</h></idx>
+You can change the contents of an object by making an assignment to one of its attributes.
+For example, to <q>move</q> a rectangle without changing its size, you can modify the <c>x</c> and <c>y</c> values:
+</p>
+
+<program>
+Rectangle box = new Rectangle(0, 0, 100, 200);
+box.x = box.x + 50;
+box.y = box.y + 100;
+</program>
+
+<p>
+The result is shown in <xref ref="fig_rectangle2">Figure</xref>.
+</p>
+<figure xml:id="fig_rectangle2" >
+<caption>Memory diagram showing updated attributes.</caption>
+<image width="73%" source="images/rectangle2.png" />
+</figure>
+<p>
+<idx><h>encapsulation</h></idx>
+<idx><h>generalization</h></idx>
+We can encapsulate this code in a method and generalize it to move the rectangle by any amount:
+</p>
+
+<program>
+public static void moveRect(Rectangle box, int dx, int dy) {
+    box.x = box.x + dx;
+    box.y = box.y + dy;
+}
+</program>
+
+<p>
+The variables <c>dx</c> and <c>dy</c> indicate how far to move the rectangle in each direction.
+Invoking this method has the effect of modifying the <c>Rectangle</c> that is passed as an argument:
+</p>
+
+<program>
+Rectangle box = new Rectangle(0, 0, 100, 200);
+moveRect(box, 50, 100);  // now at (50, 100, 100, 200)
+</program>
+
+<p>
+Modifying objects by passing them as arguments to methods can be useful.
+But it can also make debugging difficult, because it is not always clear which method invocations modify their arguments.
+</p>
+
+<p>
+Java provides a number of methods that operate on <c>Point</c>s and <c>Rectangle</c>s.
+For example, <c>translate</c> has the same effect as <c>moveRect</c>, but instead of passing the rectangle as an argument, you use dot notation:
+</p>
+
+<program>
+box.translate(50, 100);
+</program>
+
+<p>
+This line invokes the <c>translate</c> method on the object that <c>box</c> refers to, which modifies the object.
+</p>
+
+<p>
+<idx><h>object-oriented</h></idx>
+This syntax<mdash/>using dot notation to invoke a method on an object, rather than passing it as a parameter<mdash/>is more consistent with the style of object-oriented programming.
+</p>
+</section>

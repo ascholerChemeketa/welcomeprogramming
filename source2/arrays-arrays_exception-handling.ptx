@@ -1,0 +1,50 @@
+<section xml:id="arrays-arrays_exception-handling">
+<title>Exception Handling</title>
+<p>
+So far, the only exceptions you have seen are run-time errors like <q>array index out of bounds</q> and <q>null pointer</q>.
+When one of these exceptions occurs, Java displays a message and ends the program.
+</p>
+
+<p>
+If you don't want the program to end, you can handle exceptions with a <c>try</c>-<c>catch</c> statement.
+The syntax is similar to an <c>if</c>-<c>else</c> statement, and the logic is, too.
+Here's what it looks like:
+</p>
+
+<p>
+<idx><h>try</h></idx>
+<idx><h>catch</h></idx>
+<idx><h>statement</h><h>try</h></idx>
+<idx><h>statement</h><h>catch</h></idx>
+</p>
+
+<program>
+try {
+    Thread.sleep(500);
+} catch (InterruptedException e) {
+    // do nothing
+}
+</program>
+
+<p>
+First, Java runs the code in the try block, which calls <c>Thread.sleep</c> in this example.
+If an <c>InterruptedException</c> occurs during the try block, Java executes the catch block.
+In this example, the catch block contains a comment, so it doesn't do anything.
+</p>
+
+<p>
+If a different exception occurs during the try block, Java does whatever it would do otherwise, which is probably to display a message and end the program.
+If no exceptions occur during the try block, the catch block doesn't run and the program continues.
+</p>
+
+<p>
+In this example, the effect of the <c>try</c>-<c>catch</c> statement is to ignore an <q>interrupted</q> exception if it occurs.
+As an alternative, we could use the catch block to display a customized message, end the program, or handle the exception in whatever way is appropriate.
+For example, if user input causes an exception, we could catch the exception and prompt the user to try again later.
+</p>
+
+<p>
+There's more to learn about exception handling.
+You can read about exceptions in the Java tutorials (see \url{https://thinkjava.org/exceptions}).
+</p>
+</section>

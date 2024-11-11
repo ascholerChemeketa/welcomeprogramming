@@ -1,0 +1,86 @@
+<section xml:id="tools_testing-with-junit">
+<title>Testing with JUnit</title>
+<p>
+<idx><h>unit test</h></idx>
+When beginners start writing methods, they usually test them by invoking them from <c>main</c> and checking the results by hand.
+For example, to test <c>fibonacci</c> from <xref ref="fibonacci">Section</xref>, we could write this:
+</p>
+
+<program>
+public static void main(String[] args) {
+    if (fibonacci(1) != 1) {
+        System.err.println("fibonacci(1) is incorrect");
+    }
+    if (fibonacci(2) != 1) {
+        System.err.println("fibonacci(2) is incorrect");
+    }
+    if (fibonacci(3) != 2) {
+        System.err.println("fibonacci(3) is incorrect");
+    }
+}
+</program>
+
+<p>
+This test code is self-explanatory, but it's longer than it needs to be, and it doesn't scale very well.
+In addition, the error messages provide limited information.
+For cases where we know the right answer, we can do better by writing <em>unit tests</em>.
+</p>
+
+<p>
+JUnit (\url{https://junit.org/}) is a common testing tool for Java programs.
+To use it, you have to create a test class that contains test methods.
+</p>
+
+<p>
+For example, suppose that the <c>fibonacci</c> method belongs to a class named <c>Series</c>.
+Here is a corresponding JUnit<fn>This code is based on JUnit 3, which has been superseded but is the default version supported by DrJava.</fn> test class and test method:
+</p>
+
+<program>
+import junit.framework.TestCase;
+
+public class SeriesTest extends TestCase {
+
+    public void testFibonacci() {
+        assertEquals(1, Series.fibonacci(1));
+        assertEquals(1, Series.fibonacci(2));
+        assertEquals(2, Series.fibonacci(3));
+    }
+}
+</program>
+
+<p>
+This example uses the keyword <c>extends</c>, which indicates that the new class, <c>SeriesTest</c>, is based on an existing class, <c>TestCase</c>.
+The <c>TestCase</c> class is imported from the package <c>junit.framework</c>.
+</p>
+
+<p>
+The names in this example follow convention: if the name of your class is <c>Something</c>, the name of the test class should be <c>SomethingTest</c>.
+And if there is a method in <c>Something</c> named <c>someMethod</c>, there should be a method in <c>SomethingTest</c> named <c>testSomeMethod</c>.
+</p>
+
+<p>
+Many development environments can generate test classes and test methods automatically.
+In DrJava, you can select <em>New JUnit Test Case</em> from the <em>File</em> menu to generate an empty test class.
+</p>
+
+<p>
+<c>assertEquals</c> is provided by the <c>TestCase</c> class.
+It takes two arguments and checks whether they are equal.
+If so, it does nothing; otherwise, it displays a detailed error message.
+The first argument is the <em>expected value</em>, which we consider correct, and the second argument is the <em>actual value</em> we want to check.
+If they are not equal, the test fails.
+</p>
+
+<p>
+<idx><h>System.err</h></idx>
+Using <c>assertEquals</c> is more concise than writing your own <c>if</c> statements and <c>System.err</c> messages.
+JUnit provides additional assert methods, such as <c>assertNull</c>, <c>assertSame</c>, and <c>assertTrue</c>, which can be used to design a variety of tests.
+</p>
+
+<p>
+To run JUnit directly from DrJava, click the <em>Test</em> button on the toolbar.
+If all your test methods pass, you will see a green bar in the lower-right corner.
+Otherwise, DrJava will take you directly to the first assertion that failed.
+</p>
+</section>

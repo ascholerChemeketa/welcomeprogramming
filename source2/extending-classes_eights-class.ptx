@@ -1,0 +1,167 @@
+<section xml:id="extending-classes_eights-class">
+<title>The Eights Class</title>
+<p>
+<idx><h>top-down design</h></idx>
+In <xref ref="shuffle">Section</xref>, we introduced top-down design. In this way of developing programs, we identify high-level goals, like shuffling a deck, and break them into smaller problems, like choosing a random element or swapping two elements.
+</p>
+
+<p>
+<idx><h>bottom-up design</h></idx>
+<idx><h>design process</h></idx>
+In this section, we present <em>bottom-up design</em>, which goes the other way around: first we identify simple pieces we need and then we assemble them into more-complex algorithms.
+</p>
+
+<p>
+Looking at the rules of Crazy Eights, we can identify some of the methods we'll need:
+<ul>
+<li><p>Create the deck, the players, and the discard and draw piles. Deal the cards and set up the game. (<c>Eights</c> constructor)</p></li>
+<li><p>Check whether the game is over. (<c>isDone</c>)</p></li>
+<li><p>If the draw pile is empty, shuffle the discard pile and move the cards into the draw pile. (<c>reshuffle</c>)</p></li>
+<li><p>Draw a card, reshuffling the discard pile if necessary. (<c>drawCard</c>)</p></li>
+<li><p>Keep track of whose turn it is, and switch from one player to the next. (<c>nextPlayer</c>)</p></li>
+<li><p>Display the state of the game, and wait for the user before running the next turn. (<c>displayState</c>)</p></li>
+</ul>
+</p>
+
+<p>
+Now we can start implementing the pieces.
+Here is the beginning of the class definition for <c>Eights</c>, which encapsulates the state of the game:
+</p>
+
+<p>
+<idx><h>Eights</h></idx>
+</p>
+
+<program>
+public class Eights {
+
+    private Player one;
+    private Player two;
+    private Hand drawPile;
+    private Hand discardPile;
+    private Scanner in;
+</program>
+
+<p>
+In this version, there are always two players.
+One of the exercises at the end of the chapter asks you to modify this code to handle more players.
+The <c>Eights</c> class also includes a draw pile, a discard pile, and a <c>Scanner</c>, which we will use to prompt the user after each turn.
+</p>
+
+<p>
+The constructor for <c>Eights</c> initializes the instance variables and deals the cards, similar to <xref ref="dealing">Section</xref>.
+The next piece we'll need is a method that checks whether the game is over.
+If either hand is empty, we're done:
+</p>
+
+<program>
+public boolean isDone() {
+    return one.getHand().isEmpty() || two.getHand().isEmpty();
+}
+</program>
+
+<p>
+When the draw pile is empty, we have to shuffle the discard pile.
+Here is a method for that:
+</p>
+
+<program>
+public void reshuffle() {
+    Card prev = discardPile.popCard();
+    discardPile.dealAll(drawPile);
+    discardPile.addCard(prev);
+    drawPile.shuffle();
+}
+</program>
+
+<p>
+The first line saves the top card from <c>discardPile</c>.
+The next line transfers the rest of the cards to <c>drawPile</c>.
+Then we put the saved card back into <c>discardPile</c> and shuffle <c>drawPile</c>.
+We can use <c>reshuffle</c> as part of the <c>draw</c> method:
+</p>
+
+<program>
+public Card drawCard() {
+    if (drawPile.isEmpty()) {
+        reshuffle();
+    }
+    return drawPile.popCard();
+}
+</program>
+
+<p>
+The <c>nextPlayer</c> method takes the current player as a parameter and returns the player who should go next:
+</p>
+
+<program>
+public Player nextPlayer(Player current) {
+    if (current == one) {
+        return two;
+    } else {
+        return one;
+    }
+}
+</program>
+
+<p>
+The last method from our bottom-up design is <c>displayState</c>.
+It displays the hand of each player, the contents of the discard pile, and the number of cards in the draw pile.
+Finally, it waits for the user to press the <em>Enter</em> key:
+</p>
+
+<program>
+public void displayState() {
+    one.display();
+    two.display();
+    discardPile.display();
+    System.out.println("Draw pile:");
+    System.out.println(drawPile.size() + " cards");
+    in.nextLine();
+}
+</program>
+
+<p>
+Using these pieces, we can write <c>takeTurn</c>, which executes one player's turn.
+It reads the top card off the discard pile and passes it to <c>player.play</c>, which you saw in the previous section.
+The result is the card the player chose, which is added to the discard pile:
+</p>
+
+<program>
+public void takeTurn(Player player) {
+    Card prev = discardPile.lastCard();
+    Card next = player.play(this, prev);
+    discardPile.addCard(next);
+
+    System.out.println(player.getName() + " plays " + next);
+    System.out.println();
+}
+</program>
+
+<p>
+Finally, we use <c>takeTurn</c> and the other methods to write <c>playGame</c>:
+</p>
+
+<program>
+public void playGame() {
+    Player player = one;
+
+    // keep playing until there's a winner
+    while (!isDone()) {
+        displayState();
+        takeTurn(player);
+        player = nextPlayer(player);
+    }
+
+    // display the final score
+    one.displayScore();
+    two.displayScore();
+}
+</program>
+
+<p>
+Done!
+The result of bottom-up design is similar to top-down: we have a high-level method that calls helper methods.
+The difference is the development process we used to arrive at this solution.
+</p>
+</section>
