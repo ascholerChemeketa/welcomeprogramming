@@ -1,0 +1,1 @@
+RegularPolygon rp(6);

@@ -1,0 +1,1 @@
+String s = ranks[this.rank] + " of " + suits[this.suit];

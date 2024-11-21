@@ -1,0 +1,1 @@
+size_t index = fruit.find('a', 2);

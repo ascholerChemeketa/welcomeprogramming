@@ -1,0 +1,1 @@
+Time endTime = add(startTime, runningTime);

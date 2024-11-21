@@ -1,0 +1,1 @@
+vector<string> suits = {"Clubs", "Diamonds", "Hearts", "Spades"};

@@ -1,0 +1,1 @@
+cout << cards[0].rank << endl;

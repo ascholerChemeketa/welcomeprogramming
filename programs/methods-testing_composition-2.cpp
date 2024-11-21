@@ -1,0 +1,1 @@
+double x = exp(log(10.0));

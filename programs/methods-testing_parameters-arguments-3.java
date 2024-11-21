@@ -1,0 +1,1 @@
+printTwice(17);  // syntax error

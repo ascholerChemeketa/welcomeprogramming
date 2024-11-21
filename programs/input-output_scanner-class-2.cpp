@@ -1,0 +1,1 @@
+istream& in = cin;

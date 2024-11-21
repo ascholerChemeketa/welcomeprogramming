@@ -1,0 +1,1 @@
+System.out.println(cards[0].rank);  // NullPointerException

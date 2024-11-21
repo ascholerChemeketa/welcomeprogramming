@@ -1,0 +1,1 @@
+Rectangle box = new Rectangle(0, 0, 100, 200);

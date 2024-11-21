@@ -1,0 +1,1 @@
+inch = cm / CM_PER_INCH;  // syntax error

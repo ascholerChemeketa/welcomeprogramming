@@ -1,0 +1,1 @@
+RegularPolygon rp = new RegularPolygon(6);

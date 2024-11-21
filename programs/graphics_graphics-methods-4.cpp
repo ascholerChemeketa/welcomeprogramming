@@ -1,0 +1,1 @@
+canvas.setBackground(Color.WHITE);

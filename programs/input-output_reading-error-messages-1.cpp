@@ -1,0 +1,1 @@
+printf("inches = %d", inch);

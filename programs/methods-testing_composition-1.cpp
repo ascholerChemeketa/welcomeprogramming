@@ -1,0 +1,1 @@
+double x = cos(angle + M_PI / 2.0);

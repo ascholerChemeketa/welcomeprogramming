@@ -1,0 +1,1 @@
+double y = 1 / 3;  // common mistake

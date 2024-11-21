@@ -1,0 +1,1 @@
+double x = Math.pow(2.0, 10.0);

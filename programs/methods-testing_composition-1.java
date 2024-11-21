@@ -1,0 +1,1 @@
+double x = Math.cos(angle + Math.PI / 2.0);

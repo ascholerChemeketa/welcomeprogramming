@@ -1,0 +1,1 @@
+printTime(hour + 1, 0);

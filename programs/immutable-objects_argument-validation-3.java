@@ -1,0 +1,1 @@
+if (str.isEmpty() || str == null) {    // wrong!

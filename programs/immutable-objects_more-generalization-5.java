@@ -1,0 +1,1 @@
+printRow(i, i);  // using i for both n and cols

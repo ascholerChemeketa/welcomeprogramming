@@ -1,0 +1,1 @@
+System.out.println("The zeroth element is " + counts[0]);
