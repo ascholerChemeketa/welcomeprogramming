@@ -18,7 +18,7 @@ for root, dirs, files in os.walk(sys.argv[1]):
             inProgram = False
             while i < len(lines):
                 line = lines[i]
-                if 'section xml' in line:
+                if ('section' in line or 'chapter' in line) and 'xml:id' in line:
                     groups = re.search(r'xml:id=\"([\w_-]+)\"', line)
                     curSection = groups.group(1)
                     print("======================")
