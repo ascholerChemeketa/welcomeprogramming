@@ -1,4 +1,4 @@
-<section xml:id="arrays-references_random-numbers">
+<section xml:id="arrays-references_random-numbers" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Random Numbers</title>
 <p>
 <idx><h>deterministic</h></idx>
@@ -33,15 +33,8 @@ The following method creates an <c>int</c> array and fills it with random number
 The argument specifies the desired size of the array, and the return value is a reference to the new array:
 </p>
 
-<program>
-public static int[] randomArray(int size) {
-    Random random = new Random();
-    int[] a = new int[size];
-    for (int i = 0; i &lt; a.length; i++) {
-        a[i] = random.nextInt(100);
-    }
-    return a;
-}
+<program xml:id="arrays-references_random-numbers-1">
+<xi:include href="../programs/arrays-references_random-numbers-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -49,11 +42,8 @@ The following <c>main</c> method generates an array and displays it by using the
 We could have used <c>Arrays.toString</c>, but we like seeing curly braces instead of square brackets:
 </p>
 
-<program>
-public static void main(String[] args) {
-    int[] array = randomArray(8);
-    printArray(array);
-}
+<program xml:id="arrays-references_random-numbers-2" interactive="activecode">
+<xi:include href="../programs/arrays-references_random-numbers-2.cpp" parse="text"/>
 </program>
 
 <p>

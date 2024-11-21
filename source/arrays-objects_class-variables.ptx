@@ -1,4 +1,4 @@
-<section xml:id="arrays-objects_class-variables">
+<section xml:id="arrays-objects_class-variables" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Class Variables</title>
 <p>
 <idx><h>class variable</h></idx>
@@ -15,22 +15,8 @@ But they are identified by the keyword <c>static</c>.
 Here is a version of <c>Card</c> in which <c>RANKS</c> and <c>SUITS</c> are defined as class variables:
 </p>
 
-<program>
-public class Card {
-
-    public static final String[] RANKS = {
-        null, "Ace", "2", "3", "4", "5", "6", "7",
-        "8", "9", "10", "Jack", "Queen", "King"};
-
-    public static final String[] SUITS = {
-        "Clubs", "Diamonds", "Hearts", "Spades"};
-
-    // instance variables and constructors go here
-
-    public String toString() {
-        return RANKS[this.rank] + " of " + SUITS[this.suit];
-    }
-}
+<program xml:id="arrays-objects_class-variables-1">
+<xi:include href="../programs/arrays-objects_class-variables-1.cpp" parse="text"/>
 </program>
 
 <p>

@@ -1,4 +1,4 @@
-<section xml:id="methods-testing_exercises">
+<section xml:id="methods-testing_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Exercises</title>
 <p>
 The code for this chapter is in the <em>ch04</em> directory of <em>ThinkJavaCode2</em>.
@@ -41,29 +41,16 @@ This exercise reviews the flow of execution through a program with multiple meth
 Read the following code and answer the questions:
 </p>
 
-<program>
-public static void main(String[] args) {
-    zippo("rattle", 13);
-}
+<program xml:id="methods-testing_exercises-1" interactive="activecode">
+<xi:include href="../programs/methods-testing_exercises-1.cpp" parse="text"/>
 </program>
   
-<program>
-public static void baffle(String blimp) {
-    System.out.println(blimp);
-    zippo("ping", -5);
-}
+<program xml:id="methods-testing_exercises-2" interactive="activecode">
+<xi:include href="../programs/methods-testing_exercises-2.cpp" parse="text"/>
 </program>
   
-<program>
-public static void zippo(String quince, int flag) {
-    if (flag &lt; 0) {
-        System.out.println(quince + " zoop");
-    } else {
-        System.out.println("ik");
-        baffle(quince);
-        System.out.println("boo-wa-ha-ha");
-    }
-}
+<program xml:id="methods-testing_exercises-3" interactive="activecode">
+<xi:include href="../programs/methods-testing_exercises-3.cpp" parse="text"/>
 </program>
 
 <ol>
@@ -88,34 +75,20 @@ Be precise about the placement of spaces and newlines.</p></li>
 
 </p>
 
-<program>
-public static void zoop() {
-    baffle();
-    System.out.print("You wugga ");
-    baffle();
-}
+<program xml:id="methods-testing_exercises-4" interactive="activecode">
+<xi:include href="../programs/methods-testing_exercises-4.cpp" parse="text"/>
 </program>
   
-<program>
-public static void main(String[] args) {
-    System.out.print("No, I ");
-    zoop();
-    System.out.print("I ");
-    baffle();
-}
+<program xml:id="methods-testing_exercises-5" interactive="activecode">
+<xi:include href="../programs/methods-testing_exercises-5.cpp" parse="text"/>
 </program>
   
-<program>
-public static void baffle() {
-    System.out.print("wug");
-    ping();
-}
+<program xml:id="methods-testing_exercises-6" interactive="activecode">
+<xi:include href="../programs/methods-testing_exercises-6.cpp" parse="text"/>
 </program>
   
-<program>
-public static void ping() {
-    System.out.println(".");
-}
+<program xml:id="methods-testing_exercises-7" interactive="activecode">
+<xi:include href="../programs/methods-testing_exercises-7.cpp" parse="text"/>
 </program>
 
 </statement>
@@ -143,37 +116,20 @@ Draw a stack diagram that shows the state of the program the <em>second</em> tim
 What is the complete output?
 </p>
 
-<program>
-public static void zoop(String fred, int bob) {
-    System.out.println(fred);
-    if (bob == 5) {
-        ping("not ");
-    } else {
-        System.out.println("!");
-    }
-}
+<program xml:id="methods-testing_exercises-8" interactive="activecode">
+<xi:include href="../programs/methods-testing_exercises-8.cpp" parse="text"/>
 </program>
   
-<program>
-public static void main(String[] args) {
-    int bizz = 5;
-    int buzz = 2;
-    zoop("just for", bizz);
-    clink(2 * buzz);
-}
+<program xml:id="methods-testing_exercises-9" interactive="activecode">
+<xi:include href="../programs/methods-testing_exercises-9.cpp" parse="text"/>
 </program>
   
-<program>
-public static void clink(int fork) {
-    System.out.print("It's ");
-    zoop("breakfast ", fork);
-}
+<program xml:id="methods-testing_exercises-10" interactive="activecode">
+<xi:include href="../programs/methods-testing_exercises-10.cpp" parse="text"/>
 </program>
   
-<program>
-public static void ping(String strangStrung) {
-    System.out.println("any " + strangStrung + "more ");
-}
+<program xml:id="methods-testing_exercises-11">
+<xi:include href="../programs/methods-testing_exercises-11.cpp" parse="text"/>
 </program>
 
 </statement>

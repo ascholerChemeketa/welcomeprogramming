@@ -1,4 +1,4 @@
-<section xml:id="graphics_example-drawing">
+<section xml:id="graphics_example-drawing" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Example Drawing</title>
 <p>
 <idx><h>Mickey Mouse</h></idx>
@@ -11,30 +11,16 @@ To make the code more readable, let's use <c>Rectangle</c> objects to represent 
 Here's a method that takes a <c>Rectangle</c> and invokes <c>fillOval</c>:
 </p>
 
-<program>
-public void boxOval(Graphics g, Rectangle bb) {
-    g.fillOval(bb.x, bb.y, bb.width, bb.height);
-}
+<program xml:id="graphics_example-drawing-1">
+<xi:include href="../programs/graphics_example-drawing-1.cpp" parse="text"/>
 </program>
 
 <p>
 And here's a method that draws Mickey Mouse:
 </p>
 
-<program>
-public void mickey(Graphics g, Rectangle bb) {
-    boxOval(g, bb);
-
-    int hx = bb.width / 2;
-    int hy = bb.height / 2;
-    Rectangle half = new Rectangle(bb.x, bb.y, hx, hy);
-
-    half.translate(-hx / 2, -hy / 2);
-    boxOval(g, half);
-
-    half.translate(hx * 2, 0);
-    boxOval(g, half);
-}
+<program xml:id="graphics_example-drawing-2">
+<xi:include href="../programs/graphics_example-drawing-2.cpp" parse="text"/>
 </program>
 
 <p>

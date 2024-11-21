@@ -1,4 +1,4 @@
-<section xml:id="arrays-references_creating-arrays">
+<section xml:id="arrays-references_creating-arrays" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Creating Arrays</title>
 <p>
 <idx><h>array</h></idx>
@@ -16,9 +16,8 @@ Array types look like other Java types, except they are followed by square brack
 For example, the following lines declare that <c>counts</c> is an <q>integer array</q> and <c>values</c> is a <q>double array</q>:
 </p>
 
-<program>
-int[] counts;
-double[] values;
+<program xml:id="arrays-references_creating-arrays-1">
+<xi:include href="../programs/arrays-references_creating-arrays-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -29,9 +28,8 @@ To create the array itself, you have to use the <c>new</c> operator, which you f
 The <c>new</c> operator <em>allocates</em> memory for the array and automatically initializes all of its elements to zero:
 </p>
 
-<program>
-counts = new int[4];
-values = new double[size];
+<program xml:id="arrays-references_creating-arrays-2">
+<xi:include href="../programs/arrays-references_creating-arrays-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -43,9 +41,8 @@ The second makes <c>values</c> refer to an array of <c>double</c>s, but the numb
 Of course, you can also declare the variable and create the array with a single line of code:
 </p>
 
-<program>
-int[] counts = new int[4];
-double[] values = new double[size];
+<program xml:id="arrays-references_creating-arrays-3">
+<xi:include href="../programs/arrays-references_creating-arrays-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -60,8 +57,8 @@ An array with zero elements is allowed, and there are special uses for such arra
 You can initialize an array with a comma-separated sequence of elements enclosed in braces, like this:
 </p>
 
-<program>
-int[] a = {1, 2, 3, 4};
+<program xml:id="arrays-references_creating-arrays-4">
+<xi:include href="../programs/arrays-references_creating-arrays-4.cpp" parse="text"/>
 </program>
 
 <p>

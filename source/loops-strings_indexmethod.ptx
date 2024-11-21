@@ -1,4 +1,4 @@
-<section xml:id="loops-strings_indexmethod">
+<section xml:id="loops-strings_indexmethod" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The indexOf Method</title>
 <p>
 <idx><h>indexOf</h></idx>
@@ -6,9 +6,8 @@ To search for a specific character in a string, you could write a <c>for</c> loo
 However, the <c>String</c> class already provides a method for doing just that:
 </p>
 
-<program>
-String fruit = "banana";
-int index = fruit.indexOf('a');     // returns 1
+<program xml:id="loops-strings_indexmethod-1">
+<xi:include href="../programs/loops-strings_indexmethod-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -21,8 +20,8 @@ According to the documentation, it returns the index of the <em>first</em> appea
 To find subsequent appearances, you can use another version of <c>indexOf</c>, which takes a second argument that indicates where in the string to start looking:
 </p>
 
-<program>
-int index = fruit.indexOf('a', 2);  // returns 3
+<program xml:id="loops-strings_indexmethod-2">
+<xi:include href="../programs/loops-strings_indexmethod-2.cpp" parse="text"/>
 </program>
 
 <p>

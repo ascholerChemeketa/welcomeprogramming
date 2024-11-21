@@ -1,4 +1,4 @@
-<section xml:id="javadoc_example-source-file">
+<section xml:id="javadoc_example-source-file" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Example Source File</title>
 <p>
 Now let's take a look at a more complete example.
@@ -18,28 +18,8 @@ Our example source file, <em>Convert.java</em>, includes the MIT License (\url{h
 \begin{scriptsize}
 </p>
 
-<program>
-/*
- * Copyright (c) 2019 Allen Downey and Chris Mayfield
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+<program xml:id="javadoc_example-source-file-1">
+<xi:include href="../programs/javadoc_example-source-file-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -51,17 +31,8 @@ Import statements generally follow the copyright text.
 After that, we can define the class itself and begin writing the documentation (<c>/**</c>):
 </p>
 
-<program>
-import java.util.Scanner;
-
-/**
- * Methods for converting to/from the metric system.
- *
- * @author Allen Downey
- * @author Chris Mayfield
- * @version 6.1.5
- */
-public class Convert {
+<program xml:id="javadoc_example-source-file-2" interactive="activecode">
+<xi:include href="../programs/javadoc_example-source-file-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -75,10 +46,8 @@ This class has two constants and three methods.
 The constants are self-explanatory, so there is no need to write documentation for them:
 </p>
 
-<program>
-public static final double CM_PER_INCH = 2.54;
-
-public static final int IN_PER_FOOT = 12;
+<program xml:id="javadoc_example-source-file-3">
+<xi:include href="../programs/javadoc_example-source-file-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -86,62 +55,20 @@ The methods, on the other hand, could use some explanation.
 Each documentation comment includes a description, followed by a blank line, followed by a <c>@param</c> tag for each parameter, followed by a <c>@return</c> tag:
 </p>
 
-<program>
-/**
- * Converts a measurement in centimeters to inches.
- *
- * @param cm length in centimeters
- * @return length in inches
- */
-public static double toImperial(double cm) {
-    return cm / CM_PER_INCH;
-}
+<program xml:id="javadoc_example-source-file-4">
+<xi:include href="../programs/javadoc_example-source-file-4.cpp" parse="text"/>
 </program>
   
-<program>
-/**
- * Converts a length in feet and inches to centimeters.
- *
- * @param feet how many feet
- * @param inches how many inches
- * @return length in centimeters
- */
-public static double toMetric(int feet, int inches) {
-    int total = feet * IN_PER_FOOT + inches;
-    return total * CM_PER_INCH;
-}
+<program xml:id="javadoc_example-source-file-5">
+<xi:include href="../programs/javadoc_example-source-file-5.cpp" parse="text"/>
 </program>
 
 <p>
 The <c>main</c> method has a similar documentation comment, except there is no <c>@return</c> tag since the method is <c>void</c>:
 </p>
 
-<program>
-/**
- * Tests the conversion methods.
- *
- * @param args command-line arguments
- */
-public static void main(String[] args) {
-    double cm, result;
-    int feet, inches;
-    Scanner in = new Scanner(System.in);
-
-    // test the Imperial conversion
-    System.out.print("Exactly how many cm? ");
-    cm = in.nextDouble();
-    result = toImperial(cm);
-    System.out.printf("That's %.2f inches\n", result);
-    System.out.println();
-
-    // test the Metric conversion
-    System.out.print("Now how many feet? ");
-    feet = in.nextInt();
-    System.out.print("And how many inches? ");
-    inches = in.nextInt();
-    result = toMetric(feet, inches);
-    System.out.printf("That's %.2f cm\n", result);
-}
+<program xml:id="javadoc_example-source-file-6" interactive="activecode">
+<xi:include href="../programs/javadoc_example-source-file-6.cpp" parse="text"/>
 </program>
 
 <p>

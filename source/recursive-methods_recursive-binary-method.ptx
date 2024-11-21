@@ -1,4 +1,4 @@
-<section xml:id="recursive-methods_recursive-binary-method">
+<section xml:id="recursive-methods_recursive-binary-method" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Recursive Binary Method</title>
 <p>
 Now, to display a number in binary, we can combine the algorithm from the previous section and the <q>count up</q> pattern from <xref ref="countup">Section</xref>.
@@ -8,13 +8,8 @@ Now, to display a number in binary, we can combine the algorithm from the previo
 Here is a recursive method that displays any positive integer in binary:
 </p>
 
-<program>
-public static void displayBinary(int value) {
-    if (value > 0) {
-        displayBinary(value / 2);
-        System.out.print(value % 2);
-    }
-}
+<program xml:id="recursive-methods_recursive-binary-method-1">
+<xi:include href="../programs/recursive-methods_recursive-binary-method-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -38,9 +33,8 @@ The rightmost digit, near the top of the stack, gets displayed last.
 After invoking <c>displayBinary</c>, we use <c>println</c> to complete the output:
 </p>
 
-<program>
-displayBinary(23);      // output is 10111
-System.out.println();
+<program xml:id="recursive-methods_recursive-binary-method-2" interactive="activecode">
+<xi:include href="../programs/recursive-methods_recursive-binary-method-2.cpp" parse="text"/>
 </program>
 
 </section>

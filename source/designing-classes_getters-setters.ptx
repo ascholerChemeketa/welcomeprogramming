@@ -1,4 +1,4 @@
-<section xml:id="designing-classes_getters-setters">
+<section xml:id="designing-classes_getters-setters" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Getters and Setters</title>
 <p>
 Recall that the instance variables of <c>Time</c> are <c>private</c>.
@@ -16,14 +16,8 @@ For example, here is a new class called <c>TimeClient</c>:
 <idx><h>client</h></idx>
 </p>
 
-<program>
-public class TimeClient {
-
-    public static void main(String[] args) {
-        Time time = new Time(11, 59, 59.9);
-        System.out.println(time.hour);      // compiler error
-    }
-}
+<program xml:id="designing-classes_getters-setters-1" interactive="activecode">
+<xi:include href="../programs/designing-classes_getters-setters-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -55,18 +49,8 @@ For example, we might want the instance variables to be <q>read only</q>; that i
 We can do that by providing one method for each instance variable:
 </p>
 
-<program>
-public int getHour() {
-    return this.hour;
-}
-
-public int getMinute() {
-    return this.minute;
-}
-
-public double getSecond() {
-    return this.second;
-}
+<program xml:id="designing-classes_getters-setters-2">
+<xi:include href="../programs/designing-classes_getters-setters-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -82,26 +66,16 @@ By convention, the method that gets a variable named <c>something</c> is called 
 We can fix the compiler error in <c>TimeClient</c> by using the getter:
 </p>
 
-<program>
-System.out.println(time.getHour());
+<program xml:id="designing-classes_getters-setters-3">
+<xi:include href="../programs/designing-classes_getters-setters-3.cpp" parse="text"/>
 </program>
 
 <p>
 If we decide that <c>TimeClient</c> should also be able to modify the instance variables of <c>Time</c>, we can provide methods to do that too:
 </p>
 
-<program>
-public void setHour(int hour) {
-    this.hour = hour;
-}
-
-public void setMinute(int minute) {
-    this.minute = minute;
-}
-
-public void setSecond(double second) {
-    this.second = second;
-}
+<program xml:id="designing-classes_getters-setters-4">
+<xi:include href="../programs/designing-classes_getters-setters-4.cpp" parse="text"/>
 </program>
 
 <p>

@@ -1,4 +1,4 @@
-<section xml:id="arrays-references_displaying-arrays">
+<section xml:id="arrays-references_displaying-arrays" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Displaying Arrays</title>
 <p>
 <idx><h>array</h><h>printing</h></idx>
@@ -6,9 +6,8 @@ You can use <c>println</c> to display an array, but it probably doesn't do what 
 For example, say you print an array like this:
 </p>
 
-<program>
-int[] a = {1, 2, 3, 4};
-System.out.println(a);
+<program xml:id="arrays-references_displaying-arrays-1">
+<xi:include href="../programs/arrays-references_displaying-arrays-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -33,14 +32,8 @@ If we want to display the elements of the array, we can do it ourselves:
 <idx><h>printArray</h></idx>
 </p>
 
-<program>
-public static void printArray(int[] a) {
-    System.out.print("{" + a[0]);
-    for (int i = 1; i &lt; a.length; i++) {
-        System.out.print(", " + a[i]);
-    }
-    System.out.println("}");
-}
+<program xml:id="arrays-references_displaying-arrays-2">
+<xi:include href="../programs/arrays-references_displaying-arrays-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -61,8 +54,8 @@ One of them, <c>toString</c>, returns a string representation of an array.
 After importing <c>Arrays</c>, we can invoke <c>toString</c> like this:
 </p>
 
-<program>
-System.out.println(Arrays.toString(a));
+<program xml:id="arrays-references_displaying-arrays-3">
+<xi:include href="../programs/arrays-references_displaying-arrays-3.cpp" parse="text"/>
 </program>
 
 <p>

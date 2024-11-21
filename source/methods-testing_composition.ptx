@@ -1,4 +1,4 @@
-<section xml:id="methods-testing_composition">
+<section xml:id="methods-testing_composition" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Composition</title>
 <p>
 <idx><h>expression</h></idx>
@@ -21,8 +21,8 @@ That means you can use one method as part of another.
 In fact, you can use any expression as an argument to a method, as long as the resulting value has the correct type:
 </p>
 
-<program>
-double x = Math.cos(angle + Math.PI / 2.0);
+<program xml:id="methods-testing_composition-1">
+<xi:include href="../programs/methods-testing_composition-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -30,8 +30,8 @@ This statement divides <c>Math.PI</c> by <c>2.0</c>, adds the result to <c>angle
 You can also take the result of one method and pass it as an argument to another:
 </p>
 
-<program>
-double x = Math.exp(Math.log(10.0));
+<program xml:id="methods-testing_composition-2">
+<xi:include href="../programs/methods-testing_composition-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -46,8 +46,8 @@ For example, <c>Math.pow</c> takes two arguments and raises the first to the pow
 This line computes <m>2^{10}</m> and assigns the value <c>1024.0</c> to the variable <c>x</c>:
 </p>
 
-<program>
-double x = Math.pow(2.0, 10.0);
+<program xml:id="methods-testing_composition-3">
+<xi:include href="../programs/methods-testing_composition-3.cpp" parse="text"/>
 </program>
 
 <p>

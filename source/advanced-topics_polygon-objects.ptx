@@ -1,4 +1,4 @@
-<section xml:id="advanced-topics_polygon-objects">
+<section xml:id="advanced-topics_polygon-objects" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Polygon Objects</title>
 <p>
 The word polygon means <q>many angles</q>; the most basic polygons are triangles (three angles), rectangles (four angles), pentagons (five angles), and so forth.
@@ -10,11 +10,8 @@ Java provides a <c>Polygon</c> class (in <c>java.awt</c>) that we can use to rep
 The following code creates an empty <c>Polygon</c> and adds three points, forming a triangle:
 </p>
 
-<program>
-Polygon p = new Polygon();
-p.addPoint(57, 110);
-p.addPoint(100, 35);
-p.addPoint(143, 110);
+<program xml:id="advanced-topics_polygon-objects-1">
+<xi:include href="../programs/advanced-topics_polygon-objects-1.cpp" parse="text"/>
 </program>
 
 <p>

@@ -1,4 +1,4 @@
-<section xml:id="arrays-references_traversing-arrays">
+<section xml:id="arrays-references_traversing-arrays" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Traversing Arrays</title>
 <p>
 <idx><h>traversal</h></idx>
@@ -6,11 +6,8 @@ Many computations can be implemented by looping through the elements of an array
 Looping through the elements of an array is called a <em>traversal</em>:
 </p>
 
-<program>
-int[] a = {1, 2, 3, 4, 5};
-for (int i = 0; i &lt; a.length; i++) {
-    a[i] *= a[i];
-}
+<program xml:id="arrays-references_traversing-arrays-1">
+<xi:include href="../programs/arrays-references_traversing-arrays-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -24,15 +21,8 @@ Another common pattern is a <em>search</em>, which involves traversing an array 
 For example, the following method takes an array and a value, and it returns the index where the value appears:
 </p>
 
-<program>
-public static int search(double[] array, double target) {
-    for (int i = 0; i &lt; array.length; i++) {
-        if (array[i] == target) {
-            return i;
-        }
-    }
-    return -1;  // not found
-}
+<program xml:id="arrays-references_traversing-arrays-2">
+<xi:include href="../programs/arrays-references_traversing-arrays-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -46,10 +36,8 @@ The following code searches an array for the value <c>1.23</c>, which is the thi
 Because array indexes start at 0, the output is <c>2</c>:
 </p>
 
-<program>
-double[] array = {3.14, -55.0, 1.23, -0.8};
-int index = search(array, 1.23);
-System.out.println(index);
+<program xml:id="arrays-references_traversing-arrays-3" interactive="activecode">
+<xi:include href="../programs/arrays-references_traversing-arrays-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -59,14 +47,8 @@ Examples include the sum or product of the elements, the minimum, and the maximu
 The following method takes an array and returns the sum of its elements:
 </p>
 
-<program>
-public static double sum(double[] array) {
-    double total = 0.0;
-    for (int i = 0; i &lt; array.length; i++) {
-        total += array[i];
-    }
-    return total;
-}
+<program xml:id="arrays-references_traversing-arrays-4">
+<xi:include href="../programs/arrays-references_traversing-arrays-4.cpp" parse="text"/>
 </program>
 
 <p>

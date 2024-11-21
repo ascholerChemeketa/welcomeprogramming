@@ -1,4 +1,4 @@
-<section xml:id="reusing-classes_abstract-classes">
+<section xml:id="reusing-classes_abstract-classes" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Abstract Classes</title>
 <p>
 If we were not planning to implement any other zero-person games, we could leave well enough alone.
@@ -30,20 +30,8 @@ If the subclass does not override an abstract method, you will get a compiler er
 Here's what <c>Automaton</c> looks like as an abstract class (using the methods <c>mainloop</c> and <c>run</c> from <xref ref="refactor">Section</xref>):
 </p>
 
-<program>
-public abstract class Automaton {
-    protected GridCanvas grid;
-
-    public abstract void update();
-
-    private void mainloop(int rate) {
-        // this method invokes update
-    }
-
-    public void run(String title, int rate) {
-        // this method invokes mainloop
-    }
-}
+<program xml:id="reusing-classes_abstract-classes-1">
+<xi:include href="../programs/reusing-classes_abstract-classes-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -65,17 +53,8 @@ Any class that extends <c>Automaton</c> must provide an implementation of <c>upd
 Here's what <c>Conway</c> looks like as a subclass of <c>Automaton</c>:
 </p>
 
-<program>
-public class Conway extends Automaton {
-
-    // same methods as before, except mainloop is removed
-
-    public static void main(String[] args) {
-        String title = "Conway's Game of Life";
-        Conway game = new Conway();
-        game.run(title, 2);
-    }
-}
+<program xml:id="reusing-classes_abstract-classes-2" interactive="activecode">
+<xi:include href="../programs/reusing-classes_abstract-classes-2.cpp" parse="text"/>
 </program>
 
 <p>

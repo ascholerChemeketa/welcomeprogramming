@@ -1,4 +1,4 @@
-<section xml:id="immutable-objects_argument-validation">
+<section xml:id="immutable-objects_argument-validation" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Argument Validation</title>
 <p>
 As we discussed in <xref ref="validate">Section</xref>, you should never assume that program input will be in the correct format.
@@ -28,10 +28,8 @@ As a further example, consider a method that checks whether the first word of a 
 We can write this method using the <c>Character</c> wrapper class:
 </p>
 
-<program>
-public static boolean isCapitalized(String str) {
-    return Character.isUpperCase(str.charAt(0));
-}
+<program xml:id="immutable-objects_argument-validation-1">
+<xi:include href="../programs/immutable-objects_argument-validation-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -55,13 +53,8 @@ We can prevent these exceptions by validating <c>str</c> <em>at the start</em> o
 If it's invalid, we return before executing the rest of the method:
 </p>
 
-<program>
-public static boolean isCapitalized(String str) {
-    if (str == null || str.isEmpty()) {
-        return false;
-    }
-    return Character.isUpperCase(str.charAt(0));
-}
+<program xml:id="immutable-objects_argument-validation-2">
+<xi:include href="../programs/immutable-objects_argument-validation-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -78,8 +71,8 @@ Beginners sometimes make the mistake of checking for empty first.
 Doing so causes a <c>NullPointerException</c>, because you can't invoke methods on variables that are <c>null</c>:
 </p>
 
-<program>
-if (str.isEmpty() || str == null) {    // wrong!
+<program xml:id="immutable-objects_argument-validation-3">
+<xi:include href="../programs/immutable-objects_argument-validation-3.cpp" parse="text"/>
 </program>
 
 <p>

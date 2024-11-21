@@ -1,4 +1,4 @@
-<section xml:id="immutable-objects_strings-are-immutable">
+<section xml:id="immutable-objects_strings-are-immutable" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Strings Are Immutable</title>
 <p>
 If the Java library didn't have a <c>String</c> class, we would have to use character arrays to store and manipulate text.
@@ -20,9 +20,8 @@ When you invoke <c>toUpperCase</c> on a string, you get a new <c>String</c> obje
 For example:
 </p>
 
-<program>
-String name = "Alan Turing";
-String upperName = name.toUpperCase();
+<program xml:id="immutable-objects_strings-are-immutable-1">
+<xi:include href="../programs/immutable-objects_strings-are-immutable-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -31,10 +30,8 @@ But <c>name</c> still refers to <c>"Alan Turing"</c>.
 A common mistake is to assume that <c>toUpperCase</c> somehow affects the original string:
 </p>
 
-<program>
-String name = "Alan Turing";
-name.toUpperCase();           // ignores the return value
-System.out.println(name);
+<program xml:id="immutable-objects_strings-are-immutable-2">
+<xi:include href="../programs/immutable-objects_strings-are-immutable-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -42,10 +39,8 @@ The previous code displays <c>"Alan Turing"</c>, because the value of <c>name</c
 If you want to change <c>name</c> to be uppercase, then you need to assign the return value:
 </p>
 
-<program>
-String name = "Alan Turing";
-name = name.toUpperCase();    // references the new string
-System.out.println(name);
+<program xml:id="immutable-objects_strings-are-immutable-3">
+<xi:include href="../programs/immutable-objects_strings-are-immutable-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -54,9 +49,8 @@ A similar method is <c>replace</c>, which finds and replaces instances of one st
 This example replaces <c>"Computer Science"</c> with <c>"CS"</c>:
 </p>
 
-<program>
-String text = "Computer Science is fun!";
-text = text.replace("Computer Science", "CS");
+<program xml:id="immutable-objects_strings-are-immutable-4">
+<xi:include href="../programs/immutable-objects_strings-are-immutable-4.cpp" parse="text"/>
 </program>
 
 <p>

@@ -1,4 +1,4 @@
-<section xml:id="immutable-objects_exercises">
+<section xml:id="immutable-objects_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Exercises</title>
 <p>
 The code for this chapter is in the <em>ch09</em> directory of <em>ThinkJavaCode2</em>.
@@ -79,21 +79,8 @@ Many encryption algorithms depend on the ability to raise large integers to a po
 Here is a method that implements an efficient algorithm for integer exponentiation:
 </p>
 
-<program>
-public static int pow(int x, int n) {
-    if (n == 0) return 1;
-
-    // find x to the n/2 recursively
-    int t = pow(x, n / 2);
-
-    // if n is even, the result is t squared
-    // if n is odd, the result is t squared times x
-    if (n % 2 == 0) {
-        return t * t;
-    } else {
-        return t * t * x;
-    }
-}
+<program xml:id="immutable-objects_exercises-1">
+<xi:include href="../programs/immutable-objects_exercises-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -174,20 +161,8 @@ Generalize it to take the number of counters as an argument.</p></li>
 The following code fragment traverses a string and checks whether it has the same number of opening and closing parentheses:
 </p>
 
-<program>
-String s = "((3 + 7) * 2)";
-int count = 0;
-
-for (int i = 0; i &lt; s.length(); i++) {
-    char c = s.charAt(i);
-    if (c == '(') {
-        count++;
-    } else if (c == ')') {
-        count--;
-    }
-}
-
-System.out.println(count);
+<program xml:id="immutable-objects_exercises-2">
+<xi:include href="../programs/immutable-objects_exercises-2.cpp" parse="text"/>
 </program>
 
 <ol>

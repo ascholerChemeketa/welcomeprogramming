@@ -1,4 +1,4 @@
-<section xml:id="arrays-references_counting-characters">
+<section xml:id="arrays-references_counting-characters" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Counting Characters</title>
 <p>
 We now return to the example from the beginning of the chapter and present a solution to <xref ref="doubloon">Exercise</xref> using arrays.
@@ -14,9 +14,8 @@ Based on the approach from <xref ref="singlepass">Section</xref>, we will create
 We convert the string to lowercase, so that we can treat <c>'A'</c> and <c>'a'</c> (for example) as the same letter.
 </p>
 
-<program>
-int[] counts = new int[26];
-String lower = s.toLowerCase();
+<program xml:id="arrays-references_counting-characters-1">
+<xi:include href="../programs/arrays-references_counting-characters-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -25,12 +24,8 @@ To update the <c>counts</c> array, we need to compute the index that corresponds
 Fortunately, Java allows you to perform arithmetic on characters:
 </p>
 
-<program>
-for (int i = 0; i &lt; lower.length(); i++) {
-    char letter = lower.charAt(i);
-    int index = letter - 'a';
-    counts[index]++;
-}
+<program xml:id="arrays-references_counting-characters-2">
+<xi:include href="../programs/arrays-references_counting-characters-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -49,24 +44,16 @@ At the end of the loop, <c>counts</c> contains a histogram of the letters in the
 We can simplify this code with an enhanced <c>for</c> loop, but it doesn't work with strings; we have to convert <c>lower</c> to an array of characters, like this:
 </p>
 
-<program>
-for (char letter : lower.toCharArray()) {
-    int index = letter - 'a';
-    counts[index]++;
-}
+<program xml:id="arrays-references_counting-characters-3">
+<xi:include href="../programs/arrays-references_counting-characters-3.cpp" parse="text"/>
 </program>
 
 <p>
 Once we have the counts, we can use a second <c>for</c> loop to check whether each letter appears zero or two times:
 </p>
 
-<program>
-for (int count : counts) {
-    if (count != 0 &amp;&amp; count != 2) {
-        return false;  // not a doubloon
-    }
-}
-return true;  // is a doubloon
+<program xml:id="arrays-references_counting-characters-4">
+<xi:include href="../programs/arrays-references_counting-characters-4.cpp" parse="text"/>
 </program>
 
 <p>
@@ -83,31 +70,8 @@ Pulling together the code fragments, and adding some comments and test cases, he
 </p>
 
 <listing filename="Doubloon.java">
-<program>
-public class Doubloon {
-
-    public static boolean isDoubloon(String s) {
-        // count the number of times each letter appears
-        int[] counts = new int[26];
-        String lower = s.toLowerCase();
-        for (char letter : lower.toCharArray()) {
-            int index = letter - 'a';
-            counts[index]++;
-        }
-        // determine whether the given word is a doubloon
-        for (int count : counts) {
-            if (count != 0 &amp;&amp; count != 2) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(isDoubloon("Mama"));  // true
-        System.out.println(isDoubloon("Lama"));  // false
-    }
-}
+<program xml:id="arrays-references_counting-characters-5">
+<xi:include href="../programs/arrays-references_counting-characters-5.cpp" parse="text"/>
 </program>
 </listing>
 

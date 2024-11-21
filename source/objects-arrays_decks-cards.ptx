@@ -1,22 +1,12 @@
-<section xml:id="objects-arrays_decks-cards">
+<section xml:id="objects-arrays_decks-cards" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Decks of Cards</title>
 <p>
 <idx><h>Deck</h></idx>
 Here is the beginning of a <c>Deck</c> class that encapsulates an array of <c>Card</c> objects:
 </p>
 
-<program>
-public class Deck {
-    private Card[] cards;
-
-    public Deck(int n) {
-        this.cards = new Card[n];
-    }
-
-    public Card[] getCards() {
-        return this.cards;
-    }
-}
+<program xml:id="objects-arrays_decks-cards-1" interactive="activecode">
+<xi:include href="../programs/objects-arrays_decks-cards-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -34,17 +24,8 @@ The constructor initializes the instance variable with an array of <c>n</c> card
 We'll add another constructor that creates a standard 52-card array and populates it with <c>Card</c> objects:
 </p>
 
-<program>
-public Deck() {
-    this.cards = new Card[52];
-    int index = 0;
-    for (int suit = 0; suit &lt;= 3; suit++) {
-        for (int rank = 1; rank &lt;= 13; rank++) {
-            this.cards[index] = new Card(rank, suit);
-            index++;
-        }
-    }
-}
+<program xml:id="objects-arrays_decks-cards-2" interactive="activecode">
+<xi:include href="../programs/objects-arrays_decks-cards-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -52,8 +33,8 @@ This method is similar to the example in <xref ref="cardarray">Section</xref>; w
 We can use it to create a complete <c>Deck</c> like this:
 </p>
 
-<program>
-Deck deck = new Deck();
+<program xml:id="objects-arrays_decks-cards-3" interactive="activecode">
+<xi:include href="../programs/objects-arrays_decks-cards-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -63,12 +44,8 @@ Looking at the methods we have written so far, one obvious candidate is <c>print
 Here's how it looks, rewritten as an instance method of <c>Deck</c>:
 </p>
 
-<program>
-public void print() {
-    for (Card card : this.cards) {
-        System.out.println(card);
-    }
-}
+<program xml:id="objects-arrays_decks-cards-4" interactive="activecode">
+<xi:include href="../programs/objects-arrays_decks-cards-4.cpp" parse="text"/>
 </program>
 
 <p>
@@ -76,8 +53,8 @@ Notice that when we transform a static method into an instance method, the code 
 Here's how we invoke it:
 </p>
 
-<program>
-deck.print();
+<program xml:id="objects-arrays_decks-cards-5" interactive="activecode">
+<xi:include href="../programs/objects-arrays_decks-cards-5.cpp" parse="text"/>
 </program>
 
 </section>

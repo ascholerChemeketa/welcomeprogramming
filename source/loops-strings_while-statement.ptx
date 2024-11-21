@@ -1,4 +1,4 @@
-<section xml:id="loops-strings_while-statement">
+<section xml:id="loops-strings_while-statement" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The while Statement</title>
 <p>
 <idx><h>while</h></idx>
@@ -7,13 +7,8 @@
 Using a <c>while</c> statement, we can repeat the same code multiple times:
 </p>
 
-<program>
-int n = 3;
-while (n > 0) {
-    System.out.println(n);
-    n = n - 1;
-}
-System.out.println("Blastoff!");
+<program xml:id="loops-strings_while-statement-1">
+<xi:include href="../programs/loops-strings_while-statement-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -61,12 +56,8 @@ The <em>body</em> of the loop should change the value of one or more variables s
 Otherwise, the loop will repeat forever, which is called an <em>infinite loop</em>:
 </p>
 
-<program>
-int n = 3;
-while (n > 0) {
-    System.out.println(n);
-    // n never changes
-}
+<program xml:id="loops-strings_while-statement-2">
+<xi:include href="../programs/loops-strings_while-statement-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -80,15 +71,8 @@ But in general, it is not so easy to tell whether a loop terminates.
 For example, this loop continues until <c>n</c> is 1 (which makes the condition <c>false</c>):
 </p>
 
-<program>
-while (n != 1) {
-    System.out.println(n);
-    if (n % 2 == 0) {         // n is even
-        n = n / 2;
-    } else {                  // n is odd
-        n = 3 * n + 1;
-    }
-}
+<program xml:id="loops-strings_while-statement-3">
+<xi:include href="../programs/loops-strings_while-statement-3.cpp" parse="text"/>
 </program>
 
 <p>

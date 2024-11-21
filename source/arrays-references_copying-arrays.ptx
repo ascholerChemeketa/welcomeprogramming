@@ -1,4 +1,4 @@
-<section xml:id="arrays-references_copying-arrays">
+<section xml:id="arrays-references_copying-arrays" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Copying Arrays</title>
 <p>
 <idx><h>array</h><h>copying</h></idx>
@@ -8,9 +8,8 @@ But it doesn't copy the array itself.
 For example:
 </p>
 
-<program>
-double[] a = new double[3];
-double[] b = a;
+<program xml:id="arrays-references_copying-arrays-1">
+<xi:include href="../programs/arrays-references_copying-arrays-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -36,11 +35,8 @@ Because <c>a</c> and <c>b</c> are different names for the same thing, they are s
 If you actually want to copy the array, not just the reference, you have to create a new array and copy the elements from one to the other, like this:
 </p>
 
-<program>
-double[] b = new double[3];
-for (int i = 0; i &lt; 3; i++) {
-    b[i] = a[i];
-}
+<program xml:id="arrays-references_copying-arrays-2">
+<xi:include href="../programs/arrays-references_copying-arrays-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -49,8 +45,8 @@ for (int i = 0; i &lt; 3; i++) {
 So you can replace the previous code with one line:
 </p>
 
-<program>
-double[] b = Arrays.copyOf(a, 3);
+<program xml:id="arrays-references_copying-arrays-3">
+<xi:include href="../programs/arrays-references_copying-arrays-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -69,11 +65,8 @@ It is better to generalize the code to work with arrays of any size.
 We can do that by replacing the magic number, <c>3</c>, with <c>a.length</c>:
 </p>
 
-<program>
-double[] b = new double[a.length];
-for (int i = 0; i &lt; a.length; i++) {
-    b[i] = a[i];
-}
+<program xml:id="arrays-references_copying-arrays-4">
+<xi:include href="../programs/arrays-references_copying-arrays-4.cpp" parse="text"/>
 </program>
 
 <p>
@@ -92,8 +85,8 @@ Of course, we can replace the loop altogether by using <c>Arrays.copyOf</c> and 
 The following line produces the same result shown in <xref ref="fig_array4">Figure</xref>:
 </p>
 
-<program>
-double[] b = Arrays.copyOf(a, a.length);
+<program xml:id="arrays-references_copying-arrays-5">
+<xi:include href="../programs/arrays-references_copying-arrays-5.cpp" parse="text"/>
 </program>
 
 <p>

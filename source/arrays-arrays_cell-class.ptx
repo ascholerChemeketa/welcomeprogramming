@@ -1,4 +1,4 @@
-<section xml:id="arrays-arrays_cell-class">
+<section xml:id="arrays-arrays_cell-class" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The Cell Class</title>
 <p>
 When drawing a cell, we'll need to know its location on the screen and size in pixels.
@@ -16,13 +16,8 @@ We could use a <c>boolean</c> instead, but it's good practice to design classes 
 Here is a <c>Cell</c> class that declares these instance variables:
 </p>
 
-<program>
-public class Cell {
-    private final int x;
-    private final int y;
-    private final int size;
-    private int state;
-}
+<program xml:id="arrays-arrays_cell-class-1">
+<xi:include href="../programs/arrays-arrays_cell-class-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -36,13 +31,8 @@ The next step is to write a constructor.
 Here's one that takes <c>x</c>, <c>y</c>, and <c>size</c> as parameters, and sets <c>state</c> to a default value:
 </p>
 
-<program>
-public Cell(int x, int y, int size) {
-    this.x = x;
-    this.y = y;
-    this.size = size;
-    this.state = 0;
-}
+<program xml:id="arrays-arrays_cell-class-2">
+<xi:include href="../programs/arrays-arrays_cell-class-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -50,15 +40,8 @@ The following method draws a cell.
 Like the <c>paint</c> method in <xref ref="graphics">Appendix</xref>, it takes a graphics context as a parameter:
 </p>
 
-<program>
-public static final Color[] COLORS = {Color.WHITE, Color.BLACK};
-
-public void draw(Graphics g) {
-    g.setColor(COLORS[state]);
-    g.fillRect(x + 1, y + 1, size - 1, size - 1);
-    g.setColor(Color.LIGHT_GRAY);
-    g.drawRect(x, y, size, size);
-}
+<program xml:id="arrays-arrays_cell-class-3">
+<xi:include href="../programs/arrays-arrays_cell-class-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -71,22 +54,8 @@ We also need methods to get and set the cell's state.
 We could just provide <c>getState</c> and <c>setState</c>, but the code will be more readable if we provide methods customized for the Game of Life:
 </p>
 
-<program>
-public boolean isOff() {
-    return state == 0;
-}
-
-public boolean isOn() {
-    return state == 1;
-}
-
-public void turnOff() {
-    state = 0;
-}
-
-public void turnOn() {
-    state = 1;
-}
+<program xml:id="arrays-arrays_cell-class-4">
+<xi:include href="../programs/arrays-arrays_cell-class-4.cpp" parse="text"/>
 </program>
 
 </section>

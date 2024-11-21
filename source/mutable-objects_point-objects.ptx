@@ -1,4 +1,4 @@
-<section xml:id="mutable-objects_point-objects">
+<section xml:id="mutable-objects_point-objects" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Point Objects</title>
 <p>
 <idx><h>coordinate</h></idx>
@@ -14,8 +14,8 @@ The <c>java.awt</c> package provides a class named <c>Point</c> that represents 
 In order to use the <c>Point</c> class, you have to import it:
 </p>
 
-<program>
-import java.awt.Point;
+<program xml:id="mutable-objects_point-objects-1" interactive="activecode">
+<xi:include href="../programs/mutable-objects_point-objects-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -24,9 +24,8 @@ import java.awt.Point;
 Then, to create a new point, you use the <c>new</c> operator:
 </p>
 
-<program>
-Point blank;
-blank = new Point(3, 4);
+<program xml:id="mutable-objects_point-objects-2" interactive="activecode">
+<xi:include href="../programs/mutable-objects_point-objects-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -58,8 +57,8 @@ To access an attribute of an object, Java uses <em>dot notation</em>.
 For example:
 </p>
 
-<program>
-int x = blank.x;
+<program xml:id="mutable-objects_point-objects-3" interactive="activecode">
+<xi:include href="../programs/mutable-objects_point-objects-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -77,9 +76,8 @@ You can use dot notation as part of an expression.
 For example:
 </p>
 
-<program>
-System.out.println(blank.x + ", " + blank.y);
-int sum = blank.x * blank.x + blank.y * blank.y;
+<program xml:id="mutable-objects_point-objects-4" interactive="activecode">
+<xi:include href="../programs/mutable-objects_point-objects-4.cpp" parse="text"/>
 </program>
 
 <p>

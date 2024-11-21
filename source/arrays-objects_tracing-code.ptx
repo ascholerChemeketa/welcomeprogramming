@@ -1,21 +1,20 @@
-<section xml:id="arrays-objects_tracing-code">
+<section xml:id="arrays-objects_tracing-code" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Tracing the Code</title>
 <p>
 <idx><h>tracing</h></idx>
 To see how binary search works, it's helpful to add the following print statement at the beginning of the loop:
 </p>
 
-<program>
-System.out.println(low + ", " + high);
+<program xml:id="arrays-objects_tracing-code-1">
+<xi:include href="../programs/arrays-objects_tracing-code-1.cpp" parse="text"/>
 </program>
 
 <p>
 Using a sorted deck of cards, we can search for the Jack of Clubs like this:
 </p>
 
-<program>
-Card card = new Card(11, 0);
-System.out.println(binarySearch(cards, card));
+<program xml:id="arrays-objects_tracing-code-2">
+<xi:include href="../programs/arrays-objects_tracing-code-2.cpp" parse="text"/>
 </program>
 
 <p>

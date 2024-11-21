@@ -1,4 +1,4 @@
-<section xml:id="arrays-objects_sequential-search">
+<section xml:id="arrays-objects_sequential-search" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Sequential Search</title>
 <p>
 <idx><h>sequential search</h></idx>
@@ -12,15 +12,8 @@ This version of <c>search</c> uses the algorithm in <xref ref="traversal">Sectio
 <idx><h>loop</h><h>search</h></idx>
 </p>
 
-<program>
-public static int search(Card[] cards, Card target) {
-    for (int i = 0; i &lt; cards.length; i++) {
-        if (cards[i].equals(target)) {
-            return i;
-        }
-    }
-    return -1;
-}
+<program xml:id="arrays-objects_sequential-search-1">
+<xi:include href="../programs/arrays-objects_sequential-search-1.cpp" parse="text"/>
 </program>
 
 <p>

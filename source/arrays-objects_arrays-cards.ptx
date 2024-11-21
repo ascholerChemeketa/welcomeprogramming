@@ -1,4 +1,4 @@
-<section xml:id="arrays-objects_arrays-cards">
+<section xml:id="arrays-objects_arrays-cards" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Arrays of Cards</title>
 <p>
 <idx><h>array</h><h>of objects</h></idx>
@@ -8,8 +8,8 @@ The following statement creates an array of 52 cards.
 <xref ref="fig_cardarray">Figure</xref> shows the memory diagram for this array.
 </p>
 
-<program>
-Card[] cards = new Card[52];
+<program xml:id="arrays-objects_arrays-cards-1">
+<xi:include href="../programs/arrays-objects_arrays-cards-1.cpp" parse="text"/>
 </program>
   <figure xml:id="fig_cardarray" >
 <caption>Memory diagram of an unpopulated <c>Card</c> array.</caption>
@@ -25,10 +25,8 @@ Initially the references are all <c>null</c>.
 Even so, you can access the elements of the array in the usual way:
 </p>
 
-<program>
-if (cards[0] == null) {
-    System.out.println("No card yet!");
-}
+<program xml:id="arrays-objects_arrays-cards-2">
+<xi:include href="../programs/arrays-objects_arrays-cards-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -37,8 +35,8 @@ if (cards[0] == null) {
 But if you try to access the instance variables of non-existent <c>Card</c> objects, you will get a <c>NullPointerException</c>:
 </p>
 
-<program>
-System.out.println(cards[0].rank);  // NullPointerException
+<program xml:id="arrays-objects_arrays-cards-3">
+<xi:include href="../programs/arrays-objects_arrays-cards-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -48,14 +46,8 @@ That code won't work until we put cards in the array.
 One way to populate the array is to write nested <c>for</c> loops:
 </p>
 
-<program>
-int index = 0;
-for (int suit = 0; suit &lt;= 3; suit++) {
-    for (int rank = 1; rank &lt;= 13; rank++) {
-        cards[index] = new Card(rank, suit);
-        index++;
-    }
-}
+<program xml:id="arrays-objects_arrays-cards-4">
+<xi:include href="../programs/arrays-objects_arrays-cards-4.cpp" parse="text"/>
 </program>
 
 <p>
@@ -82,12 +74,8 @@ You have seen the pattern for traversing an array several times, so the followin
 <idx><h>printDeck</h></idx>
 </p>
 
-<program>
-public static void printDeck(Card[] cards) {
-    for (Card card : cards) {
-        System.out.println(card);
-    }
-}
+<program xml:id="arrays-objects_arrays-cards-5">
+<xi:include href="../programs/arrays-objects_arrays-cards-5.cpp" parse="text"/>
 </program>
 
 <p>
@@ -100,8 +88,8 @@ Then again, we don't have to write our own <c>printDeck</c> method.
 The <c>Arrays</c> class provides a <c>toString</c> method that invokes <c>toString</c> on the elements of an array and concatenates the results:
 </p>
 
-<program>
-System.out.println(Arrays.toString(cards))
+<program xml:id="arrays-objects_arrays-cards-6">
+<xi:include href="../programs/arrays-objects_arrays-cards-6.cpp" parse="text"/>
 </program>
 
 </section>

@@ -1,4 +1,4 @@
-<section xml:id="mutable-objects_stringbuilder-objects">
+<section xml:id="mutable-objects_stringbuilder-objects" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>StringBuilder Objects</title>
 <p>
 Here's an example in which mutable objects are efficient and arguably more natural: building a long string by concatenating lots of small pieces.
@@ -9,13 +9,8 @@ Strings are particularly inefficient for this operation.
 For example, consider the following program, which reads 10 lines from <c>System.in</c> and concatenates them into a single <c>String</c>:
 </p>
 
-<program>
-String text = "";
-for (int i = 0; i &lt; 10; i++) {
-    String line = in.nextLine();        // new string
-    text = text + line + '\n';    // two more strings
-}
-System.out.print("You entered:\n" + text);
+<program xml:id="mutable-objects_stringbuilder-objects-1" interactive="activecode">
+<xi:include href="../programs/mutable-objects_stringbuilder-objects-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -40,14 +35,8 @@ Because <c>StringBuilder</c> objects are mutable, they can implement concatenati
 Here's a version of the program that uses <c>StringBuilder</c>:
 </p>
 
-<program>
-StringBuilder text = new StringBuilder();
-for (int i = 0; i &lt; 10; i++) {
-    String line = in.nextLine();
-    text.append(line);
-    text.append('\n');
-}
-System.out.print("You entered:\n" + text);
+<program xml:id="mutable-objects_stringbuilder-objects-2" interactive="activecode">
+<xi:include href="../programs/mutable-objects_stringbuilder-objects-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -59,8 +48,8 @@ Each time it is invoked, it modifies the <c>StringBuilder</c>; it doesn't create
 If needed, you can return the <c>StringBuilder</c>'s contents as a string by calling the <c>toString</c> method:
 </p>
 
-<program>
-String result = text.toString();
+<program xml:id="mutable-objects_stringbuilder-objects-3" interactive="activecode">
+<xi:include href="../programs/mutable-objects_stringbuilder-objects-3.cpp" parse="text"/>
 </program>
 
 <p>

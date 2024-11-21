@@ -1,32 +1,16 @@
-<section xml:id="advanced-topics_initial-drawing">
+<section xml:id="advanced-topics_initial-drawing" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>An Initial Drawing</title>
 <p>
 Now that we have <c>DrawablePolygon</c> and <c>RegularPolygon</c>, let's take them for a test drive.
 We'll need a <c>Canvas</c> for drawing them, so we define a new class, <c>Drawing</c>, that extends <c>Canvas</c>:
 </p>
 
-<program>
-public class Drawing extends Canvas {
-    private ArrayListLESSDrawablePolygonMORE list;
-
-    public Drawing(int width, int height) {
-        setSize(width, height);
-        setBackground(Color.WHITE);
-        list = new ArrayListLESSDrawablePolygonMORE();
-    }
+<program xml:id="advanced-topics_initial-drawing-1">
+<xi:include href="../programs/advanced-topics_initial-drawing-1.cpp" parse="text"/>
 </program>
   
-<program>
-public void add(DrawablePolygon dp) {
-        list.add(dp);
-    }
-
-    public void paint(Graphics g) {
-        for (DrawablePolygon dp : list) {
-            dp.draw(g);
-        }
-    }
-}
+<program xml:id="advanced-topics_initial-drawing-2">
+<xi:include href="../programs/advanced-topics_initial-drawing-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -45,34 +29,12 @@ Here is an example that creates three <c>RegularPolygon</c> objects and draws th
 <xref ref="fig_drawing">Figure</xref> shows the result.
 </p>
 
-<program>
-public static void main(String[] args) {
-
-    // create some regular polygons
-    DrawablePolygon p1 = new RegularPolygon(3, 50, Color.GREEN);
-    DrawablePolygon p2 = new RegularPolygon(6, 50, Color.ORANGE);
-    DrawablePolygon p3 = new RegularPolygon(360, 50, Color.BLUE);
-
-    // move them out of the corner
-    p1.translate(100, 80);
-    p2.translate(250, 120);
-    p3.translate(400, 160);
-
-    // create drawing, add polygons
-    Drawing drawing = new Drawing(500, 250);
-    drawing.add(p1);
-    drawing.add(p2);
-    drawing.add(p3);
+<program xml:id="advanced-topics_initial-drawing-3" interactive="activecode">
+<xi:include href="../programs/advanced-topics_initial-drawing-3.cpp" parse="text"/>
 </program>
   
-<program>
-// set up the window frame
-    JFrame frame = new JFrame("Drawing");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.add(drawing);
-    frame.pack();
-    frame.setVisible(true);
-}
+<program xml:id="advanced-topics_initial-drawing-4">
+<xi:include href="../programs/advanced-topics_initial-drawing-4.cpp" parse="text"/>
 </program>
   <figure xml:id="fig_drawing" >
 <caption>Initial drawing of three <c>RegularPolygon</c> objects.</caption>

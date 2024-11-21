@@ -1,18 +1,12 @@
-<section xml:id="computer-programming_formatting-source-code">
+<section xml:id="computer-programming_formatting-source-code" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Formatting Source Code</title>
 <p>
 In Java source code, some spaces are required.
 For example, you need at least one space between words, so this program is not legal:
 </p>
 
-<program>
-publicclassGoodbye{
-
-    publicstaticvoidmain(String[] args) {
-        System.out.print("Goodbye, ");
-        System.out.println("cruel world");
-    }
-}
+<program xml:id="computer-programming_formatting-source-code-1" interactive="activecode">
+<xi:include href="../programs/computer-programming_formatting-source-code-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -21,13 +15,8 @@ For example, this program <em>is</em> legal:
 </p>
 
 <listing filename="Goodbye.java">
-<program>
-public class Goodbye {
-public static void main(String[] args) {
-System.out.print("Goodbye, ");
-System.out.println("cruel world");
-}
-}
+<program xml:id="computer-programming_formatting-source-code-2" interactive="activecode">
+<xi:include href="../programs/computer-programming_formatting-source-code-2.cpp" parse="text"/>
 </program>
 </listing>
 
@@ -37,10 +26,8 @@ So we could just write this:
 </p>
 
 <listing filename="Goodbye.java">
-<program>
-public class Goodbye { public static void main(String[] args)
-{ System.out.print("Goodbye, "); System.out.println
-("cruel world");}}
+<program xml:id="computer-programming_formatting-source-code-3" interactive="activecode">
+<xi:include href="../programs/computer-programming_formatting-source-code-3.cpp" parse="text"/>
 </program>
 </listing>
 

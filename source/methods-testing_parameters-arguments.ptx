@@ -1,4 +1,4 @@
-<section xml:id="methods-testing_parameters-arguments">
+<section xml:id="methods-testing_parameters-arguments" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Parameters and Arguments</title>
 <p>
 Some of the methods we have used require <em>arguments</em>, which are the values you provide in parentheses when you invoke the method.
@@ -25,18 +25,8 @@ The following class shows an example:
 </p>
 
 <listing filename="PrintTwice.java">
-<program>
-public class PrintTwice {
-
-    public static void printTwice(String s) {
-        System.out.println(s);
-        System.out.println(s);
-    }
-
-    public static void main(String[] args) {
-        printTwice("Don't make me say this twice!");
-    }
-}
+<program xml:id="methods-testing_parameters-arguments-1" interactive="activecode">
+<xi:include href="../programs/methods-testing_parameters-arguments-1.cpp" parse="text"/>
 </program>
 </listing>
 
@@ -56,9 +46,8 @@ This process is called <em>parameter passing</em>, because the value gets passed
 An argument can be any kind of expression, so if you have a <c>String</c> variable, you can use its value as an argument:
 </p>
 
-<program>
-String message = "Never say never.";
-printTwice(message);
+<program xml:id="methods-testing_parameters-arguments-2">
+<xi:include href="../programs/methods-testing_parameters-arguments-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -66,8 +55,8 @@ The value you provide as an argument must have the same (or compatible) type as 
 For example, if you try this:
 </p>
 
-<program>
-printTwice(17);  // syntax error
+<program xml:id="methods-testing_parameters-arguments-3" interactive="activecode">
+<xi:include href="../programs/methods-testing_parameters-arguments-3.cpp" parse="text"/>
 </program>
 
 <p>

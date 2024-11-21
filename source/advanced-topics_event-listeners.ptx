@@ -1,4 +1,4 @@
-<section xml:id="advanced-topics_event-listeners">
+<section xml:id="advanced-topics_event-listeners" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Event Listeners</title>
 <p>
 <idx><h>sprite</h></idx>
@@ -7,24 +7,8 @@ Here is the beginning of a class that reads an image from a file and shows the i
 The class is called <c>Sprite</c> because a moving image is sometimes called a <em>sprite</em>, in the context of computer graphics:
 </p>
 
-<program>
-public class Sprite implements Actor, KeyListener {
-    private int xpos;
-    private int ypos;
-    private int dx;
-    private int dy;
-    private Image image;
-
-    public Sprite(String path, int xpos, int ypos) {
-        this.xpos = xpos;
-        this.ypos = ypos;
-        try {
-            this.image = ImageIO.read(new File(path));
-        } catch (IOException exc) {
-            exc.printStackTrace();
-        }
-    }
-}
+<program xml:id="advanced-topics_event-listeners-1">
+<xi:include href="../programs/advanced-topics_event-listeners-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -45,15 +29,8 @@ If an error occurs during reading, an <c>IOException</c> is caught, and the prog
 <c>Actor</c> requires that we provide <c>draw</c> and <c>step</c> methods:
 </p>
 
-<program>
-public void draw(Graphics g) {
-        g.drawImage(image, xpos, ypos, null);
-    }
-
-    public void step() {
-        xpos += dx;
-        ypos += dy;
-    }
+<program xml:id="advanced-topics_event-listeners-2">
+<xi:include href="../programs/advanced-topics_event-listeners-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -94,23 +71,8 @@ Here's an implementation of <c>keyPressed</c> that uses a <c>switch</c> statemen
 (There is no <c>default</c> branch, so we ignore all other keys.)
 </p>
 
-<program>
-public void keyPressed(KeyEvent e) {
-    switch (e.getKeyCode()) {
-        case KeyEvent.VK_UP:
-            dy = -5;
-            break;
-        case KeyEvent.VK_DOWN:
-            dy = +5;
-            break;
-        case KeyEvent.VK_LEFT:
-            dx = -5;
-            break;
-        case KeyEvent.VK_RIGHT:
-            dx = +5;
-            break;
-    }
-}
+<program xml:id="advanced-topics_event-listeners-3">
+<xi:include href="../programs/advanced-topics_event-listeners-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -122,19 +84,8 @@ While the user holds down an arrow key, the sprite will move at a constant speed
 Here's an implementation of <c>keyReleased</c> that runs when the user releases the key:
 </p>
 
-<program>
-public void keyReleased(KeyEvent e) {
-    switch (e.getKeyCode()) {
-        case KeyEvent.VK_UP:
-        case KeyEvent.VK_DOWN:
-            dy = 0;
-            break;
-        case KeyEvent.VK_LEFT:
-        case KeyEvent.VK_RIGHT:
-            dx = 0;
-            break;
-    }
-}
+<program xml:id="advanced-topics_event-listeners-4">
+<xi:include href="../programs/advanced-topics_event-listeners-4.cpp" parse="text"/>
 </program>
 
 <p>
@@ -146,21 +97,16 @@ We don't need the <c>keyTyped</c> method for this example, but it's required by 
 So we provide an implementation that does nothing:
 </p>
 
-<program>
-public void keyTyped(KeyEvent e) {
-    // do nothing
-}
+<program xml:id="advanced-topics_event-listeners-5">
+<xi:include href="../programs/advanced-topics_event-listeners-5.cpp" parse="text"/>
 </program>
 
 <p>
 Now, here's the code we need to create a <c>Sprite</c>, add it to a <c>Drawing</c>, and configure it as a <c>KeyListener</c>:
 </p>
 
-<program>
-Sprite sprite = new Sprite("face-smile.png", 25, 150);
-drawing.add(sprite);
-drawing.addKeyListener(sprite);
-drawing.setFocusable(true);
+<program xml:id="advanced-topics_event-listeners-6">
+<xi:include href="../programs/advanced-topics_event-listeners-6.cpp" parse="text"/>
 </program>
 
 <p>

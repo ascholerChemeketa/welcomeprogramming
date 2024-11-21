@@ -1,15 +1,11 @@
-<section xml:id="loops-strings_increment-decrement">
+<section xml:id="loops-strings_increment-decrement" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Increment and Decrement</title>
 <p>
 Here is another <c>while</c> loop example; this one displays the numbers 1 to 5:
 </p>
 
-<program>
-int i = 1;
-while (i &lt;= 5) {
-    System.out.println(i);
-    i++;  // add 1 to i
-}
+<program xml:id="loops-strings_increment-decrement-1">
+<xi:include href="../programs/loops-strings_increment-decrement-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -25,13 +21,8 @@ If you want to increment or decrement a variable by an amount other than <c>1</c
 For example, <c>i += 2</c> increments <c>i</c> by <c>2</c>:
 </p>
 
-<program>
-int i = 2;
-while (i &lt;= 8) {
-    System.out.print(i + ", ");
-    i += 2;  // add 2 to i
-}
-System.out.println("Who do we appreciate?");
+<program xml:id="loops-strings_increment-decrement-2">
+<xi:include href="../programs/loops-strings_increment-decrement-2.cpp" parse="text"/>
 </program>
 
 <p>

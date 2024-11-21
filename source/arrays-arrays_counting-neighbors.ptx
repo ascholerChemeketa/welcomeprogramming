@@ -1,4 +1,4 @@
-<section xml:id="arrays-arrays_counting-neighbors">
+<section xml:id="arrays-arrays_counting-neighbors" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Counting Neighbors</title>
 <p>
 <idx><h>neighbor</h></idx>
@@ -13,17 +13,8 @@ If we try to count all possible neighbors, we'll go out of bounds.
 The following method uses a <c>try</c>-<c>catch</c> statement to deal with these special cases:
 </p>
 
-<program>
-public int test(int r, int c) {
-    try {
-        if (array[r][c].isOn()) {
-            return 1;
-        }
-    } catch (ArrayIndexOutOfBoundsException e) {
-        // cell doesn't exist
-    }
-    return 0;
-}
+<program xml:id="arrays-arrays_counting-neighbors-1">
+<xi:include href="../programs/arrays-arrays_counting-neighbors-1.cpp" parse="text"/>
 </program>
   <figure xml:id="fig_neighbors" >
 <caption>Cells in the interior of the grid have eight neighbors.
@@ -48,19 +39,8 @@ So the non-existent cells around the perimeter are considered to be off.
 Now we can use <c>test</c> to implement <c>countAlive</c>, which takes a grid location, <c>(r, c)</c>, and returns the number of live neighbors surrounding that location:
 </p>
 
-<program>
-private int countAlive(int r, int c) {
-    int count = 0;
-    count += grid.test(r - 1, c - 1);
-    count += grid.test(r - 1, c);
-    count += grid.test(r - 1, c + 1);
-    count += grid.test(r, c - 1);
-    count += grid.test(r, c + 1);
-    count += grid.test(r + 1, c - 1);
-    count += grid.test(r + 1, c);
-    count += grid.test(r + 1, c + 1);
-    return count;
-}
+<program xml:id="arrays-arrays_counting-neighbors-2">
+<xi:include href="../programs/arrays-arrays_counting-neighbors-2.cpp" parse="text"/>
 </program>
 
 <p>

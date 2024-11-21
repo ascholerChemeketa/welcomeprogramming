@@ -1,4 +1,4 @@
-<section xml:id="variables-operators_operators-for-strings">
+<section xml:id="variables-operators_operators-for-strings" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Operators for Strings</title>
 <p>
 <idx><h>string</h><h>operator</h></idx>
@@ -7,8 +7,8 @@ In general, you cannot perform mathematical operations on strings, even if the s
 The following expressions are illegal:
 </p>
 
-<program>
-"Hello" - 1     "World" / 123     "Hello" * "World"
+<program xml:id="variables-operators_operators-for-strings-1">
+<xi:include href="../programs/variables-operators_operators-for-strings-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -27,12 +27,8 @@ Likewise if you have a variable called <c>name</c> that has type <c>String</c>, 
 Since addition is defined for both numbers and strings, Java performs automatic conversions you may not expect:
 </p>
 
-<program>
-System.out.println(1 + 2 + "Hello");
-// the output is 3Hello
-
-System.out.println("Hello" + 1 + 2);
-// the output is Hello12
+<program xml:id="variables-operators_operators-for-strings-2" interactive="activecode">
+<xi:include href="../programs/variables-operators_operators-for-strings-2.cpp" parse="text"/>
 </program>
 
 <p>

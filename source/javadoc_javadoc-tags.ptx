@@ -1,4 +1,4 @@
-<section xml:id="javadoc_javadoc-tags">
+<section xml:id="javadoc_javadoc-tags" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Javadoc Tags</title>
 <p>
 It's generally a good idea to document each class and method, so that other programmers can understand what they do without having to read the code.
@@ -13,14 +13,8 @@ To organize the documentation into sections, Javadoc supports optional <em>tags<
 For example, we can use <c>@author</c> and <c>@version</c> to provide information about the class:
 </p>
 
-<program>
-/**
- * Utility class for extracting digits from integers.
- *
- * @author Chris Mayfield
- * @version 1.0
- */
-public class DigitUtil {
+<program xml:id="javadoc_javadoc-tags-1">
+<xi:include href="../programs/javadoc_javadoc-tags-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -33,14 +27,8 @@ These two sections are separated by a blank line (not counting the \relax<c>*</c
 For methods, we can use <c>@param</c> and <c>@return</c> to provide information about parameters and return values:
 </p>
 
-<program>
-/**
- * Tests whether x is a single digit integer.
- *
- * @param x the integer to test
- * @return true if x has one digit, false otherwise
- */
-public static boolean isSingleDigit(int x) {
+<program xml:id="javadoc_javadoc-tags-2">
+<xi:include href="../programs/javadoc_javadoc-tags-2.cpp" parse="text"/>
 </program>
 
 <p>

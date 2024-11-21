@@ -1,4 +1,4 @@
-<section xml:id="conditionals-logic_ifelse-statement">
+<section xml:id="conditionals-logic_ifelse-statement" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The if-else Statement</title>
 <p>
 <idx><h>conditional statement</h></idx>
@@ -10,10 +10,8 @@ To write useful programs, we almost always need to check conditions and react ac
 The simplest conditional statement in Java is the <c>if</c> statement:
 </p>
 
-<program>
-if (x > 0) {
-    System.out.println("x is positive");
-}
+<program xml:id="conditionals-logic_ifelse-statement-1">
+<xi:include href="../programs/conditionals-logic_ifelse-statement-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -31,12 +29,8 @@ A second form of conditional statement has two possibilities, indicated by <c>if
 The possibilities are called <em>branches</em>, and the condition determines which branch gets executed:
 </p>
 
-<program>
-if (x % 2 == 0) {
-    System.out.println("x is even");
-} else {
-    System.out.println("x is odd");
-}
+<program xml:id="conditionals-logic_ifelse-statement-2">
+<xi:include href="../programs/conditionals-logic_ifelse-statement-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -50,11 +44,8 @@ The braces are optional for branches that have only one statement.
 So we could have written the previous example this way:
 </p>
 
-<program>
-if (x % 2 == 0)
-    System.out.println("x is even");
-else
-    System.out.println("x is odd");
+<program xml:id="conditionals-logic_ifelse-statement-3" interactive="activecode">
+<xi:include href="../programs/conditionals-logic_ifelse-statement-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -62,10 +53,8 @@ However, it's better to use braces<mdash/>even when they are optional<mdash/>to 
 This code is misleading because it's not indented correctly:
 </p>
 
-<program>
-if (x > 0)
-    System.out.println("x is positive");
-    System.out.println("x is not zero");
+<program xml:id="conditionals-logic_ifelse-statement-4" interactive="activecode">
+<xi:include href="../programs/conditionals-logic_ifelse-statement-4.cpp" parse="text"/>
 </program>
 
 <p>
@@ -73,11 +62,8 @@ Since there are no braces, only the first <c>println</c> is part of the <c>if</c
 Here is what the compiler actually sees:
 </p>
 
-<program>
-if (x > 0) {
-    System.out.println("x is positive");
-}
-    System.out.println("x is not zero");
+<program xml:id="conditionals-logic_ifelse-statement-5" interactive="activecode">
+<xi:include href="../programs/conditionals-logic_ifelse-statement-5.cpp" parse="text"/>
 </program>
 
 <p>
@@ -92,11 +78,8 @@ Instead, a new block should be defined using braces.
 Another common mistake is to put a semicolon after the condition, like this:
 </p>
 
-<program>
-int x = 1;
-if (x % 2 == 0); {  // incorrect semicolon
-    System.out.println("x is even");
-}
+<program xml:id="conditionals-logic_ifelse-statement-6">
+<xi:include href="../programs/conditionals-logic_ifelse-statement-6.cpp" parse="text"/>
 </program>
 
 <p>
@@ -104,13 +87,8 @@ This code will compile, but the program will output <c>"x is even"</c> regardles
 Here is the same incorrect code with better formatting:
 </p>
 
-<program>
-int x = 1;
-if (x % 2 == 0)
-    ;  // empty statement
-{
-    System.out.println("x is even");
-}
+<program xml:id="conditionals-logic_ifelse-statement-7">
+<xi:include href="../programs/conditionals-logic_ifelse-statement-7.cpp" parse="text"/>
 </program>
 
 <p>

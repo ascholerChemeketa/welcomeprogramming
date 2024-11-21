@@ -1,25 +1,20 @@
-<section xml:id="arrays-references_enhanced-for-loop">
+<section xml:id="arrays-references_enhanced-for-loop" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The Enhanced for Loop</title>
 <p>
 Since traversing arrays is so common, Java provides an alternative syntax that makes the code more compact.
 Consider a <c>for</c> loop that displays the elements of an array on separate lines:
 </p>
 
-<program>
-for (int i = 0; i &lt; values.length; i++) {
-    int value = values[i];
-    System.out.println(value);
-}
+<program xml:id="arrays-references_enhanced-for-loop-1">
+<xi:include href="../programs/arrays-references_enhanced-for-loop-1.cpp" parse="text"/>
 </program>
 
 <p>
 We could rewrite the loop like this:
 </p>
 
-<program>
-for (int value : values) {
-    System.out.println(value);
-}
+<program xml:id="arrays-references_enhanced-for-loop-2">
+<xi:include href="../programs/arrays-references_enhanced-for-loop-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -39,11 +34,8 @@ It hides the details of iterating each index of the array, and instead, focuses 
 Using the enhanced <c>for</c> loop, and removing the temporary variable, we can write the histogram code from the previous section more concisely:
 </p>
 
-<program>
-int[] counts = new int[100];
-for (int score : scores) {
-    counts[score]++;
-}
+<program xml:id="arrays-references_enhanced-for-loop-3">
+<xi:include href="../programs/arrays-references_enhanced-for-loop-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -51,12 +43,8 @@ Enhanced <c>for</c> loops often make the code more readable, especially for accu
 But they are not helpful when you need to refer to the index, as in search operations:
 </p>
 
-<program>
-for (double d : array) {
-    if (d == target) {
-        // array contains d, but we don't know where
-    }
-}
+<program xml:id="arrays-references_enhanced-for-loop-4">
+<xi:include href="../programs/arrays-references_enhanced-for-loop-4.cpp" parse="text"/>
 </program>
 
 </section>

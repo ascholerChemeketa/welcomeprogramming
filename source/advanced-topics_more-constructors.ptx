@@ -1,4 +1,4 @@
-<section xml:id="advanced-topics_more-constructors">
+<section xml:id="advanced-topics_more-constructors" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>More Constructors</title>
 <p>
 Classes in the Java library often have more than one constructor for convenience.
@@ -6,10 +6,8 @@ We can do the same with <c>RegularPolygon</c>.
 For example, we can make the <c>color</c> parameter optional by defining a second constructor:
 </p>
 
-<program>
-public RegularPolygon(int nsides, int radius) {
-    this(nsides, radius, Color.GRAY);
-}
+<program xml:id="advanced-topics_more-constructors-1">
+<xi:include href="../programs/advanced-topics_more-constructors-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -21,18 +19,16 @@ It has a similar syntax as the keyword <c>super</c>, which invokes a constructor
 Similarly, we could make the <c>radius</c> parameter optional too:
 </p>
 
-<program>
-public RegularPolygon(int nsides) {
-    this(nsides, 50);
-}
+<program xml:id="advanced-topics_more-constructors-2">
+<xi:include href="../programs/advanced-topics_more-constructors-2.cpp" parse="text"/>
 </program>
 
 <p>
 Now, suppose we invoke the <c>RegularPolygon</c> constructor like this:
 </p>
 
-<program>
-RegularPolygon rp = new RegularPolygon(6);
+<program xml:id="advanced-topics_more-constructors-3">
+<xi:include href="../programs/advanced-topics_more-constructors-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -50,21 +46,8 @@ For <c>RegularPolygon</c>, the number of sides should be at least three, the rad
 We can add the following lines to the first constructor:
 </p>
 
-<program>
-public RegularPolygon(int nsides, int radius, Color color) {
-
-    // validate the arguments
-    if (nsides &lt; 3) {
-        throw new IllegalArgumentException("invalid nsides");
-    }
-    if (radius &lt;= 0) {
-        throw new IllegalArgumentException("invalid radius");
-    }
-    if (color == null) {
-        throw new NullPointerException("invalid color");
-    }
-
-    // the rest of the method is omitted
+<program xml:id="advanced-topics_more-constructors-4">
+<xi:include href="../programs/advanced-topics_more-constructors-4.cpp" parse="text"/>
 </program>
 
 <p>

@@ -1,4 +1,4 @@
-<section xml:id="arrays-references_exercises">
+<section xml:id="arrays-references_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Exercises</title>
 <p>
 The code for this chapter is in the <em>ch07</em> directory of <em>ThinkJavaCode2</em>.
@@ -22,39 +22,16 @@ For each method, write one sentence that describes what the method does, without
 And for each variable, identify the role it plays.
 </p>
 
-<program>
-public static int banana(int[] a) {
-    int kiwi = 1;
-    int i = 0;
-    while (i &lt; a.length) {
-        kiwi = kiwi * a[i];
-        i++;
-    }
-    return kiwi;
-}
+<program xml:id="arrays-references_exercises-1">
+<xi:include href="../programs/arrays-references_exercises-1.cpp" parse="text"/>
 </program>
   
-<program>
-public static int grapefruit(int[] a, int grape) {
-    for (int i = 0; i &lt; a.length; i++) {
-        if (a[i] == grape) {
-            return i;
-        }
-    }
-    return -1;
-}
+<program xml:id="arrays-references_exercises-2">
+<xi:include href="../programs/arrays-references_exercises-2.cpp" parse="text"/>
 </program>
   
-<program>
-public static int pineapple(int[] a, int apple) {
-    int pear = 0;
-    for (int pine: a) {
-        if (pine == apple) {
-            pear++;
-        }
-    }
-    return pear;
-}
+<program xml:id="arrays-references_exercises-3">
+<xi:include href="../programs/arrays-references_exercises-3.cpp" parse="text"/>
 </program>
 
 </statement>
@@ -68,40 +45,20 @@ Describe in a few words what <c>mus</c> does.
 Draw a stack diagram just before <c>mus</c> returns.
 </p>
 
-<program>
-public static int[] make(int n) {
-    int[] a = new int[n];
-    for (int i = 0; i &lt; n; i++) {
-        a[i] = i + 1;
-    }
-    return a;
-}
+<program xml:id="arrays-references_exercises-4">
+<xi:include href="../programs/arrays-references_exercises-4.cpp" parse="text"/>
 </program>
   
-<program>
-public static void dub(int[] jub) {
-    for (int i = 0; i &lt; jub.length; i++) {
-        jub[i] *= 2;
-    }
-}
+<program xml:id="arrays-references_exercises-5">
+<xi:include href="../programs/arrays-references_exercises-5.cpp" parse="text"/>
 </program>
   
-<program>
-public static int mus(int[] zoo) {
-    int fus = 0;
-    for (int i = 0; i &lt; zoo.length; i++) {
-        fus += zoo[i];
-    }
-    return fus;
-}
+<program xml:id="arrays-references_exercises-6">
+<xi:include href="../programs/arrays-references_exercises-6.cpp" parse="text"/>
 </program>
   
-<program>
-public static void main(String[] args) {
-    int[] bob = make(5);
-    dub(bob);
-    System.out.println(mus(bob));
-}
+<program xml:id="arrays-references_exercises-7" interactive="activecode">
+<xi:include href="../programs/arrays-references_exercises-7.cpp" parse="text"/>
 </program>
 
 </statement>

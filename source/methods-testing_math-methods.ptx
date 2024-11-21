@@ -1,4 +1,4 @@
-<section xml:id="methods-testing_math-methods">
+<section xml:id="methods-testing_math-methods" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Math Methods</title>
 <p>
 <idx><h>Math</h></idx>
@@ -7,10 +7,8 @@ As a reminder, the Java library contains thousands of classes you can use.
 For example, the <c>Math</c> class provides common mathematical operations:
 </p>
 
-<program>
-double root = Math.sqrt(17.0);
-double angle = 1.5;
-double height = Math.sin(angle);
+<program xml:id="methods-testing_math-methods-1">
+<xi:include href="../programs/methods-testing_math-methods-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -28,9 +26,8 @@ To convert from degrees to radians, you divide by 180 and multiply by <m>\pi</m>
 Conveniently, the <c>Math</c> class provides a constant named <c>PI</c> that contains an approximation of <m>\pi</m>:
 </p>
 
-<program>
-double degrees = 90;
-double angle = degrees / 180.0 * Math.PI;
+<program xml:id="methods-testing_math-methods-2">
+<xi:include href="../programs/methods-testing_math-methods-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -44,9 +41,8 @@ The same is true for the constant <c>Math.E</c>, which approximates Euler's numb
 Converting to and from radians is a common operation, so the <c>Math</c> class provides methods that do that for you:
 </p>
 
-<program>
-double radians = Math.toRadians(180.0);
-double degrees = Math.toDegrees(Math.PI);
+<program xml:id="methods-testing_math-methods-3">
+<xi:include href="../programs/methods-testing_math-methods-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -56,8 +52,8 @@ Another useful method is <c>round</c>, which rounds a floating-point value to th
 The following result is 63 (rounded up from 62.8319):
 </p>
 
-<program>
-long x = Math.round(Math.PI * 20.0);
+<program xml:id="methods-testing_math-methods-4">
+<xi:include href="../programs/methods-testing_math-methods-4.cpp" parse="text"/>
 </program>
 
 <p>

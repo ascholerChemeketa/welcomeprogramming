@@ -1,4 +1,4 @@
-<section xml:id="variables-operators_floatingpoint-numbers">
+<section xml:id="variables-operators_floatingpoint-numbers" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Floating-Point Numbers</title>
 <p>
 <idx><h>floating-point</h></idx>
@@ -9,9 +9,8 @@ In Java, the default floating-point type is called <c>double</c>, which is short
 You can create <c>double</c> variables and assign values to them the same way we did for the other types:
 </p>
 
-<program>
-double pi;
-pi = 3.14159;
+<program xml:id="variables-operators_floatingpoint-numbers-1" interactive="activecode">
+<xi:include href="../programs/variables-operators_floatingpoint-numbers-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -20,10 +19,8 @@ Java performs <em>floating-point division</em> when one or more operands are <c>
 So we can solve the problem from the previous section:
 </p>
 
-<program>
-double minute = 59.0;
-System.out.print("Fraction of the hour that has passed: ");
-System.out.println(minute / 60.0);
+<program xml:id="variables-operators_floatingpoint-numbers-2" interactive="activecode">
+<xi:include href="../programs/variables-operators_floatingpoint-numbers-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -46,8 +43,8 @@ They belong to different data types, and strictly speaking, you are not allowed 
 The following is illegal because the variable on the left is an <c>int</c> and the value on the right is a <c>double</c>:
 </p>
 
-<program>
-int x = 1.1;  // compiler error
+<program xml:id="variables-operators_floatingpoint-numbers-3" interactive="activecode">
+<xi:include href="../programs/variables-operators_floatingpoint-numbers-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -55,8 +52,8 @@ int x = 1.1;  // compiler error
 It is easy to forget this rule, because in many cases Java <em>automatically</em> converts from one type to another:
 </p>
 
-<program>
-double y = 1;  // legal, but bad style
+<program xml:id="variables-operators_floatingpoint-numbers-4" interactive="activecode">
+<xi:include href="../programs/variables-operators_floatingpoint-numbers-4.cpp" parse="text"/>
 </program>
 
 <p>
@@ -65,8 +62,8 @@ This leniency is convenient, but it often causes problems for beginners.
 For example:
 </p>
 
-<program>
-double y = 1 / 3;  // common mistake
+<program xml:id="variables-operators_floatingpoint-numbers-5" interactive="activecode">
+<xi:include href="../programs/variables-operators_floatingpoint-numbers-5.cpp" parse="text"/>
 </program>
 
 <p>
@@ -83,8 +80,8 @@ One way to solve this problem (once you figure out the bug) is to make the right
 The following sets <c>y</c> to <c>0.333333</c>, as expected:
 </p>
 
-<program>
-double y = 1.0 / 3.0;  // correct
+<program xml:id="variables-operators_floatingpoint-numbers-6" interactive="activecode">
+<xi:include href="../programs/variables-operators_floatingpoint-numbers-6.cpp" parse="text"/>
 </program>
 
 <p>

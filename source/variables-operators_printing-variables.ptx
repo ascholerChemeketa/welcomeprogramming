@@ -1,13 +1,12 @@
-<section xml:id="variables-operators_printing-variables">
+<section xml:id="variables-operators_printing-variables" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Printing Variables</title>
 <p>
 You can display the current value of a variable by using <c>print</c> or <c>println</c>.
 The following statements declare a variable named <c>firstLine</c>, assign it the value <c>"Hello, again!"</c>, and display that value:
 </p>
 
-<program>
-String firstLine = "Hello, again!";
-System.out.println(firstLine);
+<program xml:id="variables-operators_printing-variables-1" interactive="activecode">
+<xi:include href="../programs/variables-operators_printing-variables-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -15,9 +14,8 @@ When we talk about displaying a variable, we generally mean the <em>value</em> o
 To display the <em>name</em> of a variable, you have to put it in quotes:
 </p>
 
-<program>
-System.out.print("The value of firstLine is ");
-System.out.println(firstLine);
+<program xml:id="variables-operators_printing-variables-2" interactive="activecode">
+<xi:include href="../programs/variables-operators_printing-variables-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -35,14 +33,8 @@ Conveniently, the code for displaying a variable is the same regardless of its t
 For example:
 </p>
 
-<program>
-int hour = 11;
-int minute = 59;
-System.out.print("The current time is ");
-System.out.print(hour);
-System.out.print(":");
-System.out.print(minute);
-System.out.println(".");
+<program xml:id="variables-operators_printing-variables-3" interactive="activecode">
+<xi:include href="../programs/variables-operators_printing-variables-3.cpp" parse="text"/>
 </program>
 
 <p>

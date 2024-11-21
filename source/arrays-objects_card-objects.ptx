@@ -1,4 +1,4 @@
-<section xml:id="arrays-objects_card-objects">
+<section xml:id="arrays-objects_card-objects" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Card Objects</title>
 <p>
 <idx><h>Card</h></idx>
@@ -47,16 +47,8 @@ For the face cards, we can use the following:
 With this encoding, the class definition for the <c>Card</c> type looks like this:
 </p>
 
-<program>
-public class Card {
-    private int rank;
-    private int suit;
-
-    public Card(int rank, int suit) {
-        this.rank = rank;
-        this.suit = suit;
-    }
-}
+<program xml:id="arrays-objects_card-objects-1">
+<xi:include href="../programs/arrays-objects_card-objects-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -69,8 +61,8 @@ The constructor takes a parameter for each instance variable.
 To create a <c>Card</c> object, we use the <c>new</c> operator:
 </p>
 
-<program>
-Card threeOfClubs = new Card(3, 0);
+<program xml:id="arrays-objects_card-objects-2">
+<xi:include href="../programs/arrays-objects_card-objects-2.cpp" parse="text"/>
 </program>
 
 <p>

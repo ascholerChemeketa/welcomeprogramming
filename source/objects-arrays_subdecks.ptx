@@ -1,18 +1,12 @@
-<section xml:id="objects-arrays_subdecks">
+<section xml:id="objects-arrays_subdecks" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Subdecks</title>
 <p>
 <idx><h>subdeck</h></idx> The first step of merge sort is to split the deck into two <q>subdecks</q>, each with about half of the cards.
 So we need a method that takes a deck, and a range of indexes, and returns a new deck that contains the specified subset of cards:
 </p>
 
-<program>
-public Deck subdeck(int low, int high) {
-    Deck sub = new Deck(high - low + 1);
-    for (int i = 0; i &lt; sub.cards.length; i++) {
-        sub.cards[i] = this.cards[low + i];
-    }
-    return sub;
-}
+<program xml:id="objects-arrays_subdecks-1" interactive="activecode">
+<xi:include href="../programs/objects-arrays_subdecks-1.cpp" parse="text"/>
 </program>
 
 <p>

@@ -1,4 +1,4 @@
-<section xml:id="objects-arrays_merging-decks">
+<section xml:id="objects-arrays_merging-decks" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Merging Decks</title>
 <p>
 <idx><h>merge</h></idx>
@@ -6,26 +6,8 @@ The next helper method we need is <c>merge</c>, which takes two sorted subdecks 
 Here's what the algorithm looks like in pseudocode, assuming the subdecks are named <c>d1</c> and <c>d2</c>:
 </p>
 
-<program>
-private static Deck merge(Deck d1, Deck d2) {
-    // create a new deck, d3, big enough for all the cards
-
-    // use the index i to keep track of where we are at in
-    // the first deck, and the index j for the second deck
-    int i = 0;
-    int j = 0;
-
-    // the index k traverses the result deck
-    for (int k = 0; k &lt; d3.length; k++) {
-        // if d1 is empty, use top card from d2
-        // if d2 is empty, use top card from d1
-        // otherwise, compare the top two cards
-
-        // add lowest card to the new deck at k
-        // increment i or j (depending on card)
-    }
-    // return the new deck
-}
+<program xml:id="objects-arrays_merging-decks-1" interactive="activecode">
+<xi:include href="../programs/objects-arrays_merging-decks-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -34,12 +16,8 @@ It's a little tricky, so be sure to test it with different subdecks.
 Once your <c>merge</c> method is working, you can use it to write a simplified version of merge sort:
 </p>
 
-<program>
-public Deck almostMergeSort() {
-    // divide the deck into two subdecks
-    // sort the subdecks using selectionSort
-    // merge the subdecks, return the result
-}
+<program xml:id="objects-arrays_merging-decks-2" interactive="activecode">
+<xi:include href="../programs/objects-arrays_merging-decks-2.cpp" parse="text"/>
 </program>
 
 <p>

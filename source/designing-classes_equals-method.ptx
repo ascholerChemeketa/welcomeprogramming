@@ -1,4 +1,4 @@
-<section xml:id="designing-classes_equals-method">
+<section xml:id="designing-classes_equals-method" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The equals Method</title>
 <p>
 <idx><h>== equals operator</h></idx>
@@ -26,10 +26,8 @@ But the definition of <em>equivalence</em> is different for different objects, s
 Consider the following variables and the corresponding memory diagram in <xref ref="fig_time2">Figure</xref>:
 </p>
 
-<program>
-Time time1 = new Time(9, 30, 0.0);
-Time time2 = time1;
-Time time3 = new Time(9, 30, 0.0);
+<program xml:id="designing-classes_equals-method-1">
+<xi:include href="../programs/designing-classes_equals-method-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -59,13 +57,8 @@ For example, <c>time1</c> and <c>time3</c> represent the same time of day, so we
 We can provide an <c>equals</c> method that implements this idea:
 </p>
 
-<program>
-public boolean equals(Time that) {
-    final double DELTA = 0.001;
-    return this.hour == that.hour
-        &amp;&amp; this.minute == that.minute
-        &amp;&amp; Math.abs(this.second - that.second) &lt; DELTA;
-}
+<program xml:id="designing-classes_equals-method-2">
+<xi:include href="../programs/designing-classes_equals-method-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -79,8 +72,8 @@ But using <c>that</c> makes the code nicely readable.
 We can invoke <c>equals</c> like this:
 </p>
 
-<program>
-time1.equals(time3);
+<program xml:id="designing-classes_equals-method-3">
+<xi:include href="../programs/designing-classes_equals-method-3.cpp" parse="text"/>
 </program>
 
 <p>

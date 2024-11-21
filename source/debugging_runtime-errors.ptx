@@ -1,4 +1,4 @@
-<section xml:id="debugging_runtime-errors">
+<section xml:id="debugging_runtime-errors" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Run-Time Errors</title>
 
 
@@ -9,7 +9,7 @@ It's not always clear what causes a run-time error, but you can often figure thi
 </introduction>
 
 
-<subsection xml:id="debugging_my-program-hangs">
+<subsection xml:id="debugging_my-program-hangs" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>My program hangs</title>
 
 
@@ -39,7 +39,7 @@ Go to the section titled <q>Flow of execution</q>.</p></li>
 </introduction>
 
 
-<subsubsection xml:id="debugging_infinite-loop">
+<subsubsection xml:id="debugging_infinite-loop" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Infinite loop</title>
 <p>
 If you think you have an infinite loop and you know which loop it is, add a print statement at the end of the loop that displays the values of the variables in the condition, and the value of the condition.
@@ -49,15 +49,8 @@ If you think you have an infinite loop and you know which loop it is, add a prin
 For example:
 </p>
 
-<program>
-while (x > 0 &amp;&amp; y &lt; 0) {
-    // do something to x
-    // do something to y
-
-    System.out.println("x: " + x);
-    System.out.println("y: " + y);
-    System.out.println("condition: " + (x MORE 0 &amp;&amp; y LESS 0));
-}
+<program xml:id="debugging_infinite-loop-1">
+<xi:include href="../programs/debugging_infinite-loop-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -68,7 +61,7 @@ If the loop keeps going, you will see the values of <c>x</c> and <c>y</c>, and y
 </subsubsection>
 
 
-<subsubsection xml:id="debugging_infinite-recursion">
+<subsubsection xml:id="debugging_infinite-recursion" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Infinite recursion</title>
 <p>
 <idx><h>recursion</h><h>infinite</h></idx>
@@ -94,7 +87,7 @@ If the parameters are not moving toward the base case, you might see why not.
 </subsubsection>
 
 
-<subsubsection xml:id="debugging_flow-execution">
+<subsubsection xml:id="debugging_flow-execution" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Flow of execution</title>
 <p>
 <idx><h>flow of execution</h></idx>
@@ -112,7 +105,7 @@ When you run the program, check whether the values are reasonable, and check for
 </subsection>
 
 
-<subsection xml:id="debugging_when-i-run-program-i-get-exception">
+<subsection xml:id="debugging_when-i-run-program-i-get-exception" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>When I run the program, I get an exception</title>
 <p>
 <idx><h>exception</h></idx>
@@ -136,9 +129,8 @@ Remember that when you declare a variable with an array type, its elements are i
 For example, this code causes a <c>NullPointerException</c>:
 
 
-<program>
-int[] array = new Point[5];
-System.out.println(array[0].x);
+<program xml:id="debugging_when-i-run-program-i-get-exception-1">
+<xi:include href="../programs/debugging_when-i-run-program-i-get-exception-1.cpp" parse="text"/>
 </program>
 </p></li>
 <li>
@@ -181,7 +173,7 @@ Something went wrong during an arithmetic operation; for example, division by ze
 </subsection>
 
 
-<subsection xml:id="debugging_i-added-so-many-print-statements-i-get-inundated-with-output">
+<subsection xml:id="debugging_i-added-so-many-print-statements-i-get-inundated-with-output" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>I added so many print statements I get inundated with output</title>
 <p>
 <idx><h>print statement</h></idx>

@@ -1,4 +1,4 @@
-<section xml:id="designing-classes_constructors">
+<section xml:id="designing-classes_constructors" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Constructors</title>
 <p>
 <idx><h>constructor</h></idx>
@@ -20,12 +20,8 @@ The syntax for constructors is similar to that of other methods, except for the 
 Here is an example constructor for the <c>Time</c> class:
 </p>
 
-<program>
-public Time() {
-    this.hour = 0;
-    this.minute = 0;
-    this.second = 0.0;
-}
+<program xml:id="designing-classes_constructors-1">
+<xi:include href="../programs/designing-classes_constructors-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -51,10 +47,8 @@ Like <c>void</c> methods, constructors do not return values.
 To create a <c>Time</c> object, you must use the <c>new</c> operator:
 </p>
 
-<program>
-public static void main(String[] args) {
-    Time time = new Time();
-}
+<program xml:id="designing-classes_constructors-2" interactive="activecode">
+<xi:include href="../programs/designing-classes_constructors-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -81,13 +75,8 @@ In this example, the reference gets assigned to the variable <c>time</c>, which 
 Beginners sometimes make the mistake of using <c>new</c> in the constructor:
 </p>
 
-<program>
-public Time() {
-    new Time();         // StackOverflowError
-    this.hour = 0;
-    this.minute = 0;
-    this.second = 0.0;
-}
+<program xml:id="designing-classes_constructors-3">
+<xi:include href="../programs/designing-classes_constructors-3.cpp" parse="text"/>
 </program>
 
 <p>

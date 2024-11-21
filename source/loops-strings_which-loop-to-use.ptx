@@ -1,18 +1,12 @@
-<section xml:id="loops-strings_which-loop-to-use">
+<section xml:id="loops-strings_which-loop-to-use" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Which Loop to Use</title>
 <p>
 <c>for</c> and <c>while</c> loops have the same capabilities; any <c>for</c> loop can be rewritten as a <c>while</c> loop, and vice versa.
 For example, we could have printed letters of the alphabet by using a <c>while</c> loop:
 </p>
 
-<program>
-System.out.print("Roman alphabet: ");
-char c = 'A';
-while (c &lt;= 'Z') {
-    System.out.print(c);
-    c++;
-}
-System.out.println();
+<program xml:id="loops-strings_which-loop-to-use-1">
+<xi:include href="../programs/loops-strings_which-loop-to-use-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -31,14 +25,8 @@ For example, when validating user input as in <xref ref="validate">Section</xref
 In this case, a <c>while</c> loop is more appropriate:
 </p>
 
-<program>
-System.out.print("Enter a number: ");
-while (!in.hasNextDouble()) {
-    String word = in.next();
-    System.err.println(word + " is not a number");
-    System.out.print("Enter a number: ");
-}
-double number = in.nextDouble();
+<program xml:id="loops-strings_which-loop-to-use-2">
+<xi:include href="../programs/loops-strings_which-loop-to-use-2.cpp" parse="text"/>
 </program>
 
 <p>

@@ -1,4 +1,4 @@
-<section xml:id="immutable-objects_biginteger-arithmetic">
+<section xml:id="immutable-objects_biginteger-arithmetic" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>BigInteger Arithmetic</title>
 <p>
 It might not be clear at this point why you would ever need an integer object when you can just use an <c>int</c> or <c>long</c>.
@@ -20,9 +20,8 @@ There are several ways to create a BigInteger, but the simplest uses <c>valueOf<
 The following code converts a <c>long</c> to a <c>BigInteger</c>:
 </p>
 
-<program>
-long x = 17;
-BigInteger big = BigInteger.valueOf(x);
+<program xml:id="immutable-objects_biginteger-arithmetic-1">
+<xi:include href="../programs/immutable-objects_biginteger-arithmetic-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -30,9 +29,8 @@ You can also create BigIntegers from strings.
 For example, here is a 20-digit integer that is too big to store using a <c>long</c>:
 </p>
 
-<program>
-String s = "12345678901234567890";
-BigInteger bigger = new BigInteger(s);
+<program xml:id="immutable-objects_biginteger-arithmetic-2">
+<xi:include href="../programs/immutable-objects_biginteger-arithmetic-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -45,10 +43,8 @@ Instead, we have to use methods like <c>add</c>.
 To add two BigIntegers, we invoke <c>add</c> on one and pass the other as an argument:
 </p>
 
-<program>
-BigInteger a = BigInteger.valueOf(17);
-BigInteger b = BigInteger.valueOf(1700000000);
-BigInteger c = a.add(b);
+<program xml:id="immutable-objects_biginteger-arithmetic-3">
+<xi:include href="../programs/immutable-objects_biginteger-arithmetic-3.cpp" parse="text"/>
 </program>
 
 <p>

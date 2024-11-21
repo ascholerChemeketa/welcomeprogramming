@@ -1,13 +1,12 @@
-<section xml:id="immutable-objects_wrapper-classes">
+<section xml:id="immutable-objects_wrapper-classes" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Wrapper Classes</title>
 <p>
 Primitive types like <c>int</c>, <c>double</c>, and <c>char</c> cannot be <c>null</c>, and they do not provide methods.
 For example, you can't invoke <c>equals</c> on an <c>int</c>:
 </p>
 
-<program>
-int i = 5;
-System.out.println(i.equals(5));  // compiler error
+<program xml:id="immutable-objects_wrapper-classes-1">
+<xi:include href="../programs/immutable-objects_wrapper-classes-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -20,9 +19,8 @@ But for each primitive type, there is a corresponding <em>wrapper class</em> in 
 The wrapper class for <c>int</c> is named <c>Integer</c>, with a capital <c>I</c>:
 </p>
 
-<program>
-Integer i = Integer.valueOf(5);
-System.out.println(i.equals(5));  // displays true
+<program xml:id="immutable-objects_wrapper-classes-2">
+<xi:include href="../programs/immutable-objects_wrapper-classes-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -34,15 +32,8 @@ They are in the <c>java.lang</c> package, so you can use them without importing 
 Like strings, objects from wrapper classes are immutable, and you have to use the <c>equals</c> method to compare them:
 </p>
 
-<program>
-Integer x = Integer.valueOf(123);
-Integer y = Integer.valueOf(123);
-if (x == y) {                     // false
-    System.out.println("x and y are the same object");
-}
-if (x.equals(y)) {                // true
-    System.out.println("x and y have the same value");
-}
+<program xml:id="immutable-objects_wrapper-classes-3">
+<xi:include href="../programs/immutable-objects_wrapper-classes-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -62,9 +53,8 @@ For example, <c>Integer.parseInt</c> converts a string to an <c>int</c>.
 In this context, <em>parse</em> means <q>read and translate</q>.
 </p>
 
-<program>
-String str = "12345";
-int num = Integer.parseInt(str);
+<program xml:id="immutable-objects_wrapper-classes-4">
+<xi:include href="../programs/immutable-objects_wrapper-classes-4.cpp" parse="text"/>
 </program>
 
 <p>
@@ -72,9 +62,8 @@ Other wrapper classes provide similar methods, like <c>Double.parseDouble</c> an
 They also provide <c>toString</c>, which returns a string representation of a value:
 </p>
 
-<program>
-int num = 12345;
-String str = Integer.toString(num);
+<program xml:id="immutable-objects_wrapper-classes-5">
+<xi:include href="../programs/immutable-objects_wrapper-classes-5.cpp" parse="text"/>
 </program>
 
 <p>
@@ -87,9 +76,8 @@ The result is the <c>String</c> object <c>"12345"</c>.
 It's always possible to convert a primitive value to a string, but not the other way around. For example, say we try to parse an invalid string like this:
 </p>
 
-<program>
-String str = "five";
-int num = Integer.parseInt(str);  // NumberFormatException
+<program xml:id="immutable-objects_wrapper-classes-6">
+<xi:include href="../programs/immutable-objects_wrapper-classes-6.cpp" parse="text"/>
 </program>
 
 <p>

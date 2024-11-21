@@ -1,4 +1,4 @@
-<section xml:id="mutable-objects_exercises">
+<section xml:id="mutable-objects_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Exercises</title>
 <p>
 The code for this chapter is in the <em>ch10</em> directory of <em>ThinkJavaCode2</em>.
@@ -24,23 +24,12 @@ How can you tell?</p></li>
 
 </p>
 
-<program>
-public static int riddle(int x, Point p) {
-    x = x + 7;
-    return x + p.x + p.y;
-}
+<program xml:id="mutable-objects_exercises-1" interactive="activecode">
+<xi:include href="../programs/mutable-objects_exercises-1.cpp" parse="text"/>
 </program>
   
-<program>
-public static void main(String[] args) {
-    int x = 5;
-    Point blank = new Point(1, 2);
-
-    System.out.println(riddle(x, blank));
-    System.out.println(x);
-    System.out.println(blank.x);
-    System.out.println(blank.y);
-}
+<program xml:id="mutable-objects_exercises-2" interactive="activecode">
+<xi:include href="../programs/mutable-objects_exercises-2.cpp" parse="text"/>
 </program>
 
 </statement>
@@ -62,16 +51,8 @@ Show all variables, parameters, and objects.</p></li>
 
 </p>
 
-<program>
-public static void main(String[] args) {
-    Point blank = new Point(5, 8);
-
-    Rectangle rect = new Rectangle(0, 2, 4, 4);
-    Point center = findCenter(rect);
-
-    double dist = distance(center, blank);
-    System.out.println(dist);
-}
+<program xml:id="mutable-objects_exercises-3" interactive="activecode">
+<xi:include href="../programs/mutable-objects_exercises-3.cpp" parse="text"/>
 </program>
 
 </statement>
@@ -93,16 +74,8 @@ Why or why not?</p></li>
 
 </p>
 
-<program>
-public static void main(String[] args) {
-    Rectangle box1 = new Rectangle(2, 4, 7, 9);
-    Point p1 = findCenter(box1);
-    printPoint(p1);
-
-    box1.grow(1, 1);
-    Point p2 = findCenter(box1);
-    printPoint(p2);
-}
+<program xml:id="mutable-objects_exercises-4" interactive="activecode">
+<xi:include href="../programs/mutable-objects_exercises-4.cpp" parse="text"/>
 </program>
 
 </statement>

@@ -1,4 +1,4 @@
-<section xml:id="input-output_putting-it-all-together">
+<section xml:id="input-output_putting-it-all-together" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Putting It All Together</title>
 <p>
 At this point, you have seen enough Java to write useful programs that solve everyday problems.
@@ -11,33 +11,8 @@ Now we will put everything together in a complete program:
 </p>
 
 <listing filename="Convert.java">
-<program>
-import java.util.Scanner;
-
-/**
- * Converts centimeters to feet and inches.
- */
-public class Convert {
-
-    public static void main(String[] args) {
-        double cm;
-        int feet, inches, remainder;
-        final double CM_PER_INCH = 2.54;
-        final int IN_PER_FOOT = 12;
-        Scanner in = new Scanner(System.in);
-
-        // prompt the user and get the value
-        System.out.print("Exactly how many cm? ");
-        cm = in.nextDouble();
-
-        // convert and output the result
-        inches = (int) (cm / CM_PER_INCH);
-        feet = inches / IN_PER_FOOT;
-        remainder = inches % IN_PER_FOOT;
-        System.out.printf("%.2f cm = %d ft, %d in\n",
-                          cm, feet, remainder);
-    }
-}
+<program xml:id="input-output_putting-it-all-together-1" interactive="activecode">
+<xi:include href="../programs/input-output_putting-it-all-together-1.cpp" parse="text"/>
 </program>
 </listing>
 

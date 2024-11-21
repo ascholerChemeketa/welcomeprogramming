@@ -1,4 +1,4 @@
-<section xml:id="conditionals-logic_logical-operators">
+<section xml:id="conditionals-logic_logical-operators" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Logical Operators</title>
 <p>
 <idx><h>logical operator</h></idx>
@@ -27,19 +27,12 @@ The <c>ANDAND</c> operator can be used to simplify nested <c>if</c> statements.
 For example, the following code can be rewritten with a single condition:
 </p>
 
-<program>
-if (x == 0) {
-    if (y == 0) {
-        System.out.println("Both x and y are zero");
-    }
-}
+<program xml:id="conditionals-logic_logical-operators-1">
+<xi:include href="../programs/conditionals-logic_logical-operators-1.cpp" parse="text"/>
 </program>
   
-<program>
-// combined
-if (x == 0 &amp;&amp; y == 0) {
-    System.out.println("Both x and y are zero");
-}
+<program xml:id="conditionals-logic_logical-operators-2">
+<xi:include href="../programs/conditionals-logic_logical-operators-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -47,19 +40,12 @@ Likewise, the <c>||</c> operator can simplify chained <c>if</c> statements.
 Since the branches are the same, there is no need to duplicate that code:
 </p>
 
-<program>
-if (x == 0) {
-    System.out.println("Either x or y is zero");
-} else if (y == 0) {
-    System.out.println("Either x or y is zero");
-}
+<program xml:id="conditionals-logic_logical-operators-3">
+<xi:include href="../programs/conditionals-logic_logical-operators-3.cpp" parse="text"/>
 </program>
   
-<program>
-// combined
-if (x == 0 || y == 0) {
-    System.out.println("Either x or y is zero");
-}
+<program xml:id="conditionals-logic_logical-operators-4">
+<xi:include href="../programs/conditionals-logic_logical-operators-4.cpp" parse="text"/>
 </program>
 
 <p>

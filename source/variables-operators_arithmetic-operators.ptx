@@ -1,4 +1,4 @@
-<section xml:id="variables-operators_arithmetic-operators">
+<section xml:id="variables-operators_arithmetic-operators" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Arithmetic Operators</title>
 <p>
 <idx><h>operator</h></idx>
@@ -11,11 +11,8 @@ For example, the addition operator is <c>+</c>, subtraction is <c>-</c>, multipl
 The following program converts a time of day to minutes:
 </p>
 
-<program>
-int hour = 11;
-int minute = 59;
-System.out.print("Number of minutes since midnight: ");
-System.out.println(hour * 60 + minute);
+<program xml:id="variables-operators_arithmetic-operators-1" interactive="activecode">
+<xi:include href="../programs/variables-operators_arithmetic-operators-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -54,9 +51,8 @@ Addition, subtraction, and multiplication all do what you expect, but you might 
 For example, the following fragment tries to compute the fraction of an hour that has elapsed:
 </p>
 
-<program>
-System.out.print("Fraction of the hour that has passed: ");
-System.out.println(minute / 60);
+<program xml:id="variables-operators_arithmetic-operators-2" interactive="activecode">
+<xi:include href="../programs/variables-operators_arithmetic-operators-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -82,9 +78,8 @@ By design, integer division always rounds toward zero, even in cases like this o
 As an alternative, we can calculate a percentage rather than a fraction:
 </p>
 
-<program>
-System.out.print("Percent of the hour that has passed: ");
-System.out.println(minute * 100 / 60);
+<program xml:id="variables-operators_arithmetic-operators-3" interactive="activecode">
+<xi:include href="../programs/variables-operators_arithmetic-operators-3.cpp" parse="text"/>
 </program>
 
 <p>

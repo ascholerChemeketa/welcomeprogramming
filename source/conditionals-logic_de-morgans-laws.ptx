@@ -1,14 +1,12 @@
-<section xml:id="conditionals-logic_de-morgans-laws">
+<section xml:id="conditionals-logic_de-morgans-laws" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>De Morgan's Laws</title>
 <p>
 Sometimes you need to negate an expression containing a mix of relational and logical operators.
 For example, to test if <c>x</c> and <c>y</c> are both nonzero, you could write the following:
 </p>
 
-<program>
-if (!(x == 0 || y == 0)) {
-    System.out.println("Neither x nor y is zero");
-}
+<program xml:id="conditionals-logic_de-morgans-laws-1">
+<xi:include href="../programs/conditionals-logic_de-morgans-laws-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -46,10 +44,8 @@ In English, it reads, <q>If <m>x</m> is not zero and <m>y</m> is not zero.</q>
 The logic is the same, and the source code is easier to read:
 </p>
 
-<program>
-if (x != 0 &amp;&amp; y != 0) {
-    System.out.println("Neither x nor y is zero");
-}
+<program xml:id="conditionals-logic_de-morgans-laws-2">
+<xi:include href="../programs/conditionals-logic_de-morgans-laws-2.cpp" parse="text"/>
 </program>
 
 </section>

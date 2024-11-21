@@ -1,4 +1,4 @@
-<section xml:id="conditionals-logic_validating-input">
+<section xml:id="conditionals-logic_validating-input" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Validating Input</title>
 <p>
 <idx><h>validate</h></idx>
@@ -16,12 +16,8 @@ You should never assume that users will input the right kind of data.
 Consider this simple program that prompts the user for a number and computes its logarithm:
 </p>
 
-<program>
-Scanner in = new Scanner(System.in);
-System.out.print("Enter a number: ");
-double x = in.nextDouble();
-double y = Math.log(x);
-System.out.println("The log is " + y);
+<program xml:id="conditionals-logic_validating-input-1" interactive="activecode">
+<xi:include href="../programs/conditionals-logic_validating-input-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -30,13 +26,8 @@ In Java, if you ask for <c>Math.log(-1)</c>, it returns <em>NaN</em>, which stan
 We can check for this condition and print an appropriate message:
 </p>
 
-<program>
-if (x > 0) {
-    double y = Math.log(x);
-    System.out.println("The log is " + y);
-} else {
-    System.out.println("The log is undefined");
-}
+<program xml:id="conditionals-logic_validating-input-2">
+<xi:include href="../programs/conditionals-logic_validating-input-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -72,11 +63,8 @@ The <c>Scanner</c> class provides <c>hasNextDouble</c>, which checks whether the
 If not, we can display an error message:
 </p>
 
-<program>
-if (!in.hasNextDouble()) {
-    String word = in.next();
-    System.err.println(word + "is not a number");
-}
+<program xml:id="conditionals-logic_validating-input-3">
+<xi:include href="../programs/conditionals-logic_validating-input-3.cpp" parse="text"/>
 </program>
 
 <p>

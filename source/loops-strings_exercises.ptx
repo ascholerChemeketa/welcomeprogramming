@@ -1,4 +1,4 @@
-<section xml:id="loops-strings_exercises">
+<section xml:id="loops-strings_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Exercises</title>
 <p>
 The code for this chapter is in the <em>ch06</em> directory of <em>ThinkJavaCode2</em>.
@@ -23,22 +23,8 @@ The table should contain one column for each variable and one line for each iter
 
 </p>
 
-<program>
-public static void main(String[] args) {
-    loop(10);
-}
-
-public static void loop(int n) {
-    int i = n;
-    while (i > 1) {
-        System.out.println(i);
-        if (i % 2 == 0) {
-            i = i / 2;
-        } else {
-            i = i + 1;
-        }
-    }
-}
+<program xml:id="loops-strings_exercises-1" interactive="activecode">
+<xi:include href="../programs/loops-strings_exercises-1.cpp" parse="text"/>
 </program>
 
 </statement>

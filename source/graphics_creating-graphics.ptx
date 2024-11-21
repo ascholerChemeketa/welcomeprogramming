@@ -1,4 +1,4 @@
-<section xml:id="graphics_creating-graphics">
+<section xml:id="graphics_creating-graphics" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Creating Graphics</title>
 <p>
 <idx><h>Canvas</h></idx>
@@ -12,29 +12,12 @@ The <c>Graphics</c> class provides basic drawing methods such as <c>drawLine</c>
 Here is an example program that draws a circle by using the <c>fillOval</c> method:
 </p>
 
-<program>
-import java.awt.Canvas;
-import java.awt.Graphics;
-import javax.swing.JFrame;
-
-public class Drawing extends Canvas {
+<program xml:id="graphics_creating-graphics-1" interactive="activecode">
+<xi:include href="../programs/graphics_creating-graphics-1.cpp" parse="text"/>
 </program>
   
-<program>
-public static void main(String[] args) {
-        JFrame frame = new JFrame("My Drawing");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Drawing drawing = new Drawing();
-        drawing.setSize(400, 400);
-        frame.add(drawing);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-    public void paint(Graphics g) {
-        g.fillOval(100, 100, 200, 200);
-    }
-}
+<program xml:id="graphics_creating-graphics-2" interactive="activecode">
+<xi:include href="../programs/graphics_creating-graphics-2.cpp" parse="text"/>
 </program>
 
 <p>

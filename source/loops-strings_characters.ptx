@@ -1,4 +1,4 @@
-<section xml:id="loops-strings_characters">
+<section xml:id="loops-strings_characters" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Characters</title>
 <p>
 Some of the most interesting problems in computer science involve searching and manipulating text.
@@ -14,9 +14,8 @@ Strings provide a method named <c>charAt</c>.
 It returns a <c>char</c>, a data type that stores an individual character (as opposed to strings of them):
 </p>
 
-<program>
-String fruit = "banana";
-char letter = fruit.charAt(0);
+<program xml:id="loops-strings_characters-1">
+<xi:include href="../programs/loops-strings_characters-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -39,10 +38,8 @@ Characters work like the other data types you have seen.
 You can compare them using relational operators:
 </p>
 
-<program>
-if (letter == 'A') {
-    System.out.println("It's an A!");
-}
+<program xml:id="loops-strings_characters-2">
+<xi:include href="../programs/loops-strings_characters-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -59,12 +56,8 @@ The increment and decrement operators also work with characters.
 So this loop displays the letters of the alphabet:
 </p>
 
-<program>
-System.out.print("Roman alphabet: ");
-for (char c = 'A'; c &lt;= 'Z'; c++) {
-    System.out.print(c);
-}
-System.out.println();
+<program xml:id="loops-strings_characters-3">
+<xi:include href="../programs/loops-strings_characters-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -88,12 +81,8 @@ In Unicode, each character is represented by a <q>code point</q>, which you can 
 The code points for uppercase Greek letters run from 913 to 937, so we can display the Greek alphabet like this:
 </p>
 
-<program>
-System.out.print("Greek alphabet: ");
-for (int i = 913; i &lt;= 937; i++) {
-    System.out.print((char) i);
-}
-System.out.println();
+<program xml:id="loops-strings_characters-4">
+<xi:include href="../programs/loops-strings_characters-4.cpp" parse="text"/>
 </program>
 
 <p>

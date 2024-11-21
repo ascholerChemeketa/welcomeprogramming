@@ -1,19 +1,12 @@
-<section xml:id="recursive-methods_counting-up-recursively">
+<section xml:id="recursive-methods_counting-up-recursively" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Counting Up Recursively</title>
 <p>
 The <c>countdown</c> example in <xref ref="recursion">Section</xref> has three parts: (1) it checks the base case, (2) it displays something, and (3) it makes a recursive call.
 What do you think happens if you reverse steps 2 and 3, making the recursive call <em>before</em> displaying?
 </p>
 
-<program>
-public static void countup(int n) {
-    if (n == 0) {
-        System.out.println("Blastoff!");
-    } else {
-        countup(n - 1);
-        System.out.println(n);
-    }
-}
+<program xml:id="recursive-methods_counting-up-recursively-1">
+<xi:include href="../programs/recursive-methods_counting-up-recursively-1.cpp" parse="text"/>
 </program>
 
 <p>

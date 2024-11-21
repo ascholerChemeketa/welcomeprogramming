@@ -1,4 +1,4 @@
-<section xml:id="mutable-objects_objects-as-parameters">
+<section xml:id="mutable-objects_objects-as-parameters" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Objects as Parameters</title>
 <p>
 <idx><h>parameter</h></idx>
@@ -11,10 +11,8 @@ For example:
 <idx><h>printPoint</h></idx>
 </p>
 
-<program>
-public static void printPoint(Point p) {
-    System.out.println("(" + p.x + ", " + p.y + ")");
-}
+<program xml:id="mutable-objects_objects-as-parameters-1">
+<xi:include href="../programs/mutable-objects_objects-as-parameters-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -26,12 +24,8 @@ If you invoke <c>printPoint(blank)</c>, it displays <c>(3, 4)</c>.
 As another example, we can rewrite the <c>distance</c> method from <xref ref="distance">Section</xref> so that it takes two <c>Point</c>s as parameters instead of four <c>double</c>s:
 </p>
 
-<program>
-public static double distance(Point p1, Point p2) {
-    int dx = p2.x - p1.x;
-    int dy = p2.y - p1.y;
-    return Math.sqrt(dx * dx + dy * dy);
-}
+<program xml:id="mutable-objects_objects-as-parameters-2">
+<xi:include href="../programs/mutable-objects_objects-as-parameters-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -43,10 +37,8 @@ You actually don't need to write a <c>distance</c> method, because <c>Point</c> 
 To compute the distance between two points, we invoke <c>distance</c> on one and pass the other as an argument:
 </p>
 
-<program>
-Point p1 = new Point(0, 0);
-Point p2 = new Point(3, 4);
-double dist = p1.distance(p2);  // dist is 5.0
+<program xml:id="mutable-objects_objects-as-parameters-3" interactive="activecode">
+<xi:include href="../programs/mutable-objects_objects-as-parameters-3.cpp" parse="text"/>
 </program>
 
 <p>

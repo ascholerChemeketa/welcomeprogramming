@@ -1,4 +1,4 @@
-<section xml:id="arrays-objects_exercises">
+<section xml:id="arrays-objects_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Exercises</title>
 <p>
 The code for this chapter is in the <em>ch12</em> directory of <em>ThinkJavaCode2</em>.
@@ -62,8 +62,8 @@ In the code directory for this chapter, <em>ch12</em>, you will find the followi
 The declaration looks like this:
 </p>
 
-<program>
-private Image[][] images;
+<program xml:id="arrays-objects_exercises-1">
+<xi:include href="../programs/arrays-objects_exercises-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -71,8 +71,8 @@ The variable <c>images</c> refers to a 2D array of <c>Image</c> objects, which a
 Here's the code that creates the array itself:
 </p>
 
-<program>
-images = new Image[14][4];
+<program xml:id="arrays-objects_exercises-2">
+<xi:include href="../programs/arrays-objects_exercises-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -80,19 +80,8 @@ The array has 14 rows (one for each rank, plus an unused row for rank 0) and 4 c
 Here's the loop that populates the array:
 </p>
 
-<program>
-String cardset = "cardset-oxymoron";
-String suits = "cdhs";
-
-for (int suit = 0; suit &lt;= 3; suit++) {
-    char c = suits.charAt(suit);
-
-    for (int rank = 1; rank &lt;= 13; rank++) {
-        String s = String.format("%s/%02d%c.gif",
-                                 cardset, rank, c);
-        images[rank][suit] = new ImageIcon(s).getImage();
-    }
-}
+<program xml:id="arrays-objects_exercises-3">
+<xi:include href="../programs/arrays-objects_exercises-3.cpp" parse="text"/>
 </program>
 
 <p>

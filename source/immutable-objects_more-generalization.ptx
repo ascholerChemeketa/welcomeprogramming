@@ -1,4 +1,4 @@
-<section xml:id="immutable-objects_more-generalization">
+<section xml:id="immutable-objects_more-generalization" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>More Generalization</title>
 <p>
 The previous result is similar to the <q>nested loops</q> approach in <xref ref="nested">Section</xref>.
@@ -6,12 +6,8 @@ However, the inner loop is now encapsulated in the <c>printRow</c> method.
 We can encapsulate the outer loop in a method too:
 </p>
 
-<program>
-public static void printTable() {
-    for (int i = 1; i &lt;= 6; i++) {
-        printRow(i);
-    }
-}
+<program xml:id="immutable-objects_more-generalization-1">
+<xi:include href="../programs/immutable-objects_more-generalization-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -19,12 +15,8 @@ The initial version of <c>printTable</c> always displays six rows.
 We can generalize it by replacing the literal <c>6</c> with a parameter:
 </p>
 
-<program>
-public static void printTable(int rows) {
-    for (int i = 1; i &lt;= rows; i++) {     // generalized rows
-        printRow(i);
-    }
-}
+<program xml:id="immutable-objects_more-generalization-2">
+<xi:include href="../programs/immutable-objects_more-generalization-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -48,13 +40,8 @@ That's better, but it always displays the same number of columns.
 We can generalize more by adding a parameter to <c>printRow</c>:
 </p>
 
-<program>
-public static void printRow(int n, int cols) {
-    for (int i = 1; i &lt;= cols; i++) {     // generalized cols
-        System.out.printf("%4d", n * i);
-    }
-    System.out.println();
-}
+<program xml:id="immutable-objects_more-generalization-3">
+<xi:include href="../programs/immutable-objects_more-generalization-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -62,12 +49,8 @@ Now <c>printRow</c> takes two parameters: <c>n</c> is the value whose multiples 
 Since we added a parameter to <c>printRow</c>, we also have to change the line in <c>printTable</c> where it is invoked:
 </p>
 
-<program>
-public static void printTable(int rows) {
-    for (int i = 1; i &lt;= rows; i++) {
-        printRow(i, rows);
-    }
-}
+<program xml:id="immutable-objects_more-generalization-4">
+<xi:include href="../programs/immutable-objects_more-generalization-4.cpp" parse="text"/>
 </program>
 
 <p>
@@ -83,8 +66,8 @@ Since <m>ab = ba</m>, all the entries in the table appear twice.
 You could save ink by printing half of the table, and you would have to change only <em>one line</em> of <c>printTable</c>:
 </p>
 
-<program>
-printRow(i, i);  // using i for both n and cols
+<program xml:id="immutable-objects_more-generalization-5">
+<xi:include href="../programs/immutable-objects_more-generalization-5.cpp" parse="text"/>
 </program>
 
 <p>

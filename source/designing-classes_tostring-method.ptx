@@ -1,4 +1,4 @@
-<section xml:id="designing-classes_tostring-method">
+<section xml:id="designing-classes_tostring-method" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The toString Method</title>
 <p>
 Every object has a method called <c>toString</c> that returns a string representation of the object.
@@ -11,11 +11,8 @@ By default, it simply displays the type of the object and its address in hexadec
 So, say you create a <c>Time</c> object and display it with <c>println</c>:
 </p>
 
-<program>
-public static void main(String[] args) {
-    Time time = new Time(11, 59, 59.9);
-    System.out.println(time);
-}
+<program xml:id="designing-classes_tostring-method-1" interactive="activecode">
+<xi:include href="../programs/designing-classes_tostring-method-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -44,11 +41,8 @@ But you can <em>override</em> this behavior by providing your own <c>toString</c
 For example, here is a <c>toString</c> method for <c>Time</c>:
 </p>
 
-<program>
-public String toString() {
-    return String.format("%02d:%02d:%04.1f\n",
-        this.hour, this.minute, this.second);
-}
+<program xml:id="designing-classes_tostring-method-2">
+<xi:include href="../programs/designing-classes_tostring-method-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -72,9 +66,8 @@ The body of the method is similar to <c>printTime</c> in the previous section, w
 Now you can call <c>toString</c> directly:
 </p>
 
-<program>
-Time time = new Time(11, 59, 59.9);
-String s = time.toString();
+<program xml:id="designing-classes_tostring-method-3">
+<xi:include href="../programs/designing-classes_tostring-method-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -82,8 +75,8 @@ The value of <c>s</c> is the string <c>"11:59:59.9"</c>.
 You can also invoke <c>toString</c> indirectly by invoking <c>print</c> or <c>println</c>:
 </p>
 
-<program>
-System.out.println(time);
+<program xml:id="designing-classes_tostring-method-4">
+<xi:include href="../programs/designing-classes_tostring-method-4.cpp" parse="text"/>
 </program>
 
 <p>

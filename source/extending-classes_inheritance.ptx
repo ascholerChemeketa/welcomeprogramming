@@ -1,4 +1,4 @@
-<section xml:id="extending-classes_inheritance">
+<section xml:id="extending-classes_inheritance" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Inheritance</title>
 <p>
 At this point, we have a class that represents a collection of cards.
@@ -18,18 +18,8 @@ A <em>subclass</em> is a class that <q>extends</q> an existing class; that is, i
 Here is the complete definition of our new and improved <c>Deck</c> class:
 </p>
 
-<program>
-public class Deck extends CardCollection {
-
-    public Deck(String label) {
-        super(label);
-        for (int suit = 0; suit &lt;= 3; suit++) {
-            for (int rank = 1; rank &lt;= 13; rank++) {
-                addCard(new Card(rank, suit));
-            }
-        }
-    }
-}
+<program xml:id="extending-classes_inheritance-1">
+<xi:include href="../programs/extending-classes_inheritance-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -55,8 +45,8 @@ The only additional method in <c>Deck</c>, at least for now, is a constructor.
 So you can create a <c>Deck</c> object like this:
 </p>
 
-<program>
-Deck deck = new Deck("Deck");
+<program xml:id="extending-classes_inheritance-2">
+<xi:include href="../programs/extending-classes_inheritance-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -81,21 +71,8 @@ Here's what the definition looks like:
 <idx><h>Hand</h></idx>
 </p>
 
-<program>
-public class Hand extends CardCollection {
-
-    public Hand(String label) {
-        super(label);
-    }
-
-    public void display() {
-        System.out.println(getLabel() + ": ");
-        for (int i = 0; i LESS size(); i++) {
-            System.out.println(getCard(i));
-        }
-        System.out.println();
-    }
-}
+<program xml:id="extending-classes_inheritance-3">
+<xi:include href="../programs/extending-classes_inheritance-3.cpp" parse="text"/>
 </program>
 
 <p>

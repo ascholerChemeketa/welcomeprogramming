@@ -1,4 +1,4 @@
-<section xml:id="objects-arrays_shuffling-decks">
+<section xml:id="objects-arrays_shuffling-decks" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Shuffling Decks</title>
 <p>
 <idx><h>shuffle</h></idx>
@@ -28,13 +28,8 @@ This technique is sometimes called <em>pseudocode</em>:
 <idx><h>shuffle</h></idx>
 </p>
 
-<program>
-public void shuffle() {
-    for each index i {
-        // choose a random number between i and length - 1
-        // swap the ith card and the randomly-chosen card
-    }
-}
+<program xml:id="objects-arrays_shuffling-decks-1" interactive="activecode">
+<xi:include href="../programs/objects-arrays_shuffling-decks-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -44,15 +39,8 @@ The nice thing about pseudocode is that it often makes clear what other methods 
 In this case, we need a method that chooses a random integer in a given range and a method that takes two indexes and swaps the cards at those positions:
 </p>
 
-<program>
-private static int randomInt(int low, int high) {
-    // return a random number between low and high,
-    // including both
-}
-
-private void swapCards(int i, int j) {
-    // swap the ith and the jth cards in the array
-}
+<program xml:id="objects-arrays_shuffling-decks-2" interactive="activecode">
+<xi:include href="../programs/objects-arrays_shuffling-decks-2.cpp" parse="text"/>
 </program>
 
 <p>

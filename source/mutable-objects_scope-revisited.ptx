@@ -1,4 +1,4 @@
-<section xml:id="mutable-objects_scope-revisited">
+<section xml:id="mutable-objects_scope-revisited" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Scope Revisited</title>
 <p>
 <idx><h>scope</h></idx>
@@ -10,12 +10,8 @@ The scope of a variable is the part of a program where a variable can be used.
 Consider the first few lines of the <c>Rectangle.translate</c> method from the Java library source code:
 </p>
 
-<program>
-public void translate(int dx, int dy) {
-    int oldv = this.x;
-    int newv = oldv + dx;
-    if (dx &lt; 0) {
-    ...
+<program xml:id="mutable-objects_scope-revisited-1">
+<xi:include href="../programs/mutable-objects_scope-revisited-1.cpp" parse="text"/>
 </program>
 
 <p>

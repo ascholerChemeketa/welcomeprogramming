@@ -1,4 +1,4 @@
-<section xml:id="immutable-objects_incremental-design">
+<section xml:id="immutable-objects_incremental-design" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Incremental Design</title>
 <p>
 <idx><h>design process</h></idx>
@@ -21,11 +21,8 @@ We begin by writing and testing a few lines of code.
 Here is a loop that displays the multiples of two, all on one line:
 </p>
 
-<program>
-for (int i = 1; i &lt;= 6; i++) {
-    System.out.printf("%4d", 2 * i);
-}
-System.out.println();
+<program xml:id="immutable-objects_incremental-design-1">
+<xi:include href="../programs/immutable-objects_incremental-design-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -50,13 +47,8 @@ The output of the code so far is shown here:
 The next step is to <em>encapsulate</em> the code; that is, we <q>wrap</q> the code in a method:
 </p>
 
-<program>
-public static void printRow() {
-    for (int i = 1; i &lt;= 6; i++) {
-        System.out.printf("%4d", 2 * i);
-    }
-    System.out.println();
-}
+<program xml:id="immutable-objects_incremental-design-2">
+<xi:include href="../programs/immutable-objects_incremental-design-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -65,13 +57,8 @@ Finally, we <em>generalize</em> the method to print multiples of other numbers b
 This step is called <q>generalization</q>, because it makes the method more general (less specific):
 </p>
 
-<program>
-public static void printRow(int n) {
-    for (int i = 1; i &lt;= 6; i++) {
-        System.out.printf("%4d", n * i);  // generalized n
-    }
-    System.out.println();
-}
+<program xml:id="immutable-objects_incremental-design-3">
+<xi:include href="../programs/immutable-objects_incremental-design-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -90,10 +77,8 @@ By now, you can probably guess how we are going to display a multiplication tabl
 In fact, we'll use another loop to iterate through the rows:
 </p>
 
-<program>
-for (int i = 1; i &lt;= 6; i++) {
-    printRow(i);
-}
+<program xml:id="immutable-objects_incremental-design-4">
+<xi:include href="../programs/immutable-objects_incremental-design-4.cpp" parse="text"/>
 </program>
 
 <p>

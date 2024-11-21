@@ -1,18 +1,12 @@
-<section xml:id="arrays-arrays_simulation-loop">
+<section xml:id="arrays-arrays_simulation-loop" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The Simulation Loop</title>
 <p>
 At the end of <c>main</c>, we call <c>mainloop</c>, which uses a <c>while</c> loop to simulate the time steps of the Game of Life.
 Here's a rough draft of this method:
 </p>
 
-<program>
-private void mainloop() {
-    while (true) {
-        this.update();
-        grid.repaint();
-        Thread.sleep(500);    // compiler error
-    }
-}
+<program xml:id="arrays-arrays_simulation-loop-1">
+<xi:include href="../programs/arrays-arrays_simulation-loop-1.cpp" parse="text"/>
 </program>
 
 <p>

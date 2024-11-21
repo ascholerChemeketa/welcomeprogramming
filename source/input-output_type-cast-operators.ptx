@@ -1,12 +1,12 @@
-<section xml:id="input-output_type-cast-operators">
+<section xml:id="input-output_type-cast-operators" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Type Cast Operators</title>
 <p>
 Now suppose we have a measurement in centimeters, and we want to round it off to the nearest inch.
 It is tempting to write this:
 </p>
 
-<program>
-inch = cm / CM_PER_INCH;  // syntax error
+<program xml:id="input-output_type-cast-operators-1">
+<xi:include href="../programs/input-output_type-cast-operators-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -28,9 +28,8 @@ The simplest way to convert a floating-point value to an integer is to use a <em
 The syntax for type casting is to put the name of the type in parentheses and use it as an operator:
 </p>
 
-<program>
-double pi = 3.14159;
-int x = (int) pi;
+<program xml:id="input-output_type-cast-operators-2">
+<xi:include href="../programs/input-output_type-cast-operators-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -45,9 +44,8 @@ In order to use a cast operator, the types must be compatible.
 For example, you can't cast a <c>String</c> to an <c>int</c> because a string is not a number:
 </p>
 
-<program>
-String str = "3";
-int x = (int) str;  // error: incompatible types
+<program xml:id="input-output_type-cast-operators-3">
+<xi:include href="../programs/input-output_type-cast-operators-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -55,18 +53,16 @@ Type casting takes precedence over arithmetic operations.
 In the following example, the value of <c>pi</c> gets converted to an integer before the multiplication:
 </p>
 
-<program>
-double pi = 3.14159;
-double x = (int) pi * 20.0;  // result is 60.0, not 62.0
+<program xml:id="input-output_type-cast-operators-4">
+<xi:include href="../programs/input-output_type-cast-operators-4.cpp" parse="text"/>
 </program>
 
 <p>
 Keeping that in mind, here's how we can convert centimeters to inches:
 </p>
 
-<program>
-inch = (int) (cm / CM_PER_INCH);
-System.out.printf("%f cm = %d in\n", cm, inch);
+<program xml:id="input-output_type-cast-operators-5">
+<xi:include href="../programs/input-output_type-cast-operators-5.cpp" parse="text"/>
 </program>
 
 <p>

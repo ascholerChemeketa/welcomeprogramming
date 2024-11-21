@@ -1,4 +1,4 @@
-<section xml:id="designing-classes_displaying-objects">
+<section xml:id="designing-classes_displaying-objects" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Displaying Objects</title>
 <p>
 To display <c>Time</c> objects, we can write a method to display the hour, minute, and second.
@@ -9,14 +9,8 @@ Using <c>printTime</c> in <xref ref="multparam">Section</xref> as a starting poi
 <idx><h>printTime</h></idx>
 </p>
 
-<program>
-public static void printTime(Time t) {
-    System.out.print(t.hour);
-    System.out.print(":");
-    System.out.print(t.minute);
-    System.out.print(":");
-    System.out.println(t.second);
-}
+<program xml:id="designing-classes_displaying-objects-1">
+<xi:include href="../programs/designing-classes_displaying-objects-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -30,11 +24,8 @@ We can use <c>printf</c> to make the code more concise:
 <idx><h>format string</h></idx>
 </p>
 
-<program>
-public static void printTime(Time t) {
-    System.out.printf("%02d:%02d:%04.1f\n",
-        t.hour, t.minute, t.second);
-}
+<program xml:id="designing-classes_displaying-objects-2">
+<xi:include href="../programs/designing-classes_displaying-objects-2.cpp" parse="text"/>
 </program>
 
 <p>

@@ -1,4 +1,4 @@
-<section xml:id="loops-strings_string-comparison">
+<section xml:id="loops-strings_string-comparison" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>String Comparison</title>
 <p>
 <idx><h>equals</h></idx>
@@ -8,14 +8,8 @@ But that will almost never work.
 The following code compiles and runs, but it always displays <c>Goodbye!</c><nbsp/>regardless what the user types.
 </p>
 
-<program>
-System.out.print("Play again? ");
-String answer = in.nextLine();
-if (answer == "yes") {                 // wrong!
-    System.out.println("Let's go!");
-} else {
-    System.out.println("Goodbye!");
-}
+<program xml:id="loops-strings_string-comparison-1">
+<xi:include href="../programs/loops-strings_string-comparison-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -28,10 +22,8 @@ You'll learn more about objects and references in the next chapter.
 The correct way to compare strings is with the <c>equals</c> method, like this:
 </p>
 
-<program>
-if (answer.equals("yes")) {
-    System.out.println("Let's go!");
-}
+<program xml:id="loops-strings_string-comparison-2">
+<xi:include href="../programs/loops-strings_string-comparison-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -44,17 +36,8 @@ The <c>equals</c> method returns <c>true</c> if the strings contain the same cha
 If two strings differ, we can use <c>compareTo</c> to see which comes first in alphabetical order:
 </p>
 
-<program>
-String name1 = "Alan Turing";
-String name2 = "Ada Lovelace";
-int diff = name1.compareTo(name2);
-if (diff &lt; 0) {
-    System.out.println("name1 comes before name2.");
-} else if (diff > 0) {
-    System.out.println("name2 comes before name1.");
-} else {
-    System.out.println("The names are the same.");
-}
+<program xml:id="loops-strings_string-comparison-3">
+<xi:include href="../programs/loops-strings_string-comparison-3.cpp" parse="text"/>
 </program>
 
 <p>

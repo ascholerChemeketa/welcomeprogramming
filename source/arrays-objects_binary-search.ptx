@@ -1,4 +1,4 @@
-<section xml:id="arrays-objects_binary-search">
+<section xml:id="arrays-objects_binary-search" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Binary Search</title>
 <p>
 <idx><h>binary search</h></idx>
@@ -22,24 +22,8 @@ If at any point you find two adjacent words on the page, and your word comes bet
 Getting back to the array of cards, we can write a faster version of <c>search</c> if we know the cards are in order:
 </p>
 
-<program>
-public static int binarySearch(Card[] cards, Card target) {
-    int low = 0;
-    int high = cards.length - 1;
-    while (low &lt;= high) {
-        int mid = (low + high) / 2;                 // step 1
-        int comp = cards[mid].compareTo(target);
-
-        if (comp == 0) {                            // step 2
-            return mid;
-        } else if (comp &lt; 0) {                      // step 3
-            low = mid + 1;
-        } else {                                    // step 4
-            high = mid - 1;
-        }
-    }
-    return -1;
-}
+<program xml:id="arrays-objects_binary-search-1">
+<xi:include href="../programs/arrays-objects_binary-search-1.cpp" parse="text"/>
 </program>
 
 <p>

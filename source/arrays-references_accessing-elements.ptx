@@ -1,4 +1,4 @@
-<section xml:id="arrays-references_accessing-elements">
+<section xml:id="arrays-references_accessing-elements" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Accessing Elements</title>
 <p>
 When you create an array with the <c>new</c> operator, the elements are initialized to zero.
@@ -30,19 +30,16 @@ For this reason, we sometimes refer to the first element as the <q>zeroth</q> el
 The <c>[]</c> operator selects elements from an array:
 </p>
 
-<program>
-System.out.println("The zeroth element is " + counts[0]);
+<program xml:id="arrays-references_accessing-elements-1">
+<xi:include href="../programs/arrays-references_accessing-elements-1.cpp" parse="text"/>
 </program>
 
 <p>
 You can use the <c>[]</c> operator anywhere in an expression:
 </p>
 
-<program>
-counts[0] = 7;
-counts[1] = counts[0] * 2;
-counts[2]++;
-counts[3] -= 60;
+<program xml:id="arrays-references_accessing-elements-2">
+<xi:include href="../programs/arrays-references_accessing-elements-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -58,12 +55,8 @@ One of the most common ways to index an array is with a loop variable.
 For example:
 </p>
 
-<program>
-int i = 0;
-while (i &lt; 4) {
-    System.out.println(counts[i]);
-    i++;
-}
+<program xml:id="arrays-references_accessing-elements-3">
+<xi:include href="../programs/arrays-references_accessing-elements-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -80,10 +73,8 @@ Each time through the loop, we use <c>i</c> as an index into the array, displayi
 This type of array processing is usually written as a <c>for</c> loop:
 </p>
 
-<program>
-for (int i = 0; i &lt; 4; i++) {
-    System.out.println(counts[i]);
-}
+<program xml:id="arrays-references_accessing-elements-4">
+<xi:include href="../programs/arrays-references_accessing-elements-4.cpp" parse="text"/>
 </program>
 
 <p>

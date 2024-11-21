@@ -1,4 +1,4 @@
-<section xml:id="mutable-objects_aliasing-revisited">
+<section xml:id="mutable-objects_aliasing-revisited" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Aliasing Revisited</title>
 <p>
 <idx><h>reference</h></idx>
@@ -7,9 +7,8 @@ It is possible to have multiple variables that refer to the same object.
 For example, this code creates two variables that refer to the same <c>Rectangle</c>:
 </p>
 
-<program>
-Rectangle box1 = new Rectangle(0, 0, 100, 200);
-Rectangle box2 = box1;
+<program xml:id="mutable-objects_aliasing-revisited-1">
+<xi:include href="../programs/mutable-objects_aliasing-revisited-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -24,8 +23,8 @@ For example, the following code uses <c>grow</c> to make <c>box1</c> bigger by 5
 It decreases <c>x</c> and <c>y</c> by 50, and it increases <c>height</c> and <c>width</c> by 100:
 </p>
 
-<program>
-box1.grow(50, 50);                // grow box1 (alias)
+<program xml:id="mutable-objects_aliasing-revisited-2" interactive="activecode">
+<xi:include href="../programs/mutable-objects_aliasing-revisited-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -39,16 +38,16 @@ The result is shown in <xref ref="fig_aliasing2">Figure</xref>.
 Now, if we print <c>box1</c>, we are not surprised to see that it has changed:
 </p>
 
-<program>
-java.awt.Rectangle[x=-50,y=-50,width=200,height=300]
+<program xml:id="mutable-objects_aliasing-revisited-3" interactive="activecode">
+<xi:include href="../programs/mutable-objects_aliasing-revisited-3.cpp" parse="text"/>
 </program>
 
 <p>
 And if we print <c>box2</c>, we should not be surprised to see that it has changed too, because it refers to the same object:
 </p>
 
-<program>
-java.awt.Rectangle[x=-50,y=-50,width=200,height=300]
+<program xml:id="mutable-objects_aliasing-revisited-4" interactive="activecode">
+<xi:include href="../programs/mutable-objects_aliasing-revisited-4.cpp" parse="text"/>
 </program>
 
 <p>

@@ -1,4 +1,4 @@
-<section xml:id="recursive-methods_leap-faith">
+<section xml:id="recursive-methods_leap-faith" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The Leap of Faith</title>
 <p>
 <idx><h>leap of faith</h></idx>
@@ -18,10 +18,8 @@ The same is true of other methods.
 For example, consider the method from <xref ref="boolmeth">Section</xref> that determines whether an integer has only one digit:
 </p>
 
-<program>
-public static boolean isSingleDigit(int x) {
-    return x > -10 &amp;&amp; x &lt; 10;
-}
+<program xml:id="recursive-methods_leap-faith-1">
+<xi:include href="../programs/recursive-methods_leap-faith-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -40,13 +38,8 @@ Yes you can, by multiplying by <m>n</m>.
 Here's an implementation of <c>factorial</c> with the temporary variables removed:
 </p>
 
-<program>
-public static int factorial(int n) {
-    if (n == 0) {
-        return 1;
-    }
-    return n * factorial(n - 1);
-}
+<program xml:id="recursive-methods_leap-faith-2">
+<xi:include href="../programs/recursive-methods_leap-faith-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -73,13 +66,8 @@ Notice that each Fibonacci number is the sum of the two preceding Fibonacci numb
 Translated into Java, this function is as follows:
 </p>
 
-<program>
-public static int fibonacci(int n) {
-    if (n == 1 || n == 2) {
-        return 1;
-    }
-    return fibonacci(n - 1) + fibonacci(n - 2);
-}
+<program xml:id="recursive-methods_leap-faith-3">
+<xi:include href="../programs/recursive-methods_leap-faith-3.cpp" parse="text"/>
 </program>
 
 <p>

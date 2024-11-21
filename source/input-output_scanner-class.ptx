@@ -1,4 +1,4 @@
-<section xml:id="input-output_scanner-class">
+<section xml:id="input-output_scanner-class" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The Scanner Class</title>
 <p>
 <idx><h>Scanner</h></idx>
@@ -16,8 +16,8 @@ For example, <c>Scanner</c> is a class that provides methods for inputting words
 Before you can use <c>Scanner</c>, you have to import it like this:
 </p>
 
-<program>
-import java.util.Scanner;
+<program xml:id="input-output_scanner-class-1" interactive="activecode">
+<xi:include href="../programs/input-output_scanner-class-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -37,8 +37,8 @@ This line declares a <c>Scanner</c> variable named <c>in</c> and creates a <c>Sc
 <idx><h>operator</h><h>new</h></idx>
 </p>
 
-<program>
-Scanner in = new Scanner(System.in);
+<program xml:id="input-output_scanner-class-2">
+<xi:include href="../programs/input-output_scanner-class-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -51,24 +51,8 @@ Here's a complete example that reads two lines and repeats them back to the user
 </p>
 
 <listing filename="Echo.java">
-<program>
-import java.util.Scanner;
-
-public class Echo {
-
-    public static void main(String[] args) {
-        String line;
-        Scanner in = new Scanner(System.in);
-
-        System.out.print("Type something: ");
-        line = in.nextLine();
-        System.out.println("You said: " + line);
-
-        System.out.print("Type something else: ");
-        line = in.nextLine();
-        System.out.println("You also said: " + line);
-    }
-}
+<program xml:id="input-output_scanner-class-3" interactive="activecode">
+<xi:include href="../programs/input-output_scanner-class-3.cpp" parse="text"/>
 </program>
 </listing>
 

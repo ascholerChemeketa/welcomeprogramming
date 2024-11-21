@@ -1,4 +1,4 @@
-<chapter xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="arrays-references">
+<chapter xml:id="arrays-references" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Arrays and References</title>
 
 
@@ -14,13 +14,8 @@ For example, <xref ref="doubloon">Exercise</xref> asked you to check whether eve
 One algorithm (which hopefully you already discovered) loops through the string 26 times, once for each lowercase letter:
 </p>
 
-<program>
-// outer loop: for each lowercase letter
-for (char c = 'a'; c &lt;= 'z'; c++) {
-    // inner loop: count how many times the letter appears
-    for (int i = 0; i &lt; str.length(); i++) {
-        ...
-    // if the count is not 0 or 2, return false
+<program xml:id="arrays-references-1">
+<xi:include href="../programs/arrays-references-1.cpp" parse="text"/>
 </program>
 
 <p>

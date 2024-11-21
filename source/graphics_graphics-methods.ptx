@@ -1,4 +1,4 @@
-<section xml:id="graphics_graphics-methods">
+<section xml:id="graphics_graphics-methods" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Graphics Methods</title>
 <p>
 <idx><h>coordinate</h></idx>
@@ -25,12 +25,8 @@ You don't have to create the <c>Graphics</c> object; it gets created when you cr
 The previous example used <c>fillOval</c>, which has the following signature:
 </p>
 
-<program>
-/**
- * Fills an oval bounded by the specified rectangle with
- * the current color.
- */
-public void fillOval(int x, int y, int width, int height)
+<program xml:id="graphics_graphics-methods-1">
+<xi:include href="../programs/graphics_graphics-methods-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -48,8 +44,8 @@ The bounding box itself is not drawn (see <xref ref="fig_circle">Figure</xref>).
 To choose the color of a shape, invoke <c>setColor</c> on the <c>Graphics</c> object:
 </p>
 
-<program>
-g.setColor(Color.RED);
+<program xml:id="graphics_graphics-methods-2">
+<xi:include href="../programs/graphics_graphics-methods-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -71,8 +67,8 @@ You can create your own colors by specifying the red, green, and blue (<em>RGB</
 For example:
 </p>
 
-<program>
-Color purple = new Color(128, 0, 128);
+<program xml:id="graphics_graphics-methods-3">
+<xi:include href="../programs/graphics_graphics-methods-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -84,8 +80,8 @@ The color <c>(0, 0, 0)</c> is black, and <c>(255, 255, 255)</c> is white.
 You can set the background color of the <c>Canvas</c> by invoking <c>setBackground</c>:
 </p>
 
-<program>
-canvas.setBackground(Color.WHITE);
+<program xml:id="graphics_graphics-methods-4">
+<xi:include href="../programs/graphics_graphics-methods-4.cpp" parse="text"/>
 </program>
 
 </section>

@@ -1,4 +1,4 @@
-<section xml:id="objects-arrays_piles-cards">
+<section xml:id="objects-arrays_piles-cards" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Piles of Cards</title>
 <p>
 <idx><h>War (card game)</h></idx>
@@ -33,14 +33,8 @@ We define a new class named <c>Pile</c> to represent a pile of cards.
 It uses an <c>ArrayList</c> to store <c>Card</c> objects:
 </p>
 
-<program>
-public class Pile {
-    private ArrayListLESSCardMORE cards;
-
-    public Pile() {
-        this.cards = new ArrayListLESSCardMORE();
-    }
-}
+<program xml:id="objects-arrays_piles-cards-1" interactive="activecode">
+<xi:include href="../programs/objects-arrays_piles-cards-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -58,10 +52,8 @@ At the beginning of each round, each player draws a card from the top of their p
 So we define a method to do that:
 </p>
 
-<program>
-public Card popCard() {
-    return this.cards.remove(0);  // from the top of the pile
-}
+<program xml:id="objects-arrays_piles-cards-2" interactive="activecode">
+<xi:include href="../programs/objects-arrays_piles-cards-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -74,10 +66,8 @@ At the end of each round, the winner adds cards to the bottom of their pile.
 So we define a method to do that:
 </p>
 
-<program>
-public void addCard(Card card) {
-    this.cards.add(card);        // to the bottom of the pile
-}
+<program xml:id="objects-arrays_piles-cards-3" interactive="activecode">
+<xi:include href="../programs/objects-arrays_piles-cards-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -89,10 +79,8 @@ To know when to stop the game, we have to check if one of the piles is empty.
 Here's a method to do that:
 </p>
 
-<program>
-public boolean isEmpty() {
-    return this.cards.isEmpty();
-}
+<program xml:id="objects-arrays_piles-cards-4" interactive="activecode">
+<xi:include href="../programs/objects-arrays_piles-cards-4.cpp" parse="text"/>
 </program>
 
 <p>
@@ -105,12 +93,8 @@ Finally, to start the game, we need to divide the deck into two equal parts.
 We can do that with <c>subdeck</c> from <xref ref="subdeck">Section</xref> and a new method, <c>addDeck</c>:
 </p>
 
-<program>
-public void addDeck(Deck deck) {
-    for (Card card : deck.getCards()) {
-        this.cards.add(card);
-    }
-}
+<program xml:id="objects-arrays_piles-cards-5" interactive="activecode">
+<xi:include href="../programs/objects-arrays_piles-cards-5.cpp" parse="text"/>
 </program>
 
 <p>

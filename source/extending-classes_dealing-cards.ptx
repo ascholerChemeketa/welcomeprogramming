@@ -1,4 +1,4 @@
-<section xml:id="extending-classes_dealing-cards">
+<section xml:id="extending-classes_dealing-cards" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Dealing Cards</title>
 <p>
 To begin the game, we need to deal cards to each of the players.
@@ -6,13 +6,8 @@ And during the game, we need to move cards between hands and piles.
 If we add the following method to <c>CardCollection</c>, it can meet both of these requirements:
 </p>
 
-<program>
-public void deal(CardCollection that, int n) {
-    for (int i = 0; i &lt; n; i++) {
-        Card card = popCard();
-        that.addCard(card);
-    }
-}
+<program xml:id="extending-classes_dealing-cards-1">
+<xi:include href="../programs/extending-classes_dealing-cards-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -21,11 +16,8 @@ The second parameter, <c>n</c>, is the number of cards to deal.
 We will use this method to implement <c>dealAll</c>, which deals (or moves) all of the remaining cards:
 </p>
 
-<program>
-public void dealAll(CardCollection that) {
-    int n = cards.size();
-    deal(that, n);
-}
+<program xml:id="extending-classes_dealing-cards-2">
+<xi:include href="../programs/extending-classes_dealing-cards-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -33,18 +25,8 @@ At this point, we can create a <c>Deck</c> and start dealing cards.
 Here's a simple example that deals five cards to a hand, and deals the rest into a draw pile:
 </p>
 
-<program>
-Deck deck = new Deck("Deck");
-deck.shuffle();
-
-Hand hand = new Hand("Hand");
-deck.deal(hand, 5);
-hand.display();
-
-Hand drawPile = new Hand("Draw Pile");
-deck.dealAll(drawPile);
-System.out.printf("Draw Pile has %d cards.\n",
-                  drawPile.size());
+<program xml:id="extending-classes_dealing-cards-3" interactive="activecode">
+<xi:include href="../programs/extending-classes_dealing-cards-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -72,9 +54,8 @@ Notice that the first parameter is supposed to be a <c>CardCollection</c>.
 But we invoked it like this:
 </p>
 
-<program>
-Hand hand = new Hand("Hand");
-deck.deal(hand, 5);
+<program xml:id="extending-classes_dealing-cards-4">
+<xi:include href="../programs/extending-classes_dealing-cards-4.cpp" parse="text"/>
 </program>
 
 <p>

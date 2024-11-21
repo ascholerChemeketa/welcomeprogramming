@@ -1,4 +1,4 @@
-<section xml:id="loops-strings_nested-loops">
+<section xml:id="loops-strings_nested-loops" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Nested Loops</title>
 <p>
 <idx><h>loop</h><h>nested</h></idx>
@@ -8,13 +8,8 @@ Nested loops allow you to iterate over two variables.
 For example, we can generate a <q>multiplication table</q> like this:
 </p>
 
-<program>
-for (int x = 1; x &lt;= 10; x++) {
-    for (int y = 1; y &lt;= 10; y++) {
-        System.out.printf("%4d", x * y);
-    }
-    System.out.println();
-}
+<program xml:id="loops-strings_nested-loops-1">
+<xi:include href="../programs/loops-strings_nested-loops-1.cpp" parse="text"/>
 </program>
 
 <p>

@@ -1,4 +1,4 @@
-<section xml:id="objects-arrays_adding-recursion">
+<section xml:id="objects-arrays_adding-recursion" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Adding Recursion</title>
 <p>
 To make <c>mergeSort</c> work recursively, you have to add a base case; otherwise, it repeats forever.
@@ -17,14 +17,8 @@ So we consider an empty deck to be sorted, and return it.
 With these base cases, a recursive version of <c>mergeSort</c> looks like this:
 </p>
 
-<program>
-public Deck mergeSort() {
-    // if the deck has 0 or 1 cards, return it
-    // otherwise, divide the deck into two subdecks
-    // sort the subdecks using mergeSort
-    // merge the subdecks
-    // return the result
-}
+<program xml:id="objects-arrays_adding-recursion-1" interactive="activecode">
+<xi:include href="../programs/objects-arrays_adding-recursion-1.cpp" parse="text"/>
 </program>
 
 <p>

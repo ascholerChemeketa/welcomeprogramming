@@ -1,4 +1,4 @@
-<section xml:id="advanced-topics_interfaces">
+<section xml:id="advanced-topics_interfaces" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Interfaces</title>
 <p>
 You might be getting tired of polygons at this point.
@@ -17,15 +17,8 @@ So here's one way we could make the code more general:
 <li><p>Define a new superclass, which we call <c>Actor</c>, that provides the two methods needed by <c>Drawing</c>:
 
 
-<program>
-public class Actor {
-    public void draw(Graphics g) {
-        // do nothing
-    }
-    public void step() {
-        // do nothing
-    }
-}
+<program xml:id="advanced-topics_interfaces-1">
+<xi:include href="../programs/advanced-topics_interfaces-1.cpp" parse="text"/>
 </program>
 </p></li>
 <li><p>In the <c>Drawing</c> class, replace <c>DrawablePolygon</c> with <c>Actor</c>.</p></li>
@@ -44,11 +37,8 @@ Java provides another mechanism for inheritance that solves these problems.
 We can define <c>Actor</c> as an <c>interface</c> instead of a <c>class</c>, like this:
 </p>
 
-<program>
-public interface Actor {
-    void draw(Graphics g);
-    void step();
-}
+<program xml:id="advanced-topics_interfaces-2">
+<xi:include href="../programs/advanced-topics_interfaces-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -73,10 +63,8 @@ Here's a version of <c>DrawablePolygon</c> that extends <c>Polygon</c> and imple
 So it inherits methods from <c>Polygon</c>, and it is required to provide the methods in <c>Actor</c>; namely <c>draw</c> and <c>step</c>:
 </p>
 
-<program>
-public class DrawablePolygon extends Polygon implements Actor {
-    // rest of the class omitted
-}
+<program xml:id="advanced-topics_interfaces-3">
+<xi:include href="../programs/advanced-topics_interfaces-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -84,18 +72,16 @@ In terms of inheritance, <c>DrawablePolygon</c> is both a <c>Polygon</c> and an 
 So the following assignments are legal:
 </p>
 
-<program>
-Polygon p1 = new DrawablePolygon();
-Actor a2 = new DrawablePolygon();
+<program xml:id="advanced-topics_interfaces-4">
+<xi:include href="../programs/advanced-topics_interfaces-4.cpp" parse="text"/>
 </program>
 
 <p>
 And the same is true for subclasses of <c>DrawablePolygon</c>; these assignments are legal too:
 </p>
 
-<program>
-Polygon p2 = new RegularPolygon(5, 50, Color.YELLOW);
-Actor a2 = new RegularPolygon(5, 50, Color.YELLOW);
+<program xml:id="advanced-topics_interfaces-5" interactive="activecode">
+<xi:include href="../programs/advanced-topics_interfaces-5.cpp" parse="text"/>
 </program>
 
 <p>

@@ -1,4 +1,4 @@
-<section xml:id="objects-arrays_static-context">
+<section xml:id="objects-arrays_static-context" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Static Context</title>
 <p>
 <xref ref="fig_deck">Figure</xref> shows a UML class diagram for <c>Deck</c>, including the instance variable, <c>cards</c>, and the methods we have so far.
@@ -27,9 +27,8 @@ When you have static methods and instance methods in the same class, it is easy 
 To invoke an instance method, you need an instance:
 </p>
 
-<program>
-Deck deck = new Deck();
-deck.print();  // correct
+<program xml:id="objects-arrays_static-context-1" interactive="activecode">
+<xi:include href="../programs/objects-arrays_static-context-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -40,8 +39,8 @@ deck.print();  // correct
 Say you try to invoke <c>print</c> like this:
 </p>
 
-<program>
-Deck.print();  // wrong!
+<program xml:id="objects-arrays_static-context-2" interactive="activecode">
+<xi:include href="../programs/objects-arrays_static-context-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -65,9 +64,8 @@ By <q>static context</q>, the compiler means you are trying to invoke a method i
 On the other hand, if you have a <c>Deck</c> object, you can use it to invoke a static method:
 </p>
 
-<program>
-Deck deck = new Deck();
-int i = deck.randomInt(0, 51);  // legal, but not good style
+<program xml:id="objects-arrays_static-context-3" interactive="activecode">
+<xi:include href="../programs/objects-arrays_static-context-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -79,10 +77,8 @@ Another common error is to use <c>this</c> in a static method.
 For example, say you write something like this:
 </p>
 
-<program>
-private static Deck merge(Deck d1, Deck d2) {
-    return this.cards;  // wrong!
-}
+<program xml:id="objects-arrays_static-context-4" interactive="activecode">
+<xi:include href="../programs/objects-arrays_static-context-4.cpp" parse="text"/>
 </program>
 
 <p>

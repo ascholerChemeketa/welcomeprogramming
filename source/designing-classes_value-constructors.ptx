@@ -1,4 +1,4 @@
-<section xml:id="designing-classes_value-constructors">
+<section xml:id="designing-classes_value-constructors" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Value Constructors</title>
 <p>
 <idx><h>overload</h></idx>
@@ -12,12 +12,8 @@ Java knows which constructor to invoke by matching the arguments you provide wit
 It is common to provide both a <q>default constructor</q> that takes no arguments, like the previous one, and a <q>value constructor</q>, like this one:
 </p>
 
-<program>
-public Time(int hour, int minute, double second) {
-    this.hour = hour;
-    this.minute = minute;
-    this.second = second;
-}
+<program xml:id="designing-classes_value-constructors-1">
+<xi:include href="../programs/designing-classes_value-constructors-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -25,8 +21,8 @@ To invoke this constructor, you have to provide arguments to the <c>new</c> oper
 The following example creates a <c>Time</c> object that represents a fraction of a second before noon:
 </p>
 
-<program>
-Time time = new Time(11, 59, 59.9);
+<program xml:id="designing-classes_value-constructors-2">
+<xi:include href="../programs/designing-classes_value-constructors-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -43,24 +39,8 @@ In fact, some IDEs can generate them for you.
 Here is the complete class definition so far:
 </p>
 
-<program>
-public class Time {
-    private int hour;
-    private int minute;
-    private double second;
-
-    public Time() {
-        this.hour = 0;
-        this.minute = 0;
-        this.second = 0.0;
-    }
-
-    public Time(int hour, int minute, double second) {
-        this.hour = hour;
-        this.minute = minute;
-        this.second = second;
-    }
-}
+<program xml:id="designing-classes_value-constructors-3">
+<xi:include href="../programs/designing-classes_value-constructors-3.cpp" parse="text"/>
 </program>
 
 <p>

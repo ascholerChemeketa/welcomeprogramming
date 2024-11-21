@@ -1,4 +1,4 @@
-<section xml:id="recursive-methods_exercises">
+<section xml:id="recursive-methods_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Exercises</title>
 <p>
 The code for this chapter is in the <em>ch08</em> directory of <em>ThinkJavaCode2</em>.
@@ -65,20 +65,8 @@ You might find it helpful to print the value of <c>n</c> each time <c>oddSum</c>
 In this exercise, you will use a stack diagram to understand the execution of the following recursive method:
 </p>
 
-<program>
-public static void main(String[] args) {
-    System.out.println(prod(1, 4));
-}
-
-public static int prod(int m, int n) {
-    if (m == n) {
-        return n;
-    } else {
-        int recurse = prod(m, n - 1);
-        int result = n * recurse;
-        return result;
-    }
-}
+<program xml:id="recursive-methods_exercises-1" interactive="activecode">
+<xi:include href="../programs/recursive-methods_exercises-1.cpp" parse="text"/>
 </program>
 
 <ol>
@@ -151,8 +139,8 @@ If there is more than one element in the range, we can break the array into two 
 To find the largest element in an array, we have to provide the range for the entire array:
 
 
-<program>
-double max = maxInRange(a, 0, a.length - 1);
+<program xml:id="recursive-methods_exercises-2" interactive="activecode">
+<xi:include href="../programs/recursive-methods_exercises-2.cpp" parse="text"/>
 </program>
  
 
@@ -169,40 +157,20 @@ Write a method called <c>max</c> that takes an array and uses <c>maxInRange</c> 
 Create a program called <em>Recurse.java</em> and type in the following methods:
 </p>
 
-<program>
-/**
- * Returns the first character of the given String.
- */
-public static char first(String s) {
-    return s.charAt(0);
-}
+<program xml:id="recursive-methods_exercises-3">
+<xi:include href="../programs/recursive-methods_exercises-3.cpp" parse="text"/>
 </program>
   
-<program>
-/**
- * Returns all but the first letter of the given String.
- */
-public static String rest(String s) {
-    return s.substring(1);
-}
+<program xml:id="recursive-methods_exercises-4">
+<xi:include href="../programs/recursive-methods_exercises-4.cpp" parse="text"/>
 </program>
   
-<program>
-/**
- * Returns all but the first and last letter of the String.
- */
-public static String middle(String s) {
-    return s.substring(1, s.length() - 1);
-}
+<program xml:id="recursive-methods_exercises-5">
+<xi:include href="../programs/recursive-methods_exercises-5.cpp" parse="text"/>
 </program>
   
-<program>
-/**
- * Returns the length of the given String.
- */
-public static int length(String s) {
-    return s.length();
-}
+<program xml:id="recursive-methods_exercises-6">
+<xi:include href="../programs/recursive-methods_exercises-6.cpp" parse="text"/>
 </program>
 
 <ol>
@@ -215,9 +183,8 @@ It should be a <c>void</c> method.</p></li>
 The new string should contain the same letters as the parameter, but in reverse order:
 
 
-<program>
-String backwards = reverseString("coffee");
-System.out.println(backwards);
+<program xml:id="recursive-methods_exercises-7" interactive="activecode">
+<xi:include href="../programs/recursive-methods_exercises-7.cpp" parse="text"/>
 </program>
  
 

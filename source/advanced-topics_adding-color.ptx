@@ -1,24 +1,12 @@
-<section xml:id="advanced-topics_adding-color">
+<section xml:id="advanced-topics_adding-color" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Adding Color</title>
 <p>
 Specialization is useful for adding new features to an existing class, especially when you can't (or don't want to) change its design.
 For example, we can extend the <c>Polygon</c> class by adding a <c>draw</c> method and a <c>Color</c> attribute:
 </p>
 
-<program>
-public class DrawablePolygon extends Polygon {
-    protected Color color;
-
-    public DrawablePolygon() {
-        super();
-        color = Color.GRAY;
-    }
-
-    public void draw(Graphics g) {
-        g.setColor(color);
-        g.fillPolygon(this);
-    }
-}
+<program xml:id="advanced-topics_adding-color-1">
+<xi:include href="../programs/advanced-topics_adding-color-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -40,12 +28,8 @@ You can also use methods like <c>contains</c>, <c>intersects</c>, and <c>transla
 The following code creates a <c>DrawablePolygon</c> with the same points as in the previous section and sets its color to <c>GREEN</c>:
 </p>
 
-<program>
-DrawablePolygon p = new DrawablePolygon();
-p.addPoint(57, 110);
-p.addPoint(100, 35);
-p.addPoint(143, 110);
-p.color = Color.GREEN;
+<program xml:id="advanced-topics_adding-color-2">
+<xi:include href="../programs/advanced-topics_adding-color-2.cpp" parse="text"/>
 </program>
 
 </section>

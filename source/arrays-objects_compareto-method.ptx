@@ -1,15 +1,12 @@
-<section xml:id="arrays-objects_compareto-method">
+<section xml:id="arrays-objects_compareto-method" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The compareTo Method</title>
 <p>
 <idx><h>equivalent</h></idx>
 As you saw in <xref ref="equals">Section</xref>, it's helpful to create an <c>equals</c> method to test whether two objects are equivalent:
 </p>
 
-<program>
-public boolean equals(Card that) {
-    return this.rank == that.rank
-        &amp;&amp; this.suit == that.suit;
-}
+<program xml:id="arrays-objects_compareto-method-1">
+<xi:include href="../programs/arrays-objects_compareto-method-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -51,22 +48,8 @@ So for now, let's say that suit is more important.
 With that decided, we can write <c>compareTo</c> as follows:
 </p>
 
-<program>
-public int compareTo(Card that) {
-    if (this.suit &lt; that.suit) {
-        return -1;
-    }
-    if (this.suit > that.suit) {
-        return 1;
-    }
-    if (this.rank &lt; that.rank) {
-        return -1;
-    }
-    if (this.rank > that.rank) {
-        return 1;
-    }
-    return 0;
-}
+<program xml:id="arrays-objects_compareto-method-2">
+<xi:include href="../programs/arrays-objects_compareto-method-2.cpp" parse="text"/>
 </program>
 
 <p>

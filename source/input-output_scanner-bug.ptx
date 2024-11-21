@@ -1,16 +1,12 @@
-<section xml:id="input-output_scanner-bug">
+<section xml:id="input-output_scanner-bug" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The Scanner Bug</title>
 <p>
 Now that you've had some experience with <c>Scanner</c>, we want to warn you about an unexpected behavior.
 The following code fragment asks users for their name and age:
 </p>
 
-<program>
-System.out.print("What is your name? ");
-name = in.nextLine();
-System.out.print("What is your age? ");
-age = in.nextInt();
-System.out.printf("Hello %s, age %d\n", name, age);
+<program xml:id="input-output_scanner-bug-1" interactive="activecode">
+<xi:include href="../programs/input-output_scanner-bug-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -28,12 +24,8 @@ When you read a <c>String</c> followed by an <c>int</c>, everything works just f
 But when you read an <c>int</c> followed by a <c>String</c>, something strange happens:
 </p>
 
-<program>
-System.out.print("What is your age? ");
-age = in.nextInt();
-System.out.print("What is your name? ");
-name = in.nextLine();
-System.out.printf("Hello %s, age %d\n", name, age);
+<program xml:id="input-output_scanner-bug-2" interactive="activecode">
+<xi:include href="../programs/input-output_scanner-bug-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -75,13 +67,8 @@ But since the next character is already a newline, <c>nextLine</c> returns the e
 To solve this problem, you need an extra <c>nextLine</c> after <c>nextInt</c>:
 </p>
 
-<program>
-System.out.print("What is your age? ");
-age = in.nextInt();
-in.nextLine();  // read the newline
-System.out.print("What is your name? ");
-name = in.nextLine();
-System.out.printf("Hello %s, age %d\n", name, age);
+<program xml:id="input-output_scanner-bug-3" interactive="activecode">
+<xi:include href="../programs/input-output_scanner-bug-3.cpp" parse="text"/>
 </program>
 
 <p>

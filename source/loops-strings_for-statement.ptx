@@ -1,4 +1,4 @@
-<section xml:id="loops-strings_for-statement">
+<section xml:id="loops-strings_for-statement" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The for Statement</title>
 <p>
 <idx><h>for</h></idx>
@@ -15,11 +15,8 @@ It's so common that there is another statement, the <c>for</c> loop, that expres
 For example, we can rewrite the 2-4-6-8 loop this way:
 </p>
 
-<program>
-for (int i = 2; i &lt;= 8; i += 2) {
-    System.out.print(i + ", ");
-}
-System.out.println("Who do we appreciate?");
+<program xml:id="loops-strings_for-statement-1">
+<xi:include href="../programs/loops-strings_for-statement-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -48,11 +45,8 @@ There is another difference between <c>for</c> loops and <c>while</c> loops: if 
 For example:
 </p>
 
-<program>
-for (int n = 3; n > 0; n--) {
-    System.out.println(n);
-}
-System.out.println("n is now " + n);  // compiler error
+<program xml:id="loops-strings_for-statement-2">
+<xi:include href="../programs/loops-strings_for-statement-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -60,12 +54,8 @@ The last line tries to display <c>n</c> (for no reason other than demonstration)
 If you need to use a loop variable outside the loop, you have to declare it <em>outside</em> the loop, like this:
 </p>
 
-<program>
-int n;
-for (n = 3; n > 0; n--) {
-    System.out.println(n);
-}
-System.out.println("n is now " + n);
+<program xml:id="loops-strings_for-statement-3">
+<xi:include href="../programs/loops-strings_for-statement-3.cpp" parse="text"/>
 </program>
 
 <p>

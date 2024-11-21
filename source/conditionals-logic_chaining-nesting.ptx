@@ -1,4 +1,4 @@
-<section xml:id="conditionals-logic_chaining-nesting">
+<section xml:id="conditionals-logic_chaining-nesting" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Chaining and Nesting</title>
 <p>
 <idx><h>chaining</h></idx>
@@ -6,14 +6,8 @@ Sometimes you want to check related conditions and choose one of several actions
 One way to do this is by <em>chaining</em> a series of <c>if</c> and <c>else</c> blocks:
 </p>
 
-<program>
-if (x > 0) {
-    System.out.println("x is positive");
-} else if (x &lt; 0) {
-    System.out.println("x is negative");
-} else {
-    System.out.println("x is zero");
-}
+<program xml:id="conditionals-logic_chaining-nesting-1">
+<xi:include href="../programs/conditionals-logic_chaining-nesting-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -34,16 +28,8 @@ In addition to chaining, you can also make complex decisions by <em>nesting</em>
 We could have written the previous example as follows:
 </p>
 
-<program>
-if (x > 0) {
-    System.out.println("x is positive");
-} else {
-    if (x &lt; 0) {
-        System.out.println("x is negative");
-    } else {
-        System.out.println("x is zero");
-    }
-}
+<program xml:id="conditionals-logic_chaining-nesting-2">
+<xi:include href="../programs/conditionals-logic_chaining-nesting-2.cpp" parse="text"/>
 </program>
 
 <p>

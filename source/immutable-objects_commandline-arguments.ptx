@@ -1,4 +1,4 @@
-<section xml:id="immutable-objects_commandline-arguments">
+<section xml:id="immutable-objects_commandline-arguments" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Command-Line Arguments</title>
 <p>
 <idx><h>args</h></idx>
@@ -13,13 +13,8 @@ Rather than read the numbers from <c>System.in</c> by using a <c>Scanner</c>, we
 Here is a starting point:
 </p>
 
-<program>
-import java.util.Arrays;
-public class Max {
-    public static void main(String[] args) {
-        System.out.println(Arrays.toString(args));
-    }
-}
+<program xml:id="immutable-objects_commandline-arguments-1" interactive="activecode">
+<xi:include href="../programs/immutable-objects_commandline-arguments-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -62,15 +57,8 @@ To find the maximum number, we have to convert the arguments to integers.
 The following code uses an enhanced <c>for</c> loop (see <xref ref="enhanced">Section</xref>) to parse the arguments and find the largest value:
 </p>
 
-<program>
-int max = Integer.MIN_VALUE;
-for (String arg : args) {
-    int value = Integer.parseInt(arg);
-    if (value > max) {
-        max = value;
-    }
-}
-System.out.println("The max is " + max);
+<program xml:id="immutable-objects_commandline-arguments-2">
+<xi:include href="../programs/immutable-objects_commandline-arguments-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -84,11 +72,8 @@ If <c>args</c> is empty, the result will be <c>MIN_VALUE</c>.
 We can prevent this situation from happening by checking <c>args</c> at the beginning of the program:
 </p>
 
-<program>
-if (args.length == 0) {
-    System.err.println("Usage: java Max LESSnumbersMORE");
-    return;
-}
+<program xml:id="immutable-objects_commandline-arguments-3">
+<xi:include href="../programs/immutable-objects_commandline-arguments-3.cpp" parse="text"/>
 </program>
 
 <p>

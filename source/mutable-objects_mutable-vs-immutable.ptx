@@ -1,4 +1,4 @@
-<section xml:id="mutable-objects_mutable-vs-immutable">
+<section xml:id="mutable-objects_mutable-vs-immutable" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Mutable vs Immutable</title>
 <p>
 <idx><h>mutable</h></idx>
@@ -32,16 +32,8 @@ In the following example, <c>s1</c> and <c>s2</c> are created differently, but t
 </p>
 
 <listing filename="Surprise.java">
-<program>
-public class Surprise {
-    public static void main(String[] args) {
-        String s1 = "Hi, Mom!";
-        String s2 = "Hi, " + "Mom!";
-        if (s1 == s2) {                // true!
-            System.out.println("s1 and s2 are the same");
-        }
-    }
-}
+<program xml:id="mutable-objects_mutable-vs-immutable-1" interactive="activecode">
+<xi:include href="../programs/mutable-objects_mutable-vs-immutable-1.cpp" parse="text"/>
 </program>
 </listing>
 

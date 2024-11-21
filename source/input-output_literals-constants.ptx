@@ -1,4 +1,4 @@
-<section xml:id="input-output_literals-constants">
+<section xml:id="input-output_literals-constants" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Literals and Constants</title>
 <p>
 Although most of the world has adopted the metric system for weights and measures, some countries are stuck with imperial units.
@@ -12,10 +12,8 @@ We'll use a <c>Scanner</c> to input a measurement in inches, convert to centimet
 The following lines declare the variables and create the <c>Scanner</c>:
 </p>
 
-<program>
-int inch;
-double cm;
-Scanner in = new Scanner(System.in);
+<program xml:id="input-output_literals-constants-1" interactive="activecode">
+<xi:include href="../programs/input-output_literals-constants-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -26,19 +24,16 @@ We'll use <c>print</c> instead of <c>println</c> so the user can enter the input
 And we'll use the <c>Scanner</c> method <c>nextInt</c>, which reads input from the keyboard and converts it to an integer:
 </p>
 
-<program>
-System.out.print("How many inches? ");
-inch = in.nextInt();
+<program xml:id="input-output_literals-constants-2">
+<xi:include href="../programs/input-output_literals-constants-2.cpp" parse="text"/>
 </program>
 
 <p>
 Next we multiply the number of inches by 2.54, since that's how many centimeters there are per inch, and display the results:
 </p>
 
-<program>
-cm = inch * 2.54;
-System.out.print(inch + " in = ");
-System.out.println(cm + " cm");
+<program xml:id="input-output_literals-constants-3">
+<xi:include href="../programs/input-output_literals-constants-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -57,9 +52,8 @@ Values like 2.54 are sometimes called <em>magic numbers</em> (with the implicati
 A good practice is to assign magic numbers to variables with meaningful names, like this:
 </p>
 
-<program>
-double cmPerInch = 2.54;
-cm = inch * cmPerInch;
+<program xml:id="input-output_literals-constants-4">
+<xi:include href="../programs/input-output_literals-constants-4.cpp" parse="text"/>
 </program>
 
 <p>
@@ -69,8 +63,8 @@ Once we assign a value to <c>cmPerInch</c>, it should never change.
 Java provides the keyword <c>final</c>, a language feature that enforces this rule:
 </p>
 
-<program>
-final double CM_PER_INCH = 2.54;
+<program xml:id="input-output_literals-constants-5">
+<xi:include href="../programs/input-output_literals-constants-5.cpp" parse="text"/>
 </program>
 
 <p>

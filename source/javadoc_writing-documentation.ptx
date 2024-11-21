@@ -1,4 +1,4 @@
-<section xml:id="javadoc_writing-documentation">
+<section xml:id="javadoc_writing-documentation" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Writing Documentation</title>
 <p>
 As you benefit from reading good documentation, you should <q>pay it forward</q> by writing good documentation.
@@ -16,20 +16,8 @@ Anything in between is considered part of the documentation.
 Here's a class definition with two Javadoc comments, one for the <c>Goodbye</c> class and one for the <c>main</c> method:
 </p>
 
-<program>
-/**
- * Example program that demonstrates print vs println.
- */
-public class Goodbye {
-
-    /**
-     * Prints a greeting.
-     */
-    public static void main(String[] args) {
-        System.out.print("Goodbye, ");  // note the space
-        System.out.println("cruel world");
-    }
-}
+<program xml:id="javadoc_writing-documentation-1" interactive="activecode">
+<xi:include href="../programs/javadoc_writing-documentation-1.cpp" parse="text"/>
 </program>
 
 <p>

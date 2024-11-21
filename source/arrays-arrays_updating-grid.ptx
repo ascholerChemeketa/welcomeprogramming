@@ -1,15 +1,12 @@
-<section xml:id="arrays-arrays_updating-grid">
+<section xml:id="arrays-arrays_updating-grid" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Updating the Grid</title>
 <p>
 Now we are ready to write <c>update</c>, which gets invoked each time through the simulation loop.
 It uses the GoL rules to compute the state of the grid after the next time step:
 </p>
 
-<program>
-public void update() {
-    int[][] counts = countNeighbors();
-    updateGrid(counts);
-}
+<program xml:id="arrays-arrays_updating-grid-1">
+<xi:include href="../programs/arrays-arrays_updating-grid-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -21,19 +18,8 @@ We do that by traversing the grid twice: first, <c>countNeighbors</c> counts the
 Here's <c>countNeighbors</c>:
 </p>
 
-<program>
-private int[][] countNeighbors() {
-    int rows = grid.numRows();
-    int cols = grid.numCols();
-
-    int[][] counts = new int[rows][cols];
-    for (int r = 0; r &lt; rows; r++) {
-        for (int c = 0; c &lt; cols; c++) {
-            counts[r][c] = countAlive(r, c);
-        }
-    }
-    return counts;
-}
+<program xml:id="arrays-arrays_updating-grid-2">
+<xi:include href="../programs/arrays-arrays_updating-grid-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -54,36 +40,16 @@ The reason is that, in this example, we need the indexes <c>r</c> and <c>c</c> t
 <c>updateGrid</c> uses <c>getCell</c> to select each <c>Cell</c> in the grid, and <c>updateCell</c> to do the update:
 </p>
 
-<program>
-private void updateGrid(int[][] counts) {
-    int rows = grid.numRows();
-    int cols = grid.numCols();
-
-    for (int r = 0; r &lt; rows; r++) {
-        for (int c = 0; c &lt; cols; c++) {
-            Cell cell = grid.getCell(r, c);
-            updateCell(cell, counts[r][c]);
-        }
-    }
-}
+<program xml:id="arrays-arrays_updating-grid-3">
+<xi:include href="../programs/arrays-arrays_updating-grid-3.cpp" parse="text"/>
 </program>
 
 <p>
 <c>updateCell</c> implements the GoL rules: if the cell is alive, it dies if it has fewer than two or more than three neighbors; if the cell is dead, it comes to life if it has exactly three:
 </p>
 
-<program>
-private static void updateCell(Cell cell, int count) {
-    if (cell.isOn()) {
-        if (count &lt; 2 || count > 3) {
-            cell.turnOff();
-        }
-    } else {
-        if (count == 3) {
-            cell.turnOn();
-        }
-    }
-}
+<program xml:id="arrays-arrays_updating-grid-4">
+<xi:include href="../programs/arrays-arrays_updating-grid-4.cpp" parse="text"/>
 </program>
 
 <p>

@@ -1,18 +1,12 @@
-<section xml:id="arrays-objects_cards-are-immutable">
+<section xml:id="arrays-objects_cards-are-immutable" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Cards Are Immutable</title>
 <p>
 The instance variables of <c>Card</c> are <c>private</c>, so they can't be accessed from other classes.
 We can provide getters to allow other classes to read the <c>rank</c> and <c>suit</c> values:
 </p>
 
-<program>
-public int getRank() {
-    return this.rank;
-}
-
-public int getSuit() {
-    return this.suit;
-}
+<program xml:id="arrays-objects_cards-are-immutable-1">
+<xi:include href="../programs/arrays-objects_cards-are-immutable-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -30,13 +24,8 @@ That's easy enough, but it is not foolproof, because a fool might come along lat
 We can prevent that possibility by declaring the instance variables <c>final</c>:
 </p>
 
-<program>
-public class Card {
-    private final int rank;
-    private final int suit;
-
-    ...
-}
+<program xml:id="arrays-objects_cards-are-immutable-2">
+<xi:include href="../programs/arrays-objects_cards-are-immutable-2.cpp" parse="text"/>
 </program>
 
 <p>

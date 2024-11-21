@@ -1,4 +1,4 @@
-<section xml:id="arrays-references_building-a-histogram">
+<section xml:id="arrays-references_building-a-histogram" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Building a Histogram</title>
 <p>
 <idx><h>histogram</h></idx>
@@ -17,16 +17,8 @@ The following method takes an array and two integers.
 It returns the number of elements that fall in the range from <c>low</c> to <c>high - 1</c>:
 </p>
 
-<program>
-public static int inRange(int[] a, int low, int high) {
-    int count = 0;
-    for (int i = 0; i &lt; a.length; i++) {
-        if (a[i] >= low &amp;&amp; a[i] &lt; high) {
-            count++;
-        }
-    }
-    return count;
-}
+<program xml:id="arrays-references_building-a-histogram-1">
+<xi:include href="../programs/arrays-references_building-a-histogram-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -41,13 +33,8 @@ Now we can count the number of scores in each grade range.
 We add the following code to our <c>main</c> method:
 </p>
 
-<program>
-int[] scores = randomArray(30);
-int a = inRange(scores, 90, 100);
-int b = inRange(scores, 80, 90);
-int c = inRange(scores, 70, 80);
-int d = inRange(scores, 60, 70);
-int f = inRange(scores, 0, 60);
+<program xml:id="arrays-references_building-a-histogram-2">
+<xi:include href="../programs/arrays-references_building-a-histogram-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -56,12 +43,8 @@ Suppose we wanted to keep track of the number of times each individual score app
 Then we would have to write 100 lines of code:
 </p>
 
-<program>
-int count0 = inRange(scores, 0, 1);
-int count1 = inRange(scores, 1, 2);
-int count2 = inRange(scores, 2, 3);
-...
-int count99 = inRange(scores, 99, 100);
+<program xml:id="arrays-references_building-a-histogram-3">
+<xi:include href="../programs/arrays-references_building-a-histogram-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -75,11 +58,8 @@ It loops through the scores and uses <c>inRange</c> to count how many times each
 Then it stores the results in the <c>counts</c> array:
 </p>
 
-<program>
-int[] counts = new int[100];
-for (int i = 0; i &lt; counts.length; i++) {
-    counts[i] = inRange(scores, i, i + 1);
-}
+<program xml:id="arrays-references_building-a-histogram-4">
+<xi:include href="../programs/arrays-references_building-a-histogram-4.cpp" parse="text"/>
 </program>
 
 <p>
@@ -99,12 +79,8 @@ We can use that value to increment the corresponding counter.
 This code traverses the array of scores <em>only once</em> to generate the histogram:
 </p>
 
-<program>
-int[] counts = new int[100];
-for (int i = 0; i &lt; scores.length; i++) {
-    int index = scores[i];
-    counts[index]++;
-}
+<program xml:id="arrays-references_building-a-histogram-5">
+<xi:include href="../programs/arrays-references_building-a-histogram-5.cpp" parse="text"/>
 </program>
 
 <p>

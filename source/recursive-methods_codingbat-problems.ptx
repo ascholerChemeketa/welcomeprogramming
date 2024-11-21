@@ -1,4 +1,4 @@
-<section xml:id="recursive-methods_codingbat-problems">
+<section xml:id="recursive-methods_codingbat-problems" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>CodingBat Problems</title>
 <p>
 In the past several chapters, you've seen methods, conditions, loops, strings, arrays, and recursion.
@@ -38,10 +38,8 @@ The base case is the easiest version of the problem; for <c>noX</c>, it's the em
 If the argument is an empty string, there are no <c>x</c>'s to be removed:
 </p>
 
-<program>
-if (str.length() == 0) {
-    return "";
-}
+<program xml:id="recursive-methods_codingbat-problems-1">
+<xi:include href="../programs/recursive-methods_codingbat-problems-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -54,17 +52,16 @@ For <c>noX</c>, it's removing all the <c>x</c>'s from a shorter string.
 So let's split the string into two parts, the first letter and the rest:
 </p>
 
-<program>
-char first = str.charAt(0);
-String rest = str.substring(1);
+<program xml:id="recursive-methods_codingbat-problems-2">
+<xi:include href="../programs/recursive-methods_codingbat-problems-2.cpp" parse="text"/>
 </program>
 
 <p>
 Now we can make a recursive call to remove the <c>x</c>'s from <c>rest</c>:
 </p>
 
-<program>
-String recurse = noX(rest);
+<program xml:id="recursive-methods_codingbat-problems-3">
+<xi:include href="../programs/recursive-methods_codingbat-problems-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -73,12 +70,8 @@ Otherwise, we have to concatenate <c>first</c> and <c>recurse</c>.
 Here's the <c>if</c> statement we need:
 </p>
 
-<program>
-if (first == 'x') {
-    return recurse;
-} else {
-    return first + recurse;
-}
+<program xml:id="recursive-methods_codingbat-problems-4">
+<xi:include href="../programs/recursive-methods_codingbat-problems-4.cpp" parse="text"/>
 </program>
 
 <p>
@@ -106,10 +99,8 @@ So the base case is when we've reached the end of the array.
 At that point, we know there are no more <c>11</c>s:
 </p>
 
-<program>
-if (index >= nums.length) {
-    return 0;
-}
+<program xml:id="recursive-methods_codingbat-problems-5">
+<xi:include href="../programs/recursive-methods_codingbat-problems-5.cpp" parse="text"/>
 </program>
 
 <p>
@@ -118,13 +109,8 @@ After that, we can recursively check the rest of the array.
 Similar to the <c>noX</c> problem, we look at only one integer per method call:
 </p>
 
-<program>
-int recurse = array11(nums, index + 1);
-if (nums[index] == 11) {
-    return recurse + 1;
-} else {
-    return recurse;
-}
+<program xml:id="recursive-methods_codingbat-problems-6">
+<xi:include href="../programs/recursive-methods_codingbat-problems-6.cpp" parse="text"/>
 </program>
 
 <p>

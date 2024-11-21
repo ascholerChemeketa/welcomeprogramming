@@ -1,4 +1,4 @@
-<section xml:id="immutable-objects_null-keyword">
+<section xml:id="immutable-objects_null-keyword" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The null Keyword</title>
 <p>
 Often when you declare an object variable, you assign it to reference an object.
@@ -11,9 +11,8 @@ In Java, the keyword <c>null</c> is a special value that means <q>no object</q>.
 You can initialize object and array variables this way:
 </p>
 
-<program>
-String name = null;
-int[] combo = null;
+<program xml:id="immutable-objects_null-keyword-1">
+<xi:include href="../programs/immutable-objects_null-keyword-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -29,9 +28,8 @@ The value <c>null</c> is represented in memory diagrams by a small box with no a
 If you try to use a variable that is <c>null</c> by invoking a method or accessing an element, Java throws a <c>NullPointerException</c>:
 </p>
 
-<program>
-System.out.println(name.length());  // NullPointerException
-System.out.println(combo[0]);       // NullPointerException
+<program xml:id="immutable-objects_null-keyword-2">
+<xi:include href="../programs/immutable-objects_null-keyword-2.cpp" parse="text"/>
 </program>
 
 <p>

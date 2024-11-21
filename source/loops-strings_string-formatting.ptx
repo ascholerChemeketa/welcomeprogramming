@@ -1,4 +1,4 @@
-<section xml:id="loops-strings_string-formatting">
+<section xml:id="loops-strings_string-formatting" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>String Formatting</title>
 <p>
 <idx><h>printf</h></idx>
@@ -7,20 +7,8 @@ Sometimes programs need to create strings that are formatted a certain way, but 
 For example, the following method returns a time string in 12-hour format:
 </p>
 
-<program>
-public static String timeString(int hour, int minute) {
-    String ampm;
-    if (hour &lt; 12) {
-        ampm = "AM";
-        if (hour == 0) {
-            hour = 12;  // midnight
-        }
-    } else {
-        ampm = "PM";
-        hour = hour - 12;
-    }
-    return String.format("%02d:%02d %s", hour, minute, ampm);
-}
+<program xml:id="loops-strings_string-formatting-1">
+<xi:include href="../programs/loops-strings_string-formatting-1.cpp" parse="text"/>
 </program>
 
 <p>

@@ -1,4 +1,4 @@
-<section xml:id="conditionals-logic_exercises">
+<section xml:id="conditionals-logic_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Exercises</title>
 <p>
 The code for this chapter is in the <em>ch05</em> directory of <em>ThinkJavaCode2</em>.
@@ -16,12 +16,8 @@ It describes Checkstyle, a tool that analyzes many aspects of your source code.
 Rewrite the following code by using a single <c>if</c> statement:
 </p>
 
-<program>
-if (x > 0) {
-    if (x &lt; 10) {
-        System.out.println("positive single digit number.");
-    }
-}
+<program xml:id="conditionals-logic_exercises-1">
+<xi:include href="../programs/conditionals-logic_exercises-1.cpp" parse="text"/>
 </program>
 
 </statement>
@@ -73,14 +69,8 @@ Using the following variables, evaluate the logic expressions in the table that 
 Write your answers as true, false, or error.
 </p>
 
-<program>
-boolean yes = true;
-boolean no = false;
-int loVal = -999;
-int hiVal = 999;
-double grade = 87.5;
-double amount = 50.0;
-String hello = "world";
+<program xml:id="conditionals-logic_exercises-2">
+<xi:include href="../programs/conditionals-logic_exercises-2.cpp" parse="text"/>
 </program>
 
 <tabular>
@@ -120,43 +110,16 @@ What is the output of the following program?
 Determine the answer without using a computer.
 </p>
 
-<program>
-public static void main(String[] args) {
-    boolean flag1 = isHoopy(202);
-    boolean flag2 = isFrabjuous(202);
-    System.out.println(flag1);
-    System.out.println(flag2);
-    if (flag1 &amp;&amp; flag2) {
-        System.out.println("ping!");
-    }
-    if (flag1 || flag2) {
-        System.out.println("pong!");
-    }
-}
+<program xml:id="conditionals-logic_exercises-3" interactive="activecode">
+<xi:include href="../programs/conditionals-logic_exercises-3.cpp" parse="text"/>
 </program>
   
-<program>
-public static boolean isHoopy(int x) {
-    boolean hoopyFlag;
-    if (x % 2 == 0) {
-        hoopyFlag = true;
-    } else {
-        hoopyFlag = false;
-    }
-    return hoopyFlag;
-}
+<program xml:id="conditionals-logic_exercises-4">
+<xi:include href="../programs/conditionals-logic_exercises-4.cpp" parse="text"/>
 </program>
   
-<program>
-public static boolean isFrabjuous(int x) {
-    boolean frabjuousFlag;
-    if (x > 0) {
-        frabjuousFlag = true;
-    } else {
-        frabjuousFlag = false;
-    }
-    return frabjuousFlag;
-}
+<program xml:id="conditionals-logic_exercises-5">
+<xi:include href="../programs/conditionals-logic_exercises-5.cpp" parse="text"/>
 </program>
 
 <p>

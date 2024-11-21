@@ -1,4 +1,4 @@
-<section xml:id="extending-classes_player-class">
+<section xml:id="extending-classes_player-class" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The Player Class</title>
 <p>
 The <c>Deck</c> and <c>Hand</c> classes we have defined so far could be used for any card game; we have not yet implemented any of the rules specific to Crazy Eights.
@@ -16,16 +16,8 @@ Here is the beginning of the <c>Player</c> definition:
 <idx><h>Player</h></idx>
 </p>
 
-<program>
-public class Player {
-
-    private String name;
-    private Hand hand;
-
-    public Player(String name) {
-        this.name = name;
-        this.hand = new Hand(name);
-    }
+<program xml:id="extending-classes_player-class-1">
+<xi:include href="../programs/extending-classes_player-class-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -38,14 +30,8 @@ In this example, we have to use <c>this</c> to distinguish between the instance 
 The primary method that <c>Player</c> provides is <c>play</c>, which decides which card to discard during each turn:
 </p>
 
-<program>
-public Card play(Eights eights, Card prev) {
-    Card card = searchForMatch(prev);
-    if (card == null) {
-        card = drawForMatch(eights, prev);
-    }
-    return card;
-}
+<program xml:id="extending-classes_player-class-2">
+<xi:include href="../programs/extending-classes_player-class-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -62,16 +48,8 @@ Since we have not written them yet, this is an example of top-down design.
 Here's <c>searchForMatch</c>, which looks in the player's hand for a card that matches the previously played card:
 </p>
 
-<program>
-public Card searchForMatch(Card prev) {
-    for (int i = 0; i &lt; hand.size(); i++) {
-        Card card = hand.getCard(i);
-        if (cardMatches(card, prev)) {
-            return hand.popCard(i);
-        }
-    }
-    return null;
-}
+<program xml:id="extending-classes_player-class-3">
+<xi:include href="../programs/extending-classes_player-class-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -80,17 +58,8 @@ If there are no cards that match, it returns <c>null</c>.
 In that case, we have to draw cards until we get a match, which is what <c>drawForMatch</c> does:
 </p>
 
-<program>
-public Card drawForMatch(Eights eights, Card prev) {
-    while (true) {
-        Card card = eights.drawCard();
-        System.out.println(name + " draws " + card);
-        if (cardMatches(card, prev)) {
-            return card;
-        }
-        hand.addCard(card);
-    }
-}
+<program xml:id="extending-classes_player-class-4">
+<xi:include href="../programs/extending-classes_player-class-4.cpp" parse="text"/>
 </program>
 
 <p>
@@ -105,12 +74,8 @@ Both <c>searchForMatch</c> and <c>drawForMatch</c> use <c>cardMatches</c>, which
 This method is a straightforward translation of the rules of the game:
 </p>
 
-<program>
-public static boolean cardMatches(Card card1, Card card2) {
-    return card1.getSuit() == card2.getSuit()
-        || card1.getRank() == card2.getRank()
-        || card1.getRank() == 8;
-}
+<program xml:id="extending-classes_player-class-5">
+<xi:include href="../programs/extending-classes_player-class-5.cpp" parse="text"/>
 </program>
 
 <p>

@@ -1,4 +1,4 @@
-<section xml:id="variables-operators_rounding-errors">
+<section xml:id="variables-operators_rounding-errors" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Rounding Errors</title>
 <p>
 Most floating-point numbers are only <em>approximately</em> correct.
@@ -14,10 +14,8 @@ The difference between the number we want and the floating-point number we get i
 For example, the following two statements should be equivalent:
 </p>
 
-<program>
-System.out.println(0.1 * 10);
-System.out.println(0.1 + 0.1 + 0.1 + 0.1 + 0.1
-                 + 0.1 + 0.1 + 0.1 + 0.1 + 0.1);
+<program xml:id="variables-operators_rounding-errors-1" interactive="activecode">
+<xi:include href="../programs/variables-operators_rounding-errors-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -43,8 +41,8 @@ But if you need <em>absolute</em> precision, use integers instead.
 For example, consider a bank account with a balance of $123.45:
 </p>
 
-<program>
-double balance = 123.45;  // potential rounding error
+<program xml:id="variables-operators_rounding-errors-2" interactive="activecode">
+<xi:include href="../programs/variables-operators_rounding-errors-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -53,8 +51,8 @@ The result would be angry customers and potential lawsuits.
 You can avoid the problem by representing the balance as an integer:
 </p>
 
-<program>
-int balance = 12345;      // total number of cents
+<program xml:id="variables-operators_rounding-errors-3" interactive="activecode">
+<xi:include href="../programs/variables-operators_rounding-errors-3.cpp" parse="text"/>
 </program>
 
 <p>

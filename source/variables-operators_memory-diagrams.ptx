@@ -1,4 +1,4 @@
-<section xml:id="variables-operators_memory-diagrams">
+<section xml:id="variables-operators_memory-diagrams" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Memory Diagrams</title>
 <p>
 Because Java uses the <c>=</c> symbol for assignment, it is tempting to interpret the statement <c>a = b</c> as a statement of equality.
@@ -18,10 +18,8 @@ If <m>a = b</m> now, <m>a</m> is always equal to <m>b</m>.
 In Java, an assignment statement can make two variables equal, but they don't have to stay that way:
 </p>
 
-<program>
-int a = 5;
-int b = a;     // a and b are now equal
-a = 3;         // a and b are no longer equal
+<program xml:id="variables-operators_memory-diagrams-1" interactive="activecode">
+<xi:include href="../programs/variables-operators_memory-diagrams-1.cpp" parse="text"/>
 </program>
 
 <p>

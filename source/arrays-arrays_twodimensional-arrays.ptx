@@ -1,4 +1,4 @@
-<section xml:id="arrays-arrays_twodimensional-arrays">
+<section xml:id="arrays-arrays_twodimensional-arrays" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Two-Dimensional Arrays</title>
 <p>
 <idx><h>multidimensional array</h></idx>
@@ -6,10 +6,8 @@ To represent a grid of cells, we can use a <em>multidimensional array</em>.
 To create a 2D array, we specify the number of rows and columns:
 </p>
 
-<program>
-int rows = 4;
-int cols = 3;
-Cell[][] array = new Cell[rows][cols];
+<program xml:id="arrays-arrays_twodimensional-arrays-1">
+<xi:include href="../programs/arrays-arrays_twodimensional-arrays-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -18,14 +16,8 @@ Initially, the elements of the array are <c>null</c>.
 We can fill the array with <c>Cell</c> objects like this:
 </p>
 
-<program>
-for (int r = 0; r &lt; rows; r++) {
-    int y = r * size;
-    for (int c = 0; c &lt; cols; c++) {
-        int x = c * size;
-        array[r][c] = new Cell(x, y, size);
-    }
-}
+<program xml:id="arrays-arrays_twodimensional-arrays-2">
+<xi:include href="../programs/arrays-arrays_twodimensional-arrays-2.cpp" parse="text"/>
 </program>
 
 <p>

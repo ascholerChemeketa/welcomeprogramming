@@ -1,4 +1,4 @@
-<section xml:id="tools_testing-with-junit">
+<section xml:id="tools_testing-with-junit" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Testing with JUnit</title>
 <p>
 <idx><h>unit test</h></idx>
@@ -6,18 +6,8 @@ When beginners start writing methods, they usually test them by invoking them fr
 For example, to test <c>fibonacci</c> from <xref ref="fibonacci">Section</xref>, we could write this:
 </p>
 
-<program>
-public static void main(String[] args) {
-    if (fibonacci(1) != 1) {
-        System.err.println("fibonacci(1) is incorrect");
-    }
-    if (fibonacci(2) != 1) {
-        System.err.println("fibonacci(2) is incorrect");
-    }
-    if (fibonacci(3) != 2) {
-        System.err.println("fibonacci(3) is incorrect");
-    }
-}
+<program xml:id="tools_testing-with-junit-1" interactive="activecode">
+<xi:include href="../programs/tools_testing-with-junit-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -36,17 +26,8 @@ For example, suppose that the <c>fibonacci</c> method belongs to a class named <
 Here is a corresponding JUnit<fn>This code is based on JUnit 3, which has been superseded but is the default version supported by DrJava.</fn> test class and test method:
 </p>
 
-<program>
-import junit.framework.TestCase;
-
-public class SeriesTest extends TestCase {
-
-    public void testFibonacci() {
-        assertEquals(1, Series.fibonacci(1));
-        assertEquals(1, Series.fibonacci(2));
-        assertEquals(2, Series.fibonacci(3));
-    }
-}
+<program xml:id="tools_testing-with-junit-2" interactive="activecode">
+<xi:include href="../programs/tools_testing-with-junit-2.cpp" parse="text"/>
 </program>
 
 <p>

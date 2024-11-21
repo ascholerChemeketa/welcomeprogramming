@@ -1,4 +1,4 @@
-<section xml:id="methods-testing_defining-new-methods">
+<section xml:id="methods-testing_defining-new-methods" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Defining New Methods</title>
 <p>
 Some methods perform a computation and return a result.
@@ -7,16 +7,8 @@ Other methods, like <c>println</c>, carry out a sequence of actions without retu
 Java uses the keyword <c>void</c> to define such methods:
 </p>
 
-<program>
-public static void newLine() {
-    System.out.println();
-}
-
-public static void main(String[] args) {
-    System.out.println("First line.");
-    newLine();
-    System.out.println("Second line.");
-}
+<program xml:id="methods-testing_defining-new-methods-1" interactive="activecode">
+<xi:include href="../programs/methods-testing_defining-new-methods-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -48,25 +40,8 @@ Or we could write yet another method (named <c>threeLine</c>) that displays thre
 </p>
 
 <listing filename="NewLine.java">
-<program>
-public class NewLine {
-
-    public static void newLine() {
-        System.out.println();
-    }
-
-    public static void threeLine() {
-        newLine();
-        newLine();
-        newLine();
-    }
-
-    public static void main(String[] args) {
-        System.out.println("First line.");
-        threeLine();
-        System.out.println("Second line.");
-    }
-}
+<program xml:id="methods-testing_defining-new-methods-2" interactive="activecode">
+<xi:include href="../programs/methods-testing_defining-new-methods-2.cpp" parse="text"/>
 </program>
 </listing>
 

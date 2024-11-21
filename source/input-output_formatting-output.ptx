@@ -1,11 +1,11 @@
-<section xml:id="input-output_formatting-output">
+<section xml:id="input-output_formatting-output" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Formatting Output</title>
 <p>
 When you output a <c>double</c> by using <c>print</c> or <c>println</c>, it displays up to 16 decimal places:
 </p>
 
-<program>
-System.out.print(4.0 / 3.0);
+<program xml:id="input-output_formatting-output-1">
+<xi:include href="../programs/input-output_formatting-output-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -26,8 +26,8 @@ The <q>f</q> in <c>printf</c> stands for <q>formatted</q>.
 Here's an example:
 </p>
 
-<program>
-System.out.printf("Four thirds = %.3f", 4.0 / 3.0);
+<program xml:id="input-output_formatting-output-2">
+<xi:include href="../programs/input-output_formatting-output-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -48,10 +48,8 @@ Four thirds = 1.333
 The format string can contain any number of format specifiers; here's an example with two of them:
 </p>
 
-<program>
-int inch = 100;
-double cm = inch * CM_PER_INCH;
-System.out.printf("%d in = %f cm\n", inch, cm);
+<program xml:id="input-output_formatting-output-3">
+<xi:include href="../programs/input-output_formatting-output-3.cpp" parse="text"/>
 </program>
 
 <p>
