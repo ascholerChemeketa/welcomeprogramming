@@ -2,6 +2,7 @@ class Hand : public CardCollection {
 public:
   Hand(const string& label): CardCollection(label) {
   }
+
   void display() const {
     cout << getLabel() << ":\n";
     for (size_t i = 0; i < cards.size(); ++i) {

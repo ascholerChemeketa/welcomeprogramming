@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 string noX(const string& str) {
   if (str.empty()) {
     return "";

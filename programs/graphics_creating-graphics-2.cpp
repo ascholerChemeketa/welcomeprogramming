@@ -4,7 +4,7 @@
 // graphics library
 void fillOval(int x, int y, int width, int height) {
   cout << "Drawing filled oval at (" << x << ", " << y << ") with width "
-            << width << " and height " << height << endl;
+       << width << " and height " << height << endl;
 }
 
 int main() {

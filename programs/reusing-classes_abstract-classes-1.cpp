@@ -1,6 +1,8 @@
 #include <iostream>
+
 // Abstract class declaration.  You'll need to define GridCanvas separately.
 class GridCanvas {};
+
 class Automaton {
 public:
   GridCanvas* grid;

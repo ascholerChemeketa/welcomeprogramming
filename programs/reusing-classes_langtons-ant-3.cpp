@@ -1,8 +1,11 @@
 #include <iostream>
+
 // GridCanvas and Cell need to be defined elsewhere.  They should have
 // appropriate methods.
 class GridCanvas {};
+
 class Cell {};
+
 class Langton {
 private:
   GridCanvas* grid;
@@ -14,9 +17,11 @@ public:
       grid(new GridCanvas(rows, cols, 10)), xpos(rows / 2), ypos(cols / 2),
       head(0) {
   }
+
   ~Langton() {
     delete grid;
   }
+
   void update() {
     flipCell();
     moveAnt();
@@ -33,6 +38,7 @@ private:
       cell->turnOff();
     }
   }
+
   void moveAnt() {
     // Implementation to move the ant based on head and cell value
   }

@@ -8,9 +8,8 @@ struct Time {
 };
 
 ostream& operator<<(ostream& os, const Time& time) {
-  os << setfill('0') << setw(2) << time.hour << ":"
-     << setfill('0') << setw(2) << time.minute << ":" << fixed
-     << setprecision(1) << time.second;
+  os << setfill('0') << setw(2) << time.hour << ":" << setfill('0') << setw(2)
+     << time.minute << ":" << fixed << setprecision(1) << time.second;
   return os;
 }
 

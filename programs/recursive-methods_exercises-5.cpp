@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 string middle(const string& s) {
   if (s.length() <= 2) {
     return "";

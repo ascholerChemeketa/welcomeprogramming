@@ -1,7 +1,9 @@
 #include <iostream>
+
 struct Point {
   double x, y;
 };
+
 int main() {
   Point* blank = nullptr;
   blank = new Point{3, 4};

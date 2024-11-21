@@ -1,4 +1,5 @@
 private
+
 static void updateCell(Cell& cell, int count) {
   if (cell.isOn()) {
     if (count < 2 || count > 3) {

@@ -1,19 +1,24 @@
 #include <iostream>
 #include <vector>
+
 class Card {
 public:
   int rank;
   int suit;
+
   Card(int r, int s): rank(r), suit(s) {
   }
+
   friend bool operator<(const Card& a, const Card& b) {
     return a.rank < b.rank;
   }
+
   friend ostream& operator<<(ostream& os, const Card& c) {
     os << "(Rank: " << c.rank << ", Suit: " << c.suit << ")";
     return os;
   }
 };
+
 class Deck {
 private:
   vector<Card> cards;
@@ -27,6 +32,7 @@ public:
       }
     }
   }
+
   Deck subdeck(int start, int end) const {
     Deck sub(end - start + 1);
     for (int i = start; i <= end; ++i) {
@@ -34,22 +40,27 @@ public:
     }
     return sub;
   }
+
   void shuffle() {
     random_device rd;
     mt19937 g(rd());
     shuffle(cards.begin(), cards.end(), g);
   }
+
   void print() const {
     for (const auto& card : cards) {
       cout << card << endl;
     }
   }
+
   int getSize() const {
     return size;
   }
+
   const Card* getCards() const {
     return cards.data();
   }
+
   static Deck merge(const Deck& d1, const Deck& d2) {
     Deck d3(d1.cards.size() + d2.cards.size());
     int i = 0, j = 0, k = 0;
@@ -67,6 +78,7 @@ public:
     return d3;
   }
 };
+
 int main() {
   Deck deck1(5);
   Deck deck2(5);

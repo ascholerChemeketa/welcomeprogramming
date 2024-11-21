@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 string func(const string& str) {
   if (str.length() == 0) {
     return "";

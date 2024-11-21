@@ -1,4 +1,5 @@
 #include <iostream>
+
 int fibonacci(int n) {
   if (n <= 0) {
     return 0; // Error handling for invalid input
@@ -8,6 +9,7 @@ int fibonacci(int n) {
     return fibonacci(n - 1) + fibonacci(n - 2);
   }
 }
+
 int main() {
   if (fibonacci(1) != 1) {
     cerr << "fibonacci(1) is incorrect\n";

@@ -1,19 +1,24 @@
 /*This function merges two sorted decks into a single sorted deck.*/
 #include <iostream>
+
 class Card {
 public:
   int rank;
   int suit;
+
   Card(int r, int s): rank(r), suit(s) {
   }
+
   friend bool operator<(const Card& a, const Card& b) {
     return a.rank < b.rank; // Sort by rank.  Modify if needed
   }
+
   friend ostream& operator<<(ostream& os, const Card& c) {
     os << "(Rank: " << c.rank << ", Suit: " << c.suit << ")";
     return os;
   }
 };
+
 class Deck {
 private:
   Card* cards;
@@ -23,11 +28,13 @@ private:
 public:
   Deck(int n): capacity(n), cards(new Card[n]) {
   }
+
   Deck(const Deck& other):
       capacity(other.capacity), cards(new Card[capacity]), size(other.size) {
     for (int i = 0; i < size; ++i)
       cards[i] = other.cards[i];
   }
+
   Deck& operator=(const Deck& other) {
     if (this != &other) {
       delete[] cards;
@@ -39,22 +46,28 @@ public:
     }
     return *this;
   }
+
   ~Deck() {
     delete[] cards;
   }
+
   void addCard(const Card& card) {
     if (size < capacity)
       cards[size++] = card;
   }
+
   Card& getCard(int index) {
     return cards[index];
   }
+
   int getSize() const {
     return size;
   }
+
   int getCapacity() const {
     return capacity;
   }
+
   static Deck merge(const Deck& d1, const Deck& d2) {
     Deck d3(d1.getSize() + d2.getSize());
     int i = 0, j = 0, k = 0;
@@ -72,6 +85,7 @@ public:
     return d3;
   }
 };
+
 int main() {
   return 0;
 }

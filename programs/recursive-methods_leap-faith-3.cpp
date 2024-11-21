@@ -1,4 +1,5 @@
 #include <iostream>
+
 int fibonacci(int n) {
   if (n <= 0) {
     return 0; // Error handling for invalid input

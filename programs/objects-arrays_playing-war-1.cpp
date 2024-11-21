@@ -2,20 +2,25 @@
 #include <iostream>
 #include <random>
 #include <vector>
+
 class Card {
 public:
   int rank;
   int suit;
+
   Card(int r, int s): rank(r), suit(s) {
   }
+
   friend bool operator<(const Card& a, const Card& b) {
     return a.rank < b.rank;
   }
+
   friend ostream& operator<<(ostream& os, const Card& c) {
     os << "(Rank: " << c.rank << ", Suit: " << c.suit << ")";
     return os;
   }
 };
+
 class Deck {
 private:
   vector<Card> cards;
@@ -29,17 +34,20 @@ public:
       }
     }
   }
+
   void shuffle() {
     random_device rd;
     mt19937 g(rd());
     shuffle(cards.begin(), cards.end(), g);
   }
+
   void print() const {
     for (const auto& card : cards) {
       cout << card << endl;
     }
   }
 };
+
 int main() {
   Deck deck(52);
   deck.shuffle();

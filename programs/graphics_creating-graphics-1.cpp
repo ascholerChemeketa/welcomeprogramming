@@ -7,18 +7,20 @@
 namespace Graphics {
 void drawLine(int x1, int y1, int x2, int y2) {
   // Implementation of drawLine using your graphics library
-  cout << "Drawing line from (" << x1 << ", " << y1 << ") to (" << x2
-            << ", " << y2 << ")\n";
+  cout << "Drawing line from (" << x1 << ", " << y1 << ") to (" << x2 << ", "
+       << y2 << ")\n";
 }
+
 void drawRect(int x, int y, int width, int height) {
   // Implementation of drawRect using your graphics library
-  cout << "Drawing rectangle at (" << x << ", " << y << ") with width "
-            << width << " and height " << height << "\n";
+  cout << "Drawing rectangle at (" << x << ", " << y << ") with width " << width
+       << " and height " << height << "\n";
 }
+
 void drawOval(int x, int y, int width, int height) {
   // Implementation of drawOval using your graphics library
   cout << "Drawing oval at (" << x << ", " << y << ") with width " << width
-            << " and height " << height << "\n";
+       << " and height " << height << "\n";
 }
 } // namespace Graphics
 

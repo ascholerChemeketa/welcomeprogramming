@@ -1,4 +1,5 @@
 private
+
 vector<vector<int>> countNeighbors() {
   int rows = grid->numRows();
   int cols = grid->numCols();

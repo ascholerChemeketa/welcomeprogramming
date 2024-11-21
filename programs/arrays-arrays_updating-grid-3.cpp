@@ -1,4 +1,5 @@
 private
+
 void updateGrid(const vector<vector<int>>& counts) {
   int rows = grid->numRows();
   int cols = grid->numCols();

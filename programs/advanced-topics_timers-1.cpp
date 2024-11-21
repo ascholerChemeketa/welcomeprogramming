@@ -1,17 +1,22 @@
 #include <iostream>
 #include <string>
+
 // Include necessary headers for JFrame, Drawing, Sprite, ActionListener,
 // ActionEvent, and Timer Assuming existence of classes JFrame, Drawing, Sprite,
 // Timer, and necessary methods.
 class Drawing {
 public:
   Drawing(int width, int height){};
+
   void add(Sprite& sprite) {
   }
+
   void addKeyListener(Sprite& sprite) {
   }
+
   void setFocusable(bool focusable) {
   }
+
   void step() {
   }
 };
@@ -40,17 +45,21 @@ public:
     // frame.pack();
     // frame.setVisible(true);
   }
+
   void actionPerformed(ActionEvent& e) {
     drawing.step();
   }
+
   static void main(string args[]) {
     VideoGame game;
     // Timer timer(33, game); // Assuming appropriate Timer constructor
     // timer.start();
   }
 };
+
 // Definition for ActionEvent and ActionListener
 class ActionEvent {};
+
 class ActionListener {
 public:
   virtual void actionPerformed(ActionEvent& e) = 0;

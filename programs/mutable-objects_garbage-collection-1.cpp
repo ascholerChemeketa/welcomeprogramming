@@ -3,10 +3,12 @@
  * object's memory (in languages with garbage collection). In C++, you would
  * typically use a smart pointer to manage the memory automatically. */
 #include <iostream>
+
 // Assuming Point structure exists. If not, define it.
 struct Point {
   int x, y;
 };
+
 int main() {
   Point* blank = new Point{3, 4};
   cout << blank->x << ", " << blank->y << endl;

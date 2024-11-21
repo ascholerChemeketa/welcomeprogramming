@@ -1,5 +1,6 @@
 #include <cassert>
 #include <iostream>
+
 // The Series class needs to be defined elsewhere.  This is a placeholder.
 class Series {
 public:
@@ -8,6 +9,7 @@ public:
     return 0; // Placeholder return
   }
 };
+
 int main() {
   assert(Series::fibonacci(1) == 1);
   assert(Series::fibonacci(2) == 1);

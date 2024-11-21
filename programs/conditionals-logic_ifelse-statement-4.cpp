@@ -2,6 +2,7 @@
  * to the console. */
 #include <iostream>
 using namespace std;
+
 int main() {
   int x;
   // Get input from the user

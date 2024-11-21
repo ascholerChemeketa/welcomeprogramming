@@ -1,6 +1,8 @@
 #include <iostream>
+
 // GridCanvas needs to be defined elsewhere
 class GridCanvas {};
+
 class Langton {
 private:
   GridCanvas* grid;
@@ -12,6 +14,7 @@ public:
       grid(new GridCanvas(rows, cols, 10)), xpos(rows / 2), ypos(cols / 2),
       head(0) {
   }
+
   ~Langton() {
     delete grid;
   }

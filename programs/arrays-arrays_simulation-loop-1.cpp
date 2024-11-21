@@ -1,4 +1,5 @@
 private
+
 void mainloop() {
   while (true) {
     this->update();

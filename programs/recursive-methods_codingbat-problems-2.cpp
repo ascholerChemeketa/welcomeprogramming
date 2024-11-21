@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 void func(const string& str) {
   if (!str.empty()) {
     char first = str[0];

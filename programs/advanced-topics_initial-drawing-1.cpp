@@ -7,6 +7,7 @@ public:
     setSize(width, height);
     setBackground(Color::WHITE);
   }
+
   void add(DrawablePolygon* dp) {
     list.push_back(*dp);
   }

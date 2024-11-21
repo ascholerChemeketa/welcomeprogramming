@@ -14,6 +14,7 @@ public:
     grid->turnOn(2, 7);
     grid->turnOn(3, 7);
   }
+
   ~Conway() {
     delete grid;
   }

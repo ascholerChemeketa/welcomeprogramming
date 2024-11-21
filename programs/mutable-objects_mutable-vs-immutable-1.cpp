@@ -7,6 +7,7 @@
  * of comparing string content. */
 #include <iostream>
 #include <string>
+
 int main() {
   string s1 = "Hi, Mom!";
   string s2 = "Hi, " + "Mom!";

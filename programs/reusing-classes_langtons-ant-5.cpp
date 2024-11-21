@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+
 // You'll need to include the necessary headers for your GUI framework (e.g.,
 // GLFW, SDL, Qt). This example uses placeholder functions to simulate the GUI
 // elements.
@@ -8,6 +9,7 @@ public:
   GridCanvas(int rows, int cols, int cellSize) {
   }
 };
+
 class Langton {
 private:
   GridCanvas* grid;
@@ -19,16 +21,20 @@ public:
       grid(new GridCanvas(rows, cols, 10)), xpos(rows / 2), ypos(cols / 2),
       head(0) {
   }
+
   ~Langton() {
     delete grid;
   }
+
   void update() {
     flipCell();
     moveAnt();
   }
+
   GridCanvas* getGrid() const {
     return grid;
   }
+
   void mainloop() {
     // Simulate mainloop - replace with your actual game loop implementation
     for (int i = 0; i < 1000; ++i)
@@ -39,6 +45,7 @@ private:
   void flipCell() {
     // Implementation to flip the cell at xpos, ypos
   }
+
   void moveAnt() {
     if (head == 0) {
       ypos -= 1;
@@ -51,6 +58,7 @@ private:
     }
   }
 };
+
 int main() {
   string title = "Langton's Ant";
   Langton game(61, 61);

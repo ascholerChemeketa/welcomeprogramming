@@ -5,14 +5,17 @@
  * distance function as shown in the previous example. */
 #include <cmath>
 #include <iostream>
+
 struct Point {
   double x, y;
+
   double distance(Point p2) {
     double dx = p2.x - x;
     double dy = p2.y - y;
     return sqrt(dx * dx + dy * dy);
   }
 };
+
 int main() {
   Point p1 = {0, 0};
   Point p2 = {3, 4};

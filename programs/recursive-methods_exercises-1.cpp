@@ -1,4 +1,5 @@
 #include <iostream>
+
 int prod(int m, int n) {
   if (m == n) {
     return n;
@@ -6,6 +7,7 @@ int prod(int m, int n) {
     return n * prod(m, n - 1);
   }
 }
+
 int main() {
   cout << prod(1, 4) << endl; // Output: 24
   return 0;

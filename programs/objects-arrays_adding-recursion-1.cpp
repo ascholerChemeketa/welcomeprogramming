@@ -3,6 +3,7 @@
  * and its methods (e.g., splitting the deck, comparing cards, merging sorted
  * subdecks). */
 #include <iostream>
+
 // Define your Deck class here.  It needs to support:
 //  - A way to access individual cards (e.g., operator[])
 //  - A way to split the deck in half
@@ -35,6 +36,7 @@ private:
   void split(Deck& left, Deck& right){/* Splits the deck into two halves*/};
   Deck merge(Deck& left, Deck& right){/* Merges two sorted decks*/};
 };
+
 int main() {
   // Example Usage
   return 0;

@@ -5,14 +5,15 @@
  * might be a reference or pointer to another object. */
 // Assuming a Box class exists with a grow method
 #include <iostream>
+
 class Box {
 public:
   void grow(int width_increase, int height_increase) {
     width += width_increase;
     height += height_increase;
-    cout << "Box grown to width: " << width << ", height: " << height
-              << endl;
+    cout << "Box grown to width: " << width << ", height: " << height << endl;
   }
+
   // other methods and data members of the Box class
 private:
   int width = 0;

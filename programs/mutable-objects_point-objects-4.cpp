@@ -1,7 +1,9 @@
 #include <iostream>
+
 struct Point {
   int x, y;
 };
+
 int main() {
   Point blank = {3, 4}; // Example Point
   cout << blank.x << ", " << blank.y << endl;

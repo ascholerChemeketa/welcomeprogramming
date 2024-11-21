@@ -3,6 +3,7 @@
  * in Java and then cast them into Actor instances.
  */
 #include <string>
+
 // Assuming necessary headers for RegularPolygon, Actor, and Color are included.
 
 // Assuming definitions for RegularPolygon, Actor, and Color exist.

@@ -1,19 +1,24 @@
 #include <algorithm>
 #include <iostream>
+
 class Card {
 public:
   int rank;
   int suit;
+
   Card(int r, int s): rank(r), suit(s) {
   }
+
   friend bool operator<(const Card& a, const Card& b) {
     return a.rank < b.rank; // Sort by rank.  Modify if needed
   }
+
   friend ostream& operator<<(ostream& os, const Card& c) {
     os << "(Rank: " << c.rank << ", Suit: " << c.suit << ")";
     return os;
   }
 };
+
 class Deck {
 private:
   Card* cards;
@@ -23,11 +28,13 @@ private:
 public:
   Deck(int n): capacity(n), cards(new Card[n]) {
   }
+
   Deck(const Deck& other):
       capacity(other.capacity), cards(new Card[capacity]), size(other.size) {
     for (int i = 0; i < size; ++i)
       cards[i] = other.cards[i];
   }
+
   Deck& operator=(const Deck& other) {
     if (this != &other) {
       delete[] cards;
@@ -39,22 +46,28 @@ public:
     }
     return *this;
   }
+
   ~Deck() {
     delete[] cards;
   }
+
   void addCard(const Card& card) {
     if (size < capacity)
       cards[size++] = card;
   }
+
   Card& getCard(int index) {
     return cards[index];
   }
+
   int getSize() const {
     return size;
   }
+
   int getCapacity() const {
     return capacity;
   }
+
   void selectionSort() {
     for (int i = 0; i < size - 1; ++i) {
       int minIndex = i;
@@ -66,6 +79,7 @@ public:
       swap(cards[i], cards[minIndex]);
     }
   }
+
   Deck almostMergeSort() {
     if (size <= 1)
       return *this;
@@ -80,6 +94,7 @@ public:
     right.selectionSort();
     return Deck::merge(left, right);
   }
+
   static Deck merge(const Deck& d1, const Deck& d2) {
     Deck d3(d1.getSize() + d2.getSize());
     int i = 0, j = 0, k = 0;
@@ -96,12 +111,14 @@ public:
       d3.addCard(d2.getCard(j++));
     return d3;
   }
+
   void print() {
     for (int i = 0; i < size; ++i) {
       cout << cards[i] << endl;
     }
   }
 };
+
 int main() {
   Deck deck(52);
   int index = 0;

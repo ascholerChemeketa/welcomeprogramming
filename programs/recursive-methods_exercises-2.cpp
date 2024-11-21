@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+
 double maxInRange(const vector<double>& a, int low, int high) {
   if (low == high) {
     return a[low];
@@ -11,6 +12,7 @@ double maxInRange(const vector<double>& a, int low, int high) {
     return max(leftMax, rightMax);
   }
 }
+
 int main() {
   vector<double> a = {1.2, 4.5, 2.7, 9.1, 3.8};
   double max = maxInRange(a, 0, a.size() - 1);

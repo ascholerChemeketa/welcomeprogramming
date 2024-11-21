@@ -1,11 +1,14 @@
 #include <iostream>
+
 class Card {
 public:
   int rank;
   int suit;
+
   Card(int r, int s): rank(r), suit(s) {
   }
 };
+
 class Deck {
 private:
   Card* cards;
@@ -20,13 +23,16 @@ public:
       }
     }
   }
+
   ~Deck() {
     delete[] cards;
   }
+
   Card* getCards() const {
     return cards;
   }
 };
+
 int main() {
   Deck deck;
   return 0;

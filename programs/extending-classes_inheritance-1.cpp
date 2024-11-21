@@ -2,6 +2,7 @@ class Card {
 public:
   int rank;
   int suit;
+
   Card(int rank, int suit): rank(rank), suit(suit) {
   }
 };
