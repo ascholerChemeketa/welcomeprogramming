@@ -1,53 +1,88 @@
-<section xml:id="variables-operators_memory-diagrams" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Memory Diagrams</title>
-<p>
-Because Java uses the <c>=</c> symbol for assignment, it is tempting to interpret the statement <c>a = b</c> as a statement of equality.
-It is not!
-</p>
+<section xml:id="variables-operators_memory-diagrams"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<p>
-Equality is commutative, and assignment is not.
-For example, in mathematics if <m>a = 7</m>, then <m>7 = a</m>.
-In Java <c>a = 7;</c> is a legal assignment statement, but <c>7 = a;</c> is not.
-The left side of an assignment statement has to be a variable name (storage location).
-</p>
+  <title>Memory Diagrams</title>
+  <p> Because C++ uses the <c>=</c> symbol for assignment, it is tempting to interpret the statement <c>a = b</c>
+    as a statement of equality. It is not! The best way to think of what the symbol means is <q>take
+    the value that is on the right side and store it into the location on the left side</q>. For
+    that reason, programmers often pronounce <c>=</c> as <q/>gets set to<q/> or just <q/>gets<q/>.
+    Thus <c>a = 5;</c> is not <q/>a equals 5<q/> but <q/>a gets set to 5<q/></p>
 
-<p>
-Also, in mathematics, a statement of equality is true for all time.
-If <m>a = b</m> now, <m>a</m> is always equal to <m>b</m>.
-In Java, an assignment statement can make two variables equal, but they don't have to stay that way:
-</p>
+  <p>Equality is commutative, and assignment is not. For example, in mathematics if <m>a = 7</m>,
+    then <m>7 = a</m>. In C++ <c>a = 7;</c> is a legal assignment statement, but <c>7 = a;</c> is not. The left
+    side of an assignment statement has to be a variable name (storage location). </p>
 
-<program xml:id="variables-operators_memory-diagrams-1" interactive="activecode">
+  <p> Also, in mathematics, a statement of equality is true for all time. If <m>a = b</m> now, <m>a</m>
+    is always equal to <m>b</m>. In C++, an assignment statement can make two variables equal, but
+    they don't have to stay that way. This <term>Codelens</term> lets you run the code in this
+    sample one line at a time. As you do so, watch the area labeled <em>Stack</em>. You will see the
+    variables in that area and you will see their values change as the code runs.</p>
+
+  <program xml:id="variables-operators_memory-diagrams-1"
+           interactive="codelens">
 <xi:include href="../programs/variables-operators_memory-diagrams-1.cpp" parse="text"/>
 </program>
 
-<p>
-The third line changes the value of <c>a</c>, but it does not change the value of <c>b</c>, so they are no longer equal.
-</p>
+  <p>Key things to note: <ul>
+      <li>The second line sets <c>b</c> to have a <em>copy</em> of the value <c>a</c> has. That does
+    mean that temporarily they are equal to each other. But <c>b = a</c> does not permanently equate the
+    two. It only copies the value that <c>a</c> has at that exact moment into the memory labeled <c>b</c>
+    .</li>
+      <li>The third line changes the value of <c>a</c>, but that has no effect on <c>b</c>.</li>
+    </ul>
+  </p>
+  <p>
+    <idx>
+      <h>debugger</h>
+    </idx> 
+    <idx>
+      <h>state</h>
+    </idx> Taken together, the variables in a program and their current values
+    make up the program's <term>state</term>. The <em>Codelens</em> tool allows you to watch the
+    state of the program change as you step through the code. Other tools also let you see the state
+    of the program as it runs. A <term>debugger</term> is a program designed to show the state of a
+    program being developed as it runs. When developing code outside of this book, you will use a
+    debugger to help you find and fix errors in your code.</p>
+  <!-- TODO appendix ref to debugger advice? -->
+  <p> But you can also represent the state of a program with a human created <term>memory diagram</term>.
+    For example, <xref ref="fig_state">Figure</xref> shows the state of the program after these
+    assignment statements run:</p>
+  <figure xml:id="fig_state">
+    <caption>Memory diagram of the variables <c>a</c> and <c>b</c>.</caption>
+    <image width="25%%"
+           source="external/images/state.svg"/>
+  </figure>
+  <p>
+    <idx>
+      <h>memory diagram</h>
+    </idx>
+<idx>
+      <h>diagram</h>
+      <h>memory</h>
+    </idx> Diagrams like this one that show the state of the program are called <term>memory
+    diagrams</term>. Each variable is represented with a box showing the name of the variable on the
+    outside and its current value inside. </p>
 
-<p>
-<idx><h>state</h></idx>
-Taken together, the variables in a program and their current values make up the program's <em>state</em>.
-<xref ref="fig_state">Figure</xref> shows the state of the program after these assignment statements run.
-</p>
-<figure xml:id="fig_state" >
-<caption>Memory diagram of the variables <c>a</c> and <c>b</c>.</caption>
-<image width="73%" source="external/images/state.png" />
-</figure>
-<p>
-<idx><h>memory diagram</h></idx>
-<idx><h>diagram</h><h>memory</h></idx>
-Diagrams like this one that show the state of the program are called <em>memory diagrams</em>.
-Each variable is represented with a box showing the name of the variable on the outside and its current value inside.
-</p>
+  <p> As the program runs, the state of memory changes, so memory diagrams show only a particular
+    point in time. For example, if we added the line <c>int c = 0;</c> to the previous example, the memory
+    diagram would look like <xref ref="fig_state2">Figure</xref>. </p>
+  <figure xml:id="fig_state2">
+    <caption>Memory diagram of the variables <c>a</c>, <c>b</c>, and <c>c</c>.</caption>
+    <image width="25%"
+           source="external/images/state2.svg"/>
+  </figure>
 
-<p>
-As the program runs, the state of memory changes, so memory diagrams show only a particular point in time.
-For example, if we added the line <c>int c = 0;</c> to the previous example, the memory diagram would look like <xref ref="fig_state2">Figure</xref>.
-</p>
-<figure xml:id="fig_state2" >
-<caption>Memory diagram of the variables <c>a</c>, <c>b</c>, and <c>c</c>.</caption>
-<image width="73%" source="external/images/state2.png" />
-</figure>
+  <p>As a programmer seeking to understand what code is doing, you should create a memory diagram
+    that represents the state of the program and update that diagram after each line of code. When
+    you are starting out, or debugging a very complex piece of code, you may find it helpful to
+    literally draw the diagram on paper or a whiteboard. As you get more experienced, you will will
+    get better and better at creating a mental memory diagram of the code you are reading.</p>
+
+  <insight>
+    <p>Just reading code is not a very useful exercise unless it is accompanied by work to
+      understand what you are reading. Creating a mental or physical memory diagram, and then
+      ideally checking the accuracy of your diagram with a tool like Codelens or a debugger, is a
+      key way to develop real understanding of code.</p>
+  </insight>
+
 </section>

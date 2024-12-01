@@ -1,56 +1,40 @@
-<section xml:id="variables-operators_printing-variables" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Printing Variables</title>
-<p>
-You can display the current value of a variable by using <c>print</c> or <c>println</c>.
-The following statements declare a variable named <c>firstLine</c>, assign it the value <c>"Hello, again!"</c>, and display that value:
-</p>
+<section xml:id="variables-operators_printing-variables"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<program xml:id="variables-operators_printing-variables-1" interactive="activecode">
+  <title>Printing Variables</title>
+  <p> You can display the current value of a variable by using <c>cout</c>. The following
+    statements declare a variable named <c>answer</c>, assign it the value <c>42</c>, and display that
+    value: </p>
+
+  <program xml:id="variables-operators_printing-variables-1"
+           interactive="activecode">
 <xi:include href="../programs/variables-operators_printing-variables-1.cpp" parse="text"/>
 </program>
 
-<p>
-When we talk about displaying a variable, we generally mean the <em>value</em> of the variable.
-To display the <em>name</em> of a variable, you have to put it in quotes:
-</p>
+  <p> When we talk about displaying a variable, we generally mean the <term>value</term> of the
+    variable. To display the <term>name</term> of a variable, you have to put it in quotes: </p>
 
-<program xml:id="variables-operators_printing-variables-2" interactive="activecode">
+  <program xml:id="variables-operators_printing-variables-2"
+           interactive="activecode">
 <xi:include href="../programs/variables-operators_printing-variables-2.cpp" parse="text"/>
 </program>
 
-<p>
-For this example, the output is as follows:
-</p>
+  <p> For this example, the output is as follows: </p>
 
-<console>
-<output>
-The value of firstLine is Hello, again!
-</output>
-</console>
+  <console>
+    <output>
+answer is 42
+    </output>
+  </console>
 
-<p>
-Conveniently, the code for displaying a variable is the same regardless of its type.
-For example:
-</p>
+  <p> Conveniently, the code for displaying a variable is the same regardless of its type. For
+    example: </p>
 
-<program xml:id="variables-operators_printing-variables-3" interactive="activecode">
+  <p> To output multiple values on the same line, you can either use one <c>cout</c> that outputs multiple values (each separated by &lt;&lt;) or you can use multiple <c>cout</c> statements. This program demonstrates two different ways to print <c>11:59</c>.</p>
+
+  <program xml:id="variables-operators_printing-variables-3"
+           interactive="activecode">
 <xi:include href="../programs/variables-operators_printing-variables-3.cpp" parse="text"/>
 </program>
 
-<p>
-The output of this program is shown here:
-</p>
-
-<console>
-<output>
-The current time is 11:59.
-</output>
-</console>
-
-<p>
-To output multiple values on the same line, it's common to use several <c>print</c> statements followed by <c>println</c> at the end.
-But don't forget the <c>println</c>!
-On many computers, the output from <c>print</c> is stored without being displayed until <c>println</c> is run; then the entire line is displayed at once.
-If you omit the <c>println</c>, the program might display the stored output at unexpected times or even terminate without displaying anything.
-</p>
 </section>

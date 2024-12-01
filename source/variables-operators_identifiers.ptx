@@ -1,0 +1,93 @@
+<section xml:id="variables-operators_identifiers"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Identifiers</title>
+  <p>
+    <idx>
+      <h>identifier</h>
+    </idx> The name a variable is given is formally called an <term>
+    identifier</term>. But oftentimes, programmers just refer to it as the "name" of the variable.
+    An identifier can be any sequence of letters and digits, but it must begin with a letter. It is
+    also allowed to use the underscore character (<c>_</c>) in an identifier. Below are some examples
+    of legal variable names and illegal ones: </p>
+
+  <table>
+    <title>Legal and illegal identifiers</title>
+    <tabular>
+      <row header="yes"
+           bottom="minor">
+        <cell>
+          <c>Identifier</c>
+        </cell>
+        <cell>Legal/Illegal</cell>
+        <cell>Note</cell>
+      </row>
+      <row>
+        <cell>
+          <c>age</c>
+        </cell>
+        <cell>Legal</cell>
+        <cell></cell>
+      </row>
+      <row>
+        <cell>
+          <c>firstName</c>
+        </cell>
+        <cell>Legal</cell>
+        <cell></cell>
+      </row>
+      <row>
+        <cell>
+          <c>x2</c>
+        </cell>
+        <cell>Legal</cell>
+        <cell></cell>
+      </row>
+      <row>
+        <cell>
+          <c>first_name</c>
+        </cell>
+        <cell>Legal</cell>
+        <cell></cell>
+      </row>
+      <row>
+        <cell>
+          <c>2ndPlace</c>
+        </cell>
+        <cell>Illegal</cell>
+        <cell>Can't start with a digit</cell>
+      </row>
+      <row>
+        <cell>
+          <c>first name</c>
+        </cell>
+        <cell>Illegal</cell>
+        <cell>Can't use spaces</cell>
+      </row>
+    </tabular>
+  </table>
+  
+  <p>
+    <idx>
+      <h>keyword</h>
+    </idx>There are some words that are reserved in C++ and cannot be used as
+    identifiers. These words include ones you have already encountered like <c>int</c> and <c>using</c>, you
+    will encounter more as you learn more about the language. These reserved words are known as <term>
+    keywords</term>. You don't have to memorize all the possible keywords. Most programming editors
+    provide <q>syntax highlighting</q>, which makes different parts of the program appear in
+    different colors. And the compiler will complain even if one does sneak past you and your
+    editor.</p>
+
+  <p>Beyond the syntax requirements, there are also conventions for naming variables. For example,
+    it is common to use lowercase letters for variable names, and to capitalize the first letter of
+    each subsequent word in a multi-word name. For example, <c>firstName</c> is a common way to name a
+    variable that stores a person's first name. This style of naming is called <term>camelCase</term>
+    (the uppercase letters look a little like the humps on a camel). That is the style used in this
+    book. Another common style is <term>snake_case</term>, where words are separated by underscores,
+    like <c>first_name</c>. Like other formatting choices, there is not a single <q/>right<q/> way to name
+    variables, but it is important to be consistent. </p>
+
+  <p>Finally, it is important to choose variable names that communicate what is stored in a variable. The name <c>c</c> does not communicate anything about what value is being stored. If that variable in fact stores the color being used on a webpage, a better name would be <c>color</c>. Even better would be to indicate what the color is used for with a name like <c>textColor</c> or <c>backgroundColor</c>. Meaningful identifiers help other programmers (including future you who has no memory of why you called something <c>c</c>) more easily understand code they are reading.</p>
+
+  <insight><p>Good code is <q>self documenting</q>. The variable names and structure of the code make it easy to understand the intent of the programmer who wrote the code. Comments can be useful to help explain code, but they should never be thought of as a replacement for well chosen names.</p></insight>
+</section>

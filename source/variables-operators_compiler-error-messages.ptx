@@ -9,7 +9,7 @@ It is useful to distinguish among them in order to track them down more quickly.
 <p>
 <idx><h>compile-time error</h></idx>
 <idx><h>error</h><h>compile-time</h></idx>
-<em>Compile-time</em> errors occur when you violate the rules of the Java language.
+<term>Compile-time</term> errors occur when you violate the rules of the Java language.
 For example, parentheses and braces have to come in matching pairs.
 So <c>(1 + 2)</c> is legal, but <c>8)</c> is not.
 In the latter case, the program cannot be compiled, and the compiler displays a <q>syntax error</q>.
@@ -44,7 +44,7 @@ Error: ';' expected
 <p>
 That's pretty good: the location of the error is correct, and the error message tells you what's wrong.
 But error messages are not always easy to understand.
-Sometimes the compiler reports the place in the program where the error was <em>detected</em>, not where it actually occurred.
+Sometimes the compiler reports the place in the program where the error was <term>detected</term>, not where it actually occurred.
 And sometimes the description of the problem is more confusing than helpful.
 </p>
 
@@ -63,7 +63,7 @@ Error: reached end of file while parsing
 <idx><h>parse</h></idx>
 There are two problems here.
 First, the error message is written from the compiler's point of view, not yours.
-<em>Parsing</em> is the process of reading a program before translating; if the compiler gets to the end of the file while still parsing, that means something was omitted.
+<term>Parsing</term> is the process of reading a program before translating; if the compiler gets to the end of the file while still parsing, that means something was omitted.
 But the compiler doesn't know what.
 It also doesn't know where.
 The compiler discovers the error at the end of the program (line 7), but the missing brace should be on the previous line.
