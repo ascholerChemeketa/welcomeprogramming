@@ -2,7 +2,7 @@
 <title>Primitives vs Objects</title>
 <p>
 <idx><h>primitive</h></idx>
-Not everything in Java is an object: <c>int</c>, <c>double</c>, <c>char</c>, and <c>boolean</c> are <em>primitive</em> types.
+Not everything in Java is an object: <c>int</c>, <c>double</c>, <c>char</c>, and <c>boolean</c> are <term>primitive</term> types.
 When you declare a variable with a primitive type, Java reserves a small amount of memory to store its value.
 <xref ref="fig_mem1">Figure</xref> shows how the following values are stored in memory:
 </p>
@@ -17,7 +17,7 @@ When you declare a variable with a primitive type, Java reserves a small amount 
 <p>
 <idx><h>memory diagram</h></idx>
 <idx><h>diagram</h><h>memory</h></idx>
-As you learned in <xref ref="elements">Section</xref>, an array variable stores a <em>reference</em> to an array.
+As you learned in <xref ref="elements">Section</xref>, an array variable stores a <term>reference</term> to an array.
 For example, the following line declares a variable named <c>array</c> and creates an array of three characters:
 </p>
 
@@ -55,13 +55,13 @@ For convenience, you don't have to use <c>new</c> to create strings:
 
 <p>
 <idx><h>string</h><h>comparing</h></idx>
-Recall from <xref ref="strcmp">Section</xref> that you need to use the <c>equals</c> method to compare strings.
-The <c>equals</c> method traverses the <c>String</c> objects and tests whether they contain the same characters.
+Recall from <xref ref="strcmp">Section</xref> that you need to use the <c>equals</c> function to compare strings.
+The <c>equals</c> function traverses the <c>String</c> objects and tests whether they contain the same characters.
 </p>
 
 <p>
 To test whether two integers or other primitive types are equal, you can simply use the <c>==</c> operator.
 But two <c>String</c> objects with the same characters would not be considered equal in the <c>==</c> sense.
-The <c>==</c> operator, when applied to string variables, tests only whether they refer to the <em>same</em> object.
+The <c>==</c> operator, when applied to string variables, tests only whether they refer to the <term>same</term> object.
 </p>
 </section>

@@ -2,7 +2,7 @@
 <title>BigInteger Arithmetic</title>
 <p>
 It might not be clear at this point why you would ever need an integer object when you can just use an <c>int</c> or <c>long</c>.
-One advantage is the variety of methods that <c>Integer</c> and <c>Long</c> provide.
+One advantage is the variety of functions that <c>Integer</c> and <c>Long</c> provide.
 But there is another reason: when you need very large integers that exceed <c>Long.MAX_VALUE</c>.
 </p>
 
@@ -39,7 +39,7 @@ Notice the difference in the previous two examples: you use <c>valueOf</c> to co
 
 <p>
 Since BigIntegers are not primitive types, the usual math operators don't work.
-Instead, we have to use methods like <c>add</c>.
+Instead, we have to use functions like <c>add</c>.
 To add two BigIntegers, we invoke <c>add</c> on one and pass the other as an argument:
 </p>
 
@@ -49,13 +49,13 @@ To add two BigIntegers, we invoke <c>add</c> on one and pass the other as an arg
 
 <p>
 Like strings, <c>BigInteger</c> objects are immutable.
-Methods like <c>add</c>, <c>multiply</c>, and <c>pow</c> all return new BigIntegers, rather than modify an existing one.
+functions like <c>add</c>, <c>multiply</c>, and <c>pow</c> all return new BigIntegers, rather than modify an existing one.
 </p>
 
 <p>
 Internally, a <c>BigInteger</c> is implemented using an array of <c>int</c>s, similar to the way a string is implemented using an array of <c>char</c>s.
 Each <c>int</c> in the array stores a portion of the BigInteger.
-The methods of <c>BigInteger</c> traverse this array to perform addition, multiplication, etc.
+The functions of <c>BigInteger</c> traverse this array to perform addition, multiplication, etc.
 </p>
 
 <p>

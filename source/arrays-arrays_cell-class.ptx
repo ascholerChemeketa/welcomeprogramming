@@ -36,8 +36,8 @@ Here's one that takes <c>x</c>, <c>y</c>, and <c>size</c> as parameters, and set
 </program>
 
 <p>
-The following method draws a cell.
-Like the <c>paint</c> method in <xref ref="graphics">Appendix</xref>, it takes a graphics context as a parameter:
+The following function draws a cell.
+Like the <c>paint</c> function in <xref ref="graphics">Appendix</xref>, it takes a graphics context as a parameter:
 </p>
 
 <program xml:id="arrays-arrays_cell-class-3">
@@ -45,13 +45,13 @@ Like the <c>paint</c> method in <xref ref="graphics">Appendix</xref>, it takes a
 </program>
 
 <p>
-The <c>draw</c> method uses the state of the cell to select a color from an array of <c>Color</c> objects.
+The <c>draw</c> function uses the state of the cell to select a color from an array of <c>Color</c> objects.
 Then it uses to <c>fillRect</c> to draw the center of the cell and <c>drawRect</c> to draw a light-gray border.
 </p>
 
 <p>
-We also need methods to get and set the cell's state.
-We could just provide <c>getState</c> and <c>setState</c>, but the code will be more readable if we provide methods customized for the Game of Life:
+We also need functions to get and set the cell's state.
+We could just provide <c>getState</c> and <c>setState</c>, but the code will be more readable if we provide functions customized for the Game of Life:
 </p>
 
 <program xml:id="arrays-arrays_cell-class-4">

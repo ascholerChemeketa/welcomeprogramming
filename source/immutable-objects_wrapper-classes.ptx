@@ -1,7 +1,7 @@
 <section xml:id="immutable-objects_wrapper-classes" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Wrapper Classes</title>
 <p>
-Primitive types like <c>int</c>, <c>double</c>, and <c>char</c> cannot be <c>null</c>, and they do not provide methods.
+Primitive types like <c>int</c>, <c>double</c>, and <c>char</c> cannot be <c>null</c>, and they do not provide functions.
 For example, you can't invoke <c>equals</c> on an <c>int</c>:
 </p>
 
@@ -15,7 +15,7 @@ For example, you can't invoke <c>equals</c> on an <c>int</c>:
 <idx><h>Character</h></idx>
 <idx><h>Integer</h></idx>
 <idx><h>Double</h></idx>
-But for each primitive type, there is a corresponding <em>wrapper class</em> in the Java library.
+But for each primitive type, there is a corresponding <term>wrapper class</term> in the Java library.
 The wrapper class for <c>int</c> is named <c>Integer</c>, with a capital <c>I</c>:
 </p>
 
@@ -29,7 +29,7 @@ They are in the <c>java.lang</c> package, so you can use them without importing 
 </p>
 
 <p>
-Like strings, objects from wrapper classes are immutable, and you have to use the <c>equals</c> method to compare them:
+Like strings, objects from wrapper classes are immutable, and you have to use the <c>equals</c> function to compare them:
 </p>
 
 <program xml:id="immutable-objects_wrapper-classes-3">
@@ -48,9 +48,9 @@ Because these constants are available in wrapper classes, you don't have to reme
 
 <p>
 <idx><h>parse</h></idx>
-Wrapper classes also provide methods for converting strings to and from primitive types.
+Wrapper classes also provide functions for converting strings to and from primitive types.
 For example, <c>Integer.parseInt</c> converts a string to an <c>int</c>.
-In this context, <em>parse</em> means <q>read and translate</q>.
+In this context, <term>parse</term> means <q>read and translate</q>.
 </p>
 
 <program xml:id="immutable-objects_wrapper-classes-4">
@@ -58,7 +58,7 @@ In this context, <em>parse</em> means <q>read and translate</q>.
 </program>
 
 <p>
-Other wrapper classes provide similar methods, like <c>Double.parseDouble</c> and <c>Boolean.parseBoolean</c>.
+Other wrapper classes provide similar functions, like <c>Double.parseDouble</c> and <c>Boolean.parseBoolean</c>.
 They also provide <c>toString</c>, which returns a string representation of a value:
 </p>
 

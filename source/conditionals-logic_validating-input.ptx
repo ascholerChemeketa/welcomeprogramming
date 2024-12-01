@@ -3,12 +3,12 @@
 <p>
 <idx><h>validate</h></idx>
 <idx><h>hacker</h></idx>
-One of the most important tasks in any computer program is to <em>validate</em> input from the user.
+One of the most important tasks in any computer program is to <term>validate</term> input from the user.
 People often make mistakes while typing, especially on smartphones, and incorrect inputs may cause your program to fail.
 </p>
 
 <p>
-Even worse, someone (i.e., a <em>hacker</em>) may intentionally try to break into your system by entering unexpected inputs.
+Even worse, someone (i.e., a <term>hacker</term>) may intentionally try to break into your system by entering unexpected inputs.
 You should never assume that users will input the right kind of data.
 </p>
 
@@ -22,7 +22,7 @@ Consider this simple program that prompts the user for a number and computes its
 
 <p>
 In mathematics, the natural logarithm (base <m>e</m>) is undefined when <m>x \le 0</m>.
-In Java, if you ask for <c>Math.log(-1)</c>, it returns <em>NaN</em>, which stands for <q>not a number</q>.
+In Java, if you ask for <c>Math.log(-1)</c>, it returns <term>NaN</term>, which stands for <q>not a number</q>.
 We can check for this condition and print an appropriate message:
 </p>
 
@@ -69,7 +69,7 @@ If not, we can display an error message:
 
 <p>
 <idx><h>next</h><h>Scanner</h></idx>
-In contrast to <c>in.nextLine</c>, which returns an entire line of input, the <c>in.next</c> method returns only the next token of input.
+In contrast to <c>in.nextLine</c>, which returns an entire line of input, the <c>in.next</c> function returns only the next token of input.
 We can use <c>in.next</c> to show the user exactly which word they typed was not a number.
 </p>
 

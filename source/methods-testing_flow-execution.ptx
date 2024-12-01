@@ -2,43 +2,43 @@
 <title>Flow of Execution</title>
 <p>
 <idx><h>flow of execution</h></idx>
-When you look at a class definition that contains several methods, it is tempting to read it from top to bottom.
-But that is <em>not</em> the <em>flow of execution</em>, or the order the program actually runs.
-The <c>NewLine</c> program runs methods in the opposite order than they are listed.
+When you look at a class definition that contains several functions, it is tempting to read it from top to bottom.
+But that is <term>not</term> the <term>flow of execution</term>, or the order the program actually runs.
+The <c>NewLine</c> program runs functions in the opposite order than they are listed.
 </p>
 
 <p>
 Programs always begin at the first statement of <c>main</c>, regardless of where it is in the source file.
-Statements are executed one at a time, in order, until you reach a method invocation, which you can think of as a detour.
-Instead of going to the next statement, you jump to the first line of the invoked method, execute all the statements there, and then come back and pick up exactly where you left off.
+Statements are executed one at a time, in order, until you reach a function invocation, which you can think of as a detour.
+Instead of going to the next statement, you jump to the first line of the invoked function, execute all the statements there, and then come back and pick up exactly where you left off.
 </p>
 
 <p>
-That sounds simple enough, but remember that one method can invoke another one.
+That sounds simple enough, but remember that one function can invoke another one.
 In the middle of <c>main</c>, the previous example goes off to execute the statements in <c>threeLine</c>.
 While in <c>threeLine</c>, it goes off to execute <c>newLine</c>.
 Then <c>newLine</c> invokes <c>println</c>, which causes yet another detour.
 </p>
 
 <p>
-Fortunately, Java is good at keeping track of which methods are running.
+Fortunately, Java is good at keeping track of which functions are running.
 So when <c>println</c> completes, it picks up where it left off in <c>newLine</c>; when <c>newLine</c> completes, it goes back to <c>threeLine</c>; and when <c>threeLine</c> completes, it gets back to <c>main</c>.
 </p>
 
 <p>
-Beginners often wonder why it's worth the trouble to write other methods, when they could just do everything in <c>main</c>.
+Beginners often wonder why it's worth the trouble to write other functions, when they could just do everything in <c>main</c>.
 The <c>NewLine</c> example demonstrates a few reasons:
 <ul>
-<li><p>Creating a new method allows you to <em>name a block of statements</em>, which makes the code easier to read and understand.</p></li>
-<li><p>Introducing new methods can <em>make the program shorter</em> by eliminating repetitive code.
+<li><p>Creating a new function allows you to <term>name a block of statements</term>, which makes the code easier to read and understand.</p></li>
+<li><p>Introducing new functions can <term>make the program shorter</term> by eliminating repetitive code.
 For example, to display nine consecutive newlines, you could invoke <c>threeLine</c> three times.</p></li>
-<li><p>A common problem-solving technique is to <em>break problems down</em> into subproblems.
-Methods allow you to focus on each subproblem in isolation, and then compose them into a complete solution.</p></li>
+<li><p>A common problem-solving technique is to <term>break problems down</term> into subproblems.
+functions allow you to focus on each subproblem in isolation, and then compose them into a complete solution.</p></li>
 </ul>
 </p>
 
 <p>
-Perhaps most importantly, organizing your code into multiple methods allows you to test individual parts of your program separately.
-It's easier to get a complex program working if you know that each method works correctly.
+Perhaps most importantly, organizing your code into multiple functions allows you to test individual parts of your program separately.
+It's easier to get a complex program working if you know that each function works correctly.
 </p>
 </section>

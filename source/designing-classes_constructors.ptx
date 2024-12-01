@@ -2,9 +2,9 @@
 <title>Constructors</title>
 <p>
 <idx><h>constructor</h></idx>
-<idx><h>method</h><h>constructor</h></idx>
-After declaring instance variables, the next step is to define a <em>constructor</em>, which is a special method that initializes the object.
-The syntax for constructors is similar to that of other methods, except for the following:
+<idx><h>function</h><h>constructor</h></idx>
+After declaring instance variables, the next step is to define a <term>constructor</term>, which is a special function that initializes the object.
+The syntax for constructors is similar to that of other functions, except for the following:
 </p>
 
 <p>
@@ -34,13 +34,13 @@ Each line initializes an instance variable to <c>0</c> (which is midnight for a 
 <idx><h>keyword</h></idx>
 The name <c>this</c> is a keyword that refers to the object we are creating.
 You can use <c>this</c> the same way you use the name of any other object.
-For example, you can read and write the instance variables of <c>this</c>, and you can pass <c>this</c> as an argument to other methods.
+For example, you can read and write the instance variables of <c>this</c>, and you can pass <c>this</c> as an argument to other functions.
 But you do not declare <c>this</c>, and you can't make an assignment to it.
 </p>
 
 <p>
 A common error when writing constructors is to put a <c>return</c> statement at the end.
-Like <c>void</c> methods, constructors do not return values.
+Like <c>void</c> functions, constructors do not return values.
 </p>
 
 <p>
@@ -80,6 +80,6 @@ Beginners sometimes make the mistake of using <c>new</c> in the constructor:
 </program>
 
 <p>
-Doing so causes an infinite recursion, since <c>new</c> invokes the <em>same</em> constructor, which uses <c>new</c> again, which invokes the constructor again, and so on.
+Doing so causes an infinite recursion, since <c>new</c> invokes the <term>same</term> constructor, which uses <c>new</c> again, which invokes the constructor again, and so on.
 </p>
 </section>

@@ -1,10 +1,10 @@
-<section xml:id="designing-classes_equals-method" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>The equals Method</title>
+<section xml:id="designing-classes_equals-function" xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>The equals function</title>
 <p>
 <idx><h>== equals operator</h></idx>
 <idx><h>equals</h></idx>
-<idx><h>method</h><h>equals</h></idx>
-We have seen two ways to check whether values are equal: the <c>==</c> operator and the <c>equals</c> method.
+<idx><h>function</h><h>equals</h></idx>
+We have seen two ways to check whether values are equal: the <c>==</c> operator and the <c>equals</c> function.
 With objects, you can use either one, but they are not the same:
 </p>
 
@@ -12,22 +12,22 @@ With objects, you can use either one, but they are not the same:
 <idx><h>identical</h></idx>
 <idx><h>equivalent</h></idx>
 <ul>
-<li><p>The <c>==</c> operator checks whether two references are <em>identical</em>; that is, whether they refer to the same object.</p></li>
-<li><p>The <c>equals</c> method checks whether two objects are <em>equivalent</em>; that is, whether they have the same values.</p></li>
+<li><p>The <c>==</c> operator checks whether two references are <term>identical</term>; that is, whether they refer to the same object.</p></li>
+<li><p>The <c>equals</c> function checks whether two objects are <term>equivalent</term>; that is, whether they have the same values.</p></li>
 </ul>
 </p>
 
 <p>
-The definition of <em>identity</em> is always the same, so the <c>==</c> operator always does the same thing.
-But the definition of <em>equivalence</em> is different for different objects, so objects can define their own <c>equals</c> methods.
+The definition of <term>identity</term> is always the same, so the <c>==</c> operator always does the same thing.
+But the definition of <term>equivalence</term> is different for different objects, so objects can define their own <c>equals</c> functions.
 </p>
 
 <p>
 Consider the following variables and the corresponding memory diagram in <xref ref="fig_time2">Figure</xref>:
 </p>
 
-<program xml:id="designing-classes_equals-method-1">
-<xi:include href="../programs/designing-classes_equals-method-1.cpp" parse="text"/>
+<program xml:id="designing-classes_equals-function-1">
+<xi:include href="../programs/designing-classes_equals-function-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -46,25 +46,25 @@ Because they are not identical, <c>time1 == time3</c> is false.
 </p>
 
 <p>
-By default, the <c>equals</c> method does the same thing as <c>==</c>.
+By default, the <c>equals</c> function does the same thing as <c>==</c>.
 For <c>Time</c> objects, that's probably not what we want.
 For example, <c>time1</c> and <c>time3</c> represent the same time of day, so we should consider them equivalent.
 </p>
 
 <p>
 <idx><h>equals</h></idx>
-<idx><h>method</h><h>equals</h></idx>
-We can provide an <c>equals</c> method that implements this idea:
+<idx><h>function</h><h>equals</h></idx>
+We can provide an <c>equals</c> function that implements this idea:
 </p>
 
-<program xml:id="designing-classes_equals-method-2">
-<xi:include href="../programs/designing-classes_equals-method-2.cpp" parse="text"/>
+<program xml:id="designing-classes_equals-function-2">
+<xi:include href="../programs/designing-classes_equals-function-2.cpp" parse="text"/>
 </program>
 
 <p>
-<c>equals</c> is an instance method, so it doesn't have the keyword <c>static</c>.
+<c>equals</c> is an instance function, so it doesn't have the keyword <c>static</c>.
 It uses <c>this</c> to refer to the current object, and <c>that</c> to refer to the other.
-<c>that</c> is <em>not</em> a keyword, so we could have given this parameter a different name.
+<c>that</c> is <term>not</term> a keyword, so we could have given this parameter a different name.
 But using <c>that</c> makes the code nicely readable.
 </p>
 
@@ -72,12 +72,12 @@ But using <c>that</c> makes the code nicely readable.
 We can invoke <c>equals</c> like this:
 </p>
 
-<program xml:id="designing-classes_equals-method-3">
-<xi:include href="../programs/designing-classes_equals-method-3.cpp" parse="text"/>
+<program xml:id="designing-classes_equals-function-3">
+<xi:include href="../programs/designing-classes_equals-function-3.cpp" parse="text"/>
 </program>
 
 <p>
-Inside the <c>equals</c> method, <c>this</c> refers to the same object as <c>time1</c>, and <c>that</c> refers to the same object as <c>time3</c>.
+Inside the <c>equals</c> function, <c>this</c> refers to the same object as <c>time1</c>, and <c>that</c> refers to the same object as <c>time3</c>.
 Since their instance variables are <q>equal</q>, the result is <c>true</c>.
 </p>
 

@@ -17,7 +17,7 @@ The following statement creates an array of 52 cards.
 </figure>
 <p>
 <idx><h>null</h></idx>
-Although we call it an <q>array of cards</q>, the array contains <em>references</em> to cards; it does not contain the <c>Card</c> objects themselves.
+Although we call it an <q>array of cards</q>, the array contains <term>references</term> to cards; it does not contain the <c>Card</c> objects themselves.
 Initially the references are all <c>null</c>.
 </p>
 
@@ -66,8 +66,8 @@ We use a separate variable <c>index</c> to keep track of where in the array the 
 <image width="73%" source="external/images/cardarray2.png" />
 </figure>
 <p>
-When you work with arrays, it is convenient to have a method that displays the contents.
-You have seen the pattern for traversing an array several times, so the following method should be familiar:
+When you work with arrays, it is convenient to have a function that displays the contents.
+You have seen the pattern for traversing an array several times, so the following function should be familiar:
 </p>
 
 <p>
@@ -80,12 +80,12 @@ You have seen the pattern for traversing an array several times, so the followin
 
 <p>
 Since <c>cards</c> has type <c>Card[]</c>, pronounced <q>card array</q>, an element of <c>cards</c> has type <c>Card</c>.
-So <c>println</c> invokes the <c>toString</c> method in the <c>Card</c> class.
+So <c>println</c> invokes the <c>toString</c> function in the <c>Card</c> class.
 </p>
 
 <p>
-Then again, we don't have to write our own <c>printDeck</c> method.
-The <c>Arrays</c> class provides a <c>toString</c> method that invokes <c>toString</c> on the elements of an array and concatenates the results:
+Then again, we don't have to write our own <c>printDeck</c> function.
+The <c>Arrays</c> class provides a <c>toString</c> function that invokes <c>toString</c> on the elements of an array and concatenates the results:
 </p>
 
 <program xml:id="arrays-objects_arrays-cards-6">

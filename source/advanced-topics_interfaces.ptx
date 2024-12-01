@@ -8,13 +8,13 @@ To draw other types of objects, we have to generalize the code.
 </p>
 
 <p>
-The <c>Drawing</c> class does essentially three things: (1) it maintains a <c>list</c> of objects, (2) it invokes the <c>draw</c> method on each object, and (3) it invokes the <c>step</c> method on each object.
+The <c>Drawing</c> class does essentially three things: (1) it maintains a <c>list</c> of objects, (2) it invokes the <c>draw</c> function on each object, and (3) it invokes the <c>step</c> function on each object.
 </p>
 
 <p>
 So here's one way we could make the code more general:
 <ol>
-<li><p>Define a new superclass, which we call <c>Actor</c>, that provides the two methods needed by <c>Drawing</c>:
+<li><p>Define a new superclass, which we call <c>Actor</c>, that provides the two functions needed by <c>Drawing</c>:
 
 
 <program xml:id="advanced-topics_interfaces-1">
@@ -28,7 +28,7 @@ So here's one way we could make the code more general:
 
 <p>
 There's just one problem: <c>DrawablePolygon</c> already extends <c>Polygon</c>, and classes can extend only one superclass.
-Also, the <c>Actor</c> class seems pointless, since the methods it defines don't do anything.
+Also, the <c>Actor</c> class seems pointless, since the functions it defines don't do anything.
 </p>
 
 <p>
@@ -43,24 +43,24 @@ We can define <c>Actor</c> as an <c>interface</c> instead of a <c>class</c>, lik
 
 <p>
 <idx><h>interface</h></idx>
-Like a class definition, an <em>interface</em> definition contains methods.
-But it contains only the declarations of the methods, not their implementations.
+Like a class definition, an <term>interface</term> definition contains functions.
+But it contains only the declarations of the functions, not their implementations.
 </p>
 
 <p>
-Like an abstract class, an interface specifies methods that must be provided by subclasses.
-The difference is that an abstract class can implement some methods; an interface cannot.
+Like an abstract class, an interface specifies functions that must be provided by subclasses.
+The difference is that an abstract class can implement some functions; an interface cannot.
 </p>
 
 <p>
-All interface methods are <c>public</c> by default, since they are intended to be used by other classes.
+All interface functions are <c>public</c> by default, since they are intended to be used by other classes.
 So there is no need to declare them as <c>public</c>.
 </p>
 
 <p>
 To inherit from an interface, you use the keyword <c>implements</c> instead of <c>extends</c>.
 Here's a version of <c>DrawablePolygon</c> that extends <c>Polygon</c> and implements <c>Actor</c>.
-So it inherits methods from <c>Polygon</c>, and it is required to provide the methods in <c>Actor</c>; namely <c>draw</c> and <c>step</c>:
+So it inherits functions from <c>Polygon</c>, and it is required to provide the functions in <c>Actor</c>; namely <c>draw</c> and <c>step</c>:
 </p>
 
 <program xml:id="advanced-topics_interfaces-3">

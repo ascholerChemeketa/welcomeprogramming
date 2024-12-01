@@ -15,7 +15,7 @@ Whether or not to provide setters is a design decision.
 If we did, cards would be mutable, so you could transform one card into another.
 That is probably not a feature we want, and in general, mutable objects are more error-prone.
 So it might be better to make cards immutable.
-To do that, all we have to do is <em>not</em> provide any modifier methods (including setters).
+To do that, all we have to do is <term>not</term> provide any modifier functions (including setters).
 </p>
 
 <p>
@@ -30,7 +30,7 @@ We can prevent that possibility by declaring the instance variables <c>final</c>
 
 <p>
 You can initialize these variables inside a constructor,
-but if someone writes a method that tries to modify them, they'll get a compiler error.
+but if someone writes a function that tries to modify them, they'll get a compiler error.
 This kind of safeguard helps prevent future mistakes and hours of debugging.
 </p>
 </section>

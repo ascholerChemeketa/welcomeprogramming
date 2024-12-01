@@ -16,11 +16,11 @@ We'll need a <c>Canvas</c> for drawing them, so we define a new class, <c>Drawin
 <p>
 The <c>Drawing</c> class has an <c>ArrayList</c> of <c>DrawablePolygon</c> objects.
 When we create a <c>Drawing</c> object, the list is initially empty.
-The <c>add</c> method takes a <c>DrawablePolygon</c> and adds it to the list.
+The <c>add</c> function takes a <c>DrawablePolygon</c> and adds it to the list.
 </p>
 
 <p>
-<c>Drawing</c> overrides the <c>paint</c> method that it inherits from <c>Canvas</c>.
+<c>Drawing</c> overrides the <c>paint</c> function that it inherits from <c>Canvas</c>.
 <c>paint</c> loops through the list of <c>DrawablePolygon</c> objects and invokes <c>draw</c> on each one.
 </p>
 
@@ -65,8 +65,8 @@ The parameter of <c>Drawing.add</c> has to be a <c>DrawablePolygon</c>, but it c
 
 <p>
 <idx><h>polymorphism</h></idx>
-This design is an example of <em>polymorphism</em>, a fancy word that means <q>having many forms</q>.
-<c>Drawing.add</c> is a polymorphic method, because the parameter can be one of many types.
+This design is an example of <term>polymorphism</term>, a fancy word that means <q>having many forms</q>.
+<c>Drawing.add</c> is a polymorphic function, because the parameter can be one of many types.
 And the <c>ArrayList</c> in <c>Drawing</c> is a polymorphic data structure, because the elements can be different types.
 </p>
 </section>

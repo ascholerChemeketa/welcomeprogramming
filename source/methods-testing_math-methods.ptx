@@ -1,8 +1,8 @@
 <section xml:id="methods-testing_math-methods" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Math Methods</title>
+<title>Math functions</title>
 <p>
 <idx><h>Math</h></idx>
-You don't always have to write new methods to get work done.
+You don't always have to write new functions to get work done.
 As a reminder, the Java library contains thousands of classes you can use.
 For example, the <c>Math</c> class provides common mathematical operations:
 </p>
@@ -21,7 +21,7 @@ The third line finds the sine of 1.5 (the value of <c>angle</c>).
 <idx><h>degrees</h></idx>
 <idx><h>radians</h></idx>
 <idx><h>pi</h></idx>
-Values for the trigonometric functions<mdash/><c>sin</c>, <c>cos</c>, and <c>tan</c><mdash/>must be in <em>radians</em>.
+Values for the trigonometric functions<mdash/><c>sin</c>, <c>cos</c>, and <c>tan</c><mdash/>must be in <term>radians</term>.
 To convert from degrees to radians, you divide by 180 and multiply by <m>\pi</m>.
 Conveniently, the <c>Math</c> class provides a constant named <c>PI</c> that contains an approximation of <m>\pi</m>:
 </p>
@@ -33,12 +33,12 @@ Conveniently, the <c>Math</c> class provides a constant named <c>PI</c> that con
 <p>
 Notice that <c>PI</c> is in capital letters.
 Java does not recognize <c>Pi</c>, <c>pi</c>, or <c>pie</c>.
-Also, <c>PI</c> is the name of a constant, not a method, so it doesn't have parentheses.
+Also, <c>PI</c> is the name of a constant, not a function, so it doesn't have parentheses.
 The same is true for the constant <c>Math.E</c>, which approximates Euler's number.
 </p>
 
 <p>
-Converting to and from radians is a common operation, so the <c>Math</c> class provides methods that do that for you:
+Converting to and from radians is a common operation, so the <c>Math</c> class provides functions that do that for you:
 </p>
 
 <program xml:id="methods-testing_math-methods-3">
@@ -48,7 +48,7 @@ Converting to and from radians is a common operation, so the <c>Math</c> class p
 <p>
 <idx><h>long</h></idx>
 <idx><h>type</h><h>long</h></idx>
-Another useful method is <c>round</c>, which rounds a floating-point value to the nearest integer and returns a <c>long</c>.
+Another useful function is <c>round</c>, which rounds a floating-point value to the nearest integer and returns a <c>long</c>.
 The following result is 63 (rounded up from 62.8319):
 </p>
 
@@ -63,7 +63,7 @@ A <c>long</c> uses 64 bits, so the largest value is <m>2^{63}-1</m>, which is ab
 </p>
 
 <p>
-Take a minute to read the documentation for these and other methods in the <c>Math</c> class.
+Take a minute to read the documentation for these and other functions in the <c>Math</c> class.
 The easiest way to find documentation for Java classes is to do a web search for <q>Java</q> and the name of the class.
 </p>
 </section>

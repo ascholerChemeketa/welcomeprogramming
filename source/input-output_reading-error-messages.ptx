@@ -43,18 +43,18 @@ So <c>printf</c> gets the format string, but it doesn't get any values to format
 
 <p>
 <idx><h>stack trace</h></idx>
-The error message also includes a <em>stack trace</em> that shows the method that was running when the error was detected, <c>java.util.Formatter.format</c>; the method that ran it, <c>java.io.PrintStream.format</c>; the method that ran <em>that</em>, <c>java.io.PrintStream.printf</c>; and finally the method you actually wrote, <c>Example.main</c>.
+The error message also includes a <term>stack trace</term> that shows the function that was running when the error was detected, <c>java.util.Formatter.format</c>; the function that ran it, <c>java.io.PrintStream.format</c>; the function that ran <term>that</term>, <c>java.io.PrintStream.printf</c>; and finally the function you actually wrote, <c>Example.main</c>.
 </p>
 
 <p>
-Each line also names the source file of the method and the line it was on (e.g., <c>Example.java:10</c>).
-That's a lot of information, and it includes method names and filenames you have no reason to know at this point.
+Each line also names the source file of the function and the line it was on (e.g., <c>Example.java:10</c>).
+That's a lot of information, and it includes function names and filenames you have no reason to know at this point.
 But don't be overwhelmed.
 </p>
 
 <p>
-When you see an error message like this, read the first line carefully to see <em>what</em> happened.
-Then read the last line to see <em>where</em> it happened.
+When you see an error message like this, read the first line carefully to see <term>what</term> happened.
+Then read the last line to see <term>where</term> it happened.
 In some IDEs, you can click the error message, and it will take you to the line of code that was running.
 But remember that where the error is discovered is not always where it was caused.
 </p>

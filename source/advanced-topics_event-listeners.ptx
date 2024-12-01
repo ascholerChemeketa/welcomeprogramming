@@ -4,7 +4,7 @@
 <idx><h>sprite</h></idx>
 Now that our <c>Drawing</c> is based on <c>Actor</c> instead of <c>DrawablePolygon</c>, we can draw other types of graphics.
 Here is the beginning of a class that reads an image from a file and shows the image moving across the canvas.
-The class is called <c>Sprite</c> because a moving image is sometimes called a <em>sprite</em>, in the context of computer graphics:
+The class is called <c>Sprite</c> because a moving image is sometimes called a <term>sprite</term>, in the context of computer graphics:
 </p>
 
 <program xml:id="advanced-topics_event-listeners-1">
@@ -26,7 +26,7 @@ If an error occurs during reading, an <c>IOException</c> is caught, and the prog
 
 <p>
 <c>Sprite</c> implements two interfaces: <c>Actor</c> and <c>KeyListener</c>.
-<c>Actor</c> requires that we provide <c>draw</c> and <c>step</c> methods:
+<c>Actor</c> requires that we provide <c>draw</c> and <c>step</c> functions:
 </p>
 
 <program xml:id="advanced-topics_event-listeners-2">
@@ -34,18 +34,18 @@ If an error occurs during reading, an <c>IOException</c> is caught, and the prog
 </program>
 
 <p>
-The <c>draw</c> method draws the image at the sprite's current position.
-The <c>step</c> method changes the position based on <c>dx</c> and <c>dy</c>, which are initially zero.
+The <c>draw</c> function draws the image at the sprite's current position.
+The <c>step</c> function changes the position based on <c>dx</c> and <c>dy</c>, which are initially zero.
 </p>
 
 <p>
 <c>KeyListener</c> is an interface for receiving keyboard events, which means we can detect and respond to key presses.
-A class that implements <c>KeyListener</c> has to provide the following methods:
+A class that implements <c>KeyListener</c> has to provide the following functions:
 <ul>
 <li><p><c>void keyPressed(KeyEvent e)</c>
 
 Invoked when a key has been <q>pressed</q>.
-This method is invoked repeatedly while a key is being held down.</p></li>
+This function is invoked repeatedly while a key is being held down.</p></li>
 <li><p><c>void keyReleased(KeyEvent e)</c>
 
 Invoked when a key has been <q>released</q>, meaning it is no longer down.</p></li>
@@ -56,12 +56,12 @@ Invoked when a key has been <q>typed</q>, which generally means it has been both
 </p>
 
 <p>
-These methods get invoked when the user presses and releases <em>any</em> key.
+These functions get invoked when the user presses and releases <term>any</term> key.
 They take a <c>KeyEvent</c> object as a parameter, which specifies which key was pressed, released, or typed.
 </p>
 
 <p>
-We can use these methods to design a simple animation using the arrow keys.
+We can use these functions to design a simple animation using the arrow keys.
 When the user presses up or down, the sprite will move up or down.
 When the user presses left or right, the sprite will move left or right.
 </p>
@@ -93,7 +93,7 @@ When the user releases the key, <c>keyReleased</c> sets <c>dx</c> or <c>dy</c> t
 </p>
 
 <p>
-We don't need the <c>keyTyped</c> method for this example, but it's required by the interface; if we don't provide one, the compiler will complain.
+We don't need the <c>keyTyped</c> function for this example, but it's required by the interface; if we don't provide one, the compiler will complain.
 So we provide an implementation that does nothing:
 </p>
 
@@ -110,17 +110,17 @@ Now, here's the code we need to create a <c>Sprite</c>, add it to a <c>Drawing</
 </program>
 
 <p>
-Recall that the <c>add</c> method is one that we wrote in <xref ref="sec_drawing">Section</xref>.
+Recall that the <c>add</c> function is one that we wrote in <xref ref="sec_drawing">Section</xref>.
 It adds an <c>Actor</c> to the list of objects to be drawn.
 </p>
 
 <p>
-The <c>addKeyListener</c> method is inherited from <c>Canvas</c>.
+The <c>addKeyListener</c> function is inherited from <c>Canvas</c>.
 It adds a <c>KeyListener</c> to the list of objects that will receive key events.
 </p>
 
 <p>
 In graphical applications, key events are sent to components only when they have the keyboard focus.
-The <c>setFocusable</c> method ensures that <c>drawing</c> will have the focus initially, without the user having to click it first.
+The <c>setFocusable</c> function ensures that <c>drawing</c> will have the focus initially, without the user having to click it first.
 </p>
 </section>

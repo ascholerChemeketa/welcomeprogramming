@@ -50,7 +50,7 @@ Use the information the compiler gives you as a guideline, but if you don't see 
 
 <p>
 Generally, the error will be prior to the location of the error message, but in some cases it will be somewhere else entirely.
-For example, if you get an error message at a method invocation, the actual error may be in the method definition itself.
+For example, if you get an error message at a function invocation, the actual error may be in the function definition itself.
 </p>
 
 <p>
@@ -67,8 +67,8 @@ Now, start looking for common syntax errors:
 <idx><h>error</h><h>syntax</h></idx>
 <ol>
 <li><p>Check that all parentheses and brackets are balanced and properly nested.
-All method definitions should be nested within a class definition.
-All program statements should be within a method definition.</p></li>
+All function definitions should be nested within a class definition.
+All program statements should be within a function definition.</p></li>
 <li><p>Remember that uppercase letters are not the same as lowercase letters.</p></li>
 <li><p>Check for semicolons at the end of statements (and no semicolons after curly braces).
 
@@ -77,13 +77,13 @@ All program statements should be within a method definition.</p></li>
 Make sure that you use double quotes for strings, and single quotes for characters.</p></li>
 <li><p>For each assignment statement, make sure that the type on the left is the same as the type on the right.
 Make sure that the expression on the left is a variable name or something else that you can assign a value to (like an element of an array).</p></li>
-<li><p>For each method invocation, make sure that the arguments you provide are in the right order and have the right type, and that the object you are invoking the method on is the right type.</p></li>
-<li><p>If you are invoking a value method, make sure you are doing something with the result.
-If you are invoking a void method, make sure you are <em>not</em> trying to do something with the result.</p></li>
-<li><p>If you are invoking an instance method, make sure you are invoking it on an object with the right type.
-If you are invoking a static method from outside the class where it is defined, make sure you specify the class name (using dot notation).</p></li>
-<li><p>Inside an instance method, you can refer to the instance variables without specifying an object.
-If you try that in a static method<mdash/>with or without <c>this</c><mdash/>you get a message like <q>non-static variable x cannot be referenced from a static context.</q></p></li>
+<li><p>For each function invocation, make sure that the arguments you provide are in the right order and have the right type, and that the object you are invoking the function on is the right type.</p></li>
+<li><p>If you are invoking a value function, make sure you are doing something with the result.
+If you are invoking a void function, make sure you are <term>not</term> trying to do something with the result.</p></li>
+<li><p>If you are invoking an instance function, make sure you are invoking it on an object with the right type.
+If you are invoking a static function from outside the class where it is defined, make sure you specify the class name (using dot notation).</p></li>
+<li><p>Inside an instance function, you can refer to the instance variables without specifying an object.
+If you try that in a static function<mdash/>with or without <c>this</c><mdash/>you get a message like <q>non-static variable x cannot be referenced from a static context.</q></p></li>
 </ol>
 </p>
 
@@ -113,13 +113,13 @@ If the compiler doesn't find the new error, there is probably something wrong wi
 
 <p>
 <idx><h>debugging</h><h>by bisection</h></idx>
-If you have examined the code thoroughly, and you are sure the compiler is compiling the right source file, it is time for desperate measures<mdash/><em>debugging by bisection</em>:
+If you have examined the code thoroughly, and you are sure the compiler is compiling the right source file, it is time for desperate measures<mdash/><term>debugging by bisection</term>:
 </p>
 
 <ul>
 <li><p>Make a backup of the file you are working on.
-If you are working on <em>Bob.java</em>, make a copy called <em>Bob.java.old</em>.</p></li>
-<li><p>Delete about half the code from <em>Bob.java</em>.
+If you are working on <term>Bob.java</term>, make a copy called <term>Bob.java.old</term>.</p></li>
+<li><p>Delete about half the code from <term>Bob.java</term>.
 Try compiling again.
 </p>
 
@@ -150,7 +150,7 @@ It sounds like the compiler is telling you to declare <c>Golfer</c> as an <c>abs
 
 <p>
 Fortunately, the compiler is wrong.
-The solution in this case is to make sure <c>Golfer</c> has a method called <c>compareTo</c> that takes an <c>Object</c> as a parameter.
+The solution in this case is to make sure <c>Golfer</c> has a function called <c>compareTo</c> that takes an <c>Object</c> as a parameter.
 </p>
 
 <p>

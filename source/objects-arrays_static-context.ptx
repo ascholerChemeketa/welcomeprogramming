@@ -1,8 +1,8 @@
 <section xml:id="objects-arrays_static-context" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Static Context</title>
 <p>
-<xref ref="fig_deck">Figure</xref> shows a UML class diagram for <c>Deck</c>, including the instance variable, <c>cards</c>, and the methods we have so far.
-In UML diagrams, <c>private</c> attributes and methods begin with a minus sign (<c>-</c>) and <c>static</c> methods are underlined.
+<xref ref="fig_deck">Figure</xref> shows a UML class diagram for <c>Deck</c>, including the instance variable, <c>cards</c>, and the functions we have so far.
+In UML diagrams, <c>private</c> attributes and functions begin with a minus sign (<c>-</c>) and <c>static</c> functions are underlined.
 </p>
 
 <p>
@@ -15,16 +15,16 @@ In UML diagrams, <c>private</c> attributes and methods begin with a minus sign (
 <image width="73%" source="external/images/deck.png" />
 </figure>
 <p>
-The helper methods <c>randomInt</c> and <c>merge</c> are <c>static</c>, because they do not read or write any instance variables.
-All other methods are instance methods, because they access the instance variable, <c>cards</c>.
+The helper functions <c>randomInt</c> and <c>merge</c> are <c>static</c>, because they do not read or write any instance variables.
+All other functions are instance functions, because they access the instance variable, <c>cards</c>.
 </p>
 
 <p>
-When you have static methods and instance methods in the same class, it is easy to get them confused.
+When you have static functions and instance functions in the same class, it is easy to get them confused.
 </p>
 
 <p>
-To invoke an instance method, you need an instance:
+To invoke an instance function, you need an instance:
 </p>
 
 <program xml:id="objects-arrays_static-context-1" interactive="activecode">
@@ -51,17 +51,17 @@ You get a compiler error like this:
 
 <console>
 <output>
-Non-static method print() cannot be referenced from a
+Non-static function print() cannot be referenced from a
 static context.
 </output>
 </console>
 
 <p>
-By <q>static context</q>, the compiler means you are trying to invoke a method in a context that requires a static method.
+By <q>static context</q>, the compiler means you are trying to invoke a function in a context that requires a static function.
 </p>
 
 <p>
-On the other hand, if you have a <c>Deck</c> object, you can use it to invoke a static method:
+On the other hand, if you have a <c>Deck</c> object, you can use it to invoke a static function:
 </p>
 
 <program xml:id="objects-arrays_static-context-3" interactive="activecode">
@@ -69,11 +69,11 @@ On the other hand, if you have a <c>Deck</c> object, you can use it to invoke a 
 </program>
 
 <p>
-This is legal, but it is not considered good style, because someone reading this code would expect <c>randomInt</c> to be an instance method.
+This is legal, but it is not considered good style, because someone reading this code would expect <c>randomInt</c> to be an instance function.
 </p>
 
 <p>
-Another common error is to use <c>this</c> in a static method.
+Another common error is to use <c>this</c> in a static function.
 For example, say you write something like this:
 </p>
 
@@ -93,8 +93,8 @@ static context.
 </console>
 
 <p>
-The problem is that <c>cards</c> is an instance variable, so it is <em>non-static</em>; therefore, you can't access it from a static method.
-In general, you can't use <c>this</c> in a static method, because a static method is not invoked on an object.
+The problem is that <c>cards</c> is an instance variable, so it is <term>non-static</term>; therefore, you can't access it from a static function.
+In general, you can't use <c>this</c> in a static function, because a static function is not invoked on an object.
 </p>
 
 <p>

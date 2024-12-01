@@ -21,7 +21,7 @@ The result is shown in <xref ref="fig_rectangle2">Figure</xref>.
 <p>
 <idx><h>encapsulation</h></idx>
 <idx><h>generalization</h></idx>
-We can encapsulate this code in a method and generalize it to move the rectangle by any amount:
+We can encapsulate this code in a function and generalize it to move the rectangle by any amount:
 </p>
 
 <program xml:id="mutable-objects_rectangles-are-mutable-2">
@@ -30,7 +30,7 @@ We can encapsulate this code in a method and generalize it to move the rectangle
 
 <p>
 The variables <c>dx</c> and <c>dy</c> indicate how far to move the rectangle in each direction.
-Invoking this method has the effect of modifying the <c>Rectangle</c> that is passed as an argument:
+Invoking this function has the effect of modifying the <c>Rectangle</c> that is passed as an argument:
 </p>
 
 <program xml:id="mutable-objects_rectangles-are-mutable-3" interactive="activecode">
@@ -38,12 +38,12 @@ Invoking this method has the effect of modifying the <c>Rectangle</c> that is pa
 </program>
 
 <p>
-Modifying objects by passing them as arguments to methods can be useful.
-But it can also make debugging difficult, because it is not always clear which method invocations modify their arguments.
+Modifying objects by passing them as arguments to functions can be useful.
+But it can also make debugging difficult, because it is not always clear which function invocations modify their arguments.
 </p>
 
 <p>
-Java provides a number of methods that operate on <c>Point</c>s and <c>Rectangle</c>s.
+Java provides a number of functions that operate on <c>Point</c>s and <c>Rectangle</c>s.
 For example, <c>translate</c> has the same effect as <c>moveRect</c>, but instead of passing the rectangle as an argument, you use dot notation:
 </p>
 
@@ -52,11 +52,11 @@ For example, <c>translate</c> has the same effect as <c>moveRect</c>, but instea
 </program>
 
 <p>
-This line invokes the <c>translate</c> method on the object that <c>box</c> refers to, which modifies the object.
+This line invokes the <c>translate</c> function on the object that <c>box</c> refers to, which modifies the object.
 </p>
 
 <p>
 <idx><h>object-oriented</h></idx>
-This syntax<mdash/>using dot notation to invoke a method on an object, rather than passing it as a parameter<mdash/>is more consistent with the style of object-oriented programming.
+This syntax<mdash/>using dot notation to invoke a function on an object, rather than passing it as a parameter<mdash/>is more consistent with the style of object-oriented programming.
 </p>
 </section>

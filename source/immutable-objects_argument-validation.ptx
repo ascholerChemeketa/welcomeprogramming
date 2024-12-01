@@ -18,14 +18,14 @@ It's difficult to write bug-free software, especially when working in teams on l
 
 <p>
 <idx><h>validate</h></idx>
-For all of these reasons, it's good practice to validate arguments passed to methods, including the <c>main</c> method.
+For all of these reasons, it's good practice to validate arguments passed to functions, including the <c>main</c> function.
 In the previous section, we did this by ensuring that <c>args.length</c> was not 0.
 </p>
 
 <p>
 <idx><h>Character</h></idx>
-As a further example, consider a method that checks whether the first word of a sentence is capitalized.
-We can write this method using the <c>Character</c> wrapper class:
+As a further example, consider a function that checks whether the first word of a sentence is capitalized.
+We can write this function using the <c>Character</c> wrapper class:
 </p>
 
 <program xml:id="immutable-objects_argument-validation-1">
@@ -41,7 +41,7 @@ What if these assumptions don't hold at run-time?
 <idx><h>NullPointerException</h></idx>
 <idx><h>exception</h><h>NullPointer</h></idx>
 <ul>
-<li><p>If <c>str</c> is <c>null</c>, invoking <c>charAt</c> will cause a <c>NullPointerException</c>, because you can't invoke a method on <c>null</c>.</p></li>
+<li><p>If <c>str</c> is <c>null</c>, invoking <c>charAt</c> will cause a <c>NullPointerException</c>, because you can't invoke a function on <c>null</c>.</p></li>
 <li><p>If <c>str</c> refers to an empty string, which is a <c>String</c> object with no characters, <c>charAt</c> will cause a <c>StringIndexOutOfBoundsException</c>, because there is no character at index <c>0</c>.</p></li>
 </ul>
 </p>
@@ -49,8 +49,8 @@ What if these assumptions don't hold at run-time?
 <p>
 <idx><h>StringIndexOutOfBoundsException</h></idx>
 <idx><h>exception</h><h>StringIndexOutOfBounds</h></idx>
-We can prevent these exceptions by validating <c>str</c> <em>at the start</em> of the method.
-If it's invalid, we return before executing the rest of the method:
+We can prevent these exceptions by validating <c>str</c> <term>at the start</term> of the function.
+If it's invalid, we return before executing the rest of the function:
 </p>
 
 <program xml:id="immutable-objects_argument-validation-2">
@@ -58,7 +58,7 @@ If it's invalid, we return before executing the rest of the method:
 </program>
 
 <p>
-Notice that <c>null</c> and <em>empty</em> are different concepts, as shown in <xref ref="fig_nullempty">Figure</xref>.
+Notice that <c>null</c> and <term>empty</term> are different concepts, as shown in <xref ref="fig_nullempty">Figure</xref>.
 The variable <c>str1</c> is <c>null</c>, meaning that it doesn't reference an object.
 The variable <c>str2</c> refers to the empty string, an object that exists.
 </p>
@@ -68,7 +68,7 @@ The variable <c>str2</c> refers to the empty string, an object that exists.
 </figure>
 <p>
 Beginners sometimes make the mistake of checking for empty first.
-Doing so causes a <c>NullPointerException</c>, because you can't invoke methods on variables that are <c>null</c>:
+Doing so causes a <c>NullPointerException</c>, because you can't invoke functions on variables that are <c>null</c>:
 </p>
 
 <program xml:id="immutable-objects_argument-validation-3">

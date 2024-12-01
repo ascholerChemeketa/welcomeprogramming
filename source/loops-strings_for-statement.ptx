@@ -10,7 +10,7 @@ They start by initializing a variable, they have a condition that depends on tha
 
 <p>
 <idx><h>iteration</h></idx>
-Running the same code multiple times is called <em>iteration</em>.
+Running the same code multiple times is called <term>iteration</term>.
 It's so common that there is another statement, the <c>for</c> loop, that expresses it more concisely.
 For example, we can rewrite the 2-4-6-8 loop this way:
 </p>
@@ -22,12 +22,12 @@ For example, we can rewrite the 2-4-6-8 loop this way:
 <p>
 <c>for</c> loops have three components in parentheses, separated by semicolons: the initializer, the condition, and the update:
 <ol>
-<li><p>The <em>initializer</em> runs once at the very beginning of the loop.
+<li><p>The <term>initializer</term> runs once at the very beginning of the loop.
 It is equivalent to the line before the <c>while</c> statement.</p></li>
-<li><p>The <em>condition</em> is checked each time through the loop.
+<li><p>The <term>condition</term> is checked each time through the loop.
 If it is <c>false</c>, the loop ends.
 Otherwise, the body of the loop is executed (again).</p></li>
-<li><p>At the end of each iteration, the <em>update</em> runs, and we go back to step<nbsp/>2.</p></li>
+<li><p>At the end of each iteration, the <term>update</term> runs, and we go back to step<nbsp/>2.</p></li>
 </ol>
 </p>
 
@@ -41,7 +41,7 @@ Doing so allows you to focus on the statements inside the loop body.
 <image width="92.5%" source="external/images/for.png" />
 </figure>
 <p>
-There is another difference between <c>for</c> loops and <c>while</c> loops: if you declare a variable in the initializer, it exists only <em>inside</em> the <c>for</c> loop.
+There is another difference between <c>for</c> loops and <c>while</c> loops: if you declare a variable in the initializer, it exists only <term>inside</term> the <c>for</c> loop.
 For example:
 </p>
 
@@ -51,7 +51,7 @@ For example:
 
 <p>
 The last line tries to display <c>n</c> (for no reason other than demonstration), but it won't work.
-If you need to use a loop variable outside the loop, you have to declare it <em>outside</em> the loop, like this:
+If you need to use a loop variable outside the loop, you have to declare it <term>outside</term> the loop, like this:
 </p>
 
 <program xml:id="loops-strings_for-statement-3">

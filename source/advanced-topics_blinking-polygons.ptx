@@ -16,7 +16,7 @@ Then we sleep with a delay calculated to update about 30 times per second.
 </p>
 
 <p>
-Here's what the <c>step</c> method of <c>Drawing</c> looks like:
+Here's what the <c>step</c> function of <c>Drawing</c> looks like:
 </p>
 
 <program xml:id="advanced-topics_blinking-polygons-2">
@@ -28,7 +28,7 @@ It invokes <c>step</c> on each <c>DrawablePolygon</c> in the list and then repai
 </p>
 
 <p>
-In order for this code to compile, we need <c>DrawablePolygon</c> to provide a <c>step</c> method.
+In order for this code to compile, we need <c>DrawablePolygon</c> to provide a <c>step</c> function.
 Here's a version that doesn't do anything; we'll override it in subclasses:
 </p>
 
@@ -52,14 +52,14 @@ Initially, the <c>BlinkingPolygon</c> is visible.
 </p>
 
 <p>
-The <c>draw</c> method draws the polygon only if it is visible.
+The <c>draw</c> function draws the polygon only if it is visible.
 It uses <c>super</c> to call <c>draw</c> in the parent class.
-But the parent class is <c>RegularPolygon</c>, which does not provide a <c>draw</c> method.
+But the parent class is <c>RegularPolygon</c>, which does not provide a <c>draw</c> function.
 In this case, <c>super</c> invokes <c>draw</c> from the <c>DrawablePolygon</c> class.
 </p>
 
 <p>
-The <c>step</c> method increments <c>count</c>.
+The <c>step</c> function increments <c>count</c>.
 Every 10 time steps, it toggles <c>visible</c> and resets <c>count</c> to 0.
 </p>
 </section>

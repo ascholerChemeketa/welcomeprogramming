@@ -2,7 +2,7 @@
 <title>String Iteration</title>
 <p>
 <idx><h>iteration</h></idx>
-Strings provide a method called <c>length</c> that returns the number of characters in the string.
+Strings provide a function called <c>length</c> that returns the number of characters in the string.
 The following loop iterates the characters in <c>fruit</c> and displays them, one on each line:
 </p>
 
@@ -13,7 +13,7 @@ The following loop iterates the characters in <c>fruit</c> and displays them, on
 <p>
 <idx><h>string</h><h>length</h></idx>
 <idx><h>length</h><h>string</h></idx>
-Because <c>length</c> is a method, you have to invoke it with parentheses (there are no arguments).
+Because <c>length</c> is a function, you have to invoke it with parentheses (there are no arguments).
 When <c>i</c> is equal to the length of the string, the condition becomes <c>false</c> and the loop terminates.
 </p>
 
@@ -28,7 +28,7 @@ To find the last letter of a string, you might be tempted to do something like t
 <p>
 <idx><h>StringIndexOutOfBoundsException</h></idx>
 <idx><h>exception</h><h>StringIndexOutOfBounds</h></idx>
-This code compiles and runs, but invoking the <c>charAt</c> method throws a <c>StringIndexOutOfBoundsException</c>.
+This code compiles and runs, but invoking the <c>charAt</c> function throws a <c>StringIndexOutOfBoundsException</c>.
 The problem is that there is no sixth letter in <c>"banana"</c>.
 Since we started counting at 0, the six letters are indexed from 0 to 5.
 To get the last character, you have to subtract 1 from <c>length</c>:
@@ -49,7 +49,7 @@ For example, to reverse a string, we can concatenate one character at a time:
 
 <p>
 <idx><h>empty string</h></idx>
-The initial value of <c>r</c> is <c>""</c>, which is an <em>empty string</em>.
+The initial value of <c>r</c> is <c>""</c>, which is an <term>empty string</term>.
 The loop iterates the indexes of <c>s</c> in reverse order.
 Each time through the loop, the <c>+=</c> operator appends the next character to <c>r</c>.
 When the loop exits, <c>r</c> contains the characters from <c>s</c> in reverse order.

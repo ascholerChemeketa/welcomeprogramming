@@ -1,5 +1,5 @@
 <section xml:id="recursive-methods_recursive-void-methods" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Recursive Void Methods</title>
+<title>Recursive Void functions</title>
 <p>
 <idx><h>countdown</h></idx>
 Consider the following example:
@@ -10,7 +10,7 @@ Consider the following example:
 </program>
 
 <p>
-The name of the method is <c>countdown</c>; it takes a single integer as a parameter.
+The name of the function is <c>countdown</c>; it takes a single integer as a parameter.
 If the parameter is 0, it displays the word <c>Blastoff!</c>.
 Otherwise, it displays the number and then invokes itself, passing <c>n - 1</c> as the argument.
 </p>
@@ -48,7 +48,7 @@ Blastoff!
 </console>
 
 <p>
-As a second example, we'll rewrite the methods <c>newLine</c> and <c>threeLine</c> from <xref ref="adding_methods">Section</xref>.
+As a second example, we'll rewrite the functions <c>newLine</c> and <c>threeLine</c> from <xref ref="adding_functions">Section</xref>.
 Here they are again:
 </p>
 
@@ -58,7 +58,7 @@ Here they are again:
 
 <p>
 <idx><h>newline</h></idx>
-Although these methods work, they would not help if we wanted to display two newlines, or maybe 100.
+Although these functions work, they would not help if we wanted to display two newlines, or maybe 100.
 A more general alternative would be the following:
 </p>
 
@@ -67,7 +67,7 @@ A more general alternative would be the following:
 </program>
 
 <p>
-This method takes an integer, <c>n</c>, as a parameter and displays <c>n</c> newlines.
+This function takes an integer, <c>n</c>, as a parameter and displays <c>n</c> newlines.
 The structure is similar to <c>countdown</c>.
 As long as <m>n</m> is greater than 0, it displays a newline and then invokes itself to display <m>(n-1)</m> additional newlines.
 The total number of newlines is <m>1 + (n - 1)</m>, which is just what we wanted: <m>n</m>.

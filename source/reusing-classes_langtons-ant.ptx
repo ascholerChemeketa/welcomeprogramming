@@ -17,7 +17,7 @@ The constructor takes the grid dimensions as parameters:
 </p>
 
 <p>
-Here's an <c>update</c> method that implements the rules for Langton's Ant:
+Here's an <c>update</c> function that implements the rules for Langton's Ant:
 </p>
 
 <program xml:id="reusing-classes_langtons-ant-2">
@@ -25,7 +25,7 @@ Here's an <c>update</c> method that implements the rules for Langton's Ant:
 </program>
 
 <p>
-The <c>flipCell</c> method gets the <c>Cell</c> at the ant's location, figures out which way to turn, and changes the state of the cell:
+The <c>flipCell</c> function gets the <c>Cell</c> at the ant's location, figures out which way to turn, and changes the state of the cell:
 </p>
 
 <program xml:id="reusing-classes_langtons-ant-3">
@@ -43,7 +43,7 @@ So we add 3 instead, since one left turn is the same as three right turns.
 </p>
 
 <p>
-The <c>moveAnt</c> method moves the ant forward one square, using <c>head</c> to determine which way is forward:
+The <c>moveAnt</c> function moves the ant forward one square, using <c>head</c> to determine which way is forward:
 </p>
 
 <program xml:id="reusing-classes_langtons-ant-4">
@@ -51,7 +51,7 @@ The <c>moveAnt</c> method moves the ant forward one square, using <c>head</c> to
 </program>
 
 <p>
-Here is the <c>main</c> method we use to create and display the <c>Langton</c> object:
+Here is the <c>main</c> function we use to create and display the <c>Langton</c> object:
 </p>
 
 <program xml:id="reusing-classes_langtons-ant-5" interactive="activecode">

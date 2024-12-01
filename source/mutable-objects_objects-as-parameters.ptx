@@ -16,12 +16,12 @@ For example:
 </program>
 
 <p>
-This method takes a point as an argument and displays its attributes in parentheses.
+This function takes a point as an argument and displays its attributes in parentheses.
 If you invoke <c>printPoint(blank)</c>, it displays <c>(3, 4)</c>.
 </p>
 
 <p>
-As another example, we can rewrite the <c>distance</c> method from <xref ref="distance">Section</xref> so that it takes two <c>Point</c>s as parameters instead of four <c>double</c>s:
+As another example, we can rewrite the <c>distance</c> function from <xref ref="distance">Section</xref> so that it takes two <c>Point</c>s as parameters instead of four <c>double</c>s:
 </p>
 
 <program xml:id="mutable-objects_objects-as-parameters-2">
@@ -33,7 +33,7 @@ Passing objects as parameters makes the source code more readable and less error
 </p>
 
 <p>
-You actually don't need to write a <c>distance</c> method, because <c>Point</c> objects already have one.
+You actually don't need to write a <c>distance</c> function, because <c>Point</c> objects already have one.
 To compute the distance between two points, we invoke <c>distance</c> on one and pass the other as an argument:
 </p>
 
@@ -42,7 +42,7 @@ To compute the distance between two points, we invoke <c>distance</c> on one and
 </program>
 
 <p>
-It turns out you don't need the <c>printPoint</c> method either.
+It turns out you don't need the <c>printPoint</c> function either.
 If you invoke <c>System.out.println(blank)</c>, it prints the type of the object and the values of the attributes:
 </p>
 
@@ -54,7 +54,7 @@ java.awt.Point[x=3,y=4]
 
 <p>
 <idx><h>toString</h></idx>
-<c>Point</c> objects provide a method called <c>toString</c> that returns a string representation of a point.
-When you call <c>println</c> with objects, it <em>automatically</em> calls <c>toString</c> and displays the result.
+<c>Point</c> objects provide a function called <c>toString</c> that returns a string representation of a point.
+When you call <c>println</c> with objects, it <term>automatically</term> calls <c>toString</c> and displays the result.
 </p>
 </section>

@@ -23,8 +23,8 @@ As the game progresses, we need to be able to add and remove cards from the pile
 <idx><h>ArrayList</h></idx>
 <idx><h>collection</h></idx>
 We can solve this problem with an <c>ArrayList</c>, which is in the <c>java.util</c> package.
-An <c>ArrayList</c> is a <em>collection</em>, which is an object that contains other objects.
-It provides methods to add and remove elements, and it grows and shrinks automatically.
+An <c>ArrayList</c> is a <term>collection</term>, which is an object that contains other objects.
+It provides functions to add and remove elements, and it grows and shrinks automatically.
 </p>
 
 <p>
@@ -47,9 +47,9 @@ The constructor initializes <c>this.cards</c> with an empty <c>ArrayList</c>.
 </p>
 
 <p>
-Now let's think about the methods we need to play the game.
+Now let's think about the functions we need to play the game.
 At the beginning of each round, each player draws a card from the top of their pile.
-So we define a method to do that:
+So we define a function to do that:
 </p>
 
 <program xml:id="objects-arrays_piles-cards-2" interactive="activecode">
@@ -63,7 +63,7 @@ Because we use <c>ArrayList.remove</c>, it automatically shifts the remaining ca
 
 <p>
 At the end of each round, the winner adds cards to the bottom of their pile.
-So we define a method to do that:
+So we define a function to do that:
 </p>
 
 <program xml:id="objects-arrays_piles-cards-3" interactive="activecode">
@@ -71,12 +71,12 @@ So we define a method to do that:
 </program>
 
 <p>
-<c>ArrayList</c> provides a method, <c>add</c>, that adds an element to the end of the collection, which we think of as the bottom of the pile.
+<c>ArrayList</c> provides a function, <c>add</c>, that adds an element to the end of the collection, which we think of as the bottom of the pile.
 </p>
 
 <p>
 To know when to stop the game, we have to check if one of the piles is empty.
-Here's a method to do that:
+Here's a function to do that:
 </p>
 
 <program xml:id="objects-arrays_piles-cards-4" interactive="activecode">
@@ -84,13 +84,13 @@ Here's a method to do that:
 </program>
 
 <p>
-So far, these methods don't do very much; they just invoke methods on the instance variable, <c>cards</c>.
-Methods like these are called <em>wrapper methods</em> because they wrap one method with another.
+So far, these functions don't do very much; they just invoke functions on the instance variable, <c>cards</c>.
+functions like these are called <term>wrapper functions</term> because they wrap one function with another.
 </p>
 
 <p>
 Finally, to start the game, we need to divide the deck into two equal parts.
-We can do that with <c>subdeck</c> from <xref ref="subdeck">Section</xref> and a new method, <c>addDeck</c>:
+We can do that with <c>subdeck</c> from <xref ref="subdeck">Section</xref> and a new function, <c>addDeck</c>:
 </p>
 
 <program xml:id="objects-arrays_piles-cards-5" interactive="activecode">

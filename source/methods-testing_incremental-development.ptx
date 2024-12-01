@@ -5,7 +5,7 @@
 <idx><h>design process</h></idx>
 People often make the mistake of writing a lot of code before they try to compile and run it.
 Then they spend way too much time debugging.
-A better approach is <em>incremental development</em>.
+A better approach is <term>incremental development</term>.
 Its key aspects are as follows:
 <ul>
 <li><p>Start with a working program and make small, incremental changes.
@@ -24,16 +24,16 @@ By the usual definition:
 </p>
 
 <p>
-The first step is to consider what a <c>distance</c> method should look like in Java.
+The first step is to consider what a <c>distance</c> function should look like in Java.
 In other words, what are the inputs (parameters) and what is the output (return value)?
-For this method, the parameters are the two points, and it is natural to represent them using four <c>double</c> values.
+For this function, the parameters are the two points, and it is natural to represent them using four <c>double</c> values.
 The return value is the distance, which should also have type <c>double</c>.
 </p>
 
 <p>
 <idx><h>stub</h></idx>
-Already we can write an outline for the method, which is sometimes called a <em>stub</em>.
-The stub includes the method declaration and a <c>return</c> statement:
+Already we can write an outline for the function, which is sometimes called a <term>stub</term>.
+The stub includes the function declaration and a <c>return</c> statement:
 </p>
 
 <program xml:id="methods-testing_incremental-development-1">
@@ -47,8 +47,8 @@ At this stage, the program doesn't do anything useful, but it is good to compile
 
 <p>
 <idx><h>testing</h></idx>
-It's usually a good idea to think about testing <em>before</em> you develop new methods; doing so can help you figure out how to implement them.
-To test the method, we can invoke it from <c>main</c> by using the sample values:
+It's usually a good idea to think about testing <term>before</term> you develop new functions; doing so can help you figure out how to implement them.
+To test the function, we can invoke it from <c>main</c> by using the sample values:
 </p>
 
 <program xml:id="methods-testing_incremental-development-2">
@@ -58,7 +58,7 @@ To test the method, we can invoke it from <c>main</c> by using the sample values
 <p>
 With these values, the horizontal distance is 3.0 and the vertical distance is 4.0.
 So the result should be 5.0, the hypotenuse of a 3-4-5 triangle.
-When you are testing a method, it is necessary to know the right answer.
+When you are testing a function, it is necessary to know the right answer.
 </p>
 
 <p>
@@ -79,13 +79,13 @@ They should be 3.0 and 4.0:
 
 <p>
 <idx><h>scaffolding</h></idx>
-We will remove the print statements when the method is finished.
-Code like that is called <em>scaffolding</em>, because it is helpful for building the program but is not part of the final product.
+We will remove the print statements when the function is finished.
+Code like that is called <term>scaffolding</term>, because it is helpful for building the program but is not part of the final product.
 </p>
 
 <p>
 The next step is to square <c>dx</c> and <c>dy</c>.
-We could use the <c>Math.pow</c> method, but it is simpler (and more efficient) to multiply each term by itself.
+We could use the <c>Math.pow</c> function, but it is simpler (and more efficient) to multiply each term by itself.
 Then we add the squares and print the result so far:
 </p>
 

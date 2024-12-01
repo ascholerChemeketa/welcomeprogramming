@@ -1,31 +1,31 @@
-<section xml:id="loops-strings_indexmethod" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>The indexOf Method</title>
+<section xml:id="loops-strings_indexfunction" xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>The indexOf function</title>
 <p>
 <idx><h>indexOf</h></idx>
 To search for a specific character in a string, you could write a <c>for</c> loop and use <c>charAt</c> as in the previous section.
-However, the <c>String</c> class already provides a method for doing just that:
+However, the <c>String</c> class already provides a function for doing just that:
 </p>
 
-<program xml:id="loops-strings_indexmethod-1">
-<xi:include href="../programs/loops-strings_indexmethod-1.cpp" parse="text"/>
+<program xml:id="loops-strings_indexfunction-1">
+<xi:include href="../programs/loops-strings_indexfunction-1.cpp" parse="text"/>
 </program>
 
 <p>
 This example finds the index of <c>'a'</c> in the string.
 But the letter appears three times, so it's not obvious what <c>indexOf</c> might do.
-According to the documentation, it returns the index of the <em>first</em> appearance.
+According to the documentation, it returns the index of the <term>first</term> appearance.
 </p>
 
 <p>
 To find subsequent appearances, you can use another version of <c>indexOf</c>, which takes a second argument that indicates where in the string to start looking:
 </p>
 
-<program xml:id="loops-strings_indexmethod-2">
-<xi:include href="../programs/loops-strings_indexmethod-2.cpp" parse="text"/>
+<program xml:id="loops-strings_indexfunction-2">
+<xi:include href="../programs/loops-strings_indexfunction-2.cpp" parse="text"/>
 </program>
 
 <p>
-To visualize how <c>indexOf</c> and other <c>String</c> methods work, it helps to draw a picture like <xref ref="fig_banana">Figure</xref>.
+To visualize how <c>indexOf</c> and other <c>String</c> functions work, it helps to draw a picture like <xref ref="fig_banana">Figure</xref>.
 The previous code starts at index 2 (the first <c>'n'</c>) and finds the next <c>'a'</c>, which is at index 3.
 </p>
 

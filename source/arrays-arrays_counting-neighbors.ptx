@@ -2,7 +2,7 @@
 <title>Counting Neighbors</title>
 <p>
 <idx><h>neighbor</h></idx>
-Now that you know about <c>try</c> and <c>catch</c>, we can use them to implement a useful method in <c>GridCanvas</c>.
+Now that you know about <c>try</c> and <c>catch</c>, we can use them to implement a useful function in <c>GridCanvas</c>.
 Part of the GoL logic is to count the number of live neighbors.
 Most cells have eight neighbors, as shown in <xref ref="fig_neighbors">Figure</xref>.
 </p>
@@ -10,7 +10,7 @@ Most cells have eight neighbors, as shown in <xref ref="fig_neighbors">Figure</x
 <p>
 However, cells on the edges and in the corners have fewer neighbors.
 If we try to count all possible neighbors, we'll go out of bounds.
-The following method uses a <c>try</c>-<c>catch</c> statement to deal with these special cases:
+The following function uses a <c>try</c>-<c>catch</c> statement to deal with these special cases:
 </p>
 
 <program xml:id="arrays-arrays_counting-neighbors-1">
@@ -22,7 +22,7 @@ Cells in the corners and along the edges have fewer neighbors.</caption>
 <image width="73%" source="external/images/grid.png" />
 </figure>
 <p>
-The <c>test</c> method takes a row index, <c>r</c>, and a column index, <c>c</c>.
+The <c>test</c> function takes a row index, <c>r</c>, and a column index, <c>c</c>.
 It tries to look up the <c>Cell</c> at that location.
 If both indexes are in bounds, the <c>Cell</c> exists.
 In that case, <c>test</c> returns <c>1</c> if the <c>Cell</c> is on.

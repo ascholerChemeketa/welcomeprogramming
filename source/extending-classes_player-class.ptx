@@ -27,7 +27,7 @@ In this example, we have to use <c>this</c> to distinguish between the instance 
 </p>
 
 <p>
-The primary method that <c>Player</c> provides is <c>play</c>, which decides which card to discard during each turn:
+The primary function that <c>Player</c> provides is <c>play</c>, which decides which card to discard during each turn:
 </p>
 
 <program xml:id="extending-classes_player-class-2">
@@ -40,7 +40,7 @@ The second parameter, <c>prev</c>, is the card on top of the discard pile.
 </p>
 
 <p>
-<c>play</c> invokes two helper methods: <c>searchForMatch</c> and <c>drawForMatch</c>.
+<c>play</c> invokes two helper functions: <c>searchForMatch</c> and <c>drawForMatch</c>.
 Since we have not written them yet, this is an example of top-down design.
 </p>
 
@@ -70,8 +70,8 @@ Otherwise it adds the card to the player's hand and repeats.
 </p>
 
 <p>
-Both <c>searchForMatch</c> and <c>drawForMatch</c> use <c>cardMatches</c>, which is a static method, also defined in <c>Player</c>.
-This method is a straightforward translation of the rules of the game:
+Both <c>searchForMatch</c> and <c>drawForMatch</c> use <c>cardMatches</c>, which is a static function, also defined in <c>Player</c>.
+This function is a straightforward translation of the rules of the game:
 </p>
 
 <program xml:id="extending-classes_player-class-5">
@@ -79,6 +79,6 @@ This method is a straightforward translation of the rules of the game:
 </program>
 
 <p>
-Finally, <c>Player</c> provides a <c>score</c> method, which computes penalty points for cards left in a player's hand at the end of the game.
+Finally, <c>Player</c> provides a <c>score</c> function, which computes penalty points for cards left in a player's hand at the end of the game.
 </p>
 </section>

@@ -2,8 +2,8 @@
 <title>More Generalization</title>
 <p>
 The previous result is similar to the <q>nested loops</q> approach in <xref ref="nested">Section</xref>.
-However, the inner loop is now encapsulated in the <c>printRow</c> method.
-We can encapsulate the outer loop in a method too:
+However, the inner loop is now encapsulated in the <c>printRow</c> function.
+We can encapsulate the outer loop in a function too:
 </p>
 
 <program xml:id="immutable-objects_more-generalization-1">
@@ -60,10 +60,10 @@ As a result, the number of columns equals the number of rows, so we get a square
 </p>
 
 <p>
-When you generalize a method appropriately, you often find that it has capabilities you did not plan.
+When you generalize a function appropriately, you often find that it has capabilities you did not plan.
 For example, you might notice that the multiplication table is symmetric.
 Since <m>ab = ba</m>, all the entries in the table appear twice.
-You could save ink by printing half of the table, and you would have to change only <em>one line</em> of <c>printTable</c>:
+You could save ink by printing half of the table, and you would have to change only <term>one line</term> of <c>printTable</c>:
 </p>
 
 <program xml:id="immutable-objects_more-generalization-5">

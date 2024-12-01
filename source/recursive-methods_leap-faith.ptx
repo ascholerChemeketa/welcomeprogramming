@@ -3,19 +3,19 @@
 <p>
 <idx><h>leap of faith</h></idx>
 Following the flow of execution is one way to read programs, but it can quickly become overwhelming.
-Another way to understand recursion is the <em>leap of faith</em>:
-when you come to a method invocation, instead of following the flow of execution, you <em>assume</em> that the method works correctly and returns the appropriate value.
+Another way to understand recursion is the <term>leap of faith</term>:
+when you come to a function invocation, instead of following the flow of execution, you <term>assume</term> that the function works correctly and returns the appropriate value.
 </p>
 
 <p>
-In fact, you are already practicing this leap of faith when you use methods in the Java library.
-When you invoke <c>Math.cos</c> or <c>System.out.println</c>, you don't think about the implementations of those methods.
+In fact, you are already practicing this leap of faith when you use functions in the Java library.
+When you invoke <c>Math.cos</c> or <c>System.out.println</c>, you don't think about the implementations of those functions.
 You just assume that they work properly.
 </p>
 
 <p>
-The same is true of other methods.
-For example, consider the method from <xref ref="boolmeth">Section</xref> that determines whether an integer has only one digit:
+The same is true of other functions.
+For example, consider the function from <xref ref="boolmeth">Section</xref> that determines whether an integer has only one digit:
 </p>
 
 <program xml:id="recursive-methods_leap-faith-1">
@@ -23,13 +23,13 @@ For example, consider the method from <xref ref="boolmeth">Section</xref> that d
 </program>
 
 <p>
-Once you convince yourself that this method is correct<mdash/>by examining and testing the code<mdash/>you can just use the method without ever looking at the implementation again.
+Once you convince yourself that this function is correct<mdash/>by examining and testing the code<mdash/>you can just use the function without ever looking at the implementation again.
 </p>
 
 <p>
-Recursive methods are no different.
+Recursive functions are no different.
 When you get to a recursive call, don't think about the flow of execution.
-Instead, <em>assume</em> that the recursive call produces the desired result.
+Instead, <term>assume</term> that the recursive call produces the desired result.
 </p>
 
 <p>
@@ -51,7 +51,7 @@ Notice how similar this version is to the original mathematical definition:
 </p>
 
 <p>
-Of course, it is strange to assume that the method works correctly when you have not finished writing it.
+Of course, it is strange to assume that the function works correctly when you have not finished writing it.
 But that's why it's called a leap of faith! <idx><h>fibonacci</h></idx>
 Another common recursively defined mathematical function is the Fibonacci sequence, which has the following definition:
 <md>

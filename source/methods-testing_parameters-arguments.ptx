@@ -1,13 +1,13 @@
 <section xml:id="methods-testing_parameters-arguments" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Parameters and Arguments</title>
 <p>
-Some of the methods we have used require <em>arguments</em>, which are the values you provide in parentheses when you invoke the method.
+Some of the functions we have used require <term>arguments</term>, which are the values you provide in parentheses when you invoke the function.
 </p>
 
 <p>
-For example, the <c>println</c> method takes a <c>String</c> argument.
+For example, the <c>println</c> function takes a <c>String</c> argument.
 To display a message, you have to provide the message: <c>System.out.println("Hello")</c>.
-Similarly, the <c>printf</c> method can take multiple arguments.
+Similarly, the <c>printf</c> function can take multiple arguments.
 The statement <c>System.out.printf("%d in = %f cm
 n", inch, cm)</c> has three arguments: the format string, the <c>inch</c> value, and the <c>cm</c> value.
 </p>
@@ -15,8 +15,8 @@ n", inch, cm)</c> has three arguments: the format string, the <c>inch</c> value,
 <p>
 <idx><h>parameter</h></idx>
 <idx><h>argument</h></idx>
-When you invoke a method, you provide the arguments.
-When you define a method, you name the <em>parameters</em>, which are variables that indicate what arguments are required.
+When you invoke a function, you provide the arguments.
+When you define a function, you name the <term>parameters</term>, which are variables that indicate what arguments are required.
 The following class shows an example:
 </p>
 
@@ -31,18 +31,18 @@ The following class shows an example:
 </listing>
 
 <p>
-The <c>printTwice</c> method has a parameter named <c>s</c> with type <c>String</c>.
+The <c>printTwice</c> function has a parameter named <c>s</c> with type <c>String</c>.
 When you invoke <c>printTwice</c>, you have to provide an argument with type <c>String</c>.
 </p>
 
 <p>
-Before the method executes, the argument gets assigned to the parameter.
+Before the function executes, the argument gets assigned to the parameter.
 In the <c>printTwice</c> example, the argument <c>"Don't make me say this twice!"</c> gets assigned to the parameter <c>s</c>.
 </p>
 
 <p>
 <idx><h>parameter passing</h></idx>
-This process is called <em>parameter passing</em>, because the value gets passed from outside the method to the inside.
+This process is called <term>parameter passing</term>, because the value gets passed from outside the function to the inside.
 An argument can be any kind of expression, so if you have a <c>String</c> variable, you can use its value as an argument:
 </p>
 
@@ -66,12 +66,12 @@ You will get an error message like this:
 <console>
 <output>
 File: Test.java  [line: 10]
-Error: method printTwice in class Test cannot be applied
+Error: function printTwice in class Test cannot be applied
        to given types;
   required: java.lang.String
   found: int
   reason: actual argument int cannot be converted to
-          java.lang.String by method invocation conversion
+          java.lang.String by function invocation conversion
 </output>
 </console>
 
@@ -89,14 +89,14 @@ For example, <c>Math.sqrt</c> requires a <c>double</c>, but if you invoke <c>Mat
 <p>
 <idx><h>local variable</h></idx>
 <idx><h>variable</h><h>local</h></idx>
-Parameters and other variables exist only inside their own methods.
-In the <c>printTwice</c> example, there is no such thing as <c>s</c> in the <c>main</c> method.
+Parameters and other variables exist only inside their own functions.
+In the <c>printTwice</c> example, there is no such thing as <c>s</c> in the <c>main</c> function.
 If you try to use it there, you'll get a compiler error.
 </p>
 
 <p>
 Similarly, inside <c>printTwice</c> there is no such thing as <c>message</c>.
 That variable belongs to <c>main</c>.
-Because variables exist only inside the methods where they are defined, they are often called <em>local variables</em>.
+Because variables exist only inside the functions where they are defined, they are often called <term>local variables</term>.
 </p>
 </section>

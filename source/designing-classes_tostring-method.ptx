@@ -1,8 +1,8 @@
-<section xml:id="designing-classes_tostring-method" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>The toString Method</title>
+<section xml:id="designing-classes_tostring-function" xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>The toString function</title>
 <p>
-Every object has a method called <c>toString</c> that returns a string representation of the object.
-When you display an object using <c>print</c> or <c>println</c>, Java invokes the object's <c>toString</c> method.
+Every object has a function called <c>toString</c> that returns a string representation of the object.
+When you display an object using <c>print</c> or <c>println</c>, Java invokes the object's <c>toString</c> function.
 </p>
 
 <p>
@@ -11,8 +11,8 @@ By default, it simply displays the type of the object and its address in hexadec
 So, say you create a <c>Time</c> object and display it with <c>println</c>:
 </p>
 
-<program xml:id="designing-classes_tostring-method-1" interactive="activecode">
-<xi:include href="../programs/designing-classes_tostring-method-1.cpp" parse="text"/>
+<program xml:id="designing-classes_tostring-function-1" interactive="activecode">
+<xi:include href="../programs/designing-classes_tostring-function-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -36,27 +36,27 @@ This address can be useful for debugging, if you want to keep track of individua
 
 <p>
 <idx><h>toString</h></idx>
-<idx><h>method</h><h>toString</h></idx>
-But you can <em>override</em> this behavior by providing your own <c>toString</c> method.
-For example, here is a <c>toString</c> method for <c>Time</c>:
+<idx><h>function</h><h>toString</h></idx>
+But you can <term>override</term> this behavior by providing your own <c>toString</c> function.
+For example, here is a <c>toString</c> function for <c>Time</c>:
 </p>
 
-<program xml:id="designing-classes_tostring-method-2">
-<xi:include href="../programs/designing-classes_tostring-method-2.cpp" parse="text"/>
+<program xml:id="designing-classes_tostring-function-2">
+<xi:include href="../programs/designing-classes_tostring-function-2.cpp" parse="text"/>
 </program>
 
 <p>
-<idx><h>instance method</h></idx>
-<idx><h>method</h><h>instance</h></idx>
-The definition does not have the keyword <c>static</c>, because it is not a static method.
-It is an <em>instance method</em>, so called because when you invoke it, you invoke it on an instance of the class.
-Instance methods are sometimes called <q>non-static</q>; you might see this term in an error message.
+<idx><h>instance function</h></idx>
+<idx><h>function</h><h>instance</h></idx>
+The definition does not have the keyword <c>static</c>, because it is not a static function.
+It is an <term>instance function</term>, so called because when you invoke it, you invoke it on an instance of the class.
+Instance functions are sometimes called <q>non-static</q>; you might see this term in an error message.
 </p>
 
 <p>
-The body of the method is similar to <c>printTime</c> in the previous section, with two changes:
+The body of the function is similar to <c>printTime</c> in the previous section, with two changes:
 <ul>
-<li><p>Inside the method, we use <c>this</c> to refer to the current instance; that is, the object the method is invoked on.</p></li>
+<li><p>Inside the function, we use <c>this</c> to refer to the current instance; that is, the object the function is invoked on.</p></li>
 <li><p>Instead of <c>printf</c>, it uses <c>String.format</c>, which returns a formatted <c>String</c> rather than displaying it.</p></li>
 </ul>
 </p>
@@ -66,8 +66,8 @@ The body of the method is similar to <c>printTime</c> in the previous section, w
 Now you can call <c>toString</c> directly:
 </p>
 
-<program xml:id="designing-classes_tostring-method-3">
-<xi:include href="../programs/designing-classes_tostring-method-3.cpp" parse="text"/>
+<program xml:id="designing-classes_tostring-function-3">
+<xi:include href="../programs/designing-classes_tostring-function-3.cpp" parse="text"/>
 </program>
 
 <p>
@@ -75,8 +75,8 @@ The value of <c>s</c> is the string <c>"11:59:59.9"</c>.
 You can also invoke <c>toString</c> indirectly by invoking <c>print</c> or <c>println</c>:
 </p>
 
-<program xml:id="designing-classes_tostring-method-4">
-<xi:include href="../programs/designing-classes_tostring-method-4.cpp" parse="text"/>
+<program xml:id="designing-classes_tostring-function-4">
+<xi:include href="../programs/designing-classes_tostring-function-4.cpp" parse="text"/>
 </program>
 
 <p>

@@ -2,7 +2,7 @@
 <title>Subdecks</title>
 <p>
 <idx><h>subdeck</h></idx> The first step of merge sort is to split the deck into two <q>subdecks</q>, each with about half of the cards.
-So we need a method that takes a deck, and a range of indexes, and returns a new deck that contains the specified subset of cards:
+So we need a function that takes a deck, and a range of indexes, and returns a new deck that contains the specified subset of cards:
 </p>
 
 <program xml:id="objects-arrays_subdecks-1" interactive="activecode">
@@ -17,7 +17,7 @@ Inside the <c>for</c> loop, the subdeck gets populated with references to <c>Car
 <p>
 <idx><h>off-by-one</h></idx>
 The length of the subdeck is <c>high - low + 1</c>, because both the low card and the high card are included.
-This sort of computation can be confusing, and forgetting the <q><c>+ 1</c></q> often leads to <em>off-by-one</em> errors.
+This sort of computation can be confusing, and forgetting the <q><c>+ 1</c></q> often leads to <term>off-by-one</term> errors.
 Drawing a picture is usually the best way to avoid them.
 </p>
 
@@ -25,7 +25,7 @@ Drawing a picture is usually the best way to avoid them.
 <idx><h>constructor</h></idx>
 <idx><h>overload</h></idx>
 <xref ref="fig_subdeck">Figure</xref> is a memory diagram of a subdeck with <c>low = 0</c> and <c>high = 4</c>.
-The result is a hand with five cards that are <em>shared</em> with the original deck; that is, they are aliased.
+The result is a hand with five cards that are <term>shared</term> with the original deck; that is, they are aliased.
 </p>
 <figure xml:id="fig_subdeck" >
 <caption>Memory diagram showing the effect of <c>subdeck</c>.</caption>

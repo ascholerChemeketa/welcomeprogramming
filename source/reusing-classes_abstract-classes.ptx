@@ -15,19 +15,19 @@ In order to work properly, subclasses need to provide one.</p></li>
 <p>
 <idx><h>protected</h></idx>
 <idx><h>abstract class</h></idx>
-<idx><h>method</h><h>abstract</h></idx>
+<idx><h>function</h><h>abstract</h></idx>
 Java provides language features to solve these problems:
 <ul>
 <li><p>We can make the <c>grid</c> attribute <c>protected</c>, which means it's accessible to subclasses but not other classes.</p></li>
 <li><p>We can make the class <c>abstract</c>, which means it cannot be instantiated.
 If you attempt to create an object for an abstract class, you will get a compiler error.</p></li>
-<li><p>We can declare <c>update</c> as an <c>abstract</c> method, meaning that it must be overridden in subclasses.
-If the subclass does not override an abstract method, you will get a compiler error.</p></li>
+<li><p>We can declare <c>update</c> as an <c>abstract</c> function, meaning that it must be overridden in subclasses.
+If the subclass does not override an abstract function, you will get a compiler error.</p></li>
 </ul>
 </p>
 
 <p>
-Here's what <c>Automaton</c> looks like as an abstract class (using the methods <c>mainloop</c> and <c>run</c> from <xref ref="refactor">Section</xref>):
+Here's what <c>Automaton</c> looks like as an abstract class (using the functions <c>mainloop</c> and <c>run</c> from <xref ref="refactor">Section</xref>):
 </p>
 
 <program xml:id="reusing-classes_abstract-classes-1">
@@ -35,14 +35,14 @@ Here's what <c>Automaton</c> looks like as an abstract class (using the methods 
 </program>
 
 <p>
-Notice that the <c>update</c> method has no body.
+Notice that the <c>update</c> function has no body.
 The declaration specifies the name, arguments, and return type.
-But it does not provide an implementation, because it is an abstract method.
+But it does not provide an implementation, because it is an abstract function.
 </p>
 
 <p>
 Notice also the word <c>abstract</c> on the first line, which declares that <c>Automaton</c> is an abstract class.
-In order to have any abstract methods, a class must be declared as abstract.
+In order to have any abstract functions, a class must be declared as abstract.
 </p>
 
 <p>
@@ -58,12 +58,12 @@ Here's what <c>Conway</c> looks like as a subclass of <c>Automaton</c>:
 </program>
 
 <p>
-<c>Conway</c> extends <c>Automaton</c>, so it inherits the <c>protected</c> instance variable <c>grid</c> and the methods <c>mainloop</c> and <c>run</c>.
+<c>Conway</c> extends <c>Automaton</c>, so it inherits the <c>protected</c> instance variable <c>grid</c> and the functions <c>mainloop</c> and <c>run</c>.
 But because <c>Automaton</c> is abstract, <c>Conway</c> has to provide <c>update</c> and a constructor (which it has already).
 </p>
 
 <p>
-Abstract classes are essentially <q>incomplete</q> class definitions that specify methods to be implemented by subclasses.
-But they also provide attributes and methods to be inherited, thus eliminating repeated code.
+Abstract classes are essentially <q>incomplete</q> class definitions that specify functions to be implemented by subclasses.
+But they also provide attributes and functions to be inherited, thus eliminating repeated code.
 </p>
 </section>

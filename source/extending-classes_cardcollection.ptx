@@ -31,7 +31,7 @@ Since this class will represent different piles and hands of cards, we'll add a 
 
 <p>
 As with the <c>Pile</c> class, we need a way to add cards to the collection.
-Here is the <c>addCard</c> method from the previous chapter:
+Here is the <c>addCard</c> function from the previous chapter:
 </p>
 
 <program xml:id="extending-classes_cardcollection-2">
@@ -41,7 +41,7 @@ Here is the <c>addCard</c> method from the previous chapter:
 <p>
 <idx><h>this</h></idx>
 Until now, we have used <c>this</c> explicitly to make it easy to identify attributes.
-Inside <c>addCard</c> and other instance methods, you can access instance variables without using the keyword <c>this</c>.
+Inside <c>addCard</c> and other instance functions, you can access instance variables without using the keyword <c>this</c>.
 So from here on, we will drop it:
 </p>
 
@@ -51,7 +51,7 @@ So from here on, we will drop it:
 
 <p>
 We also need to be able to remove cards from the collection.
-The following method takes an index, removes the card at that location, and shifts the following cards left to fill the gap:
+The following function takes an index, removes the card at that location, and shifts the following cards left to fill the gap:
 </p>
 
 <program xml:id="extending-classes_cardcollection-4">
@@ -83,7 +83,7 @@ Here is an overloaded version of <c>popCard</c> that removes and returns the las
 
 <p>
 To access the elements of an <c>ArrayList</c>, you can't use the array <c>[]</c> operator.
-Instead, you have to use the methods <c>get</c> and <c>set</c>.
+Instead, you have to use the functions <c>get</c> and <c>set</c>.
 Here is a wrapper for <c>get</c>:
 </p>
 
@@ -100,8 +100,8 @@ Here is a wrapper for <c>get</c>:
 </program>
 
 <p>
-<idx><h>modifier method</h></idx>
-<idx><h>method</h><h>modifier</h></idx>
+<idx><h>modifier function</h></idx>
+<idx><h>function</h><h>modifier</h></idx>
 In order to control the ways card collections are modified, we don't provide a wrapper for <c>set</c>.
 The only modifiers we provide are the two versions of <c>popCard</c> and the following version of <c>swapCards</c>:
 </p>

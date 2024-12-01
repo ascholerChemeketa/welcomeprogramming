@@ -2,7 +2,7 @@
 <title>UML Diagram</title>
 <p>
 At the beginning of the chapter, we had three classes: <c>Cell</c>, <c>GridCanvas</c>, and <c>Conway</c>.
-We then developed <c>Langton</c>, which had almost the same <c>main</c> and <c>mainloop</c> methods as <c>Conway</c>.
+We then developed <c>Langton</c>, which had almost the same <c>main</c> and <c>mainloop</c> functions as <c>Conway</c>.
 So we refactored the code and created <c>Automaton</c>.
 <xref ref="fig_uml2">Figure</xref> summarizes the final design.
 </p>
@@ -28,8 +28,8 @@ As it happens, <c>Graphics</c> is an abstract class, too.
 
 <p>
 <idx><h>concrete class</h></idx>
-Conway and Langton are <em>concrete classes</em>, because they provide an implementation for all of their methods.
-In particular, they implement the <c>update</c> method that was declared <c>abstract</c> in <c>Automaton</c>.
+Conway and Langton are <term>concrete classes</term>, because they provide an implementation for all of their functions.
+In particular, they implement the <c>update</c> function that was declared <c>abstract</c> in <c>Automaton</c>.
 </p>
 
 <p>

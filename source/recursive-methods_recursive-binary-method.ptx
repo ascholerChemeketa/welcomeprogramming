@@ -1,21 +1,21 @@
-<section xml:id="recursive-methods_recursive-binary-method" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Recursive Binary Method</title>
+<section xml:id="recursive-methods_recursive-binary-function" xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>Recursive Binary function</title>
 <p>
 Now, to display a number in binary, we can combine the algorithm from the previous section and the <q>count up</q> pattern from <xref ref="countup">Section</xref>.
 </p>
 
 <p>
-Here is a recursive method that displays any positive integer in binary:
+Here is a recursive function that displays any positive integer in binary:
 </p>
 
-<program xml:id="recursive-methods_recursive-binary-method-1">
-<xi:include href="../programs/recursive-methods_recursive-binary-method-1.cpp" parse="text"/>
+<program xml:id="recursive-methods_recursive-binary-function-1">
+<xi:include href="../programs/recursive-methods_recursive-binary-function-1.cpp" parse="text"/>
 </program>
 
 <p>
 If <c>value</c> is <c>0</c>, <c>displayBinary</c> does nothing (that's the base case).
-If the argument is positive, the method divides it by 2 and calls <c>displayBinary</c> recursively.
-When the recursive call returns, the method displays one digit of the result and returns (again).
+If the argument is positive, the function divides it by 2 and calls <c>displayBinary</c> recursively.
+When the recursive call returns, the function displays one digit of the result and returns (again).
 <xref ref="fig_stack4">Figure</xref> illustrates this process.
 </p>
 
@@ -24,7 +24,7 @@ When the recursive call returns, the method displays one digit of the result and
 <idx><h>diagram</h><h>stack</h></idx>
 </p>
 <figure xml:id="fig_stack4" >
-<caption>Stack diagram for the <c>displayBinary</c> method.</caption>
+<caption>Stack diagram for the <c>displayBinary</c> function.</caption>
 <image width="92.5%" source="external/images/stack4.png" />
 </figure>
 <p>
@@ -33,8 +33,8 @@ The rightmost digit, near the top of the stack, gets displayed last.
 After invoking <c>displayBinary</c>, we use <c>println</c> to complete the output:
 </p>
 
-<program xml:id="recursive-methods_recursive-binary-method-2" interactive="activecode">
-<xi:include href="../programs/recursive-methods_recursive-binary-method-2.cpp" parse="text"/>
+<program xml:id="recursive-methods_recursive-binary-function-2" interactive="activecode">
+<xi:include href="../programs/recursive-methods_recursive-binary-function-2.cpp" parse="text"/>
 </program>
 
 </section>

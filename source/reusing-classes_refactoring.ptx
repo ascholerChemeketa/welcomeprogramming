@@ -20,7 +20,7 @@ It also provides <c>run</c>, which contains the code that creates and configures
 </p>
 
 <p>
-The <c>run</c> method takes two parameters: the window <c>title</c> and the frame <c>rate</c>; that is, the number of time steps to show per second.
+The <c>run</c> function takes two parameters: the window <c>title</c> and the frame <c>rate</c>; that is, the number of time steps to show per second.
 It uses <c>title</c> when creating the <c>JFrame</c>, and it passes <c>rate</c> to <c>mainloop</c>:
 </p>
 
@@ -42,7 +42,7 @@ For example, if <c>rate</c> is 2, we should draw two frames per second, so the d
 <p>
 <idx><h>refactor</h></idx>
 <idx><h>design process</h></idx>
-This process of reorganizing existing code, without changing its behavior, is known as <em>refactoring</em>.
+This process of reorganizing existing code, without changing its behavior, is known as <term>refactoring</term>.
 We're almost finished; we just need to redesign <c>Conway</c> and <c>Langton</c> to extend <c>Automaton</c>.
 </p>
 </section>

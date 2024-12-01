@@ -1,7 +1,7 @@
 <section xml:id="immutable-objects_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Exercises</title>
 <p>
-The code for this chapter is in the <em>ch09</em> directory of <em>ThinkJavaCode2</em>.
+The code for this chapter is in the <term>ch09</term> directory of <term>ThinkJavaCode2</term>.
 See <xref ref="code">page</xref> for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 </p>
@@ -14,7 +14,7 @@ The point of this exercise is to explore Java types and fill in some of the deta
 <p>
 <idx><h>concatenate</h></idx>
 <ol>
-<li><p>Create a new program named <em>Test.java</em> and write a <c>main</c> method that contains expressions that combine various types using the <c>+</c> operator.
+<li><p>Create a new program named <term>Test.java</term> and write a <c>main</c> function that contains expressions that combine various types using the <c>+</c> operator.
 For example, what happens when you <q>add</q> a <c>String</c> and a <c>char</c>?
 Does it perform character addition or string concatenation?
 What is the type of the result?</p></li>
@@ -55,15 +55,15 @@ See what the error message is, and then see if you can figure out what is going 
 <statement>
 <p>
 <idx><h>factorial</h></idx>
-You might be sick of the <c>factorial</c> method by now, but we're going to do one more version.
+You might be sick of the <c>factorial</c> function by now, but we're going to do one more version.
 <ol>
-<li><p>Create a new program called <em>Big.java</em> and write an iterative version of <c>factorial</c> (using a <c>for</c> loop).</p></li>
+<li><p>Create a new program called <term>Big.java</term> and write an iterative version of <c>factorial</c> (using a <c>for</c> loop).</p></li>
 <li><p>Display a table of the integers from 0 to 30 along with their factorials.
 At some point around 15, you will probably see that the answers are not correct anymore.
 Why not?</p></li>
 <li><p>Convert <c>factorial</c> so that it performs its calculation using BigIntegers and returns a <c>BigInteger</c> as a result.
 You can leave the parameter alone; it will still be an integer.</p></li>
-<li><p>Try displaying the table again with your modified factorial method.
+<li><p>Try displaying the table again with your modified factorial function.
 Is it correct up to 30?
 How high can you make it go?</p></li>
 </ol>
@@ -76,7 +76,7 @@ How high can you make it go?</p></li>
 <statement>
 <p>
 Many encryption algorithms depend on the ability to raise large integers to a power.
-Here is a method that implements an efficient algorithm for integer exponentiation:
+Here is a function that implements an efficient algorithm for integer exponentiation:
 </p>
 
 <program xml:id="immutable-objects_exercises-1">
@@ -84,13 +84,13 @@ Here is a method that implements an efficient algorithm for integer exponentiati
 </program>
 
 <p>
-The problem with this method is that it works only if the result is small enough to be represented by an <c>int</c>.
+The problem with this function is that it works only if the result is small enough to be represented by an <c>int</c>.
 Rewrite it so that the result is a <c>BigInteger</c>.
 The parameters should still be integers, though.
 </p>
 
 <p>
-You should use the <c>BigInteger</c> methods <c>add</c> and <c>multiply</c>.
+You should use the <c>BigInteger</c> functions <c>add</c> and <c>multiply</c>.
 But don't use <c>BigInteger.pow</c>; that would spoil the fun.
 </p>
 </statement>
@@ -105,14 +105,14 @@ The <m>i</m>th term in the series is <m>x^i / i!</m>.
   e^x = 1 + x + x^2 / 2! + x^3 / 3! + x^4 / 4! + \ldots
 </me>
 <ol>
-<li><p>Write a method called <c>myexp</c> that takes <c>x</c> and <c>n</c> as parameters and estimates <m>e^x</m> by adding the first <c>n</c> terms of this series.
-You can use the <c>factorial</c> method from <xref ref="factorial">Section</xref> or your iterative version from the previous exercise.
+<li><p>Write a function called <c>myexp</c> that takes <c>x</c> and <c>n</c> as parameters and estimates <m>e^x</m> by adding the first <c>n</c> terms of this series.
+You can use the <c>factorial</c> function from <xref ref="factorial">Section</xref> or your iterative version from the previous exercise.
 
 <idx><h>efficiency</h></idx></p></li>
-<li><p>You can make this method more efficient by observing that the numerator of each term is the same as its predecessor multiplied by <c>x</c>, and the denominator is the same as its predecessor multiplied by <c>i</c>.
+<li><p>You can make this function more efficient by observing that the numerator of each term is the same as its predecessor multiplied by <c>x</c>, and the denominator is the same as its predecessor multiplied by <c>i</c>.
 
 Use this observation to eliminate the use of <c>Math.pow</c> and <c>factorial</c>, and check that you get the same result.</p></li>
-<li><p>Write a method called <c>check</c> that takes a parameter, <c>x</c>, and displays <c>x</c>, <c>myexp(x)</c>, and <c>Math.exp(x)</c>.
+<li><p>Write a function called <c>check</c> that takes a parameter, <c>x</c>, and displays <c>x</c>, <c>myexp(x)</c>, and <c>Math.exp(x)</c>.
 The output should look like this:
 
 
@@ -143,9 +143,9 @@ Comment on the accuracy.</p></li>
 <p>
 The goal of this exercise is to practice encapsulation and generalization using some of the examples in previous chapters.
 <ol>
-<li><p>Starting with the code in <xref ref="traversal">Section</xref>, write a method called <c>powArray</c> that takes a <c>double</c> array, <c>a</c>, and returns a new array that contains the elements of <c>a</c> squared.
+<li><p>Starting with the code in <xref ref="traversal">Section</xref>, write a function called <c>powArray</c> that takes a <c>double</c> array, <c>a</c>, and returns a new array that contains the elements of <c>a</c> squared.
 Generalize it to take a second argument and raise the elements of <c>a</c> to the given power.</p></li>
-<li><p>Starting with the code in <xref ref="enhanced">Section</xref>, write a method called <c>histogram</c> that takes an <c>int</c> array of scores from 0 to (but not including) 100, and returns a histogram of 100 counters.
+<li><p>Starting with the code in <xref ref="enhanced">Section</xref>, write a function called <c>histogram</c> that takes an <c>int</c> array of scores from 0 to (but not including) 100, and returns a histogram of 100 counters.
 Generalize it to take the number of counters as an argument.</p></li>
 </ol>
 
@@ -166,8 +166,8 @@ The following code fragment traverses a string and checks whether it has the sam
 </program>
 
 <ol>
-<li><p>Encapsulate this fragment in a method that takes a string argument and returns the final value of <c>count</c>.</p></li>
-<li><p>Test your method with multiple strings, including some that are balanced and some that are not.</p></li>
+<li><p>Encapsulate this fragment in a function that takes a string argument and returns the final value of <c>count</c>.</p></li>
+<li><p>Test your function with multiple strings, including some that are balanced and some that are not.</p></li>
 <li><p>Generalize the code so that it works on any string. What could you do to generalize it more?</p></li>
 </ol>
 </statement>

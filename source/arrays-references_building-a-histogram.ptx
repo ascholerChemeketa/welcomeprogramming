@@ -3,7 +3,7 @@
 <p>
 <idx><h>histogram</h></idx>
 <idx><h>counter</h></idx>
-If these values were exam scores<mdash/>and they would be pretty bad exam scores in that case<mdash/>the teacher might present them to the class in the form of a <em>histogram</em>.
+If these values were exam scores<mdash/>and they would be pretty bad exam scores in that case<mdash/>the teacher might present them to the class in the form of a <term>histogram</term>.
 In statistics, a histogram is a set of counters that keeps track of the number of times each value appears.
 </p>
 
@@ -13,7 +13,7 @@ To do that, we can traverse the array and count the number of elements that fall
 </p>
 
 <p>
-The following method takes an array and two integers.
+The following function takes an array and two integers.
 It returns the number of elements that fall in the range from <c>low</c> to <c>high - 1</c>:
 </p>
 
@@ -30,7 +30,7 @@ This design keeps us from counting any scores twice.
 
 <p>
 Now we can count the number of scores in each grade range.
-We add the following code to our <c>main</c> method:
+We add the following code to our <c>main</c> function:
 </p>
 
 <program xml:id="arrays-references_building-a-histogram-2">
@@ -76,7 +76,7 @@ It would be better to make a single pass through the <c>scores</c> array.
 <p>
 For each score, we already know which range it falls in<mdash/>the score itself.
 We can use that value to increment the corresponding counter.
-This code traverses the array of scores <em>only once</em> to generate the histogram:
+This code traverses the array of scores <term>only once</term> to generate the histogram:
 </p>
 
 <program xml:id="arrays-references_building-a-histogram-5">

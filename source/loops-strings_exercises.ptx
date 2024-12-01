@@ -1,7 +1,7 @@
 <section xml:id="loops-strings_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Exercises</title>
 <p>
-The code for this chapter is in the <em>ch06</em> directory of <em>ThinkJavaCode2</em>.
+The code for this chapter is in the <term>ch06</term> directory of <term>ThinkJavaCode2</term>.
 See <xref ref="code">page</xref> for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 </p>
@@ -13,7 +13,7 @@ It describes the DrJava debugger, which is a useful tool for visualizing the flo
 <exercise>
 <statement>
 <p>
-Consider the following methods (<c>main</c> and <c>loop</c>):
+Consider the following functions (<c>main</c> and <c>loop</c>):
 <ol>
 <li><p>Draw a table that shows the value of the variables <c>i</c> and <c>n</c> during the execution of <c>loop</c>.
 The table should contain one column for each variable and one line for each iteration.</p></li>
@@ -48,13 +48,13 @@ So the repetition converges quickly on the correct answer.
 </p>
 
 <p>
-Write a method called <c>squareRoot</c> that takes a <c>double</c> and returns an approximation of the square root of the parameter, using this technique.
+Write a function called <c>squareRoot</c> that takes a <c>double</c> and returns an approximation of the square root of the parameter, using this technique.
 You should not use <c>Math.sqrt</c>.
 </p>
 
 <p>
 As your initial guess, you should use <m>a/2</m>.
-Your method should iterate until it gets two consecutive estimates that differ by less than 0.0001.
+Your function should iterate until it gets two consecutive estimates that differ by less than 0.0001.
 You can use <c>Math.abs</c> to calculate the absolute value of the difference.
 </p>
 </statement>
@@ -71,7 +71,7 @@ One way to evaluate <m>\exp(-x^2)</m> is to use the infinite series expansion:
 
 <p>
 The <m>i</m>th term in this series is <m>(-1)^i x^{2i} / i!</m>.
-Write a method named <c>gauss</c> that takes <c>x</c> and <c>n</c> as arguments and returns the sum of the first <c>n</c> terms of the series.
+Write a function named <c>gauss</c> that takes <c>x</c> and <c>n</c> as arguments and returns the sum of the first <c>n</c> terms of the series.
 You should not use <c>factorial</c> or <c>pow</c>.
 </p>
 </statement>
@@ -90,7 +90,7 @@ beknow, bijoux, biopsy, cestuy, chintz, deflux, dehors, dehort,
 deinos, diluvy, dimpsy
 </blockquote>
 <p>
-Write a method called <c>isAbecedarian</c> that takes a <c>String</c> and returns a <c>boolean</c> indicating whether the word is abecedarian.
+Write a function called <c>isAbecedarian</c> that takes a <c>String</c> and returns a <c>boolean</c> indicating whether the word is abecedarian.
 </p>
 </statement>
 </exercise>
@@ -106,8 +106,8 @@ Here are some example doubloons found in the dictionary:
 Abba, Anna, appall, appearer, appeases, arraigning, beriberi, bilabial, boob, Caucasus, coco, Dada, deed, Emmett, Hannah, horseshoer, intestines, Isis, mama, Mimi, murmur, noon, Otto, papa, peep, reappear, redder, sees, Shanghaiings, Toto
 </blockquote>
 <p>
-Write a method called <c>isDoubloon</c> that takes a string and checks whether it is a doubloon.
-To ignore case, invoke the <c>toLowerCase</c> method before checking.
+Write a function called <c>isDoubloon</c> that takes a string and checks whether it is a doubloon.
+To ignore case, invoke the <c>toLowerCase</c> function before checking.
 </p>
 </statement>
 </exercise>
@@ -126,7 +126,7 @@ Imagine you are given your set of tiles as a string, like <c>"quijibo"</c>, and 
 </p>
 
 <p>
-Write a method called <c>canSpell</c> that takes two strings and checks whether the set of tiles can spell the word.
+Write a function called <c>canSpell</c> that takes two strings and checks whether the set of tiles can spell the word.
 You might have more than one tile with the same letter, but you can use each tile only once.
 </p>
 </statement>

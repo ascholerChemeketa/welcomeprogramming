@@ -5,11 +5,11 @@
 <idx><h>Graphics</h></idx>
 There are several ways to create graphics in Java; the simplest way is to use <c>java.awt.Canvas</c> and <c>java.awt.Graphics</c>.
 A <c>Canvas</c> is a blank rectangular area of the screen onto which the application can draw.
-The <c>Graphics</c> class provides basic drawing methods such as <c>drawLine</c>, <c>drawRect</c>, and <c>drawString</c>.
+The <c>Graphics</c> class provides basic drawing functions such as <c>drawLine</c>, <c>drawRect</c>, and <c>drawString</c>.
 </p>
 
 <p>
-Here is an example program that draws a circle by using the <c>fillOval</c> method:
+Here is an example program that draws a circle by using the <c>fillOval</c> function:
 </p>
 
 <program xml:id="graphics_creating-graphics-1" interactive="activecode">
@@ -21,13 +21,13 @@ Here is an example program that draws a circle by using the <c>fillOval</c> meth
 </program>
 
 <p>
-The <c>Drawing</c> class extends <c>Canvas</c>, so it has all the methods provided by <c>Canvas</c>, including <c>setSize</c>.
-You can read about the other methods in the documentation, which you can find by doing a web search for <q>Java Canvas</q>.
+The <c>Drawing</c> class extends <c>Canvas</c>, so it has all the functions provided by <c>Canvas</c>, including <c>setSize</c>.
+You can read about the other functions in the documentation, which you can find by doing a web search for <q>Java Canvas</q>.
 </p>
 
 <p>
 <idx><h>JFrame</h></idx>
-In the <c>main</c> method, we do the following:
+In the <c>main</c> function, we do the following:
 <ol>
 <li><p>Create a <c>JFrame</c> object, which is the window that will contain the canvas.</p></li>
 <li><p>Create a <c>Drawing</c> object (which is the canvas), set its width and height, and add it to the frame.</p></li>
@@ -37,12 +37,12 @@ In the <c>main</c> method, we do the following:
 
 <p>
 <idx><h>paint</h></idx>
-Once the frame is visible, the <c>paint</c> method is called whenever the canvas needs to be drawn; for example, when the window is moved or resized.
+Once the frame is visible, the <c>paint</c> function is called whenever the canvas needs to be drawn; for example, when the window is moved or resized.
 If you run this code, you should see a black circle on a gray background.
 </p>
 
 <p>
-The application doesn't end after the <c>main</c> method returns; instead, it waits for the <c>JFrame</c> to close.
+The application doesn't end after the <c>main</c> function returns; instead, it waits for the <c>JFrame</c> to close.
 When the <c>JFrame</c> closes, it calls <c>System.exit</c>, which ends the program.
 </p>
 </section>

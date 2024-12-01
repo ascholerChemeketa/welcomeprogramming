@@ -20,8 +20,8 @@ See <q>Flow of execution</q> on <xref ref="flowexec">page</xref>.</p></li>
 <li><p>Is something happening that shouldn't?
 Find code in your program that performs that function, and see if it is executing when it shouldn't.</p></li>
 <li><p>Is a section of code producing an unexpected effect?
-Make sure you understand the code, especially if it invokes methods in the Java library.
-Read the documentation for those methods, and try them out with simple test cases.
+Make sure you understand the code, especially if it invokes functions in the Java library.
+Read the documentation for those functions, and try them out with simple test cases.
 They might not do what you think they do.</p></li>
 </ul>
 </p>
@@ -33,7 +33,7 @@ If it doesn't do what you expect, the problem might not actually be the program;
 
 <p>
 <idx><h>mental model</h></idx>
-The best way to correct your mental model is to break the program into components (usually the classes and methods) and test them independently.
+The best way to correct your mental model is to break the program into components (usually the classes and functions) and test them independently.
 Once you find the discrepancy between your model and reality, you can solve the problem.
 </p>
 
@@ -52,7 +52,7 @@ More generally, use integers for countable things and floating-point numbers for
 You should probably never use the <c>==</c> operator with <c>double</c>s.
 Instead of writing <c>if (d == 1.23)</c>, do something like <c>if (Math.abs(d - 1.23) LESS .000001)</c>.</p></li>
 <li><p>When you apply the equality operator (<c>==</c>) to objects, it checks whether they are identical.
-If you meant to check equivalence, you should use the <c>equals</c> method instead.</p></li>
+If you meant to check equivalence, you should use the <c>equals</c> function instead.</p></li>
 <li><p>By default for user-defined types, <c>equals</c> checks identity.
 If you want a different notion of equivalence, you have to override it.</p></li>
 <li><p>Inheritance can lead to subtle logic errors, because you can run inherited code without realizing it.
@@ -120,24 +120,24 @@ This version is correct, and more readable for other people who haven't memorize
 </subsection>
 
 
-<subsection xml:id="debugging_my-method-doesnt-return-what-i-expect" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>My method doesn't return what I expect</title>
+<subsection xml:id="debugging_my-function-doesnt-return-what-i-expect" xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>My function doesn't return what I expect</title>
 <p>
 <idx><h>return statement</h></idx>
 <idx><h>statement</h><h>return</h></idx>
 If you have a return statement with a complex expression, you don't have a chance to display the value before returning:
 </p>
 
-<program xml:id="debugging_my-method-doesnt-return-what-i-expect-1">
-<xi:include href="../programs/debugging_my-method-doesnt-return-what-i-expect-1.cpp" parse="text"/>
+<program xml:id="debugging_my-function-doesnt-return-what-i-expect-1">
+<xi:include href="../programs/debugging_my-function-doesnt-return-what-i-expect-1.cpp" parse="text"/>
 </program>
 
 <p>
 Instead of writing everything in one statement, use temporary variables:
 </p>
 
-<program xml:id="debugging_my-method-doesnt-return-what-i-expect-2">
-<xi:include href="../programs/debugging_my-method-doesnt-return-what-i-expect-2.cpp" parse="text"/>
+<program xml:id="debugging_my-function-doesnt-return-what-i-expect-2">
+<xi:include href="../programs/debugging_my-function-doesnt-return-what-i-expect-2.cpp" parse="text"/>
 </program>
 
 <p>
@@ -152,7 +152,7 @@ And by reusing <c>x1</c> and <c>y1</c>, you made the code smaller too.
 <p>
 <idx><h>print statement</h></idx>
 <idx><h>statement</h><h>print</h></idx>
-If you use the <c>println</c> method, the output is displayed immediately, but if you use <c>print</c> (at least in some environments), the output gets stored without being displayed until the next newline.
+If you use the <c>println</c> function, the output is displayed immediately, but if you use <c>print</c> (at least in some environments), the output gets stored without being displayed until the next newline.
 If the program terminates without displaying a newline, you may never see the stored output.
 If you suspect that this is happening, change some or all of the <c>print</c> statements to <c>println</c>.
 </p>
@@ -267,14 +267,14 @@ Or even better, you will learn to avoid that type of bug for good.
 </p>
 
 <p>
-<em>Allen Downey</em> is a professor of computer science at Olin College of Engineering.
+<term>Allen Downey</term> is a professor of computer science at Olin College of Engineering.
 He has taught computer science at Wellesley College, Colby College, and UC Berkeley.
 He has a PhD in computer science from UC Berkeley and master's and bachelor's degrees from MIT.
-Allen is the creator of the best-selling Think series for O'Reilly, which includes <em>Think Python</em>, <em>Think Complexity</em>, <em>Think DSP</em>, and <em>Think Bayes</em>.
+Allen is the creator of the best-selling Think series for O'Reilly, which includes <term>Think Python</term>, <term>Think Complexity</term>, <term>Think DSP</term>, and <term>Think Bayes</term>.
 </p>
 
 <p>
-<em>Chris Mayfield</em> is an associate professor of computer science at James Madison University, with a research focus on CS education and professional development.
+<term>Chris Mayfield</term> is an associate professor of computer science at James Madison University, with a research focus on CS education and professional development.
 He has a PhD in computer science from Purdue University and bachelor's degrees in CS and German from the University of Utah.
 </p>
 

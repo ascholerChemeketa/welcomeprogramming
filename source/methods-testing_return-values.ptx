@@ -2,7 +2,7 @@
 <title>Return Values</title>
 <p>
 <idx><h>void</h></idx>
-When you invoke a <c>void</c> method, the invocation is usually on a line all by itself.
+When you invoke a <c>void</c> function, the invocation is usually on a line all by itself.
 For example:
 </p>
 
@@ -11,7 +11,7 @@ For example:
 </program>
 
 <p>
-On the other hand, when you invoke a value-returning method, you have to do something with the return value.
+On the other hand, when you invoke a value-returning function, you have to do something with the return value.
 We usually assign it to a variable or use it as part of an expression, like this:
 </p>
 
@@ -20,23 +20,23 @@ We usually assign it to a variable or use it as part of an expression, like this
 </program>
 
 <p>
-<idx><h>value method</h></idx>
-<idx><h>method</h><h>value</h></idx>
-Compared to <c>void</c> methods, value-returning methods differ in two ways:
+<idx><h>value function</h></idx>
+<idx><h>function</h><h>value</h></idx>
+Compared to <c>void</c> functions, value-returning functions differ in two ways:
 </p>
 
 <p>
 <idx><h>return type</h></idx>
 <idx><h>return value</h></idx>
 <ul>
-<li><p>They declare the type of the return value (the <em>return type</em>).</p></li>
-<li><p>They use at least one <c>return</c> statement to provide a <em>return value</em>.</p></li>
+<li><p>They declare the type of the return value (the <term>return type</term>).</p></li>
+<li><p>They use at least one <c>return</c> statement to provide a <term>return value</term>.</p></li>
 </ul>
 </p>
 
 <p>
-Here's an example from a program named <em>Circle.java</em>.
-The <c>calculateArea</c> method takes a <c>double</c> as a parameter and returns the area of a circle with that radius (i.e., <m>\pi r^2</m>):
+Here's an example from a program named <term>Circle.java</term>.
+The <c>calculateArea</c> function takes a <c>double</c> as a parameter and returns the area of a circle with that radius (i.e., <m>\pi r^2</m>):
 </p>
 
 <program xml:id="methods-testing_return-values-3">
@@ -44,15 +44,15 @@ The <c>calculateArea</c> method takes a <c>double</c> as a parameter and returns
 </program>
 
 <p>
-As usual, this method is <c>public</c> and <c>static</c>.
-But in the place where we are used to seeing <c>void</c>, we see <c>double</c>, which means that the return value from this method is a <c>double</c>.
+As usual, this function is <c>public</c> and <c>static</c>.
+But in the place where we are used to seeing <c>void</c>, we see <c>double</c>, which means that the return value from this function is a <c>double</c>.
 </p>
 
 <p>
 <idx><h>return</h></idx>
 <idx><h>statement</h><h>return</h></idx>
-The last line is a new form of the <c>return</c> statement that means, <q>Return immediately from this method, and use the following expression as the return value.</q>
-The expression you provide can be arbitrarily complex, so we could have written this method more concisely:
+The last line is a new form of the <c>return</c> statement that means, <q>Return immediately from this function, and use the following expression as the return value.</q>
+The expression you provide can be arbitrarily complex, so we could have written this function more concisely:
 </p>
 
 <program xml:id="methods-testing_return-values-4">
@@ -62,12 +62,12 @@ The expression you provide can be arbitrarily complex, so we could have written 
 <p>
 <idx><h>temporary variable</h></idx>
 <idx><h>variable</h><h>temporary</h></idx>
-On the other hand, <em>temporary variables</em> like <c>result</c> often make debugging easier, especially when you are stepping through code by using an interactive debugger (see <xref ref="debugger">Appendix</xref>).
+On the other hand, <term>temporary variables</term> like <c>result</c> often make debugging easier, especially when you are stepping through code by using an interactive debugger (see <xref ref="debugger">Appendix</xref>).
 </p>
 
 <p>
 <xref ref="fig_param">Figure</xref> illustrates how data values flows through the program.
-When the <c>main</c> method invokes <c>calculateArea</c>, the value <c>5.0</c> is assigned to the parameter <c>radius</c>.
+When the <c>main</c> function invokes <c>calculateArea</c>, the value <c>5.0</c> is assigned to the parameter <c>radius</c>.
 <c>calculateArea</c> then returns the value <c>78.54</c>, which is assigned to the variable <c>area</c>.
 </p>
 <figure xml:id="fig_param" >
@@ -75,8 +75,8 @@ When the <c>main</c> method invokes <c>calculateArea</c>, the value <c>5.0</c> i
 <image width="73%" source="external/images/param.png" />
 </figure>
 <p>
-The type of the expression in the <c>return</c> statement must match the return type of the method itself.
-When you declare that the return type is <c>double</c>, you are making a promise that this method will eventually produce a <c>double</c> value.
+The type of the expression in the <c>return</c> statement must match the return type of the function itself.
+When you declare that the return type is <c>double</c>, you are making a promise that this function will eventually produce a <c>double</c> value.
 If you try to <c>return</c> with no expression, or <c>return</c> an expression with the wrong type, the compiler will give an error.
 </p>
 </section>

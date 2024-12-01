@@ -1,22 +1,22 @@
 <section xml:id="objects-arrays_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Exercises</title>
 <p>
-The code for this chapter is in the <em>ch13</em> directory of <em>ThinkJavaCode2</em>.
+The code for this chapter is in the <term>ch13</term> directory of <term>ThinkJavaCode2</term>.
 See <xref ref="code">page</xref> for instructions on how to download the repository.
 Before you start the exercises, we recommend that you compile and run the examples.
 </p>
 <exercise>
 <statement>
 <p>
-Write a <c>toString</c> method for the <c>Deck</c> class.
+Write a <c>toString</c> function for the <c>Deck</c> class.
 It should return a single string that represents the cards in the deck.
-When it's printed, this string should display the same results as the <c>print</c> method in <xref ref="deck">Section</xref>.
+When it's printed, this string should display the same results as the <c>print</c> function in <xref ref="deck">Section</xref>.
 </p>
 
 <p>
 <idx><h>StringBuilder</h></idx>
 <idx><h>efficiency</h></idx>
-<em>Hint:</em> You can use the <c>+</c> operator to concatenate strings, but that is not very efficient.
+<term>Hint:</term> You can use the <c>+</c> operator to concatenate strings, but that is not very efficient.
 Consider using <c>StringBuilder</c> instead; see <xref ref="stringbuilder">Section</xref>.
 </p>
 </statement>
@@ -27,14 +27,14 @@ Consider using <c>StringBuilder</c> instead; see <xref ref="stringbuilder">Secti
 <p>
 The goal of this exercise is to implement the shuffling algorithm from this chapter.
 <ol>
-<li><p>In the repository for this book, you should find the file named <em>Deck.java</em>.
+<li><p>In the repository for this book, you should find the file named <term>Deck.java</term>.
 Check that you can compile it in your environment.</p></li>
-<li><p>Implement the <c>randomInt</c> method.
-You can use the <c>nextInt</c> method provided by <c>java.util.Random</c>, which you saw in <xref ref="random">Section</xref>.
+<li><p>Implement the <c>randomInt</c> function.
+You can use the <c>nextInt</c> function provided by <c>java.util.Random</c>, which you saw in <xref ref="random">Section</xref>.
 
-<em>Hint:</em> To avoid creating a <c>Random</c> object every time <c>randomInt</c> is invoked, consider defining a class variable.</p></li>
-<li><p>Write a <c>swapCards</c> method that takes two indexes and swaps the cards at the given locations.</p></li>
-<li><p>Fill in the <c>shuffle</c> method by using the algorithm in <xref ref="shuffle">Section</xref>.</p></li>
+<term>Hint:</term> To avoid creating a <c>Random</c> object every time <c>randomInt</c> is invoked, consider defining a class variable.</p></li>
+<li><p>Write a <c>swapCards</c> function that takes two indexes and swaps the cards at the given locations.</p></li>
+<li><p>Fill in the <c>shuffle</c> function by using the algorithm in <xref ref="shuffle">Section</xref>.</p></li>
 </ol>
 
 </p>
@@ -45,12 +45,12 @@ You can use the <c>nextInt</c> method provided by <c>java.util.Random</c>, which
 <statement>
 <p>
 The goal of this exercise is to implement the sorting algorithms from this chapter.
-Use the <em>Deck.java</em> file from the previous exercise or create a new one from scratch.
+Use the <term>Deck.java</term> file from the previous exercise or create a new one from scratch.
 <ol>
-<li><p>Implement the <c>indexLowest</c> method.
-Use the <c>Card.compareTo</c> method to find the lowest card in a given range of the deck, from <c>lowIndex</c> to <c>highIndex</c>, including both.</p></li>
+<li><p>Implement the <c>indexLowest</c> function.
+Use the <c>Card.compareTo</c> function to find the lowest card in a given range of the deck, from <c>lowIndex</c> to <c>highIndex</c>, including both.</p></li>
 <li><p>Fill in <c>selectionSort</c> by using the algorithm in <xref ref="sorting">Section</xref>.</p></li>
-<li><p>Using the pseudocode in <xref ref="mergesort">Section</xref>, implement the <c>merge</c> method.
+<li><p>Using the pseudocode in <xref ref="mergesort">Section</xref>, implement the <c>merge</c> function.
 The best way to test it is to build and shuffle a deck.
 Then use <c>subdeck</c> to form two small subdecks, and use selection sort to sort them.
 Finally, pass the two halves to <c>merge</c> and see if it works.
@@ -82,13 +82,13 @@ It also includes an analysis of their efficiency.
 <p>
 For example, <q>insertion sort</q> is an algorithm that inserts elements into place, one at a time.
 Read about it on the website and play the animations.
-Then write a method named <c>insertionSort</c> that implements this algorithm.
+Then write a function named <c>insertionSort</c> that implements this algorithm.
 </p>
 
 <p>
 One goal of this exercise is to practice top-down design.
-Your solution should use a helper method, named <c>insert</c>, that implements the inner loop of the algorithm.
-<c>insertionSort</c> should invoke this method <m>n-1</m> times.
+Your solution should use a helper function, named <c>insert</c>, that implements the inner loop of the algorithm.
+<c>insertionSort</c> should invoke this function <m>n-1</m> times.
 </p>
 </statement>
 </exercise>
@@ -96,14 +96,14 @@ Your solution should use a helper method, named <c>insert</c>, that implements t
 <exercise>
 <statement>
 <p>
-Find and open the file <em>War.java</em> in the repository.
-The <c>main</c> method contains all the code from the last section of this chapter.
+Find and open the file <term>War.java</term> in the repository.
+The <c>main</c> function contains all the code from the last section of this chapter.
 Check that you can compile and run this code before proceeding.
 </p>
 
 <p>
 The program is incomplete; it does not handle the case when two cards have the same rank.
-Finish implementing the <c>main</c> method, beginning at the line that says: <c>// it's a tie</c>.
+Finish implementing the <c>main</c> function, beginning at the line that says: <c>// it's a tie</c>.
 </p>
 
 <p>

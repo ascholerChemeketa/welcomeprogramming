@@ -30,7 +30,7 @@ Go to the section titled <q>Infinite loop</q>.
 <li><p>Most of the time, an infinite recursion will cause the program to run for a while and then produce a <c>StackOverflowError</c>.
 If that happens, go to the section titled <q>Infinite recursion</q>.
 
-If you are not getting a <c>StackOverflowError</c>, but you suspect there is a problem with a recursive method, you can still use the techniques in the infinite recursion section.</p></li>
+If you are not getting a <c>StackOverflowError</c>, but you suspect there is a problem with a recursive function, you can still use the techniques in the infinite recursion section.</p></li>
 <li><p>If neither of the previous suggestions helps, you might not understand the flow of execution in your program.
 Go to the section titled <q>Flow of execution</q>.</p></li>
 </ul>
@@ -71,17 +71,17 @@ But if the program is slow, it may take a long time to fill the stack.
 </p>
 
 <p>
-If you know which method is causing an infinite recursion, check that there is a base case.
-There should be a condition that makes the method return without making a recursive invocation.
+If you know which function is causing an infinite recursion, check that there is a base case.
+There should be a condition that makes the function return without making a recursive invocation.
 If not, you need to rethink the algorithm and identify a base case.
 </p>
 
 <p>
-If there is a base case, but the program doesn't seem to be reaching it, add a print statement at the beginning of the method that displays the parameters.
+If there is a base case, but the program doesn't seem to be reaching it, add a print statement at the beginning of the function that displays the parameters.
 </p>
 
 <p>
-Now when you run the program, you see a few lines of output every time the method is invoked, and you can see the values of the parameters.
+Now when you run the program, you see a few lines of output every time the function is invoked, and you can see the values of the parameters.
 If the parameters are not moving toward the base case, you might see why not.
 </p>
 </subsubsection>
@@ -92,12 +92,12 @@ If the parameters are not moving toward the base case, you might see why not.
 <p>
 <idx><h>flow of execution</h></idx>
 <idx><h>tracing</h></idx>
-If you are not sure how the flow of execution is moving through your program, add print statements to the beginning of each method with a message like <c>"entering method foo"</c>, where <c>foo</c> is the name of the method.
-Now when you run the program, it displays a trace of each method as it is invoked.
+If you are not sure how the flow of execution is moving through your program, add print statements to the beginning of each function with a message like <c>"entering function foo"</c>, where <c>foo</c> is the name of the function.
+Now when you run the program, it displays a trace of each function as it is invoked.
 </p>
 
 <p>
-You can also display the arguments each method receives.
+You can also display the arguments each function receives.
 When you run the program, check whether the values are reasonable, and check for one of the most common errors<mdash/>providing arguments in the wrong order.
 </p>
 </subsubsection>
@@ -111,7 +111,7 @@ When you run the program, check whether the values are reasonable, and check for
 <idx><h>exception</h></idx>
 <idx><h>stack trace</h></idx>
 When an exception occurs, Java displays a message that includes the name of the exception, the line of the program where the exception occurred, and a stack trace.
-The stack trace includes the method that was running, the method that invoked it, the method that invoked that one, and so on.
+The stack trace includes the function that was running, the function that invoked it, the function that invoked that one, and so on.
 </p>
 
 <p>
@@ -122,7 +122,7 @@ The first step is to examine the place in the program where the error occurred a
 <p>
 <idx><h>NullPointerException</h></idx> 
 
-You tried to access an instance variable or invoke a method on an object that is currently <c>null</c>.
+You tried to access an instance variable or invoke a function on an object that is currently <c>null</c>.
 You should figure out which variable is <c>null</c> and then figure out how it got to be that way.
 
 Remember that when you declare a variable with an array type, its elements are initially <c>null</c> until you assign a value to them.
@@ -145,7 +145,7 @@ Is the index the right value?
 
 Now work your way backward through the program and see where the array and the index come from.
 Find the nearest assignment statement and see if it is doing the right thing.
-If either one is a parameter, go to the place where the method is invoked and see where the values are coming from.</p></li>
+If either one is a parameter, go to the place where the function is invoked and see where the values are coming from.</p></li>
 <li>
 <title>StackOverflowError:</title>
 <p>
@@ -189,7 +189,7 @@ As you develop a program, you should write code to generate concise, informative
 
 <p>
 To simplify the program, scale down the problem the program is working on.
-For example, if you are sorting an array, sort a <em>small</em> array.
+For example, if you are sorting an array, sort a <term>small</term> array.
 If the program takes input from the user, give it the simplest input that causes the error.
 </p>
 
@@ -198,7 +198,7 @@ If the program takes input from the user, give it the simplest input that causes
 Also, clean up the code.
 Remove unnecessary or experimental parts, and reorganize the program to make it easier to read.
 For example, if you suspect that the error is in a deeply nested part of the program, rewrite that part with a simpler structure.
-If you suspect a large method, split it into smaller methods and test them separately.
+If you suspect a large function, split it into smaller functions and test them separately.
 </p>
 
 <p>

@@ -8,11 +8,11 @@ In <xref ref="shuffle">Section</xref>, we introduced top-down design. In this wa
 <p>
 <idx><h>bottom-up design</h></idx>
 <idx><h>design process</h></idx>
-In this section, we present <em>bottom-up design</em>, which goes the other way around: first we identify simple pieces we need and then we assemble them into more-complex algorithms.
+In this section, we present <term>bottom-up design</term>, which goes the other way around: first we identify simple pieces we need and then we assemble them into more-complex algorithms.
 </p>
 
 <p>
-Looking at the rules of Crazy Eights, we can identify some of the methods we'll need:
+Looking at the rules of Crazy Eights, we can identify some of the functions we'll need:
 <ul>
 <li><p>Create the deck, the players, and the discard and draw piles. Deal the cards and set up the game. (<c>Eights</c> constructor)</p></li>
 <li><p>Check whether the game is over. (<c>isDone</c>)</p></li>
@@ -44,7 +44,7 @@ The <c>Eights</c> class also includes a draw pile, a discard pile, and a <c>Scan
 
 <p>
 The constructor for <c>Eights</c> initializes the instance variables and deals the cards, similar to <xref ref="dealing">Section</xref>.
-The next piece we'll need is a method that checks whether the game is over.
+The next piece we'll need is a function that checks whether the game is over.
 If either hand is empty, we're done:
 </p>
 
@@ -54,7 +54,7 @@ If either hand is empty, we're done:
 
 <p>
 When the draw pile is empty, we have to shuffle the discard pile.
-Here is a method for that:
+Here is a function for that:
 </p>
 
 <program xml:id="extending-classes_eights-class-3">
@@ -65,7 +65,7 @@ Here is a method for that:
 The first line saves the top card from <c>discardPile</c>.
 The next line transfers the rest of the cards to <c>drawPile</c>.
 Then we put the saved card back into <c>discardPile</c> and shuffle <c>drawPile</c>.
-We can use <c>reshuffle</c> as part of the <c>draw</c> method:
+We can use <c>reshuffle</c> as part of the <c>draw</c> function:
 </p>
 
 <program xml:id="extending-classes_eights-class-4">
@@ -73,7 +73,7 @@ We can use <c>reshuffle</c> as part of the <c>draw</c> method:
 </program>
 
 <p>
-The <c>nextPlayer</c> method takes the current player as a parameter and returns the player who should go next:
+The <c>nextPlayer</c> function takes the current player as a parameter and returns the player who should go next:
 </p>
 
 <program xml:id="extending-classes_eights-class-5">
@@ -81,9 +81,9 @@ The <c>nextPlayer</c> method takes the current player as a parameter and returns
 </program>
 
 <p>
-The last method from our bottom-up design is <c>displayState</c>.
+The last function from our bottom-up design is <c>displayState</c>.
 It displays the hand of each player, the contents of the discard pile, and the number of cards in the draw pile.
-Finally, it waits for the user to press the <em>Enter</em> key:
+Finally, it waits for the user to press the <term>Enter</term> key:
 </p>
 
 <program xml:id="extending-classes_eights-class-6">
@@ -101,7 +101,7 @@ The result is the card the player chose, which is added to the discard pile:
 </program>
 
 <p>
-Finally, we use <c>takeTurn</c> and the other methods to write <c>playGame</c>:
+Finally, we use <c>takeTurn</c> and the other functions to write <c>playGame</c>:
 </p>
 
 <program xml:id="extending-classes_eights-class-8">
@@ -110,7 +110,7 @@ Finally, we use <c>takeTurn</c> and the other methods to write <c>playGame</c>:
 
 <p>
 Done!
-The result of bottom-up design is similar to top-down: we have a high-level method that calls helper methods.
+The result of bottom-up design is similar to top-down: we have a high-level function that calls helper functions.
 The difference is the development process we used to arrive at this solution.
 </p>
 </section>

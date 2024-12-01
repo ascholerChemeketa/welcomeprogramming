@@ -3,20 +3,20 @@
 <p>
 <idx><h>design process</h></idx>
 <idx><h>encapsulation</h><h>and generalization</h></idx>
-One challenge of programming, especially for beginners, is figuring out how to divide a program into methods.
-In this section, we present a <em>design process</em> that allows you to divide a program into methods as you go along.
+One challenge of programming, especially for beginners, is figuring out how to divide a program into functions.
+In this section, we present a <term>design process</term> that allows you to divide a program into functions as you go along.
 The process is called <q>encapsulation and generalization</q>.
 The essential steps are as follows:
 <ol>
-<li><p>Write a few lines of code in <c>main</c> or another method, and test them.</p></li>
-<li><p>When they are working, wrap them in a new method and test again.</p></li>
+<li><p>Write a few lines of code in <c>main</c> or another function, and test them.</p></li>
+<li><p>When they are working, wrap them in a new function and test again.</p></li>
 <li><p>If it's appropriate, replace literal values with variables and parameters.</p></li>
 </ol>
 </p>
 
 <p>
 <idx><h>table</h><h>two-dimensional</h></idx>
-To demonstrate this process, we'll develop methods that display multiplication tables.
+To demonstrate this process, we'll develop functions that display multiplication tables.
 We begin by writing and testing a few lines of code.
 Here is a loop that displays the multiples of two, all on one line:
 </p>
@@ -44,7 +44,7 @@ The output of the code so far is shown here:
 
 <p>
 <idx><h>encapsulate</h></idx>
-The next step is to <em>encapsulate</em> the code; that is, we <q>wrap</q> the code in a method:
+The next step is to <term>encapsulate</term> the code; that is, we <q>wrap</q> the code in a function:
 </p>
 
 <program xml:id="immutable-objects_incremental-design-2">
@@ -53,8 +53,8 @@ The next step is to <em>encapsulate</em> the code; that is, we <q>wrap</q> the c
 
 <p>
 <idx><h>generalize</h></idx>
-Finally, we <em>generalize</em> the method to print multiples of other numbers by replacing the constant value <c>2</c> with a parameter <c>n</c>.
-This step is called <q>generalization</q>, because it makes the method more general (less specific):
+Finally, we <term>generalize</term> the function to print multiples of other numbers by replacing the constant value <c>2</c> with a parameter <c>n</c>.
+This step is called <q>generalization</q>, because it makes the function more general (less specific):
 </p>
 
 <program xml:id="immutable-objects_incremental-design-3">
@@ -62,7 +62,7 @@ This step is called <q>generalization</q>, because it makes the method more gene
 </program>
 
 <p>
-Invoking this method with the argument <c>2</c> yields the same output as before.
+Invoking this function with the argument <c>2</c> yields the same output as before.
 With the argument <c>3</c>, the output is as follows:
 </p>
 

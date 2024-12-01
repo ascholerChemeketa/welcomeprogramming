@@ -32,7 +32,7 @@ The return value is a 2D array of integers with the same size as <c>grid</c>.
 <image width="93%" source="external/images/figure15-6.png" />
 </figure>
 <p>
-In contrast to the <c>draw</c> method of <c>GridCanvas</c>, which uses enhanced <c>for</c> loops, <c>countNeighbors</c> uses standard <c>for</c> loops.
+In contrast to the <c>draw</c> function of <c>GridCanvas</c>, which uses enhanced <c>for</c> loops, <c>countNeighbors</c> uses standard <c>for</c> loops.
 The reason is that, in this example, we need the indexes <c>r</c> and <c>c</c> to store the neighbor counts.
 </p>
 
@@ -53,7 +53,7 @@ The reason is that, in this example, we need the indexes <c>r</c> and <c>c</c> t
 </program>
 
 <p>
-Notice that <c>updateGrid</c> and <c>updateCell</c> are both <c>private</c>, because they are helper methods not intended to be invoked from outside the class.
+Notice that <c>updateGrid</c> and <c>updateCell</c> are both <c>private</c>, because they are helper functions not intended to be invoked from outside the class.
 <c>updateCell</c> is also <c>static</c>, because it does not depend on <c>grid</c>.
 </p>
 

@@ -3,18 +3,18 @@
 <p>
 <idx><h>mutable</h></idx>
 <idx><h>immutable</h></idx>
-<c>Point</c>s and <c>Rectangle</c>s are <em>mutable</em> objects, because their attributes can be modified.
-You can modify their attributes directly, like <c>box.x = 15</c>, or you can invoke methods that modify their attributes, like <c>box.translate(15, 0)</c>.
+<c>Point</c>s and <c>Rectangle</c>s are <term>mutable</term> objects, because their attributes can be modified.
+You can modify their attributes directly, like <c>box.x = 15</c>, or you can invoke functions that modify their attributes, like <c>box.translate(15, 0)</c>.
 </p>
 
 <p>
 In contrast, immutable objects like <c>String</c>s and <c>Integer</c>s cannot be modified.
-They don't allow direct access to their attributes or provide methods that change them.
+They don't allow direct access to their attributes or provide functions that change them.
 </p>
 
 <p>
 Immutable objects have advantages that help improve the reliability and performance of programs.
-You can pass strings (and other immutable objects) to methods without worrying about their contents changing as a side-effect of the method.
+You can pass strings (and other immutable objects) to functions without worrying about their contents changing as a side-effect of the function.
 That makes programs easier to debug and more reliable.
 </p>
 

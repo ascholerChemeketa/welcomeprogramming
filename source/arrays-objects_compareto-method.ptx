@@ -1,25 +1,25 @@
-<section xml:id="arrays-objects_compareto-method" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>The compareTo Method</title>
+<section xml:id="arrays-objects_compareto-function" xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>The compareTo function</title>
 <p>
 <idx><h>equivalent</h></idx>
-As you saw in <xref ref="equals">Section</xref>, it's helpful to create an <c>equals</c> method to test whether two objects are equivalent:
+As you saw in <xref ref="equals">Section</xref>, it's helpful to create an <c>equals</c> function to test whether two objects are equivalent:
 </p>
 
-<program xml:id="arrays-objects_compareto-method-1">
-<xi:include href="../programs/arrays-objects_compareto-method-1.cpp" parse="text"/>
+<program xml:id="arrays-objects_compareto-function-1">
+<xi:include href="../programs/arrays-objects_compareto-function-1.cpp" parse="text"/>
 </program>
 
 <p>
 <idx><h>operator</h><h>logical</h></idx>
 <idx><h>logical operator</h></idx>
-It would also be nice to have a method for comparing cards, so we can tell if one is higher or lower than another.
+It would also be nice to have a function for comparing cards, so we can tell if one is higher or lower than another.
 For primitive types, we can use comparison operators like <c>LESS</c> and <c>MORE</c> to compare values.
 But these operators don't work for object types.
 </p>
 
 <p>
-For strings, Java provides a <c>compareTo</c> method, as you saw in <xref ref="strcmp">Section</xref>.
-We can write our own version of <c>compareTo</c> for the classes that we define, as we did for the <c>equals</c> method.
+For strings, Java provides a <c>compareTo</c> function, as you saw in <xref ref="strcmp">Section</xref>.
+We can write our own version of <c>compareTo</c> for the classes that we define, as we did for the <c>equals</c> function.
 </p>
 
 <p>
@@ -48,8 +48,8 @@ So for now, let's say that suit is more important.
 With that decided, we can write <c>compareTo</c> as follows:
 </p>
 
-<program xml:id="arrays-objects_compareto-method-2">
-<xi:include href="../programs/arrays-objects_compareto-method-2.cpp" parse="text"/>
+<program xml:id="arrays-objects_compareto-function-2">
+<xi:include href="../programs/arrays-objects_compareto-function-2.cpp" parse="text"/>
 </program>
 
 <p>

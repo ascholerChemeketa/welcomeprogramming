@@ -13,13 +13,13 @@ The following code compiles and runs, but it always displays <c>Goodbye!</c><nbs
 </program>
 
 <p>
-The problem is that the <c>==</c> operator checks whether the two operands refer to the <em>same object</em>.
+The problem is that the <c>==</c> operator checks whether the two operands refer to the <term>same object</term>.
 Even if the answer is <c>"yes"</c>, it will refer to a different object in memory than the literal string <c>"yes"</c> in the code.
 You'll learn more about objects and references in the next chapter.
 </p>
 
 <p>
-The correct way to compare strings is with the <c>equals</c> method, like this:
+The correct way to compare strings is with the <c>equals</c> function, like this:
 </p>
 
 <program xml:id="loops-strings_string-comparison-2">
@@ -28,7 +28,7 @@ The correct way to compare strings is with the <c>equals</c> method, like this:
 
 <p>
 This example invokes <c>equals</c> on <c>answer</c> and passes <c>"yes"</c> as an argument.
-The <c>equals</c> method returns <c>true</c> if the strings contain the same characters; otherwise, it returns <c>false</c>.
+The <c>equals</c> function returns <c>true</c> if the strings contain the same characters; otherwise, it returns <c>false</c>.
 </p>
 
 <p>
@@ -46,7 +46,7 @@ In the preceding code, <c>compareTo</c> returns positive <c>8</c>, because the s
 </p>
 
 <p>
-If the first string (the one on which the method is invoked) comes earlier in the alphabet, the difference is negative.
+If the first string (the one on which the function is invoked) comes earlier in the alphabet, the difference is negative.
 If it comes later in the alphabet, the difference is positive.
 If the strings are equal, their difference is zero.
 </p>

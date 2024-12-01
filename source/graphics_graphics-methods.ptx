@@ -1,8 +1,8 @@
 <section xml:id="graphics_graphics-methods" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Graphics Methods</title>
+<title>Graphics functions</title>
 <p>
 <idx><h>coordinate</h></idx>
-You are probably used to Cartesian <em>coordinates</em>, where <m>x</m> and <m>y</m> values can be positive or negative.
+You are probably used to Cartesian <term>coordinates</term>, where <m>x</m> and <m>y</m> values can be positive or negative.
 In contrast, Java uses a coordinate system where the origin is in the upper-left corner.
 That way, <m>x</m> and <m>y</m> can always be positive integers.
 <xref ref="fig_coordinates">Figure</xref> shows these coordinate systems side by side.
@@ -13,11 +13,11 @@ That way, <m>x</m> and <m>y</m> can always be positive integers.
 </figure>
 <p>
 <idx><h>pixel</h></idx>
-Graphical coordinates are measured in <em>pixels</em>; each pixel corresponds to a dot on the screen.
+Graphical coordinates are measured in <term>pixels</term>; each pixel corresponds to a dot on the screen.
 </p>
 
 <p>
-To draw on the canvas, you invoke methods on a <c>Graphics</c> object.
+To draw on the canvas, you invoke functions on a <c>Graphics</c> object.
 You don't have to create the <c>Graphics</c> object; it gets created when you create the <c>Canvas</c>, and it gets passed as an argument to <c>paint</c>.
 </p>
 
@@ -31,7 +31,7 @@ The previous example used <c>fillOval</c>, which has the following signature:
 
 <p>
 <idx><h>bounding box</h></idx>
-The four parameters specify a <em>bounding box</em>, which is the rectangle in which the oval is drawn.
+The four parameters specify a <term>bounding box</term>, which is the rectangle in which the oval is drawn.
 <c>x</c> and <c>y</c> specify the location of the upper-left corner of the bounding box.
 The bounding box itself is not drawn (see <xref ref="fig_circle">Figure</xref>).
 </p>
@@ -49,7 +49,7 @@ To choose the color of a shape, invoke <c>setColor</c> on the <c>Graphics</c> ob
 </program>
 
 <p>
-The <c>setColor</c> method determines the color of everything that gets drawn afterward.
+The <c>setColor</c> function determines the color of everything that gets drawn afterward.
 <c>Color.red</c> is a constant provided by the <c>Color</c> class; to use it, you have to <c>import java.awt.Color</c>.
 Other colors include the following:
 </p>
@@ -63,7 +63,7 @@ GREEN       MAGENTA   ORANGE   PINK       WHITE   YELLOW
 
 <p>
 <idx><h>RGB</h></idx>
-You can create your own colors by specifying the red, green, and blue (<em>RGB</em>) components.
+You can create your own colors by specifying the red, green, and blue (<term>RGB</term>) components.
 For example:
 </p>
 

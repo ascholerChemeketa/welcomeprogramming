@@ -2,8 +2,8 @@
 <title>Multiple Parameters</title>
 <p>
 <idx><h>parameter</h><h>multiple</h></idx>
-<idx><h>method</h><h>parameters</h></idx>
-Here is an example of a method that takes two parameters:
+<idx><h>function</h><h>parameters</h></idx>
+Here is an example of a function that takes two parameters:
 </p>
 
 <program xml:id="methods-testing_multiple-parameters-1">
@@ -11,7 +11,7 @@ Here is an example of a method that takes two parameters:
 </program>
 
 <p>
-To invoke this method, we have to provide two integers as arguments:
+To invoke this function, we have to provide two integers as arguments:
 </p>
 
 <program xml:id="methods-testing_multiple-parameters-2">
@@ -52,7 +52,7 @@ Pulling together the code fragments, here is the complete program:
 <p>
 <c>printTime</c> has two parameters, named <c>hour</c> and <c>minute</c>.
 And <c>main</c> has two variables, also named <c>hour</c> and <c>minute</c>.
-Although they have the same names, these variables are <em>not</em> the same.
+Although they have the same names, these variables are <term>not</term> the same.
 The <c>hour</c> in <c>printTime</c> and the <c>hour</c> in <c>main</c> refer to different memory locations, and they can have different values.
 </p>
 
@@ -65,7 +65,7 @@ For example, you could invoke <c>printTime</c> like this:
 </program>
 
 <p>
-Before the method is invoked, Java evaluates the arguments; in this example, the results are <c>12</c> and <c>0</c>.
+Before the function is invoked, Java evaluates the arguments; in this example, the results are <c>12</c> and <c>0</c>.
 Then it assigns those values to the parameters.
 Inside <c>printTime</c>, the value of <c>hour</c> is <c>12</c>, not <c>11</c>, and the value of <c>minute</c> is <c>0</c>, not <c>59</c>.
 Furthermore, if <c>printTime</c> modifies one of its parameters, that change has no effect on the variables in <c>main</c>.

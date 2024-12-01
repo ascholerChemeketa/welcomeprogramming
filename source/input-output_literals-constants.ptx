@@ -20,8 +20,8 @@ The following lines declare the variables and create the <c>Scanner</c>:
 <idx><h>prompt</h></idx>
 <idx><h>nextInt</h><h>Scanner</h></idx>
 The next step is to prompt the user for the input.
-We'll use <c>print</c> instead of <c>println</c> so the user can enter the input on the same line as the <em>prompt</em>.
-And we'll use the <c>Scanner</c> method <c>nextInt</c>, which reads input from the keyboard and converts it to an integer:
+We'll use <c>print</c> instead of <c>println</c> so the user can enter the input on the same line as the <term>prompt</term>.
+And we'll use the <c>Scanner</c> function <c>nextInt</c>, which reads input from the keyboard and converts it to an integer:
 </p>
 
 <program xml:id="input-output_literals-constants-2">
@@ -40,7 +40,7 @@ Next we multiply the number of inches by 2.54, since that's how many centimeters
 This code works correctly, but it has a minor problem.
 If another programmer reads this code, they might wonder where 2.54 comes from.
 For the benefit of others (and yourself in the future), it would be better to assign this value to a variable with a meaningful name. <idx><h>literal</h></idx>
-A value that appears in a program, like the number 2.54, is called a <em>literal</em>.
+A value that appears in a program, like the number 2.54, is called a <term>literal</term>.
 In general, there's nothing wrong with literals.
 But when numbers like 2.54 appear in an expression with no explanation, they make the code hard to read.
 And if the same value appears many times and could change in the future, it makes the code hard to maintain.
@@ -48,7 +48,7 @@ And if the same value appears many times and could change in the future, it make
 
 <p>
 <idx><h>magic number</h></idx>
-Values like 2.54 are sometimes called <em>magic numbers</em> (with the implication that being magic is not a good thing).
+Values like 2.54 are sometimes called <term>magic numbers</term> (with the implication that being magic is not a good thing).
 A good practice is to assign magic numbers to variables with meaningful names, like this:
 </p>
 
@@ -75,7 +75,7 @@ If you try, the compiler gives an error.
 </p>
 
 <p>
-Variables declared as <c>final</c> are called <em>constants</em>.
+Variables declared as <c>final</c> are called <term>constants</term>.
 By convention, names for constants are all uppercase, with the underscore character (<c>_</c>) between words.
 </p>
 </section>

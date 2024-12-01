@@ -16,9 +16,9 @@ First we evaluate the argument of the innermost function (<m>\pi/2 = 1.57</m>), 
 <p>
 <idx><h>composition</h></idx>
 <idx><h>expression</h></idx>
-Just as with mathematical functions, Java methods can be <em>composed</em> to solve complex problems.
-That means you can use one method as part of another.
-In fact, you can use any expression as an argument to a method, as long as the resulting value has the correct type:
+Just as with mathematical functions, Java functions can be <term>composed</term> to solve complex problems.
+That means you can use one function as part of another.
+In fact, you can use any expression as an argument to a function, as long as the resulting value has the correct type:
 </p>
 
 <program xml:id="methods-testing_composition-1">
@@ -27,7 +27,7 @@ In fact, you can use any expression as an argument to a method, as long as the r
 
 <p>
 This statement divides <c>Math.PI</c> by <c>2.0</c>, adds the result to <c>angle</c>, and computes the cosine of the sum.
-You can also take the result of one method and pass it as an argument to another:
+You can also take the result of one function and pass it as an argument to another:
 </p>
 
 <program xml:id="methods-testing_composition-2">
@@ -35,13 +35,13 @@ You can also take the result of one method and pass it as an argument to another
 </program>
 
 <p>
-In Java, the <c>log</c> method always uses base <m>e</m>.
+In Java, the <c>log</c> function always uses base <m>e</m>.
 So this statement finds the log base <m>e</m> of 10, and then raises <m>e</m> to that power.
 The result gets assigned to <c>x</c>.
 </p>
 
 <p>
-Some math methods take more than one argument.
+Some math functions take more than one argument.
 For example, <c>Math.pow</c> takes two arguments and raises the first to the power of the second.
 This line computes <m>2^{10}</m> and assigns the value <c>1024.0</c> to the variable <c>x</c>:
 </p>
@@ -51,7 +51,7 @@ This line computes <m>2^{10}</m> and assigns the value <c>1024.0</c> to the vari
 </program>
 
 <p>
-When using <c>Math</c> methods, beginners often forget the word <c>Math</c>.
+When using <c>Math</c> functions, beginners often forget the word <c>Math</c>.
 For example, if you just write <c>x = pow(2.0, 10.0)</c>, you will get a compiler error:
 </p>
 
@@ -59,14 +59,14 @@ For example, if you just write <c>x = pow(2.0, 10.0)</c>, you will get a compile
 <output>
 File: Test.java  [line: 5]
 Error: cannot find symbol
-  symbol:   method pow(double,double)
+  symbol:   function pow(double,double)
   location: class Test
 </output>
 </console>
 
 <p>
 The message <q>cannot find symbol</q> is confusing, but the last two lines provide a useful hint.
-The compiler is looking for a method named <c>pow</c> in the file <c>Test.java</c> (the file for this example).
-If you don't specify a class name when referring to a method, the compiler looks in the current class by default.
+The compiler is looking for a function named <c>pow</c> in the file <c>Test.java</c> (the file for this example).
+If you don't specify a class name when referring to a function, the compiler looks in the current class by default.
 </p>
 </section>

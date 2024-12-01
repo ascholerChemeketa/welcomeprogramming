@@ -14,13 +14,13 @@ But at some point, you will get tired of typing the same test cases over and ove
 </p>
 
 <p>
-We can automate the process of entering input and comparing <em>expected output</em> with <em>actual output</em> using the command line.
+We can automate the process of entering input and comparing <term>expected output</term> with <term>actual output</term> using the command line.
 The basic idea is to store the test cases in plain text files and trick Java into thinking they are coming from the keyboard.
 Here are step-by-step instructions:
 <ol>
-<li><p>Make sure you can compile and run the <em>Convert.java</em> example in the <em>ch03</em> directory of <em>ThinkJavaCode2</em>.
+<li><p>Make sure you can compile and run the <term>Convert.java</term> example in the <term>ch03</term> directory of <term>ThinkJavaCode2</term>.
 (See <xref ref="code">page</xref> for instructions on how to download the repository.)</p></li>
-<li><p>In the same directory as <em>Convert.java</em>, create a plain text file named <em>test.in</em> (<q>in</q> is for <q>input</q>).
+<li><p>In the same directory as <term>Convert.java</term>, create a plain text file named <term>test.in</term> (<q>in</q> is for <q>input</q>).
 Enter the following line and save the file:
 
 
@@ -30,7 +30,7 @@ Enter the following line and save the file:
 </output>
 </console>
 </p></li>
-<li><p>Create a second plain text file named <em>test.exp</em> (<q>exp</q> is for <q>expected</q>).
+<li><p>Create a second plain text file named <term>test.exp</term> (<q>exp</q> is for <q>expected</q>).
 Enter the following line and save the file:
 
 
@@ -58,10 +58,10 @@ java Convert &lt; test.in > test.out
 <idx><h>operator</h><h>redirection</h></idx>
 <idx><h>System.in</h></idx>
 <idx><h>System.out</h></idx>
-On the command line, <c>LESS</c> and <c>MORE</c> are <em>redirection operators</em>.
-The first one redirects the contents of <em>test.in</em> to <c>System.in</c>, as if it were entered from the keyboard.
-The second one redirects the contents of <c>System.out</c> to a new file <em>test.out</em>, much like a screen capture.
-In other words, the <em>test.out</em> file contains the output of your program.
+On the command line, <c>LESS</c> and <c>MORE</c> are <term>redirection operators</term>.
+The first one redirects the contents of <term>test.in</term> to <c>System.in</c>, as if it were entered from the keyboard.
+The second one redirects the contents of <c>System.out</c> to a new file <term>test.out</term>, much like a screen capture.
+In other words, the <term>test.out</term> file contains the output of your program.
 </p>
 
 <p>
@@ -100,6 +100,6 @@ For example, on Windows you can install <c>WinMerge</c>, on macOS you can use <c
 
 <p>
 Regardless of what tool you use, the goal is the same.
-Debug your program until the actual output is <em>identical</em> to the expected output.
+Debug your program until the actual output is <term>identical</term> to the expected output.
 </p>
 </section>

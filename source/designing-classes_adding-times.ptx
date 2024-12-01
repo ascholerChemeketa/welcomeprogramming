@@ -15,19 +15,19 @@ We'll use <c>Time</c> objects to figure it out:
 <idx><h>addition</h><h>time</h></idx>
 Here are two ways we could <q>add</q> the <c>Time</c> objects:
 <ul>
-<li><p>Write a static method that takes two <c>Time</c> objects as parameters.</p></li>
-<li><p>Write an instance method that gets invoked on one object and takes the other as a parameter.</p></li>
+<li><p>Write a static function that takes two <c>Time</c> objects as parameters.</p></li>
+<li><p>Write an instance function that gets invoked on one object and takes the other as a parameter.</p></li>
 </ul>
 </p>
 
 <p>
 To demonstrate the difference, we'll do both.
-Here is the static method:
+Here is the static function:
 </p>
 
 <p>
 <idx><h>static</h></idx>
-<idx><h>method</h><h>static</h></idx>
+<idx><h>function</h><h>static</h></idx>
 </p>
 
 <program xml:id="designing-classes_adding-times-2">
@@ -43,12 +43,12 @@ And here's how we would invoke it:
 </program>
 
 <p>
-Here's what it looks like as an instance method:
+Here's what it looks like as an instance function:
 </p>
 
 <p>
-<idx><h>instance method</h></idx>
-<idx><h>method</h><h>instance</h></idx>
+<idx><h>instance function</h></idx>
+<idx><h>function</h><h>instance</h></idx>
 </p>
 
 <program xml:id="designing-classes_adding-times-4">
@@ -66,22 +66,22 @@ And here's how we would invoke it:
 <p>
 Notice the differences:
 <ul>
-<li><p>The static method has the keyword <c>static</c>; the instance method does not.</p></li>
-<li><p>The static method has two parameters, <c>t1</c> and <c>t2</c>.
-The instance method has one explicit parameter, <c>t2</c>, and the implicit parameter, <c>this</c>.</p></li>
-<li><p>We invoked the static method with the <c>Time</c> class;
-we invoked the instance method with the <c>startTime</c> object.</p></li>
+<li><p>The static function has the keyword <c>static</c>; the instance function does not.</p></li>
+<li><p>The static function has two parameters, <c>t1</c> and <c>t2</c>.
+The instance function has one explicit parameter, <c>t2</c>, and the implicit parameter, <c>this</c>.</p></li>
+<li><p>We invoked the static function with the <c>Time</c> class;
+we invoked the instance function with the <c>startTime</c> object.</p></li>
 </ul>
 </p>
 
 <p>
 That's all there is to it.
-Static methods and instance methods do the same thing, and you can convert from one to the other with just a few changes.
+Static functions and instance functions do the same thing, and you can convert from one to the other with just a few changes.
 </p>
 
 <p>
-However, there's a problem with both of these methods; they are not correct.
-The result from either method is <c>20:66</c>, which is not a valid time.
+However, there's a problem with both of these functions; they are not correct.
+The result from either function is <c>20:66</c>, which is not a valid time.
 </p>
 
 <p>
@@ -89,7 +89,7 @@ If <c>second</c> exceeds 59, we have to carry into the minutes column, and if <c
 </p>
 
 <p>
-Here is a better version of the instance method, <c>add</c>:
+Here is a better version of the instance function, <c>add</c>:
 </p>
 
 <program xml:id="designing-classes_adding-times-6">

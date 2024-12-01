@@ -6,13 +6,13 @@
 <idx><h>and operator</h></idx>
 <idx><h>or operator</h></idx>
 <idx><h>not operator</h></idx>
-In addition to the relational operators, Java also has three <em>logical operators</em>: <c>ANDAND</c>, <c>||</c>, and <c>!</c>, which respectively stand for <em>and</em>, <em>or</em>, and <em>not</em>.
+In addition to the relational operators, Java also has three <term>logical operators</term>: <c>ANDAND</c>, <c>||</c>, and <c>!</c>, which respectively stand for <term>and</term>, <term>or</term>, and <term>not</term>.
 The results of these operators are similar to their meanings in English.
 For example:
 <ul>
-<li><p><c>x MORE 0 ANDAND x LESS 10</c> is true when <c>x</c> is greater than 0 <em>and</em> less than 10.</p></li>
-<li><p><c>x LESS 0 || x MORE 10</c> is true if either condition is true; that is, if <c>x</c> is less than 0 <em>or</em> greater than 10.</p></li>
-<li><p><c>!(x MORE 0)</c> is true if <c>x</c> is <em>not</em> greater than 0.
+<li><p><c>x MORE 0 ANDAND x LESS 10</c> is true when <c>x</c> is greater than 0 <term>and</term> less than 10.</p></li>
+<li><p><c>x LESS 0 || x MORE 10</c> is true if either condition is true; that is, if <c>x</c> is less than 0 <term>or</term> greater than 10.</p></li>
+<li><p><c>!(x MORE 0)</c> is true if <c>x</c> is <term>not</term> greater than 0.
 The parentheses are necessary in this example because, in the order of operations, <c>!</c> comes before <c>MORE</c>.</p></li>
 </ul>
 </p>
@@ -54,13 +54,13 @@ But it's useful to explore different ways of representing the same logic, especi
 </p>
 
 <p>
-<idx><h>short circuit</h></idx> Logical operators evaluate the second expression <em>only when necessary</em>.
+<idx><h>short circuit</h></idx> Logical operators evaluate the second expression <term>only when necessary</term>.
 For example, <c>true || anything</c> is always true, so Java does not need to evaluate the expression <c>anything</c>.
 Likewise, <c>false ANDAND anything</c> is always false.
 </p>
 
 <p>
-Ignoring the second operand, when possible, is called <em>short-circuit</em> evaluation, by analogy with an electrical circuit.
+Ignoring the second operand, when possible, is called <term>short-circuit</term> evaluation, by analogy with an electrical circuit.
 Short-circuit evaluation can save time, especially if <c>anything</c> takes a long time to evaluate.
 It can also avoid unnecessary errors, if <c>anything</c> might fail.
 </p>

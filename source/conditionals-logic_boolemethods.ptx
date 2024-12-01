@@ -1,19 +1,19 @@
-<section xml:id="conditionals-logic_boolemethods" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Boolean Methods</title>
+<section xml:id="conditionals-logic_boolefunctions" xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>Boolean functions</title>
 <p>
 <idx><h>boolean</h></idx>
-<idx><h>method</h><h>boolean</h></idx>
-Methods can return <c>boolean</c> values, just like any other type, which is often convenient for hiding tests inside methods.
+<idx><h>function</h><h>boolean</h></idx>
+functions can return <c>boolean</c> values, just like any other type, which is often convenient for hiding tests inside functions.
 For example:
 </p>
 
-<program xml:id="conditionals-logic_boolemethods-1">
-<xi:include href="../programs/conditionals-logic_boolemethods-1.cpp" parse="text"/>
+<program xml:id="conditionals-logic_boolefunctions-1">
+<xi:include href="../programs/conditionals-logic_boolefunctions-1.cpp" parse="text"/>
 </program>
 
 <p>
-The name of this method is <c>isSingleDigit</c>.
-It is common to give <c>boolean</c> methods names that sound like yes/no questions.
+The name of this function is <c>isSingleDigit</c>.
+It is common to give <c>boolean</c> functions names that sound like yes/no questions.
 Since the return type is <c>boolean</c>, the return statement has to provide a boolean expression.
 </p>
 
@@ -22,29 +22,29 @@ The code itself is straightforward, although it is longer than it needs to be.
 Remember that the expression <c>x MORE -10 ANDAND x LESS 10</c> has type <c>boolean</c>, so there is nothing wrong with returning it directly (without the <c>if</c> statement):
 </p>
 
-<program xml:id="conditionals-logic_boolemethods-2">
-<xi:include href="../programs/conditionals-logic_boolemethods-2.cpp" parse="text"/>
+<program xml:id="conditionals-logic_boolefunctions-2">
+<xi:include href="../programs/conditionals-logic_boolefunctions-2.cpp" parse="text"/>
 </program>
 
 <p>
-In <c>main</c>, you can invoke the method in the usual ways:
+In <c>main</c>, you can invoke the function in the usual ways:
 </p>
 
-<program xml:id="conditionals-logic_boolemethods-3">
-<xi:include href="../programs/conditionals-logic_boolemethods-3.cpp" parse="text"/>
+<program xml:id="conditionals-logic_boolefunctions-3">
+<xi:include href="../programs/conditionals-logic_boolefunctions-3.cpp" parse="text"/>
 </program>
 
 <p>
 The first line displays <c>true</c> because 2 is a single-digit number.
-The second line sets <c>bigFlag</c> to <c>true</c>, because 17 is <em>not</em> a single-digit number.
+The second line sets <c>bigFlag</c> to <c>true</c>, because 17 is <term>not</term> a single-digit number.
 </p>
 
 <p>
-Conditional statements often invoke <c>boolean</c> methods and use the result as the condition:
+Conditional statements often invoke <c>boolean</c> functions and use the result as the condition:
 </p>
 
-<program xml:id="conditionals-logic_boolemethods-4">
-<xi:include href="../programs/conditionals-logic_boolemethods-4.cpp" parse="text"/>
+<program xml:id="conditionals-logic_boolefunctions-4">
+<xi:include href="../programs/conditionals-logic_boolefunctions-4.cpp" parse="text"/>
 </program>
 
 <p>

@@ -2,7 +2,7 @@
 <title>Copying Arrays</title>
 <p>
 <idx><h>array</h><h>copying</h></idx>
-As explained in <xref ref="elements">Section</xref>, array variables contain <em>references</em> to arrays.
+As explained in <xref ref="elements">Section</xref>, array variables contain <term>references</term> to arrays.
 When you make an assignment to an array variable, it simply copies the reference.
 But it doesn't copy the array itself.
 For example:
@@ -28,7 +28,7 @@ These statements create an array of three <c>double</c>s and make two different 
 <idx><h>alias</h></idx>
 Any changes made through either variable will be seen by the other.
 For example, if we set <c>a[0] = 17.0</c>, and then display <c>b[0]</c>, the result is <c>17.0</c>.
-Because <c>a</c> and <c>b</c> are different names for the same thing, they are sometimes called <em>aliases</em>.
+Because <c>a</c> and <c>b</c> are different names for the same thing, they are sometimes called <term>aliases</term>.
 </p>
 
 <p>
@@ -41,7 +41,7 @@ If you actually want to copy the array, not just the reference, you have to crea
 
 <p>
 <idx><h>Arrays class</h></idx>
-<c>java.util.Arrays</c> provides a method named <c>copyOf</c> that performs this task for you.
+<c>java.util.Arrays</c> provides a function named <c>copyOf</c> that performs this task for you.
 So you can replace the previous code with one line:
 </p>
 
@@ -71,8 +71,8 @@ We can do that by replacing the magic number, <c>3</c>, with <c>a.length</c>:
 
 <p>
 All arrays have a built-in constant, <c>length</c>, that stores the number of elements.
-In contrast to <c>String.length()</c>, which is a method, <c>a.length</c> is a constant.
-The expression <c>a.length</c> may look like a method invocation, but there are no parentheses and no arguments.
+In contrast to <c>String.length()</c>, which is a function, <c>a.length</c> is a constant.
+The expression <c>a.length</c> may look like a function invocation, but there are no parentheses and no arguments.
 </p>
 
 <p>
@@ -90,7 +90,7 @@ The following line produces the same result shown in <xref ref="fig_array4">Figu
 </program>
 
 <p>
-The <c>Arrays</c> class provides many other useful methods like <c>Arrays.compare</c>, <c>Arrays.equals</c>, <c>Arrays.fill</c>, and <c>Arrays.sort</c>.
+The <c>Arrays</c> class provides many other useful functions like <c>Arrays.compare</c>, <c>Arrays.equals</c>, <c>Arrays.fill</c>, and <c>Arrays.sort</c>.
 Take a moment to read the documentation by searching the web for <c>java.util.Arrays</c>.
 </p>
 </section>

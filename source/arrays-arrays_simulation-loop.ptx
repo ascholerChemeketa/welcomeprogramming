@@ -2,7 +2,7 @@
 <title>The Simulation Loop</title>
 <p>
 At the end of <c>main</c>, we call <c>mainloop</c>, which uses a <c>while</c> loop to simulate the time steps of the Game of Life.
-Here's a rough draft of this method:
+Here's a rough draft of this function:
 </p>
 
 <program xml:id="arrays-arrays_simulation-loop-1">
@@ -11,12 +11,12 @@ Here's a rough draft of this method:
 
 <p>
 During each time step, we update the state of the game and repaint the <c>grid</c>.
-We will present the <c>update</c> method in <xref ref="sec_update">Section</xref>.
+We will present the <c>update</c> function in <xref ref="sec_update">Section</xref>.
 </p>
 
 <p>
 <c>repaint</c> comes from the <c>Canvas</c> class.
-By default, it calls the <c>paint</c> method we provided, which calls <c>draw</c>.
+By default, it calls the <c>paint</c> function we provided, which calls <c>draw</c>.
 The reason we use it here is that <c>repaint</c> does not require a <c>Graphics</c> object as a parameter.
 </p>
 
