@@ -1,96 +1,123 @@
-<section xml:id="computer-programming_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Exercises</title>
-<p>
-At the end of each chapter, we include exercises you can do with the things you've learned.
-We encourage you to at least attempt every problem.
-You can't learn to program only by reading about it; you have to practice.
-</p>
+<section xml:id="computer-programming_exercises"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<p>
-Before you can compile and run Java programs, you might have to download and install a few tools.
-There are many good options, but we recommend DrJava, which is an <q>integrated development environment</q> (IDE) well suited for beginners.
-Instructions for getting started are in <xref ref="tools">Appendix</xref>.
-</p>
+  <!-- TODO add real exercises -->
 
-<p>
-The code for this chapter is in the <em>ch01</em> directory of <em>ThinkJavaCode2</em>.
-See <xref ref="code">page</xref> for instructions on how to download the repository.
-Before you start the exercises, we recommend that you compile and run the examples.
-</p>
-<exercise>
-<statement>
-<p>
-Computer scientists have the annoying habit of using common English words to mean something other than their common English meanings.
-For example, in English, statements and comments are the same thing, but in programs they are different.
+  <title>Exercises</title>
+  <p> At the end of each chapter, we include exercises you can do with the things you've learned. We
+    encourage you to at least attempt every problem. You can't learn to program only by reading
+    about it; you have to practice. </p>
+
+  <p> Before you can compile and run Java programs, you might have to download and install a few
+    tools. There are many good options, but we recommend DrJava, which is an <q>integrated
+    development environment</q> (IDE) well suited for beginners. Instructions for getting started
+    are in <xref ref="tools">Appendix</xref>. </p>
+
+  <p> The code for this chapter is in the <term>ch01</term> directory of <term>ThinkJavaCode2</term>.
+    See <xref ref="code">page</xref> for instructions on how to download the repository. Before you
+    start the exercises, we recommend that you compile and run the examples. </p>
+  <exercise>
+    <statement>
+      <p> Computer scientists have the annoying habit of using common English words to mean
+        something other than their common English meanings. For example, in English, statements and
+        comments are the same thing, but in programs they are different. <ol>
+          <li>
+            <p>In computer jargon, what's the difference between a <term>statement</term> and a <term>
+        comment</term>?</p>
+          </li>
+          <li>
+            <p>What does it mean to say that a program is <term>portable</term>?</p>
+          </li>
+          <li>
+            <p>In common English, what does the word <term>compile</term> mean?</p>
+          </li>
+          <li>
+            <p>What is an <term>executable</term>? Why is that word used as a noun?</p>
+          </li>
+        </ol>
+      </p>
+
+      <p> The vocabulary section at the end of each chapter is intended to highlight words and
+        phrases that have special meanings in computer science. When you see familiar words, don't
+        assume that you know what they mean! </p>
+    </statement>
+  </exercise>
+
+  <exercise>
+    <statement>
+      <p> Before you do anything else, find out how to compile and run a Java program. Some
+        environments provide sample programs similar to the example in <xref ref="hello">Section</xref>
+        .
 <ol>
-<li><p>In computer jargon, what's the difference between a <em>statement</em> and a <em>comment</em>?</p></li>
-<li><p>What does it mean to say that a program is <em>portable</em>?</p></li>
-<li><p>In common English, what does the word <em>compile</em> mean?</p></li>
-<li><p>What is an <em>executable</em>? Why is that word used as a noun?</p></li>
-</ol>
-</p>
+          <li>
+            <p>Type in the Hello World program; then compile and run it.</p>
+          </li>
+          <li>
+            <p>Add a print statement that displays a second message after the <c>Hello, World!</c>. Say something
+        witty like, <c>How are you?</c>. Compile and run the program again.</p>
+          </li>
+          <li>
+            <p>Add a comment to the program (anywhere), recompile, and run it again. The new comment
+        should not affect the result.</p>
+          </li>
+        </ol>
+      </p>
 
-<p>
-The vocabulary section at the end of each chapter is intended to highlight words and phrases that have special meanings in computer science.
-When you see familiar words, don't assume that you know what they mean!
-</p>
-</statement>
-</exercise>
+      <p> This exercise may seem trivial, but it is the starting place for many of the programs we
+        will work with. To debug with confidence, you will need to have confidence in your
+        programming environment. </p>
 
-<exercise>
-<statement>
-<p>
-Before you do anything else, find out how to compile and run a Java program.
-Some environments provide sample programs similar to the example in <xref ref="hello">Section</xref>.
-<ol>
-<li><p>Type in the Hello World program; then compile and run it.</p></li>
-<li><p>Add a print statement that displays a second message after the <c>Hello, World!</c>.
-Say something witty like, <c>How are you?</c>.
-Compile and run the program again.</p></li>
-<li><p>Add a comment to the program (anywhere), recompile, and run it again.
-The new comment should not affect the result.</p></li>
-</ol>
-</p>
+      <p> In some environments, it is easy to lose track of which program is executing. You might
+        find yourself trying to debug one program while you are accidentally running another. Adding
+        (and changing) print statements is a simple way to be sure that the program you are looking
+        at is the program you are running. </p>
+    </statement>
+  </exercise>
 
-<p>
-This exercise may seem trivial, but it is the starting place for many of the programs we will work with.
-To debug with confidence, you will need to have confidence in your programming environment.
-</p>
+  <exercise>
+    <statement>
+      <p> It is a good idea to commit as many errors as you can think of, so that you see what error
+        messages the compiler produces. Sometimes the compiler tells you exactly what is wrong, and
+        all you have to do is fix it. But sometimes the error messages are misleading. Over time you
+        will develop a sense for when you can trust the compiler and when you have to figure things
+        out yourself. </p>
 
-<p>
-In some environments, it is easy to lose track of which program is executing.
-You might find yourself trying to debug one program while you are accidentally running another.
-Adding (and changing) print statements is a simple way to be sure that the program you are looking at is the program you are running.
-</p>
-</statement>
-</exercise>
+      <p> Starting with the Hello World program, try out each of the following errors. After you
+        make each change, compile the program, read the error message (if there is one), and then
+        fix the error. <ol>
+          <li>
+            <p>Remove one of the opening curly braces.</p>
+          </li>
+          <li>
+            <p>Remove one of the closing curly braces.</p>
+          </li>
+          <li>
+            <p>Instead of <c>main</c>, write <c>mian</c>.</p>
+          </li>
+          <li>
+            <p>Remove the word <c>static</c>.</p>
+          </li>
+          <li>
+            <p>Remove the word <c>public</c>.</p>
+          </li>
+          <li>
+            <p>Remove the word <c>System</c>.</p>
+          </li>
+          <li>
+            <p>Replace <c>println</c> with <c>Println</c>.</p>
+          </li>
+          <li>
+            <p>Replace <c>println</c> with <c>print</c>.</p>
+          </li>
+          <li>
+            <p>Delete one parenthesis.</p>
+          </li>
+          <li>
+            <p>Add an extra parenthesis.</p>
+          </li>
+        </ol>
 
-<exercise>
-<statement>
-<p>
-It is a good idea to commit as many errors as you can think of, so that you see what error messages the compiler produces.
-Sometimes the compiler tells you exactly what is wrong, and all you have to do is fix it.
-But sometimes the error messages are misleading.
-Over time you will develop a sense for when you can trust the compiler and when you have to figure things out yourself.
-</p>
-
-<p>
-Starting with the Hello World program, try out each of the following errors.
-After you make each change, compile the program, read the error message (if there is one), and then fix the error.
-<ol>
-<li><p>Remove one of the opening curly braces.</p></li>
-<li><p>Remove one of the closing curly braces.</p></li>
-<li><p>Instead of <c>main</c>, write <c>mian</c>.</p></li>
-<li><p>Remove the word <c>static</c>.</p></li>
-<li><p>Remove the word <c>public</c>.</p></li>
-<li><p>Remove the word <c>System</c>.</p></li>
-<li><p>Replace <c>println</c> with <c>Println</c>.</p></li>
-<li><p>Replace <c>println</c> with <c>print</c>.</p></li>
-<li><p>Delete one parenthesis.</p></li>
-<li><p>Add an extra parenthesis.</p></li>
-</ol>
-
-</p>
-</statement>
-</exercise>
+      </p>
+    </statement>
+  </exercise>
 </section>

@@ -1,97 +1,144 @@
-<section xml:id="computer-programming_hello-world-program" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>The Hello World Program</title>
-<p>
-Traditionally, the first program you write when learning a new programming language is called the <q>Hello World</q> program.
-All it does is output the words <c>Hello, World!</c> to the screen.
-In Java, it looks like this:
-</p>
+<section xml:id="computer-programming_hello-world-program"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<p>
-<idx><h>Hello.java</h></idx>
-</p>
+  <title>The Hello World Program</title>
+  <p>Traditionally, the first program you write when learning a new programming language is called
+    the <q>Hello World</q> program. All it does is output the words <c>Hello, World!</c> to the screen. In C++,
+    it looks like this: <idx>
+      <h>hello.cpp</h>
+    </idx></p>
 
-<listing filename="Hello.java">
-<program xml:id="computer-programming_hello-world-program-1" interactive="activecode">
+  <listing filename="hello.cpp">
+    <program xml:id="computer-programming_hello-world-program-1"
+             line-numbers="yes"
+             interactive="activecode">
 <xi:include href="../programs/computer-programming_hello-world-program-1.cpp" parse="text"/>
-</program>
-</listing>
+    </program>
+  </listing>
 
-<p>
-When this program runs, it displays the following:
-</p>
+  <p>You can test out the program by pressing the "Run" button above the code. That will cause the
+    code to be <term>compiled</term> and run on the server that hosts this book. The output will
+    then be displayed below the code. The output should display the following:</p>
 
-<console>
-<output>
+  <console>
+    <output>
 Hello, World!
-</output>
-</console>
+    </output>
+  </console>
 
-<p>
-Notice that the output does not include the quotation marks.
-</p>
+  <p>Let's break down the Hello World program into its parts.</p>
 
-<p>
-<idx><h>statement</h></idx>
-<idx><h>print statement</h></idx>
-Java programs are made up of <em>class</em> and <em>method</em> definitions, and methods are made up of <em>statements</em>.
-A <em>statement</em> is a line of code that performs a basic action.
-In the Hello World program, this line is a <em>print statement</em> that displays a message to the user:
-</p>
+  <p>The first line of code is a <term>preprocessor directive</term>. Including a file in a C++
+    program essentially copies all the code from that file into the location of the <c>#include</c>. The <c>iostream</c>
+    file contains the code that allows you to use to do input and output (io) in C++ programs. <idx>
+      <h>iostream</h>
+    </idx>
+    <idx>
+      <h>preprocessor directive</h>
+    </idx>
+  </p>
 
-<program xml:id="computer-programming_hello-world-program-2">
-<xi:include href="../programs/computer-programming_hello-world-program-2.cpp" parse="text"/>
-</program>
+  <p>Then there is a blank line. Blank lines are ignored by the C++ compiler, but they make code
+    easier to read by separating logical chunks of a program from each other. Here, the blank line
+    separates the preprocessor directive from the rest of the program. </p>
 
-<p>
-<idx><h>println</h></idx>
-<idx><h>semicolon</h></idx>
-<idx><h>; semicolon</h></idx>
-<c>System.out.println</c> displays results on the screen; the name <c>println</c> stands for <q>print line</q>.
-Confusingly, <em>print</em> can mean both <q>display on the screen</q> and <q>send to the printer</q>.
-In this book, we'll try to say <q>display</q> when we mean output to the screen.
-Like most statements, the print statement ends with a semicolon (<c>;</c>).
-</p>
+  <p>Next is the <c>using namespace std;</c> statement. A <term>statement</term> is a line of code that performs a basic
+    action. In this case, the action is telling the compiler that we want it to assume that any
+    names we use may actually start with <c>std</c>. Much like people may have a full formal name - say
+    Maria Rodriguez - but we only use part of their name - "Maria" - most of the time, code entities
+    can have complex names that we shorten. In this case, we want to shorten what would be <c>std::cout</c>
+    to <c>cout</c>.<idx>
+      <h>statement</h>
+    </idx></p>
 
-<p>
-<idx><h>case-sensitive</h></idx>
-Java is <q>case-sensitive</q>, which means that uppercase and lowercase are not the same.
-In the Hello World program, <c>System</c> has to begin with an uppercase letter; <c>system</c> and <c>SYSTEM</c> won't work.
-</p>
+  <p>Like most statements, it ends with a semicolon (<c>;</c> ). Semicolons function in C++ a little
+    like periods do in English sentences - they indicate the end of a statement.<idx>
+      <h>cout</h>
+    </idx>
+    <idx>
+      <h>semicolon</h>
+    </idx>
+    <idx>
+      <h>; semicolon</h>
+    </idx>
+  </p>
 
-<p>
-<idx><h>method</h></idx>
-A <em>method</em> is a named sequence of statements.
-This program defines one method named <c>main</c>:
-</p>
+  <p>In C++ <term>functions</term> are used to group and organize sequences of statements. <c>int main</c>
+    defines one function named <c>main</c>. Every C++ program needs to have a function named <c>main</c>.
+    When a C++ program runs, it starts at the first statement in <c>main</c> and ends when it finishes
+    the last statement. Later, you will see programs that define more than one function. The word <c>int</c>
+    indicates that this function returns an integer (a whole number) when it is finished. The <c>return 0;</c>
+    fulfills this promise. Don't worry too much about this for right now, we will learn more about
+    these parts of the program later. <idx>
+      <h>function</h>
+    </idx>
+    <idx>
+      <h>main</h>
+    </idx>
+  </p>
 
-<program xml:id="computer-programming_hello-world-program-3" interactive="activecode">
+  <p>Notice that line 5 does not end with a semicolon. It instead ends with a curly braces (<c>{</c>
+    and <c>}</c>). C++ uses to group things together. In <term>Hello.cpp</term>, braces wrap the
+    statements that are a part of the function definition. A good rule of thumb is that lines of
+    code either are a complete and independent statement - and end in a semicolon - or they are the
+    start of a group of related statements - in which case they end with a {.<idx>
+      <h>curly braces</h>
+    </idx>
+  </p>
+
+
+  <!-- TODO remove -->
+
+  <program xml:id="computer-programming_hello-world-program-3">
 <xi:include href="../programs/computer-programming_hello-world-program-3.cpp" parse="text"/>
-</program>
+  </program>
 
-<p>
-<idx><h>main</h></idx>
-The name and format of <c>main</c> is special: when the program runs, it starts at the first statement in <c>main</c> and ends when it finishes the last statement.
-Later, you will see programs that define more than one method.
-</p>
+  <p>Line 6 that begins with two slashes (<c>//</c>) is a <term> comment</term>, which is a bit of
+    English text that explains the code. When the C++ compiler sees <c>//</c>, it ignores everything
+    from there until the end of the line. Comments have no effect on the execution of the program,
+    but they make it easier for other programmers (and your future self) to understand what you
+    meant to do. <idx>
+      <h>comment</h>
+    </idx>
+  </p>
 
-<p>
-<idx><h>class</h></idx>
-This program defines a class named <c>Hello</c>.
-For now, a <em>class</em> is a collection of methods; we'll have more to say about this later.
-You can give a class any name you like, but it is conventional to start with a capital letter.
-The name of the class has to match the name of the file it is in, so this class has to be in a file named <em>Hello.java</em>.
-</p>
+  <p>Line 7 is a <term>print statement</term> that displays a message to the user. <c>cout</c> stands
+    for "console output" - the console is a name for the screen where the input and output of a
+    program are displayed. <c>&lt;&lt;</c> indicates that we are sending data on the right of the symbol to
+    the console (the formal name for that symbol is the <term>stream insertion operator</term>). The
+    data we are sending is the text <c>"Hello, World!"</c>.<idx>
+      <h>print statement</h>
+    </idx><idx>
+      <h>cout</h>
+    </idx>
+  </p>
 
-<p>
-<idx><h>\{\} curly braces</h></idx>
-Java uses curly braces (<c>{</c> and <c>}</c>) to group things together.
-In <em>Hello.java</em>, the outermost braces contain the class definition, and the inner braces contain the method definition.
-</p>
+  <!-- TODO remove -->
 
-<p>
-<idx><h>comment</h><h>end-of-line</h></idx>
-The line that begins with two slashes (<c>//</c>) is a <em>comment</em>, which is a bit of English text that explains the code.
-When Java sees <c>//</c>, it ignores everything from there until the end of the line.
-Comments have no effect on the execution of the program, but they make it easier for other programmers (and your future self) to understand what you meant to do.
-</p>
+  <program xml:id="computer-programming_hello-world-program-2">
+<xi:include href="../programs/computer-programming_hello-world-program-2.cpp" parse="text"/>
+  </program>
+
+  <p>Phrases that appear in quotation marks are called <term>strings</term>, because they contain a
+    sequence (a "string") of characters strung together in memory. Characters can be letters,
+    numbers, punctuation marks, symbols, spaces, tabs, etc. The quotation marks indicate that the
+    characters inside are text data, not computer instructions. <idx>
+      <h>quote mark</h>
+    </idx>
+    <idx>
+      <h>string</h>
+    </idx>
+    <idx>
+      <h>type</h>
+      <h>string</h>
+    </idx>
+  </p>
+
+  <p>C++ is <q>case-sensitive</q>, which means that uppercase and lowercase are not the same. For
+    example, <c>cout</c> has to be in all lowercase letters - <c>Cout</c> and <c>COUT</c> won't work.<idx>
+      <h>case-sensitive</h>
+    </idx></p>
+
+    <!-- TODO exercises -->
+
 </section>

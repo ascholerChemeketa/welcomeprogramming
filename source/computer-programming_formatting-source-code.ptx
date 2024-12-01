@@ -1,51 +1,64 @@
-<section xml:id="computer-programming_formatting-source-code" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Formatting Source Code</title>
-<p>
-In Java source code, some spaces are required.
-For example, you need at least one space between words, so this program is not legal:
-</p>
+<section xml:id="computer-programming_formatting-source-code"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<program xml:id="computer-programming_formatting-source-code-1" interactive="activecode">
+  <title>Formatting Source Code</title>
+  <p>In C++ source code, some spaces are required. For example, you need at least one space between
+    words, so this program is not legal. Try running it to see what error message you get.</p>
+
+  <program xml:id="computer-programming_formatting-source-code-1"
+           interactive="activecode">
 <xi:include href="../programs/computer-programming_formatting-source-code-1.cpp" parse="text"/>
-</program>
+  </program>
 
-<p>
-But most other spaces are optional.
-For example, this program <em>is</em> legal:
-</p>
+  <p>But most other spaces are optional. For example, this program <term>is</term> legal: </p>
 
-<listing filename="Goodbye.java">
-<program xml:id="computer-programming_formatting-source-code-2" interactive="activecode">
+  <listing filename="Goodbye.java">
+    <program xml:id="computer-programming_formatting-source-code-2"
+             interactive="activecode">
 <xi:include href="../programs/computer-programming_formatting-source-code-2.cpp" parse="text"/>
 </program>
-</listing>
+  </listing>
 
-<p>
-The newlines are optional, too.
-So we could just write this:
-</p>
+  <p>The newlines are optional, too. So we could just write this: </p>
 
-<listing filename="Goodbye.java">
-<program xml:id="computer-programming_formatting-source-code-3" interactive="activecode">
+  <listing filename="Goodbye.java">
+    <program xml:id="computer-programming_formatting-source-code-3"
+             interactive="activecode">
 <xi:include href="../programs/computer-programming_formatting-source-code-3.cpp" parse="text"/>
-</program>
-</listing>
+    </program>
+  </listing>
 
-<p>
-It still works, but the program is getting harder and harder to read.
-Newlines and spaces are important for visually organizing your program, making it easier to understand the program and find errors when they occur.
-</p>
+  <p>It still works, but the program is getting harder and harder to read. Newlines and spaces are
+    important for visually organizing your program, making it easier to understand the program and
+    find errors when they occur.</p>
 
-<p>
-Many editors will automatically format source code with consistent indenting and line breaks.
-For example, in DrJava (see <xref ref="drjava">Appendix</xref>) you can indent your code by selecting all text (<em>Ctrl+A</em>) and pressing the <em>Tab</em> key. <idx><h>Google style</h></idx>
-<idx><h>style guide</h></idx>
-Organizations that do a lot of software development usually have strict guidelines on how to format source code.
-For example, Google publishes its Java coding standards for use in open source projects: \url{https://google.github.io/styleguide/javaguide.html}.
-</p>
+  <insight>
+    <p>We write code to communicate not just with the compiler, but also to communicate with other
+      humans. The compiler doesn't care about spaces or newlines, but humans do. Code that is
+      formatted in a consistent way is easier to read and understand. </p>
+  </insight>
 
-<p>
-You probably won't understand these guidelines now, because they refer to language features you haven't yet seen.
-But you might want to refer to them periodically as you read this book.
-</p>
+  <p>There are conventions for not just where to use spaces, but where to break lines of code up,
+    how to indent code, etc... Sometimes, there is more than one convention - some programmers
+    prefer using tabs to indent lines of code, while others prefer spaces (often if you press the
+    tab key, your editor will automatically turn it into a series of spaces).</p>
+
+  <p>When working alone, a programmer can pick any style they like. However, when programmers are
+    collaborating, it is important to share a consistent style. Organizations that do a lot of
+    software development usually have strict guidelines on how to format source code. For example,
+    Google publishes its <url href="https://google.github.io/styleguide/cppguide.html">C++ coding
+    standards</url>. You probably won't understand these guidelines now, because they refer to
+    language features you haven't yet seen. But you might want to refer to them periodically as you
+    read this book. <idx>
+      <h>Google C++ style</h>
+    </idx>
+<idx>
+      <h>style guide</h>
+    </idx>
+  </p>
+
+  <p>The good news is that most code editors will help automatically format source code and can even
+    re-format code that is not well-formatted. You may have to do a little work to tell the editor
+    what style you want to use, but then it can help, make sure your code is well formatted.</p>
+
 </section>

@@ -1,58 +1,40 @@
-<section xml:id="computer-programming_displaying-two-messages" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Displaying Two Messages</title>
-<p>
-You can put as many statements as you like in the <c>main</c> method.
-For example, to display more than one line of output:
-</p>
+<section xml:id="computer-programming_displaying-two-messages"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<listing filename="Hello2.java">
-<program xml:id="computer-programming_displaying-two-messages-1" interactive="activecode">
-<xi:include href="../programs/computer-programming_displaying-two-messages-1.cpp" parse="text"/>
-</program>
-</listing>
+  <title>Displaying Two Messages</title>
 
-<p>
-As this example also shows, you can put comments at the end of a line as well as on lines all by themselves.
-</p>
+  <p>You can put as many statements as you like in the <c>main</c> function. For example, to display
+    more than one line of output we could use two <c>cout</c> statements:</p>
 
-<p>
-<idx><h>quote mark</h></idx>
-<idx><h>string</h></idx>
-<idx><h>type</h><h>String</h></idx>
-<idx><h>char</h></idx>
-Phrases that appear in quotation marks are called <em>strings</em>, because they contain a sequence of characters strung together in memory.
-Characters can be letters, numbers, punctuation marks, symbols, spaces, tabs, etc.
-</p>
+  <listing filename="hello2.cpp">
+    <program xml:id="computer-programming_displaying-two-messages-1"
+             interactive="activecode">
+    <xi:include href="../programs/computer-programming_displaying-two-messages-1.cpp" parse="text"/>
+  </program>
+  </listing>
 
-<p>
-<idx><h>newline</h></idx>
-<idx><h>print</h></idx>
-<idx><h>statement</h><h>print</h></idx>
-<c>System.out.println</c> appends a special character, called a <em>newline</em>, that moves to the beginning of the next line.
-If you don't want a newline at the end, you can use <c>print</c> instead of <c>println</c>:
-</p>
+  <p>Notice that the first print statement has another <c>&lt;&lt;</c> after the string it is printing to
+    separate the string from the next piece of data to be output. That data is <c>endl</c> which means
+    "end of line" - it will ensure that anything that whatever comes next in the output will appear
+    on the next line (like hitting Enter while typing). Thus we get two lines of output. </p>
 
-<p>
-<idx><h>Goodbye.java</h></idx>
-</p>
+  <p>As this second example shows, without the <c>endl</c> the second print statement will output to the
+    same line as the first one. It also demonstrates that you can put comments at the end of a line
+    as well as on lines all by themselves. The code before the <c>//</c> is not part of the comment.</p>
 
-<listing filename="Goodbye.java">
-<program xml:id="computer-programming_displaying-two-messages-2" interactive="activecode">
+  <listing filename="goodbye.cpp">
+    <program xml:id="computer-programming_displaying-two-messages-2"
+             interactive="activecode">
 <xi:include href="../programs/computer-programming_displaying-two-messages-2.cpp" parse="text"/>
-</program>
-</listing>
+    </program>
+    <idx>
+      <h>goodbye.cpp</h>
+    </idx>
+  </listing>
 
-<p>
-In this example, the first statement does not add a newline, so the output appears on a single line:
-</p>
+  <p>Notice that there is a space at the end of the first string, inside the quotation marks. That
+    makes sure that there is a space after the comma in the output. Without that, the output would
+    say "Goodbye,cruel world". Spaces outside the quotation marks do not affect the spacing of the output.</p>
 
-<console>
-<output>
-Goodbye, cruel world
-</output>
-</console>
-
-<p>
-Notice that there is a space at the end of the first string, which appears in the output just before the word <c>cruel</c>.
-</p>
+  <p>Finally, this program omits the <c>return 0;</c> at the end of <c>main</c>. In C++, it is optional to include that line - if the programmer does not include it, it is silently added at the end of main. It is also possible to return a value other than 0. When a program returns 0, that indicates to the operating system that the program completed successfully. To indicate an error occurred, the programmer can return any non-zero value. This is a C++ feature we will not be exploring in this book.</p>
 </section>

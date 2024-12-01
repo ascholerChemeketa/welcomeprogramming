@@ -1,90 +1,96 @@
-<section xml:id="computer-programming_compiling-java-programs" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Compiling Java Programs</title>
-<p>
-<idx><h>high-level language</h></idx>
-<idx><h>language</h><h>high-level</h></idx>
-The programming language you will learn in this book is Java, which is a <em>high-level language</em>.
-Other high-level languages you may have heard of include Python, C and C++, PHP, Ruby, and JavaScript.
-</p>
+<section xml:id="computer-programming_compiling-java-programs"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<p>
-<idx><h>low-level language</h></idx>
-<idx><h>language</h><h>low-level</h></idx>
-Before they can run, programs in high-level languages have to be translated into a <em>low-level language</em>, also called <q>machine language</q>.
-This translation takes some time, which is a small disadvantage of high-level languages.
-But high-level languages have two major advantages:
-<ul>
-<li><p>It is <em>much</em> easier to program in a high-level language.
-Programs take less time to write, they are shorter and easier to read, and they are more likely to be correct.
+  <title>Compiling C++ Programs</title>
+  <p>The programming language you will learn in this book is C++, which is a <term>high-level
+    language</term>. A high-level language is one that allows the programmer to write code that is
+    abstracted from the physical details of the computer it will run on. When using one of these
+    languages, the programmer does not have to worry about what machine instructions the CPU
+    supports, or how the CPU specifies particular addresses in memory. Most programming languages
+    used by programmers are high-level ones. Some examples you may have heard of include Python,
+    Java, or JavaScript. <idx>
+      <h>high-level language</h>
+    </idx>
+<idx>
+      <h>language</h>
+      <h>high-level</h>
+    </idx>
+  </p>
 
-<idx><h>portable</h></idx></p></li>
-<li><p>High-level languages are <em>portable</em>, meaning they can run on different kinds of computers with few or no modifications.
-Low-level programs can run on only one kind of computer.</p></li>
-</ul>
-</p>
+  <p>Computers can't actually run code in high-level languages. Before they can run, programs in
+    high-level languages have to be translated into a <term>low-level language</term>, also called <q>machine
+    language</q>. This translation takes some time, which is a small disadvantage of high-level
+    languages. But high-level languages have two major advantages: <ul>
+      <li>
+        <p>It is <term>much</term> easier to program in a high-level language. Programs take less
+    time to write, they are shorter and easier to read, and they are more likely to be correct.</p>
+      </li>
+      <li>
+        <p>High-level languages are <term>portable</term>, meaning they can run on different kinds
+    of computers with few or no modifications. Low-level programs can run on only one kind of
+    computer.<idx>
+            <h>portable</h>
+          </idx></p>
+      </li>
+    </ul>
+    <idx>
+      <h>low-level language</h>
+    </idx>
+<idx>
+      <h>language</h>
+      <h>low-level</h>
+    </idx>
+  </p>
 
-<p>
-<idx><h>interpret</h></idx>
-Two kinds of programs translate high-level languages into low-level languages: interpreters and compilers.
-An <em>interpreter</em> reads a high-level program and executes it, meaning that it does what the program says.
-It processes the program a little at a time, alternately reading lines and performing computations.
-<xref ref="fig_interpreter">Figure</xref> shows the structure of an interpreter.
-</p>
-<figure xml:id="fig_interpreter" >
-<caption>How interpreted languages are executed.</caption>
-<image width="73%" source="external/images/interpreter.png" />
-</figure>
-<p>
-<idx><h>compile</h></idx>
-<idx><h>source code</h></idx>
-<idx><h>object code</h></idx>
-<idx><h>executable</h></idx>
-In contrast, a <em>compiler</em> reads the entire program and translates it completely before the program starts running.
-The high-level program is called the <em>source code</em>.
-The translated program is called the <em>object code</em>, or the <em>executable</em>.
-Once a program is compiled, you can execute it repeatedly without further translation of the source code.
-As a result, compiled programs often run faster than interpreted programs.
-</p>
+  <p>Two kinds of programs translate high-level languages into low-level languages: interpreters and
+    compilers. An <term>interpreter</term> reads a high-level program and executes it, meaning that
+    it does what the program says. It processes the program a little at a time, alternately reading
+    lines and performing computations. Languages like Python and Javascript are often interpreted.<xref ref="fig_interpreter">
+    Figure</xref> shows the structure of an interpreter. </p>
+  <figure xml:id="fig_interpreter">
+    <caption>How interpreted languages are executed.</caption>
+    <image width="73%"
+           source="external/images/interpreter.svg"/>
+  </figure>
+  <p>In contrast, a <term>compiler</term> reads the entire program and translates it completely
+    before the program starts running. The high-level program is called the <term>source
+      code</term>. The translated program is called the <term>object
+      code</term>, or the <term>executable</term>. Once a program is compiled, you can execute it
+    repeatedly without further translation of the source code. As a result, compiled programs often
+    run faster than interpreted programs. <idx>
+      <h>interpret</h>
+    </idx> 
+    <idx>
+      <h>compile</h>
+    </idx>
+    <idx>
+      <h>source code</h>
+    </idx>
+    <idx>
+      <h>object code</h>
+    </idx>
+    <idx>
+      <h>executable</h>
+    </idx>
+  </p>
 
-<p>
-Note that object code, as a low-level language, is not portable.
-You cannot run an executable compiled for a Windows laptop on an Android phone, for example.
-To run a program on different types of machines, it must be compiled multiple times.
-It can be difficult to write source code that compiles and runs correctly on different types of machines.
-</p>
+  <p>The programmer writes source code in a file. For C++ these typically have the extension <c>.cpp</c>
+    - like <em>hello.cpp</em>. Then they use a C++ compiler like <c>g++</c> to compile it. If there are
+    no errors, the compiler saves the object code into a file with a name specified by the developer
+    - here we will call it <c>hello.exe</c>. When the programmer executes the program, its output is
+    displayed on the screen. </p>
 
-<p>
-<idx><h>byte code</h></idx>
-<idx><h>virtual machine</h></idx>
-To address this issue, Java is <em>both</em> compiled and interpreted.
-Instead of translating source code directly into an executable, the Java compiler generates code for a <em>virtual machine</em>.
-This <q>imaginary</q> machine has the functionality common to desktops, laptops, tablets, phones, etc.
-Its language, called Java <em>byte code</em>, looks like object code and is easy and fast to interpret.
-</p>
+  <figure xml:id="fig_compiler">
+    <caption>The process of compiling and running a C++ program.</caption>
+    <image width="73%"
+           source="external/images/compiler.svg"/>
+  </figure>
+  <!-- TODO fix diagrams -->
 
-<p>
-<idx><h>javac</h></idx>
-<idx><h>JVM</h></idx>
-As a result, it's possible to compile a Java program on one machine, transfer the byte code to another machine, and run the byte code on that other machine.
-<xref ref="fig_compiler">Figure</xref> shows the steps of the development process.
-The Java compiler is a program named <c>javac</c>.
-It translates <em>.java</em> files into <em>.class</em> files that store the resulting byte code.
-The Java interpreter is another program, named <c>java</c>, which is short for <q>Java Virtual Machine</q> (JVM).
-</p>
-<figure xml:id="fig_compiler" >
-<caption>The process of compiling and running a Java program.</caption>
-<image width="73%" source="external/images/compiler.png" />
-</figure>
-<p>
-The programmer writes source code in the file <em>Hello.java</em> and uses <c>javac</c> to compile it.
-If there are no errors, the compiler saves the byte code in the file <em>Hello.class</em>.
-To run the program, the programmer uses <c>java</c> to interpret the byte code.
-The result of the program is then displayed on the screen.
-</p>
-
-<p>
-Although it might seem complicated, these steps are automated for you in most development environments.
-Usually, you only have to press a button or type a single command to compile and interpret your program.
-On the other hand, it is important to know what steps are happening in the background, so if something goes wrong you can figure out what it is.
-</p>
+  <p>
+    Although it might seem complicated, these steps are automated for you in most development
+    environments. Usually, you only have to press a button or type a single command to compile and interpret
+    your program. On the other hand, it is important to know what steps are happening in the background, so if
+    something goes wrong you can figure out what it is.
+  </p>
 </section>
