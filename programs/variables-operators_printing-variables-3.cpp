@@ -1,10 +1,14 @@
-#include <iomanip>
 #include <iostream>
+
+using namespace std;
 
 int main() {
   int hour = 11;
   int minute = 59;
-  cout << "The current time is " << setfill('0') << setw(2) << hour << ":"
-       << setfill('0') << setw(2) << minute << "." << endl;
-  return 0;
+  cout << hour;
+  cout << ":";
+  cout << minute;
+  cout << endl;  // end the first line of output
+  // now print the same thing using only one cout statement
+  cout << hour << ":" << minute << endl;
 }

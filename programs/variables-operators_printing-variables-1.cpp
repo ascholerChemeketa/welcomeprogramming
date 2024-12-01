@@ -1,8 +1,8 @@
 #include <iostream>
-#include <string>
+
+using namespace std;
 
 int main() {
-  string firstLine = "Hello, again!";
-  cout << firstLine << endl;
-  return 0;
+  int answer = 42;
+  cout << answer;
 }

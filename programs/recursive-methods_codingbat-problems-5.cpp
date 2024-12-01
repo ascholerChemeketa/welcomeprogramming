@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 
+using namespace std;
+
 int func(const vector<int>& nums, int index) {
   if (index >= nums.size()) {
     return 0;

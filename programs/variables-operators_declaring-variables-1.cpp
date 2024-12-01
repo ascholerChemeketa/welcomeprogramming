@@ -1,7 +1,1 @@
-#include <iostream>
-#include <string>
-
-int main() {
-  string message;
-  return 0;
-}
+int age;  // declare the variable age

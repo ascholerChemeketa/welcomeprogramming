@@ -1,9 +1,9 @@
 #include <iomanip>
 #include <iostream>
 
+using namespace std;
+
 int main() {
-  double minute = 59.0;
-  cout << fixed << setprecision(2)
-       << "Fraction of the hour that has passed: " << minute / 60.0 << endl;
-  return 0;
+  double minute = 45.0;
+  cout << "Fraction of the hour that has passed: " << minute / 60.0 << endl;
 }

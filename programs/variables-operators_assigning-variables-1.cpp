@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 int main() {
-  string message = "Hello!";
-  int hour = 11;
-  int minute = 59;
-  return 0;
+  int hour;
+  hour = 11;  // set hour to 11
+  int minute;
+  minute = 59;  // minute gets the value 59
 }

@@ -1,5 +1,7 @@
 #include <iostream>
 
+using namespace std;
+
 int prod(int m, int n) {
   if (m == n) {
     return n;

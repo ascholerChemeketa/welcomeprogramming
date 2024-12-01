@@ -1,8 +1,8 @@
 #include <iomanip>
-#include <iostream>
+
+using namespace std;
 
 int main() {
-  double y = 1.0 / 3.0;
-  cout << fixed << setprecision(10) << y << endl; // prints 0.3333333333
-  return 0;
+  double value = 1.0 / 3.0 * 3.14159;
+  cout << "One third pi is " << value << endl;
 }

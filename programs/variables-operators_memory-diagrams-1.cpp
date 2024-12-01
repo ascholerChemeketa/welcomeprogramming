@@ -1,9 +1,9 @@
 #include <iostream>
 
+using namespace std;
+
 int main() {
-  int a = 5;
-  int b = a;                     // a and b are now equal
-  a = 3;                         // a and b are no longer equal
-  cout << a << " " << b << endl; // Prints 3 5
-  return 0;
+  int a = 5;  // a gets 5
+  int b = a;  // a gets the value b has (5)
+  a = 3;      // a gets 3
 }

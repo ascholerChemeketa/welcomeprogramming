@@ -4,7 +4,7 @@ using namespace std;
 
 int main() {
   // generate some simple output
-  cout << "Hello, World!\n"; // first line
-  cout << "How are you?\n";  // another line
+  cout << "Hello, World!" << endl; // first line
+  cout << "How are you?";  // another line
   return 0;
 }

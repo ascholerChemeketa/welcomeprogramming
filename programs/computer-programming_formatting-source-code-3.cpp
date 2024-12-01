@@ -2,8 +2,4 @@
 
 using namespace std;
 
-int main() {
-  cout << "Goodbye, ";
-  cout << "cruel world\n";
-  return 0;
-}
+int main(){cout<<"Goodbye, ";cout<<"cruel world";return 0;}
