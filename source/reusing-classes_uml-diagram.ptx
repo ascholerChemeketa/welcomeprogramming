@@ -11,8 +11,8 @@ So we refactored the code and created <c>Automaton</c>.
 <image width="75%" source="external/images/uml2.png" />
 </figure>
 <p>
-<idx><h>IS-A</h></idx>
-<idx><h>HAS-A</h></idx>
+    <idx><h>IS-A</h></idx>
+    <idx><h>HAS-A</h></idx>
 The diagram shows three examples of inheritance: <c>Conway</c> is an <c>Automaton</c>, <c>Langton</c> is an <c>Automaton</c>, and <c>GridCanvas</c> is a <c>Canvas</c>.
 It also shows two examples of composition: <c>Automaton</c> has a <c>GridCanvas</c>, and <c>GridCanvas</c> has a 2D array of <c>Cell</c>s.
 </p>
@@ -27,13 +27,13 @@ As it happens, <c>Graphics</c> is an abstract class, too.
 </p>
 
 <p>
-<idx><h>concrete class</h></idx>
+    <idx><h>concrete class</h></idx>
 Conway and Langton are <term>concrete classes</term>, because they provide an implementation for all of their functions.
 In particular, they implement the <c>update</c> function that was declared <c>abstract</c> in <c>Automaton</c>.
 </p>
 
 <p>
-<idx><h>object-oriented</h></idx>
+    <idx><h>object-oriented</h></idx>
 One of the challenges of object-oriented programming is keeping track of a large number of classes and the relationships between them.
 UML class diagrams can help.
 </p>

@@ -58,13 +58,13 @@ It might not be obvious why that's legal.
 </p>
 
 <p>
-<idx><h>IS-A</h></idx>
+    <idx><h>IS-A</h></idx>
 <c>RegularPolygon</c> extends <c>DrawablePolygon</c>, so every <c>RegularPolygon</c> object is also a <c>DrawablePolygon</c>.
 The parameter of <c>Drawing.add</c> has to be a <c>DrawablePolygon</c>, but it can be any type of <c>DrawablePolygon</c>, including <c>RegularPolygon</c> and other subclasses.
 </p>
 
 <p>
-<idx><h>polymorphism</h></idx>
+    <idx><h>polymorphism</h></idx>
 This design is an example of <term>polymorphism</term>, a fancy word that means <q>having many forms</q>.
 <c>Drawing.add</c> is a polymorphic function, because the parameter can be one of many types.
 And the <c>ArrayList</c> in <c>Drawing</c> is a polymorphic data structure, because the elements can be different types.

@@ -1,7 +1,7 @@
 <section xml:id="objects-arrays_shuffling-decks" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Shuffling Decks</title>
 <p>
-<idx><h>shuffle</h></idx>
+    <idx><h>shuffle</h></idx>
 For most card games, you have to shuffle the deck; that is, put the cards in a random order.
 In <xref ref="random">Section</xref> you saw how to generate random numbers, but it is not obvious how to use them to shuffle a deck.
 </p>
@@ -18,14 +18,14 @@ For more on this, see \url{https://en.wikipedia.org/wiki/Faro_shuffle}.
 </p>
 
 <p>
-<idx><h>pseudocode</h></idx>
+    <idx><h>pseudocode</h></idx>
 A better shuffling algorithm is to traverse the deck one card at a time, and at each iteration, choose two cards and swap them.
 To outline this algorithm, we'll use a combination of Java statements and English comments.
 This technique is sometimes called <term>pseudocode</term>:
 </p>
 
 <p>
-<idx><h>shuffle</h></idx>
+    <idx><h>shuffle</h></idx>
 </p>
 
 <program xml:id="objects-arrays_shuffling-decks-1" interactive="activecode">
@@ -33,8 +33,8 @@ This technique is sometimes called <term>pseudocode</term>:
 </program>
 
 <p>
-<idx><h>helper function</h></idx>
-<idx><h>function</h><h>helper</h></idx>
+    <idx><h>helper function</h></idx>
+    <idx><h>function</h><h>helper</h></idx>
 The nice thing about pseudocode is that it often makes clear what other functions you are going to need.
 In this case, we need a function that chooses a random integer in a given range and a function that takes two indexes and swaps the cards at those positions:
 </p>
@@ -44,15 +44,15 @@ In this case, we need a function that chooses a random integer in a given range 
 </program>
 
 <p>
-<idx><h>randomInt</h></idx>
-<idx><h>swapCards</h></idx>
+    <idx><h>randomInt</h></idx>
+    <idx><h>swapCards</h></idx>
 functions like <c>randomInt</c> and <c>swapCards</c> are called <term>helper functions</term>, because they help you solve parts of the problem.
 Helper functions are often <c>private</c>, because they are used only by functions in the class and are not needed by functions in other classes.
 </p>
 
 <p>
-<idx><h>top-down design</h></idx>
-<idx><h>design process</h></idx>
+    <idx><h>top-down design</h></idx>
+    <idx><h>design process</h></idx>
 The process of writing pseudocode first and then writing helper functions to make it work is a kind of <term>top-down design</term> (see \url{https://en.wikipedia.org/wiki/Top-down_and_bottom-up_design}).
 It is an alternative to <q>incremental development</q> and <q>encapsulation and generalization</q>, the other design processes you have seen in this book.
 </p>

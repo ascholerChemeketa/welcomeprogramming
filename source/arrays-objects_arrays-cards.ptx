@@ -1,8 +1,8 @@
 <section xml:id="arrays-objects_arrays-cards" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Arrays of Cards</title>
 <p>
-<idx><h>array</h><h>of objects</h></idx>
-<idx><h>object</h><h>array of</h></idx>
+    <idx><h>array</h><h>of objects</h></idx>
+    <idx><h>object</h><h>array of</h></idx>
 Just as you can create an array of <c>String</c> objects, you can create an array of <c>Card</c> objects.
 The following statement creates an array of 52 cards.
 <xref ref="fig_cardarray">Figure</xref> shows the memory diagram for this array.
@@ -16,7 +16,7 @@ The following statement creates an array of 52 cards.
 <image width="73%" source="external/images/cardarray.png" />
 </figure>
 <p>
-<idx><h>null</h></idx>
+    <idx><h>null</h></idx>
 Although we call it an <q>array of cards</q>, the array contains <term>references</term> to cards; it does not contain the <c>Card</c> objects themselves.
 Initially the references are all <c>null</c>.
 </p>
@@ -30,8 +30,8 @@ Even so, you can access the elements of the array in the usual way:
 </program>
 
 <p>
-<idx><h>exception</h><h>NullPointer</h></idx>
-<idx><h>run-time error</h></idx>
+    <idx><h>exception</h><h>NullPointer</h></idx>
+    <idx><h>run-time error</h></idx>
 But if you try to access the instance variables of non-existent <c>Card</c> objects, you will get a <c>NullPointerException</c>:
 </p>
 
@@ -40,8 +40,8 @@ But if you try to access the instance variables of non-existent <c>Card</c> obje
 </program>
 
 <p>
-<idx><h>nesting</h></idx>
-<idx><h>loop</h><h>nested</h></idx>
+    <idx><h>nesting</h></idx>
+    <idx><h>loop</h><h>nested</h></idx>
 That code won't work until we put cards in the array.
 One way to populate the array is to write nested <c>for</c> loops:
 </p>
@@ -57,7 +57,7 @@ Since the outer loop runs 4 times, and the inner loop runs 13 times for each sui
 </p>
 
 <p>
-<idx><h>index</h></idx>
+    <idx><h>index</h></idx>
 We use a separate variable <c>index</c> to keep track of where in the array the next card should go.
 <xref ref="fig_cardarray2">Figure</xref> shows what the array looks like after the first two cards have been created.
 </p>
@@ -71,7 +71,7 @@ You have seen the pattern for traversing an array several times, so the followin
 </p>
 
 <p>
-<idx><h>printDeck</h></idx>
+    <idx><h>printDeck</h></idx>
 </p>
 
 <program xml:id="arrays-objects_arrays-cards-5">

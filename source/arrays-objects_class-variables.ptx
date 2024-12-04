@@ -1,15 +1,15 @@
 <section xml:id="arrays-objects_class-variables" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Class Variables</title>
 <p>
-<idx><h>class variable</h></idx>
+    <idx><h>class variable</h></idx>
 So far you have seen local variables, which are declared inside a function, and instance variables, which are declared in a class definition, usually before the function definitions.
 Now it's time to learn about <term>class variables</term>.
 They are shared across all instances of the class.
 </p>
 
 <p>
-<idx><h>static</h></idx>
-<idx><h>variable</h><h>static</h></idx>
+    <idx><h>static</h></idx>
+    <idx><h>variable</h><h>static</h></idx>
 Like instance variables, class variables are defined in a class definition, before the function definitions.
 But they are identified by the keyword <c>static</c>.
 Here is a version of <c>Card</c> in which <c>RANKS</c> and <c>SUITS</c> are defined as class variables:
@@ -20,13 +20,13 @@ Here is a version of <c>Card</c> in which <c>RANKS</c> and <c>SUITS</c> are defi
 </program>
 
 <p>
-<idx><h>garbage collection</h></idx>
+    <idx><h>garbage collection</h></idx>
 Class variables are allocated when the program begins and persist until the program ends.
 In contrast, instance variables like <c>rank</c> and <c>suit</c> are allocated when the program creates <c>new</c> objects, and they are deleted when the object is garbage-collected (see <xref ref="garbage">Section</xref>).
 </p>
 
 <p>
-<idx><h>final</h></idx>
+    <idx><h>final</h></idx>
 Class variables are often used to store constant values that are needed in several places.
 In that case, they should also be declared as <c>final</c>.
 Note that whether a variable is <c>static</c> or <c>final</c> involves two separate considerations:

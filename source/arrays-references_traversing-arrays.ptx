@@ -1,7 +1,7 @@
 <section xml:id="arrays-references_traversing-arrays" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Traversing Arrays</title>
 <p>
-<idx><h>traversal</h></idx>
+    <idx><h>traversal</h></idx>
 Many computations can be implemented by looping through the elements of an array and performing an operation on each element.
 Looping through the elements of an array is called a <term>traversal</term>:
 </p>
@@ -16,7 +16,7 @@ At the end of the loop, the array has the values <c>{1, 4, 9, 16, 25}</c>.
 </p>
 
 <p>
-<idx><h>search</h></idx>
+    <idx><h>search</h></idx>
 Another common pattern is a <term>search</term>, which involves traversing an array and <q>searching</q> for a particular element.
 For example, the following function takes an array and a value, and it returns the index where the value appears:
 </p>
@@ -41,7 +41,7 @@ Because array indexes start at 0, the output is <c>2</c>:
 </program>
 
 <p>
-<idx><h>reduce</h></idx>
+    <idx><h>reduce</h></idx>
 Another common traversal is a <term>reduce</term> operation, which <q>reduces</q> an array of values down to a single value.
 Examples include the sum or product of the elements, the minimum, and the maximum.
 The following function takes an array and returns the sum of its elements:
@@ -52,7 +52,7 @@ The following function takes an array and returns the sum of its elements:
 </program>
 
 <p>
-<idx><h>accumulator</h></idx>
+    <idx><h>accumulator</h></idx>
 Before the loop, we initialize <c>total</c> to <c>0</c>.
 Each time through the loop, we update <c>total</c> by adding one element from the array.
 At the end of the loop, <c>total</c> contains the sum of the elements.

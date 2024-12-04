@@ -15,8 +15,8 @@ It's not always clear what causes a run-time error, but you can often figure thi
 
 <introduction>
 <p>
-<idx><h>hanging</h></idx>
-<idx><h>infinite loop</h></idx>
+    <idx><h>hanging</h></idx>
+    <idx><h>infinite loop</h></idx>
 If a program stops and seems to be doing nothing, we say it is <q>hanging</q>.
 Often that means it is caught in an infinite loop or an infinite recursion.
 <ul>
@@ -26,7 +26,7 @@ Run the program.
 If you get the first message and not the second, you know where the program is getting stuck.
 Go to the section titled <q>Infinite loop</q>.
 
-<idx><h>StackOverflowError</h></idx></p></li>
+    <idx><h>StackOverflowError</h></idx></p></li>
 <li><p>Most of the time, an infinite recursion will cause the program to run for a while and then produce a <c>StackOverflowError</c>.
 If that happens, go to the section titled <q>Infinite recursion</q>.
 
@@ -64,8 +64,8 @@ If the loop keeps going, you will see the values of <c>x</c> and <c>y</c>, and y
 <subsubsection xml:id="debugging_infinite-recursion" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Infinite recursion</title>
 <p>
-<idx><h>recursion</h><h>infinite</h></idx>
-<idx><h>infinite recursion</h></idx>
+    <idx><h>recursion</h><h>infinite</h></idx>
+    <idx><h>infinite recursion</h></idx>
 Most of the time, an infinite recursion will cause the program to throw a <c>StackOverflowError</c>.
 But if the program is slow, it may take a long time to fill the stack.
 </p>
@@ -90,8 +90,8 @@ If the parameters are not moving toward the base case, you might see why not.
 <subsubsection xml:id="debugging_flow-execution" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Flow of execution</title>
 <p>
-<idx><h>flow of execution</h></idx>
-<idx><h>tracing</h></idx>
+    <idx><h>flow of execution</h></idx>
+    <idx><h>tracing</h></idx>
 If you are not sure how the flow of execution is moving through your program, add print statements to the beginning of each function with a message like <c>"entering function foo"</c>, where <c>foo</c> is the name of the function.
 Now when you run the program, it displays a trace of each function as it is invoked.
 </p>
@@ -108,8 +108,8 @@ When you run the program, check whether the values are reasonable, and check for
 <subsection xml:id="debugging_when-i-run-program-i-get-exception" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>When I run the program, I get an exception</title>
 <p>
-<idx><h>exception</h></idx>
-<idx><h>stack trace</h></idx>
+    <idx><h>exception</h></idx>
+    <idx><h>stack trace</h></idx>
 When an exception occurs, Java displays a message that includes the name of the exception, the line of the program where the exception occurred, and a stack trace.
 The stack trace includes the function that was running, the function that invoked it, the function that invoked that one, and so on.
 </p>
@@ -120,7 +120,7 @@ The first step is to examine the place in the program where the error occurred a
 <li>
 <title>NullPointerException:</title>
 <p>
-<idx><h>NullPointerException</h></idx> 
+    <idx><h>NullPointerException</h></idx> 
 
 You tried to access an instance variable or invoke a function on an object that is currently <c>null</c>.
 You should figure out which variable is <c>null</c> and then figure out how it got to be that way.
@@ -136,7 +136,7 @@ For example, this code causes a <c>NullPointerException</c>:
 <li>
 <title>ArrayIndexOutOfBoundsException:</title>
 <p>
-<idx><h>ArrayIndexOutOfBoundsException</h></idx> 
+    <idx><h>ArrayIndexOutOfBoundsException</h></idx> 
 
 The index you are using to access an array is either negative or greater than <c>array.length - 1</c>.
 If you can find the site where the problem is, add a print statement immediately before it to display the value of the index and the length of the array.
@@ -149,13 +149,13 @@ If either one is a parameter, go to the place where the function is invoked and 
 <li>
 <title>StackOverflowError:</title>
 <p>
-<idx><h>StackOverflowError</h></idx> 
+    <idx><h>StackOverflowError</h></idx> 
 
 See <q>Infinite recursion</q> on <xref ref="infrec">page</xref>.</p></li>
 <li>
 <title>FileNotFoundException:</title>
 <p>
-<idx><h>FileNotFoundException</h></idx> 
+    <idx><h>FileNotFoundException</h></idx> 
 
 This means Java didn't find the file it was looking for.
 If you are using a project-based development environment like Eclipse, you might have to import the file into the project.
@@ -164,7 +164,7 @@ This problem depends on your filesystem, so it can be hard to track down.</p></l
 <li>
 <title>ArithmeticException:</title>
 <p>
-<idx><h>ArithmeticException</h></idx> 
+    <idx><h>ArithmeticException</h></idx> 
 
 Something went wrong during an arithmetic operation; for example, division by zero.</p></li>
 </ul>
@@ -176,8 +176,8 @@ Something went wrong during an arithmetic operation; for example, division by ze
 <subsection xml:id="debugging_i-added-so-many-print-statements-i-get-inundated-with-output" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>I added so many print statements I get inundated with output</title>
 <p>
-<idx><h>print statement</h></idx>
-<idx><h>statement</h><h>print</h></idx>
+    <idx><h>print statement</h></idx>
+    <idx><h>statement</h><h>print</h></idx>
 One of the problems with using print statements for debugging is that you can end up buried in output.
 There are two ways to proceed: either simplify the output or simplify the program.
 </p>
@@ -194,7 +194,7 @@ If the program takes input from the user, give it the simplest input that causes
 </p>
 
 <p>
-<idx><h>nested</h></idx>
+    <idx><h>nested</h></idx>
 Also, clean up the code.
 Remove unnecessary or experimental parts, and reorganize the program to make it easier to read.
 For example, if you suspect that the error is in a deeply nested part of the program, rewrite that part with a simpler structure.

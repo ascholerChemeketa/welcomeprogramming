@@ -1,16 +1,16 @@
 <section xml:id="designing-classes_equals-function" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The equals function</title>
 <p>
-<idx><h>== equals operator</h></idx>
-<idx><h>equals</h></idx>
-<idx><h>function</h><h>equals</h></idx>
+    <idx><h>== equals operator</h></idx>
+    <idx><h>equals</h></idx>
+    <idx><h>function</h><h>equals</h></idx>
 We have seen two ways to check whether values are equal: the <c>==</c> operator and the <c>equals</c> function.
 With objects, you can use either one, but they are not the same:
 </p>
 
 <p>
-<idx><h>identical</h></idx>
-<idx><h>equivalent</h></idx>
+    <idx><h>identical</h></idx>
+    <idx><h>equivalent</h></idx>
 <ul>
 <li><p>The <c>==</c> operator checks whether two references are <term>identical</term>; that is, whether they refer to the same object.</p></li>
 <li><p>The <c>equals</c> function checks whether two objects are <term>equivalent</term>; that is, whether they have the same values.</p></li>
@@ -31,8 +31,8 @@ Consider the following variables and the corresponding memory diagram in <xref r
 </program>
 
 <p>
-<idx><h>memory diagram</h></idx>
-<idx><h>diagram</h><h>memory</h></idx>
+    <idx><h>memory diagram</h></idx>
+    <idx><h>diagram</h><h>memory</h></idx>
 </p>
 <figure xml:id="fig_time2" >
 <caption>Memory diagram of three <c>Time</c> variables.</caption>
@@ -52,8 +52,8 @@ For example, <c>time1</c> and <c>time3</c> represent the same time of day, so we
 </p>
 
 <p>
-<idx><h>equals</h></idx>
-<idx><h>function</h><h>equals</h></idx>
+    <idx><h>equals</h></idx>
+    <idx><h>function</h><h>equals</h></idx>
 We can provide an <c>equals</c> function that implements this idea:
 </p>
 

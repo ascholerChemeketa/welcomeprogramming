@@ -15,15 +15,15 @@ The problem is that the value on the right is floating-point, and the variable o
 </p>
 
 <p>
-<idx><h>automatic conversion</h></idx>
+    <idx><h>automatic conversion</h></idx>
 Java converts an <c>int</c> to a <c>double</c> automatically, since no information is lost in the process.
 On the other hand, going from <c>double</c> to <c>int</c> would lose the decimal places.
 Java doesn't perform this operation automatically in order to ensure that you are aware of the loss of the fractional part of the number.
 </p>
 
 <p>
-<idx><h>type cast</h></idx>
-<idx><h>operator</h><h>cast</h></idx>
+    <idx><h>type cast</h></idx>
+    <idx><h>operator</h><h>cast</h></idx>
 The simplest way to convert a floating-point value to an integer is to use a <term>type cast</term>, so called because it molds, or <q>casts</q>, a value from one type to another.
 The syntax for type casting is to put the name of the type in parentheses and use it as an operator:
 </p>

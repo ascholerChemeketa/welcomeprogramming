@@ -15,8 +15,8 @@ Instead, when you run the program, it causes an exception:
 </p>
 
 <p>
-<idx><h>MissingFormatArgumentException</h></idx>
-<idx><h>exception</h><h>MissingFormatArgument</h></idx>
+    <idx><h>MissingFormatArgumentException</h></idx>
+    <idx><h>exception</h><h>MissingFormatArgument</h></idx>
 </p>
 
 <console>
@@ -42,7 +42,7 @@ So <c>printf</c> gets the format string, but it doesn't get any values to format
 </p>
 
 <p>
-<idx><h>stack trace</h></idx>
+    <idx><h>stack trace</h></idx>
 The error message also includes a <term>stack trace</term> that shows the function that was running when the error was detected, <c>java.util.Formatter.format</c>; the function that ran it, <c>java.io.PrintStream.format</c>; the function that ran <term>that</term>, <c>java.io.PrintStream.printf</c>; and finally the function you actually wrote, <c>Example.main</c>.
 </p>
 

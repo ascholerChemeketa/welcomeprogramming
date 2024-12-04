@@ -1,7 +1,7 @@
 <section xml:id="objects-arrays_subdecks" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Subdecks</title>
 <p>
-<idx><h>subdeck</h></idx> The first step of merge sort is to split the deck into two <q>subdecks</q>, each with about half of the cards.
+    <idx><h>subdeck</h></idx> The first step of merge sort is to split the deck into two <q>subdecks</q>, each with about half of the cards.
 So we need a function that takes a deck, and a range of indexes, and returns a new deck that contains the specified subset of cards:
 </p>
 
@@ -15,15 +15,15 @@ Inside the <c>for</c> loop, the subdeck gets populated with references to <c>Car
 </p>
 
 <p>
-<idx><h>off-by-one</h></idx>
+    <idx><h>off-by-one</h></idx>
 The length of the subdeck is <c>high - low + 1</c>, because both the low card and the high card are included.
 This sort of computation can be confusing, and forgetting the <q><c>+ 1</c></q> often leads to <term>off-by-one</term> errors.
 Drawing a picture is usually the best way to avoid them.
 </p>
 
 <p>
-<idx><h>constructor</h></idx>
-<idx><h>overload</h></idx>
+    <idx><h>constructor</h></idx>
+    <idx><h>overload</h></idx>
 <xref ref="fig_subdeck">Figure</xref> is a memory diagram of a subdeck with <c>low = 0</c> and <c>high = 4</c>.
 The result is a hand with five cards that are <term>shared</term> with the original deck; that is, they are aliased.
 </p>
@@ -32,8 +32,8 @@ The result is a hand with five cards that are <term>shared</term> with the origi
 <image width="73%" source="external/images/subdeck.png" />
 </figure>
 <p>
-<idx><h>aliasing</h></idx>
-<idx><h>reference</h></idx>
+    <idx><h>aliasing</h></idx>
+    <idx><h>reference</h></idx>
 Aliasing might not be a good idea, because changes to shared cards would be reflected in multiple decks.
 But since <c>Card</c> objects are immutable, this kind of aliasing is not a problem.
 And it saves some memory because we don't create duplicate <c>Card</c> objects.

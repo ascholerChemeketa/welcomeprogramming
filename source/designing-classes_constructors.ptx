@@ -1,14 +1,14 @@
 <section xml:id="designing-classes_constructors" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Constructors</title>
 <p>
-<idx><h>constructor</h></idx>
-<idx><h>function</h><h>constructor</h></idx>
+    <idx><h>constructor</h></idx>
+    <idx><h>function</h><h>constructor</h></idx>
 After declaring instance variables, the next step is to define a <term>constructor</term>, which is a special function that initializes the object.
 The syntax for constructors is similar to that of other functions, except for the following:
 </p>
 
 <p>
-<idx><h>static</h></idx>
+    <idx><h>static</h></idx>
 <ul>
 <li><p>The name of the constructor is the same as the name of the class.</p></li>
 <li><p>Constructors have no return type (and no return value).</p></li>
@@ -30,8 +30,8 @@ Each line initializes an instance variable to <c>0</c> (which is midnight for a 
 </p>
 
 <p>
-<idx><h>this</h></idx>
-<idx><h>keyword</h></idx>
+    <idx><h>this</h></idx>
+    <idx><h>keyword</h></idx>
 The name <c>this</c> is a keyword that refers to the object we are creating.
 You can use <c>this</c> the same way you use the name of any other object.
 For example, you can read and write the instance variables of <c>this</c>, and you can pass <c>this</c> as an argument to other functions.
@@ -52,8 +52,8 @@ To create a <c>Time</c> object, you must use the <c>new</c> operator:
 </program>
 
 <p>
-<idx><h>new</h></idx>
-<idx><h>operator</h><h>new</h></idx>
+    <idx><h>new</h></idx>
+    <idx><h>operator</h><h>new</h></idx>
 When you use <c>new</c>, Java creates the object and invokes your constructor to initialize the instance variables.
 When the constructor is done, <c>new</c> returns a reference to the new object.
 In this example, the reference gets assigned to the variable <c>time</c>, which has type <c>Time</c>.
@@ -61,17 +61,17 @@ In this example, the reference gets assigned to the variable <c>time</c>, which 
 </p>
 
 <p>
-<idx><h>memory diagram</h></idx>
-<idx><h>diagram</h><h>memory</h></idx>
+    <idx><h>memory diagram</h></idx>
+    <idx><h>diagram</h><h>memory</h></idx>
 </p>
 <figure xml:id="fig_time" >
 <caption>Memory diagram of a <c>Time</c> object.</caption>
 <image width="73%" source="external/images/time.png" />
 </figure>
 <p>
-<idx><h>recursion</h><h>infinite</h></idx>
-<idx><h>infinite recursion</h></idx>
-<idx><h>StackOverflowError</h></idx>
+    <idx><h>recursion</h><h>infinite</h></idx>
+    <idx><h>infinite recursion</h></idx>
+    <idx><h>StackOverflowError</h></idx>
 Beginners sometimes make the mistake of using <c>new</c> in the constructor:
 </p>
 

@@ -1,7 +1,7 @@
 <section xml:id="arrays-references_copying-arrays" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Copying Arrays</title>
 <p>
-<idx><h>array</h><h>copying</h></idx>
+    <idx><h>array</h><h>copying</h></idx>
 As explained in <xref ref="elements">Section</xref>, array variables contain <term>references</term> to arrays.
 When you make an assignment to an array variable, it simply copies the reference.
 But it doesn't copy the array itself.
@@ -17,15 +17,15 @@ These statements create an array of three <c>double</c>s and make two different 
 </p>
 
 <p>
-<idx><h>memory diagram</h></idx>
-<idx><h>diagram</h><h>memory</h></idx>
+    <idx><h>memory diagram</h></idx>
+    <idx><h>diagram</h><h>memory</h></idx>
 </p>
 <figure xml:id="fig_array3" >
 <caption>Memory diagram of two variables referring to the same array.</caption>
 <image width="73%" source="external/images/array3.png" />
 </figure>
 <p>
-<idx><h>alias</h></idx>
+    <idx><h>alias</h></idx>
 Any changes made through either variable will be seen by the other.
 For example, if we set <c>a[0] = 17.0</c>, and then display <c>b[0]</c>, the result is <c>17.0</c>.
 Because <c>a</c> and <c>b</c> are different names for the same thing, they are sometimes called <term>aliases</term>.
@@ -40,7 +40,7 @@ If you actually want to copy the array, not just the reference, you have to crea
 </program>
 
 <p>
-<idx><h>Arrays class</h></idx>
+    <idx><h>Arrays class</h></idx>
 <c>java.util.Arrays</c> provides a function named <c>copyOf</c> that performs this task for you.
 So you can replace the previous code with one line:
 </p>
@@ -58,8 +58,8 @@ The second parameter is the number of elements you want to copy, so <c>copyOf</c
 <image width="73%" source="external/images/array4.png" />
 </figure>
 <p>
-<idx><h>length</h><h>array</h></idx>
-<idx><h>array</h><h>length</h></idx>
+    <idx><h>length</h><h>array</h></idx>
+    <idx><h>array</h><h>length</h></idx>
 The examples so far work only if the array has three elements.
 It is better to generalize the code to work with arrays of any size.
 We can do that by replacing the magic number, <c>3</c>, with <c>a.length</c>:

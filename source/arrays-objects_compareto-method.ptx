@@ -1,7 +1,7 @@
 <section xml:id="arrays-objects_compareto-function" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The compareTo function</title>
 <p>
-<idx><h>equivalent</h></idx>
+    <idx><h>equivalent</h></idx>
 As you saw in <xref ref="equals">Section</xref>, it's helpful to create an <c>equals</c> function to test whether two objects are equivalent:
 </p>
 
@@ -10,8 +10,8 @@ As you saw in <xref ref="equals">Section</xref>, it's helpful to create an <c>eq
 </program>
 
 <p>
-<idx><h>operator</h><h>logical</h></idx>
-<idx><h>logical operator</h></idx>
+    <idx><h>operator</h><h>logical</h></idx>
+    <idx><h>logical operator</h></idx>
 It would also be nice to have a function for comparing cards, so we can tell if one is higher or lower than another.
 For primitive types, we can use comparison operators like <c>LESS</c> and <c>MORE</c> to compare values.
 But these operators don't work for object types.
@@ -23,9 +23,9 @@ We can write our own version of <c>compareTo</c> for the classes that we define,
 </p>
 
 <p>
-<idx><h>ordering</h></idx>
-<idx><h>complete ordering</h></idx>
-<idx><h>partial ordering</h></idx>
+    <idx><h>ordering</h></idx>
+    <idx><h>complete ordering</h></idx>
+    <idx><h>partial ordering</h></idx>
 Some types are <q>totally ordered</q>, which means that you can compare any two values and tell which is bigger.
 Integers and strings are totally ordered.
 Other types are <q>unordered</q>, which means that there is no meaningful way to say that one element is bigger than another.
@@ -40,7 +40,7 @@ One has a higher rank, but the other has a higher suit.
 </p>
 
 <p>
-<idx><h>compareTo</h></idx>
+    <idx><h>compareTo</h></idx>
 To make cards comparable, we have to decide which is more important: rank or suit.
 The choice is arbitrary, and it might be different for different games.
 But when you buy a new deck of cards, it comes sorted with all the Clubs together, followed by all the Diamonds, and so on.

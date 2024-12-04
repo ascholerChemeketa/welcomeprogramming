@@ -10,16 +10,16 @@ We encapsulate the code from the previous section and generalize it to construct
 </program>
 
 <p>
-<idx><h>IS-A</h></idx>
-<idx><h>HAS-A</h></idx>
-<idx><h>Graphics</h></idx>
+    <idx><h>IS-A</h></idx>
+    <idx><h>HAS-A</h></idx>
+    <idx><h>Graphics</h></idx>
 Using vocabulary from the previous chapter, <c>GridCanvas</c> <q>is<nbsp/>a</q> <c>Canvas</c> that <q>has<nbsp/>a</q> 2D array of cells.
 By extending the <c>Canvas</c> class from <c>java.awt</c>, we inherit functions for drawing graphics on the screen.
 </p>
 
 <p>
-<idx><h>nested</h><h>arrays</h></idx>
-<idx><h>traversal</h></idx>
+    <idx><h>nested</h><h>arrays</h></idx>
+    <idx><h>traversal</h></idx>
 In fact, the code is surprisingly straightforward: to draw the grid, we simply draw each cell.
 We use nested <c>for</c> loops to traverse the 2D array:
 </p>

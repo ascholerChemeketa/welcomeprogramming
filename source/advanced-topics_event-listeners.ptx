@@ -1,7 +1,7 @@
 <section xml:id="advanced-topics_event-listeners" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Event Listeners</title>
 <p>
-<idx><h>sprite</h></idx>
+    <idx><h>sprite</h></idx>
 Now that our <c>Drawing</c> is based on <c>Actor</c> instead of <c>DrawablePolygon</c>, we can draw other types of graphics.
 Here is the beginning of a class that reads an image from a file and shows the image moving across the canvas.
 The class is called <c>Sprite</c> because a moving image is sometimes called a <term>sprite</term>, in the context of computer graphics:
@@ -17,8 +17,8 @@ The instance variables <c>xpos</c> and <c>ypos</c> represent the location of the
 </p>
 
 <p>
-<idx><h>ImageIO</h></idx>
-<idx><h>javax.imageio</h></idx>
+    <idx><h>ImageIO</h></idx>
+    <idx><h>javax.imageio</h></idx>
 The constructor takes as parameters the name of a file and the initial position.
 It uses <c>ImageIO</c>, from the <c>javax.imageio</c> package, to read the file.
 If an error occurs during reading, an <c>IOException</c> is caught, and the program displays the stack trace for debugging.

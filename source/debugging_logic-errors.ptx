@@ -32,7 +32,7 @@ If it doesn't do what you expect, the problem might not actually be the program;
 </p>
 
 <p>
-<idx><h>mental model</h></idx>
+    <idx><h>mental model</h></idx>
 The best way to correct your mental model is to break the program into components (usually the classes and functions) and test them independently.
 Once you find the discrepancy between your model and reality, you can solve the problem.
 </p>
@@ -42,8 +42,8 @@ Here are some common logic errors to check for:
 </p>
 
 <p>
-<idx><h>logic error</h></idx>
-<idx><h>error</h><h>logic</h></idx>
+    <idx><h>logic error</h></idx>
+    <idx><h>error</h><h>logic</h></idx>
 <ul>
 <li><p>Remember that integer division always rounds toward zero.
 If you want fractions, use <c>double</c>.
@@ -66,7 +66,7 @@ See <q>Flow of execution</q> on <xref ref="flowexec">page</xref>.</p></li>
 <subsection xml:id="debugging_ive-got-a-big-hairy-expression-it-doesnt-do-what-i-expect" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>I've got a big, hairy expression and it doesn't do what I expect</title>
 <p>
-<idx><h>expression</h><h>big and hairy</h></idx>
+    <idx><h>expression</h><h>big and hairy</h></idx>
 Writing complex expressions is fine as long as they are readable, but they can be hard to debug.
 It is often a good idea to break a complex expression into a series of assignments to temporary variables:
 </p>
@@ -89,10 +89,10 @@ It's also easier to debug, because you can check the types of the temporary vari
 </p>
 
 <p>
-<idx><h>temporary variable</h></idx>
-<idx><h>variable</h><h>temporary</h></idx>
-<idx><h>order of operations</h></idx>
-<idx><h>precedence</h></idx>
+    <idx><h>temporary variable</h></idx>
+    <idx><h>variable</h><h>temporary</h></idx>
+    <idx><h>order of operations</h></idx>
+    <idx><h>precedence</h></idx>
 Another problem that can occur with big expressions is that the order of operations may not be what you expect.
 For example, to evaluate <m>\frac{x}{2 \pi}</m>, you might write this:
 </p>
@@ -123,8 +123,8 @@ This version is correct, and more readable for other people who haven't memorize
 <subsection xml:id="debugging_my-function-doesnt-return-what-i-expect" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>My function doesn't return what I expect</title>
 <p>
-<idx><h>return statement</h></idx>
-<idx><h>statement</h><h>return</h></idx>
+    <idx><h>return statement</h></idx>
+    <idx><h>statement</h><h>return</h></idx>
 If you have a return statement with a complex expression, you don't have a chance to display the value before returning:
 </p>
 
@@ -150,8 +150,8 @@ And by reusing <c>x1</c> and <c>y1</c>, you made the code smaller too.
 <subsection xml:id="debugging_my-print-statement-isnt-doing-anything" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>My print statement isn't doing anything</title>
 <p>
-<idx><h>print statement</h></idx>
-<idx><h>statement</h><h>print</h></idx>
+    <idx><h>print statement</h></idx>
+    <idx><h>statement</h><h>print</h></idx>
 If you use the <c>println</c> function, the output is displayed immediately, but if you use <c>print</c> (at least in some environments), the output gets stored without being displayed until the next newline.
 If the program terminates without displaying a newline, you may never see the stored output.
 If you suspect that this is happening, change some or all of the <c>print</c> statements to <c>println</c>.
@@ -221,8 +221,8 @@ Here's how it works:
 </p>
 
 <p>
-<idx><h>rubber duck</h></idx>
-<idx><h>debugging</h><h>rubber duck</h></idx>
+    <idx><h>rubber duck</h></idx>
+    <idx><h>debugging</h><h>rubber duck</h></idx>
 <ol>
 <li><p>Buy a standard-issue rubber duck.</p></li>
 <li><p>When you are really stuck on a problem, put the rubber duck on the desk in front of you and say, <q>Rubber duck, I am stuck on a problem.

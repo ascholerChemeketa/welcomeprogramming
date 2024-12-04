@@ -9,17 +9,17 @@ When you create an array with the <c>new</c> operator, the elements are initiali
 <image width="73%" source="external/images/array.png" />
 </figure>
 <p>
-<idx><h>reference</h></idx>
+    <idx><h>reference</h></idx>
 The arrow indicates that the value of <c>counts</c> is a <term>reference</term> to the array.
 You should think of <term>the array</term> and <term>the variable</term> that refers to it as two different things.
 As you'll soon see, we can assign a different variable to refer to the same array, and we can change the value of <c>counts</c> to refer to a different array.
 </p>
 
 <p>
-<idx><h>element</h></idx>
-<idx><h>index</h></idx>
-<idx><h>array</h><h>element</h></idx>
-<idx><h>array</h><h>index</h></idx>
+    <idx><h>element</h></idx>
+    <idx><h>index</h></idx>
+    <idx><h>array</h><h>element</h></idx>
+    <idx><h>array</h><h>index</h></idx>
 The boldface numbers inside the boxes are the elements of the array.
 The lighter numbers outside the boxes are the <term>indexes</term> used to identify each location in the array.
 As with strings, the index of the first element is 0, not 1.
@@ -67,8 +67,8 @@ In this context, the variable name <c>i</c> is short for <q>index</q>.
 </p>
 
 <p>
-<idx><h>loop variable</h></idx>
-<idx><h>variable</h><h>loop</h></idx>
+    <idx><h>loop variable</h></idx>
+    <idx><h>variable</h><h>loop</h></idx>
 Each time through the loop, we use <c>i</c> as an index into the array, displaying the <m>i</m>th element.
 This type of array processing is usually written as a <c>for</c> loop:
 </p>
@@ -78,8 +78,8 @@ This type of array processing is usually written as a <c>for</c> loop:
 </program>
 
 <p>
-<idx><h>ArrayIndexOutOfBoundsException</h></idx>
-<idx><h>exception</h><h>ArrayIndexOutOfBounds</h></idx>
+    <idx><h>ArrayIndexOutOfBoundsException</h></idx>
+    <idx><h>exception</h><h>ArrayIndexOutOfBounds</h></idx>
 For the <c>counts</c> array, the only legal indexes are 0, 1, 2, and 3.
 If the index is negative or greater than 3, the result is an <c>ArrayIndexOutOfBoundsException</c>.
 </p>

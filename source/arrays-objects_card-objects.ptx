@@ -1,7 +1,7 @@
 <section xml:id="arrays-objects_card-objects" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Card Objects</title>
 <p>
-<idx><h>Card</h></idx>
+    <idx><h>Card</h></idx>
 If we want to define a class to represent a playing card, it is pretty clear what the instance variables should be: <c>rank</c> and <c>suit</c>.
 It is not as obvious what types they should be.
 </p>
@@ -12,8 +12,8 @@ A problem with this choice is that it would not be easy to compare cards to see 
 </p>
 
 <p>
-<idx><h>encode</h></idx>
-<idx><h>map to</h></idx>
+    <idx><h>encode</h></idx>
+    <idx><h>map to</h></idx>
 An alternative is to use integers to <term>encode</term> the ranks and suits.
 By encode, we <term>don't</term> mean to encrypt or translate into a secret code.
 We mean to define a mapping between a sequence of numbers and the things we want to represent.
@@ -52,7 +52,7 @@ With this encoding, the class definition for the <c>Card</c> type looks like thi
 </program>
 
 <p>
-<idx><h>constructor</h></idx>
+    <idx><h>constructor</h></idx>
 The instance variables are <c>private</c>: we can access them from inside this class, but not from other classes.
 </p>
 

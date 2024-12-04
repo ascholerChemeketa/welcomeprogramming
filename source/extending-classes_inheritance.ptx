@@ -6,9 +6,9 @@ It provides functionality common to decks of cards, piles of cards, hands of car
 </p>
 
 <p>
-<idx><h>inheritance</h></idx>
-<idx><h>subclass</h></idx>
-<idx><h>extends</h></idx>
+    <idx><h>inheritance</h></idx>
+    <idx><h>subclass</h></idx>
+    <idx><h>extends</h></idx>
 However, each kind of collection will be slightly different.
 Rather than add every possible feature to <c>CardCollection</c>, we can use <term>inheritance</term> to define subclasses.
 A <term>subclass</term> is a class that <q>extends</q> an existing class; that is, it has the attributes and functions of the existing class, plus more.
@@ -23,8 +23,8 @@ Here is the complete definition of our new and improved <c>Deck</c> class:
 </program>
 
 <p>
-<idx><h>extends</h></idx>
-<idx><h>superclass</h></idx>
+    <idx><h>extends</h></idx>
+    <idx><h>superclass</h></idx>
 The first line uses the keyword <c>extends</c> to indicate that <c>Deck</c> extends the class <c>CardCollection</c>.
 That means a <c>Deck</c> object has the same instance variables and functions as a <c>CardCollection</c>.
 Another way to say the same thing is that <c>Deck</c> <q>inherits from</q> <c>CardCollection</c>.
@@ -32,7 +32,7 @@ We could also say that <c>CardCollection</c> is a <term>superclass</term>, and <
 </p>
 
 <p>
-<idx><h>Object class</h></idx>
+    <idx><h>Object class</h></idx>
 In Java, classes may extend only one superclass.
 Classes that do not specify a superclass with <c>extends</c> automatically inherit from <c>java.lang.Object</c>.
 So in this example, <c>Deck</c> extends <c>CardCollection</c>, which in turn extends <c>Object</c>.
@@ -68,7 +68,7 @@ Here's what the definition looks like:
 </p>
 
 <p>
-<idx><h>Hand</h></idx>
+    <idx><h>Hand</h></idx>
 </p>
 
 <program xml:id="extending-classes_inheritance-3">

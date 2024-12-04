@@ -7,15 +7,15 @@ You have already seen two types that encapsulate data in this way: <c>Point</c> 
 </p>
 
 <p>
-<idx><h>Time</h></idx>
+    <idx><h>Time</h></idx>
 Another example, which we will implement ourselves, is <c>Time</c>, which represents a time of day.
 The data encapsulated in a <c>Time</c> object includes an hour, a minute, and a number of seconds.
 Because every <c>Time</c> object contains these values, we define attributes to hold them.
 </p>
 
 <p>
-<idx><h>instance variable</h></idx>
-<idx><h>variable</h><h>instance</h></idx>
+    <idx><h>instance variable</h></idx>
+    <idx><h>variable</h><h>instance</h></idx>
 Attributes are also called <term>instance variables</term>, because each instance has its own variables (as opposed to <q>class variables</q>, coming up in <xref ref="classvar">Section</xref>).
 </p>
 
@@ -35,15 +35,15 @@ By itself, this code fragment is a legal class definition:
 </program>
 
 <p>
-<idx><h>private</h></idx>
-<idx><h>variable</h><h>private</h></idx>
+    <idx><h>private</h></idx>
+    <idx><h>variable</h><h>private</h></idx>
 The <c>Time</c> class is <c>public</c>, which means that it can be used in other classes.
 But the instance variables are <c>private</c>, which means they can be accessed only from inside the <c>Time</c> class.
 If you try to read or write them from another class, you will get a compiler error.
 </p>
 
 <p>
-<idx><h>information hiding</h></idx>
+    <idx><h>information hiding</h></idx>
 Private instance variables help keep classes isolated from each other, so that changes in one class won't require changes in other classes.
 It also simplifies what other programmers need to know to use your classes.
 This kind of isolation is called <term>information hiding</term>.

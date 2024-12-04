@@ -6,7 +6,7 @@ Sometimes users make mistakes, such as pressing the wrong key or misreading inst
 </p>
 
 <p>
-<idx><h>hacker</h></idx>
+    <idx><h>hacker</h></idx>
 Or even worse, someone might make intentional <q>mistakes</q> to see what your program will do.
 One way hackers break into computer systems is by entering malicious input that causes a program to fail.
 </p>
@@ -17,13 +17,13 @@ It's difficult to write bug-free software, especially when working in teams on l
 </p>
 
 <p>
-<idx><h>validate</h></idx>
+    <idx><h>validate</h></idx>
 For all of these reasons, it's good practice to validate arguments passed to functions, including the <c>main</c> function.
 In the previous section, we did this by ensuring that <c>args.length</c> was not 0.
 </p>
 
 <p>
-<idx><h>Character</h></idx>
+    <idx><h>Character</h></idx>
 As a further example, consider a function that checks whether the first word of a sentence is capitalized.
 We can write this function using the <c>Character</c> wrapper class:
 </p>
@@ -38,8 +38,8 @@ What if these assumptions don't hold at run-time?
 </p>
 
 <p>
-<idx><h>NullPointerException</h></idx>
-<idx><h>exception</h><h>NullPointer</h></idx>
+    <idx><h>NullPointerException</h></idx>
+    <idx><h>exception</h><h>NullPointer</h></idx>
 <ul>
 <li><p>If <c>str</c> is <c>null</c>, invoking <c>charAt</c> will cause a <c>NullPointerException</c>, because you can't invoke a function on <c>null</c>.</p></li>
 <li><p>If <c>str</c> refers to an empty string, which is a <c>String</c> object with no characters, <c>charAt</c> will cause a <c>StringIndexOutOfBoundsException</c>, because there is no character at index <c>0</c>.</p></li>
@@ -47,8 +47,8 @@ What if these assumptions don't hold at run-time?
 </p>
 
 <p>
-<idx><h>StringIndexOutOfBoundsException</h></idx>
-<idx><h>exception</h><h>StringIndexOutOfBounds</h></idx>
+    <idx><h>StringIndexOutOfBoundsException</h></idx>
+    <idx><h>exception</h><h>StringIndexOutOfBounds</h></idx>
 We can prevent these exceptions by validating <c>str</c> <term>at the start</term> of the function.
 If it's invalid, we return before executing the rest of the function:
 </p>
@@ -76,7 +76,7 @@ Doing so causes a <c>NullPointerException</c>, because you can't invoke function
 </program>
 
 <p>
-<idx><h>short circuit</h></idx>
+    <idx><h>short circuit</h></idx>
 Checking for <c>null</c> first prevents the <c>NullPointerException</c>.
 If <c>str</c> is <c>null</c>, the <c>||</c> operator will short circuit (see <xref ref="shortcircuit">Section</xref>) and evaluate to <c>true</c> immediately.
 As a result, <c>str.isEmpty()</c> will not be called.

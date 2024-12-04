@@ -1,14 +1,14 @@
 <section xml:id="input-output_system-class" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The System Class</title>
 <p>
-<idx><h>System.out</h></idx>
+    <idx><h>System.out</h></idx>
 We have been using <c>System.out.println</c> for a while, but you might not have thought about what it means.
 <c>System</c> is a class that provides functions related to the <q>system</q>, or environment, where programs run.
 It also provides <c>System.out</c>, which is a special value that has additional functions (like <c>println</c>) for displaying output.
 </p>
 
 <p>
-<idx><h>System.out</h></idx>
+    <idx><h>System.out</h></idx>
 In fact, we can use <c>System.out.println</c> to display the value of <c>System.out</c>:
 </p>
 
@@ -27,22 +27,22 @@ java.io.PrintStream@685d72cd
 </console>
 
 <p>
-<idx><h>package</h></idx>
-<idx><h>java.io</h></idx>
+    <idx><h>package</h></idx>
+    <idx><h>java.io</h></idx>
 This output indicates that <c>System.out</c> is a <c>PrintStream</c>, which is defined in a package called <c>java.io</c>.
 A <term>package</term> is a collection of related classes; <c>java.io</c> contains classes for I/O which stands for <q>input and output</q>.
 </p>
 
 <p>
-<idx><h>address</h></idx>
-<idx><h>hexadecimal</h></idx>
+    <idx><h>address</h></idx>
+    <idx><h>hexadecimal</h></idx>
 The numbers and letters after the <c>@</c> sign are the <term>address</term> of <c>System.out</c>, represented as a hexadecimal (base 16) number.
 The address of a value is its location in the computer's memory, which might be different on different computers.
 In this example, the address is <c>685d72cd</c>, but if you run the same code, you will likely get something else.
 </p>
 
 <p>
-<idx><h>library</h></idx>
+    <idx><h>library</h></idx>
 As shown in <xref ref="fig_system">Figure</xref>, <c>System</c> is defined in a file called <term>System.java</term>, and <c>PrintStream</c> is defined in <term>PrintStream.java</term>.
 These files are part of the Java <term>library</term>, which is an extensive collection of classes that you can use in your programs.
 The source code for these classes is usually included with the compiler (see <xref ref="src_zip">Section</xref>).

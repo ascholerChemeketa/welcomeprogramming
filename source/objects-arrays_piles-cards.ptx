@@ -1,7 +1,7 @@
 <section xml:id="objects-arrays_piles-cards" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Piles of Cards</title>
 <p>
-<idx><h>War (card game)</h></idx>
+    <idx><h>War (card game)</h></idx>
 Now that we have classes that represent cards and decks, let's use them to make a game.
 One of the simplest card games that children play is called <q>War</q> (see \url{https://en.wikipedia.org/wiki/War_(card_game)}).
 </p>
@@ -20,15 +20,15 @@ As the game progresses, we need to be able to add and remove cards from the pile
 </p>
 
 <p>
-<idx><h>ArrayList</h></idx>
-<idx><h>collection</h></idx>
+    <idx><h>ArrayList</h></idx>
+    <idx><h>collection</h></idx>
 We can solve this problem with an <c>ArrayList</c>, which is in the <c>java.util</c> package.
 An <c>ArrayList</c> is a <term>collection</term>, which is an object that contains other objects.
 It provides functions to add and remove elements, and it grows and shrinks automatically.
 </p>
 
 <p>
-<idx><h>Pile</h></idx>
+    <idx><h>Pile</h></idx>
 We define a new class named <c>Pile</c> to represent a pile of cards.
 It uses an <c>ArrayList</c> to store <c>Card</c> objects:
 </p>
@@ -38,9 +38,9 @@ It uses an <c>ArrayList</c> to store <c>Card</c> objects:
 </program>
 
 <p>
-<idx><h>angle brackets</h></idx>
-<idx><h>brackets</h><h>angle</h></idx>
-<idx><h>\textless\textgreater<nbsp/>angle brackets</h></idx>
+    <idx><h>angle brackets</h></idx>
+    <idx><h>brackets</h><h>angle</h></idx>
+    <idx><h>\textless\textgreater<nbsp/>angle brackets</h></idx>
 When you declare an <c>ArrayList</c>, you specify the type it contains in angle brackets (<c>LESSMORE</c>).
 This declaration says that <c>cards</c> is not just an <c>ArrayList</c>; it's an <c>ArrayList</c> of <c>Card</c> objects.
 The constructor initializes <c>this.cards</c> with an empty <c>ArrayList</c>.

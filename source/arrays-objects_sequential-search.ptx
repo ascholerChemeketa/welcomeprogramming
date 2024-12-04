@@ -1,15 +1,15 @@
 <section xml:id="arrays-objects_sequential-search" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Sequential Search</title>
 <p>
-<idx><h>sequential search</h></idx>
+    <idx><h>sequential search</h></idx>
 The next function we'll write is <c>search</c>, which takes an array of cards and a <c>Card</c> object as parameters.
 It returns the index where the <c>Card</c> appears in the array, or <c>-1</c> if it doesn't.
 This version of <c>search</c> uses the algorithm in <xref ref="traversal">Section</xref>, which is called <term>sequential search</term>:
 </p>
 
 <p>
-<idx><h>traversal</h></idx>
-<idx><h>loop</h><h>search</h></idx>
+    <idx><h>traversal</h></idx>
+    <idx><h>loop</h><h>search</h></idx>
 </p>
 
 <program xml:id="arrays-objects_sequential-search-1">
@@ -17,14 +17,14 @@ This version of <c>search</c> uses the algorithm in <xref ref="traversal">Sectio
 </program>
 
 <p>
-<idx><h>statement</h><h>return</h></idx>
-<idx><h>return</h><h>inside loop</h></idx>
+    <idx><h>statement</h><h>return</h></idx>
+    <idx><h>return</h><h>inside loop</h></idx>
 The function returns as soon as it discovers the card, which means we don't have to traverse the entire array if we find the target.
 If we get to the end of the loop, we know the card is not in the array.
 </p>
 
 <p>
-<idx><h>efficiency</h></idx>
+    <idx><h>efficiency</h></idx>
 If the cards in the array are not in order, there is no way to search faster than sequential search.
 We have to look at every card, because otherwise we can't be certain the card we want is not there.
 But if the cards are in order, we can use better algorithms.

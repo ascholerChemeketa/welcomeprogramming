@@ -6,14 +6,14 @@ We can access them from within the <c>Time</c> class, but if we try to read or w
 </p>
 
 <p>
-<idx><h>private</h></idx>
-<idx><h>variable</h><h>private</h></idx>
+    <idx><h>private</h></idx>
+    <idx><h>variable</h><h>private</h></idx>
 A class that uses objects defined in another class is called a <term>client</term>.
 For example, here is a new class called <c>TimeClient</c>:
 </p>
 
 <p>
-<idx><h>client</h></idx>
+    <idx><h>client</h></idx>
 </p>
 
 <program xml:id="designing-classes_getters-setters-1" interactive="activecode">
@@ -37,8 +37,8 @@ If anything in <m>B</m> changes later, it is likely that <m>A</m> will have to c
 </p>
 
 <p>
-<idx><h>dependent</h></idx>
-<idx><h>independent</h></idx>
+    <idx><h>dependent</h></idx>
+    <idx><h>independent</h></idx>
 But if <m>A</m> uses only functions to interact with <m>B</m>, <m>A</m> and <m>B</m> are less dependent, which means that we can make changes in <m>B</m> without affecting <m>A</m> (as long as we don't change the function parameters).
 So we generally avoid making instance variables public.
 </p>
@@ -54,10 +54,10 @@ We can do that by providing one function for each instance variable:
 </program>
 
 <p>
-<idx><h>accessor</h></idx>
-<idx><h>function</h><h>accessor</h></idx>
-<idx><h>getter</h></idx>
-<idx><h>function</h><h>getter</h></idx>
+    <idx><h>accessor</h></idx>
+    <idx><h>function</h><h>accessor</h></idx>
+    <idx><h>getter</h></idx>
+    <idx><h>function</h><h>getter</h></idx>
 functions like these are formally called <q>accessors</q>, but more commonly referred to as <term>getters</term>.
 By convention, the function that gets a variable named <c>something</c> is called <c>getSomething</c>.
 </p>
@@ -79,10 +79,10 @@ If we decide that <c>TimeClient</c> should also be able to modify the instance v
 </program>
 
 <p>
-<idx><h>mutator</h></idx>
-<idx><h>function</h><h>mutator</h></idx>
-<idx><h>setter</h></idx>
-<idx><h>function</h><h>setter</h></idx>
+    <idx><h>mutator</h></idx>
+    <idx><h>function</h><h>mutator</h></idx>
+    <idx><h>setter</h></idx>
+    <idx><h>function</h><h>setter</h></idx>
 These functions are formally called <q>mutators</q>, but more commonly known as <term>setters</term>.
 The naming convention is similar; the function that sets <c>something</c> is usually called <c>setSomething</c>.
 </p>

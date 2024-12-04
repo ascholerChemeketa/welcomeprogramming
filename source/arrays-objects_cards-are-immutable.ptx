@@ -10,7 +10,7 @@ We can provide getters to allow other classes to read the <c>rank</c> and <c>sui
 </program>
 
 <p>
-<idx><h>immutable</h></idx>
+    <idx><h>immutable</h></idx>
 Whether or not to provide setters is a design decision.
 If we did, cards would be mutable, so you could transform one card into another.
 That is probably not a feature we want, and in general, mutable objects are more error-prone.
@@ -19,7 +19,7 @@ To do that, all we have to do is <term>not</term> provide any modifier functions
 </p>
 
 <p>
-<idx><h>final</h></idx>
+    <idx><h>final</h></idx>
 That's easy enough, but it is not foolproof, because a fool might come along later and add a modifier.
 We can prevent that possibility by declaring the instance variables <c>final</c>:
 </p>

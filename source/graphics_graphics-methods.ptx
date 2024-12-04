@@ -1,7 +1,7 @@
 <section xml:id="graphics_graphics-methods" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Graphics functions</title>
 <p>
-<idx><h>coordinate</h></idx>
+    <idx><h>coordinate</h></idx>
 You are probably used to Cartesian <term>coordinates</term>, where <m>x</m> and <m>y</m> values can be positive or negative.
 In contrast, Java uses a coordinate system where the origin is in the upper-left corner.
 That way, <m>x</m> and <m>y</m> can always be positive integers.
@@ -12,7 +12,7 @@ That way, <m>x</m> and <m>y</m> can always be positive integers.
 <image width="93%" source="external/images/coordinates.png" />
 </figure>
 <p>
-<idx><h>pixel</h></idx>
+    <idx><h>pixel</h></idx>
 Graphical coordinates are measured in <term>pixels</term>; each pixel corresponds to a dot on the screen.
 </p>
 
@@ -30,7 +30,7 @@ The previous example used <c>fillOval</c>, which has the following signature:
 </program>
 
 <p>
-<idx><h>bounding box</h></idx>
+    <idx><h>bounding box</h></idx>
 The four parameters specify a <term>bounding box</term>, which is the rectangle in which the oval is drawn.
 <c>x</c> and <c>y</c> specify the location of the upper-left corner of the bounding box.
 The bounding box itself is not drawn (see <xref ref="fig_circle">Figure</xref>).
@@ -40,7 +40,7 @@ The bounding box itself is not drawn (see <xref ref="fig_circle">Figure</xref>).
 <image width="73%" source="external/images/circle.png" />
 </figure>
 <p>
-<idx><h>Color</h></idx>
+    <idx><h>Color</h></idx>
 To choose the color of a shape, invoke <c>setColor</c> on the <c>Graphics</c> object:
 </p>
 
@@ -62,7 +62,7 @@ GREEN       MAGENTA   ORANGE   PINK       WHITE   YELLOW
 </console>
 
 <p>
-<idx><h>RGB</h></idx>
+    <idx><h>RGB</h></idx>
 You can create your own colors by specifying the red, green, and blue (<term>RGB</term>) components.
 For example:
 </p>
