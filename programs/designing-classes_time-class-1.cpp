@@ -1,5 +1,5 @@
 struct Time {
-  int hour;
-  int minute;
-  double second;
+    int hour;
+    int minute;
+    double second;
 };

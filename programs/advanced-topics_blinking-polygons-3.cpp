@@ -1,3 +1,3 @@
 void step() {
-  // do nothing
+    // do nothing
 }

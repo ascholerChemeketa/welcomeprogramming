@@ -1,5 +1,5 @@
 void dub(vector<int>& jub) {
-  for (int& x : jub) {
-    x *= 2;
-  }
+    for (int& x : jub) {
+        x *= 2;
+    }
 }

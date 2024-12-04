@@ -11,10 +11,10 @@
 using namespace std;
 
 int main() {
-  string s1 = "Hi, Mom!";
-  string s2 = "Hi, " + "Mom!";
-  if (s1 == s2) {
-    cout << "s1 and s2 are the same" << endl;
-  }
-  return 0;
+    string s1 = "Hi, Mom!";
+    string s2 = "Hi, " + "Mom!";
+    if (s1 == s2) {
+        cout << "s1 and s2 are the same" << endl;
+    }
+    return 0;
 }

@@ -1,4 +1,4 @@
 class DigitUtil {
-public:
-  // Add methods here
+  public:
+    // Add methods here
 };

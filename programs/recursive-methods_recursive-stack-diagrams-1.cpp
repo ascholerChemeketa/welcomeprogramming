@@ -2,6 +2,6 @@
 #include <stdexcept>
 
 void forever(const string& s) {
-  cout << s << endl;
-  forever(s);
+    cout << s << endl;
+    forever(s);
 }

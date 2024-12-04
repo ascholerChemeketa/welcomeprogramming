@@ -1,3 +1,3 @@
 bool isFrabjuous(int x) {
-  return x > 0;
+    return x > 0;
 }

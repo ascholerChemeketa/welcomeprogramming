@@ -1,3 +1,3 @@
 void dealAll(CardCollection& that) {
-  deal(that, cards.size());
+    deal(that, cards.size());
 }

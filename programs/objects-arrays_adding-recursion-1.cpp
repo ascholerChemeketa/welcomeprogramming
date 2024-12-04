@@ -10,34 +10,34 @@
 //  - A way to merge two sorted decks
 //  - A way to compare two cards (less than, greater than etc.)
 class Deck {
-public:
-  // ... Your Deck class methods ...
-  Deck mergeSort() {
-    // Base case: deck with 0 or 1 cards is already sorted
-    if (size() <= 1) {
-      return *this;
+  public:
+    // ... Your Deck class methods ...
+    Deck mergeSort() {
+        // Base case: deck with 0 or 1 cards is already sorted
+        if (size() <= 1) {
+            return *this;
+        }
+
+        // Split the deck into two halves
+        Deck left, right;
+        split(left, right);
+
+        // Recursively sort the subdecks
+        left = left.mergeSort();
+        right = right.mergeSort();
+
+        // Merge the sorted subdecks
+        return merge(left, right);
     }
 
-    // Split the deck into two halves
-    Deck left, right;
-    split(left, right);
-
-    // Recursively sort the subdecks
-    left = left.mergeSort();
-    right = right.mergeSort();
-
-    // Merge the sorted subdecks
-    return merge(left, right);
-  }
-
-private:
-  // ... Your Deck class data members and private methods ...
-  int size(){/*Returns the number of cards in the deck*/};
-  void split(Deck& left, Deck& right){/* Splits the deck into two halves*/};
-  Deck merge(Deck& left, Deck& right){/* Merges two sorted decks*/};
+  private:
+    // ... Your Deck class data members and private methods ...
+    int size(){/*Returns the number of cards in the deck*/};
+    void split(Deck& left, Deck& right){/* Splits the deck into two halves*/};
+    Deck merge(Deck& left, Deck& right){/* Merges two sorted decks*/};
 };
 
 int main() {
-  // Example Usage
-  return 0;
+    // Example Usage
+    return 0;
 }

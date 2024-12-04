@@ -7,21 +7,22 @@
 #include <iostream>
 
 class Box {
-public:
-  void grow(int width_increase, int height_increase) {
-    width += width_increase;
-    height += height_increase;
-    cout << "Box grown to width: " << width << ", height: " << height << endl;
-  }
+  public:
+    void grow(int width_increase, int height_increase) {
+        width += width_increase;
+        height += height_increase;
+        cout << "Box grown to width: " << width << ", height: " << height
+             << endl;
+    }
 
-  // other methods and data members of the Box class
-private:
-  int width = 0;
-  int height = 0;
+    // other methods and data members of the Box class
+  private:
+    int width = 0;
+    int height = 0;
 };
 
 int main() {
-  Box box1;          // Create a Box object
-  box1.grow(50, 50); // Grow the box
-  return 0;
+    Box box1;          // Create a Box object
+    box1.grow(50, 50); // Grow the box
+    return 0;
 }

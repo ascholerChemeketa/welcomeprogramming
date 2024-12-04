@@ -4,9 +4,9 @@
 
 // Assuming Point structure exists. If not, define it.
 struct Point {
-  int x, y;
+    int x, y;
 };
 
 void printPoint(Point p) {
-  cout << "(" << p.x << ", " << p.y << ")" << endl;
+    cout << "(" << p.x << ", " << p.y << ")" << endl;
 }

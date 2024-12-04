@@ -1,33 +1,33 @@
 class Player {
-public:
-  string name;
-  Hand hand;
+  public:
+    string name;
+    Hand hand;
 
-  Player(const string& name): name(name), hand(name) {
-  }
+    Player(const string& name): name(name), hand(name) {
+    }
 
-  string getName() const {
-    return name;
-  }
+    string getName() const {
+        return name;
+    }
 
-  Hand& getHand() {
-    return hand;
-  }
+    Hand& getHand() {
+        return hand;
+    }
 
-  void addCard(const Card& card) {
-    hand.addCard(card);
-  }
+    void addCard(const Card& card) {
+        hand.addCard(card);
+    }
 
-  void display() const {
-    hand.display();
-  }
+    void display() const {
+        hand.display();
+    }
 
-  void displayScore() const {
-    cout << name << " has " << hand.size() << " cards.";
-  }
+    void displayScore() const {
+        cout << name << " has " << hand.size() << " cards.";
+    }
 
-  Card play(Eights* game, const Card& prev) {
-    // To be implemented
-    return Card();
-  }
+    Card play(Eights* game, const Card& prev) {
+        // To be implemented
+        return Card();
+    }
 };

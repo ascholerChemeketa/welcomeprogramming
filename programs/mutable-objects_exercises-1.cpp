@@ -4,16 +4,16 @@
 
 // Assuming Point structure exists.  If not, define it.
 struct Point {
-  int x, y;
+    int x, y;
 };
 
 int riddle(int x, Point p) {
-  x = x + 7;
-  return x + p.x + p.y;
+    x = x + 7;
+    return x + p.x + p.y;
 }
 
 int main() {
-  Point p = {1, 2};
-  cout << riddle(5, p) << endl; // Example usage
-  return 0;
+    Point p = {1, 2};
+    cout << riddle(5, p) << endl; // Example usage
+    return 0;
 }

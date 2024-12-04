@@ -5,15 +5,15 @@
 using namespace std;
 
 int main() {
-  int x;
-  // Get input from the user
-  cout << "Enter an integer: ";
-  cin >> x;
+    int x;
+    // Get input from the user
+    cout << "Enter an integer: ";
+    cin >> x;
 
-  // Check if x is positive
-  if (x > 0) {
-    cout << "x is positive" << endl;
-  }
-  cout << "x is not zero" << endl; // This line will always execute
-  return 0;
+    // Check if x is positive
+    if (x > 0) {
+        cout << "x is positive" << endl;
+    }
+    cout << "x is not zero" << endl; // This line will always execute
+    return 0;
 }

@@ -4,17 +4,17 @@
 class GridCanvas {};
 
 class Automaton {
-public:
-  GridCanvas* grid;
-  virtual void update() = 0;
+  public:
+    GridCanvas* grid;
+    virtual void update() = 0;
 
-protected:
-  void mainloop(int rate) {
-    // Implementation for invoking update
-  }
+  protected:
+    void mainloop(int rate) {
+        // Implementation for invoking update
+    }
 
-public:
-  void run(const string& title, int rate) {
-    // Implementation for invoking mainloop
-  }
+  public:
+    void run(const string& title, int rate) {
+        // Implementation for invoking mainloop
+    }
 };

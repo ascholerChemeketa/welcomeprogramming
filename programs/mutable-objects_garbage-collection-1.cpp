@@ -6,13 +6,13 @@
 
 // Assuming Point structure exists. If not, define it.
 struct Point {
-  int x, y;
+    int x, y;
 };
 
 int main() {
-  Point* blank = new Point{3, 4};
-  cout << blank->x << ", " << blank->y << endl;
-  delete blank;    // Manually release memory
-  blank = nullptr; // Set to null
-  return 0;
+    Point* blank = new Point{3, 4};
+    cout << blank->x << ", " << blank->y << endl;
+    delete blank;    // Manually release memory
+    blank = nullptr; // Set to null
+    return 0;
 }

@@ -1,15 +1,15 @@
 bool isOff() {
-  return state == 0;
+    return state == 0;
 }
 
 bool isOn() {
-  return state == 1;
+    return state == 1;
 }
 
 void turnOff() {
-  state = 0;
+    state = 0;
 }
 
 void turnOn() {
-  state = 1;
+    state = 1;
 }

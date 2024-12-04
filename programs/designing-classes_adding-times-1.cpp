@@ -1,7 +1,7 @@
 struct Time {
-  int hour;
-  int minute;
-  double second;
+    int hour;
+    int minute;
+    double second;
 };
 
 Time startTime = {18, 50, 0.0};

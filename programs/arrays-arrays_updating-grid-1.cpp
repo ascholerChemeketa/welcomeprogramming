@@ -1,4 +1,4 @@
 void update() {
-  auto counts = countNeighbors();
-  updateGrid(counts);
+    auto counts = countNeighbors();
+    updateGrid(counts);
 }

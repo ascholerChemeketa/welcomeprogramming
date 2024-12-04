@@ -1,3 +1,3 @@
 bool isEmpty() const {
-  return cards.empty();
+    return cards.empty();
 }

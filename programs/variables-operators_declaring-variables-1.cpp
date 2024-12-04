@@ -1,1 +1,1 @@
-int age;  // declare the variable age
+int age; // declare the variable age

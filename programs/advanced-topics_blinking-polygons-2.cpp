@@ -1,6 +1,6 @@
 void step() {
-  for (DrawablePolygon& dp : list) {
-    dp.step();
-  }
-  repaint();
+    for (DrawablePolygon& dp : list) {
+        dp.step();
+    }
+    repaint();
 }

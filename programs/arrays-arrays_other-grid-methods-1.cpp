@@ -1,7 +1,7 @@
 int numRows() {
-  return array.size();
+    return array.size();
 }
 
 int numCols() {
-  return array[0].size();
+    return array[0].size();
 }

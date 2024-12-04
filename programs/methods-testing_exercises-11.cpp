@@ -1,3 +1,3 @@
 void ping(const string& strangStrung) {
-  cout << "any " << strangStrung << "more \n";
+    cout << "any " << strangStrung << "more \n";
 }

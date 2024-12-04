@@ -1,4 +1,4 @@
 for (const auto& card : cards) {
-  cout << card << " ";
+    cout << card << " ";
 }
 cout << endl;

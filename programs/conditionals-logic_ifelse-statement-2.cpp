@@ -1,5 +1,5 @@
 if (x % 2 == 0) {
-  cout << "x is even\n";
+    cout << "x is even\n";
 } else {
-  cout << "x is odd\n";
+    cout << "x is odd\n";
 }

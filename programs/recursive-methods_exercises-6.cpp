@@ -4,5 +4,5 @@
 using namespace std;
 
 int length(const string& s) {
-  return s.length();
+    return s.length();
 }

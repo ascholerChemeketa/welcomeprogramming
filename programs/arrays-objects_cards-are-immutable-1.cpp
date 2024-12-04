@@ -1,7 +1,7 @@
 int getRank() const {
-  return rank;
+    return rank;
 }
 
 int getSuit() const {
-  return suit;
+    return suit;
 }

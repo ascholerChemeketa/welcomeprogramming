@@ -7,19 +7,19 @@
 #include <iostream>
 
 struct Point {
-  double x, y;
+    double x, y;
 
-  double distance(Point p2) {
-    double dx = p2.x - x;
-    double dy = p2.y - y;
-    return sqrt(dx * dx + dy * dy);
-  }
+    double distance(Point p2) {
+        double dx = p2.x - x;
+        double dy = p2.y - y;
+        return sqrt(dx * dx + dy * dy);
+    }
 };
 
 int main() {
-  Point p1 = {0, 0};
-  Point p2 = {3, 4};
-  double dist = p1.distance(p2);
-  cout << dist << endl; // Output: 5
-  return 0;
+    Point p1 = {0, 0};
+    Point p2 = {3, 4};
+    double dist = p1.distance(p2);
+    cout << dist << endl; // Output: 5
+    return 0;
 }

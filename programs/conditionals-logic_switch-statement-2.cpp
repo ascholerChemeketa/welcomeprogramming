@@ -1,14 +1,14 @@
 switch (number) {
 case 1:
-  word = "one";
-  break;
+    word = "one";
+    break;
 case 2:
-  word = "two";
-  break;
+    word = "two";
+    break;
 case 3:
-  word = "three";
-  break;
+    word = "three";
+    break;
 default:
-  word = "unknown";
-  break;
+    word = "unknown";
+    break;
 }

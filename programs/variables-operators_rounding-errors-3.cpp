@@ -3,6 +3,6 @@
 using namespace std;
 
 int main() {
-  int balance = 12345; // total number of cents
-  return 0;
+    int balance = 12345; // total number of cents
+    return 0;
 }

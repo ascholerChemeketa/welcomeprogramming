@@ -1,9 +1,9 @@
 if (number == 1) {
-  word = "one";
+    word = "one";
 } else if (number == 2) {
-  word = "two";
+    word = "two";
 } else if (number == 3) {
-  word = "three";
+    word = "three";
 } else {
-  word = "unknown";
+    word = "unknown";
 }

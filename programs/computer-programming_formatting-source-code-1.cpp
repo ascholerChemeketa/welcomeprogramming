@@ -3,7 +3,7 @@
 usingnamespacestd;
 
 intmain() {
-  cout << "Goodbye, ";
-  cout << "cruel world";
-  return 0;
+    cout << "Goodbye, ";
+    cout << "cruel world";
+    return 0;
 }

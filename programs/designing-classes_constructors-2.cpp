@@ -1,4 +1,4 @@
 int main() {
-  Time time = {};
-  return 0;
+    Time time = {};
+    return 0;
 }

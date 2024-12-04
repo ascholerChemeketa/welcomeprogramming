@@ -1,3 +1,3 @@
 void keyTyped(KeyEvent e) {
-  // do nothing
+    // do nothing
 }

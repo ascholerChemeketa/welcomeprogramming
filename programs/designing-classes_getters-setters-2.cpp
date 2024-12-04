@@ -1,11 +1,11 @@
 int getHour() const {
-  return this->hour;
+    return this->hour;
 }
 
 int getMinute() const {
-  return this->minute;
+    return this->minute;
 }
 
 double getSecond() const {
-  return this->second;
+    return this->second;
 }

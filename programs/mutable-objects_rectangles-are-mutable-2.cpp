@@ -4,10 +4,10 @@
 #include <iostream>
 
 struct Rectangle {
-  double x, y, width, height;
+    double x, y, width, height;
 };
 
 void moveRect(Rectangle& box, double dx, double dy) {
-  box.x = box.x + dx;
-  box.y = box.y + dy;
+    box.x = box.x + dx;
+    box.y = box.y + dy;
 }

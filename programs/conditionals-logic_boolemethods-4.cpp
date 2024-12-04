@@ -1,5 +1,5 @@
 if (isSingleDigit(z)) {
-  cout << "z is small\n";
+    cout << "z is small\n";
 } else {
-  cout << "z is big\n";
+    cout << "z is big\n";
 }

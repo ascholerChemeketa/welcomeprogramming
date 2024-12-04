@@ -1,7 +1,7 @@
 if (x > 0) {
-  cout << "x is positive\n";
+    cout << "x is positive\n";
 } else if (x < 0) {
-  cout << "x is negative\n";
+    cout << "x is negative\n";
 } else {
-  cout << "x is zero\n";
+    cout << "x is zero\n";
 }

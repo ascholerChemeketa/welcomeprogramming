@@ -7,39 +7,39 @@ class GridCanvas {};
 class Cell {};
 
 class Langton {
-private:
-  GridCanvas* grid;
-  int xpos;
-  int ypos;
-  int head; // 0=North, 1=East, 2=South, 3=West
-public:
-  Langton(int rows, int cols):
-      grid(new GridCanvas(rows, cols, 10)), xpos(rows / 2), ypos(cols / 2),
-      head(0) {
-  }
-
-  ~Langton() {
-    delete grid;
-  }
-
-  void update() {
-    flipCell();
-    moveAnt();
-  }
-
-private:
-  void flipCell() {
-    Cell* cell = grid->getCell(xpos, ypos);
-    if (cell->isOff()) {
-      head = (head + 1) % 4; // turn right
-      cell->turnOn();
-    } else {
-      head = (head + 3) % 4; // turn left
-      cell->turnOff();
+  private:
+    GridCanvas* grid;
+    int xpos;
+    int ypos;
+    int head; // 0=North, 1=East, 2=South, 3=West
+  public:
+    Langton(int rows, int cols):
+        grid(new GridCanvas(rows, cols, 10)), xpos(rows / 2), ypos(cols / 2),
+        head(0) {
     }
-  }
 
-  void moveAnt() {
-    // Implementation to move the ant based on head and cell value
-  }
+    ~Langton() {
+        delete grid;
+    }
+
+    void update() {
+        flipCell();
+        moveAnt();
+    }
+
+  private:
+    void flipCell() {
+        Cell* cell = grid->getCell(xpos, ypos);
+        if (cell->isOff()) {
+            head = (head + 1) % 4; // turn right
+            cell->turnOn();
+        } else {
+            head = (head + 3) % 4; // turn left
+            cell->turnOff();
+        }
+    }
+
+    void moveAnt() {
+        // Implementation to move the ant based on head and cell value
+    }
 };

@@ -6,12 +6,12 @@
 // A simple representation of a rectangle. In a real application you'd use a
 // more robust structure.
 struct Rectangle {
-  int x, y, width, height;
+    int x, y, width, height;
 };
 
 int main() {
-  Rectangle rect = {-50, -50, 200, 300};
-  cout << "Rectangle: x=" << rect.x << ", y=" << rect.y
-       << ", width=" << rect.width << ", height=" << rect.height << endl;
-  return 0;
+    Rectangle rect = {-50, -50, 200, 300};
+    cout << "Rectangle: x=" << rect.x << ", y=" << rect.y
+         << ", width=" << rect.width << ", height=" << rect.height << endl;
+    return 0;
 }

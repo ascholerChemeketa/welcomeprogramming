@@ -4,6 +4,6 @@
 using namespace std;
 
 int main() {
-  int hour = 11;
-  int minute = 59;
+    int hour = 11;
+    int minute = 59;
 }

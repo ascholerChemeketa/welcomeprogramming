@@ -1,3 +1,3 @@
 int size() const {
-  return cards.size();
+    return cards.size();
 }

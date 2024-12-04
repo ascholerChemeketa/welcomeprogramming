@@ -6,11 +6,11 @@ using namespace std;
 
 // Define the printTwice function
 void printTwice(int num) {
-  cout << num << " ";
-  cout << num << endl;
+    cout << num << " ";
+    cout << num << endl;
 }
 
 int main() {
-  printTwice(17); // This will now work
-  return 0;
+    printTwice(17); // This will now work
+    return 0;
 }

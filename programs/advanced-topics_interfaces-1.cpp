@@ -1,8 +1,8 @@
 class Actor {
-public:
-  virtual void draw(Graphics g) {
-  }
+  public:
+    virtual void draw(Graphics g) {
+    }
 
-  virtual void step() {
-  }
+    virtual void step() {
+    }
 };

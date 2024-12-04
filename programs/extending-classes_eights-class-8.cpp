@@ -1,12 +1,12 @@
 void playGame() {
-  Player* player = one.get();
+    Player* player = one.get();
 
-  while (!isDone()) {
-    displayState();
-    takeTurn(player);
-    player = nextPlayer(player);
-  }
+    while (!isDone()) {
+        displayState();
+        takeTurn(player);
+        player = nextPlayer(player);
+    }
 
-  one->displayScore();
-  two->displayScore();
+    one->displayScore();
+    two->displayScore();
 }

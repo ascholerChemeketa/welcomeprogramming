@@ -1,11 +1,11 @@
 #include <iostream>
 
 void newLine() {
-  cout << endl;
+    cout << endl;
 }
 
 void threeLine() {
-  newLine();
-  newLine();
-  newLine();
+    newLine();
+    newLine();
+    newLine();
 }

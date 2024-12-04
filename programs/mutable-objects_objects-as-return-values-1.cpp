@@ -4,10 +4,10 @@
 // following is a basic example, but a full implementation would likely be more
 // complex.
 struct Rectangle {
-  double x, y, width, height;
+    double x, y, width, height;
 };
 
 int main() {
-  // Example usage
-  return 0;
+    // Example usage
+    return 0;
 }

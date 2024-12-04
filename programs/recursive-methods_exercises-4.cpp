@@ -2,8 +2,8 @@
 #include <string>
 
 string rest(const string& s) {
-  if (s.length() <= 1) {
-    return "";
-  }
-  return s.substr(1);
+    if (s.length() <= 1) {
+        return "";
+    }
+    return s.substr(1);
 }

@@ -1,8 +1,8 @@
 void draw(Graphics g) {
-  g.drawImage(image, xpos, ypos, nullptr);
+    g.drawImage(image, xpos, ypos, nullptr);
 }
 
 void step() {
-  xpos += dx;
-  ypos += dy;
+    xpos += dx;
+    ypos += dy;
 }
