@@ -1,0 +1,160 @@
+<section xml:id="variables-operators_other-size-types"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Other Size Types</title>
+
+  <note>
+    <p>This section includes some of <q>fiddly bits</q> related to integer and floating point data
+      types. Most of the time you will not need to worry about them. But, they do help explain some
+      possible errors you will run into as well as material you will encounter later.</p>
+    <p>Unless you are reading this book as part of a class that instructs you otherwise, you likely
+      just want to skim this section for understanding of the basic concepts without worrying about
+      trying to memorize all the different types.</p>
+  </note>
+
+  <p>All data needs to be stored as bits (as a sequence of 0's and 1's). Those sequences are always
+    a fixed size. For instance, an <c>int</c> is typically 32 bits. This means that an <c>int</c> can
+    store <m>2^{32}</m> different values. That is enough different values to represent the numbers
+    -2,147,483,648 to 2,147,483,647. (For more on how this actually works, as well as how floating
+    point values are represented in binary, see <url href="https://author.runestone.academy/ns/books/published/welcomecs2/data-representation_data-representation.html?mode=browsing">Welcome
+    to CS</url>Sections 4.1 - 4.8)</p>
+
+  <subsection>
+    <title>Integer types</title>
+
+    <p>For integer values, the number of bits determines the largest and smallest values that can be
+      stored. Exceeding this range leads to integer overflow or underflow, resulting in incorrect
+      calculations or unexpected behavior as seen in this program:</p>
+
+    <listing>
+      <program xml:id="variables-operators_other-size-types"
+               interactive="activecode">
+<xi:include href="../programs/variables-operators_other-size-types-1.cpp" parse="text"/>
+</program>
+    </listing>
+
+    <p>The program tries to calculate 2 * 2,000,000,000. But that result is larger than the largest
+      possible <c>int</c>, so the number <q>wraps around</q> after reaching the largest possible value
+      (2,147,483,647) to the lowest possible value (-2,147,483,648). The result is -294,967,296.</p>
+
+    <p>So how do you store a value greater than 2,147,483,647? You use a data type that employs more
+      bits to store an integer value. The following data types can be used instead of <c>int</c> to
+      store integer values: </p>
+
+    <table>
+      <title>Sized integer types</title>
+      <tabular halign="center">
+        <row header="yes"
+             bottom="major">
+          <cell>Type</cell>
+          <cell>Bits</cell>
+          <cell>Range</cell>
+        </row>
+        <row>
+          <cell>
+            <c>int8_t</c>
+          </cell>
+          <cell>8</cell>
+          <cell>-128 - 127</cell>
+        </row>
+        <row>
+          <cell>
+            <c>int16_t</c>
+          </cell>
+          <cell>16</cell>
+          <cell>-32,768 - 32,767</cell>
+        </row>
+        <row>
+          <cell>
+            <c>int32_t</c>
+          </cell>
+          <cell>32</cell>
+          <cell>-2,147,483,648 - 2,147,483,647</cell>
+        </row>
+        <row>
+          <cell>
+            <c>int64_t</c>
+          </cell>
+          <cell>64</cell>
+          <cell>-9,223,372,036,854,775,808 - 9,223,372,036,854,775,807</cell>
+        </row>
+      </tabular>
+    </table>
+
+    <note>
+      <p>The intXX_t types are relatively new in C++. There are also older types like <c>short</c>, <c>long</c>,
+        and <c>long long</c>. We will avoid these completely as the exact size of each is determined by the
+        compiler - a <c>long</c> can use a different number of bits on different platforms! The same is
+        also true of <c>int</c>, so if you want to guarantee your variables are store with 32 bits, you
+        need to use <c>int32_t</c>.</p>
+    </note>
+  </subsection>
+
+  <subsection>
+    <title>Unsigned types</title>
+
+    <p>Sometimes, we don't care about storing negative values. If so, using some of the
+      representational power of our bits on negative values is a waste. So C++ provides <term>
+      unsigned</term> integer types that only store 0 and positive values. This means that with the
+      same number of bits, you can store a value twice as large.</p>
+
+    <table>
+      <title>Unsized integer types</title>
+      <tabular halign="center">
+        <row header="yes"
+             bottom="minor">
+          <cell>Type</cell>
+          <cell>Bits</cell>
+          <cell>Range</cell>
+        </row>
+        <row>
+          <cell>
+            <c>uint8_t</c>
+          </cell>
+          <cell>8</cell>
+          <cell>0 - 255</cell>
+        </row>
+        <row>
+          <cell>
+            <c>uint16_t</c>
+          </cell>
+          <cell>16</cell>
+          <cell>0 - 65,535</cell>
+        </row>
+        <row>
+          <cell>
+            <c>uint32_t</c>
+          </cell>
+          <cell>32</cell>
+          <cell>0 - 4,294,967,295</cell>
+        </row>
+        <row>
+          <cell>
+            <c>uint64_t</c>
+          </cell>
+          <cell>64</cell>
+          <cell>0 - 18,446,744,073,709,551,615</cell>
+        </row>
+      </tabular>
+    </table>
+  </subsection>
+
+  <subsection>
+    <title>Floating point types</title>
+
+    <p>For floating point types, the number of bits determines not just the maximum and minimum
+      values we can represent, but the number of digits of accuracy we can count on. A <c>double</c> is
+      generally 64 bits, in which case it can store from about <m>1.7 × 10^{-308}</m> to <m>1.7 ×
+      10^{308}</m> with about 15 digits of precision.</p>
+
+    <p>It should be clear that there is much less risk of <q>running out of room</q> when using a
+      double. Occasionally, if your program is storing large numbers of floating point values
+      (thousands of them) and does not need the full accuracy of a <c>double</c>, you might chose to use <c>single</c>s
+      instead. A <c>single</c> which will generally use 32 bits and provide about 7 digits of accuracy.</p>
+
+    <note>
+      <p>The C++23 standard introduced standardized floating point types with fixed sizes from 8 to 64 bits,
+        but we will not discuss them.</p>
+    </note>
+  </subsection>
+
+</section>

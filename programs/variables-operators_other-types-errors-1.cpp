@@ -3,7 +3,7 @@
 using namespace std;
 
 int main() {
-    cout << "Hello, \n";
-    cout << "World!\n";
-    return 0;
+    int x = 10;
+    int halfX = 1 / 2 * x;
+    cout << "Half of x is " << halfX  << endl;
 }

@@ -13,12 +13,10 @@
 
   <table>
     <title>Legal and illegal identifiers</title>
-    <tabular>
+    <tabular halign="center">
       <row header="yes"
            bottom="minor">
-        <cell>
-          <c>Identifier</c>
-        </cell>
+        <cell>Identifier</cell>
         <cell>Legal/Illegal</cell>
         <cell>Note</cell>
       </row>
@@ -64,6 +62,13 @@
         <cell>Illegal</cell>
         <cell>Can't use spaces</cell>
       </row>
+      <row>
+        <cell>
+          <c>l%$*</c>
+        </cell>
+        <cell>Illegal</cell>
+        <cell>Can only use letters, digits, underscore</cell>
+      </row>
     </tabular>
   </table>
   
@@ -84,7 +89,7 @@
     variable that stores a person's first name. This style of naming is called <term>camelCase</term>
     (the uppercase letters look a little like the humps on a camel). That is the style used in this
     book. Another common style is <term>snake_case</term>, where words are separated by underscores,
-    like <c>first_name</c>. Like other formatting choices, there is not a single <q/>right<q/> way to name
+    like <c>first_name</c>. Like other formatting choices, there is not a single <q>right</q> way to name
     variables, but it is important to be consistent. </p>
 
   <p>Finally, it is important to choose variable names that communicate what is stored in a variable. The name <c>c</c> does not communicate anything about what value is being stored. If that variable in fact stores the color being used on a webpage, a better name would be <c>color</c>. Even better would be to indicate what the color is used for with a name like <c>textColor</c> or <c>backgroundColor</c>. Meaningful identifiers help other programmers (including future you who has no memory of why you called something <c>c</c>) more easily understand code they are reading.</p>
