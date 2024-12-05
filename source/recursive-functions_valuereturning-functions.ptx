@@ -1,4 +1,4 @@
-<section xml:id="recursive-methods_valuereturning-methods" xmlns:xi="http://www.w3.org/2001/XInclude">
+<section xml:id="recursive-functions_valuereturning-functions" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Value-Returning functions</title>
 <p>
 To give you an idea of what you can do with the tools you have learned, let's look at functions that evaluate recursively defined mathematical functions.
@@ -46,8 +46,8 @@ The first step is to decide what the parameters and return type are.
 Since <c>factorial</c> is defined for integers, the function takes an <c>int</c> as a parameter and returns an <c>int</c>:
 </p>
 
-<program xml:id="recursive-methods_valuereturning-methods-1">
-<xi:include href="../programs/recursive-methods_valuereturning-methods-1.cpp" parse="text"/>
+<program xml:id="recursive-functions_valuereturning-functions-1">
+<xi:include href="../programs/recursive-functions_valuereturning-functions-1.cpp" parse="text"/>
 </program>
 
 <p>
@@ -55,16 +55,16 @@ Next, we think about the base case.
 If the argument happens to be 0, we return 1:
 </p>
 
-<program xml:id="recursive-methods_valuereturning-methods-2">
-<xi:include href="../programs/recursive-methods_valuereturning-methods-2.cpp" parse="text"/>
+<program xml:id="recursive-functions_valuereturning-functions-2">
+<xi:include href="../programs/recursive-functions_valuereturning-functions-2.cpp" parse="text"/>
 </program>
 
 <p>
 Otherwise, and this is the interesting part, we have to make a recursive call to find the factorial of <m>n-1</m>, and then multiply it by <m>n</m>:
 </p>
 
-<program xml:id="recursive-methods_valuereturning-methods-3">
-<xi:include href="../programs/recursive-methods_valuereturning-methods-3.cpp" parse="text"/>
+<program xml:id="recursive-functions_valuereturning-functions-3">
+<xi:include href="../programs/recursive-functions_valuereturning-functions-3.cpp" parse="text"/>
 </program>
 
 <p>
