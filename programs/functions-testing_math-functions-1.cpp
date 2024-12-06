@@ -1,3 +1,10 @@
-double root = sqrt(17.0);
-double angle = 1.5;
-double height = sin(angle);
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+int main() {
+    double x = 17;
+    double root = sqrt(x);
+    cout << "The square root of " << x << " is " << root << endl;
+}

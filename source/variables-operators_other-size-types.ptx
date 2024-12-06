@@ -147,13 +147,15 @@
       10^{308}</m> with about 15 digits of precision.</p>
 
     <p>It should be clear that there is much less risk of <q>running out of room</q> when using a
-      double. Occasionally, if your program is storing large numbers of floating point values
-      (thousands of them) and does not need the full accuracy of a <c>double</c>, you might chose to use <c>single</c>s
+      double. But if you need to represent larger values or have more precision, there is the <c>long double</c>
+      which may, depending on the platform use more bits to represent a floating point value.</p>
+    <p>Occasionally, if your program is storing large numbers of floating point values (thousands of
+      them) and does not need the full accuracy of a <c>double</c>, you might chose to use <c>single</c>s
       instead. A <c>single</c> which will generally use 32 bits and provide about 7 digits of accuracy.</p>
 
     <note>
-      <p>The C++23 standard introduced standardized floating point types with fixed sizes from 8 to 64 bits,
-        but we will not discuss them.</p>
+      <p>The C++23 standard introduced standardized floating point types with fixed sizes from 8 to
+        64 bits, but we will not discuss them.</p>
     </note>
   </subsection>
 

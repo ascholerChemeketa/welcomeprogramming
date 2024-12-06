@@ -1,69 +1,150 @@
-<section xml:id="functions-testing_math-functions" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Math functions</title>
-<p>
-    <idx><h>Math</h></idx>
-You don't always have to write new functions to get work done.
-As a reminder, the Java library contains thousands of classes you can use.
-For example, the <c>Math</c> class provides common mathematical operations:
-</p>
+<section xml:id="functions-testing_math-functions"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<program xml:id="functions-testing_math-functions-1">
+  <title>Math functions</title>
+
+  <p>Up until now, we have only used the basic arithmetic operators.
+  But what if you want to do calculate something more complex like <m>x^3</m> or <m>asin(x)</m>? You
+  could figure out how to to do the math using basic operations and then write that code.
+  Calculating <m>x^3</m> would not be hard - just multiply three copies of <m>x</m> together. But
+  calculating a good approximation of something like <m>asin(x)</m> would be complex and laborious.
+  It would be silly for every programmer to have to figure out how to perform complex math
+  calculations from basic operations. And it would be painful to write that code each time a
+  programmer wanted to do the math.</p>
+
+  <p><idx>
+      <h>function</h>
+    </idx><idx>
+      <h>call</h>
+    </idx>Fortunately, C++ allows us to define <term>functions</term> that give a
+  name to a series of statements. We can <term>call</term> a function using that name and it will
+  perform the work defined by those statements.</p>
+
+  <p>Part of what <q>comes</q> with C++ is a set of
+  function libraries that provide functions to accomplish basic tasks. The <c>cmath</c> library provides
+  a number of functions that perform common mathematical operations. For example, the <c>sqrt</c>
+  function calculates the square root of a number. The following program calculates the square root
+  of 17:</p>
+
+  <program xml:id="functions-testing_math-functions-1">
 <xi:include href="../programs/functions-testing_math-functions-1.cpp" parse="text"/>
 </program>
 
-<p>
-The first line sets <c>root</c> to the square root of 17.
-The third line finds the sine of 1.5 (the value of <c>angle</c>).
-<c>Math</c> is in the <c>java.lang</c> package, so you don't have to import it.
-</p>
+  <p><idx>
+      <h>pass</h>
+    </idx>
+  <idx>
+      <h>parameter</h>
+    </idx>
+  <idx>
+      <h>parameter</h>
+      <h>passing</h>
+    </idx>
+  <idx>
+      <h>return value</h>
+    </idx> A few important things to notice about this sample: <ul>
+      <li>We have to <c>#include &lt;cmath&gt;</c> to use <c>sqrt</c>. That is the C++ math library that contains the <c>sqrt</c>
+  function.</li>
+      <li><c>x</c> is in the parentheses after <c>sqrt</c>. It is the value we are <term>passing</term>
+  to the <c>sqrt</c> function to tell it what value to take the square root of. This value that we <term>
+  pass</term> is known as a <term>parameter</term> for the function.</li>
+      <li>We assign the result of the function to the variable <c>root</c>. Many (but not all) functions
+  have a <term>return</term> a value - the result of the statements in the function. We have to do
+  something with that value, like store it in a variable or print it or use it as part of a larger
+  calculation.</li>
+      <li>A subtle point: note that <c>x</c> still has the value 17. In general, especially for now,
+  functions do not change their parameter(s). Taking the square root of x with <c>sqrt(x)</c> does not
+  change x, if just produces a new value.</li>
+    </ul>
+  </p>
+  
+  <note>
+    <p>The <q>c</q> in <c>cmath</c> refers to the C programming language that C++ was based on (and is
+  still closely related to). In C, there is a similar library called <c>math.h</c>. The <c>cmath</c> library is
+  a version of <c>math.h</c> that has been <q>upgraded</q> to use C++ features. Although it is possible to
+  use <c>math.h</c> in C++ code, you should always use <c>cmath</c> instead.</p>
+  </note>
 
-<p>
-    <idx><h>degrees</h></idx>
-    <idx><h>radians</h></idx>
-    <idx><h>pi</h></idx>
-Values for the trigonometric functions<mdash/><c>sin</c>, <c>cos</c>, and <c>tan</c><mdash/>must be in <term>radians</term>.
-To convert from degrees to radians, you divide by 180 and multiply by <m>\pi</m>.
-Conveniently, the <c>Math</c> class provides a constant named <c>PI</c> that contains an approximation of <m>\pi</m>:
-</p>
 
-<program xml:id="functions-testing_math-functions-2">
+  <p>You can learn about
+  what functions are available by checking documentation for the library. One useful source of
+  documentation for C++ is <url href="https://cppreference.com/">cppreference.com</url>. If you use
+  the search function on that site to search for <q>sqrt</q>, you should find this page: <url href="https://en.cppreference.com/w/cpp/numeric/math/sqrt">
+  https://en.cppreference.com/w/cpp/numeric/math/sqrt</url>. On that page is the syntax for the
+  function, the library (header file) you need to include, a description of the function and
+  examples of how to use it. </p>
+
+  <p>The information on documentation pages can be a bit
+  overwhelming. They include technical details that you probably don't need to worry about. (Unless
+  something goes wrong, in which case those details might explain the issue you have!) The most
+  important part for our purpose is the listing of function prototypes at the top of the page. They
+  look something like:</p>
+
+  <program>
+float       sqrt ( float num );
+double      sqrt ( double num );                    (until C++23)
+long double sqrt ( long double num );
+---------------------------------------------------------------------------
+/* floating-point-type */                           (since C++23)
+            sqrt ( /* floating-point-type */ num ); (constexpr since C++26)
+...
+  </program>
+
+  <p>Again, they can look overwhelming at first. The key
+  is to focus on the information that is useful to us. We are writing code with <c>double</c>s. The second
+  line in the listing above shows that there is <c>double sqrt ( double num );</c>. There are also versions that work with <c>float</c>s
+  and <c>long double</c>s, but we are not concerned with those (see <xref ref="variables-operators_other-size-types"/>
+  ).</p>
+
+  <!-- TODO add a pretty picture of prototypes -->
+
+  <p>Once we find the right listing, we just need to
+  figure out what it says. Something like <c>double sqrt ( double num );</c> is known as a <term>function prototype</term>.
+  Think of a function's prototype as describing the contract that a function establishes with code
+  that calls it. A function prototype generally consists of three parts: <c>returnType  functionName ( paramters )</c>
+  <dl>
+      <li>
+        <title>returnType</title>
+        <p>First is listed the type of data that will be returned by the function. <c>sqrt</c> will
+  calculate and return a double.</p>
+      </li>
+      <li>
+        <title>functionName</title>
+        <p>Next is the name of the function. You call the square root function using the name <c>sqrt</c>
+  .</p>
+      </li>
+      <li>
+        <title>parameters</title>
+        <p>Finally, in parentheses, a list of zero or more parameters separated by commas. Each
+  parameter is described with a type and a name. In this case, <c>sqrt</c> takes one parameter, a double
+  that is referred to as <q>num</q>. To use this function, you have to pass it a double. While using
+  the function, you don't actually need to know the name of the parameter. But as we will see soon,
+  the name can help you figure out exactly what you are supposed to pass in.</p>
+      </li>
+    </dl></p>
+
+  <p>Lets
+  look at another prototype - this time we will look at the one for the <c>pow</c> function. The
+  prototype for <c>pow</c> is <c>double pow ( double base, double exponent );</c>. (You can check it yourself at <url href="https://en.cppreference.com/w/cpp/numeric/math/pow">
+  https://en.cppreference.com/w/cpp/numeric/math/pow</url>). This tells us that: <ul>
+      <li>The function returns a double to the caller</li>
+      <li>It is called <q>pow</q></li>
+      <li>It takes two parameters, both of which are doubles and that the first parameter is the <q>
+  base</q> and the second is the <q>exponent</q>.</li>
+    </ul>
+  </p>
+
+  <p>To call this function, I
+  will need to provide two doubles. The names tell me that the first one needs to be the base, and
+  the second one the exponent. So to calculate <m>2.5^3</m> I could do:</p>
+
+  <program xml:id="functions-testing_math-functions-2">
 <xi:include href="../programs/functions-testing_math-functions-2.cpp" parse="text"/>
-</program>
+  </program>
 
-<p>
-Notice that <c>PI</c> is in capital letters.
-Java does not recognize <c>Pi</c>, <c>pi</c>, or <c>pie</c>.
-Also, <c>PI</c> is the name of a constant, not a function, so it doesn't have parentheses.
-The same is true for the constant <c>Math.E</c>, which approximates Euler's number.
-</p>
+  <p>Again,
+  note that the pow function does not change any parameters. <c>x</c> remains unmodified after being
+  passed to pow. Also, notice that we can pass the integer 3 to the function even though it expects
+  a double. That is because an integer can always safely be converted to a double.</p>
 
-<p>
-Converting to and from radians is a common operation, so the <c>Math</c> class provides functions that do that for you:
-</p>
-
-<program xml:id="functions-testing_math-functions-3">
-<xi:include href="../programs/functions-testing_math-functions-3.cpp" parse="text"/>
-</program>
-
-<p>
-    <idx><h>long</h></idx>
-    <idx><h>type</h><h>long</h></idx>
-Another useful function is <c>round</c>, which rounds a floating-point value to the nearest integer and returns a <c>long</c>.
-The following result is 63 (rounded up from 62.8319):
-</p>
-
-<program xml:id="functions-testing_math-functions-4">
-<xi:include href="../programs/functions-testing_math-functions-4.cpp" parse="text"/>
-</program>
-
-<p>
-A <c>long</c> is like an <c>int</c>, but bigger.
-More specifically, an <c>int</c> uses 32 bits of memory; the largest value it can hold is <m>2^{31}-1</m>, which is about 2 billion.
-A <c>long</c> uses 64 bits, so the largest value is <m>2^{63}-1</m>, which is about 9 quintillion.
-</p>
-
-<p>
-Take a minute to read the documentation for these and other functions in the <c>Math</c> class.
-The easiest way to find documentation for Java classes is to do a web search for <q>Java</q> and the name of the class.
-</p>
 </section>
