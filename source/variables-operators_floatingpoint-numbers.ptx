@@ -34,14 +34,14 @@
 <xi:include href="../programs/variables-operators_floatingpoint-numbers-2.cpp" parse="text"/>
 </program>
 
-  <p> Although floating-point numbers are useful, they can be a source of confusion. For example,
+  <p>Although floating-point numbers are useful, they can be a source of confusion. For example,
     C++ distinguishes the integer value <c>60</c> from the floating-point value <c>60.0</c>, even though
     they seem to be the same number. They belong to different data types, and thus doing math with them can produce different results.</p>
 
-  <p>Adding to the confusion is the fact that C++ will automatically <q>upgrade</q> an <c>int</c> to a <c>double</c> if you try to store a whole number value into a double variable. This is called <term>implicit conversion</term>. Even worse, if you print a value like 4.0, the unnecessary decimal portion is left off:</p>
-    <idx>
-      <h>implicit conversion</h>
-    </idx></p>
+  <p>Adding to the confusion is the fact that C++ will automatically <q>upgrade</q> an <c>int</c> to a <c>double</c> if you try to store a whole number value into a double variable. This is called <term>implicit conversion</term>. Even worse, if you print a value like 4.0, the unnecessary decimal portion is left off:
+  <idx>
+    <h>implicit conversion</h>
+  </idx></p>
 
   <program xml:id="variables-operators_floatingpoint-numbers-3"
            interactive="activecode">
