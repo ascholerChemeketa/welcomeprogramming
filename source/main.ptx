@@ -1,101 +1,51 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<pretext xmlns:xi="http://www.w3.org/2001/XInclude" xml:lang="en-US">
-<docinfo>
-<macros>
-\renewcommand{\chaptermark}[1]{\markboth{Appendix \thechapter ~~ #1}{}}
-\newcommand{\thesubtitle}{How to Think Like a Computer Scientist}
-\newcommand{\theversion}{2nd Edition, Version 7.1.0}
-\newcommand{\terminology}[1]{\item[#1:]\index{#1}}
-\newcommand{\textcolor}[1]{\relax}
-\def\arraystretch{1.5}
-\renewcommand{\chaptermark}[1]{\markboth{Chapter \thechapter ~~ #1}{}}
-\renewcommand{\sectionmark}[1]{}
-</macros>
-
-<latex-image-preamble>
-\usepackage{tikz}
-\usepackage{tkz-graph}
-\usepackage{tkz-euclide}
-\usetikzlibrary{patterns}
-\usetikzlibrary{positioning}
-\usetikzlibrary{matrix,arrows}
-\usetikzlibrary{calc}
-\usetikzlibrary{shapes}
-\usetikzlibrary{through,intersections,decorations,shadows,fadings}
-
-\usepackage{pgfplots}
-
-</latex-image-preamble>
-
-</docinfo>
+<?xml version="1.0" encoding="UTF-8"?>
+<pretext xmlns:xi="http://www.w3.org/2001/XInclude"
+         xml:lang="en-US">
+  <docinfo>
+    <document-id edition="2">cstour</document-id>
+    <numbering>
+      <figures level="2"/>
+      <exercises level="2"/>
+    </numbering>
+    <programs language="py"
+              compiler-args="-Wall -Wextra -std=c++17"/>
+    <rename element="colophon">License</rename>
+    <rename element="frontmatter">About this book</rename>
+  </docinfo>
 
 
-<book>
-    <title>Think Java    </title>
-<frontmatter>
-<titlepage>
-<author>
-<personname>Allen B. Downey</personname>
-</author>
-<author>
-<personname>Chris Mayfield</personname>
-</author>
-</titlepage>
-</frontmatter>
+  <book>
+    <title>Welcome to Programming and Data Structures</title>
 
-
-<xi:include href="./preface.ptx" />
-
-<xi:include href="./computer-programming.ptx" />
-
-<xi:include href="./variables-operators.ptx" />
-
-<xi:include href="./functions-testing.ptx" />
-
-<xi:include href="./input-output.ptx" />
-
-<xi:include href="./conditionals-logic.ptx" />
-
-<xi:include href="./loops-strings.ptx" />
-
-<xi:include href="./arrays-references.ptx" />
-
-<xi:include href="./recursive-functions.ptx" />
-
-<xi:include href="./immutable-objects.ptx" />
-
-<xi:include href="./mutable-objects.ptx" />
-
-<xi:include href="./designing-classes.ptx" />
-
-<xi:include href="./arrays-objects.ptx" />
-
-<xi:include href="./objects-arrays.ptx" />
-
-<xi:include href="./extending-classes.ptx" />
-
-<xi:include href="./arrays-arrays.ptx" />
-
-<xi:include href="./reusing-classes.ptx" />
-
-<xi:include href="./advanced-topics.ptx" />
-
-<xi:include href="./tools.ptx" />
-
-<xi:include href="./javadoc.ptx" />
-
-<xi:include href="./graphics.ptx" />
-
-<xi:include href="./debugging.ptx" />
-
-<backmatter>
-
-<xi:include href="./bibliography.ptx" />
-<index>
-<title>Index</title>
-<index-list />
-</index>
-
-</backmatter>
-</book>
+    <xi:include href="./frontmatter.ptx"/>
+    <xi:include href="./preface.ptx"/>
+    <xi:include href="./computer-programming.ptx"/>
+    <xi:include href="./variables-operators.ptx"/>
+    <!-- <xi:include href="./functions-testing.ptx"/>
+    <xi:include href="./input-output.ptx"/>
+    <xi:include href="./conditionals-logic.ptx"/>
+    <xi:include href="./loops-strings.ptx"/>
+    <xi:include href="./arrays-references.ptx"/>
+    <xi:include href="./recursive-functions.ptx"/>
+    <xi:include href="./immutable-objects.ptx"/>
+    <xi:include href="./mutable-objects.ptx"/>
+    <xi:include href="./designing-classes.ptx"/>
+    <xi:include href="./arrays-objects.ptx"/>
+    <xi:include href="./objects-arrays.ptx"/>
+    <xi:include href="./extending-classes.ptx"/>
+    <xi:include href="./arrays-arrays.ptx"/>
+    <xi:include href="./reusing-classes.ptx"/>
+    <xi:include href="./advanced-topics.ptx"/>
+    <xi:include href="./tools.ptx"/>
+    <xi:include href="./javadoc.ptx"/>
+    <xi:include href="./graphics.ptx"/>
+    <xi:include href="./debugging.ptx"/> -->
+    <backmatter>
+      <xi:include href="./bibliography.ptx"/>
+      <index>
+        <title>Index</title>
+        <index-list/>
+      </index>
+    </backmatter>
+  </book>
 </pretext>
