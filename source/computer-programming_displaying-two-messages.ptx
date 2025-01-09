@@ -9,7 +9,7 @@
   <listing filename="hello2.cpp">
     <program xml:id="computer-programming_displaying-two-messages-1"
              interactive="activecode">
-    <xi:include href="../programs/computer-programming_displaying-two-messages-1.cpp" parse="text"/>
+<xi:include href="../programs/computer-programming_displaying-two-messages-1.cpp" parse="text"/>
   </program>
   </listing>
 
@@ -17,10 +17,13 @@
     separate the string from the next piece of data to be output. That data is <c>endl</c> which means
     "end of line" - it will ensure that anything that whatever comes next in the output will appear
     on the next line (like hitting Enter while typing). Thus we get two lines of output. </p>
+    
+  <p>Also notice that the program omits the <c>return 0;</c> at the end of <c>main</c>. In C++, it is optional to include that line - if the programmer does not include it, it is silently added at the end of main. It is also possible to return a value other than 0. When a program returns 0, that indicates to the operating system that the program completed successfully. To indicate an error occurred, the programmer can return any non-zero value. This is a C++ feature we will not be exploring in this book.</p>
 
-  <p>As this second example shows, without the <c>endl</c> the second print statement will output to the
-    same line as the first one. It also demonstrates that you can put comments at the end of a line
+  <p>Lastly, it also demonstrates that you can put comments at the end of a line
     as well as on lines all by themselves. The code before the <c>//</c> is not part of the comment.</p>
+
+  <p>Now let us look at a similar program that lacks an <c>endl</c> in its print statement:</p>
 
   <listing filename="goodbye.cpp">
     <program xml:id="computer-programming_displaying-two-messages-2"
@@ -32,9 +35,151 @@
     </idx>
   </listing>
 
-  <p>Notice that there is a space at the end of the first string, inside the quotation marks. That
-    makes sure that there is a space after the comma in the output. Without that, the output would
-    say "Goodbye,cruel world". Spaces outside the quotation marks do not affect the spacing of the output.</p>
+  <p>Without the <c>endl</c> the second print statement will output to the
+    same line as the first one. The output has a space after the comma because there is an extra space inside the quotation marks of the first string. Without that space, the output would say <q>Goodbye,cruel world</q>.</p>
 
-  <p>Finally, this program omits the <c>return 0;</c> at the end of <c>main</c>. In C++, it is optional to include that line - if the programmer does not include it, it is silently added at the end of main. It is also possible to return a value other than 0. When a program returns 0, that indicates to the operating system that the program completed successfully. To indicate an error occurred, the programmer can return any non-zero value. This is a C++ feature we will not be exploring in this book.</p>
+
+  <exercise label="more_output_2">
+    <statement>
+      <p>On how many separate lines will the 7's be printed?</p>
+      <program
+               line-numbers="yes">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+  cout &lt;&lt; 7 &lt;&lt; endl;
+  cout &lt;&lt; 7;
+  cout &lt;&lt; 7;
+  cout &lt;&lt; 7;
+}
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>1</p>
+        </statement>
+        <feedback>
+          <p>There is an "endl" statement, implying that a new line is created.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>2</p>
+        </statement>
+        <feedback>
+          <p>"endl" creates one new line. The first line will say 7, while the second will print
+            777.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>3</p>
+        </statement>
+        <feedback>
+          <p>In C++, you must make sure to say "endl" every time you'd like to create a new line.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>4</p>
+        </statement>
+        <feedback>
+          <p>In C++, you must make sure to say "endl" every time you'd like to create a new line.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="more_output_3"
+            numbered="yes"
+            adaptive="yes"
+            indentation="show">
+    <statement>
+      <p>Construct a main function that prints <q>Snap!</q> on the first line, <q>Crackle!</q> on
+        the third line, and <q>Pop!</q> on the sixth line. You might not use all of endl blocks
+        provided.</p>
+    </statement>
+    <program-preamble>
+      #include &lt;iostream&gt;
+      using namespace std;
+    </program-preamble>
+    <program
+             codelens="no"></program>
+    <blocks>
+      <block order="3">
+        <cline>int main() {</cline>
+      </block>
+      <block order="4">
+        <cline> cout &lt;&lt; "Snap!";</cline>
+      </block>
+      <block order="8">
+        <cline><![CDATA[ cout << endl; // first endl]]></cline>
+      </block>
+      <block order="7">
+        <cline><![CDATA[ cout << endl; // second endl]]></cline>
+      </block>
+      <block order="2">
+        <cline><![CDATA[ cout << "Crackle!" << endl;]]></cline>
+      </block>
+      <block order="11">
+        <cline><![CDATA[ cout << endl; // third endl]]></cline>
+      </block>
+      <block order="6">
+        <cline><![CDATA[ cout << endl; // fourth endl]]></cline>
+      </block>
+      <block order="9">
+        <cline> cout &lt;&lt; "Pop!";</cline>
+      </block>
+      <block order="5"
+             correct="no">
+        <cline><![CDATA[ cout << endl; // fifth endl ]]></cline>
+      </block>
+      <block order="10"
+             correct="no">
+        <cline><![CDATA[ cout << endl; // sixth endl ]]></cline>
+      </block>
+      <block order="1">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+  <exercise label="more_output_4"
+            numbered="yes"
+            adaptive="yes"
+            indentation="show">
+    <statement>
+      <p>Construct a main function that prints <q>Hello, world!</q> so that <q>Hello,</q> and <q>
+        world!</q> are printed on two separate lines.</p>
+    </statement>
+    <program-preamble>
+      #include &lt;iostream&gt;
+      using namespace std;
+    </program-preamble>
+    <program
+             codelens="no"></program>
+    <blocks>
+      <block order="6">
+        <cline>int main() {</cline>
+      </block>
+      <block order="4">
+        <cline><![CDATA[ cout << "Hello," << endl; cout << "world!";]]></cline>
+      </block>
+      <block order="5"
+             correct="no">
+        <cline><![CDATA[ cout << "Hello," << "world!" << endl; ]]></cline>
+      </block>
+      <block order="1"
+             correct="no">
+        <cline> cout &gt;&gt; "Hello," &gt;&gt; endl; cout &gt;&gt; "world!"; </cline>
+      </block>
+      <block order="2"
+             correct="no">
+        <cline> cout &gt;&gt; "Hello," &gt;&gt; "world!" &gt;&gt; endl; </cline>
+      </block>
+      <block order="3">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
 </section>

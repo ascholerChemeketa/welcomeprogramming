@@ -9,7 +9,7 @@
     </idx></p>
 
   <listing filename="hello.cpp">
-    <program xml:id="computer-programming_hello-world-program-1"
+    <program
              line-numbers="yes"
              interactive="activecode">
 <xi:include href="../programs/computer-programming_hello-world-program-1.cpp" parse="text"/>
@@ -28,7 +28,17 @@ Hello, World!
 
   <p>Let's break down the Hello World program into its parts.</p>
 
-  <p>The first line of code is a <term>preprocessor directive</term>. Including a file in a C++
+  <p>The first line of code is a <term>preprocessor directive</term>. Preprocessor directives are
+    instructions to the C++ compiler that are executed before the program is compiled and start with <c>#</c>
+  </p>
+  
+  <program
+            line-numbers="yes"
+            highlight-lines="1">
+<xi:include href="../programs/computer-programming_hello-world-program-1.cpp" parse="text"/>
+  </program>
+  
+  <p>Including a file in a C++
     program essentially copies all the code from that file into the location of the <c>#include</c>. The <c>iostream</c>
     file contains the code that allows you to use to do input and output (io) in C++ programs. <idx>
       <h>iostream</h>
@@ -38,16 +48,26 @@ Hello, World!
     </idx>
   </p>
 
-  <p>Then there is a blank line. Blank lines are ignored by the C++ compiler, but they make code
+  <p>Then there is a blank line.</p>
+  <program
+            line-numbers="yes"
+            highlight-lines="2">
+<xi:include href="../programs/computer-programming_hello-world-program-1.cpp" parse="text"/>
+  </program>
+  <p>Blank lines are ignored by the C++ compiler, but they make code
     easier to read by separating logical chunks of a program from each other. Here, the blank line
     separates the preprocessor directive from the rest of the program. </p>
 
-  <p>Next is the <c>using namespace std;</c> statement. A <term>statement</term> is a line of code that performs a basic
+  <p>Next is the <c>using namespace std;</c> statement.</p>
+  <program
+            line-numbers="yes"
+            highlight-lines="3">
+<xi:include href="../programs/computer-programming_hello-world-program-1.cpp" parse="text"/>
+  </program>
+  <p>A <term>statement</term> is a line of code that performs a basic
     action. In this case, the action is telling the compiler that we want it to assume that any
-    names we use may actually start with <c>std</c>. Much like people may have a full formal name - say
-    Maria Rodriguez - but we only use part of their name - "Maria" - most of the time, code entities
-    can have complex names that we shorten. In this case, we want to shorten what would be <c>std::cout</c>
-    to <c>cout</c>.<idx>
+    names we use may actually start with <c>std</c>. This will allow us to shorten the full formal name <c>std::cout</c> 
+    to <c>cout</c> on line 7. This is a convenient way to reduce the amount we have to type, especially if we are going to use that name over and over. Alternatively, we could skip line 3 and write the full formal name every time.<idx>
       <h>statement</h>
     </idx></p>
 
@@ -63,13 +83,18 @@ Hello, World!
     </idx>
   </p>
 
-  <p>In C++ <term>functions</term> are used to group and organize sequences of statements. <c>int main</c>
-    defines one function named <c>main</c>. Every C++ program needs to have a function named <c>main</c>.
+  <p>Line 5 defines a <term>function</term> named <c>main</c>.</p>
+  <program
+            line-numbers="yes"
+            highlight-lines="5">
+<xi:include href="../programs/computer-programming_hello-world-program-1.cpp" parse="text"/>
+  </program>
+  <p>In C++ <term>functions</term> are used to group and organize sequences of statements.
+    Every C++ program needs to have a function named <c>main</c>.
     When a C++ program runs, it starts at the first statement in <c>main</c> and ends when it finishes
     the last statement. Later, you will see programs that define more than one function. The word <c>int</c>
-    indicates that this function returns an integer (a whole number) when it is finished. The <c>return 0;</c>
-    fulfills this promise. Don't worry too much about this for right now, we will learn more about
-    these parts of the program later. <idx>
+    indicates that this function returns an integer (a whole number) when it is finished. Don't worry too much about these details right now, we will learn more about
+    these parts of the program later. For now, just know that <c>int main</c> marks the start of the program.<idx>
       <h>function</h>
     </idx>
     <idx>
@@ -77,7 +102,7 @@ Hello, World!
     </idx>
   </p>
 
-  <p>Notice that line 5 does not end with a semicolon. It instead ends with a curly braces (<c>{</c>
+  <p>Notice that line 5 does not end with a semicolon. It instead ends with a curly brace. (<q>curly braces</q> are the name for <c>{</c>
     and <c>}</c>). C++ uses to group things together. In <term>Hello.cpp</term>, braces wrap the
     statements that are a part of the function definition. A good rule of thumb is that lines of
     code either are a complete and independent statement - and end in a semicolon - or they are the
@@ -86,15 +111,15 @@ Hello, World!
     </idx>
   </p>
 
-
-  <!-- TODO remove -->
-
-  <program xml:id="computer-programming_hello-world-program-3">
-<xi:include href="../programs/computer-programming_hello-world-program-3.cpp" parse="text"/>
+  <p>Line 6 is a <term> comment</term>, which is a bit of
+    English text that explains the code.
+    </p>
+  <program
+            line-numbers="yes"
+            highlight-lines="6">
+<xi:include href="../programs/computer-programming_hello-world-program-1.cpp" parse="text"/>
   </program>
-
-  <p>Line 6 that begins with two slashes (<c>//</c>) is a <term> comment</term>, which is a bit of
-    English text that explains the code. When the C++ compiler sees <c>//</c>, it ignores everything
+  <p>When the C++ compiler sees <c>//</c>, it ignores everything
     from there until the end of the line. Comments have no effect on the execution of the program,
     but they make it easier for other programmers (and your future self) to understand what you
     meant to do. <idx>
@@ -102,22 +127,21 @@ Hello, World!
     </idx>
   </p>
 
-  <p>Line 7 is a <term>print statement</term> that displays a message to the user. <c>cout</c> stands
+  <p>Line 7 is a <term>print statement</term> that displays a message to the user.</p>
+  <program
+            line-numbers="yes"
+            highlight-lines="7">
+<xi:include href="../programs/computer-programming_hello-world-program-1.cpp" parse="text"/>
+  </program>
+  <p>Printing in C++ is done with <c>cout</c>, which stands
     for "console output" - the console is a name for the screen where the input and output of a
-    program are displayed. <c>&lt;&lt;</c> indicates that we are sending data on the right of the symbol to
-    the console (the formal name for that symbol is the <term>stream insertion operator</term>). The
+    program are displayed. The <c>&lt;&lt;</c> is an operator used to indicate that we are sending the data on the right to <c>cout</c>  (the formal name for that symbol is the <term>stream insertion operator</term>). The
     data we are sending is the text <c>"Hello, World!"</c>.<idx>
       <h>print statement</h>
     </idx><idx>
       <h>cout</h>
     </idx>
   </p>
-
-  <!-- TODO remove -->
-
-  <program xml:id="computer-programming_hello-world-program-2">
-<xi:include href="../programs/computer-programming_hello-world-program-2.cpp" parse="text"/>
-  </program>
 
   <p>Phrases that appear in quotation marks are called <term>strings</term>, because they contain a
     sequence (a "string") of characters strung together in memory. Characters can be letters,
@@ -139,6 +163,150 @@ Hello, World!
       <h>case-sensitive</h>
     </idx></p>
 
-    <!-- TODO exercises -->
+  <p>As mentioned earlier, the statement <c>return 0;</c> on line 8 fulfills the promise made by <c>int main</c> to return a value.</p>
+  <program
+            line-numbers="yes"
+            highlight-lines="8">
+<xi:include href="../programs/computer-programming_hello-world-program-1.cpp" parse="text"/>
+  </program>
+   <p>Returning 0 from the main function lets the operating system know that the program finished without errors. Returning any other number would indicate some kind of issue. Using <c>return 0</c> at the end
+   of main is optional - the compiler will add it automatically if it is missing. You will see that many
+   of the samples in this book rely on that trick to keep the code simple. <idx>
+      <h>return 0</h>
+    </idx></p>
+
+  <p>Finally, line 9 is the end of the <c>main</c> function. The closing curly brace (<c>}</c>) matches the open curly brace on line 5 and indicates that the function is finished.
+  </p>
+
+  <program
+            line-numbers="yes"
+            highlight-lines="9">
+<xi:include href="../programs/computer-programming_hello-world-program-1.cpp" parse="text"/>
+  </program>
+
+
+  <exercise label="first_program_1">
+    <statement>
+      <p>How do you indicate a comment in C++? <var/>
+      </p>
+    </statement>
+    <setup>
+      <var case="insensitive">
+        <condition string="^\s*[//][//]\s*$">
+          <feedback>
+            <p>Correct!</p>
+          </feedback>
+        </condition>
+        <condition string="^\s*.*\s*$">
+          <feedback>
+            <p>Try again!</p>
+          </feedback>
+        </condition>
+      </var>
+    </setup>
+  </exercise>
+  <exercise label="first_program_2">
+    <statement>
+      <p><term>Multiple Response</term> Which is true about writing a program?</p>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>
+          <p>The main marks the spot in the program where execution begins.</p>
+        </statement>
+        <feedback>
+          <p>The main indicates where the program begins executing!</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>There is a limit the number of statements you can put in the main because they occupy
+            system memory.</p>
+        </statement>
+        <feedback>
+          <p>There is no limit to the number of statements you can put in the main, but it is good
+            practice to keep it as short as possible.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Inside the main, program execution happens in order from top to bottom.</p>
+        </statement>
+        <feedback>
+          <p>When the program runs, it starts by executing the first statement in main, and it
+            continues until the last.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>The main program is enclosed by parentheses.</p>
+        </statement>
+        <feedback>
+          <p>The main program and all functions in C++ are enclosed by squiggly brackets ( { and }
+            ).</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>The end of each statement is marked with a semicolon ( ; ).</p>
+        </statement>
+        <feedback>
+          <p>Forgetting a semicolon will cause a compile error!</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="first_program_3">
+    <statement>
+      <p>A print statement starts with the word <var/>. It requires you to use
+        the stream insertion operator which looks like <var/>. </p>
+    </statement>
+    <setup>
+      <var case="insensitive">
+        <condition string="^\s*(cout)\s*$">
+          <feedback>
+            <p>Correct!</p>
+          </feedback>
+        </condition>
+        <condition string="^\s*.*\s*$">
+          <feedback>
+            <p>Try again!</p>
+          </feedback>
+        </condition>
+      </var>
+      <var case="insensitive">
+        <condition string="^\s*(\&lt;\&lt;)\s*$">
+          <feedback>
+            <p>Correct!</p>
+          </feedback>
+        </condition>
+        <condition string="^\s*.*\s*$">
+          <feedback>
+            <p>Try again!</p>
+          </feedback>
+        </condition>
+      </var>
+    </setup>
+  </exercise>
+  
+  <exercise label="more_output_1">
+    <statement>
+      <p>A phrase that appears in quotation marks is called a(n)<var/>.</p>
+    </statement>
+    <setup>
+      <var case="insensitive">
+        <condition string="^\s*string\s*$">
+          <feedback>
+            <p>Correct!</p>
+          </feedback>
+        </condition>
+        <condition string="^\s*.*\s*$">
+          <feedback>
+            <p>Try again!</p>
+          </feedback>
+        </condition>
+      </var>
+    </setup>
+  </exercise>
 
 </section>
