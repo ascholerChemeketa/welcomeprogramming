@@ -184,27 +184,20 @@ Hello, World!
 <xi:include href="../programs/computer-programming_hello-world-program-1.cpp" parse="text"/>
   </program>
 
-
   <exercise label="first_program_1">
     <statement>
-      <p>How do you indicate a comment in C++? <var/>
+      <p>How do you indicate a single line comment in C++? <fillin mode="string" case="insensitive" answer="//"/>
       </p>
     </statement>
-    <setup>
-      <var case="insensitive">
-        <condition string="^\s*[//][//]\s*$">
-          <feedback>
-            <p>Correct!</p>
-          </feedback>
-        </condition>
-        <condition string="^\s*.*\s*$">
-          <feedback>
-            <p>Try again!</p>
-          </feedback>
-        </condition>
-      </var>
-    </setup>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
   </exercise>
+
   <exercise label="first_program_2">
     <statement>
       <p><term>Multiple Response</term> Which is true about writing a program?</p>
@@ -258,55 +251,34 @@ Hello, World!
   </exercise>
   <exercise label="first_program_3">
     <statement>
-      <p>A print statement starts with the word <var/>. It requires you to use
-        the stream insertion operator which looks like <var/>. </p>
+      <p>A print statement starts with the word <fillin mode="string" case="insensitive" answer="cout"/>. It requires you to use
+        the stream insertion operator which looks like <fillin mode="string" case="insensitive" answer="&lt;&lt;"/>. </p>
     </statement>
-    <setup>
-      <var case="insensitive">
-        <condition string="^\s*(cout)\s*$">
-          <feedback>
-            <p>Correct!</p>
-          </feedback>
-        </condition>
-        <condition string="^\s*.*\s*$">
-          <feedback>
-            <p>Try again!</p>
-          </feedback>
-        </condition>
-      </var>
-      <var case="insensitive">
-        <condition string="^\s*(\&lt;\&lt;)\s*$">
-          <feedback>
-            <p>Correct!</p>
-          </feedback>
-        </condition>
-        <condition string="^\s*.*\s*$">
-          <feedback>
-            <p>Try again!</p>
-          </feedback>
-        </condition>
-      </var>
-    </setup>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
   </exercise>
   
   <exercise label="more_output_1">
     <statement>
-      <p>A phrase that appears in quotation marks is called a(n)<var/>.</p>
+      <p>A phrase that appears in quotation marks is called a(n)<fillin mode="string" case="insensitive" answer="string"/>.</p>
     </statement>
-    <setup>
-      <var case="insensitive">
-        <condition string="^\s*string\s*$">
-          <feedback>
-            <p>Correct!</p>
-          </feedback>
-        </condition>
-        <condition string="^\s*.*\s*$">
-          <feedback>
-            <p>Try again!</p>
-          </feedback>
-        </condition>
-      </var>
-    </setup>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
   </exercise>
 
 </section>

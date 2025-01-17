@@ -1,0 +1,126 @@
+<section xml:id="computer-programming_other-errors"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Other Types of Errors</title>
+
+  <subsection xml:id="run-time-errors-run-time">
+    <title>Run-time errors</title>
+    <p>
+    <idx>
+      <h>run-time error</h>
+    </idx>
+    <idx>
+      <h>error</h>
+      <h>run-time</h>
+    </idx>
+    <idx>
+      <h>exception</h>
+    </idx> The second type of error your code might have is a <term>run-time error</term>,
+      so-called because the error does not appear until you run the program. In C++, these
+    errors generally occur because of an <term>exception</term> - an attempt to do an operation that is not allowed.
+    </p>
+
+  <p>Run-time errors are rare in the simple programs you will see in the first few chapters, so it
+    might be a while before you encounter one. When a run-time error occurs, the program <q>crashes</q>
+    (terminates) and displays an error message that explains what happened.</p>
+
+  <p>When an exception occurs, the program may not tell you exactly where the issue was. To find it, we need to use a debugger (like the Codelens feature in Activecodes) that lets us run the code line by line or we need to add print statements and see where the output stops.</p>
+
+  <insight><p>Sometimes while debugging it helps to add extra print statements to help diagnose exactly where an error occurs. Even something as simple as <q>Got to point A</q>, <q>Got to point B</q>, etc... can help you narrow down where a run-time error is occurring.</p></insight>
+  </subsection>
+
+  <subsection xml:id="logic-errors-and-semantics">
+    <title>Logic errors and semantics</title>
+    <p><idx>
+      <h>logic error</h>
+    </idx>
+    <idx>
+      <h>error</h>
+      <h>logic</h>
+    </idx> The third type of error is the <term>logical</term> or <term>
+      semantic</term> error.</p>
+    <note>
+      <p><term>Semantics</term> refer to the meaning of the program.</p>
+    </note>
+    <p>If there is a semantic error in your program, it will compile and run successfully, in the
+      sense that the computer will not generate any error messages, but it will not do the right
+      thing. It will do something else. <term>Specifically, it will do what you told it to do.</term></p>
+
+    <p>Because logic errors happen when the code you wrote does not mean what you think it does, identifying semantic errors
+      can be tricky. Sometimes they come from a simple typo. Other times they are a result of you
+      not understanding exactly how some piece of code works.</p>
+
+    <p><idx>
+      <h>warning</h>
+    </idx>
+    <idx>
+      <h>compiler</h>
+      <h>warning</h>
+    </idx> The C++ compiler can sometimes detect that what you are doing might not make sense. When there is something that looks suspicious, the compiler may emit a <term>warning</term>. Warnings have the same format as syntax errors, only they don't necessarily prevent the program from building.</p>
+
+    <note>
+      <p>The C++ compiler can be told to handle warnings in different ways. It can ignore them, it can issue warnings about them and continue building, or it can treat them as errors that prevent the code from being built. In this book you will get warnings. It is wise to treat any warnings as if they were errors.</p>
+    </note>
+
+    <p>But you can easily have a logic error that does not produce a warning. When everything in your code looks like it makes sense, but just isn't what you wanted, there is no way for the compiler to help you. Again, using a debugger to run the code line by line and check the results can be a good way to find the issue.</p>
+    
+    <insight><p>Simple lines of code are easier to debug than complex ones. If you have a logic error, try to isolate it by breaking the code into smaller pieces and testing each one.</p>
+    <p>It is also often easier for people to understand a larger number of simple lines of code than a few very complex ones. And the compiler will quite likely produce the same object code either way. So favor writing code that is easy to read and debug.</p>
+    </insight>
+  </subsection>
+
+  <exercise label="debugging_1">
+    <statement>
+      <p>Another word for an error is a(n) <fillin mode="string" case="insensitive" answer="bug"/>. The process of
+        finding and fixing errors is called <fillin mode="string" case="insensitive" answer="debugging"/>.
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+  <exercise label="debugging_2">
+    <statement>
+      <p>Match each term to its definition!</p>
+    </statement>
+    <feedback>
+      <p>Try again!</p>
+    </feedback>
+    <matches>
+      <match order="1">
+        <premise>syntax (compile-time) error</premise>
+        <response>an error that surfaces when something is wrong with the structure of your
+          program</response>
+      </match>
+      <match order="2">
+        <premise>run-time error</premise>
+        <response>an error that comes up when your program is executed</response>
+      </match>
+      <match order="3">
+        <premise>logic (semantic) error</premise>
+        <response>your program does what you told it to do, not what you intended for it to do</response>
+      </match>
+    </matches>
+  </exercise>
+    <exercise label="debugging_4">
+      <statement>
+        <p>The structure of your program and the rules it must follow are called the <fillin mode="string" case="insensitive" answer="syntax"/>.
+        </p>
+      </statement>
+      <evaluation>
+        <evaluate>
+          <test>
+            <strcmp use-answer="yes"/>
+          </test>
+        </evaluate>
+      </evaluation>
+    </exercise>
+</section>
