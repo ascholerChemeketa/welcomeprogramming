@@ -16,7 +16,7 @@
 <xi:include href="../programs/variables-operators_assigning-variables-1.cpp" parse="text"/>
 </program>
 
-  <p> This example shows two assignments, and the comments illustrate different ways people
+  <p>This example shows two assignments, and the comments illustrate different ways people
     sometimes talk about assignment statements. The vocabulary can be confusing here, but the idea
     is straightforward: <ul>
       <li>
@@ -30,7 +30,7 @@
 
   <!-- 
   TODO move to strings section
-  <p> A common source of confusion is that some strings <term>look</term> like integers, but they
+  <p>A common source of confusion is that some strings <term>look</term> like integers, but they
     are not. For example, <c>message</c> can contain the string <c>"123"</c>, which is made up of the characters <c>'1'</c>
     , <c>'2'</c>, and <c>'3'</c>. But that is not the same thing as the integer <c>123</c>: </p>
 
@@ -49,5 +49,37 @@
   <program xml:id="variables-operators_assigning-variables-3">
 <xi:include href="../programs/variables-operators_assigning-variables-3.cpp" parse="text"/>
 </program>
+
+
+    <p>The variable type that you declare must match the type of the value
+      assigned to it. A type mismatch will generate a compile error. For example, you cannot
+      store a string in an <c>int</c> variable. The following statements
+    generate a compile error.</p>
+  <program>
+int hour;
+hour = "six";       // WRONG !!
+</program>
+  <p>The <term>type</term> of <c>hour</c> is <term>int</term>. It can only store whole
+  number values, not <term>strings</term> like <c>"six"</c>. It would also be an error
+  to try to store <c>"6"</c> as that is still a string, not a number.</p>
+
+  <p>This rule is sometimes a source of confusion, because there are many
+    ways that you can convert values from one type to another, and C++
+    sometimes converts things automatically. But for now you should remember
+    that as a general rule variables and values have the same type, and
+    we'll talk about special cases later.</p>
+
+  <exercise label="assignment_1">
+    <statement>
+      <p>A(n) <fillin mode="string" case="insensitive" answer="assignment"/> statement gives a value to a variable. </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
 
 </section>

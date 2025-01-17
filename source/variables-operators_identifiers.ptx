@@ -6,7 +6,7 @@
     <idx>
       <h>identifier</h>
     </idx> The name a variable is given is formally called an <term>
-    identifier</term>. But oftentimes, programmers just refer to it as the "name" of the variable.
+    identifier</term>.
     An identifier can be any sequence of letters and digits, but it must begin with a letter. It is
     also allowed to use the underscore character (<c>_</c>) in an identifier. Below are some examples
     of legal variable names and illegal ones: </p>
@@ -78,10 +78,20 @@
     </idx>There are some words that are reserved in C++ and cannot be used as
     identifiers. These words include ones you have already encountered like <c>int</c> and <c>using</c>, you
     will encounter more as you learn more about the language. These reserved words are known as <term>
-    keywords</term>. You don't have to memorize all the possible keywords. Most programming editors
-    provide <q>syntax highlighting</q>, which makes different parts of the program appear in
-    different colors. And the compiler will complain even if one does sneak past you and your
-    editor.</p>
+    keywords</term>. You can find a full list of keywords at <url href="https://en.cppreference.com/w/cpp/keyword">
+    cppreference</url>, but you don't
+    have to memorize them. Most programming editors provide <q>syntax highlighting</q>, which will 
+    use a different color for keywords. And the compiler will complain even
+    if one does sneak past you and your editor. </p>
+
+  <p>
+    <idx>
+      <h>case-sensitive</h>
+    </idx> Variable names usually begin with a lowercase letter. 
+    When a variable name contains more than one word (like <c>firstName</c>), it is conventional to capitalize the first letter of
+    each subsequent word. Variable names are case-sensitive, so <c>firstName</c> is not the same as <c>firstname</c>
+    or <c>FirstName</c>.</p>
+
 
   <p>Beyond the syntax requirements, there are also conventions for naming variables. For example,
     it is common to use lowercase letters for variable names, and to capitalize the first letter of
@@ -92,7 +102,27 @@
     like <c>first_name</c>. Like other formatting choices, there is not a single <q>right</q> way to name
     variables, but it is important to be consistent. </p>
 
-  <p>Finally, it is important to choose variable names that communicate what is stored in a variable. The name <c>c</c> does not communicate anything about what value is being stored. If that variable in fact stores the color being used on a webpage, a better name would be <c>color</c>. Even better would be to indicate what the color is used for with a name like <c>textColor</c> or <c>backgroundColor</c>. Meaningful identifiers help other programmers (including future you who has no memory of why you called something <c>c</c>) more easily understand code they are reading.</p>
-
-  <insight><p>Good code is <q>self documenting</q>. The variable names and structure of the code make it easy to understand the intent of the programmer who wrote the code. Comments can be useful to help explain code, but they should never be thought of as a replacement for well chosen names.</p></insight>
+  <note>
+    <p>Case matters! If you get an error that looks like:</p>
+    <console><output>error: ‘myname’ was not declared in this scope</output></console>
+    <p>Double check that your identifier isn't actually <c>myName</c></p>
+  </note>
+  
+  <exercise label="values21">
+    <statement>
+      <p>Click on all the legal identifier names. (Hint, one of the identifiers is a keyword you should recognize.)</p>
+    </statement>
+    <feedback>
+      <p>Try again!</p>
+    </feedback>
+    <areas>
+      <cline>int main() {</cline>
+      <cline>    int <area correct="no">my age</area>;</cline>
+      <cline>    int <area correct="yes">my_age</area>;</cline>
+      <cline>    int <area correct="no">namespace</area>;</cline>
+      <cline>    int <area correct="yes">myAge</area>;</cline>
+      <cline>    int <area correct="no">my!age</area>;</cline>
+      <cline>}</cline>
+    </areas>
+  </exercise>
 </section>

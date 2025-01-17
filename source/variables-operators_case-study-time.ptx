@@ -1,0 +1,185 @@
+<section xml:id="variables-operators_case-study-time"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Case Study: Time</title>
+
+  <p>Most examples in this book are short and focus on just enough code to demonstrate an idea. But
+    most programs are larger than that. Seeing how a larger program is constructed, and learning to
+    write them yourself, is an important part of learning to program. Periodically, we will examine
+    a <em>Case Study</em> <mdash/> a full fledged program. Our first such Case Study is a program to
+    calculate elapsed time.</p>
+
+  <subsection>
+    <title>A problem and a plan</title>
+  </subsection>
+
+  <p>One way computers often track time is as a number of seconds since some known point. If you
+    know 1342 seconds have elapsed, you can calculate how many minutes, hours and days have elapsed.
+    We are going to construct a program that does that calculation.</p>
+
+  <p>Programs are not written by sitting down and typing all of the code. Typically you have to do
+    some design work, and then you write the code piece by piece, testing each part as you go.</p>
+
+  <p>For a program this simple, there is not too much design work to do. But it is important to
+    think through: <ul>
+      <li>What data you will start with?</li>
+      <li>What values you want to calculate?</li>
+      <li>How will you calculate those values?</li>
+    </ul> You may not know exactly how you will
+    do the calculations, but you should have at least a rough idea that you can test out. </p>
+
+  <insight>
+    <p> If you can not solve a problem by hand, you can not solve it with a computer. The computer
+      can do the math faster, but writing a program is literally writing the instructions for how to
+      solve a problem. So if you are stuck, first solve the problem by hand. Then worry about trying
+      to turn that solution into code. </p>
+  </insight>
+
+  <p>To answer the questions above for this problem: <ul>
+      <li>What data you will start with? <em>a number of seconds</em></li>
+      <li>What values you want to calculate? <em>a number of hours, minutes, and seconds</em></li>
+      <li>How will you calculate those values? <em>the division and remainder operators should allow me to convert
+    something like 83 seconds to 1 minute and 23 seconds by dividing by 60</em></li>
+    </ul>
+  </p>
+
+  <subsection>
+    <title>First steps</title>
+    <p>Now it is time to start writing code. Not all the code, just enough to verify I am starting
+      with the right value(s). We don't know how to get input as the program is running yet, so I
+      will hard code in the value 1312 seconds for now. Here is my first attempt:</p>
+
+    <listing>
+      <program line-numbers="yes"
+               interactive="activecode">
+<xi:include href="../programs/variables-operators_case-study-time-1.cpp" parse="text"/>
+      </program>
+    </listing>
+
+    <p>When I run this program, I see that it prints out 1312 seconds. So I know I am starting with
+      the right value. That is a good first step! If there were errors, I would want to fix those
+      before trying to continue on with the program.</p>
+  </subsection>
+
+  <subsection>
+    <title>Calculating minutes</title>
+
+    <p>Now I need to figure out how to convert that to hours, minutes, and seconds. Let's tackle one
+      part at a time. First I will worry about how many minutes have elapsed. (I am choosing to work
+      from the smallest unit to the largest unit, but you could also choose to work in the other
+      direction.)</p>
+
+    <p> I know that there are 60 seconds in a minute. So I can divide <c>totalSeconds</c> by 60 to get minutes
+      But I also need to know how many leftover seconds there are when I do the division. I can use
+      the remainder operator <c>%</c> to do that. Here is my next attempt:</p>
+
+    <listing>
+      <program line-numbers="yes"
+               interactive="activecode">
+<xi:include href="../programs/variables-operators_case-study-time-2.cpp" parse="text"/>
+      </program>
+    </listing>
+
+    <p>When I run this program, I see that it prints out 21 totalMinutes and 52 leftoverSeconds.
+      That is the correct answer! Let's try out another starting value. Change the 1312 to 8734. If
+      the program is working right, it should tell you that is 145 totalMinutes and 34
+      leftoverSeconds</p>
+
+    <p>Notice that I have two different variables that refer to an amount of seconds. <c>totalSeconds</c> refers
+      to the total number of seconds that have elapsed. <c>leftoverSeconds</c> refers to the number of seconds that
+      are left over after I have calculated the number of minutes. It is important to keep track of
+      what each variable represents. Picking good names for variables is an important part of
+      keeping this straight! Although it is tempting to use short variable names like <c>seconds</c>, it is
+      often better to use longer names that are more descriptive to avoid confusion.</p>
+  </subsection>
+
+  <subsection>
+    <title>Calculating hours</title>
+
+    <p>Now I need to figure out how to convert the number of minutes to hours and minutes. I know
+      that there are 60 minutes in an hour. So I can divide <c>totalMinutes</c> by 60 to get hours. And I can
+      use the remainder operator to get the number of minutes left over. Here is my next attempt:</p>
+
+    <listing>
+      <program line-numbers="yes"
+               interactive="activecode">
+<xi:include href="../programs/variables-operators_case-study-time-3.cpp" parse="text"/>
+      </program>
+    </listing>
+
+    <p>Try running this program. Also try running it with the <b>Codelens</b> feature to watch it
+      run line by line. Then try changing the starting number of seconds and make sure that it still
+      appears to give the right answers.</p>
+  </subsection>
+
+  <subsection>
+    <title>Wrapping up</title>
+
+    <p>Once we are convinced the coding is working, we can clean it up and get rid of the extra
+      output. It was useful to see the value of <c>totalMinutes</c>, but we don't actually need to print it in
+      the final program. This version of the program keeps all of the </p>
+
+    <listing>
+      <program line-numbers="yes"
+               interactive="activecode">
+      <xi:include href="../programs/variables-operators_case-study-time-4.cpp" parse="text"/>
+      </program>
+    </listing>
+  </subsection>
+
+  <insight>
+    <p>Breaking large problems into a series of smaller, simpler problems is a powerful general
+      problem solving technique.</p>
+    <p>Programs are developed in stages. Sitting down and trying to write all the code at once is
+      much harder than breaking the program into parts and tackling them one at a time.</p>
+  </insight>
+
+
+  <exercise label="output_vars_1">
+    <statement>
+      <p>I want to extend the time program to include days. Which calculation is correct?</p>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>
+          <program>
+          int days = hours / 24;
+          int leftoverHours = hours % 24;
+          </program>
+        </statement>
+        <feedback> Yes, that is correct. The number of days is the total number of hours divided by
+          24. The number of leftover hours is the total number of hours modulo 24. </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <program>
+          int days = hours / 60;
+          int leftoverHours = hours % 60;
+          </program>
+        </statement>
+        <feedback> There are not 60 hours in a day. </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <program>
+          int days = totalHours / 24;
+          int leftoverHours = totalHours % 24;
+          </program>
+        </statement>
+        <feedback> The program currently does not have a variable named totalHours. It might be
+          smart to rename <c>hours</c> to that, but assume we are sticking with the current variable
+          names. </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <program>
+          int days = hours % 24;
+          int leftoverHours = hours / 24;
+          </program>
+        </statement>
+        <feedback> The number of days is the total number of hours divided by 24. The number of
+          leftover hours is the total number of hours modulo 24. </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

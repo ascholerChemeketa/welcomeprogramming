@@ -1,0 +1,60 @@
+<section xml:id="variables-operators_values"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Values</title>
+  <p>A <term>value</term> is one of the fundamental things&#x2014;like a letter or a
+    number&#x2014;that a program manipulates. The only values we have manipulated so far are the
+    string values we have been outputting, like <q>Hello, world.</q>. You (and the compiler) can
+    identify <c>string</c> values because they are enclosed in quotation marks.
+    <idx>
+      <h>value</h>
+    </idx></p>
+  <p>But there many different kinds of values other than strings. Another basic type of values are whole
+    numbers, like 1 or 17. These are called <term>integer</term>s. You can
+    output these values the same way you output strings:</p>
+  <program>
+cout &lt;&lt; 17 &lt;&lt; endl;
+</program>
+  <p>The kind of thing a value is known as its <term>type</term>. A value's type determines what you can do with it. For example, you can multiply two integers together, but you cannot multiply two strings (what would <c>"Hello" * "World"</c> even mean???).</p>
+  <p>
+  It is easy to confuse different types of values, like <c>"5"</c> and <c>5</c>, but if you pay
+    attention to the punctuation, it should be clear that the first is a string and the second is
+    an integer.</p>
+  <exercise label="values20">
+    <statement>
+      <p>Click on all integer VALUES. Don't worry about code you haven't seen yet, just find all the integers values.</p>
+    </statement>
+    <feedback>
+      <p>Try again! Integer values are numbers that are not in quotation marks.</p>
+    </feedback>
+    <areas>
+      <cline><area correct="no">int main() {</area></cline>
+      <cline>    <area correct="no">int x</area> = <area correct="yes">7</area>;</cline>
+      <cline>    <area correct="no">string c</area> = <area correct="no">"8"</area>;</cline>
+      <cline>    while (<area correct="no">x</area> &lt; <area correct="yes">10</area>) {</cline>
+      <cline>        cout &lt;&lt; <area correct="no">c</area> &lt;&lt; endl;</cline>
+      <cline>        <area correct="no">x</area>++;</cline>
+      <cline>    }</cline>
+      <cline>    <area correct="no">c</area> = <area correct="no">"9"</area>;</cline>
+      <cline>    cout &lt;&lt; "<area correct="no">It's the year</area> <area correct="no">3000</area>!";</cline>
+      <cline>    cout &lt;&lt; <area correct="no">"Just kidding, it's "</area> &lt;&lt; <area correct="yes">2020</area> &lt;&lt; "!";</cline>
+      <cline>}</cline>
+    </areas>
+  </exercise>
+  <exercise label="values21">
+    <statement>
+      <p>Click on all string VALUES.</p>
+    </statement>
+    <feedback>
+      <p>Try again! String values are pieces of text surrounded by quotation marks.</p>
+    </feedback>
+    <areas>
+      <cline>int main() {</cline>
+      <cline>    int <area correct="no">init1</area> = <area correct="no">10</area>;</cline>
+      <cline>    string <area correct="no">init2</area> = <area correct="yes">"M"</area>;</cline>
+      <cline>    cout &lt;&lt; <area correct="no">init1</area> &lt;&lt; <area correct="yes">"+"</area> &lt;&lt; <area correct="no">init2</area> &lt;&lt; endl;</cline>
+      <cline>    string <area correct="no">init3</area> = <area correct="yes">"R"</area>;</cline>
+      <cline>    cout &lt;&lt; <area correct="yes">"This code is a bit of a mess..."</area>;</cline>
+      <cline>}</cline>
+    </areas>
+  </exercise>
+</section>

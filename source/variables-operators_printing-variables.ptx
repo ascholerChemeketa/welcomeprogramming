@@ -2,7 +2,7 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <title>Printing Variables</title>
-  <p> You can display the current value of a variable by using <c>cout</c>. The following
+  <p>You can display the current value of a variable by using <c>cout</c>. The following
     statements declare a variable named <c>answer</c>, assign it the value <c>42</c>, and display that
     value: </p>
 
@@ -11,7 +11,7 @@
 <xi:include href="../programs/variables-operators_printing-variables-1.cpp" parse="text"/>
 </program>
 
-  <p> When we talk about displaying a variable, we generally mean the <term>value</term> of the
+  <p>When we talk about displaying a variable, we generally mean the <term>value</term> of the
     variable. To display the <term>name</term> of a variable, you have to put it in quotes: </p>
 
   <program xml:id="variables-operators_printing-variables-2"
@@ -19,7 +19,7 @@
 <xi:include href="../programs/variables-operators_printing-variables-2.cpp" parse="text"/>
 </program>
 
-  <p> For this example, the output is as follows: </p>
+  <p>For this example, the output is as follows: </p>
 
   <console>
     <output>
@@ -27,14 +27,130 @@ answer is 42
     </output>
   </console>
 
-  <p> Conveniently, the code for displaying a variable is the same regardless of its type. For
+  <p>Conveniently, the code for displaying a variable is the same regardless of its type. For
     example: </p>
 
-  <p> To output multiple values on the same line, you can either use one <c>cout</c> that outputs multiple values (each separated by &lt;&lt;) or you can use multiple <c>cout</c> statements. This program demonstrates two different ways to print <c>11:59</c>.</p>
+  <p>To output multiple values on the same line, you can either use one <c>cout</c> that outputs multiple values (each separated by &lt;&lt;) or you can use multiple <c>cout</c> statements. This program demonstrates two different ways to print <c>11:59</c>.</p>
 
   <program xml:id="variables-operators_printing-variables-3"
            interactive="activecode">
 <xi:include href="../programs/variables-operators_printing-variables-3.cpp" parse="text"/>
 </program>
 
+  <insight>
+    <p>Usually, it is easiest to use a debugger (like Codelens) to see the values of variables as a program runs. However, sometimes it is useful to print them out. Say your code just changed the value of the variable <c>totalPay</c>. You could see the value is by printing its name followed by its value:</p>
+    <program>
+// code that set totalPay
+cout &lt;&lt; "totalPay is now " &lt;&lt; totalPay &lt;&lt; endl;
+    </program>
+  </insight>
+
+  <exercise label="output_vars_1">
+    <statement>
+      <p>What prints when the following code is run?</p>
+      <program>int main() {
+  int a;
+  int b;
+  a = 2;
+  b = 8;
+  cout &lt;&lt; "a";
+}</program>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>
+          <p>a</p>
+        </statement>
+        <feedback>
+          The string, not the variable, a will be printed.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>b</p>
+        </statement>
+        <feedback>
+          b will not be printed.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>2</p>
+        </statement>
+        <feedback>
+          The cout statement prints a, not the value of the variable a.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>8</p>
+        </statement>
+        <feedback>
+          8 is the value of b and will not be printed
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Nothing! There will be a compile error!</p>
+        </statement>
+        <feedback>
+          Try again.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="output_vars_2">
+    <statement>
+      <p>Now, what prints?</p>
+      <program>int main() {
+  int a;
+  int b;
+  a = 2;
+  b = 8;
+  cout &lt;&lt; b;
+}</program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>a</p>
+        </statement>
+        <feedback>
+          The string a will not be printed.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>b</p>
+        </statement>
+        <feedback>
+          The string b will not be printed.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>z</p>
+        </statement>
+        <feedback>
+          2 is the value of a will not be printed.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>8</p>
+        </statement>
+        <feedback>
+          8 is the value of b and will be printed!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Nothing! There will be a compile error!</p>
+        </statement>
+        <feedback>
+          Try again.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
 </section>

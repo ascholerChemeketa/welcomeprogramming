@@ -1,0 +1,160 @@
+<section xml:id="variables-operators_int-division"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Integer Division</title>
+
+  <program xml:id="variables-operators_int-division-1"
+           interactive="activecode">
+<xi:include href="../programs/variables-operators_int-division-1.cpp" parse="text"/>
+</program>
+
+  <p>
+    <idx>
+      <h>division</h>
+      <h>integer</h>
+    </idx>
+    <idx>
+      <h>integer division</h>
+    </idx> This result often confuses people. The value of <c>minute</c> is <c>45</c>,
+    and 45 divided by 60 should be 0.75, not 0. The problem is that C++ performs <term>integer
+    division</term> when both operands are integers. By design, integer division always rounds toward
+    zero, even in cases like this one.</p>
+
+    <p>Integer division produces an integer answer by <term>truncating</term> the answer. <term>Truncating</term> a value means dropping the decimal portion. This is different than rounding the value - notive that 0.75 becomes 0, not 1.</p>
+
+  <insight>
+    <p>When dividing integers, C++ does whole number division. Something like <c>7 / 3</c> asks <q>how
+      many whole times does 3 divide into 7?</q>. The answer is 2. </p>
+  </insight>
+
+  <p>As an alternative, we can calculate a percentage rather than a fraction: </p>
+
+  <program xml:id="variables-operators_int-division-2"
+           interactive="activecode">
+<xi:include href="../programs/variables-operators_int-division-2.cpp" parse="text"/>
+</program>
+
+
+  <p>Because the multiplication happens first, we get <c>4500 / 60</c>, which is <c>75</c>. (The multiplication
+    would happen first here no matter what, but the parentheses help make the intended order of
+    operations clear.)</p>
+
+  <note>
+    <p>Also note that the print statement is broken up over multiple lines. Remember that C++ does
+      not care about extra whitespace (things like spaces and newlines). Breaking up a long
+      statement of code over multiple lines can help make it easier to read. Just make sure to break
+      up code at logical places - like before operators - and to use indentation to make it clear
+      that the extra lines are a continuation of a statements.</p>
+  </note>
+
+  <p>The order of operations is critical here. If we change the logic to do the division first, as
+    shown below, we are back to 0 for our result. The first thing evaluated is <c>minute / 60</c>, which is 0.
+    Multiplying that by 100 results in 0.</p>
+
+  <program xml:id="variables-operators_int-division-3"
+           interactive="activecode">
+<xi:include href="../programs/variables-operators_int-division-3.cpp" parse="text"/>
+</program>
+
+  <exercise label="operators_3">
+    <statement>
+      <p>Integer division always <fillin mode="string" case="insensitive" answer="truncates?"/> the answer by dropping any decimal portion.</p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+  <exercise label="operators_3.1">
+    <statement>
+      <program>int num1 = 12;
+int num2 = 5;
+cout &lt;&lt; num1 / num2;</program>
+      <p>What is printed to the terminal?</p>
+      <p><fillin mode="number" case="insensitive" answer="2"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+  <exercise label="operators_3.2">
+    <statement>
+      <program>int num1 = 10;
+int num2 = 48;
+cout &lt;&lt; num2 / num1;</program>
+      <p>What is printed to the terminal?</p>
+      <p>
+        <fillin mode="number" case="insensitive" answer="4"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+  <exercise label="operators_3.3">
+    <statement>
+      <program>int num1 = 10;
+int num2 = 40;
+cout &lt;&lt; num2 / num1;</program>
+      <p>What is printed to the terminal?</p>
+      <p>
+        <fillin mode="number" case="insensitive" answer="4"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+  <exercise label="operators_3.4">
+    <statement>
+      <program>int num1 = 10;
+int num2 = 39;
+cout &lt;&lt; num2 / num1;</program>
+      <p>What is printed to the terminal?</p>
+      <p>
+        <fillin mode="number" case="insensitive" answer="3"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+          <test>
+            <numcmp use-answer="yes"/>
+          </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+  <exercise label="operators_3.5">
+    <statement>
+      <program>int num1 = 7;
+int num2 = 8;
+cout &lt;&lt; "Decimal:" &lt;&lt; num1 / num2;</program>
+      <p>What is printed after <c>Decimal:</c>?</p>
+      <p>
+        <fillin mode="number" case="insensitive" answer="0"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>

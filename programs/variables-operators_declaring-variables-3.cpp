@@ -1,2 +1,0 @@
-int hour;
-int minute;

@@ -7,5 +7,4 @@ int main() {
     int minute = 59;
     int totalMinutes = hour * 60 + minute;
     cout << "Number of minutes since midnight: " << totalMinutes << endl;
-    return 0;
 }

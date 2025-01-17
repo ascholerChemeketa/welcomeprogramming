@@ -1,0 +1,147 @@
+<section xml:id="variables-operators_precedence"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Order of Operations</title>
+  <p>
+    <idx>
+      <h>precedence</h>
+    </idx>
+    <idx>
+      <h>precedence</h>
+      <h>operator</h>
+    </idx>When more than one operator appears in an expression the order of evaluation depends on the
+    rules of <term>precedence</term>. A complete explanation of precedence can get complicated, but
+    just to get you started:</p>
+  <p>
+    <ul>
+      <li>
+        <p>Multiplication and division happen before addition and subtraction. So <c>2 * 3 - 1</c> yields 5,
+          not 4, and <c>2 / 3 - 1</c> yields -1, not 1 (remember that in integer division <c>2/3</c> is 0).</p>
+      </li>
+      <li>
+        <p>If the operators have the same precedence they are evaluated from left to right. So in
+          the expression <c>minute * 100 / 60</c>, the multiplication happens first, yielding <c>5900 / 60</c>, which in turn
+          yields 98. If the operations had gone from right to left, the result would be 59 * 1 which
+          is 59, which is wrong.</p>
+      </li>
+      <li>
+        <p>Any time you want to override the rules of precedence (or you are not sure what they are)
+          you can use parentheses. Expressions in parentheses are evaluated first, so <c>2 * (3 - 1) is 4</c>. You
+          can also use parentheses to make an expression easier to read, as in <c>(minute * 100) / 60</c>, even though
+          it doesn't change the result.</p>
+      </li>
+    </ul>
+  </p>
+
+  <listing>
+    <caption>
+      Observe the output of the code to see how the placement of parentheses can change the
+        result of a calculation.
+    </caption>
+    <program label="variables-operators_precedence_1"
+             interactive="activecode"
+             line-numbers="yes">
+      <code><![CDATA[
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << (2 * 3) - 1 << endl;
+    cout << 2 * (3 - 1) << endl;
+    cout << 2 / 3 - 1 << endl;
+    cout << 2 / (3 -1) << endl;
+}
+        ]]></code>
+    </program>
+  </listing>
+  <!-- <exercises> -->
+    <exercise label="order_of_operations_1">
+      <statement>
+        <p>Match the expression to its correct output. Don't forget to consider integer
+          division!</p>
+      </statement>
+      <feedback>
+        Try again!
+      </feedback>
+      <matches>
+        <match order="1">
+          <premise>(6*4)+1</premise>
+          <response>25</response>
+        </match>
+        <match order="2">
+          <premise>6*(4+1)</premise>
+          <response>30</response>
+        </match>
+        <match order="3">
+          <premise>(6/4)+1</premise>
+          <response>2</response>
+        </match>
+        <match order="4">
+          <premise>6/(4+1)</premise>
+          <response>1</response>
+        </match>
+      </matches>
+    </exercise>
+    <exercise label="order_of_operations_2">
+      <statement>
+        <p>Any time you want to override the rules of precedence, you can use <fillin mode="string" case="insensitive" answer="parentheses"/>.</p>
+      </statement>
+      <evaluation>
+        <evaluate>
+          <test>
+            <strcmp use-answer="yes"/>
+          </test>
+        </evaluate>
+      </evaluation>
+    </exercise>
+    <!-- <exercisegroup> -->
+      <!-- <title>Order of operations sequence</title>
+      <introduction> -->
+        <p>The following three exercises will walk you through an example of the rules of
+          precedence. Answer the questions in order to check what you remember
+          about the order of operations!</p>
+      <!-- </introduction> -->
+      <exercise label="order_of_operations_3A">
+        <statement>
+          <p>Click on ALL PARTS of the expression that get evaluated first. For example, if "1 + 1"
+            gets evaluated first, click on "1", "+", and "1".</p>
+        </statement>
+        <feedback>
+          Try again!
+        </feedback>
+        <areas>
+          <cline><area correct="no">1</area> <area correct="no"> + </area> <area correct="no"> 2</area> <area correct="no"> *</area> ( <area correct="yes">10</area> <area correct="yes">-</area> <area correct="yes">2</area> ) <area correct="no">/</area> <area correct="no">4</area></cline>
+        </areas>
+      </exercise>
+      <exercise label="order_of_operations_3B">
+        <statement>
+          <p>Click on ALL PARTS of the expression that get evaluated first. For example, if "1 + 1"
+            gets evaluated first, click on "1", "+", and "1".</p>
+        </statement>
+        <feedback>
+          Try again!
+        </feedback>
+        <areas>
+          <cline><area correct="no">1</area> <area correct="no"> + </area> <area correct="yes">2</area> <area correct="yes"> * </area> <area correct="yes">8</area> <area correct="no"> / </area> <area correct="no">4</area></cline>
+        </areas>
+      </exercise>
+      <exercise label="order_of_operations_3C">
+        <statement>
+          <p>Click on ALL PARTS of the expression that get evaluated first. For example, if "1 + 1"
+            gets evaluated first, click on "1", "+", and "1".</p>
+        </statement>
+        <feedback>
+          Try again!
+        </feedback>
+        <areas>
+          <cline><area correct="no">1</area> <area correct="no"> + </area> <area correct="yes">16</area> <area correct="yes"> / </area> <area correct="yes">4</area></cline>
+        </areas>
+      </exercise>
+    <!-- </exercisegroup> -->
+  <!-- </exercises> -->
+  <p><c>1 + 5</c> is the only operation remaining. I'm not going to ask you any questions about it.
+    However, it's important that you can wrap you head around the fact that the <c>+</c> operator
+    appeared <term>
+      first</term> in the calculation, but it was the <term>last</term> operator to be evaluated.
+    The order of operations can be kind of confusing at times, but I think you've got a good grasp
+    of the concept!</p>
+</section>

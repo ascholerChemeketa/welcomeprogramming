@@ -4,10 +4,7 @@
   <p>
     <idx>
       <h>variable</h>
-    </idx>
-    <idx>
-      <h>value</h>
-    </idx> At a fundamental level, the task of every program is to perform
+    </idx>At a fundamental level, the task of every program is to perform
     computations that manipulate data. In C++, and many other programming languages, variables are a
     critical part of this work. A <term>variable</term> is a named location in memory that stores a <term>
     value</term>. Values may be numbers, text, images, sounds, and other types of data. To store a
@@ -28,49 +25,24 @@
       <h>type</h>
       <h>int</h>
     </idx>
-<!-- TODO move to string section
-    <idx>
-      <h>type</h>
-      <h>char</h>
-    </idx>
-    <idx>
-      <h>type</h>
-      <h>String</h>
-    </idx> -->
-    This statement is called a <term>declaration</term>, because it
-    declares that the variable <c>age</c> has the type <c>int</c>. Each variable has a <term>type</term>
-    that determines what kind of values it can store. For example, the <c>int</c> type can store
-    integers (whole numbers) like <c>1</c> and <c>-5</c>.</p>
+    <!-- TODO move to string section <idx> <h>type</h> <h>char</h> </idx> <idx> <h>type</h>
+    <h>String</h> </idx> --> This statement is called a <term>declaration</term>, because it declares
+    that the variable <c>age</c> has the type <c>int</c>. Each variable has a <term>type</term> that
+    determines what kind of values it can store. For example, the <c>int</c> type can store integers
+    (whole numbers) like <c>1</c> and <c>-5</c>.</p>
 
-    <p>By itself, a declaration does not have any visible effect. It simply instructs the program to reserve some space in memory and assigns that space a name. As far as a programmer is concerned, the computer memory is a long sequence of numbered locations. Each location typically stores one <term>byte</term> - a sequence of eight digits, each of which is either 0 or 1. To picture what the code above is doing, you should imagine that something like the image below:</p>
+  <p>By itself, a declaration does not have any visible effect. It simply instructs the program to
+    reserve some space in memory and assigns that space a name. As far as a programmer is concerned,
+    the computer memory is a long sequence of numbered locations. Each location typically stores one <term>
+    byte</term> - a sequence of eight digits, each of which is either 0 or 1. To picture what the
+    code above is doing, you should imagine that something like the image below:</p>
 
-<!-- TODO figure with memory illustration-->
+  <!-- TODO figure with memory illustration-->
 
-  <p>The figure above shows that <c>age</c> is occupying four bytes of space. The amount of memory reserved will depend on the type of data that is declared. Different types of data require different amounts of space to store. We will learn about some other types soon.</p>
+  <p>The figure above shows that <c>age</c> is occupying four bytes of space. The amount of memory
+    reserved will depend on the type of data that is declared. Different types of data require
+    different amounts of space to store.</p>
 
-  <p>
-    <idx>
-      <h>case-sensitive</h>
-    </idx> Variable names usually begin with a lowercase letter, in
-    contrast to class names (like <c>Hello</c>) that start with a capital letter. When a variable name
-    contains more than one word (like <c>firstName</c>), it is conventional to capitalize the first letter of
-    each subsequent word. Variable names are case-sensitive, so <c>firstName</c> is not the same as <c>firstname</c>
-    or <c>FirstName</c>. </p>
-
-  <p>
-    <idx>
-      <h>keyword</h>
-    </idx> You can use any name you want for a variable. But there are about 50
-    reserved words, called <term>keywords</term>, that you are not allowed to use as variable names.
-    These words include <c>public</c>, <c>class</c>, <c>static</c>, <c>void</c>, and <c>int</c>, which are used by the
-    compiler to analyze the structure of the program. </p>
-
-  <p> You can see the full list of keywords (\url{https://thinkjava.org/keywords}), but you don't
-    have to memorize them. Most programming editors provide <q>syntax highlighting</q>, which makes
-    different parts of the program appear in different colors. And the compiler will complain even
-    if one does sneak past you and your editor. </p>
-
-    
   <p>To declare an integer variable named <c>x</c>, you simply type this: </p>
 
   <program xml:id="variables-operators_declaring-variables-2">
@@ -78,15 +50,41 @@
 </program>
 
   <p>Note that <c>x</c> is an arbitrary name for the variable. In general, you should use names that
-    indicate what the variables mean: </p>
+    indicate what the values they will hold represent. A name like <c>c</c> does not communicate
+    anything about what value is being stored. If that variable in fact stores the color being used
+    on a webpage, a better name would be <c>color</c>. Even better would be to indicate what the color is
+    used for with a name like <c>textColor</c> or <c>backgroundColor</c>. Meaningful names help other programmers more
+    easily understand code they are reading. That <q>other programmer</q> is likely to be future you
+    who looks back at your code after a few months and has no memory of what <c>means</c> - so be nice to
+    future you!</p>
 
-  <program xml:id="variables-operators_declaring-variables-3">
-<xi:include href="../programs/variables-operators_declaring-variables-3.cpp" parse="text"/>
+  <insight>
+    <p>Good code is <q>self documenting</q>. The variable names and structure of the code make it
+      easy to understand the intent of the programmer who wrote the code. Comments can be useful to
+      help explain code, but they should never be thought of as a replacement for well chosen names.</p>
+  </insight>
+
+
+  <exercise label="variables_1">
+    <statement>
+      <p>Take a look at the statement below:</p>
+      <p>
+        <program>
+int population;
 </program>
-
-  <p> This example declares two variables with type <c>String</c> and two with type <c>int</c>. The last line
-    shows how to declare multiple variables with the same type: <c>hour</c> and <c>minute</c> are both
-    integers. Note that each declaration statement ends with a semicolon (<c>;</c>). </p>
-
+      </p>
+      <p>What kind of statement is it an example of? <fillin answer="declaration"
+                mode="string"
+                case="insensitive"/>
+        .</p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
 
 </section>

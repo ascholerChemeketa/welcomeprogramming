@@ -1,0 +1,129 @@
+<section xml:id="variables-operators_type-cast-operators"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Type Casting</title>
+
+  <p>As mentioned earlier, C++ converts <c>int</c>'s to <c>double</c>'s automatically if necessary, because
+    no information is lost in the translation. On the other hand, going from a <c>double</c> to an <c>int</c>
+    requires truncating the value. Compilers will issue a warning something like: <q>incompatible
+    types: possible lossy conversion from double to int</q>.</p>
+
+  <p>
+    <idx>
+      <h>typecast</h>
+    </idx>To remove this warning, you can do a <term>typecast</term>.
+    Typecasting is so called because it allows you to take a value that belongs to one type and <q>
+    cast</q> it into another type (in the sense of molding or reforming, not throwing).</p>
+
+  <p><idx>
+      <h>explicit conversion</h>
+    </idx>
+  <idx>
+      <h>cast</h>
+      <h>explicit</h>
+    </idx>In C++, the way ask the compiler to do a typecast is to write <c>static_cast&lt;TYPE&gt;(VALUE)</c>.
+    When you write that, you are essentially saying <q>I know this looks potentially dangerous, but
+    please go ahead and convert VALUE to type TYPE and do not warn me about it.</q> This is known as
+    an <term>explicit conversion</term> because you are explicitly (visibly) doing the cast. Here is
+    an example of an explicit conversion of a double value to the int type:</p>
+
+  <program xml:id="variables-operators_type-cast-operators-2"
+           line-numbers="yes">
+<xi:include href="../programs/variables-operators_type-cast-operators-2.cpp" parse="text"/>
+</program>
+
+  <p>Note that the <c>static_cast</c> does not change the value of the variable <c>pi</c>. it makes a copy of the
+    value and converts it to the new type (<c>int</c>). The result is exactly the same as if we wrote <c>int x = pi;</c>
+    on line 9 except there is no warning!</p>
+
+  <p>It is possible to type cast an integer value into a double. Normally, it is not necessary to do
+    so as the compiler will implicitly do the conversion without complaining. But sometimes it is
+    useful to cast an integer to a double in order to force floating-point math. The following
+    example does this to get a decimal answer for 1/3 in the second line of output:</p>
+
+  <program xml:id="variables-operators_type-cast-operators-2"
+           line-numbers="yes">
+  <xi:include href="../programs/variables-operators_type-cast-operators-2.cpp" parse="text"/>
+  </program>
+
+  <p>As the line is evaluated, the <c>static_cast</c> happens first. It converts <c>1</c> to <c>1.0</c>. Then the
+    division takes place and it now says <c>1.0 / 3</c>. Since there is at least one floating-point value
+    involved, C++ does floating-point math.</p>
+
+  <insight>
+    <p>A <c>static_cast</c> does a conversion the compiler already knows how to do but would normally either
+      not do or issue a warning for.</p>
+  </insight>
+
+  <note>
+    <p>In C programming, you cast by writing something like <c>int x = (int)pi;</c>. Although C-style casts can also
+      be written in C++, you should avoid using them.</p>
+  </note>
+
+  
+  <exercise label="double_to_int_2">
+    <statement>
+      <p>Your final grade consists of your average performance on exam 1 and exam 2.
+        Your professor is using C++ to grade the exams and allows you to choose which
+        method you'd like your exam to be graded.</p>
+      <program>
+double exam1 = 88.8;
+double exam2 = 72.7;
+</program>
+      <p>
+        <term>Method 1:</term>
+      </p>
+      <program>
+double final = (static_cast&lt;int&gt;(exam1) + static_cast&lt;int&gt;(exam2)) / 2;
+</program>
+      <p>
+        <term>Method 2:</term>
+      </p>
+      <program>
+int final = static_cast&lt;int&gt;((exam1 + exam2) / 2);
+</program>
+      <p>Which method would <term>you</term> choose and why?</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p><term>Method 1:</term><c>final</c> is a <c>double</c>, meaning my final grade will have more
+            digits past the decimal, and will be higher than the <c>int</c> in Method 2.</p>
+        </statement>
+        <feedback>
+          Although <c>final</c> is a <c>double</c>, it doesn't have any digits past the decimal due to the
+            integer division.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><term>Method 1:</term> the rounding happens at the beginning, so both test
+            scores will be rounded to the nearest <c>int</c>, which in my case, will round all of them
+            up.</p>
+        </statement>
+        <feedback>
+          Converting to an <c>int</c> always rounds <em>towards 0</em>, even if your <c>double</c> is very
+            close to the next integer.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><term>Method 2:</term><c>final</c> is an <c>int</c>, so it gets rounded up.</p>
+        </statement>
+        <feedback>
+          Converting to an <c>int</c> always rounds <em>towards 0</em>, even if your <c>double</c> is very
+            close to the next integer.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p><term>Method 2:</term> the rounding happens at the very end, so my grade will be
+            higher!</p>
+        </statement>
+        <feedback>
+          Always save your rounding until the end!
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

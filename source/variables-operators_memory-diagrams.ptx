@@ -2,7 +2,7 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <title>Memory Diagrams</title>
-  <p> Because C++ uses the <c>=</c> symbol for assignment, it is tempting to interpret the statement <c>a = b</c>
+  <p>Because C++ uses the <c>=</c> symbol for assignment, it is tempting to interpret the statement <c>a = b</c>
     as a statement of equality. It is not! The best way to think of what the symbol means is <q>take
     the value that is on the right side and store it into the location on the left side</q>. For
     that reason, programmers often pronounce <c>=</c> as <q>gets set to</q> or just <q>gets</q>.
@@ -12,7 +12,7 @@
     then <m>7 = a</m>. In C++ <c>a = 7;</c> is a legal assignment statement, but <c>7 = a;</c> is not. The left
     side of an assignment statement has to be a variable name (storage location). </p>
 
-  <p> Also, in mathematics, a statement of equality is true for all time. If <m>a = b</m> now, <m>a</m>
+  <p>Also, in mathematics, a statement of equality is true for all time. If <m>a = b</m> now, <m>a</m>
     is always equal to <m>b</m>. In C++, an assignment statement can make two variables equal, but
     they don't have to stay that way. This <term>Codelens</term> lets you run the code in this
     sample one line at a time. As you do so, watch the area labeled <em>Stack</em>. You will see the
@@ -44,13 +44,13 @@
     program being developed as it runs. When developing code outside of this book, you will use a
     debugger to help you find and fix errors in your code.</p>
   <!-- TODO appendix ref to debugger advice? -->
-  <p> But you can also represent the state of a program with a human created <term>memory diagram</term>.
+  <p>But you can also represent the state of a program with a human created <term>memory diagram</term>.
     For example, <xref ref="fig_state">Figure</xref> shows the state of the program after these
     assignment statements run:</p>
   <figure xml:id="fig_state">
     <caption>Memory diagram of the variables <c>a</c> and <c>b</c>.</caption>
     <image width="25%%"
-           source="external/images/state.svg"/>
+           source="images/state.svg"/>
   </figure>
   <p>
     <idx>
@@ -63,13 +63,13 @@
     diagrams</term>. Each variable is represented with a box showing the name of the variable on the
     outside and its current value inside. </p>
 
-  <p> As the program runs, the state of memory changes, so memory diagrams show only a particular
+  <p>As the program runs, the state of memory changes, so memory diagrams show only a particular
     point in time. For example, if we added the line <c>int c = 0;</c> to the previous example, the memory
     diagram would look like <xref ref="fig_state2">Figure</xref>. </p>
   <figure xml:id="fig_state2">
     <caption>Memory diagram of the variables <c>a</c>, <c>b</c>, and <c>c</c>.</caption>
     <image width="25%"
-           source="external/images/state2.svg"/>
+           source="images/state2.svg"/>
   </figure>
 
   <p>As a programmer seeking to understand what code is doing, you should create a memory diagram
@@ -84,5 +84,44 @@
       ideally checking the accuracy of your diagram with a tool like Codelens or a debugger, is a
       key way to develop real understanding of code.</p>
   </insight>
+
+  
+  <exercise label="assignment_1">
+    <statement>
+      <p>Mentally run the code below. When you reach point A, what values do the following variables hold?</p>
+      <p><c>x</c> <fillin mode="number" answer="4"/></p>
+      <p><c>y</c> <fillin mode="number" answer="2"/></p>
+      <p>What values do they hold at the end of the program?</p>
+      <p><c>x</c> <fillin mode="number" answer="2"/></p>
+      <p><c>y</c> <fillin mode="number" answer="4"/></p>
+      <p>
+      <program>
+<xi:include href="../programs/variables-operators_memory-diagrams-1.cpp" parse="text"/>
+      </program>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
 
 </section>

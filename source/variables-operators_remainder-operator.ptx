@@ -1,4 +1,4 @@
-<section xml:id="input-output_remainder-operator"
+<section xml:id="variables-operators_remainder-operator"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <title>Remainder Operator</title>
@@ -19,13 +19,13 @@
     division. C++ also provides the <term>modulo</term> operation (<c>%</c>), which divides two
     numbers and computes the remainder. </p>
 
-  <p> Using division and modulo, we can convert to feet and inches like this: </p>
+  <p>Using division and modulo, we can convert to feet and inches like this: </p>
 
-  <program xml:id="input-output_remainder-operator-1">
-<xi:include href="../programs/input-output_remainder-operator-1.cpp" parse="text"/>
+  <program xml:id="variables-operators_remainder-operator-1">
+<xi:include href="../programs/variables-operators_remainder-operator-1.cpp" parse="text"/>
 </program>
 
-  <p> The first line yields 5. The second line, which is pronounced <q>height mod 12</q>, yields 8. So
+  <p>The first line yields 5. The second line, which is pronounced <q>height mod 12</q>, yields 8. So
     68 inches is 5 feet, 8 inches. </p>
 
   <p>
@@ -38,5 +38,73 @@
     example, you can check whether one number is divisible by another: if <c>x % y</c> is <c>0</c>, then <c>x</c>
     is divisible by <c>y</c>. You can use the remainder operator to <q>extract</q> digits from a
     number: <c>x % 10</c> yields the rightmost digit of <c>x</c>, and <c>x % 100</c> yields the last two digits.
-    And many encryption algorithms use remainders extensively. </p>
+    Many encryption algorithms use remainders extensively. </p>
+
+
+  <exercise label="mod_operator_2">
+    <statement>
+      <p>Match the modulo expression to its result.</p>
+    </statement>
+    <feedback>
+      Try again!
+    </feedback>
+    <matches>
+      <match order="1">
+        <premise>3 % 2</premise>
+        <response>1</response>
+      </match>
+      <match order="2">
+        <premise>2 % 3</premise>
+        <response>2</response>
+      </match>
+      <match order="3">
+        <premise>6 % 2</premise>
+        <response>0</response>
+      </match>
+      <match order="4">
+        <premise>9 % 6</premise>
+        <response>3</response>
+      </match>
+    </matches>
+  </exercise>
+  <exercise label="mod_operator_1">
+    <statement>
+      <p>How do you know whether the variable x is odd?</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>Use x % 2, and if the result is 0, it is odd.</p>
+        </statement>
+        <feedback>
+          If you divide a number by two and it has no remainder, that means it is an even number!
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Use x % 2, and if the result is 1, it is odd.</p>
+        </statement>
+        <feedback>
+          If you divide a number by two and it has a remainder of one, that means it is an odd
+            number!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Use x / 2, and if the result is 0, it is odd.</p>
+        </statement>
+        <feedback>
+          Dividing a number by two won't give us the information we want.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Use x / 2, and if the result is 1, it is odd.</p>
+        </statement>
+        <feedback>
+          Dividing a number by two won't give us the information we want.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
 </section>
