@@ -1,0 +1,1 @@
+python ../pretext/pretext/pretext -vvv -d out -f html -c all -p pub.xml source/main.ptx -x html.quick-dirty yes

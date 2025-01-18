@@ -1,0 +1,68 @@
+<section xml:id="variables-operators_constants"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Literals and Constants</title>
+
+  <p> Although most of the world has adopted the metric system for weights and measures, some
+    countries are stuck with imperial units. For example, when talking with friends in Europe about
+    the weather, people in the United States might have to convert from Celsius to Fahrenheit and
+    back. Or they might want to convert height in inches to centimeters. We can write a program to
+    help: </p>
+
+  <program xml:id="input-output_literals-constants-1"
+           interactive="activecode">
+<xi:include href="../programs/input-output_literals-constants-1.cpp" parse="text"/>
+</program>
+
+  <p> This code works correctly, but it has a minor problem. If another programmer reads this code,
+    they might wonder where 2.54 comes from. For the benefit of others (and yourself in the future),
+    it would be better to assign this value to a variable with a meaningful name. <idx>
+      <h>literal</h>
+    </idx> A value that appears in a program, like the number 2.54, is called a <term>
+    literal</term>. In general, there's nothing wrong with literals. But when numbers like 2.54
+    appear in an expression with no explanation, they make the code hard to read. And if the same
+    value appears many times and could change in the future, it makes the code hard to maintain. </p>
+
+  <p>
+    <idx>
+      <h>magic number</h>
+    </idx> Values like 2.54 are sometimes called <term>magic numbers</term>
+    (with the implication that being magic is not a good thing). A good practice is to assign magic
+    numbers to variables with meaningful names, like this: </p>
+
+  <program xml:id="input-output_literals-constants-2">
+<xi:include href="../programs/input-output_literals-constants-2.cpp" parse="text"/>
+</program>
+
+  <p>Now it is hopefully a little more clear what we are multiplying <c>inches by</c>, but it still has a
+    problem. Variables can vary (hence the term), but the number of centimeters in an inch does not.
+    Once we assign a value to <c>cmPerInch</c>, it should never change.</p>
+
+  <p>C++ provides the keyword <c>const</c>, a language feature that enforces this rule. When declaring a
+    variable, you can add <c>const </c> before the type. This modifies the data type and declares that its
+    can't be changed after it is created. Trying to change a <c>const</c> value after it is created will
+    result in a compile error as seen in this program: <idx>
+      <h>const</h>
+    </idx>
+  </p>
+
+  <program xml:id="input-output_literals-constants-3" 
+           interactive="activecode">
+<xi:include href="../programs/input-output_literals-constants-3.cpp" parse="text"/>
+</program>
+
+  <insight>
+    <p><c>const</c> is not needed to make a program work correctly, but it does help prevent errors. It
+      clearly communicates to other programmers that the value should not be changed and asks the
+      compiler to enforce that rule. </p>
+  </insight>
+
+  <p>Constants are often written in all capital letters to make them stand out. This is a
+    convention, not a requirement. The following program demonstrates how many programmers would use
+    a const to avoid the magic number 2.54:</p>
+
+  <program xml:id="input-output_literals-constants-4"
+           interactive="activecode">
+<xi:include href="../programs/input-output_literals-constants-4.cpp" parse="text"/>
+</program>
+
+</section>
