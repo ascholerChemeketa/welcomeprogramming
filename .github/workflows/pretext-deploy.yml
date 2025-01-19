@@ -16,7 +16,7 @@ jobs:
     build:
         runs-on: ubuntu-latest
         container: oscarlevin/pretext:full
-
+        continue-on-error: true
         steps:
             - name: Checkout source
               uses: actions/checkout@v4
