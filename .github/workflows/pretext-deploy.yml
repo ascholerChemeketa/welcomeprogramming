@@ -40,9 +40,11 @@ jobs:
                     pretext build
                 fi
             - name: stage deployment
+              if: success() || failure()
               run: pretext deploy --stage-only
 
             - name: Bundle output/stage as artifact
+              if: success() || failure()
               uses: actions/upload-artifact@v4
               with:
                   name: deploy
