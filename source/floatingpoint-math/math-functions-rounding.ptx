@@ -1,0 +1,154 @@
+<section xml:id="floatingpoint-math_math-functions-rounding"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Rounding Functions</title>
+
+  <p>If you have a floating-point value and want to convert it to a whole number, one way you can do
+    so is to cast it into an int. But that always drops the decimal portion. So something like
+    7.9999 will become 7. Often times, what you want to do is to round to the nearest integer value.
+    Other times, you might want to round up <mdash/> if you calculate that a print job takes 7.2
+    pages, the actual number of pages printed will be 8.</p>
+
+  <p>For rounding in this way, the <c>cmath</c> library provides these rounding functions: <c>floor</c>, <c>ceil</c>
+    , <c>round</c>, and <c>trunc</c>: <dl>
+      <li><title>
+          <c>floor</c>
+        </title> rounds down to the nearest whole number</li>
+  <li><title>
+          <c>ceil</c>
+        </title> rounds up to the next nearest integer</li>
+  <li><title>
+          <c>round</c>
+        </title>rounds to the nearest integer</li>
+  <li><title>
+          <c>trunc</c>
+        </title><term>truncates</term> (removes) the decimal part of the number</li>
+    .
+  </dl> The following program demonstrates their use:</p>
+
+  <program xml:id="floatingpoint-math_math-functions-rounding-1"
+           interactive="activecode">
+<xi:include href="../../programs/floatingpoint-math/math-functions-rounding-1.cpp" parse="text"/>
+</program>
+
+  <p>When you run this program, you will see that <c>floor</c> rounds down to the nearest whole number, <c>ceil</c>
+    rounds up to the nearest whole number, <c>round</c> rounds to the nearest whole number, and <c>trunc</c>
+    truncates the decimal part of the number. Experiment with different test values to see how they
+    are rounded.</p>
+
+  <p>If you look at the <url href="https://en.cppreference.com/w/cpp/numeric/math/round">
+    documentation for the round function</url> (or any of the others), you will see that despite the
+    output being a whole number, it is returned as a double and not as an int. (In case you want to
+    keep doing more floating-point calculations with it.) So it you want to store the result into an
+    int variable, you would still need a cast, like this:</p>
+
+  <program xml:id="floatingpoint-math_math-functions-rounding-2">
+<xi:include href="../../programs/floatingpoint-math/math-functions-rounding-2.cpp" parse="text"/>
+</program>
+
+  <p>You also may notice that round only rounds to the nearest whole number. But you can use it to
+    round to a specific number of decimal places by multiplying the original number by a power of 10
+    to shift the digits, then rounding, and then dividing by the same number to shift the digits
+    back. For example, to round to two decimal places, you can multiply by 100, round, and then
+    divide by 100:</p>
+
+  <program xml:id="floatingpoint-math_math-functions-rounding-3"
+           interactive="activecode">
+<xi:include href="../../programs/floatingpoint-math/math-functions-rounding-3.cpp" parse="text"/>
+</program>
+
+  <exercise label="floating_point_2">
+    <statement>
+      <p>For each expression, give the value it will produce:</p>
+      <p>
+        <c>trunc(8.7)</c>
+        <fillin mode="number"
+                answer="8"/>
+      </p>
+      <p>
+        <c>trunc(-8.7)</c>
+        <fillin mode="number"
+                answer="-8"/>
+      </p>
+      <p>
+        <c>ceil(1.2)</c>
+        <fillin mode="number"
+                answer="2"/>
+      </p>
+      <p>
+        <c>ceil(-1.2)</c>
+        <fillin mode="number"
+                answer="-1"/>
+      </p>
+      <p>
+        <c>floor(8.7)</c>
+        <fillin mode="number"
+                answer="8"/>
+      </p>
+      <p>
+        <c>floor(-8.7)</c>
+        <fillin mode="number"
+                answer="-9"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <feedback>trunc will just drop the decimal</feedback>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <feedback>trunc will just drop the decimal</feedback>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <feedback>ceil always rounds up</feedback>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <numcmp value="-2"/>
+          <feedback>ceil always rounds up. That would be down</feedback>
+        </test>
+        <test>
+          <feedback>ceil always rounds up</feedback>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <feedback>floor always rounds down</feedback>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <numcmp value="-8"/>
+          <feedback>floor always rounds dowm. That would be up</feedback>
+        </test>
+        <test>
+          <feedback>floor always rounds down</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>

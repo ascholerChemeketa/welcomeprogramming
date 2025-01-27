@@ -1,0 +1,214 @@
+<exercises xml:id="floatingpoint-math_exercises"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Exercises</title>
+
+  <introduction>
+    <p>Remember to work one step at a time! If you are feeling stuck, try to think of the smallest bit of work you can try to do in order to get one step closer to your goal. Then just worry about that one step of work. </p>
+  </introduction>
+
+  <!-- TODO : ch4 exercises -->
+
+  
+  <exercise label="VARS_p7"
+           numbered="yes"
+           adaptive="yes"
+           indentation="hide">
+    <statement>
+      <p>Construct a block of code that calculates the volume of a cylinder with a radius of 3 and a
+        height of 4. Store the result into a variable before printing it.</p>
+    </statement>
+    <blocks>
+      <block order="1" name="start">
+        <cline>int main() {</cline>
+      </block>
+      <block order="7"
+             correct="no">
+        <cline><![CDATA[ cout << 3.14 * 3 ^ 2 * 4; ]]></cline>
+      </block>
+      <block order="6" name="height" depends="start">
+        <cline> double height = 4; </cline>
+      </block>
+      <block order="11" name="radius" depends="start">
+        <cline> double radius = 3; </cline>
+      </block>
+      <block order="5" name="base" depends="radius">
+        <cline> double base = 3.14 * pow(radius, 2); </cline>
+      </block>
+      <block order="2"
+             correct="no">
+        <cline> double base = 3.14 * radius ^ 2; </cline>
+      </block>
+      <block order="10"
+             correct="no">
+        <cline><![CDATA[ cout << base * height; ]]></cline>
+      </block>
+      <block order="8" name="vol" depends="base height">
+        <cline> double volume = base * height; </cline>
+      </block>
+      <block order="4" name="print" depends="vol">
+        <cline> cout &lt;&lt; volume; </cline>
+      </block>
+      <block order="3" depends="print">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+  
+  <exercise label="VARS_p9"
+           numbered="yes"
+           adaptive="yes"
+           indentation="hide">
+    <statement>
+      <p>It's Black Friday and the Nintendo Switch you'be been saving up for is marked down to 60%
+        of its original price! Construct a block of code that calculates how much money you'd be
+        saving if the system originally costed $359.99?</p>
+    </statement>
+    <blocks>
+      <block order="4">
+        <cline>int main() {</cline>
+      </block>
+      <block order="5">
+        <choice correct="yes">
+          <cline> double game = 359.99;</cline>
+        </choice>
+        <choice>
+          <cline> double game = $359.99; </cline>
+        </choice>
+      </block>
+      <block order="2">
+        <choice correct="yes">
+          <cline> double discount = game * 0.60;</cline>
+        </choice>
+        <choice>
+          <cline> double discount = game - (0.60 * game); </cline>
+        </choice>
+      </block>
+      <block order="9">
+        <choice correct="yes">
+          <cline> double moneySaved = game - discount;</cline>
+        </choice>
+        <choice>
+          <cline> double moneySaved = discount;</cline>
+        </choice>
+        <choice>
+          <cline> double moneySaved = game + discount;</cline>
+        </choice>
+      </block>
+      <block order="1">
+        <cline> <![CDATA[ cout << moneySaved; ]]></cline>
+      </block>
+      <block order="6">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+  
+  <exercise label="asdf2">
+    <statement>
+      <p>The code below reads in a decimal value. Print out the two integers it is between, smaller value first, with exactly one space in between them. If it is an integer value already, your program should print out the integer twice. </p>
+      <program
+              interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/floatingpoint-math/exercises-1.cpp" parse="text"/>
+        </preamble>
+        <code>
+    //Your code here
+        </code>
+        <postamble>
+}
+        </postamble>
+        <tests>
+        <iotest>
+          <input>1.4</input>
+          <output>1 2</output>
+        </iotest>
+        <iotest>
+          <input>4.0</input>
+          <output>4 4</output>
+        </iotest>
+        <iotest>
+          <input>-2.6</input>
+          <output>-3 -2</output>
+        </iotest>
+        </tests>
+      </program>
+    </statement>
+      <hint><p>There are rounding functions in the cmath library</p></hint>
+  </exercise>
+
+  <exercise label="asdf23">
+    <statement>
+      <p>This program should read in the opposite and adjacent sides for one of the acute angles in a right triangle and then print the size of the angle in degrees.</p>
+      <p>Use the rule <m>angle = atan(opposite/adjacent)</m> to find the measure of the angle.</p>
+      <program
+              interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/floatingpoint-math/exercises-2.cpp" parse="text"/>
+        </preamble>
+        <code>
+    //Your code here
+        </code>
+        <postamble>
+}
+        </postamble>
+        <tests>
+        <iotest>
+          <input>
+          3
+          3
+          </input>
+          <output>45</output>
+        </iotest>
+        <iotest>
+          <input>
+2.8 
+2
+</input>
+          <output>54.4624</output>
+        </iotest>
+        </tests>
+      </program>
+    </statement>
+      <hint><p><c>atan</c> produces an answer in radians. Don't forget to convert your answer to degrees.</p></hint>
+  </exercise>
+
+  
+  <exercise label="asdf2d3">
+    <statement>
+      <p>Your friend is getting sick of solving quadratic equations by hand. Finish the program below that will take a, b, and c from a quadratic in the form <m>ax^2 + bx + c = 0</m> and output the solutions. Your program only has two work for problems that have two solutions.</p>
+      <p>Print the two solutions separated by a space.</p>
+      <p>The two solutions to a quadratic are given by <m>x = \frac{-b + \sqrt{b^{2} - 4ac}}{2a}</m> and <m>x = \frac{-b - \sqrt{b^{2} - 4ac}}{2a}</m>. Do your best to avoid doing the same calculation multiple times <mdash/> use a variable to old the result <m>\sqrt{b^{2} - 4ac}</m> (known as the discriminant).</p>
+      <program
+              interactive="activecode" language="python">
+        <preamble>
+<xi:include href="../../programs/floatingpoint-math/exercises-2.cpp" parse="text"/>
+        </preamble>
+        <code>
+    //Your code here
+        </code>
+        <postamble>
+}
+        </postamble>
+        <tests>
+        <iotest>
+          <input>1 -5 6</input>
+          <output>3 2</output>
+        </iotest>
+        <iotest>
+          <input>1 -4 -8</input>
+          <output>5.4641 -1.4641</output>
+        </iotest>
+        <iotest>
+          <input>4 -5 -12</input>
+          <output>2.46636 −1.21636</output>
+        </iotest>
+        </tests>
+      </program>
+    </statement>
+      <hint><p>If you have trouble, do the math one step at a time and print out each result along the way. Check them by hand.</p></hint>
+  </exercise>
+
+</exercises>

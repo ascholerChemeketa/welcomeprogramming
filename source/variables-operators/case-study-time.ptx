@@ -10,37 +10,70 @@
 
   <subsection>
     <title>A problem and a plan</title>
-  </subsection>
 
-  <p>One way computers often track time is as a number of seconds since some known point. If you
-    know 1342 seconds have elapsed, you can calculate how many minutes, hours and days have elapsed.
-    We are going to construct a program that does that calculation.</p>
+    <p>One way computers often track time is as a number of seconds since some known point. If you
+      know 1342 seconds have elapsed, you can calculate how many minutes, hours and days have
+      elapsed. We are going to construct a program that does that calculation.</p>
 
-  <p>Programs are not written by sitting down and typing all of the code. Typically you have to do
-    some design work, and then you write the code piece by piece, testing each part as you go.</p>
+    <p>Programs are not written by sitting down and typing all of the code. Typically you have to do
+      some design work, and then you write the code piece by piece, testing each part as you go.</p>
 
-  <p>For a program this simple, there is not too much design work to do. But it is important to
-    think through: <ul>
-      <li>What data you will start with?</li>
-      <li>What values you want to calculate?</li>
-      <li>How will you calculate those values?</li>
-    </ul> You may not know exactly how you will
-    do the calculations, but you should have at least a rough idea that you can test out. </p>
+    <p>For a program this simple, there is not too much design work to do. But it is important to
+      think through: <ul>
+        <li>What data you will start with?</li>
+        <li>What values you want to calculate?</li>
+        <li>How will you calculate those values?</li>
+      </ul> You may not know exactly how you
+      will do the calculations, but you should have at least a rough idea that you can test out. </p>
 
-  <insight>
-    <p> If you can not solve a problem by hand, you can not solve it with a computer. The computer
-      can do the math faster, but writing a program is literally writing the instructions for how to
-      solve a problem. So if you are stuck, first solve the problem by hand. Then worry about trying
-      to turn that solution into code. </p>
-  </insight>
+    <insight>
+      <p> If you can not solve a problem by hand, you can not solve it with a computer. The computer
+        can do the math faster, but writing a program is literally writing the instructions for how
+        to solve a problem. So if you are stuck, first solve the problem by hand. Then worry about
+        trying to turn that solution into code. </p>
+    </insight>
 
-  <p>To answer the questions above for this problem: <ul>
+    <p>To answer the questions above for this problem: <dl>
+      <li>
+        <title>
+          <q>
+            <em>What data you will start with?</em>
+          </q>
+        </title>
+        <p>a number of seconds</p>
+      </li>
+
+        <li>
+        <title>
+          <q>
+            <em>What values you want to calculate?</em>
+          </q>
+        </title>
+        <p>a number of hours, minutes, and seconds</p>
+      </li>
+
+        <li>
+      <title>
+        <q>
+          <em>How will you calculate those values?</em>
+        </q>
+      </title>
+          <p>the division and
+      remainder operators should allow me to convert something like 83 seconds to 1 minute by
+      dividing by 60. Taking the remainder will tell be 23 seconds are left over. Similarly, I can
+      convert minutes to hours and by dividing by 60 and then taking the remainder to find the left
+      over minutes. </p>
+    </li>
+    </dl>
+
+    <ul>
       <li>What data you will start with? <em>a number of seconds</em></li>
       <li>What values you want to calculate? <em>a number of hours, minutes, and seconds</em></li>
-      <li>How will you calculate those values? <em>the division and remainder operators should allow me to convert
-    something like 83 seconds to 1 minute and 23 seconds by dividing by 60</em></li>
+      <li>How will you calculate those values? <em>the division and remainder operators should allow
+        me to convert something like 83 seconds to 1 minute and 23 seconds by dividing by 60</em></li>
     </ul>
-  </p>
+    </p>
+  </subsection>
 
   <subsection>
     <title>First steps</title>

@@ -34,7 +34,7 @@ cin &gt;&gt; x;
   <program line-numbers="yes"
            interactive="activecode">
 <code>
-<xi:include href="../../programs/variables-operators/basic-output-1.cpp" parse="text"/>
+<xi:include href="../../programs/variables-operators/basic-input-1.cpp" parse="text"/>
 </code>
 <stdin>21</stdin>
     </program>
@@ -50,11 +50,12 @@ cin &gt;&gt; x;
     First you will see the prompt message, then the program will pause and let you type whatever you
     like. It will not resume running until you press <c>Enter</c>. </p>
 
-  <p>The <c>&gt;&gt;</c> operator stops reading when it hits a space or input that does not make sense.
-    Given <c>cin &gt;&gt; x;</c>, here are some samples of what a user might type and what gets stored into x.</p>
+  <p>The <c>&gt;&gt;</c> operator stops reading when it hits a space or input that does not make sense
+  given the type of data being read. The program above is trying to read an integer. That means only the characters 0-9 make sense to read. If you type <c>21 15</c> and then press <c>Enter</c>, only the 21 is read (it stops at the space). If you type <c>21.5</c>,
+  the program will stop reading at the <c>.</c> (which does not make sense as part of an integer) and only the 21 will be read. Bad input will not be skipped to reach good input. If you enter something like <c>twenty 8</c>, the <c>&gt;&gt;</c> operator will see the <c>t</c> and immediately give up.</p>
 
   <p>The program above expects you to enter a single integer. What happens if you enter other data?
-    Try the following inputs in the program above. See if you can figure out what happens to each.
+    Try the following inputs in the program above. See if you can predict what will be output.
     You can then reveal the answer below to check your understanding of what happened. <ul>
       <li>28 54</li>
       <li>14.123</li>
@@ -111,6 +112,5 @@ cin &gt;&gt; x;
     demonstrates that you can type in multiple values on the same line if they are separated by a
     space. Don't worry about all the possible ways your program could get input, for now you will
     always be given very clear instructions on how to get any needed inputs.</p>
-
 
 </section>

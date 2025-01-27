@@ -1,0 +1,111 @@
+<section xml:id="floatingpoint-math_math-functions"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Math functions</title>
+
+  <p>Up until now, we have only used the basic arithmetic operators.
+  But what if you want to do calculate something more complex like <m>x^3</m> or <m>asin(x)</m>? You
+  could figure out how to to do the math using basic operations and then write that code.
+  Calculating <m>x^3</m> would not be hard - just multiply three copies of <m>x</m> together. But
+  calculating a good approximation of something like <m>asin(x)</m> would be complex and laborious.
+  It would be silly for every programmer to have to figure out how to perform complex math
+  calculations from basic operations. And it would be painful to write that code each time a
+  programmer wanted to do the math.</p>
+
+  <p><idx>
+      <h>function</h>
+    </idx><idx>
+      <h>call</h>
+    </idx>Fortunately, C++ allows us to define <term>functions</term> that give a
+  name to a series of statements. We can <term>call</term> a function using that name and it will
+  perform the work defined by those statements.</p>
+
+  <p>The idea of a function in programming is similar to the idea of a function in math. A mathematical function takes some input and produces an output based on that input. You may have seen this idea illustrated via a <q>function box</q> - a visualization of a function as a black box (one we can't see into) that transforms inputs:</p>
+
+  <!-- TODO add image of function box for square root-->
+
+  <p><idx>
+      <h>abstration</h>
+    </idx>The notion of a function as a black box is an important one. Functions provide an <term>abstraction</term> that hides the details of how a job is done. I don't have to know the details of how to calculate a square root, I just have to know that there is a function I can feed my number into and it will produce the value as its output. Someone had to figure out how to do that calculation and write code for it. But that code is hidden from me, the programmer who is using the function.</p>
+
+  <p>Part of what <q>comes</q> with C++ is a set of
+  function libraries that provide functions to accomplish basic tasks. The <c>cmath</c> library provides
+  a number of functions that perform common mathematical operations. One function it provides is the <c>sqrt</c>
+  function, which calculates the square root of a number. To use this function, we need to include the library that contains it (cmath) and then call the function with the number we want to take the square root of. Here is an example that calculates the square root
+  of 17:</p>
+
+  <program xml:id="floatingpoint-math_math-functions-1">
+<xi:include href="../../programs/floatingpoint-math/math-functions-1.cpp" parse="text"/>
+</program>
+
+  <p><idx>
+      <h>pass</h>
+    </idx>
+  <idx>
+      <h>parameter</h>
+    </idx>
+  <idx>
+      <h>parameter</h>
+      <h>passing</h>
+    </idx>
+  <idx>
+      <h>return value</h>
+    </idx> A few important things to notice about this sample: <ul>
+      <li>We have to <c>#include &lt;cmath&gt;</c> to use <c>sqrt</c>. That is the C++ math library that contains the <c>sqrt</c>
+  function.</li>
+      <li>We pass the input to a function by putting values into parentheses after the function name. Here, <c>x</c> is the value we are <term>passing</term>
+  to the <c>sqrt</c> function to tell it what value to take the square root of. This value that we <term>
+  pass</term> is known as a <term>parameter</term> for the function.</li>
+      <li>Many (but not all) functions
+  produce an output, which is known as the <term>return</term> value. We have to do
+  something with that value, like store it in a variable or print it or use it as part of a larger
+  calculation. Here, we assign the result of the function to the variable <c>root</c>.</li>
+      <li>A subtle point: note that <c>x</c> still has the value 17. In general
+  functions do not change their parameter(s). Taking the square root of x with <c>sqrt(x)</c> does not
+  change x, if just produces a new value.</li>
+    </ul>
+  </p>
+  
+  <note>
+    <p>The <q>c</q> in <c>cmath</c> refers to the C programming language that C++ was based on (and is
+  still closely related to). In C, there is a similar library called <c>math.h</c>. The <c>cmath</c> library is
+  a version of <c>math.h</c> that has been <q>upgraded</q> to use C++ features. Although it is possible to
+  use <c>math.h</c> in C++ code, you should always use <c>cmath</c> instead.</p>
+  </note>
+
+  <exercise label="floating_point_2">
+    <statement>
+      <p>Complete this line of code to passes the variable <c>b</c>'s value to <c>sqrt</c> and stores the result into <c>a</c>:</p>
+
+      <p><c>double</c> <fillin mode="string" case="insensitive" answer="a"/><c> = </c><fillin mode="string" case="insensitive" answer="sqrt\s*\(\s*b\s*\)"/><c>;</c></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+          <test>
+            <strcmp use-answer="yes"/>
+            <feedback>
+              Correct!
+            </feedback>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              This should be the name of the variable we are storing the result into.
+            </feedback>
+          </test>
+      </evaluate>
+      <evaluate>
+          <test>
+            <strcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              Remember you need the name of the function, the parentheses, and the variable you are passing to the function.
+            </feedback>
+          </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>

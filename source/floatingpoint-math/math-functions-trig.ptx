@@ -1,0 +1,36 @@
+<section xml:id="floatingpoint-math_math-functions-trig"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Trigonometric Functions</title>
+
+  <p>At this point, you should take a few minutes to scan the <url href="https://en.cppreference.com/w/cpp/header/cmath">list
+    of functions offered in the cmath library</url>. You do not need to memorize them, but it is
+    useful to be aware of what is there so you can go look up the exact syntax when you need to do
+    some math.</p>
+
+  <p>
+    <idx>
+      <h>degrees</h>
+    </idx>
+    <idx>
+      <h>radians</h>
+    </idx>
+    <idx>
+      <h>pi</h>
+    </idx> One thing that can cause confusion is the units used for trigonometric
+    functions <mdash/> <c>sin</c>, <c>cos</c>, and <c>tan</c>. Angle measurements must be in <term>radians</term>.
+    To convert from degrees to radians, you divide by 180 and multiply by <m>\pi</m>. Unfortunately
+    C++ does not traditionally provide an approximation for <m>\pi</m> in the cmath library! If you
+    need it, you can use the trick that <m>acos(-1) = \pi</m>:</p>
+
+  <program xml:id="floatingpoint-math_math-functions-trig-1">
+<xi:include href="../../programs/floatingpoint-math/math-functions-trig-1.cpp" parse="text"/>
+  </program>
+
+  <p>Similarly, you can convert from radians to degrees by multiplying by 180 and then dividing by <m>\pi</m>. The following program demonstrates this:</p>
+
+  <program xml:id="floatingpoint-math_math-functions-trig-2">
+<xi:include href="../../programs/floatingpoint-math/math-functions-trig-2.cpp" parse="text"/>
+</program>
+
+</section>

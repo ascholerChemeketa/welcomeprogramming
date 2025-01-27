@@ -1,0 +1,118 @@
+<section xml:id="floatingpoint-math_math-functions-understanding"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Finding and Understanding Functions</title>
+
+  <p>You can learn about
+  what functions are available to use in a library by checking documentation of it (or by reading the code of the library). One useful source of
+  documentation for C++ is <url href="https://cppreference.com/">cppreference.com</url>. If you use
+  the search function on that site to search for <q>sqrt</q>, you should find this page: <url href="https://en.cppreference.com/w/cpp/numeric/math/sqrt">
+  https://en.cppreference.com/w/cpp/numeric/math/sqrt</url>. On that page is the syntax for the
+  function, the library (header file) you need to include, a description of the function and
+  examples of how to use it.</p>
+
+  <p>The information on documentation pages can be a bit
+  overwhelming. They include technical details that you probably don't need to worry about. (Unless
+  something goes wrong, in which case those details might explain the issue you have!) The most
+  important part for our purpose is the listing of function prototypes at the top of the page. They
+  look something like:</p>
+
+  <program>
+float       sqrt ( float num );
+double      sqrt ( double num );                    (until C++23)
+long double sqrt ( long double num );
+---------------------------------------------------------------------------
+/* floating-point-type */                           (since C++23)
+            sqrt ( /* floating-point-type */ num ); (constexpr since C++26)
+...
+  </program>
+
+  <p>Again, they can look overwhelming at first. The key
+  is to focus on the information that is useful to us. We are writing code with <c>double</c>s. The second
+  line in the listing above shows that there is <c>double sqrt ( double num );</c>. There are also versions that work with <c>float</c>s
+  and <c>long double</c>s, but we are not concerned with those (see <xref ref="floatingpoint-math_other-size-types"/>
+  ).</p>
+
+  <!-- TODO add a pretty picture of prototypes -->
+
+  <p>Once we find the right listing, we just need to
+  figure out what it says. Something like <c>double sqrt ( double num );</c> is known as a <term>function prototype</term>. A function prototype generally consists of three parts: <c>returnType  functionName ( paramters )</c>
+  <dl>
+      <li>
+        <title>returnType</title>
+        <p>First is listed the type of data that will be returned by the function. <c>sqrt</c> will
+  calculate and return a double.</p>
+      </li>
+      <li>
+        <title>functionName</title>
+        <p>Next is the name of the function. You call the square root function using the name <c>sqrt</c>
+  .</p>
+      </li>
+      <li>
+        <title>parameters</title>
+        <p>Finally, in parentheses, a list of zero or more parameters separated by commas. Each
+  parameter is described with a type and a name. In this case, <c>sqrt</c> takes one parameter, a double
+  that is referred to as <q>num</q>. To use this function, you have to pass it a double.</p>
+  <p>While using
+  the function, you don't actually need to know the name of the parameter. But as we will see soon,
+  the name can help you figure out exactly what you are supposed to pass in.</p>
+      </li>
+    </dl></p>
+  
+  <insight>
+    <p>You can think of a function prototype as a contract between the caller and the
+    function. The function promises that if the caller gives it the correct parameters (inputs), it will
+    return a specific output.</p>
+  </insight>
+
+  <p>Lets
+  look at another prototype - this time we will look at the one for the <c>pow</c> function. The
+  prototype for <c>pow</c> is <c>double pow ( double base, double exponent );</c>. (You can check it yourself at <url href="https://en.cppreference.com/w/cpp/numeric/math/pow">
+  https://en.cppreference.com/w/cpp/numeric/math/pow</url>). This tells us that: <ul>
+      <li>The function returns a double to the caller</li>
+      <li>It is called <q>pow</q></li>
+      <li><p>It takes two parameters, both of which are doubles and that the first parameter is the <q>
+  base</q> and the second is the <q>exponent</q>.</p>
+  <p>Here, having the names is important. They help me figure out which value I need to pass first. If I want to calculate <m>2^5</m>, I need to call <c>pow(2, 5)</c>. If I called <c>pow(5, 2)</c> I would be asking for <m>5^2</m></p></li>
+    </ul>
+  </p>
+
+  <p>To call this function, I will need to provide two doubles. When there is more than one parameter to pass, we use commas to separate them. So to calculate <m>2.5^3</m> I could do:</p>
+
+  <program xml:id="floatingpoint-math_math-functions-2">
+<xi:include href="../../programs/floatingpoint-math/math-functions-2.cpp" parse="text"/>
+  </program>
+
+  <p>Again,
+  note that the pow function does not change any parameters. <c>x</c> remains unmodified after being
+  passed to pow. Also, notice that we can pass the integer 3 to the function even though it expects
+  a double. That is because an integer can always safely be converted to a double.</p>
+
+  <exercise label="floating_point_2">
+    <statement>
+      <p>Complete this line of code to call the <c>pow</c> function and raise the number 5.2 to the power <c>n</c> (assume n is a variable that is already initialized).</p>
+
+      <p><c>double result = </c><fillin mode="string" case="insensitive" answer="pow\s*\(\s*5.2\s*,\s*n\s*\)"/><c>;</c></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+          <test>
+            <strcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>pow\s*\(\s*n\s*,\s*5.2\s*\)</strcmp>
+            <feedback>
+              Your variables are in the wrong order.
+            </feedback>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              Remember you need the name of the function fpllowed by parentheses. Inside the parentheses should be the two values you are passing to the function with a comma between them.
+            </feedback>
+          </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>

@@ -1,11 +1,10 @@
-<section xml:id="variables-operators_type-cast-operators"
+<section xml:id="floatingpoint-math_type-cast-operators"
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Type Casting</title>
 
   <p>As mentioned earlier, C++ converts <c>int</c>'s to <c>double</c>'s automatically if necessary, because
     no information is lost in the translation. On the other hand, going from a <c>double</c> to an <c>int</c>
-    requires truncating the value. Compilers will issue a warning something like: <q>incompatible
-    types: possible lossy conversion from double to int</q>.</p>
+    requires truncating the value and produces a warning.</p>
 
   <p>
     <idx>
@@ -24,35 +23,36 @@
     When you write that, you are essentially saying <q>I know this looks potentially dangerous, but
     please go ahead and convert VALUE to type TYPE and do not warn me about it.</q> This is known as
     an <term>explicit conversion</term> because you are explicitly (visibly) doing the cast. Here is
-    an example of an explicit conversion of a double value to the int type:</p>
+    an example of an explicit conversion of a double value to the int type using <c>static_cast&lt;int&gt;(VALUE)</c>:</p>
 
-  <program xml:id="variables-operators_type-cast-operators-2"
+  <program xml:id="floatingpoint-math_type-cast-operators-1"
            line-numbers="yes">
-<xi:include href="../../programs/variables-operators/type-cast-operators-2.cpp" parse="text"/>
+<xi:include href="../../programs/floatingpoint-math/type-cast-operators-1.cpp" parse="text"/>
 </program>
 
   <p>Note that the <c>static_cast</c> does not change the value of the variable <c>pi</c>. it makes a copy of the
     value and converts it to the new type (<c>int</c>). The result is exactly the same as if we wrote <c>int x = pi;</c>
-    on line 9 except there is no warning!</p>
+    on line 7 except there is no warning!</p>
 
-  <p>It is possible to type cast an integer value into a double. Normally, it is not necessary to do
+  <insight>
+  <p>A <c>static_cast</c> does a conversion the compiler already knows how to do but would normally either
+      not do or issue a warning for.</p>
+  <p>Using <c>static_cast</c> clearly communicates to both the compiler and other programmers that you are intentionally doing a potentially dangerous conversion (and thus hopefully are aware of the consequences!)</p>
+  </insight>
+
+  <p>It is possible to type cast an integer value into a double using <c>static_cast&lt;double&gt;(VALUE)</c>. Normally, it is not necessary to do
     so as the compiler will implicitly do the conversion without complaining. But sometimes it is
     useful to cast an integer to a double in order to force floating-point math. The following
     example does this to get a decimal answer for 1/3 in the second line of output:</p>
 
-  <program xml:id="variables-operators_type-cast-operators-2"
+  <program xml:id="floatingpoint-math_type-cast-operators-2"
            line-numbers="yes">
-<xi:include href="../../programs/variables-operators/type-cast-operators-2.cpp" parse="text"/>
+<xi:include href="../../programs/floatingpoint-math/type-cast-operators-2.cpp" parse="text"/>
   </program>
 
   <p>As the line is evaluated, the <c>static_cast</c> happens first. It converts <c>1</c> to <c>1.0</c>. Then the
     division takes place and it now says <c>1.0 / 3</c>. Since there is at least one floating-point value
     involved, C++ does floating-point math.</p>
-
-  <insight>
-    <p>A <c>static_cast</c> does a conversion the compiler already knows how to do but would normally either
-      not do or issue a warning for.</p>
-  </insight>
 
   <note>
     <p>In C programming, you cast by writing something like <c>int x = (int)pi;</c>. Although C-style casts can also
@@ -121,6 +121,90 @@ int final = static_cast&lt;int&gt;((exam1 + exam2) / 2);
         </statement>
         <feedback>
           Always save your rounding until the end!
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  
+  <exercise label="functions_mc3">
+    <statement>
+      <p><term>Multiple Response</term> Select all variables that have a <em>non-zero</em> value
+        after the decimal place. (3.1 has a <em>non-zero</em> value, while 3.0 does not)</p>
+      <program>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+  int a = 1.5;
+  double b = a + 1.5;
+  double c = 2.4;
+  double d = 1/5;
+  int e = c * c;
+  double f = static_cast&lt;int&gt;(c);
+}</program>
+    </statement>
+    <choices>
+      <choice>
+        <statement id="functions_mc3_opt_a">
+          <p>
+            <c>a</c>
+          </p>
+        </statement>
+        <feedback>
+          C++ performs automatic type conversion to round 1.5 down to the
+            nearest integer.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="functions_mc3_opt_b">
+          <p>
+            <c>b</c>
+          </p>
+        </statement>
+        <feedback>
+          Since <c>a = 1</c>, we know that <c>b = 2.5</c>, which is a non-zero decimal.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="functions_mc3_opt_c">
+          <p>
+            <c>c</c>
+          </p>
+        </statement>
+        <feedback>
+          <c>c</c> is a <c>double</c> and has a non-zero decimal.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="functions_mc3_opt_d">
+          <p>
+            <c>d</c>
+          </p>
+        </statement>
+        <feedback>
+          C++ performs integer division to round <c>1/5</c> down to the nearest integer. The value
+            will be stored as <c>0</c>, not <c>0.2</c>.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="functions_mc3_opt_e">
+          <p>
+            <c>e</c>
+          </p>
+        </statement>
+        <feedback>
+          <c>c</c> squared may have a non-zero decimal, but automatic type conversion will round
+            it down to the nearest integer before storing the value in <c>e</c>.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="functions_mc3_opt_f">
+          <p>
+            <c>f</c>
+          </p>
+        </statement>
+        <feedback>
+          <c>static_cast</c> truncates <c>c</c> the value to 2. When stored into <c>f</c> it is 2.0.
         </feedback>
       </choice>
     </choices>

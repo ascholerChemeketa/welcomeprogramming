@@ -1,0 +1,95 @@
+<section xml:id="floatingpoint-math_floatingpoint-conversions"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Implicit Conversions</title>
+
+  <p>As we have seen, the difference between the integer <c>60</c> from the floating-point value <c>60.0</c> can be confusing. They look like the same number. But they belong to different data types, and thus doing math with them can produce different results.</p>
+
+  <p>Adding to the confusion is the fact that C++ will automatically <q>upgrade</q> an <c>int</c> to a <c>double</c> if you try to store a whole number value into a double variable. This is called <term>implicit conversion</term>. Even worse, if you print a value like 4.0, the unnecessary decimal portion is left off:
+  <idx>
+    <h>implicit conversion</h>
+  </idx></p>
+
+  <program xml:id="floatingpoint-math_floatingpoint-conversions-1"
+           interactive="activecode">
+<xi:include href="../../programs/floatingpoint-math/floatingpoint-conversions-1.cpp" parse="text"/>
+  </program>
+
+  <p>C++ can do the implicit conversions because any integer can be safely represent as a decimal value. The opposite is not true. There is no way to represent <c>3.14159</c> as a whole number without losing information. This code sample demonstrates what happens:</p>
+
+  <program xml:id="floatingpoint-math_floatingpoint-conversions-2"
+           interactive="activecode">
+<xi:include href="../../programs/floatingpoint-math/floatingpoint-conversions-2.cpp" parse="text"/>
+  </program>
+
+  <p>Turning a decimal number into an integer can be done by dropping the decimal part. But doing so does change the value you are representing. So the compiler warns that there may be an issue before going ahead and doing the conversion. When you runt he code, you will see a warning that looks something like this:</p>
+
+  <console>
+  <output>
+    incompatible types: possible lossy conversion from double to int
+  </output>
+  </console>
+
+  <warning>
+    <p>Remember that you should consider warnings to be just as important as errors. (Because they often are!)</p>
+    <p>Losing the decimal part of a number because you stored it into an <c>int</c> variable is likely going to be a <term>logic error</term>.</p>
+  </warning>
+
+  <exercise label="floating_point_3">
+    <statement>
+      <p>In the lab, we measured a temperature of 7.99999999 degrees C, using
+        an extremely precise measuring device. Now we are writing a program
+        to perform some calculations with our data. Consider the following C++
+        code.</p>
+      <program>double temp = 7.99999999;
+int tempInt = temp;
+double tempDouble = tempInt;
+cout &lt;&lt; tempDouble;</program>
+      <p>What is the value of <c>tempDouble</c> that is printed to the terminal?</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>tempDouble</p>
+        </statement>
+        <feedback>
+          This is the name of a variable. Only the value of a variable will print with cout.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>8</p>
+        </statement>
+        <feedback>
+          Converting to an int always rounds down.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>7</p>
+        </statement>
+        <feedback>
+          When we converted temp to an int, it was rounded down to 7. When we converted tempInt to
+            tempDouble, the decimal places from temp were lost, and the value of temp_double is 7.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>8.0</p>
+        </statement>
+        <feedback>
+          Converting to an int always rounds down.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>7.99999999</p>
+        </statement>
+        <feedback>
+          When we converted temp to an int, all the decimal places were lost. Turning temp_int into a double
+            does not bring them back.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+</section>

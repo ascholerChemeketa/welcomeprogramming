@@ -10,4 +10,3 @@ int main() {
     cout << "ceil(" << testValue << ") = " << ceil(testValue) << endl;
     cout << "round(" << testValue << ") = " << round(testValue) << endl;
 }
-

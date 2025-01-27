@@ -1,0 +1,102 @@
+<section xml:id="floatingpoint-math_composition"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Composition</title>
+  <p>
+    <idx>
+      <h>expression</h>
+    </idx>
+    <idx>
+      <h>argument</h>
+    </idx> You have probably learned how to evaluate simple expressions like <m>
+    \sin(\pi/2)</m> and <m>\log(1/x)</m>. First, you evaluate the expression in parentheses, which
+    is the argument of the function. Then you can evaluate the function itself, either by hand or by
+    punching it into a calculator. </p>
+
+  <p> This process can be applied repeatedly to evaluate more-complex expressions like <m>
+    \log(1/\sin(\pi/2))</m>. First we evaluate the argument of the innermost function (<m>\pi/2 =
+    1.57</m>), then evaluate the function itself (<m>\sin(1.57) = 1.0</m>), and so on. </p>
+
+  <p>
+    <idx>
+      <h>composition</h>
+    </idx>
+    <idx>
+      <h>expression</h>
+    </idx> Just as with mathematical functions, C++ functions can be <term>
+    composed</term> to solve complex problems. That means you can use one function as part of
+    another. In fact, you can use any expression as an argument to a function, as long as the
+    resulting value has the correct type: </p>
+
+  <program xml:id="floatingpoint-math_composition-1">
+<xi:include href="../../programs/floatingpoint-math/composition-1.cpp" parse="text"/>
+</program>
+
+  <p> This statement divides <c>PI</c> by <c>2.0</c>, adds the result to <c>angle</c>, and computes the cosine
+    of the sum. </p>
+
+  <p>Here is another example you may remember from geometry. Given the lengths of legs <c>a</c> and <c>b</c>
+    in a right triangle, you can find the length of the hypotenuse <c>c</c> with <m>\sqrt{a^2 + b^2}</m>.
+    Here is that translated to C++</p>
+
+  <program xml:id="floatingpoint-math_composition-2">
+<xi:include href="../../programs/floatingpoint-math/composition-2.cpp" parse="text"/>
+</program>
+
+  <p> Before <c>sqrt</c> can do its job, we need to compute its argument by doing the <c>+</c>. But
+    before that can happen, the two <c>pow</c> calls must run. So, they happen first. Then their
+    results are added together. Finally, the square root is taken. </p>
+
+  <warning><p>Just because you can use composition to nest a large number of steps into one line of code, does not mean that you should. This is perfectly legal:</p>
+  <program>
+  sqrt(pow(hypot(x2 - x1, y2 - y1), 2) + pow(hypot(x4 - x3, y4 - y3), 2) - 2 * hypot(x2 - x1, y2 - y1) * hypot(x4 - x3, y4 - y3) * cos(angleC));
+  </program>
+  <p>But it is hard to read and will be even harder to debug if you make a mistake somewhere on the line. It also redoes the same work in multiple spots. It would be much better to write that code as a series of steps that calculate the desired value.</p>
+  </warning>
+
+  
+  <exercise label="more_ousdfsdtput_2">
+    <statement>
+      <p><c>cmath</c> Which expression correctly computes <m>\log_2{(10^8)}</m>? Here is the <url href="https://en.cppreference.com/w/cpp/numeric/math">cmath library</url> for reference.</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p><c>log2(pow(8, 10))</c></p>
+        </statement>
+        <feedback>
+          <p>That computes 8 to the 10th power.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p><c>log2(pow(10, 8))</c></p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p><c>log(2, pow(8, 10))</c></p>
+        </statement>
+        <feedback>
+          <p>There is no log function that takes two parameters.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><c>log(2, pow(10, 8))</c></p>
+        </statement>
+        <feedback>
+          <p>There is no log function that takes two parameters.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><c>pow(log2(10), 8)</c></p>
+        </statement>
+        <feedback>
+          <p>That first does <m>\log{2}{10}</m>. We want to first do the pow.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>
