@@ -1,0 +1,220 @@
+<section xml:id="conditionals-logic_case-study-taxes"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Case Study: Taxes</title>
+
+
+  <subsection>
+    <title>The problem</title>
+
+    <p>We would like to calculate the taxes someone owes (using a VERY simplified and version of the
+      US tax system). In this system, the following chart shows how much tax someone owes based on
+      their income and filing status (single or married):</p>
+
+    <figure xml:id="tax-table-married">
+      <caption>Tax Calculation if Married</caption>
+      <ul>
+        <li><term>Income ≤ $20,000</term> → Tax = <term>10%</term> of the income</li>
+        <li><term>Income between $20,001 and $50,000</term> → Tax = <term>$2,000</term> + <term>15%</term>
+          of the amount exceeding <term>$20,000</term></li>
+        <li><term>Income between $50,001 and $100,000</term> → Tax = <term>$6,500</term> + <term>20%</term>
+          of the amount exceeding <term>$50,000</term></li>
+        <li><term>Income &gt; $100,000</term> → Tax = <term>$16,500</term> + <term>25%</term> of the
+          amount exceeding <term>$100,000</term></li>
+      </ul>
+    </figure>
+
+    <figure>
+      <caption>Tax Calculation if Single</caption>
+      <ul>
+        <li><term>Income ≤ $10,000</term> → Tax = <term>10%</term> of the income.</li>
+        <li><term>Income between $10,001 and $30,000</term> → Tax = <term>$1,000</term> + <term>15%</term>
+          of the amount exceeding <term>$10,000</term>.</li>
+        <li><term>Income between $30,001 and $70,000</term> → Tax = <term>$4,000</term> + <term>20%</term>
+          of the amount exceeding <term>$30,000</term>.</li>
+        <li><term>Income &gt; $70,000</term> → Tax = <term>$12,000</term> + <term>25%</term> of the
+          amount exceeding <term>$70,000</term>.</li>
+      </ul>
+    </figure>
+
+    <p>We are going to focus on writing a function that does this task. We can write tests for that
+      function that verify all the different categories of filer (status/income) work as expected.
+      Once that function is working, we could easily place it into a program that asked the user for
+      their income and status.</p>
+
+    <p>For now, we will just write the function and the tests. We will not worry about the user
+      interface. The function we will write will look like this:</p>
+    <program>
+    double calculateTax(double income, bool isMarried)
+    </program>
+  </subsection>
+
+  <subsection>
+    <title>Understanding the Problem And Tests</title>
+    <p> Before we start writing code, we need to understand the problem. A good way to make sure we
+      do is to solve it by hand. In this case, there is not one solution - each combination of
+      status and income will have a different solution. We can start by solving a few of the cases
+      by hand: <ul>
+        <li>If we are single and make $5,000, we should pay 10%. That is <m>0.10 \cdot 5000 = 500</m></li>
+        <li>If we are single and make $50,000 we should pay $4,000 plus 20% of the amount over
+      $30,000. That is <m>4000 + .20 \cdot (50000-30000) = 8000</m></li>
+        <li>If we are married and make $120,000 we should pay $16,500 plus 25% of the amount over
+      $100,000. That is <m>16500 + .25 \cdot (120000-100000) = 21500</m></li>
+      </ul>
+    </p>
+
+    <p>Those are not a complete set of test cases, but the are good enough to get us started. Turned
+      into tests they look like:</p>
+    <program>
+<xi:include href="../../programs/conditionals-logic/tax-calculation-tests.cpp" parse="text"/>
+    </program>
+  </subsection>
+
+  <subsection>
+    <title>First decision</title>
+    <p> Anytime that we have a complex problem, It is a good idea to solve it in steps. For math
+      problems this means doing individual parts of the calculation so we can check those results
+      before combining the results. For a problem involving complex selection it means only worrying
+      about one test at a time. Here we need to decide whether to worry about the status or income
+      first. The status seems simpler (there are only two categories) and more determinative (single
+      and married filers use completely different tables), so we will start there. </p>
+
+    <p>We won't worry about the function returning the correct value yet, we will just print out if
+      each test case represents a filing that is single or married. Try running this version. The
+      output is a little hard to read, but you should be able to find `***SINGLE***` in two spots
+      and then one `***MARRIED***`.</p>
+
+    <!-- <exercise label="tax-calc-1"> -->
+    <program interactive="activecode"
+             label="tax-calc-1">
+    <preamble>
+<xi:include href="../../programs/conditionals-logic/tax-calculation-pre.cpp" parse="text"/>
+    </preamble>
+    <code>
+<xi:include href="../../programs/conditionals-logic/tax-calculation-1.cpp" parse="text"/>
+    </code>
+    <tests visible="yes">
+<xi:include href="../../programs/conditionals-logic/tax-calculation-tests.cpp" parse="text"/>
+    </tests>
+    </program>
+    <!-- </exercise> -->
+  </subsection>
+
+  <subsection>
+    <title>Single Filers</title>
+
+    <p> Now that we have the status figured out, we can start worrying about the income. We will
+          start with the single filers.</p>
+
+    <activity>
+      <title>Single Filers</title>
+      <introduction>
+        <p> Now that we have the status figured out, we can start worrying about the income. We will
+          start with the single filers. Complete tasks A and B above. </p>
+      </introduction>
+
+      <task label="tax-calc-2">
+        <p> Again, let's start simple and just worry about the first category of single filers<mdash/>those
+          who make $10,000 or less.</p>
+        <statement>Complete the code below to pass the first test. Just change the part that shows
+          `???`. The other two tests are commented out so they do not run.</statement>
+        <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/conditionals-logic/tax-calculation-pre.cpp" parse="text"/>
+        </preamble>
+        <code>
+<xi:include href="../../programs/conditionals-logic/tax-calculation-2.cpp" parse="text"/>
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/conditionals-logic/tax-calculation-tests-2.cpp" parse="text"/>
+        </tests>
+        </program>
+      </task>
+
+      <task label="tax-calc-3">
+        <p>Now lets complete the rest of the code.</p>
+        <statement>
+        Fix the line with `???` to pass the second test. The third test is still commented out.
+        </statement>
+        <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/conditionals-logic/tax-calculation-pre.cpp" parse="text"/>
+        </preamble>
+        <code>
+<xi:include href="../../programs/conditionals-logic/tax-calculation-3.cpp" parse="text"/>
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/conditionals-logic/tax-calculation-tests-3.cpp" parse="text"/>
+        </tests>
+        </program>
+      </task>
+    </activity>
+    
+
+    <p>Once part B is finished, take a moment to look at the structure of the conditions for the income. Note that:
+    <ul>
+      <li>Because `else if` only runs if the previous tests in the chain have failed, we do not need to state something like `income > 30000 &amp;&amp; income &lt;= 70000`. The only way we reach the 70000 test is if the income is not `&lt;= 30000`.</li>
+      <li>The final `else` does not need a condition.</li>
+    </ul>
+    </p>
+    <program><![CDATA[ 
+if (income <= ???) {
+    tax = income * 0.10;
+} else if (income <= 30000) {
+    tax = 1000 + (income - 10000) * 0.15;
+} else if (income <= 70000) {
+    tax = ???;
+} else {
+  tax = 12000 + (income - 70000) * 0.25;
+}]]>
+    </program>
+    <insight>
+      <p>Avoid stating things that were eliminated by previous checks. Doing so is a form of <q>repeating yourself</q>. Remember <xref ref="DRY" text="custom">DRY</xref></p>
+      <p>In this case, writing out each test in long form can make it easy to by accident include a boundary (like $50,000) in two conditions or none at all.</p>
+    </insight>
+
+  </subsection>
+  
+  <subsection>
+    <title>Married Filers</title>
+
+    <p>Now let's finish the program.</p>
+
+    <exercise label="tax-calc-4">
+      <statement><p>
+      Complete the Married section. Paste your Single code from above into this problem, then fix the two `???` areas of the program. Here is a link if you need to look back at the <xref ref="tax-table-married" text="custom">Married Tax Table</xref>.</p>
+      <p>There are some new tests. All the tests are hidden, but if you fail them, you will see what they are.</p>
+      </statement>
+      <program interactive="activecode">
+      <preamble>
+<xi:include href="../../programs/conditionals-logic/tax-calculation-pre.cpp" parse="text"/>
+      </preamble>
+      <code>
+<xi:include href="../../programs/conditionals-logic/tax-calculation-4.cpp" parse="text"/>
+      </code>
+      <tests>
+<xi:include href="../../programs/conditionals-logic/tax-calculation-tests-4.cpp" parse="text"/>
+      </tests>
+      </program>
+    </exercise>
+  </subsection>
+
+  <subsection>
+    <title>Debrief</title>
+
+    <p>Of course, there are other ways we could write the code. But they would almost all involve more repeating ourselves. One such alternate would be to replace the nested ifs with complex conditions:</p>
+
+    <program><![CDATA[
+...
+if (isMarried && income <= 20000) {...
+else if (isMarried && income <= 50000) {...
+else if (isMarried && income <= 100000) {...
+else if (isMarried) {...
+else if (!isMarried income <= 10000) {...
+...
+    ]]></program>
+
+    <p>Although that structure could produce the right values, the repetition is unnecessary and just serves to make the code harder to read or update.</p>
+
+    <p>It is also worth mentioning that we have a lot of <q>magic numbers</q> like `50000` in this program that probably should be constants. In a real tax program, those special values would likely be stored in a configuration file and read into variables so the tax brackets could be changed without rebuilding the entire program.</p>
+  </subsection>
+</section>

@@ -1,67 +1,246 @@
-<section xml:id="conditionals-logic_logical-operators" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Logical Operators</title>
-<p>
-    <idx><h>logical operator</h></idx>
-    <idx><h>operator</h><h>logical</h></idx>
-    <idx><h>and operator</h></idx>
-    <idx><h>or operator</h></idx>
-    <idx><h>not operator</h></idx>
-In addition to the relational operators, Java also has three <term>logical operators</term>: <c>ANDAND</c>, <c>||</c>, and <c>!</c>, which respectively stand for <term>and</term>, <term>or</term>, and <term>not</term>.
-The results of these operators are similar to their meanings in English.
-For example:
-<ul>
-<li><p><c>x MORE 0 ANDAND x LESS 10</c> is true when <c>x</c> is greater than 0 <term>and</term> less than 10.</p></li>
-<li><p><c>x LESS 0 || x MORE 10</c> is true if either condition is true; that is, if <c>x</c> is less than 0 <term>or</term> greater than 10.</p></li>
-<li><p><c>!(x MORE 0)</c> is true if <c>x</c> is <term>not</term> greater than 0.
-The parentheses are necessary in this example because, in the order of operations, <c>!</c> comes before <c>MORE</c>.</p></li>
-</ul>
-</p>
+<section xml:id="conditionals-logic_logical-operators"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Logical Operators</title>
+  <p>
+    <idx>
+      <h>logical operator</h>
+    </idx>
+    <idx>
+      <h>operator</h>
+      <h>logical</h>
+    </idx>
+    <idx>
+      <h>and operator</h>
+    </idx>
+    <idx>
+      <h>or operator</h>
+    </idx>
+    <idx>
+      <h>not operator</h>
+    </idx> In addition to the relational operators, C++ also has three <term>logical
+    operators</term>: <c>&amp;&amp;</c>, <c>||</c>, and <c>!</c>, which respectively stand for <term>and</term>, <term>
+    or</term>, and <term>not</term>. They are called <term>logical operators</term> because they operator on <q>logical</q> (Boolean) values. The results of these operators are similar to their meanings in
+    English. For example: <ul>
+      <li>
+        <p><c>x &gt; 0 &amp;&amp; x &lt; 10</c> is true when <c>x</c> is greater than 0 <term>and</term> less than 10.</p>
+      </li>
+      <li>
+        <p><c>x &lt; 0 || x &gt; 10</c> is true if either condition is true; that is, if <c>x</c> is less than 0 <term>or</term>
+    greater than 10.</p>
+      </li>
+      <li>
+        <p><c>!(isEven)</c> is true if <c>isEven</c> is <term>not</term> true (if it is false).</p>
+      </li>
+    </ul>
+  </p>
 
-<p>
-In order for an expression with <c>ANDAND</c> to be true, both sides of the <c>ANDAND</c> operator must be true.
-And in order for an expression with <c>||</c> to be false, both sides of the <c>||</c> operator must be false.
-</p>
+  <subsection>
+    <title>And</title>
 
-<p>
-The <c>ANDAND</c> operator can be used to simplify nested <c>if</c> statements.
-For example, the following code can be rewritten with a single condition:
-</p>
+    <p> In order for an expression with <c>&amp;&amp;</c> to be true, both sides of the <c>&amp;&amp;</c> operator must
+      be true. The <c>&amp;&amp;</c> operator is equivalent to using nested <c>if</c> statements. For example,
+      the following code:</p>
 
-<program xml:id="conditionals-logic_logical-operators-1">
+    <program xml:id="conditionals-logic_logical-operators-1">
 <xi:include href="../../programs/conditionals-logic/logical-operators-1.cpp" parse="text"/>
 </program>
-  
-<program xml:id="conditionals-logic_logical-operators-2">
+
+    <p>Is equivalent to this single if statement:</p>
+
+    <program xml:id="conditionals-logic_logical-operators-2">
 <xi:include href="../../programs/conditionals-logic/logical-operators-2.cpp" parse="text"/>
 </program>
 
-<p>
-Likewise, the <c>||</c> operator can simplify chained <c>if</c> statements.
-Since the branches are the same, there is no need to duplicate that code:
-</p>
+    <p>If our goal is to have the one statement depend on testing both x and y, this version using
+      `&amp;&amp;` is shorter and more clearly communicates our intent.</p>
 
-<program xml:id="conditionals-logic_logical-operators-3">
+    <warning>
+    <p>C++ does not allow compound conditions like you would write in math. In C++, `0 &lt; x &lt; 10` does NOT test to see if if x is between 0 and 10. Instead, it tests if 0 is less than x, and produces a result of 0 or 1 (true or false). It then tests that value to see if it is less than 10, which will always be true. You MUST write this as two conditions combined with `&amp;&amp;: `0 &lt; x &amp;&amp; x &lt; 10`.
+    </p></warning>
+
+  </subsection>
+  <subsection>
+    <title>Or</title>
+
+    <p>In order for an expression with <c>||</c> to be false, both sides of the <c>||</c> operator must
+      be false. If either part is true, the entire expression is true.</p>
+
+    <p>The <c>||</c> operator can simplify our logic where multiple different tests all should result
+      in the same behavior. For example, there are two ways for this code to print the message:</p>
+
+    <program xml:id="conditionals-logic_logical-operators-3">
 <xi:include href="../../programs/conditionals-logic/logical-operators-3.cpp" parse="text"/>
 </program>
-  
-<program xml:id="conditionals-logic_logical-operators-4">
+
+    <p>But we can combine the two conditions into one using `||`:</p>
+
+    <program xml:id="conditionals-logic_logical-operators-4">
 <xi:include href="../../programs/conditionals-logic/logical-operators-4.cpp" parse="text"/>
 </program>
 
-<p>
-Then again, if the statements in the branches were different, we could not combine them into one block.
-But it's useful to explore different ways of representing the same logic, especially when it's complex.
-</p>
+    <warning>
+    <p>C++ also does not allow us to directly translate <q>x is equal to 3 or 4</q> as `x == 3 || 4`. Instead, you must write `x == 3 || x == 4`. The first expression would be interpreted as `x == 3` or `4`. Since `4` is always true, the expression would always be true.
+    </p></warning>
 
-<p>
-    <idx><h>short circuit</h></idx> Logical operators evaluate the second expression <term>only when necessary</term>.
-For example, <c>true || anything</c> is always true, so Java does not need to evaluate the expression <c>anything</c>.
-Likewise, <c>false ANDAND anything</c> is always false.
-</p>
+    <insight><p>The expression on each side of `||` or `&amp;&amp;` MUST be a complete boolean expression that will evaluate to `true` or `false`.</p></insight>
 
-<p>
-Ignoring the second operand, when possible, is called <term>short-circuit</term> evaluation, by analogy with an electrical circuit.
-Short-circuit evaluation can save time, especially if <c>anything</c> takes a long time to evaluate.
-It can also avoid unnecessary errors, if <c>anything</c> might fail.
-</p>
+  </subsection>
+
+
+  <subsection>
+    <title>Not</title>
+
+    <p>The <term>not</term> operator `!` is used to produce the opposite of a boolean value. It can be used directly on boolean variables as shown in this sample:</p>
+
+    <program>
+bool isEven = true;
+if (!isEven) {
+    // we know it's odd...
+</program>
+
+  <p>That if statement is equivalent to `if (isEven == false)`, but most programmers prefer the version using `!`. It can also be used to reverse the value calculated by some other logical operation. For example, to test if `health` is not less than 0 we could do: `!(health &lt; 0)`. Notice that we need the parentheses to make it clear that we want to FIRST calculate <q>is health less than 0</q> and then calculate the opposite of that value. Of course we could also write that expression as `(health &gt;= 0)` which more clearly expresses what we are looking for.</p>
+  </subsection>
+
+  <subsection>
+    <title>Short Circuit Evaluation</title>
+    <p>
+      <idx>
+        <h>short circuit</h>
+      </idx> Logical operators evaluate the second expression <term>only
+      when necessary</term>. For example, <c>true || anything</c> is always true, so C++ does not need to evaluate
+      the expression <c>anything</c>. Likewise, <c>false &amp;&amp; anything</c> is always false. </p>
+
+    <p>Ignoring the second operand, when possible, is called <term>short-circuit</term> evaluation,
+      by analogy with an electrical circuit. Short-circuit evaluation can save time, especially if <c>anything</c>
+      takes a long time to evaluate. It can also avoid unnecessary errors, if <c>anything</c> might fail.
+      For example, dividing an integer by 0 is a runtime error that will stop a program. This code
+      avoids that by testing `b` before dividing `a` by it. If `a` is 0, then the `a != 0` is false
+      and the second clause which involves division never gets executed:</p>
+
+    <program xml:id="conditionals-logic_logical-operators-5"
+             interactive="codelens">
+<xi:include href="../../programs/conditionals-logic/logical-operators-5.cpp" parse="text"/>
+  </program>
+
+    <p>Normally you don't have to worry about short circuit evaluation (other than possibly to use
+      it as a guard). But if the second part of a conditional has a <term>side effect</term><mdash/>if
+      it changes some value<mdash/>, the logic can be tricky to follow:</p>
+
+    <program>
+if (x &gt; 0 || y++ &gt; 0) {
+  // do something
+}
+    </program>
+
+    <p>Here, if `x` is greater than 0, the `y++` is never executed. But if `x` is less than or equal
+      to 0, then `y` is incremented. It would be easy to expect that `y` always increases. A good
+      rule of thumb is to avoid doing anything in a complex conditional that has a side effect.</p>
+
+  </subsection>
+
+   <exercise label="logical_op_1">
+    <statement>
+      <p>Multiple Response: How could you re-write the following code using a single conditional?</p>
+      <program>if (x &gt; 0) {
+  if (x &lt; 10) {
+    cout &lt;&lt; "x is a positive single digit" &lt;&lt; endl;
+  }
+}</program>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>
+          <p><![CDATA[if (x > 0 && x < 10) {...]]></p>
+        </statement>
+        <feedback>
+          This is exactly what the nested conditionals are saying.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><![CDATA[if (x > 0 || x < 10) {...]]></p>
+        </statement>
+        <feedback>
+          || represents "or", but we need both sides of the conditional to be true.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><![CDATA[if (x > 0 ! x < 10) {...]]></p>
+        </statement>
+        <feedback>
+          The ! operator cannot be used to compare two sides of a conditional.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><![CDATA[if ( !(x < 0) && !(x > 10) ) {...]]></p>
+        </statement>
+        <feedback>
+          If x = 0 or if x = 10, this expression will return true when it shouldn't.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p><![CDATA[if ( !(x <= 0) && !(x >= 10) ) {...]]></p>
+        </statement>
+        <feedback>
+          If it IS NOT what we don't want, then it IS what we want!
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="logical_op_2">
+    <statement>
+      <p>Match the conditional statement to the correct boolean and the meaning of the operator in
+        use, given n = 7.</p>
+    </statement>
+    <feedback>
+      Try again!
+    </feedback>
+    <matches>
+      <match order="1">
+        <premise>(n * 2 &gt; 10 &amp;&amp; n &gt;= 7)</premise>
+        <response>true, "and"</response>
+      </match>
+      <match order="2">
+        <premise>(n * 2 &gt; 10 &amp;&amp; n &lt; 7)</premise>
+        <response>false, "and"</response>
+      </match>
+      <match order="3">
+        <premise>(n%2 == 1 || n == 8)</premise>
+        <response>true, "or"</response>
+      </match>
+      <match order="4">
+        <premise>(n%2 == 0 || n == 8)</premise>
+        <response>false, "or"</response>
+      </match>
+      <match order="5">
+        <premise>!(n == 7)</premise>
+        <response>false, "not"</response>
+      </match>
+      <match order="6">
+        <premise>!(n &gt;= 10)</premise>
+        <response>true, "not"</response>
+      </match>
+    </matches>
+  </exercise>
+  <exercise label="logical_op_3">
+    <statement>
+      <p>Add a single logical operator to make the expression check if x is greater than or
+        equal to 50</p>
+      <p><fillin mode="string" case="insensitive" answer="[!]"/> <c>( x &lt; 50 )</c></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+          <feedback>
+            If the expression checks for the opposite of what you want then just <c>!</c> the
+              result
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
 </section>

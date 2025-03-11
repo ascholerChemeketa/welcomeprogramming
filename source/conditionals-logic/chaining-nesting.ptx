@@ -1,46 +1,169 @@
-<section xml:id="conditionals-logic_chaining-nesting" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Chaining and Nesting</title>
-<p>
-    <idx><h>chaining</h></idx>
-Sometimes you want to check related conditions and choose one of several actions.
-One way to do this is by <term>chaining</term> a series of <c>if</c> and <c>else</c> blocks:
-</p>
+<section xml:id="conditionals-logic_chaining-nesting"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Chaining and Nesting</title>
 
-<program xml:id="conditionals-logic_chaining-nesting-1">
+  <p> You can also make complex decisions by <term>nesting</term>. Nesting refers to placing one conditional statement inside
+    another. For example, if we want to print if a number is positive, negative, or zero, we could do this:<idx>
+      <h>nesting</h>
+    </idx>
+    <idx>
+      <h>nested</h>
+      <h>conditions</h>
+    </idx> 
+  </p>
+
+  <program xml:id="conditionals-logic_chaining-nesting-1">
 <xi:include href="../../programs/conditionals-logic/chaining-nesting-1.cpp" parse="text"/>
 </program>
 
-<p>
-These chains can be as long as you want, although they can be difficult to read if they get out of hand.
-One way to make them easier to read is to use standard indentation, as demonstrated in these examples.
-If you keep all the statements and braces lined up, you are less likely to make syntax errors.
-</p>
+  <p>If `x` is greater than 0, the initial `if` block runs and the entire `else` is skipped. But if `x` is not greater than 0, the initial `else` block runs. In it, we make a new decision and either execute the inner `if` or the inner `else`.</p>
 
-<p>
-Notice that the last branch is simply <c>else</c>, not <c>else if (x == 0)</c>.
-At this point in the chain, we know that <c>x</c> is not positive and <c>x</c> is not negative.
-There is no need to test whether <c>x</c> is 0, because there is no other possibility.
-</p>
+  <p>These kinds of nested structures are common, but they can become
+    difficult to read very quickly. Good indentation is essential to make the structure (or intended
+    structure) apparent to the reader. </p>
 
-<p>
-    <idx><h>nesting</h></idx>
-In addition to chaining, you can also make complex decisions by <term>nesting</term> one conditional statement inside another.
-We could have written the previous example as follows:
-</p>
+  <p>When nested conditions are focusing on a series of related tests (like what value `x` has), there is an alternative way to write the nesting. This other way of writing the same logic is called <term>chaining</term> because it links a series of <c>if</c> and <c>else</c>
+    blocks:  
+    <idx>
+      <h>chaining</h>
+    </idx></p>
 
-<program xml:id="conditionals-logic_chaining-nesting-2">
+  <program xml:id="conditionals-logic_chaining-nesting-2">
 <xi:include href="../../programs/conditionals-logic/chaining-nesting-2.cpp" parse="text"/>
 </program>
 
-<p>
-The outer conditional has two branches.
-The first branch contains a print statement, and the second branch contains another conditional statement, which has two branches of its own.
-These two branches are also print statements, but they could have been conditional statements as well.
-</p>
+  <p>It is important to recognize that this is really just a pair of nested conditionals. The second `if` is really the body of the first `else`. We have just written it on the same line as the `else`. This is just a styling convention, not a new language feature. The logic remains the same. Either we do the first `if` body, and then skip the `else` body (which includes the second `if` and its attached `else`) or we do the `else` that has us make a new choice.</p>
+  
+  <p>Although it is functionally the same as nested code, most programmers prefer to read and write this form. It makes it clear that we are picking one of three related branches to execute. This form is also preferable to a series of `if` statements unconnected by `else`'s as it guarantees that only one of the blocks in the chain will get to execute.</p>
 
-<p>
-    <idx><h>nested</h><h>conditions</h></idx>
-These kinds of nested structures are common, but they can become difficult to read very quickly.
-Good indentation is essential to make the structure (or intended structure) apparent to the reader.
-</p>
+  <p>These chains can be as long as you like. For example, this code determines someone's letter grade. If their score is 90+, we print out A and all the remaining tests are completely skipped. Otherwise, we execute the next check-m-is their score 80+? As soon as one branch is true, all the remaining tests and their associated blocks are skipped. Note that the last else does not need an if - it is the default case that handles things when all the other tests fail:</p>
+
+  <program xml:id="conditionals-logic_chaining-nesting-3" interactive="activecode">
+  <code>
+<xi:include href="../../programs/conditionals-logic/chaining-nesting-3.cpp" parse="text"/>
+</code>
+<stdin>84</stdin>
+</program>
+
+  <p>When writing something like that, you must be careful to order the tests so that no earlier test also matches the condition of a later test. Here is a flawed attempt at the grade logic. If someone's grade is 82, that makes the first test true. So the first block will execute and print out <q>You got a D</q>. Then all the rest of the conditionals will be skipped. Nothing will make execution skip ahead to the <q>right</q> block.</p>
+
+  <program xml:id="conditionals-logic_chaining-nesting-4">
+<xi:include href="../../programs/conditionals-logic/chaining-nesting-4.cpp" parse="text"/>
+</program>
+
+  <exercise label="nested_conditionals_1">
+    <statement>
+      <p>What will print?</p>
+      <program>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+  int x = 0;
+  if (x == 0) {
+    cout &lt;&lt; "Hey!" &lt;&lt; endl;
+  }
+  else {
+    if (x &gt; 0) {
+      cout &lt;&lt; "Hi!" &lt;&lt; endl;
+    }
+    else {
+      cout &lt;&lt; "Hello!" &lt;&lt; endl;
+    }
+  }
+}</program>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>
+          <p>Hey!</p>
+        </statement>
+        <feedback>
+          Correct!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Hi!</p>
+        </statement>
+        <feedback>
+          Remember that the program would only enter the "else" if x was not equal to 0.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Hello!</p>
+        </statement>
+        <feedback>
+          Remember that the program would only enter the "else" if x was not equal to 0.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Nothing will print.</p>
+        </statement>
+        <feedback>
+          Only one of the condtionals will execute, but something will print, regardless of which
+            one it is.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="nested_conditionals_2">
+    <statement>
+      <p>What will print?</p>
+      <program>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+  int x = -4;
+  if (x == 0) {
+    cout &lt;&lt; "Hey!" &lt;&lt; endl;
+  }
+  else {
+    if (x &gt; 0) {
+      cout &lt;&lt; "Hi!" &lt;&lt; endl;
+    }
+    else {
+      cout &lt;&lt; "Hello!" &lt;&lt; endl;
+    }
+  }
+}</program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>Hey!</p>
+        </statement>
+        <feedback>
+          Remember that the program would only enter the first "if" if x was equal to 0.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Hi!</p>
+        </statement>
+        <feedback>
+          Remember that the program would only enter the nested "if" if x was greater than 0.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Hello!</p>
+        </statement>
+        <feedback>
+          Correct!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Nothing will print.</p>
+        </statement>
+        <feedback>
+          Only one of the condtionals will execute, but something will print, regardless of which
+            one it is.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
 </section>

@@ -1,0 +1,329 @@
+<section xml:id="conditionals-logic_if-statement"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>The if Statement</title>
+  <p>
+    <idx>
+      <h>conditional statement</h>
+    </idx>
+    <idx>
+      <h>statement</h>
+      <h>conditional</h>
+    </idx>
+    <idx>
+      <h>if statement</h>
+    </idx>
+    <idx>
+      <h>statement</h>
+      <h>if</h>
+    </idx>Now that we have boolean values, we need to use them to control what code
+    gets executed. <term>Conditional statements</term> give us this ability. The simplest
+    conditional statement in C++ is the <c>if</c> statement: </p>
+
+  <program xml:id="conditionals-logic_ifelse-statement-1">
+<xi:include href="../../programs/conditionals-logic/ifelse-statement-1.cpp" parse="text"/>
+</program>
+  <subsection>
+    <title>The condition</title>
+    <p>
+      <idx>
+        <h>block</h>
+      </idx> The expression in parentheses is called the <term>condition</term>
+      and must be a variable or expression with a boolean value. If it is true, the statements in
+      the curly braces get executed. That group of statements in the braces is known as a <term>
+      block</term>. If the condition is false, execution skips over that <term>block</term> of code.</p>
+
+    <p>Try running this sample in Codelens. Notice that only one of the three conditions is true and
+      that the bodies of the other two conditionals get skipped.</p>
+
+    <p>The <term>condition</term> can be any value that evaluates to `true` or `false`. Because
+      numbers can evaluate as true or false (with 0 being false and all other numbers being true),
+      that means it is possible, but generally not advisable, to write something like this: </p>
+
+    <program>
+    int x = 5;
+    if (x) {
+        cout &lt;&lt; "x is truish" &lt;&lt; endl;
+    }
+  </program>
+
+    <p>It also means that it is legal to use a variable of type `bool` without a comparison, as it
+      already has a value of `true` or `false`:</p>
+
+    <program>
+    int x = 5;
+    bool isEven = (x % 2 == 0);
+    if (isEven) {
+        cout &lt;&lt; "x is even" &lt;&lt; endl;
+    }
+  </program>
+
+    <p>This way of testing a boolean variable is generally preferred to comparing it to true.
+      Writing `if (isEven == true)` would do the same thing, but is redundant.</p>
+
+  </subsection>
+  <subsection>
+    <title>The body</title>
+
+    <program xml:id="conditionals-logic_ifelse-statement-1a"
+             interactive="activecode">
+<xi:include href="../../programs/conditionals-logic/ifelse-statement-1a.cpp" parse="text"/>
+</program>
+
+    <warning>
+      <p>
+        <idx>
+          <h>assignment</h>
+        </idx>
+    <idx>
+          <h>operator</h>
+          <h>assignment</h>
+        </idx>
+    <idx>
+          <h>== equals operator</h>
+        </idx>Remember that a single <c>=</c> represents
+        assignment - it says <q>gets the value</q>. A double equals <c>==</c> asks the question <q>is
+        equal to?</q>. A common mistake is to use a single <c>=</c> instead of a double <c>==</c> when
+        comparing values. If you make this mistake, the compiler will emit a warning like the one
+        shown below that tells you you are using an assignment operator in a place where a
+        true/false value is expected. </p>
+      <console>
+        <output>test.cpp:7:10: error: suggest parentheses around assignment used as truth value [-Werror=parentheses]
+    7 |     if( x = 0 ) {
+      |          ~^~~</output>
+      </console>
+    </warning>
+
+
+    <!-- TODO styling of pre inside warning -->
+
+    <p>The braces are optional for branches that have only one statement. So is we only have one
+      statement that is going to be executed when the conditional is true we can write it in either
+      of these two ways: </p>
+
+    <program xml:id="conditionals-logic_ifelse-statement-1b">
+<xi:include href="../../programs/conditionals-logic/ifelse-statement-1b.cpp" parse="text"/>
+</program>
+
+    <p>By convention, we indent the code that is inside a condition, whether or not it is inside
+      braces, to clearly show that it is <q>inside</q> the body of the `if`. The compiler does not
+      care if you indent or not, but indenting blocks makes code much easier to read.</p>
+
+    <p>Because indentation signals <q>this is inside</q> to programers, but it meaningless to the
+      compiler, it can be dangerous to skip braces<mdash/>even when they are optional<mdash/>. It
+      makes it easy to accidentally add a statement to a one-line <c>if</c> block.</p>
+
+    <program xml:id="conditionals-logic_ifelse-statement-4"
+             interactive="activecode">
+<xi:include href="../../programs/conditionals-logic/ifelse-statement-4.cpp" parse="text"/>
+</program>
+
+    <p>Since there are no braces, only the first <c>cout</c> is part of the <c>if</c> statement. Here is
+      what the compiler actually sees: </p>
+
+    <program xml:id="conditionals-logic_ifelse-statement-5"
+             interactive="activecode">
+<xi:include href="../../programs/conditionals-logic/ifelse-statement-5.cpp" parse="text"/>
+</program>
+
+    <p>The indentation in the first version was misleading. The second print statement is not a part
+      of the body, and as a result, it runs no matter what. Even experienced programmers make this
+      mistake; search the web for Apple's <q>goto fail</q> bug. To avoid this, it is a good idea to
+      always use braces, even for one line bodies.</p>
+
+    <p>
+      <idx>
+        <h>\{\} curly braces</h>
+      </idx> In all previous examples, notice that there is no
+      semicolon at the end of the line with <c>if (condition)</c>. That is because the body is technically part of
+      the same statement. You could correctly write the code like this: </p>
+
+    <program xml:id="conditionals-logic_ifelse-statement-1c">
+<xi:include href="../../programs/conditionals-logic/ifelse-statement-1c.cpp" parse="text"/>
+</program>
+
+    <p>If you put a semicolon after the condition, the compiler will treat the <c>if</c> statement as
+      if there is no body, and the subsequent block will run independently.</p>
+
+    <program xml:id="conditionals-logic_ifelse-statement-6"
+             interactive="activecode">
+<xi:include href="../../programs/conditionals-logic/ifelse-statement-6.cpp" parse="text"/>
+</program>
+
+    <p> This code will compile, but the program will output <c>"x is even"</c> regardless of the value of <c>x</c>.
+      Here is what the compiler sees in that sample:</p>
+
+    <program xml:id="conditionals-logic_ifelse-statement-7"
+             interactive="activecode">
+<xi:include href="../../programs/conditionals-logic/ifelse-statement-7.cpp" parse="text"/>
+</program>
+
+    <p>It sees an `if` statement with no body, followed by a block of code that is not a part of the
+      conditional.</p>
+
+  </subsection>
+
+  <exercise label="conditional_execution_1">
+    <statement>
+      <p>Observe the code below. <q>Bigger</q> doesn't print! How can you modify this so that all of
+        the statements print?</p>
+      <program label="conditional_execution_AC_1_editor">
+      <code><![CDATA[
+    int x = 12;
+    if (x == 12) {
+        cout << "Equal!" << endl;
+    }
+    if (x != 13) {
+        cout << "Not equal!" << endl;
+    }
+    if (x < 6) {
+        cout << "Bigger!" << endl;
+    }
+        ]]></code>
+    </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>Change the value of x to be anything less than 6.</p>
+        </statement>
+        <feedback> While "Bigger" would now print, the other two statements would not! </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Change the value of x to 13.</p>
+        </statement>
+        <feedback> Now, none of the statements would print! </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Change the sign of the last conditional statement to x &gt; 6.</p>
+        </statement>
+        <feedback> Now, all of the statements would print. </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Change the value of the return from 0 to "Bigger!"</p>
+        </statement>
+        <feedback> main returns an int, so trying to make it return a string will cause an error. </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="bool_var_3">
+    <statement>
+      <p>What will print?</p>
+      <program>int n = 16;
+int x = 4;
+
+bool evenFlag = (n % 2 == 0);
+bool plusFlag = (x &gt; 0);
+
+if (evenFlag) {
+  cout &lt;&lt; "n was even when I checked it ";
+}
+
+if (plusFlag) {
+  cout &lt;&lt; "x was positive when I checked it";
+}</program>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>
+          <p>n was even when I checked it x was positive when I checked it</p>
+        </statement>
+        <feedback> Great! </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>x was positive when I checked it n was even when I checked it</p>
+        </statement>
+        <feedback> Make sure you follow the correct order of execution. Also, a space is not
+          automatically added. </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>x was positive when I checked it</p>
+        </statement>
+        <feedback> Take another look at the result from the modulus operator. </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>n was even when I checked itx was positive when I checked it</p>
+        </statement>
+        <feedback> Both flags are made, But A space is after it. </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>x was positive when I checked itn was even when I checked it</p>
+        </statement>
+        <feedback> Make sure you follow the correct order of execution. </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="bool_var_4">
+    <statement>
+      <p>What will print?</p>
+      <program>bool low_battery=true;
+bool power_outage=true;
+
+if (low_battery) {
+
+  if (power_outage) {
+      power_outage=!power_outage;
+  }
+  else{
+      low_battery=false;
+  }
+
+  if (!power_outage) {
+
+    if (low_battery) {
+        cout &lt;&lt; "Charging your phone" &lt;&lt; endl;
+    }
+    else{
+        cout &lt;&lt; "Battery is charged" &lt;&lt; endl;
+    }
+
+  }
+  else{
+    cout &lt;&lt; "There is no power" &lt;&lt; endl;
+  }
+}</program>
+    </statement>
+    <choices>
+      <choice>
+        <statement id="bool_var_4_opt_a">
+          <p>nothing will print</p>
+        </statement>
+        <feedback> The value of <c>low_battery</c> is true so we enter the first <c>if</c> block. </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="bool_var_4_opt_b">
+          <p>
+            <q>Charging your phone</q>
+          </p>
+        </statement>
+        <feedback> correct! <c>low_battery</c> stays true and we set <c>power_outage</c> to false. </feedback>
+      </choice>
+      <choice>
+        <statement id="bool_var_4_opt_c">
+          <p>
+            <q>Battery is charged</q>
+          </p>
+        </statement>
+        <feedback>
+          <c>low_battery</c> is true so we don't reach this <c>else</c>. </feedback>
+      </choice>
+      <choice>
+        <statement id="bool_var_4_opt_d">
+          <p>
+            <q>There is no power</q>
+          </p>
+        </statement>
+        <feedback> We change the value of <c>power_outage</c> to false before hand. </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

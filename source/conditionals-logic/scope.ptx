@@ -1,0 +1,86 @@
+<section xml:id="conditionals-logic_scope"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Branches and Scope</title>
+
+  <p>It is important to note that each block has its own scope. That means a local variable declared in a branch is not available outside that branch. For example, here is a broken program to compute someone's pay, possibly including extra pay for overtime (over 40 hours):</p>
+
+  <program xml:id="conditionals-logic_scope-1" interactive="activecode">
+<code>
+<xi:include href="../../programs/conditionals-logic/scope.cpp" parse="text"/>
+</code>
+<stdin>50</stdin>
+</program>
+
+  <p>Recall that scope is a tool for managing complexity. It allows us to use the same variable name in different parts of a program without worrying about conflicts. We already know that each function has its own scope, but so do different blocks in a function.</p>
+
+  <p>If you try running that program, the compiler will tell you that `pay` is not defined at the end of `main`. That is because when a variable is declared inside a block, it is scoped only for that block. Either `pay` gets created in the `if` and goes out of scope (is no longer available) at the end of the `if`, or it gets created in the `else` and is only available there. To fix the program, we need to declare `pay` before the if/else structure:</p>
+
+  <program xml:id="conditionals-logic_scope-2" interactive="activecode">
+<code>
+<xi:include href="../../programs/conditionals-logic/scope-2.cpp" parse="text"/>
+</code>
+<stdin>50</stdin>
+</program>
+
+  <p>Because `pay` was declared in main, and not in the if/else blocks, it is in scope until the end of main. When we enter a block, like the `if` or `else` in this program, all the variables from the outer scope (`main` here) are still available. Changes we make to those variables  will persist when we leave the inner block.</p>
+
+  <insight><p>
+  Scope generally matches the conventions for indentation. If you have a block of code that is indented, the variables declared in that block are only available within that block and any blocks inside of it.
+  </p>
+  </insight>
+
+  <warning><p>It is possible to declare a variable with the same name in an inner block as in an outer block. This is called <term>shadowing</term>. The inner variable will hide the outer variable, but the outer variable is still there. This can be confusing, so it is best to avoid shadowing when possible.
+  </p>
+    <program xml:id="conditionals-logic_scope-4">
+    int x = 10;
+    if(x &lt; 100) {
+        // This is a "different" x
+        int x = 50;
+    }
+    cout &lt;&lt; x;  // still 10
+</program>
+  </warning>
+
+  <exercise label="keywords_3">
+    <statement>
+      <p>Click on all the locations (`location A`, `location B`, etc...) where `x` is available for use.</p>
+    </statement>
+    <feedback>
+      Try again!
+    </feedback>
+    <areas>
+      <cline><area correct="yes">int</area> main() {</cline>
+      <cline>    <area correct="no">// location A</area></cline>
+      <cline>    double x = 1.0;</cline>
+      <cline>    int y = 5;</cline>
+      <cline>    <area correct="yes">// location B</area></cline>
+      <cline>    if (y == 6) {</cline>
+      <cline>        <area correct="yes">// location C</area></cline>
+      <cline>    }</cline>
+      <cline>    <area correct="yes">// location D</area></cline>
+      <cline>}</cline>
+    </areas>
+  </exercise>
+  
+  <exercise label="keywords_31">
+    <statement>
+      <p>Click on all the locations (`location A`, `location B`, etc...) where `x` is available for use.</p>
+    </statement>
+    <feedback>
+      Try again!
+    </feedback>
+    <areas>
+      <cline><area correct="yes">int</area> main() {</cline>
+      <cline>    <area correct="no">// location A</area></cline>
+      <cline>    int y = 5;</cline>
+      <cline>    <area correct="no">// location B</area></cline>
+      <cline>    if (y == 6) {</cline>
+      <cline>        double x = 1.0;</cline>
+      <cline>        <area correct="yes">// location C</area></cline>
+      <cline>    }</cline>
+      <cline>    <area correct="no">// location D</area></cline>
+      <cline>}</cline>
+    </areas>
+  </exercise>
+
+</section>

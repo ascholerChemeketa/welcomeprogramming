@@ -1,173 +1,421 @@
-<section xml:id="conditionals-logic_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Exercises</title>
-<p>
-The code for this chapter is in the <term>ch05</term> directory of <term>ThinkJavaCode2</term>.
-See <xref ref="code">page</xref> for instructions on how to download the repository.
-Before you start the exercises, we recommend that you compile and run the examples.
-</p>
+<exercises xml:id="conditionals-logic_exercises"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Exercises</title>
 
-<p>
-If you have not already read <xref ref="checkstyle">Appendix</xref>, now might be a good time.
-It describes Checkstyle, a tool that analyzes many aspects of your source code.
-</p>
-<exercise>
-<statement>
-<p>
-Rewrite the following code by using a single <c>if</c> statement:
-</p>
+  <exercise label="cond_recc_p5" numbered="yes" adaptive="yes" indentation="hide">
+    <statement>
+      <p>Construct a block of code that prints <q>Pick me!</q> if x is
+            equal to y, <q>Choose me!</q> if x is less than y, OR <q>Love me!</q>
+            if x + y is even.</p>
+    </statement>
+    <blocks>
+      <block order="5">
+        <choice correct="yes">
+          <cline>if (x == y) {</cline>
+        </choice>
+        <choice>
+          <cline>if (x = y) { </cline>
+        </choice>
+      </block>
+      <block order="4">
+        <cline><![CDATA[ cout << "Pick me!";]]></cline>
+        <cline>}</cline>
+      </block>
+      <block order="7">
+        <choice correct="yes">
+          <cline>else if (y &gt; x) {</cline>
+        </choice>
+        <choice>
+          <cline>if (x &lt; y) { </cline>
+        </choice>
+      </block>
+      <block order="1">
+        <cline><![CDATA[ cout << "Choose me!";]]></cline>
+        <cline>}</cline>
+      </block>
+      <block order="3">
+        <choice correct="yes">
+          <cline>else if ((x + y) % 2 == 0) {</cline>
+        </choice>
+        <choice>
+          <cline>else (x + y % 2 == 0) { </cline>
+        </choice>
+      </block>
+      <block order="8">
+        <cline>else if (x + y % 2 == 0) { </cline>
+      </block>
+      <block order="10">
+        <cline><![CDATA[ cout << "Love me!"; }]]></cline>
+      </block>
+    </blocks>
+  </exercise>
 
-<program xml:id="conditionals-logic_exercises-1">
-<xi:include href="../../programs/conditionals-logic/exercises-1.cpp" parse="text"/>
-</program>
+  <exercise label="cond_recc_p3" numbered="yes" adaptive="yes" indentation="hide">
+    <statement>
+      <p>Construct a function that returns the difference of a and b if the result
+            would result in a positive number.  Otherwise, it returns -1.</p>
+    </statement>
+    <blocks>
+      <block order="3">
+        <choice>
+          <cline>void difference(int a, int b) {</cline>
+        </choice>
+        <choice correct="yes">
+          <cline>int difference(int a, int b) { </cline>
+        </choice>
+      </block>
+      <block order="8">
+        <choice correct="yes">
+          <cline> if (a - b &gt; 0) {</cline>
+        </choice>
+        <choice>
+          <cline> if (a - b &lt; 0) { </cline>
+        </choice>
+      </block>
+      <block order="1">
+        <cline>  return &lt;&lt; a - b;</cline>
+        <cline> }</cline>
+      </block>
+      <block order="4">
+        <cline> else {</cline>
+      </block>
+      <block order="6">
+        <cline>  return &lt;&lt; -1;</cline>
+        <cline> }</cline>
+      </block>
+      <block order="2">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
 
-</statement>
-</exercise>
+  <exercise label="cond_recc_p7" numbered="yes" adaptive="yes" indentation="hide">
+    <statement>
+      <p>According to a logic game, a knight is someone who cannot tell a lie,
+            and a knave is someone who cannot tell the truth.  Construct a function
+            that takes two booleans: the truth value of the story, and the truth value
+            told by the person.  The function should print whether the person was a
+            knight or a knave.</p>
+    </statement>
+    <blocks>
+      <block order="7">
+        <cline>void knightKnave(bool truth, bool told) {</cline>
+      </block>
+      <block order="8">
+        <cline> if (truth) {</cline>
+      </block>
+      <block order="3">
+        <cline>  if (told) {</cline>
+        <cline><![CDATA[   cout << "Knight";]]></cline>
+        <cline>  }</cline>
+      </block>
+      <block order="1">
+        <cline>  else {</cline>
+        <cline>   cout &lt;&lt; "Knave";</cline>
+        <cline>  }</cline>
+        <cline> }</cline>
+      </block>
+      <block order="5">
+        <cline> else {</cline>
+      </block>
+      <block order="4">
+        <cline>  if (told) {</cline>
+        <cline>   cout &lt;&lt; "Knave";</cline>
+        <cline>  }</cline>
+      </block>
+      <block order="2">
+        <cline>  else {</cline>
+        <cline><![CDATA[   cout << "Knight";]]></cline>
+        <cline>  }</cline>
+        <cline> }</cline>
+      </block>
+      <block order="6">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
 
-<exercise>
-<statement>
-<p>
-Now that we have conditional statements, we can get back to the <term>Guess My Number</term> game from <xref ref="guess">Exercise</xref>.
-</p>
 
-<p>
-You should already have a program that chooses a random number, prompts the user to guess it, and displays the difference between the guess and the chosen number.
-</p>
+  <exercise label="VARS_2ervergverwefwef">
+    <statement>
+      <p>Write a function `isNegative`. It should take a single integer as its parameter and return true if the integer is negative or false if it is not. Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
 
-<p>
-By adding a small amount of code at a time and testing as you go, modify the program so it tells the user whether the guess is too high or too low, and then prompts the user for another guess.
-</p>
+//Write the function isNegative here
 
-<p>
-The program should continue until the user gets it right or guesses incorrectly three times.
-If the user guesses the correct number, display a message and terminate the program.
-</p>
-</statement>
-</exercise>
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
 
-<exercise>
-<statement>
-<p>
-Fermat's Last Theorem says that there are no integers <m>a</m>, <m>b</m>, <m>c</m>, and <m>n</m> such that <m>a^n + b^n = c^n</m>, except when <m>n \leq 2</m>.
-</p>
+TEST_CASE("isNegative") {
+  CHECK(isNegative(-5) == true);
+  CHECK(isNegative(-1) == true);
+  CHECK(isNegative(0) == false);
+  CHECK(isNegative(3) == false);
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
 
-<p>
-Write a program named <term>Fermat.java</term> that inputs four integers (<c>a</c>, <c>b</c>, <c>c</c>, and <c>n</c>) and checks to see if Fermat's theorem holds.
-If <m>n</m> is greater than 2 and <m>a^n + b^n = c^n</m>, the program should display <q>Holy smokes, Fermat was wrong!</q>
-Otherwise, the program should display <q>No, that doesn't work.</q>
-</p>
+  <exercise label="wwgertwhwertheqgrfer">
+    <statement>
+      <p>Write a function `exclusiveOr`. If `a` and `b` are both true or both false, it should return false. If one is true and the other is false, it should return true. Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
 
-<p>
-<term>Hint:</term> You might want to use <c>Math.pow</c>.
-</p>
-</statement>
-</exercise>
+bool exclusiveOr(bool a, bool b) {
+    //TODO - write your code here
+}
 
-<exercise>
-<statement>
-<p>
-Using the following variables, evaluate the logic expressions in the table that follows.
-Write your answers as true, false, or error.
-</p>
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
 
-<program xml:id="conditionals-logic_exercises-2">
-<xi:include href="../../programs/conditionals-logic/exercises-2.cpp" parse="text"/>
-</program>
+TEST_CASE("exclusiveOr") {
+  CHECK(exclusiveOr(true, true) == false);
+  CHECK(exclusiveOr(false, false) == false);
+  CHECK(exclusiveOr(true, false) == true);
+  CHECK(exclusiveOr(false, true) == true);
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
 
-<tabular>
-<row bottom="minor"><cell></cell><cell></cell></row>
-<row><cell>Expression</cell><cell>Result</cell></row>
-<row bottom="medium"><cell></cell><cell></cell></row>
-
-<row><cell  >
-<c>yes == no || grade MORE amount</c></cell><cell>\hspace{5em}</cell></row>
-<row bottom="minor"><cell></cell><cell></cell></row>
-<row><cell><c>amount == 40.0 || 50.0</c></cell><cell></cell></row>
-<row bottom="minor"><cell></cell><cell></cell></row>
-<row><cell><c>hiVal != loVal || loVal LESS 0</c></cell><cell></cell></row>
-<row bottom="minor"><cell></cell><cell></cell></row>
-<row><cell><c>True || hello.length() MORE 0</c></cell><cell></cell></row>
-<row bottom="minor"><cell></cell><cell></cell></row>
-<row><cell><c>hello.isEmpty() ANDAND yes</c></cell><cell></cell></row>
-<row bottom="minor"><cell></cell><cell></cell></row>
-<row><cell><c>grade LESS= 100 ANDAND !false</c></cell><cell></cell></row>
-<row bottom="minor"><cell></cell><cell></cell></row>
-<row><cell><c>!yes || no</c></cell><cell></cell></row>
-<row bottom="minor"><cell></cell><cell></cell></row>
-<row><cell><c>grade MORE 75 MORE amount</c></cell><cell></cell></row>
-<row bottom="minor"><cell></cell><cell></cell></row>
-<row><cell><c>amount LESS= hiVal ANDAND amount MORE= loVal</c></cell><cell></cell></row>
-<row bottom="minor"><cell></cell><cell></cell></row>
-<row><cell><c>no ANDAND !no || yes ANDAND !yes</c></cell><cell></cell></row>
-<row bottom="minor"><cell></cell><cell></cell></row>
-</tabular>
-</statement>
-</exercise>
-
-<exercise>
-<statement>
-<p>
-What is the output of the following program?
-Determine the answer without using a computer.
-</p>
-
-<program xml:id="conditionals-logic_exercises-3" interactive="activecode">
-<xi:include href="../../programs/conditionals-logic/exercises-3.cpp" parse="text"/>
-</program>
   
-<program xml:id="conditionals-logic_exercises-4">
-<xi:include href="../../programs/conditionals-logic/exercises-4.cpp" parse="text"/>
-</program>
-  
-<program xml:id="conditionals-logic_exercises-5">
-<xi:include href="../../programs/conditionals-logic/exercises-5.cpp" parse="text"/>
-</program>
 
-<p>
-The purpose of this exercise is to make sure you understand logical operators and the flow of execution through functions.
-</p>
-</statement>
-</exercise>
+  <exercise label="wwgertwhwertheqgrfer">
+    <statement>
+      <p>Write a function `exclusiveOr`. If `a` and `b` are both true or both false, it should return false. If one is true and the other is false, it should return true. Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
 
-<exercise>
-<statement>
-<p>
-Write a program named <term>Quadratic.java</term> that finds the roots of <m>ax^2 + bx + c = 0</m> using the quadratic formula:
-<me>
-  x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
-</me>
-</p>
+bool exclusiveOr(bool a, bool b) {
+    //TODO - write your code here
+}
 
-<p>
-Prompt the user to input integers for <m>a</m>, <m>b</m>, and <m>c</m>.
-Compute the two solutions for <m>x</m>, and display the results.
-</p>
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
 
-<p>
-Your program should be able to handle inputs for which there is only one or no solution.
-Specifically, it should not divide by zero or take the square root of a negative number.
-</p>
+TEST_CASE("exclusiveOr") {
+  CHECK(exclusiveOr(true, true) == false);
+  CHECK(exclusiveOr(false, false) == false);
+  CHECK(exclusiveOr(true, false) == true);
+  CHECK(exclusiveOr(false, true) == true);
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
 
-<p>
-Be sure to validate all inputs.
-The user should never see an input mismatch exception.
-Display specific error messages that include the invalid input.
-</p>
-</statement>
-</exercise>
 
-<exercise>
-<statement>
-<p>
-If you are given three sticks, you may or may not be able to arrange them in a triangle.
-For example, if one of the sticks is 12 inches long and the other two are 1 inch long, you will not be able to get the short sticks to meet in the middle.
-For any three lengths, there is a simple test to see if it is possible to form a triangle:
-</p>
-If any of the three lengths is greater than the sum of the other two, you cannot form a triangle.
-<p>
-Write a program named <term>Triangle.java</term> that inputs three integers, and then outputs whether you can (or cannot) form a triangle from the given lengths.
-Reuse your code from the previous exercise to validate the inputs.
-Display an error if any of the lengths are negative or zero.
-</p>
-</statement>
-</exercise>
-</section>
+  <exercise label="wwgertwhwerddwtheqgrfer">
+    <statement>
+      <p>In a dice game, the player rolls two dice, one red and one blue. If the red die has a higher value, they score 0. If the blue one is higher, they score the value of the blue one minus the red one. If the two dice are the same, they score the value shown on the blue die.</p>
+      <p>Write a function `computeScore`. It should take two integers for `redDie` and `blueDie` (in that order) and return the score the player earns. Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+//TODO - write your function here
+
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("computeScore") {
+  CHECK(computeScore(4, 3) == 0);
+  CHECK(computeScore(3, 4) == 1);
+  CHECK(computeScore(1, 6) == 5);
+  CHECK(computeScore(5, 2) == 0);
+  CHECK(computeScore(4, 4) == 4);
+  CHECK(computeScore(2, 2) == 2);
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+
+  <exercise label="wwgertwhwerthed23qgrfer">
+    <statement>
+      <p>Write a function `gradePoints`. It should take a single `integer` representing a percentage grade (0-100) and return the `integer` number of grade points that equates to. 0-59 should be 0 grade points, 60-69 1 grade point, 70-79, 2 grade points, 80-89 3 grade points, and 90+ 4 grade points. Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+    //TODO - write your function
+
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("gradePoints") {
+  CHECK(gradePoints(32) == 0);
+  CHECK(gradePoints(60) == 1);
+  CHECK(gradePoints(68) == 1);
+  CHECK(gradePoints(70) == 2);
+  CHECK(gradePoints(73) == 2);
+  CHECK(gradePoints(81) == 3);
+  CHECK(gradePoints(90) == 4);
+  CHECK(gradePoints(100) == 4);
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+
+  <exercise label="wwgertwhwerthed23qgrfer">
+    <statement>
+      <p>Orders from a company that cost $100 or more get a 10% discount. Orders less than $100 do not get a discount.</p>
+      <p>Write a function `orderCost`. It should take a single `double` representing the undiscounted order price and return the `double` value of what the order should cost. Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+    //TODO - write your function 
+
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("orderCost") {
+  CHECK(orderCost(90) == doctest::Approx(90));
+  CHECK(orderCost(100) == doctest::Approx(90));
+  CHECK(orderCost(112) == doctest::Approx(100.8));
+  CHECK(orderCost(125) == doctest::Approx(112.5));
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+
+  <exercise label="wwgertwhwerthed23qgrfer">
+    <statement>
+      <p>Orders from a company that cost $100 or more get a 10% discount. Orders less than $100 do not get a discount.</p>
+      <p>Write a function `orderCost`. It should take a single `double` representing the undiscounted order price and return the `double` value of what the order should cost. Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+    //TODO - write your function 
+
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("orderCost") {
+  CHECK(orderCost(90) == doctest::Approx(90));
+  CHECK(orderCost(100) == doctest::Approx(90));
+  CHECK(orderCost(112) == doctest::Approx(100.8));
+  CHECK(orderCost(125) == doctest::Approx(112.5));
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  <exercise label="wwgertwhwerthed23qgrferrps">
+    <statement>
+      <p>In a two-person card game, the players each start with 20 "health points" and play until one is reduced to 0 or less. If a player reduces the other to 0 health, they are the winner. If the winner still has 10 or more of their health points left, it is declared a "crushing win" (or "crushing loss" depending on your perspective).</p>
+      <p>Write a function to announce the results of a game. It should take as parameters the two `integer` health values for the players and print the outcome of the game from the perspective of player 1 (the first health value) - `Win`, `Loss`, `Crushing Win`, `Crushing Loss`. For example, if the two values were 8 and 0 you should print `Win`. If the two values were -1 and 16 you would print `Crushing Loss`. Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+void announceGame(int p1Health, int p2Health) {
+    //TODO - write your code here
+}
+
+        </code>
+        <postamble visible="no"><![CDATA[
+int main() {
+  int a,b;
+  cin >> a >> b;
+  announceGame(a, b);
+}]]></postamble>
+        <tests>
+          <iotest>
+            <input>8 0</input>
+            <output>Win</output>
+          </iotest>
+          <iotest>
+            <input>-1 16</input>
+            <output>Crushing Loss</output>
+          </iotest>
+          <iotest>
+            <input>19 0</input>
+            <output>Crushing Win</output>
+          </iotest>
+          <iotest>
+            <input>-30 2</input>
+            <output>Loss</output>
+          </iotest>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+
+</exercises>

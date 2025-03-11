@@ -1,5 +1,4 @@
 #include <iostream>
-
 using namespace std;
 
 // Assume isHoopy and isFrabjuous are defined elsewhere

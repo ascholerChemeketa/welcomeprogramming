@@ -1,0 +1,34 @@
+<section xml:id="conditionals-logic_extended-order-of-operations" xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>Extended order of operation</title>
+
+    <p>The order of operations for arithmetic operators is something you were probably already familiar with from math class. But C++ has many more operators than that. To understand how the compiler will read an expression, we need to know the precedence (order) of them all. You can look up the full list in <url href="https://en.cppreference.com/w/cpp/language/operator_precedence">C++ references</url>, but here is a simplified version:
+      <ol>
+        <li>Parentheses (anything inside happens first)</li>
+        <li>Unary operators with one operand: `!` or `++`</li>
+        <li>Arithmetic operators</li>
+        <li>Comparison operators</li>
+        <li>Logical operators</li>
+        <li>Assignment</li>
+      </ol>
+    </p>
+
+    <p>With this in hand, we can see how something like `bool beforeChristmas = month &lt; 12 || (month == 12 &amp;&amp; day &lt; 25);` is evaluated. Assume `month = 12` and `day=26`:</p>
+
+    <ol>
+    <li><title>Start inside the parens</title> <c>bool beforeChristmas = month &lt; 12 || (<em>month == 12 &amp;&amp; day &lt; 25</em>);</c></li>
+    <li><title>Do the comparisons in the parens</title> <c>bool beforeChristmas = month &lt; 12 || (<em>true</em> &amp;&amp; <em>false</em>);</c></li>
+    <li><title>Do the logical operator in the paren</title> <c>bool beforeChristmas = month &lt; 12 || (<em>false</em>);</c></li>
+    <li><title>Do the comparison not in the parens</title> <c>bool beforeChristmas = <em>true</em> || (false);</c></li>
+    <li><title>Do the logical operator</title> <c>bool beforeChristmas = <em>true</em>;</c></li>
+    <li><title>Do the assignment</title></li>
+    </ol>
+
+    <p>This also explains why trying to write `!x == 10` does not calculate <q>x does not equal 10</q>. The `!` is evaluated first and only is applied to `x`. So we get `!x`. If x is a number, this just turns any value but 0 to 0 and turns 0 to 1. Then we compare that value to 10! To write that correctly we need to write `!(x == 10)` or `x != 10`.</p>
+
+    <p>Within each category of operator, there may be a sub-hierarchy with its own order. We know that `*` comes before `+`. But it is also true that `&amp;&amp;` always comes before `||`. That means that we could write the expression above as `month &lt; 12 || month == 12 &amp;&amp; day &lt; 25`. The comparisons would happen first, then the `&amp;&amp;`, then the `||`. But the expression is much easier to read when the parentheses are there.</p>
+
+    <insight>
+      <p>When in doubt, use parentheses. They make your code easier to read and understand. Code that depends on every reader and editor correctly remembering every detail of the order of operations can easily hide bugs.</p>
+    </insight>
+
+</section>

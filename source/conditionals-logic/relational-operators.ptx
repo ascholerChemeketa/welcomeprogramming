@@ -1,39 +1,96 @@
-<section xml:id="conditionals-logic_relational-operators" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Relational Operators</title>
-<p>
-    <idx><h>operator</h><h>relational</h></idx>
-    <idx><h>relational operator</h></idx>
-    <idx><h>comparison operator</h></idx>
-Java has six <term>relational operators</term> that test the relationship between two values (e.g., whether they are equal, or whether one is greater than the other).
-The following expressions show how they are used:
-</p>
+<section xml:id="conditionals-logic_relational-operators"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Relational Operators</title>
 
-<program xml:id="conditionals-logic_relational-operators-1">
+  <p>The most common way to produce a boolean value is by using a <term>relational operator</term> (also known as <term>comparison operator</term>) to compare two values.
+    <idx>
+      <h>operator</h>
+      <h>relational</h>
+    </idx>
+    <idx>
+      <h>relational operator</h>
+    </idx>
+    <idx>
+      <h>comparison operator</h>
+    </idx></p>
+
+  <p>C++ has six <term>relational operators</term> that test the relationship between two values (e.g.,
+    whether they are equal, or whether one is greater than the other). The following expressions
+    show how they are used: </p>
+
+  <program xml:id="conditionals-logic_relational-operators-1" interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/relational-operators-1.cpp" parse="text"/>
 </program>
 
-<p>
-    <idx><h>Boole, George</h></idx>
-The result of a relational operator is one of two special values: <c>true</c> or <c>false</c>.
-These values belong to the data type <c>boolean</c>, named after the mathematician George Boole.
-He developed an algebraic way of representing logic.
-</p>
+  <p>Each comparison represents a questions. <c>x == y</c> asks the question <q>does x equal y?</q>. The comparison operator decides if the answer is true or false and evaluates to that result. (Remember that an output of 1 means `true` and 0 means `false`.) In many ways, the `==` in `x == y` is similar to `+` in `x + y`. They both are operators that use two operands (x and y here) and calculate an answer based on them.</p>
 
-<p>
-    <idx><h>assignment</h></idx>
-    <idx><h>operator</h><h>assignment</h></idx>
-    <idx><h>== equals operator</h></idx>
-You are probably familiar with these operators, but notice how Java is different from mathematical symbols like <m>=</m>, <m>\neq</m>, and <m>\geq</m>.
-A common error is to use a single <c>=</c> instead of a double <c>==</c> when comparing values.
-Remember that <c>=</c> is the <term>assignment</term> operator, and <c>==</c> is a <term>relational</term> operator.
-Also, the operators <c>=LESS</c> and <c>=MORE</c> do not exist.
-</p>
+  <p>
+    <idx>
+      <h>automatic conversion</h>
+    </idx> The two sides of a relational operator have to be
+    compatible. For example, the expression <c>5 &lt; "6"</c> is invalid because <c>5</c> is an <c>int</c> and <c>"6"</c>
+    is a <c>string</c>. When comparing values of different numeric types, C++ applies the same conversion
+    rules you saw previously with the assignment operator. For example, when evaluating the
+    expression <c>5 &lt; 6.2</c>, C++ automatically converts the <c>5</c> to <c>5.0</c>.</p>
 
-<p>
-    <idx><h>automatic conversion</h></idx>
-The two sides of a relational operator have to be compatible.
-For example, the expression <c>5 LESS "6"</c> is invalid because <c>5</c> is an <c>int</c> and <c>"6"</c> is a <c>String</c>.
-When comparing values of different numeric types, Java applies the same conversion rules you saw previously with the assignment operator.
-For example, when evaluating the expression <c>5 LESS 6.0</c>, Java automatically converts the <c>5</c> to <c>5.0</c>.
-</p>
+  <p>
+    Since relational operators evaluate to a <c>boolean</c>
+    value, you can store the result of a comparison into a `bool` variable: </p>
+
+  <program xml:id="conditionals-logic_boolevariables-2">
+<xi:include href="../../programs/conditionals-logic/boolevariables-2.cpp" parse="text"/>
+</program>
+
+  <p>
+    <idx>
+      <h>flag</h>
+    </idx> The parentheses are unnecessary, but they make the code easier to
+    understand. A variable defined in this way is called a <term>flag</term>, because it signals, or <q>
+    flags</q>, the presence or absence of a condition. </p>
+
+  <exercise label="conditional_execution_2">
+    <statement>
+      <p>Match the operator to values of x and y that would return true.</p>
+    </statement>
+    <feedback>
+      Try again!
+    </feedback>
+    <matches>
+      <match order="1">
+        <premise>x &gt; y</premise>
+        <response>x = 10, y = 2</response>
+      </match>
+      <match order="2">
+        <premise>x &lt;= y</premise>
+        <response>x = 5, y = 5</response>
+      </match>
+      <match order="3">
+        <premise>x &lt; y</premise>
+        <response>x = 2, y = 10</response>
+      </match>
+    </matches>
+  </exercise>
+  <exercise label="conditional_execution_3">
+    <statement>
+      <p>Match the operator to values of x and y that would return true.</p>
+    </statement>
+    <feedback>
+      Try again!
+    </feedback>
+    <matches>
+      <match order="1">
+        <premise>x == y</premise>
+        <response>x = 3, y = 3</response>
+      </match>
+      <match order="2">
+        <premise>x &gt;= y</premise>
+        <response>x = 6, y = 2</response>
+      </match>
+      <match order="3">
+        <premise>x &lt; y</premise>
+        <response>x = 2, y = 6</response>
+      </match>
+    </matches>
+  </exercise>
+  
 </section>

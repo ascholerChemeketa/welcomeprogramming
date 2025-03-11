@@ -1,0 +1,98 @@
+<section xml:id="conditionals-logic_logical-simplification"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Simplifying Logical Expressions</title>
+
+  <p>Many times, you can express the same logic in multiple ways. We have seen examples of this already. If `isEven` is a `bool` variable, these two expressions are equivalent:</p>
+
+  <program>
+if (isEven)
+if (isEven == true)
+  </program>
+
+  <p>From mathematics, we know that `&gt;` is the opposite of `&lt;=`. So these two expressions are also equivalent:</p>
+
+  <program>
+if (x &gt; 5)
+if (!(x &lt;= 5))
+  </program>
+
+  <p>In both of those cases, the first expression is easier to write and read and should be favored. If you find yourself writing something complex, stop and think about whether there is a simpler but logically equivalent expression.</p>
+
+  <exercise label="asdfasfwefwe">
+  <statement>
+    <p>An easier way to write `!(x != 10)` is <fillin answer="x\\s*==\\s*10" mode="string"/>?</p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp string=".*\(.*" />
+          <feedback>
+            You don't need parentheses.
+          </feedback>
+        </test>
+        <test>
+          <strcmp string=".*!.*" />
+          <feedback>
+            You don't need any not symbols.
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <p> Sometimes you need to negate an expression containing a mix of relational and logical
+    operators. For example, to test if <c>x</c> and <c>y</c> are both nonzero, you could write the
+    following: </p>
+
+  <program xml:id="conditionals-logic_logical-simplification-1">
+<xi:include href="../../programs/conditionals-logic/logical-simplification-1.cpp" parse="text"/>
+</program>
+
+  <p>
+    <idx>
+      <h>De Morgan's laws</h>
+    </idx> This condition is difficult to read because of the <c>!</c>
+    and parentheses. A better way to negate logic expressions is to apply <term>De Morgan's laws</term>
+    :
+<ul>
+      <li>
+        <p><c>!(A &amp;&amp; B)</c> <nbsp/>is the same as<nbsp/> <c>!A || !B</c></p>
+      </li>
+      <li>
+        <p><c>!(A || B)</c> <nbsp/>is the same as<nbsp/> <c>!A &amp;&amp; !B</c></p>
+      </li>
+    </ul>
+  </p>
+
+  <p> In words, negating a logical expression is the same as negating each term and changing the
+    operator. The <c>!</c> operator takes precedence over <c>&amp;&amp;</c> and <c>||</c>, so you don't have to
+    put parentheses around the individual terms <c>!A</c> and <c>!B</c>. </p>
+
+  <p> De Morgan's laws also apply to the relational operators. In this case, negating each term
+    means using the <q>opposite</q> relational operator: <ul>
+      <li>
+        <p><c>!(x &lt; 5 &amp;&amp; y == 3)</c> <nbsp/>is the same as<nbsp/> <c>x &gt;= 5 || y != 3</c></p>
+      </li>
+      <li>
+        <p><c>!(x &gt;= 1 || y != 7)</c> <nbsp/>is the same as<nbsp/> <c>x &lt; 1 &amp;&amp; y == 7</c></p>
+      </li>
+    </ul>
+  </p>
+
+  <p> It may help to read these examples out loud in English. For instance, <q>If I don't want the
+    case where <m>x</m> is less than 5 and <m>y</m> is 3, then I need <m>x</m> to be greater than or
+    equal to 5, or I need <m>y</m> to be anything but 3.</q>
+  </p>
+
+  <p> Returning to the previous example, here is the revised condition. In English, it reads, <q>If <m>
+    x</m> is not zero and <m>y</m> is not zero.</q> The logic is the same, and the source code is
+    easier to read: </p>
+
+  <program xml:id="conditionals-logic_logical-simplification-2">
+<xi:include href="../../programs/conditionals-logic/logical-simplification-2.cpp" parse="text"/>
+</program>
+
+</section>

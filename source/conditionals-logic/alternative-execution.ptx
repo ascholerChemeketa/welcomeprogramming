@@ -1,0 +1,140 @@
+<section xml:id="conditionals-logic_alternative-execution"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Alternative Execution (if/else)</title>
+
+  <p>
+    <idx>
+      <h>branch</h>
+    </idx>
+    <idx>
+      <h>statement</h>
+      <h>else</h>
+    </idx>A second form of conditional execution is  alternative execution, in which there are two possibilities, and the condition determines which
+    one gets executed. The possibilities are called <term>branches</term>, and the condition
+    determines which branch gets executed. One branch is executed 
+   <c>if</c> the condition is true. Otherwise (<c>else</c>) the alternative branch is executed. This snippet uses this if/else structure to say if a number is odd or even: </p>
+
+  <program xml:id="conditionals-logic_alternative-execution-1">
+<xi:include href="../../programs/conditionals-logic/alternative-execution.cpp" parse="text"/>
+</program>
+
+  <p>If the remainder when x is divided by 2 is zero, then we know that x is
+    even, and this code displays a message to that effect. If the condition
+    is false, the second set of statements is executed. Since the condition
+    must be true or false, exactly one of the alternatives will be executed.</p>
+
+  <p>Compare that version with an equivalent snippet that uses just `if` statements:</p>
+
+  <program xml:id="conditionals-logic_alternative-execution-2">
+<xi:include href="../../programs/conditionals-logic/alternative-execution-2.cpp" parse="text"/>
+</program>
+
+  <p>In that version, we have to write the same basic logic<mdash/><q>divide by two and compare the remainder to 0</q>-m-twice. Writing the same code twice means more work for us, more work for the computer, and more chances for a mistake.</p>
+
+  <insight><p>
+  DRY - Don't Repeat Yourself. The `if-else` statement is a more concise way to write code that has two branches that handle opposite conditions.
+  </p></insight>
+
+  <exercise label="alt_execution_1">
+    <statement>
+      <p>What will be printed after <c>main</c> is executed?</p>
+      <program>#include &lt;iostream&gt;
+using namespace std;
+
+void weather(int temp) {
+  if (temp &lt; 52) {
+    cout &lt;&lt; "It is cold!";
+  }
+  else {
+    cout &lt;&lt; "It is warm!";
+  }
+}
+
+int main() {
+  int degrees = 52;
+  weather(degrees);
+}</program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>It is cold!</p>
+        </statement>
+        <feedback>
+          That statement would print if degrees was less than 50.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>It is warm!</p>
+        </statement>
+        <feedback>
+          Correct!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Nothing prints.</p>
+        </statement>
+        <feedback>
+          One of the statements is satisfied, so something does print.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Error message.</p>
+        </statement>
+        <feedback>
+          There is nothing in the code below that would generate an error.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="alt_execution_2"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Construct a block of code that comments on the price of a meal at a restaurant. If the price is more than $30.00, print <q>Expensive!</q>. If
+        the price is less than $30.00, print <q>Inexpensive!</q>:</p>
+    </statement>
+    <blocks>
+      <block order="1">
+        <cline>int cost = 0;</cline>
+        <cline>cin &gt;&gt; cost;</cline>
+      </block>
+      <block order="5">
+        <choice correct="yes">
+          <cline>if (cost &gt; 30) {</cline>
+        </choice>
+        <choice>
+          <cline>if (cost &gt; 30) </cline>
+        </choice>
+      </block>
+      <block order="3">
+        <cline><![CDATA[ cout << "Expensive!";]]></cline>
+      </block>
+      <block order="6">
+        <cline>} //"if" bracket</cline>
+      </block>
+      <block order="7">
+        <choice correct="yes">
+          <cline>else {</cline>
+        </choice>
+        <choice>
+          <cline>else (cost &lt; 30) {</cline>
+        </choice>
+      </block>
+      <block order="2">
+        <choice correct="yes">
+          <cline><![CDATA[ cout << "Inexpensive!";]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[ cout << "Inexpensive!"]]></cline>
+        </choice>
+      </block>
+      <block order="4">
+        <cline>} //"else" bracket</cline>
+      </block>
+    </blocks>
+  </exercise>
+</section>

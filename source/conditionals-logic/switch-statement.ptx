@@ -1,37 +1,268 @@
-<section xml:id="conditionals-logic_switch-statement" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>The switch Statement</title>
-<p>
-If you need to make a series of decisions, chaining <c>else if</c> blocks can get long and redundant.
-For example, consider a program that converts integers like <c>1</c>, <c>2</c>, and <c>3</c> into words like <c>"one"</c>, <c>"two"</c>, and <c>"three"</c>:
-</p>
+<section xml:id="conditionals-logic_switch-statement"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Other Conditional Structures</title>
 
-<program xml:id="conditionals-logic_switch-statement-1">
+  <p>Although the if/else structure should be your go to tool when you need to make a decision in code, there are some other ways to make decisions. This section covers two of those. Neither one is necessary - you can write any decision logic just using if/else. But there are special situations where these tricks can make code easier to read and write. You should recognize them, and should consider using them if they can make your code easier to read/write, but reaching for them should likely not be your first instinct.</p>
+
+  <subsection>
+  <title>Switch Statements</title>
+  <p> If you need to make a series of decisions, chaining <c>else if</c> blocks can get long and redundant.
+    For example, consider a program that converts integers like <c>1</c>, <c>2</c>, and <c>3</c> into
+    words like <c>"one"</c>, <c>"two"</c>, and <c>"three"</c>: </p>
+
+  <program xml:id="conditionals-logic_switch-statement-1">
 <xi:include href="../../programs/conditionals-logic/switch-statement-1.cpp" parse="text"/>
 </program>
 
-<p>
-    <idx><h>switch statement</h></idx>
-    <idx><h>statement</h><h>switch</h></idx>
-This chain could go on and on, especially for banking programs that write numbers in long form (e.g., <q>one hundred twenty-three and 45/100 dollars</q>).
-An alternative way to evaluate many possible values of an expression is to use a <c>switch</c> statement:
-</p>
+  <p>
+    <idx>
+      <h>switch statement</h>
+    </idx>
+    <idx>
+      <h>statement</h>
+      <h>switch</h>
+    </idx> This chain could go on and on, especially for banking programs that
+    write numbers in long form (e.g., <q>one hundred twenty-three and 45/100 dollars</q>). An
+    alternative way to evaluate many possible values of an expression is to use a <c>switch</c> statement: </p>
 
-<program xml:id="conditionals-logic_switch-statement-2">
+  <program xml:id="conditionals-logic_switch-statement-2">
 <xi:include href="../../programs/conditionals-logic/switch-statement-2.cpp" parse="text"/>
 </program>
 
-<p>
-The body of a <c>switch</c> statement is organized into one or more <c>case</c> blocks.
-Each <c>case</c> ends with a <c>break</c> statement, which exits the <c>switch</c> body.
-The <c>default</c> block is optional and executed only if none of the cases apply.
-</p>
+  <p>The body of a <c>switch</c> statement is organized into one or more <c>case</c> blocks. Each <c>case</c>
+    ends with a <c>break</c> statement, which exits the <c>switch</c> body. The <c>default</c> block is optional and
+    executed only if none of the cases apply.</p>
 
-<p>
-Although <c>switch</c> statements appear longer than chained <c>else if</c> blocks, they are particularly useful when multiple cases can be grouped:
-</p>
+  <p>If there is no `break`, execution will continue on, ignoring the `case`'s it encounters. This is a feature that makes switches  particularly useful when multiple cases can be grouped: </p>
 
-<program xml:id="conditionals-logic_switch-statement-3">
+  <program xml:id="conditionals-logic_switch-statement-3">
 <xi:include href="../../programs/conditionals-logic/switch-statement-3.cpp" parse="text"/>
 </program>
+
+  <p>Any of the values 1-5 will match the appropriate `case` and then <q>fall through</q> the others until the `cout` is reached. Then the `break` exits the switch. A similar thing happens for 0 or 6 - they <q>fall through</q> to the line that prints that it is a weekend and then the `break` exits the switch.</p>
+
+  <p>There are some issues with switch statements that make them less useful than they might appear. First: switch statements in C++ can only be used to test integer values. You can not use a `double` or a `string` or any other type of data in the test. Second: there is no way to switch on a range. You can't say `case &lt; 4:` or `case 5-10:`. Switch statements are only appropriate if there are a fixed number of discrete values you want to test for.</p>
+</subsection>
+
+<subsection>
+<title>Ternary Conditional Operator</title>
+
+<p>Consider this somewhat silly example that reads in a number of monkeys and then prints out a message. It uses a conditional to pick the right form of monkey (singular or plural):</p>
+
+  <program xml:id="conditionals-logic_ternary-statement-1">
+<xi:include href="../../programs/conditionals-logic/ternary-statement-1.cpp" parse="text"/>
+</program>
+
+  <p>It is awkward to write basically the same code twice just so we can change one word. An alternative is to use the <term>ternary conditional operator</term>. This operator is a shorthand way to write a simple if/else statement that produces one of two values. It is called <q>ternary</q> because it has three parts: a condition, a value to return if the condition is true, and a value to return if the condition is false. It takes the form <code> (TEST ? VALUE1 : VALUE2) </code> first is the test, followed by a question mark. If the test is true, the expression produces `VALUE1`. If it is false, it produces `VALUE2`. (The parentheses are not necessary but help to show what is part of ternary operator expression.) Here is the monkeys example rewritten to use it:</p>
+
+  <program xml:id="conditionals-logic_ternary-statement-2">
+<xi:include href="../../programs/conditionals-logic/ternary-statement-2.cpp" parse="text"/>
+</program>
+  
+  <p>It is hard to claim that this is a massive improvement. But it is always nice to avoid repeating more code than is necessary. The ternary operator can sometimes be useful for doing so by making a simple choice between two values in the middle of some other expression. But when used with complex expressions it quickly becomes much less readable and much harder to debug. So if you choose to use it, make sure to avoid doing so in statements are already complex.</p>
+
+</subsection>
+
+  <exercise label="switch_3">
+    <statement>
+      <p>What is the correct output of the code below?</p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+int main() {
+  int num = 2;
+
+  switch (num) {
+  case 1:
+    cout << 1;
+    break;
+  case 2:
+    cout << 4;
+  case 3:
+    cout << 9;
+    break;
+  default:
+    cout << "Invalid num! Please try again.";
+    break;
+  }
+}
+]]></code>
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>4</p>
+        </statement>
+        <feedback>
+          Incorrect! Don't forget about fall through
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>49</p>
+        </statement>
+        <feedback>
+          Case 2 doesn't end with a break statement, so case 3 also runs!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>49Invalid num! Please try again.</p>
+        </statement>
+        <feedback>
+          Where do we encounter a break statement?
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Invalid num! Please try again.</p>
+        </statement>
+        <feedback>
+          Is 2 one of the invalid numbers?
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Code will not run.</p>
+        </statement>
+        <feedback>
+          There is no reason why the code wouldn't run.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="switch_4">
+    <statement>
+      <p>What is the correct output <term>this time</term>?</p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+int main() {
+  int num = 1;
+
+  switch (num) {
+  case 1:
+    cout << 1;
+    break;
+  case 2:
+    cout << 4;
+  case 3:
+    cout << 9;
+  default:
+    cout << "Invalid num! Please try again.";
+  }
+}
+]]></code>
+      </program>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>
+          <p>1</p>
+        </statement>
+        <feedback>
+          The first statement ends with a break, so only 1 will print!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>149</p>
+        </statement>
+        <feedback>
+          Where do we encounter a break statement?
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>149Invalid num! Please try again.</p>
+        </statement>
+        <feedback>
+          Is 1 one of the valid numbers? Where do we encounter a break statement?
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Invalid num! Please try again.</p>
+        </statement>
+        <feedback>
+          Is 1 one of the invalid numbers?
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Code will not run.</p>
+        </statement>
+        <feedback>
+          There is no reason why the code wouldn't run.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="switch_5">
+    <statement>
+      <p>And finally, what about <term>this time</term>?</p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+int main() {
+  int num = 2;
+
+  switch (num) {
+  case 1:
+    cout << 1;
+    break;
+  case 2:
+    cout << 4;
+  case 3:
+    cout << 9;
+  default:
+    cout << "Invalid num! Please try again.";
+  }
+}
+]]></code>
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>4</p>
+        </statement>
+        <feedback>
+          Where do we / don't we encounter a break statement?
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>49</p>
+        </statement>
+        <feedback>
+          Where do we / don't we encounter a break statement?
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>49Invalid num! Please try again.</p>
+        </statement>
+        <feedback>
+          Notice that 2 is not an invalid number, but since we are missing break statements,
+          multiple branches execute.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Invalid num! Please try again.</p>
+        </statement>
+        <feedback>
+          Is 2 one of the invalid numbers?
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Code will not run.</p>
+        </statement>
+        <feedback>
+          There is no reason why the code wouldn't run.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

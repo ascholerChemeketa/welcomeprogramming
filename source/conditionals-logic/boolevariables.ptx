@@ -1,58 +1,44 @@
-<section xml:id="conditionals-logic_boolevariables" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Boolean Variables</title>
-<p>
-    <idx><h>expression</h></idx>
-    <idx><h>type</h><h>boolean</h></idx>
-To store a <c>true</c> or <c>false</c> value, you need a <c>boolean</c> variable.
-You can declare and assign them like other variables.
-In this example, the first line is a variable declaration, the second is an assignment, and the third is both:
-</p>
+<section xml:id="conditionals-logic_boolevariables"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Boolean Values and Variables</title>
+  <p>Decisions in programming are generally made based on choices where the only possible answers are either true or false. A program's behavior might depend on "did the user enter the right password?", "is the mouse over this button?", or "is the result less than 0?". All of those are questions that have a true/false (yes/no) answer.</p>
 
-<program xml:id="conditionals-logic_boolevariables-1">
+  <p>
+    <idx>
+      <h>Boole, George</h>
+    </idx> Values that can only be <c>true</c> or <c>false</c> are known as <q>boolean</q> values, named after the mathematician George Boole who developed an algebraic way of representing true/false logic.</p>
+  <p>
+    <idx>
+      <h>boolean</h>
+    </idx> In C++, the <c>bool</c> type is used to represent boolean values. You
+    can declare and assign them like other variables. In this example, the first line is a variable
+    declaration, the second is an assignment, and the third is both: </p>
+
+  <program xml:id="conditionals-logic_boolevariables-1">
 <xi:include href="../../programs/conditionals-logic/boolevariables-1.cpp" parse="text"/>
 </program>
 
-<p>
-    <idx><h>initialize</h></idx>
-    <idx><h>statement</h><h>initialization</h></idx>
-Since relational and logical operators evaluate to a <c>boolean</c> value, you can store the result of a comparison in a variable:
-</p>
+  <p>If you try to print a boolean variable, it will display as 1 (true) or 0 (false). In fact, there is a general convention that 0 is `false` and any other value is true. It is syntactically legal to set boolean variables using numeric values, but once you store a number into a `bool` it becomes either 1 or 0:</p>
 
-<program xml:id="conditionals-logic_boolevariables-2">
-<xi:include href="../../programs/conditionals-logic/boolevariables-2.cpp" parse="text"/>
+  <program xml:id="conditionals-logic_boolevariables-1b">
+<xi:include href="../../programs/conditionals-logic/boolevariables-1b.cpp" parse="text"/>
 </program>
 
-<p>
-    <idx><h>flag</h></idx>
-The parentheses are unnecessary, but they make the code easier to understand.
-A variable defined in this way is called a <term>flag</term>, because it signals, or <q>flags</q>, the presence or absence of a condition.
-</p>
-
-<p>
-You can use flag variables as part of a conditional statement:
-</p>
-
-<program xml:id="conditionals-logic_boolevariables-3">
-<xi:include href="../../programs/conditionals-logic/boolevariables-3.cpp" parse="text"/>
-</program>
-
-<p>
-Flags may not seem that useful at this point, but they will help simplify complex conditions later.
-Each part of a condition can be stored in a separate flag, and these flags can be combined with logical operators.
-</p>
-
-<p>
-Notice that we didn't have to write <nbsp/><c>if (evenFlag == true)</c>.
-Since <c>evenFlag</c> is a <c>boolean</c>, it's already a condition.
-To check if a flag is <c>false</c>, we simply negate the flag:
-</p>
-
-<program xml:id="conditionals-logic_boolevariables-4">
-<xi:include href="../../programs/conditionals-logic/boolevariables-4.cpp" parse="text"/>
-</program>
-
-<p>
-In general, you should never compare anything to <c>true</c> or <c>false</c>.
-Doing so makes the code more verbose and awkward to read out loud.
-</p>
+  <exercise label="bool_vals_1">
+    <statement>
+      <p>The boolean type has two values <fillin mode="string" case="insensitive" answer="(true)|(false)"/> and <fillin mode="string" case="insensitive" answer="(true)|(false)"/>. </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
 </section>
