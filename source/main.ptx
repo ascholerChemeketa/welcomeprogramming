@@ -2,13 +2,13 @@
 <pretext xmlns:xi="http://www.w3.org/2001/XInclude"
          xml:lang="en-US">
   <docinfo>
-    <document-id edition="2">cstour</document-id>
+    <document-id edition="1">tourcs</document-id>
     <numbering>
       <figures level="2"/>
       <exercises level="2"/>
     </numbering>
     <programs language="cpp"
-              compiler-args="-Wall -Wextra -std=c++17"/>
+              compiler-args="-Wall -Wextra -std=c++17 -Wno-unused-variable -Wno-unused-parameter"/>
     <rename element="colophon">License</rename>
     <rename element="frontmatter">About this book</rename>
   </docinfo>
@@ -22,11 +22,11 @@
     <xi:include href="./computer-programming/index.ptx"/>
     <xi:include href="./variables-operators/index.ptx"/>
     <xi:include href="./floatingpoint-math/index.ptx"/>
-    <!-- <xi:include href="./functions-testing/index.ptx"/> -->
-    <!-- 
-    <xi:include href="./input-output/index.ptx"/>
+    <xi:include href="./functions-testing/index.ptx"/>
     <xi:include href="./conditionals-logic/index.ptx"/>
     <xi:include href="./loops-strings/index.ptx"/>
+    <!-- 
+    <xi:include href="./input-output/index.ptx"/>
     <xi:include href="./arrays-references/index.ptx"/>
     <xi:include href="./recursive-functions/index.ptx"/>
     <xi:include href="./immutable-objects/index.ptx"/>

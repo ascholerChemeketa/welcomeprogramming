@@ -50,7 +50,7 @@ If you want fractions, use <c>double</c>.
 More generally, use integers for countable things and floating-point numbers for measurable things.</p></li>
 <li><p>Floating-point numbers are only approximate, so don't rely on them to be perfectly accurate.
 You should probably never use the <c>==</c> operator with <c>double</c>s.
-Instead of writing <c>if (d == 1.23)</c>, do something like <c>if (Math.abs(d - 1.23) LESS .000001)</c>.</p></li>
+Instead of writing <c>if (d == 1.23)</c>, do something like <c>if (Math.abs(d - 1.23) &lt; .000001)</c>.</p></li>
 <li><p>When you apply the equality operator (<c>==</c>) to objects, it checks whether they are identical.
 If you meant to check equivalence, you should use the <c>equals</c> function instead.</p></li>
 <li><p>By default for user-defined types, <c>equals</c> checks identity.
