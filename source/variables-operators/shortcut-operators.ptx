@@ -1,0 +1,66 @@
+<section xml:id="variables-operators_shortcut-operators"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Shortcut Operators</title>
+
+  <p>There are some operations that happen very frequently in programs. Adding 1 to a variable for example:</p>
+
+  <program xml:id="variables-operators_shortcut-operators-1">
+numberCorrect = numberCorrect + 1;
+</program>
+
+  <p>Because this operation is so common, C++ provides a shortcut for it. `x += y;` means <q>increase the current value of x by y</q>So we could shorten the sample above to:</p>
+
+  <program xml:id="variables-operators_shortcut-operators-2">
+numberCorrect += 1;
+</program>
+
+  <p>It does not change the code at all, but it is a little easier to type. There are similar shortcuts for other arithmetic operations:</p>
+
+<program xml:id="variables-operators_shortcut-operators-3">
+score -= 10;    // decrease the value of score by 10
+score *= 2;     // double the value of score
+score /= 3;     // divide the value of score by 3
+</program>
+
+  <p>Because adding one, or subtracting one, from a variable is so common, there is an even shorter way to express that. The `++` and `--` operators. `x++` means <q>increase the value of x by 1</q> and `x--` means <q>decrease the value of x by 1</q>. Here are some examples:
+    <idx>
+      <h>++</h>
+    </idx>
+    <idx>
+      <h>--</h>
+    </idx></p>
+
+  <program xml:id="variables-operators_shortcut-operators-4">
+int numberCorrect = 0;
+numberCorrect++;        // numberCorrect is now 1
+numberCorrect++;        // numberCorrect is now 2
+numberCorrect--;        // numberCorrect is now 1
+</program>
+
+  <p>To add one last wrinkle, you can also place `++` and `--` before a variable.</p>
+  
+  <program xml:id="variables-operators_shortcut-operators-5">
+int numberCorrect = 0;
+++numberCorrect;        // numberCorrect is now 1
+++numberCorrect;        // numberCorrect is now 2
+--numberCorrect;        // numberCorrect is now 1
+</program>
+
+  <p>What is the difference? When `++` or `--` is placed before the variable, the value of the variable is changed before the rest of the expression is evaluated. When `++` or `--` is placed after the variable, the value of the variable is changed after the rest of the expression is evaluated. When used as the only operator in a statement, this does not matter. But in this example it does:
+  </p>
+
+  <program xml:id="variables-operators_shortcut-operators-6">
+int x = 2;
+int y = x++;  // y is 2, x is now 3 - x++ happened last
+int z = ++x;  // z is 4, x is now 4 - ++x happened first
+</program>  
+
+  <warning><p>
+    `++` and  `--` are easy to understand on their own. When combined with other operators, they can be confusing.
+    Avoid using them in complex expressions. Focus on making your code clearly express what you want to do<mdash/>not on making it shorter. If you write `y = x++ * 2;` you are counting on others realizing that y will be set to 2 times the original value of x, not the new value of x. Writing `y = x * 2;` and then `x++;` on the next line does a better job of communicating your intent.
+  </p></warning>
+
+  <p>There is no reason you ever have to use the various shortcut operators. But you are going to see them in code written by others, so it is important to recognize what they do.</p>
+
+</section>
