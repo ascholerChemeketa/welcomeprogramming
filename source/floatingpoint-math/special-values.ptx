@@ -1,0 +1,32 @@
+<section xml:id="floatingpoint-math_special-values"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Special Values</title>
+  <p> There are two special values that can be represented by floating-point numbers you should be
+    aware of.</p>
+
+  <p>
+    <idx>
+      <h>INF</h>
+    </idx> The first is <term>infinity</term>, which is represented by the constant <c>INFINITY</c>.
+    This is used to represent values that are too large to be stored in a floating-point number.
+    Recall that `double`s can store enormous values, so you are likely only to run into `INFINITY`
+    if you do some math that results in an answer that approaches infinity like dividing by 0 or
+    trying to calculate <m>tan(\frac{\pi}{2})</m>. </p>
+
+  <p>
+    <idx>
+      <h>NAN</h>
+    </idx> The second is <term>Not a Number</term>, which is represented by the
+    constant <c>NAN</c>. This is used to represent values that are not real numbers, such as the result
+    of taking the square root of a negative number. `NAN` is not equal to any value, including
+    itself, so the only way to check if a value is <q>Not a Number</q> is to use the `isnan`
+    function from the `cmath` library. </p>
+
+  <p>Once you have a value that is one of these special values, doing more math with it will
+    generally just result in the same special value. Any number + `INFINITY` is `INFINITY`. `NAN` +
+    a number is still `NAN`. So they are mostly useful as indicators that some bit of math has gone
+    wrong. In this book we will never attempt to calculate either of these or rely on doing anything
+    with these values. But if you ever see `NAN` or `INF` as the result of outputting a
+    floating-point number, you will know what they mean. </p>
+
+</section>
