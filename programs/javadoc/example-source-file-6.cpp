@@ -1,6 +1,5 @@
 #include <iomanip>
 #include <iostream>
-
 using namespace std;
 
 constexpr double CM_PER_INCH = 2.54;
