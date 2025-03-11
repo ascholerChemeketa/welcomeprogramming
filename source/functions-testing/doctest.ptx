@@ -1,0 +1,72 @@
+<section xml:id="functions-testing_doctest"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Doctest</title>
+
+  <p>Although you can do your testing from the main function of a program, it is generally easier to use a <term>testing framework</term>. A <term>framework</term> is a code library that generally imposes a structured way of performing some task. In this case, it is a structured way of writing tests.</p>
+
+  <p>One popular testing framework for C++ is <url href="https://github.com/doctest/doctest">doctest</url>. Doctest is not a standard library, you have to download it to your computer as a single file called `doctest.h`, place it with your code, and include it in your file using `#include "doctest.h"`. Doctest is already on the server that runs your code in this book. So anytime we use the include statement, it will be available.</p>
+  
+  <note><p>The angle brackets around the library name like `&lt;cmath&gt;` - are just for standard libraries. Libraries we write or add get quotes like `"doctest.h"`.</p></note>
+
+  <p>Here are the three tests we wrote in doctest format:</p>
+
+  <program line-numbers="yes">
+// Bring in unit testing code and tell it to build a main function
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+// ...function goes here...
+
+// The tests
+TEST_CASE("heronsFormula") {
+  CHECK(heronsFormula(3, 4, 5) == doctest::Approx(6));
+  CHECK(heronsFormula(2.5, 4.1, 6.25) == doctest::Approx(3.20322));
+  CHECK(heronsFormula(0, 3, 3) == doctest::Approx(0));
+}
+  </program>
+
+  <p>Don't worry about memorizing all the details. For now you will be using tests that are already written. Later we will worry about learning the syntax well enough to write tests. Here is what we are looking at:
+  <ul>
+  <li>Line 2 says "doctest, create a main function that automatically runs the tests". That `#define` must come before the include.</li>
+  <li>Line 3 is our include statement.</li>
+  <li>Line 8 is our `TEST_CASE` for the `heronsFormula` function. The name in quotes is just to help us read the output. Usually each function we want to test will get its own `TEST_CASE` and have a name that matches the function it tests.</li>
+  <li><p>Lines 9-12 are our `CHECK`s that make up the test. Each CHECK compares two values with `==` to see if they are the same. (We'll learn more about `==` in <xref ref="conditionals-logic_relational-operators"/>). For example, the line:</p>
+  <p>`CHECK(heronsFormula(3, 4, 5) == doctest::Approx(6));`</p>
+  <p>compares the result of `heronsFormula(3, 4, 5)` to the value `doctest::Approx(6)`. The `doctest::Approx` part says that the value does not have to be precisely 6, it just needs to be <q>close enough to</q> 6. (Recall that double values are only approximations, so it is important to allow for some leeway when testing them. See <xref ref="floatingpoint-math_rounding-errors"/>).
+  </p>
+  </li>
+  </ul>
+  </p>
+
+  <p>Below is that same testing code, with the same buggy version of the `heronsFormula` function. Before you fix it, run it to see the output. You should see a section that looks like:</p>
+
+  <program language="text" line-numbers="yes" highlight-lines="3-4,6-7">
+===============================================================================
+Test messages:
+test.cpp:27:
+TEST CASE:  heronsFormula
+
+test.cpp:28: ERROR: CHECK( heronsFormula(3, 4, 5) == doctest::Approx(6) ) is NOT correct!
+  values: CHECK( 2.44949 == Approx( 6 ) )
+  </program>
+
+  <p>Lines 3 and 4 show that we are looking at the `TEST_CASE` name `heronsFormula` on line `27` of the program. If we had more function, each would have its own `TEST_CASE`, so this would help identify which test was failing. Then on line 6 we are shown a `CHECK` that is failing. Immediately after that on line 7, we are shown the actual values that were used. Here, I can see that `heronsFormula(3, 4, 5)` evaluated to `2.44949` and that value is not `Approx( 6 )`.</p>
+
+<exercise label="doctest-1">
+    <statement>
+      <p>First run the program and examine the output. Then fix the code and run it again to see the report for a program that passes all of its tests.</p>
+    </statement>
+  <program interactive="activecode">
+  <preamble>
+<xi:include href="../../programs/functions-testing/doctest-1a.cpp" parse="text"/>
+  </preamble>
+  <code>
+  <xi:include href="../../programs/functions-testing/doctest-1b.cpp" parse="text"/>
+  </code>
+  <tests visible="yes">
+<xi:include href="../../programs/functions-testing/doctest-1c.cpp" parse="text"/>
+  </tests>
+  </program>
+  </exercise>
+
+</section>

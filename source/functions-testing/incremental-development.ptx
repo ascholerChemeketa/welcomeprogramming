@@ -1,5 +1,70 @@
 <section xml:id="functions-testing_incremental-development" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Incremental Development</title>
+
+
+<!-- TODO file goes to new chapter -->
+
+      <p> In the last part of this exercise, you need to write a function that invokes another
+        function you wrote. Whenever you do that, it is a good idea to test the first function
+        carefully before working on the second. Otherwise, you might find yourself debugging two
+        functions at the same time, which can be difficult. </p>
+
+      <p> One of the purposes of this exercise is to practice pattern-matching: the ability to
+        recognize a specific problem as an instance of a general category of problems. </p>
+
+
+<!-- TODO THESE GOES IN GLOASSARY-->
+      <li>
+        <title>incremental development:</title>
+        <p>
+          <idx>
+            <h>incremental development</h>
+          </idx> A process for creating programs by
+          writing a few lines at a time, compiling, and testing.</p>
+      </li>
+      <li>
+        <title>stub:</title>
+        <p>
+          <idx>
+            <h>stub</h>
+          </idx> A placeholder for an incomplete function so that the class
+          will compile.</p>
+      </li>
+      <li>
+        <title>scaffolding:</title>
+        <p>
+          <idx>
+            <h>scaffolding</h>
+          </idx> Code that is used during program development but is
+          not part of the final version.</p>
+      </li>
+
+
+  <p>Beginners often wonder why it's worth the trouble to write other functions, when they could
+    just do everything in <c>main</c>. The <c>NewLine</c> example demonstrates a few reasons: <ul>
+      <li>
+        <p>Creating a new function allows you to <term>name a block of statements</term>, which
+    makes the code easier to read and understand.</p>
+      </li>
+      <li>
+        <p>Introducing new functions can <term>make the program shorter</term> by eliminating
+    repetitive code. For example, to display nine consecutive newlines, you could invoke <c>threeLine</c>
+    three times.</p>
+      </li>
+      <li>
+        <p>A common problem-solving technique is to <term>break problems down</term> into
+    subproblems. functions allow you to focus on each subproblem in isolation, and then compose them
+    into a complete solution.</p>
+      </li>
+    </ul>
+  </p>
+
+  <p>Perhaps most importantly, organizing your code into multiple functions allows you to test
+    individual parts of your program separately. It's easier to get a complex program working if you
+    know that each function works correctly. </p>
+
+
+
 <p>
     <idx><h>incremental development</h></idx>
     <idx><h>design process</h></idx>

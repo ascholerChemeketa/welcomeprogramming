@@ -1,0 +1,85 @@
+<section xml:id="functions-testing_headers"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Header Files</title>
+
+  <p>So we have `library.cpp` which defines some functions that we want to make use of in
+    `main.cpp`. We have seen that we can declare each function from the library in `main.cpp`. But
+    we would like to avoid having to do that. This is where <term>header files</term> come in. A
+    header file is a file that contains the function declarations for a `.cpp` file. <idx>
+      <h>header file</h>
+    </idx></p>
+
+  <p>Here is the header file that corresponds to `library.cpp`:</p>
+
+  <listing>
+    <caption>`library.h`</caption>
+    <program label="functions-testing_headers-library.h"
+             line-numbers="yes"
+             highlight-lines="3,5,16">
+<xi:include href="../../programs/functions-testing/headers-library.h" parse="text"/>
+  </program>
+  </listing>
+
+  <p>Key things to note: <ul>
+      <li>It has the same name as the `.cpp` file, but with a `.h` extension. This is a convention,
+    not a strict requirement.</li>
+      <li>It has the declarations for the function(s) that exist in the .cpp file, but it does NOT
+    have the definitions.</li>
+      <li>The function's comment goes in the .h file with the declaration. The .h file is what <q>
+    other</q> programmers should refer to when they want to know what is in `library.cpp` and how to
+    use it - ideally they should never need to look in the .cpp file.</li>
+      <li>Around the function declarations there is the special `#ifndef ... #endif` construct
+    (lines 3, 5, 16). These lines ensure that even if we include this file multiple times, it will
+    only be read one time. Line 3 asks <q>Have we not defined LIBRARY_H?</q> (`ifndef`). If we have
+    not, we keep going. Otherwise, all the code until the `endif` is skipped. The first thing we do
+    inside the `ifndef` is to define `LIBRARY_H`. That way, if we end up in this file again, it will
+    be clear we have already seen the code. The name we check/define can be anything, but by
+    convention, it usually matches the name of the file (in this case `LIBRARY_H`).</li>
+    </ul>
+  </p>
+
+  <p>The header file is designed for `.cpp` files to include it using the <c>#include</c> directive:</p>
+
+  <listing>
+    <caption>`main.cpp` (with include)</caption>
+    <program label="functions-testing_headers-main-3.cpp">
+<xi:include href="../../programs/functions-testing/headers-main-3.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>Now, when the compiler is working on `main.cpp`, it will see the `#include "library.h"`
+    directive and read the contents of `library.h` into the file. (Including a file essentially
+    copies it into the file that has the include.) This means that the compiler will know about the
+    `doubleValue` function and be able to compile the code in `main.cpp` that calls it.</p>
+
+  <p>Note that this use of include uses `" "` around the name of the file to include instead of
+    `\&lt; &gt;`. The angle brackets say <q>this is a standard library, look for it with the
+    compiler's file</q>. The quotes say <q>this is a library that is NOT part of the standard
+    compiler libraries, look for it in our files</q>. We use `#include &lt;iostream&gt;` because
+    `iostream` is a standard library. Our `library.h` file is not.</p>
+
+  <warning>
+    <p>If you use the wrong symbols around the filename in your include, the compiler may not find
+      the file because it is looking in the wrong folder.</p>
+  </warning>
+
+  <p>Generally, a .cpp file will include it's own .h - we would use `#include "library.h"` in the
+    library.cpp file as well as the main file. We still only compile the .cpp files - the .h file(s)
+    just get included as the .cpp files are compiled. So the recipe to compile these three files
+    would still be:</p>
+
+  <console>
+    <input>g++ main.cpp library.cpp -o program.exe</input>
+  </console>
+
+  <figure>
+    <caption>Compiling main.cpp and library.cpp files that each include library.h.</caption>
+    <image source="images/compilation-multiple-winclude.svg"
+           width="60%"/>
+  </figure>
+
+  <p>Finally, note that we do not normally have a <q>main.h</q>. `main.cpp` does not have functions
+    that are used in any other files and the whole point of a `.h` is to share a list of
+    declarations for the functions available in a file.</p>
+
+</section>

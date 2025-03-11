@@ -1,0 +1,84 @@
+<section xml:id="functions-testing_separate-compilation"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Compiling Multiple Files</title>
+
+  <p>Recall that the compiler turns the C++ code we write into executable code. Technically, this
+    happens in two phases. First, our .cpp file is compiled on its own into an <term>object file</term>
+    (compiled code). Then, that code is <term>linked</term> with other code to form the final
+    executable. Normally we don't see or think about that other code. But unless we explicitly tell
+    the compiler not to, it will always combine our code with code from the <term>standard library</term>.
+    That code handles the messy details of actually starting up a program and then running the <c>main</c>
+    function. <idx>
+      <h>linking</h>
+      <h>standard library</h>
+    </idx>
+  </p>
+
+  <figure>
+    <caption>Compiling a single file</caption>
+    <image source="images/compilation-single.svg"
+           width="20%"/>
+  </figure>
+
+  <p>When a program involves multiple code files, they are each independently compiled and then
+    linked together:</p>
+
+  <figure>
+    <caption>Compiling multiple files</caption>
+    <image source="images/compilation-multiple.svg"
+           width="40%"/>
+  </figure>
+
+  <p>This is true even if we compile our code all at once with something like:</p>
+
+  <console>
+    <input>g++ main.cpp library.cpp -o program.exe</input>
+  </console>
+
+  <p> Although we have said <q>compile main.cpp and library.cpp into program.exe</q>, the two files
+    are each first compiled on their own into object files that are then linked together. This means
+    that when the compiler is working on `main.cpp`, it must have ALL the information it needs to
+    compile that file. Say we go to compile these two files: </p>
+
+  <listing>
+    <caption>`library.cpp`</caption>
+    <program label="functions-testing_headers-library.cpp"
+             xml:id="functions-testing_headers-library.cpp">
+<xi:include href="../../programs/functions-testing/headers-library.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <listing>
+    <caption>`main.cpp`</caption>
+    <program label="functions-testing_headers-main.cpp">
+<xi:include href="../../programs/functions-testing/headers-main.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>When the compiler is working on `main.cpp`, it must know about the `doubleValue` function. But
+    since that function is in the other file, the compiler gives up with an error.</p>
+
+  <p>One way to make this work would be to declare the `doubleValue` function in `main.cpp`, like
+    this:</p>
+
+  <listing>
+    <caption>`main.cpp` (with declaration)</caption>
+    <program label="functions-testing_headers-main-2.cpp">
+<xi:include href="../../programs/functions-testing/headers-main-2.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>This will work - the compiler <q>trusts</q> that the declared function exists somewhere and
+    builds the code in `main` to call that function. The linker will find the function in
+    `library.cpp` and connect it to the code from `main.cpp`.</p>
+
+  <p>It would however be an error to copy the entire `doubleValue` function into `main.cpp`. Each
+    file would compile correctly. But the linker would find two copies of `doubleValue` and not know
+    which one to use. The linker will not analyze the two functions to see if they are the same - it
+    will just give an error.</p>
+
+  <p>This approach works, but is a bit cumbersome. Imagine that I want to use a dozen different
+    functions from a library - I would need to declare each one in my file. As we will see on the
+    next page, there is an easier way to add all the function declarations for a library.</p>
+
+</section>

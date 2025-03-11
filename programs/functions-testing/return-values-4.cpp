@@ -1,3 +1,4 @@
 double calculateArea(double radius) {
-    return M_PI * radius * radius;
+    double area = 3.14 * radius * radius;
+    return area;
 }

@@ -1,44 +1,115 @@
-<section xml:id="functions-testing_flow-execution" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Flow of Execution</title>
-<p>
-    <idx><h>flow of execution</h></idx>
-When you look at a class definition that contains several functions, it is tempting to read it from top to bottom.
-But that is <term>not</term> the <term>flow of execution</term>, or the order the program actually runs.
-The <c>NewLine</c> program runs functions in the opposite order than they are listed.
-</p>
+<section xml:id="functions-testing_flow-execution"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Flow of Execution</title>
+  <p>
+    <idx>
+      <h>flow of execution</h>
+    </idx> When you look at a program that contains several functions,
+    it is tempting to read it in order from top to bottom. But that is <term>not</term> the <term>flow
+    of execution</term>, or the order the program actually runs.</p>
 
-<p>
-Programs always begin at the first statement of <c>main</c>, regardless of where it is in the source file.
-Statements are executed one at a time, in order, until you reach a function invocation, which you can think of as a detour.
-Instead of going to the next statement, you jump to the first line of the invoked function, execute all the statements there, and then come back and pick up exactly where you left off.
-</p>
+  <p>Programs always begin at the first statement of <c>main</c>, regardless of where it is in the
+    source file. Statements are executed one at a time, in order, until you reach a function
+    invocation, which you can think of as a detour. Instead of going to the next statement, you jump
+    to the first line of the invoked function, execute all the statements there, and then come back
+    and pick up exactly where you left off.</p>
 
-<p>
-That sounds simple enough, but remember that one function can invoke another one.
-In the middle of <c>main</c>, the previous example goes off to execute the statements in <c>threeLine</c>.
-While in <c>threeLine</c>, it goes off to execute <c>newLine</c>.
-Then <c>newLine</c> invokes <c>println</c>, which causes yet another detour.
-</p>
+  <p>Watching this process play out in Codelens is perhaps the best way to understand what is happening. Don't worry too much about what this code does (or what <c>void</c> means), pay attention to how the flow of execution works as we encounter function calls:</p>
 
-<p>
-Fortunately, Java is good at keeping track of which functions are running.
-So when <c>println</c> completes, it picks up where it left off in <c>newLine</c>; when <c>newLine</c> completes, it goes back to <c>threeLine</c>; and when <c>threeLine</c> completes, it gets back to <c>main</c>.
-</p>
+<program xml:id="functions-testing_execution-flow" interactive="codelens">
+<xi:include href="../../programs/functions-testing/execution-flow.cpp" parse="text"/>
+</program>
 
-<p>
-Beginners often wonder why it's worth the trouble to write other functions, when they could just do everything in <c>main</c>.
-The <c>NewLine</c> example demonstrates a few reasons:
-<ul>
-<li><p>Creating a new function allows you to <term>name a block of statements</term>, which makes the code easier to read and understand.</p></li>
-<li><p>Introducing new functions can <term>make the program shorter</term> by eliminating repetitive code.
-For example, to display nine consecutive newlines, you could invoke <c>threeLine</c> three times.</p></li>
-<li><p>A common problem-solving technique is to <term>break problems down</term> into subproblems.
-functions allow you to focus on each subproblem in isolation, and then compose them into a complete solution.</p></li>
-</ul>
-</p>
+  <p>That flow is a little convoluted. In the middle
+    of <c>main</c>, we jump off to <c>printMessageTwice</c>. While in that function, we twice jump off to execute <c>printMessage</c>. Then, once we are back in <c>main</c>, we call invokes <c>printMessage</c> directly, which causes yet another detour.</p>
 
-<p>
-Perhaps most importantly, organizing your code into multiple functions allows you to test individual parts of your program separately.
-It's easier to get a complex program working if you know that each function works correctly.
-</p>
+  <p>Fortunately, C++ is good at keeping track of which functions are running. So when <c>printMessage</c> or <c>printMessageTwice</c>
+    completes, it picks up where we left off in the calling function.</p>
+
+  <exercise label="more_output_3" language="natural">
+    <statement>
+      <p>What order will the letters be printed in the program below? Arrange the blocks in the correct order</p>
+      <program xml:id="functions-testing_execution-flow-2">
+<xi:include href="../../programs/functions-testing/execution-flow-2.cpp" parse="text"/>
+      </program>
+    </statement>
+    <blocks>
+      <block order="3">
+        F
+      </block>
+      <block order="4">
+        D
+      </block>
+      <block order="5">
+        B
+      </block>
+      <block order="6">
+        E
+      </block>
+      <block order="2">
+        C
+      </block>
+      <block order="1">
+        A
+      </block>
+    </blocks>
+  </exercise>
+
+<!-- TODO - check that this program renders -->
+  <exercise label="locals_4">
+    <statement>
+      <p>How many calls to <c>hi</c> are made during the execution of the entire program?</p>
+      <program>
+void hi() {
+  cout &lt;&lt; "hiii !"&lt;&lt; endl;
+}
+
+void printGreeting(){
+  hi();
+  cout &lt;&lt; "how are you doing today. "&lt;&lt; endl;
+  hi();
+}
+
+int main () {
+  hi();
+  printGreeting();
+  hi();
+}
+</program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>1 call</p>
+        </statement>
+        <feedback>
+          <p>hi( ) is called from multiple functions.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>4 calls</p>
+        </statement>
+        <feedback>
+          <p>Correct!</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>2 calls</p>
+        </statement>
+        <feedback>
+          <p>hi( ) is called from multiple functions.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>3 calls</p>
+        </statement>
+        <feedback>
+          <p>Two calls from one function are indeed two seperate calls.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
 </section>

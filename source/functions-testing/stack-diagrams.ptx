@@ -1,39 +1,140 @@
-<section xml:id="functions-testing_stack-diagrams" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Stack Diagrams</title>
-<p>
-    <idx><h>stack diagram</h></idx>
-    <idx><h>diagram</h><h>stack</h></idx>
-    <idx><h>frame</h></idx>
-One way to keep track of variables is to draw a <term>stack diagram</term>, which is a memory diagram (see <xref ref="state">Section</xref>) that shows currently running functions.
-For each function there is a box, called a <term>frame</term>, that contains the function's parameters and local variables.
-The name of the function appears outside the frame; the variables and parameters appear inside.
-</p>
+<section xml:id="functions-testing_stack-diagrams"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Stack Frames and Scope</title>
 
-<p>
-As with memory diagrams, stack diagrams show variables and functions at a particular point in time.
-<xref ref="fig_stack">Figure</xref> is a stack diagram at the beginning of the <c>printTime</c> function.
-Notice that <c>main</c> is on top, because it executed first.
-</p>
-<figure xml:id="fig_stack" >
-<caption>Stack diagram for <c>printTime(hour + 1, 0)</c>.</caption>
-<image width="73%" source="images/stack1.png" />
-</figure>
-<p>
-    <idx><h>scope</h></idx>
-Stack diagrams help you to visualize the <term>scope</term> of a variable, which is the area of a program where a variable can be used.
-</p>
+  <subsection>
+    <title>Stack Frames</title>
+    <p>When running the Codelens tool, it creates a diagram like this one:</p>
 
-<p>
-    <idx><h>Java Tutor</h></idx>
-    <idx><h>tracing</h></idx>
-    <idx><h>mental model</h></idx>
-Stack diagrams are a good mental model for how variables and functions work at run-time.
-Learning to trace the execution of a program on paper (or on a whiteboard) is a useful skill for communicating with other programmers.
-</p>
+    <figure>
+      <caption>Stack diagram for doubleValue</caption>
+      <image width="25%"
+             source="images/doubleValue-stack.jpg"/>
+    </figure>
 
-<p>
-Educational tools can automatically draw stack diagrams for you.
-For example, Java Tutor (<url href="https://thinkjava.org/javatutor"/>) allows you to step through an entire program, both forward and backward, and see the stack frames and variables at each step.
-If you haven't already, you should check out the Java examples on that website.
-</p>
+    <p>
+      <idx>
+        <h>stack diagram</h>
+      </idx>
+    <idx>
+        <h>diagram</h>
+        <h>stack</h>
+      </idx>
+    <idx>
+        <h>frame</h>
+      </idx> This is known as a <term>stack diagram</term>, which shows the
+      state of a program's functions and variables. For each function there is a box, called a <term>
+      frame</term> or <term>stack frame</term>, that contains the function's parameters and
+      variables. </p>
+
+    <p>The stack starts in the box for <c>main</c>. I can see that at the point we were at in main, <c>x</c>
+      and <c>y</c> have been set, but <c>z</c> has not been initialized yet. We have not initialized <c>z</c>
+      yet, because the <c>doubleValue</c> function was called, and now it is executing. There is a stack frame
+      for <c>doubleValue</c> right below main. It is highlighted in blue to indicate that it is where execution
+      currently is.</p>
+
+    <note>
+      <p>Depending on the diagram, the stack may grow up or down from main. The ones in Codelens
+        grow down from <c>main</c>. </p>
+    </note>
+
+    <p> As with memory diagrams, stack diagrams show variables and functions at a particular point
+      in time. If you go back and run the program again in Codelens, you will see the stack diagram
+      change as the program runs. </p>
+  </subsection>
+
+  <subsection>
+    <title>Scope</title>
+    <p>
+      <idx>
+        <h>scope</h>
+      </idx> Stack diagrams help you to visualize the <term>scope</term> of a
+      variable, which is the area of a program where a variable can be used. Only the values in the
+      current stack frame are visible to the code that is running. In other words, <c>main</c> can see <c>x</c>
+      , <c>y</c>, and <c>z</c>, but not <c>num</c> or <c>result</c>. <c>doubleValue</c> can only see <c>num</c> and <c>result</c>. </p>
+
+    <p>If <c>main</c> tries to directly use <c>result</c>, or <c>doubleValue</c> tries to directly use <c>x</c>, it is a
+      compile error. The compiler will say that those variables are not defined. Which is true -
+      they are not defined in that location, they are defined elsewhere and are out of scope where
+      we are trying to use them. We call variables that are only visible in a particular function <term>local
+      variables</term>. <idx>
+        <h>local variable</h>
+      </idx>
+    <idx>
+        <h>variable</h>
+        <h>local</h>
+      </idx>
+    </p>
+
+    <program xml:id="functions-stack-diagrams-1"
+             interactive="activecode">
+<xi:include href="../../programs/functions-testing/scope-1.cpp" parse="text"/>
+</program>
+
+    <p>This idea of scope helps enforce the abstraction of functions. The parameters and local
+      variables in <c>doubleValue</c> are not visible to <c>main</c>, and vice versa. This mean that the code in
+      one place can't directly affect the code in another. All the different parts can do is
+      communicate via the clear channels provided by the parameters and return values.</p>
+
+    <p>It is possible for different stack frames to have variables with the same name. Below is a
+      stack diagram for a program with three functions, all of which have a variable <c>x</c>:</p>
+
+    <figure>
+      <caption>Stack diagram for doubleValue</caption>
+      <image width="15%"
+             source="images/doubleValue-stack-2.jpg"/>
+    </figure>
+
+    <p>Note that the different <c>x</c>s can have different values, like <c>bar</c>'s <c>x</c> and <c>foo</c>
+      's <c>x</c>. Or they can have the same value, like <c>main</c>'s <c>x</c> and <c>bar</c>'s <c>x</c>. The
+      three <c>x</c>'s are all different variables - you can not assume that they are related in any
+      way. (You might know three people all named <q>John</q>. That does not mean they are all
+      related. It is possible, but there is no reason to assume so.)</p>
+
+    <insight>
+      <p>It can help to think of there being two programmers involved in writing code involving a
+        function. There is one programmer who writes the function. They don't know anything about
+        what is going on in the rest of the program. There is another programmer who is using the
+        function. They don't know anything about what happens inside the function (other than the
+        information they are passing in and what should come back). </p>
+      <p>This is literally the case when you use a function from a library. You don't know how <c>cos</c>
+        works and the person who wrote the function has no idea what programs you are going to use
+        it in.</p>
+      <p>But even if you are the person who is writing and using the function, do your best to
+        pretend there are two different <q>you</q>s <mdash/> one working on the function and one who
+        works on the rest of the code. Don't assume that either you knows much about what they other
+        is doing!</p>
+    </insight>
+  </subsection>
+
+  <subsection>
+    <title>Global Variables</title>
+
+    <p>There is one exception to the rule that variables are local to a function: <term>global
+      variables</term>. These are variables that are defined outside of any function. They are
+      visible to all functions in the program. Global variables are generally discouraged because
+      they can make it difficult to understand how a program works. Imagine a program with 100
+      functions and 50 global variables. If you see a variable being used, you have to search
+      through all 100 functions to see all the places it might be changed. <idx>
+        <h>global variable</h>
+      </idx>
+    </p>
+
+    <p>The one exception to the rule <q>avoid global variables</q> is for constants. Because we never have to worry about where a constant is being changed, it is considered OK to make constants be global. If you do, you can use them anywhere after that point.</p>
+    
+    <program xml:id="functions-stack-diagrams-2"
+             interactive="activecode">
+<xi:include href="../../programs/functions-testing/global-1.cpp" parse="text"/>
+</program>
+
+    <warning>
+      <p>Although there are complex situations in which a global variable is the best solution, none
+        of those apply to the programs we will be looking at. If you are using this book as part of
+        a course, you should expect a large style deduction for any program that uses global variables.</p>
+    </warning>
+  </subsection>
+
+
+  <!-- TODO stack frame exercise?? -->
+
 </section>

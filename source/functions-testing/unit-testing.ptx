@@ -1,0 +1,90 @@
+<section xml:id="functions-testing_unit-testing"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Unit Testing</title>
+
+  <p>It is safe to say that almost every software system of any significant size has bugs of some
+    kind. This is because testing a large program can be very difficult. One way to make the job
+    easier is to test each function in isolation. It is much easier to test a 10 line function
+    thoroughly and fix any issues than it is to debug an entire program. And once you have
+    confidence in each individual function, it makes testing the overall program much easier.</p>
+
+  <p>When you write a function, you are creating an abstraction. The function is a black box that
+    takes some input and produces some output. Its behavior should not depend on the rest of the
+    program. That means it should be easy to test a function independently of the rest of the
+    program. This is called <term>unit testing</term>. <idx>
+      <h>unit testing</h>
+    </idx>
+  </p>
+
+  <p>Unit testing is a simple process. You write code that calls the function you want to test with
+    some input, and then checks the output. If the output is what you expect, the test passes. If
+    not, the test fails. You can then fix the function and run the test again. You keep running the
+    test until it passes.</p>
+
+  <p>Say you are solving a problem involving calculating the area of many triangles from the lengths
+    of their sides. It would be wise to write a function that takes the three sides of a triangle
+    and returns its area. You could build and test that function, and once you are confident it
+    works, use that to build the rest of the program knowing you don't need to worry about that part
+    of the math. Let's assume this is the function you wrote (yes, there is a bug in it!):</p>
+
+  <program xml:id="functions-testing_unit-testing-1">
+<xi:include href="../../programs/functions-testing/unit-testing-1.cpp" parse="text"/>
+  </program>
+
+  <p>To test it, you would need to identify some possible inputs and the outputs that they should
+    generate. Testing just one set of inputs is not necessarily enough to be confident that the
+    function works. You would want to test it with a few different inputs. As you do so, you would
+    want to consider if there are any particularly tricky cases and make sure to test those.</p>
+
+  <p>You decide to test an easy set (3, 4, 5), a set where there are some decimal numbers (2.5, 4.1,
+    6.25), and a set where one side has a length of 0 (0, 3, 3). A function that can handle all of
+    those is probably doing the job correctly. For each one of those cases you need to figure out
+    what the correct answer should be. You can then write some code to do the testing:</p>
+
+  <program xml:id="functions-testing_unit-testing-2"
+           interactive="activecode">
+<xi:include href="../../programs/functions-testing/unit-testing-2.cpp" parse="text"/>
+  </program>
+
+  <p>This main function runs the three test cases, and for each one also prints out what is
+    expected. By comparing the two values, we can see that the code is not working as expected.</p>
+
+  <exercise label="functions-testing_unit-testing_3">
+    <statement>
+      <p> The formula we are trying to use in that function looks like <m>area =
+        \sqrt{s(s-a)(s-b)(s-c)}</m>. Compare that to the code we have so far, then try to fix the
+        function.</p>
+    </statement>
+
+    <program xml:id="functions-testing_unit-testing-3"
+             interactive="activecode">
+<preamble>
+<xi:include href="../../programs/functions-testing/unit-testing-3a.cpp" parse="text"/>
+</preamble>
+  <code>
+<xi:include href="../../programs/functions-testing/unit-testing-3b.cpp" parse="text"/>
+</code>
+<postamble visible="no">
+<xi:include href="../../programs/functions-testing/unit-testing-3c.cpp" parse="text"/>
+</postamble>
+<tests>
+<iotest>
+<input>3 4 5</input>
+<output>6</output>
+</iotest>
+<iotest>
+<input>2.5 4.1 6.25</input>
+<output>3.20322</output>
+</iotest>
+<iotest>
+<input>0 3 3</input>
+<output>0</output>
+</iotest>
+</tests>
+  </program>
+  </exercise>
+
+  <note><p>The cost of fixing a bug depends on where it is caught. A bug that a programmer notices while typing is very cheap to fix - just a few seconds of programmer time. A bug revealed by unit testing costs more - it likely takes a few minutes to write the tests that reveal the bug. But it is likely easy to identify and fix that bug. When a bug is not caught until the entire program is tested, it will be much harder to identify the root cause, make a fix, and then retest the program. And if the bug makes it into the finished program, it will cost lots of time, money, and/or reputation to make a fix to the program already released to users.</p>
+  <p>Testing will never be perfect, and it is possible to spend so much time testing code that you do not create the code you want fast enough. But unit testing is a technique that many teams find indispensable in delivering quality code.</p></note>
+
+</section>

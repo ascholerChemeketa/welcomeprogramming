@@ -1,0 +1,151 @@
+<section xml:id="functions-testing_declarations"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Declaring vs Defining Functions</title>
+
+  <p>Although we have been using functions for a while now, we have not yet discussed the difference
+    between <term>declaring</term> a function and <term>defining</term> a function. The distinction
+    is important because it helps us understand how the compiler processes our code. <idx>
+      <h>function</h>
+      <h>declaration</h>
+    </idx><idx>
+      <h>function</h>
+      <h>definition</h>
+    </idx></p>
+
+  <p>A <term>function declaration</term> is a statement that tells the compiler about a function's
+    name, return type, and parameters. It is a promise that the function will be defined later in
+    the program. To write a function declaration, we write its prototype, but instead of providing
+    the body, we just place a <c>;</c> at the end:</p>
+
+  <program xml:id="functions-testing_declarations-1">
+<xi:include href="../../programs/functions-testing/declarations-1.cpp" parse="text"/>
+  </program>
+
+
+  <p>A <term>function definition</term> is the actual implementation of the function. It is what we
+    have seen up to now - the prototype plus the body of the function.</p>
+
+  <program xml:id="functions-testing_declarations-2">
+<xi:include href="../../programs/functions-testing/declarations-2.cpp" parse="text"/>
+  </program>
+
+  <p>When we declare a function, we are telling the compiler that the function exists and that it
+    will be defined later. It is sufficient to tell the compiler <q>there will be a function called
+    doubleValue that takes in an int and returns an int</q>. So if it then sees a function call, it
+    knows whether or not the function call makes sense. Later on, when it sees the actual function
+    definition, it can actually link up the code from the call to the code in the function.</p>
+
+  <p>This allows us to use the function before we define it. This is useful when we have multiple
+    functions that call each other, or when we want to separate the implementation of a function
+    from its use. Say I want to put the <c>main</c> function in my program at the top of my code file. I
+    can do so by first declaring my functions, then writing main, then defining my other functions.</p>
+
+  <program xml:id="functions-testing_declarations-3"
+           interactive="activecode">
+<xi:include href="../../programs/functions-testing/declarations-3.cpp" parse="text"/>
+  </program>
+
+  <p>Think of a declaration as you making a promise to the compiler and a definition as you
+    fulfilling that promise. Here is a brief summary of when definitions and declarations must
+    occur: <ul>
+      <li>A function declaration must occur before the function is used. Although you would not want
+    to on purpose, it is OK to declare a function multiple times. (You are just making the same
+    promise multiple times.)</li>
+      <li>A function definition must occur once in the program, but can appear at any point after
+    the declaration. If you try to define a function multiple times, it will be a compiler error.</li>
+      <li>Defining a function declares it. So you only need to write a separate declaration if you
+    want to use the function before defining it.</li>
+    </ul>
+  </p>
+
+
+  <exercise label="VARS_p7sdf"
+            adaptive="yes"
+            indentation="show">
+    <statement>
+      <p>Put these blocks of code into a valid order where the definition of main comes before any
+        other function definition. There are many possible correct orderings.</p>
+    </statement>
+    <blocks>
+      <block order="2"
+             name="foo_declare">
+        <cline>void foo();</cline>
+      </block>
+      <block order="3"
+             name="foo"
+             depends="foo_declare">
+        <cline>void foo() {</cline>
+        <cline> cout &lt;&lt; "Hello!" &lt;&lt; endl;</cline>
+        <cline> bar();</cline>
+        <cline>}</cline>
+      </block>
+      <block order="5"
+             name="bar_declare">
+        <cline>void bar();</cline>
+      </block>
+      <block order="4"
+             name="bar"
+             depends="bar_declare">
+        <cline>void bar() {</cline>
+        <cline> cout &lt;&lt; "Bye!" &lt;&lt; endl;</cline>
+        <cline>}</cline>
+      </block>
+      <block order="1"
+             depends="foo_declare">
+        <cline>int main() {</cline>
+        <cline> foo();</cline>
+        <cline>} </cline>
+      </block>
+    </blocks>
+  </exercise>
+  <exercise label="mce_5_3">
+    <statement>
+      <p>If we wanted to create a boolean function called <c>isPrime</c>, which takes an <c>int input</c> as a
+        parameter, which of the following would be the correct function header?</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement id="mce_5_3_opt_a">
+          <p>
+            <c>boolean isPrime(int input) {</c>
+          </p>
+        </statement>
+        <feedback>
+          In C++, use the <c>bool</c> keyword for a boolean.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="mce_5_3_opt_b">
+          <p>
+            <c>bool isPrime (input) {</c>
+          </p>
+        </statement>
+        <feedback>
+          In a function header, the type of each variable must be specified in the parameter
+            list.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="mce_5_3_opt_c">
+          <p>
+            <c>bool isPrime(int input) {</c>
+          </p>
+        </statement>
+        <feedback>
+          This is the correct function header for the function.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="mce_5_3_opt_d">
+          <p>
+            <c>int isPrime(bool input) {</c>
+          </p>
+        </statement>
+        <feedback>
+          Take a closer look at what the return type is.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

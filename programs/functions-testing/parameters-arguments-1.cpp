@@ -1,11 +1,13 @@
 #include <iostream>
+using namespace std;
 
-void printTwice(const string& s) {
-    cout << s << endl;
-    cout << s << endl;
+int doubleX(int x) {
+    x = x * 2;
+    return x;
 }
 
 int main() {
-    printTwice("Don't make me say this twice!");
-    return 0;
+    int y = 5;
+    int z = doubleX(y);
+    cout << y << endl;
 }

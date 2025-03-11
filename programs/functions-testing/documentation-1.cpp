@@ -1,0 +1,1 @@
+double getMaxTemperature(int start, int range);

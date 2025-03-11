@@ -2,12 +2,14 @@
 using namespace std;
 
 int doubleValue(int num) {
-    int result = 2 * num;
+    int result = 2 * x;
     return result;
 }
 
 int main() {
     int x = 5;
     int y = doubleValue(x);
-    cout << y;
+    y = result;
+    cout << y << endl;
+    cout << z;
 }

@@ -1,102 +1,240 @@
-<section xml:id="functions-testing_parameters-arguments" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Parameters and Arguments</title>
-<p>
-Some of the functions we have used require <term>arguments</term>, which are the values you provide in parentheses when you invoke the function.
-</p>
+<section xml:id="functions-testing_parameters-arguments"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Parameters and Arguments</title>
 
-<p>
-For example, the <c>println</c> function takes a <c>String</c> argument.
-To display a message, you have to provide the message: <c>System.out.println("Hello")</c>.
-Similarly, the <c>printf</c> function can take multiple arguments.
-The statement <c>System.out.printf("%d in = %f cm
-n", inch, cm)</c> has three arguments: the format string, the <c>inch</c> value, and the <c>cm</c> value.
-</p>
+  <p>Recall that the name for the extra information a function takes when it is called are the <term>
+    parameters</term>. The values we pass in when the function is called are known as the <term>
+    arguments</term>. We say that the arguments are <term>passed</term> to the function. <idx>
+      <h>parameter</h>
+    </idx>
+    <idx>
+      <h>argument</h>
+    </idx>
+    <idx>
+      <h>parameter passing</h>
+    </idx></p>
 
-<p>
-    <idx><h>parameter</h></idx>
-    <idx><h>argument</h></idx>
-When you invoke a function, you provide the arguments.
-When you define a function, you name the <term>parameters</term>, which are variables that indicate what arguments are required.
-The following class shows an example:
-</p>
+  <sidebyside widths="45% 45%">
+    <listing>
+      <caption><c>myFunction</c> has two parameters, <c>x</c> and <c>y</c>.</caption>
+      <program>
+int myFunction(int x, int y) {
+  ...
+}
+</program>
+    </listing>
+    <listing>
+      <caption>The arguments 2, 4 are being passed to <c>myFunction</c> in a call made from <c>main</c>.</caption>
+      <program>
+int main() {
+    int result = myFunction(2, 4);
+}
+</program>
+    </listing>
+  </sidebyside>
 
-<p>
-    <idx><h>PrintTwice.java</h></idx>
-</p>
+  
+  <exercise label="params_args_4">
+    <statement>
+      <p>Match the function declaration to an example of its function call. (We haven't learned much about <c>string</c>s, but they are the type of data for pieces of text like <c>"hello"</c>.)</p>
+    </statement>
+    <feedback>
+      <p>Try again!</p>
+    </feedback>
+    <matches>
+      <match order="1">
+        <premise>int timesTwo(int x, int y);</premise>
+        <response>timesTwo(4, 7);</response>
+      </match>
+      <match order="2">
+        <premise>int timesTwo(string y, int x);</premise>
+        <response>timesTwo("hello", 10);</response>
+      </match>
+      <match order="3">
+        <premise>int timesTwo(double x, string y);</premise>
+        <response>timesTwo(4.5, "hello");</response>
+      </match>
+      <match order="4">
+        <premise>int timesTwo(string x, string y);</premise>
+        <response>timesTwo("hello", "hi");</response>
+      </match>
+    </matches>
+  </exercise>
 
-<listing filename="PrintTwice.java">
-<program xml:id="functions-testing_parameters-arguments-1" interactive="activecode">
+  <subsection>
+    <title>Parameter Numbers and Types</title>
+    <p> A function can have no parameters, one parameter, or many parameters. Each parameter must
+      specify a type and multiple parameters must be separated by commas. <dl>
+        <li>
+          <title>Valid parameter lists:</title>
+          <ul>
+            <li>
+              <c>int foo() {</c>
+            </li>
+            <li>
+              <c>int foo(int x) {</c>
+            </li>
+            <li>
+              <c>int foo(double x) {</c>
+            </li>
+            <li>
+              <c>int foo(int x, int y, int z) {</c>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <title>Invalid parameter lists:</title>
+          <ul>
+            <li><c>int foo {</c> (missing the parameter list)</li>
+            <li><c>int foo(int x, y) {</c> (no type for y)</li>
+            <li><c>int foo(int x double y) {</c> (no comma between x and y)</li>
+          </ul>
+        </li>
+      </dl>
+    </p>
+
+
+  <exercise label="multiple_params_1">
+    <statement>
+      <p>Which of the following is a correct function header (first line of
+            a function definition)?</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement id="multiple_params_1_opt_a">
+          <p>
+            <c>totalcost (double cost, tax, discount)</c>
+          </p>
+        </statement>
+        <feedback id="multiple_params_1_opt_a">
+          <p><c>totalcost</c> needs a return type, and each parameter needs a data type.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="multiple_params_1_opt_b">
+          <p>
+            <c>totalCost (double cost, double tax) {</c>
+          </p>
+        </statement>
+        <feedback id="multiple_params_1_opt_b">
+          <p><c>totalcost</c> needs a return type.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="multiple_params_1_opt_c">
+          <p>
+            <c>void totalCost (double cost, double tax, double discount) {</c>
+          </p>
+        </statement>
+        <feedback id="multiple_params_1_opt_c">
+          <p>Correct!</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  </subsection>
+
+  <subsection>
+    <title>Argument Types</title>
+
+    <p>Arguments are matched in order to the parameters of a function. Given <c>int myFunction(int x, int y)</c>, the call <c>myFunction(3, 6)</c> is passing 3 to use for the value of <c>x</c> and 6 to use for
+      <c>y</c>. Some programming languages allow you to specify what argument goes with which parameter,
+      but C++ does not. Thus you need to make sure you pass parameters in the correct order. If
+      there is a function <c>double round(double number, int places)</c> and you want to call it to round
+      3.14159 to 2 decimal places, you must call it with <c>round(3.14159, 2)</c>. If you write
+      <c>round(2, 3.14159)</c>, you are saying <q>round 2 to 3.14159 decimal places</q>.</p>
+
+    <p>Generally, an argument passed to a function must match the type of that parameter. If you try
+      to pass a value of the wrong type, C++ will look at what is being passed to decide what to do: <ol>
+        <li>If the argument can safely be converted to the parameter type, C++ will do so. For
+      example, if you have a function <c>int myFunction(double x)</c> and you call it with
+      <c>myFunction(3)</c>, C++ will convert the integer 3 to the double 3.0.</li>
+        <li><p>If the argument can be converted to the parameter type, but the conversion might lose
+      information C++ will give a warning. For example, if you have a function <c>int myFunction(int x)</c> and you call it with <c>myFunction(3.14159)</c>, C++ will warn you that information may be
+      lost. As always, you should consider warnings like this to be a giant flashing danger sign. In
+      that function call, <c>x</c> would have the value 3 and you would lose the decimal information.</p>
+      <p>If you want to lose information, do a cast to explicitly tell the compiler (and other programmers) that you are
+      intentionally changing the type. Something like: <c>myFunction( static_cast&lt;int&gt;(3.14159) )</c></p>
+      </li>
+        <li>If the argument cannot be converted to the parameter type, C++ will give an error. For
+      example, if you have a function <c>int myFunction(double x)</c> and you call it with
+      <c>myFunction("hello")</c>, C++ will give an error because it cannot convert the string <c>"hello"</c>
+      into a double.</li>
+      </ol>
+    </p>
+
+    
+  <exercise label="multiple_params_2">
+    <statement>
+      <p>Which of the following is a legal function call of the function below? Assume you are calling from main, where there are local variables: <c>double p = 3.14;</c> and <c>int x = 12;</c></p>
+      <program>
+      double multiply(int num, double other) {
+        ...
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement id="multiple_params_2_opt_a">
+          <p>
+            <c>multiply(int x, double p);</c>
+          </p>
+        </statement>
+        <feedback id="multiple_params_2_opt_a">
+          <p>Data types are not needed when calling a function.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="multiple_params_2_opt_b">
+          <p>
+            <c>multiply(x, p);</c>
+          </p>
+        </statement>
+        <feedback id="multiple_params_2_opt_b">
+          <p>Correct!</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="multiple_params_2_opt_c">
+          <p>
+            <c>multiply(double p, int x);</c>
+          </p>
+        </statement>
+        <feedback id="multiple_params_2_opt_c">
+          <p>Those are in the wrong order. And, we do not specify data types when passing arguments.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="multiple_params_2_opt_d">
+          <p>
+            <c>multiply(p, x);</c>
+          </p>
+        </statement>
+        <feedback id="multiple_params_2_opt_d">
+          <p>Those are in the wrong order.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  </subsection>
+
+  <subsection>
+    <title>Passing is by Value</title>
+    <p>As we have seen before, when you pass a variable as an argument to a function, the function
+      receives a copy of the variable. This is called <term>pass by value</term>. The function can
+      change the value of the parameter, but it does not change the original variable.
+      <idx><h>pass by value</h></idx>
+    </p>
+
+    <p>Consider this program displayed in Codelens. Notice that when <c>y</c> is passed to the function, it is only the value <c>5</c> that is passed. That value is <em>copied</em> into <c>x</c>. Anything that happens to <c>x</c> in the function has no impact on <c>y</c> in <c>main</c>.</p>
+
+    <program xml:id="functions-testing_parameters-arguments-1"
+             interactive="codelens">
 <xi:include href="../../programs/functions-testing/parameters-arguments-1.cpp" parse="text"/>
 </program>
-</listing>
 
-<p>
-The <c>printTwice</c> function has a parameter named <c>s</c> with type <c>String</c>.
-When you invoke <c>printTwice</c>, you have to provide an argument with type <c>String</c>.
-</p>
+    <insight><p>Pass by value means that <em>values</em> are passed to functions. In pass by value you never really pass a <em>variable</em> to a function.</p></insight>
+  </subsection>
 
-<p>
-Before the function executes, the argument gets assigned to the parameter.
-In the <c>printTwice</c> example, the argument <c>"Don't make me say this twice!"</c> gets assigned to the parameter <c>s</c>.
-</p>
-
-<p>
-    <idx><h>parameter passing</h></idx>
-This process is called <term>parameter passing</term>, because the value gets passed from outside the function to the inside.
-An argument can be any kind of expression, so if you have a <c>String</c> variable, you can use its value as an argument:
-</p>
-
-<program xml:id="functions-testing_parameters-arguments-2">
-<xi:include href="../../programs/functions-testing/parameters-arguments-2.cpp" parse="text"/>
-</program>
-
-<p>
-The value you provide as an argument must have the same (or compatible) type as the parameter.
-For example, if you try this:
-</p>
-
-<program xml:id="functions-testing_parameters-arguments-3" interactive="activecode">
-<xi:include href="../../programs/functions-testing/parameters-arguments-3.cpp" parse="text"/>
-</program>
-
-<p>
-You will get an error message like this:
-</p>
-
-<console>
-<output>
-File: Test.java  [line: 10]
-Error: function printTwice in class Test cannot be applied
-       to given types;
-  required: java.lang.String
-  found: int
-  reason: actual argument int cannot be converted to
-          java.lang.String by function invocation conversion
-</output>
-</console>
-
-<p>
-This error message says that it found an <c>int</c> argument, but the required parameter should be a <c>String</c>.
-In the case of <c>printTwice</c>, Java won't convert the integer <c>17</c> to the string <c>"17"</c> automatically.
-</p>
-
-<p>
-    <idx><h>automatic conversion</h></idx>
-Sometimes Java can convert an argument from one type to another automatically.
-For example, <c>Math.sqrt</c> requires a <c>double</c>, but if you invoke <c>Math.sqrt(25)</c>, the integer value <c>25</c> is automatically converted to the floating-point value <c>25.0</c>.
-</p>
-
-<p>
-    <idx><h>local variable</h></idx>
-    <idx><h>variable</h><h>local</h></idx>
-Parameters and other variables exist only inside their own functions.
-In the <c>printTwice</c> example, there is no such thing as <c>s</c> in the <c>main</c> function.
-If you try to use it there, you'll get a compiler error.
-</p>
-
-<p>
-Similarly, inside <c>printTwice</c> there is no such thing as <c>message</c>.
-That variable belongs to <c>main</c>.
-Because variables exist only inside the functions where they are defined, they are often called <term>local variables</term>.
-</p>
 </section>

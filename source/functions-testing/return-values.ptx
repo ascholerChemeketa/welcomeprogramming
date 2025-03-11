@@ -1,82 +1,135 @@
-<section xml:id="functions-testing_return-values" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Return Values</title>
-<p>
-    <idx><h>void</h></idx>
-When you invoke a <c>void</c> function, the invocation is usually on a line all by itself.
-For example:
-</p>
+<section xml:id="functions-testing_return-values"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>More on Returning</title>
 
-<program xml:id="functions-testing_return-values-1">
-<xi:include href="../../programs/functions-testing/return-values-1.cpp" parse="text"/>
-</program>
+  <p>We have already learned the basics of returning from functions. But there are a few important
+    details we still need to cover.</p>
 
-<p>
-On the other hand, when you invoke a value-returning function, you have to do something with the return value.
-We usually assign it to a variable or use it as part of an expression, like this:
-</p>
+  <subsection>
+    <title>Returning Variables</title>
 
-<program xml:id="functions-testing_return-values-2">
-<xi:include href="../../programs/functions-testing/return-values-2.cpp" parse="text"/>
-</program>
+    <p>As we have already mentioned, The type of the expression in the <c>return</c> statement must match
+      the return type of the function itself. When you declare that the return type is <c>double</c>, you
+      are making a promise that this function will eventually produce a <c>double</c> value. If you try to <c>return</c>
+      with no expression, or <c>return</c> an expression with the wrong type, the compiler will give an
+      error.</p>
 
-<p>
-    <idx><h>value function</h></idx>
-    <idx><h>function</h><h>value</h></idx>
-Compared to <c>void</c> functions, value-returning functions differ in two ways:
-</p>
+    <p>Although it is possible to return a literal value with something like <c>return 42;</c>, it is much
+      more common to want to return the result of a computation. We can either do so by returning an
+      expression: </p>
 
-<p>
-    <idx><h>return type</h></idx>
-    <idx><h>return value</h></idx>
-<ul>
-<li><p>They declare the type of the return value (the <term>return type</term>).</p></li>
-<li><p>They use at least one <c>return</c> statement to provide a <term>return value</term>.</p></li>
-</ul>
-</p>
-
-<p>
-Here's an example from a program named <term>Circle.java</term>.
-The <c>calculateArea</c> function takes a <c>double</c> as a parameter and returns the area of a circle with that radius (i.e., <m>\pi r^2</m>):
-</p>
-
-<program xml:id="functions-testing_return-values-3">
+    <program xml:id="functions-testing_return-values-3"
+             highlight-lines="2"
+             line-numbers="yes">
 <xi:include href="../../programs/functions-testing/return-values-3.cpp" parse="text"/>
 </program>
 
-<p>
-As usual, this function is <c>public</c> and <c>static</c>.
-But in the place where we are used to seeing <c>void</c>, we see <c>double</c>, which means that the return value from this function is a <c>double</c>.
-</p>
+    <p>Or by returning a local variable:</p>
 
-<p>
-    <idx><h>return</h></idx>
-    <idx><h>statement</h><h>return</h></idx>
-The last line is a new form of the <c>return</c> statement that means, <q>Return immediately from this function, and use the following expression as the return value.</q>
-The expression you provide can be arbitrarily complex, so we could have written this function more concisely:
-</p>
-
-<program xml:id="functions-testing_return-values-4">
+    <program xml:id="functions-testing_return-values-4"
+             highlight-lines="2-3"
+             line-numbers="yes">
 <xi:include href="../../programs/functions-testing/return-values-4.cpp" parse="text"/>
 </program>
 
-<p>
-    <idx><h>temporary variable</h></idx>
-    <idx><h>variable</h><h>temporary</h></idx>
-On the other hand, <term>temporary variables</term> like <c>result</c> often make debugging easier, especially when you are stepping through code by using an interactive debugger (see <xref ref="debugger">Appendix</xref>).
-</p>
+    <p>Much like when we pass a variable to a function, when we return a variable, the value of the
+      variable is copied as it is returned. So although we might say of the function above <q>it
+      returns <c>area</c></q>, it is more accurate to say <q>it returns the value stored in <c>area</c></q>.</p>
 
-<p>
-<xref ref="fig_param">Figure</xref> illustrates how data values flows through the program.
-When the <c>main</c> function invokes <c>calculateArea</c>, the value <c>5.0</c> is assigned to the parameter <c>radius</c>.
-<c>calculateArea</c> then returns the value <c>78.54</c>, which is assigned to the variable <c>area</c>.
-</p>
-<figure xml:id="fig_param" >
-<caption>Passing a parameter and saving the return value.</caption>
-<image width="73%" source="images/param.png" />
-</figure>
-<p>
-The type of the expression in the <c>return</c> statement must match the return type of the function itself.
-When you declare that the return type is <c>double</c>, you are making a promise that this function will eventually produce a <c>double</c> value.
-If you try to <c>return</c> with no expression, or <c>return</c> an expression with the wrong type, the compiler will give an error.
-</p>
+    <p>The two approaches will produce the same result, but the second is often easier to read and
+      debug. Especially when you are stepping through code, first calculating an answer and storing
+      it into a variable, then returning the value of that variable, makes it easier to see what is
+      going on. </p>
+
+    <note>
+      <p>It is also worth mentioning that the two approaches will almost certainly produce the same
+        object code when a compiler gets done optimizing the code.</p>
+      <p>Trying to <q>optimize</q> code by using fewer local variables is almost always pointless.
+        Focus on code that is easy to read and debug. The compiler can generally be counted on to
+        turn your code into an efficient machine representation. There are times when programmers
+        will write code in a specific way to optimize its speed, but you should not try to <q>
+        optimize</q> your use of local variables.</p>
+    </note>
+    <exercise label="mce_5_1">
+      <statement>
+        <p>What should be the return type of the function <c>convertToCelsius</c>?</p>
+        <program line-numbers="yes">
+        <code>
+______ convertToCelsius(double fahrenheit) {
+  double celsius;
+  celsius = (fahrenheit - 32) * 5 / 9;
+  return celsius;
+}
+</code>
+      </program>
+      </statement>
+      <choices>
+        <choice>
+          <statement id="mce_5_1_opt_a">
+            <p>
+              <c>int</c>
+            </p>
+          </statement>
+          <feedback> What variable are we returning in the function, and what is the variable's
+            type? </feedback>
+        </choice>
+        <choice correct="yes">
+          <statement id="mce_5_1_opt_b">
+            <p>
+              <c>double</c>
+            </p>
+          </statement>
+          <feedback> The function returns <c>celsius</c>, which is a <c>double</c>. </feedback>
+        </choice>
+        <choice>
+          <statement id="mce_5_1_opt_c">
+            <p>
+              <c>string</c>
+            </p>
+          </statement>
+          <feedback> What variable are we returning in the function, and what is the variable's
+            type? </feedback>
+        </choice>
+        <choice>
+          <statement id="mce_5_1_opt_d">
+            <p>
+              <c>void</c>
+            </p>
+          </statement>
+          <feedback> Since we are returning something in the function, the function is not <c>void</c>. </feedback>
+        </choice>
+      </choices>
+    </exercise>
+  </subsection>
+
+  <subsection>
+    <title>Void Functions</title>
+    <p>
+      <idx>
+        <h>void</h>
+      </idx> Every function must specify a return type in its prototype. But not
+      every function needs to return a value. Some functions are used for their <c>side effects</c> - they do
+      something, but they don't produce a value. A function might print something to the screen, or
+      play a sound or send a message over the network.</p>
+    <p> These functions have a return type of <c>void</c> (<q>void</q> as in nothing) and don't need a <c>return</c>
+      statement: </p>
+
+    <program xml:id="functions-testing_return-values-1">
+<xi:include href="../../programs/functions-testing/return-values-1.cpp" parse="text"/>
+  </program>
+
+    <p>If you want to provide a return statement, you can simply return nothing when the function is
+      done with <c>return;</c></p>
+
+    <p>Because <c>void</c> functions do not return anything, there is no need to try to store their
+      result. In fact, any attempt to use their result would be an error. If we wrote <c>double result = printAsMoney(12.432345);</c>, we
+      are essentially saying <c>double result =   ;</c> because <c>printAsMoney(12.432345)</c> evaluates to nothing.</p>
+
+    <p>Here is a full program that uses the void function:</p>
+
+    <program xml:id="functions-testing_return-values-2"
+             interactive="activecode">
+<xi:include href="../../programs/functions-testing/return-values-2.cpp" parse="text"/>
+  </program>
+  </subsection>
 </section>

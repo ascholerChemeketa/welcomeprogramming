@@ -9,5 +9,7 @@ int doubleValue(int num) {
 int main() {
     int x = 5;
     int y = doubleValue(x);
-    cout << y;
+    int z = doubleValue(12);
+    cout << y << endl;
+    cout << z;
 }

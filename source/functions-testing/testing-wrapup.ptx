@@ -1,0 +1,21 @@
+<section xml:id="functions-testing_testing-wrapup"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Testing Wrapup</title>
+
+  <p>The special doctest unit tests have a few advantages over the handwritten tests we first saw:
+    <ol>
+      <li>We do not have to read the output to decide if each test is correct - the testing code does that for us and prints extra information for each test that fails.</li>
+      <li>Tools can be used to automate the tests and parse the results as doctest will always use a consistent output format.</li>
+      <li>If we want, we can specify that only some of the tests get run. In a large program with thousands of tests it can be useful to say <q>just run the heronsFormula test right now</q>.</li>
+      <li>The `doctest::Approx` feature is very useful for testing double values.</li>
+    </ol>
+  </p>
+
+  <p>For now, we have to decide if a program is going to have tests, or a `main` function that does some other work. Later we will learn how to make a project that has both a test program and a <q>real</q> program.</p>
+
+  <p>Unit testing is just one type of testing. There are many other types of testing, such as
+    integration testing, system testing, and acceptance testing. Each type of testing has its own
+    purpose and its own techniques. But unit testing is a good place to start. It is easy to do, and
+    it can catch many bugs early in the development process. Many of the exercises in the rest of this book will ask you to implement a function and then test the behavior of that function with unit tests.</p>
+
+</section>
