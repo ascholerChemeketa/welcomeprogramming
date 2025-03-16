@@ -1,0 +1,480 @@
+<exercises xml:id="loops_exercises"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Exercises</title>
+
+  <exercise label="mucp_6_9"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Write the function summation which takes two
+        parameters, start and end. summation adds
+        all the integers from start to end, inclusive, together and returns
+        the sum. Put the necessary blocks in the correct order.</p>
+    </statement>
+    <blocks>
+      <block order="2">
+        <cline>int summation(int start, int end) {</cline>
+      </block>
+      <block order="8"
+             correct="no">
+        <cline>void summation(int start, int end) {  </cline>
+      </block>
+      <block order="3"
+             correct="no">
+        <cline>int summation() {  </cline>
+      </block>
+      <block order="6">
+        <cline>   int n = start;</cline>
+      </block>
+      <block order="4">
+        <cline>   int sum = 0;</cline>
+      </block>
+      <block order="12"
+             correct="no">
+        <cline>   int sum = start;  </cline>
+      </block>
+      <block order="11">
+        <choice correct="yes">
+          <cline><![CDATA[   while (n <= end) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[   while (n < end) {  ]]></cline>
+        </choice>
+      </block>
+      <block order="10">
+        <cline>      sum = sum + n;</cline>
+      </block>
+      <block order="14">
+        <cline>      n++;</cline>
+      </block>
+      <block order="1">
+        <cline>   }</cline>
+      </block>
+      <block order="7">
+        <cline>   return sum;</cline>
+      </block>
+      <block order="13"
+             correct="no">
+        <cline>   return n;  </cline>
+      </block>
+      <block order="9">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+
+  <exercise label="mucp_6_10"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Write the function reverseNumber which takes num
+        as a parameter and returns num but with its digits reversed.
+        For example, reverseNumber (1324) returns 4231.
+        Put the necessary blocks in the correct order, with reverse
+        declared first, then temp, and lastly remainder.</p>
+    </statement>
+    <blocks>
+      <block order="9">
+        <cline>int reverseNumber(int num) {</cline>
+      </block>
+      <block order="8"
+             correct="no">
+        <cline>void reverseNumber(int num) {  </cline>
+      </block>
+      <block order="10">
+        <cline>   int reverse = 0;</cline>
+      </block>
+      <block order="13"
+             correct="no">
+        <cline>   int reverse = 0  </cline>
+      </block>
+      <block order="4">
+        <cline>   int temp = num;</cline>
+      </block>
+      <block order="7">
+        <cline>   int remainder = 0;</cline>
+      </block>
+      <block order="15"
+             correct="no">
+        <cline>   int remainder;  </cline>
+      </block>
+      <block order="5">
+        <cline>   while (temp &gt; 0) {</cline>
+      </block>
+      <block order="11">
+        <cline>      remainder = temp % 10;</cline>
+      </block>
+      <block order="2">
+        <cline>      reverse = reverse * 10 + remainder;</cline>
+      </block>
+      <block order="3">
+        <cline>      temp = temp / 10;</cline>
+      </block>
+      <block order="1">
+        <cline>   }</cline>
+      </block>
+      <block order="12">
+        <cline>   return reverse;</cline>
+      </block>
+      <block order="6"
+             correct="no">
+        <cline>   return temp;  </cline>
+      </block>
+      <block order="14">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+  <exercise label="grgrefdv23">
+    <statement>
+      <p>Write the function `printStars`. It that takes in an integer and should print `*` that many times, all on one line (no `endl`s). If the function is passed 3 it should print `***`. If it is passed 8 it should print `********`.
+      An argument of less than 1 should print no stars.</p>
+      <p>Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+void printStars(int numStars) {
+    //write your code here
+}
+        </code>
+        <postamble visible="no"><![CDATA[
+int main() {
+  int a;
+  cin >> a;
+  printStars(a);
+}]]></postamble>
+        <tests>
+          <iotest>
+            <input>3</input>
+            <output>***</output>
+          </iotest>
+          <iotest>
+            <input>8</input>
+            <output>********</output>
+          </iotest>
+          <iotest>
+            <input>17</input>
+            <output>*****************</output>
+          </iotest>
+          <iotest>
+            <input>0</input>
+            <output></output>
+          </iotest>
+          <iotest>
+            <input>-30</input>
+            <output></output>
+          </iotest>
+        </tests>
+    </program>
+    <hint><p>You should focus on printing the right number of single `*`'s one at a time, not trying to figure out how to print a line of stars all at one time.</p></hint>
+    </statement>
+  </exercise>
+
+  
+  <exercise label="ergserdg3gbfedr">
+    <statement>
+      <p>The Collatz sequence is made by doing the following to a number until it becomes 1:
+        <ul>
+        <li>If the number is even, divide it by 2</li>
+        <li>Otherwise, multiply it by 3 and add 1</li>
+        </ul>
+      </p>
+      <p><em>(It is believed but not proven that all positive integers eventually reach 1 using this process.)</em></p>
+      <p>Write a function `collatz` that accepts an integer and prints the Collatz sequence for that number. Print a space after each number in the sequence, including the final 1.</p>
+      <p>Example: An input of 13 should make the sequence: `13 40 20 10 5 16 8 4 2 1 `</p>
+      <p>Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+void collatz(int number) {
+    //write your code here
+}
+        </code>
+        <postamble visible="no"><![CDATA[
+int main() {
+  int a;
+  cin >> a;
+  collatz(a);
+}]]></postamble>
+        <tests>
+          <iotest>
+            <input>13</input>
+            <output>13 40 20 10 5 16 8 4 2 1 </output>
+          </iotest>
+          <iotest>
+            <input>8</input>
+            <output>10 5 16 8 4 2 1 </output>
+          </iotest>
+          <iotest>
+            <input>17</input>
+            <output>3 10 5 16 8 4 2 1 </output>
+          </iotest>
+          <iotest>
+            <input>1</input>
+            <output>1 </output>
+          </iotest>
+        </tests>
+    </program>
+    <hint><p>Remember that to check if a number is even you can mod by 2 and check if value is 0: `x % 2 == 0`</p></hint>
+    </statement>
+  </exercise>
+
+  
+
+  <exercise label="wwgertwh4543erthed23qgrfer">
+    <statement>
+      <p>Write a function `powerSum` that takes a single integer `X` as a parameter; you can assume it will be greater than 1. Add up all the numbers from 1 to 1000 (inclusive) that can be made by raising `X` to a power 1 or greater. Return the sum.</p>
+      <p>For example:
+      <ul>
+      <li><p>The powers of 5 that are less than or equal to 1000 are 5, 25, 125, 625. So an input of `5` would return `780`.</p></li>
+      <li><p>The powers of 10 that are less than or equal to 1000 are 10, 100, 1000. So an input of `10` would return `1110`.</p></li>
+      </ul>
+      </p>
+      <p>Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+    //write your function here
+
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("orderCost") {
+  CHECK(powerSum(5) == doctest::Approx(780));
+  CHECK(powerSum(10) == doctest::Approx(1110));
+  CHECK(powerSum(2) == doctest::Approx(1022));
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  <exercise label="grgrefdv23">
+    <statement>
+      <p>Write the function `printSquare` that has an integer parameter `size`. Print a square of *'s that is `size` tall and wide. An input of 3 should produce:</p>
+      <pre>
+***
+***
+***</pre>
+<p>An input of 5 should produce:</p>
+      <pre>
+*****
+*****
+*****
+*****
+*****</pre>
+      <p>Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+void printSquare(int size) {
+    //write your code here
+}
+        </code>
+        <postamble visible="no"><![CDATA[
+int main() {
+  int a;
+  cin >> a;
+  printSquare(a);
+}]]></postamble>
+        <tests>
+          <iotest>
+            <input>3</input>
+            <output>***
+***
+***</output>
+          </iotest>
+          <iotest>
+            <input>5</input>
+            <output>*****
+*****
+*****
+*****
+*****</output>
+          </iotest>
+          <iotest>
+            <input>1</input>
+            <output>*</output>
+          </iotest>
+        </tests>
+    </program>
+    <hint><p>This problem is best solved with nested loops. First just worry about using a loop to print one row of `*`s. Then add a loop to repeat that row `size` number of times.</p></hint>
+    </statement>
+  </exercise>
+
+
+  <exercise label="grg34refdv23">
+    <statement>
+      <p>Write the function `printTriangle` that has an integer parameter `size`. Print a triangle of *'s that is `size` tall and wide that looks like these examples. An input of 3 should produce:</p>
+      <pre>
+*
+**
+***</pre>
+<p>An input of 5 should produce:</p>
+      <pre>
+*
+**
+***
+****
+*****</pre>
+      <p>Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+void printTriangle(int size) {
+    //write your code here
+}
+        </code>
+        <postamble visible="no"><![CDATA[
+int main() {
+  int a;
+  cin >> a;
+  printTriangle(a);
+}]]></postamble>
+        <tests>
+          <iotest>
+            <input>3</input>
+            <output>*
+**
+***</output>
+          </iotest>
+          <iotest>
+            <input>5</input>
+            <output>*
+**
+***
+****
+*****</output>
+          </iotest>
+          <iotest>
+            <input>1</input>
+            <output>*</output>
+          </iotest>
+        </tests>
+    </program>
+    <hint><p>Start by writing a loop to print out the number of stars on each row, like:</p>
+    <pre>1
+2
+3</pre>
+      <p>Then make an inner loop to print that many stars.</p>
+    </hint>
+    </statement>
+  </exercise>
+
+
+  <exercise label="grgreffdgdv23">
+    <statement>
+      <p>Write the function `printTriangle2` that has an integer parameter `size`. Print a triangle of *'s that is `size` tall and wide that looks like these examples. An input of 3 should produce:</p>
+      <pre>
+  *
+ ***
+*****</pre>
+<p>An input of 5 should produce:</p>
+      <pre>
+    *
+   ***
+  *****
+ *******
+*********</pre>
+      <p>Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+void printTriangle2(int size) {
+    //write your code here
+}
+        </code>
+        <postamble visible="no"><![CDATA[
+int main() {
+  int a;
+  cin >> a;
+  printSquare(a);
+}]]></postamble>
+        <tests>
+          <iotest>
+            <input>3</input>
+            <output>  *
+ ***
+*****</output>
+          </iotest>
+          <iotest>
+            <input>5</input>
+            <output>    *
+   ***
+  *****
+ *******
+*********</output>
+          </iotest>
+          <iotest>
+            <input>2</input>
+            <output> *
+***</output>
+          </iotest>
+        </tests>
+    </program>
+    <hint><p>Start by writing a single loop to print out the number of stars on each row, like:</p>
+    <pre>1
+3
+5...</pre>
+      <p>You can either calculate that number from the loop counter or make a `starCount` variable to keep track of the value.</p>
+      <p>Then add an inner loop to print the stars. Don't worry about the spaces yet...</p>
+    </hint>
+    <hint>
+      <p>The easiest way to solve this is with an outer loop and two inner loops. One inner loop will print the spaces, the next inner loop prints the stars:
+      </p>
+      <pre>
+      for each row
+          print spaces
+          print stars
+      </pre>
+    </hint>
+    <hint><p>How does the number of spaces relate to the `size` and the row number? If the size is 5, how many spaces are there at the start of row 1? How many at the start of row 2?</p>
+    <p>First worry about just printing the right number of spaces that should be there, like:</p>
+    <pre>4*
+3***
+2*****
+...</pre>
+    <p>Then use </p>
+    </hint>
+    </statement>
+  </exercise>
+
+</exercises>

@@ -1,0 +1,120 @@
+<section xml:id="loops_nested-loops"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Nested Loops</title>
+  <p>
+    <idx>
+      <h>loop</h>
+      <h>nested</h>
+    </idx>
+    <idx>
+      <h>nested</h>
+      <h>loops</h>
+    </idx> Like conditional statements, loops can be nested one inside the other.
+    Nesting loops allow you to iterate over all the possible values for one variable for each value of the other variable. Among other things, this is useful for generating 2-dimensional tables. For example, a <q>multiplication
+    table up to 8x8</q> needs to take each number from 1-8 and then multiply it by each value from 1-8: </p>
+
+  <program xml:id="loops_nested-loops-1" interactive="activecode">
+<xi:include href="../../programs/loops/nested-loops-1.cpp" parse="text"/>
+</program>
+
+  <p>
+    <idx>
+      <h>inner loop</h>
+    </idx>
+    <idx>
+      <h>outer loop</h>
+    </idx>In this example, the first loop (<c>for i</c>) is known
+    as the <q>outer loop</q>, and the second loop (<c>for j</c>) is known as the <q>inner loop</q>. The outer loop is responsible for iterating over the rows. For each row, the inner loop repeats for each of the 8 columns, printing out the row number `i` multiplied by the column number `j` followed by a tab. After the inner loop finishes, a newline is printed to start a new row. Then the outer loop continues to the next row. This process can be seen in the Codelense example below. It has the same structure, but produces a smaller table and calls the counters `row and `col` for clarity:
+  </p>
+
+  <program xml:id="loops_nested-loops-2" interactive="codelens">
+<xi:include href="../../programs/loops/nested-loops-2.cpp" parse="text"/>
+</program>
+
+  <p>The two loops create multiple areas to write code. Anything before the inner loop happens once per iteration of the outer loop at the start of the <q>row</q>. Anything in the inner loop happens at each <q>cell</q> (row/col). Anything after the inner loop happens once at the end of the <q>row</q>:</p>
+
+<program line-numbers="yes" highlight-lines="2,4,6">
+for (int i = 0; i &lt; 8; i++) {
+    // Anything that is done at the start of each "row"
+    for (int j = 0; j &lt; 8; j++) {
+        // Anything that is done for each "cell"
+    }
+    // Anything that is done at the end of each "row"
+}
+</program>
+
+  <p>This is especially important to keep in mind when nesting while loops. We need the inner loop's counter to reset EVERY time the outer loop iterates. That means the inner loop counter needs to be declared inside the outer loop. Also, we need to make sure that our updates to the loop control variables happen at the end of the appropriate loop body:</p>
+
+<program line-numbers="yes" highlight-lines="3,6,8">
+int i = 0;
+while (i &lt; 8) {
+    int j = 0;  // inner loop counter starts at 0 every time
+    while (j &lt; 8) {
+        // do work 
+        ++j;  // next step of inner loop
+    }
+    ++i;  // next step of outer loop
+}
+</program>
+
+  <subsection>
+  <title>Other uses of Nested Loops</title>
+
+  <p>Console output always needs to happens line by line, hence our focus on the outer loop being responsible for the <q>row</q>s. If we were processing data in a spreadsheet, we could have the outer loop be responsible for columns and the inner loop handle each row in that column. We will see examples like that later on.</p>
+
+  <p>Finally, it is worth noting that there are many times we will need to use nested loops that don't involve printing a table. Some possible examples:
+    <ul>
+      <li>For each line in a file, read in 10 numbers. (Outer loop is lines, inner is numbers on the line)</li>
+      <li>For each student, loop through their classes to add up their credits. (Outer loop is students, inner is classes that student is taking)</li>
+      <li>For each number in a list, find its distance from every other number in the list to determine the closest two numbers. (Outer loop is numbers, inner loop is the same list of numbers.)</li>
+    </ul>
+  </p>
+  </subsection>
+
+  <exercise label="mucp_6_9"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Put the blocks in order so that they make a 5 row by 10 column grid where each row has the row number, a `:`, and then the column numbers 1-10. Like this:</p>
+      <pre>
+1:    1   2   3   4   5   6   7   8   9   10
+2:    1   2   3   4   5   6   7   8   9   10
+3:    1   2   3   4   5   6   7   8   9   10
+...
+</pre>
+    </statement>
+    <blocks>
+      <block>
+        <choice correct="yes">
+<cline>for (int i = 1; i &lt;= 5; ++i) {</cline>
+        </choice>
+        <choice>
+<cline>for (int i = 1; i &lt;= 10; ++i) {</cline>
+        </choice>
+      </block>
+      <block>
+<cline> cout &lt;&lt; i &lt;&lt; ":\t";</cline>
+      </block>
+      <block>
+        <choice correct="yes">
+<cline> for (int j = 1; j &lt;= 10; ++j) {</cline>
+        </choice>
+        <choice>
+<cline> for (int j = 1; j &lt;= 5; ++j) {</cline>
+        </choice>
+      </block>
+      <block>
+<cline>  cout &lt;&lt; j &lt;&lt; "\t";</cline>
+      </block>
+      <block>
+<cline> }</cline>
+      </block>
+      <block>
+<cline> cout &lt;&lt; endl;</cline>
+<cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

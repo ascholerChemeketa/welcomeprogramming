@@ -1,0 +1,132 @@
+<section xml:id="loops_coin-flips"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Coin Flips</title>
+
+  <p>Now that we know how to generate random numbers, let us try to do a simulation of coin flips.</p>
+
+  <p>If we flip a coin, we expect to get heads about half the time and tails about half the time.
+    Sometimes we will get a few heads or tails in a row. But longer streaks of all heads or tails
+    are less likely. It is twice as hard to get 3 heads in a row as to get 2. And twice as hard
+    again to get 4 heads in a row. So let's flip some coins and see how long it takes to get 4 heads
+    in a row.</p>
+
+  <p>To simulate flipping a coin, we need to map the possibilities to different numbers. Let's call
+    tails 0 and heads 1. Flipping a coin is then the same as picking either 0 or 1, which we can do
+    with `randRange(0, 1)`. Any time we want to pick something at random, we can apply the same
+    basic strategy. Say we want to pick a random day of the week. There are seven days, so we could
+    use `randRange(0, 6)` or `randRange(1, 7)` and then map each possible number to a different day
+    of the week (i.e. 0 means "Sunday", 1 means "Monday", etc...)</p>
+
+  <p>Let's start with a simple test of this idea. We will make a loop that counts until 10. In the
+    loop we will generate a random number and use that to print "Heads" or "Tails":</p>
+
+  <program label="flips-1"
+           interactive="activecode"
+           datafile="SimpleRandom.h">
+<xi:include href="../../programs/loops/flips-1.cpp" parse="text"/>
+</program>
+
+  <p>Now we need to keep track of how many heads in a row we have seen. We will need a variable to
+    store the current streak. We will start it at 0. Every time we see a head, we will increment the
+    streak. Every time we see a tail, we will reset the streak to 0. The variable will need to be
+    initialized once before the start of the loop - we do not want to initialize it inside the loop
+    or it will reset with each flip.</p>
+
+  <exercise label="coin-flips-2">
+    <statement>
+      <p>Fix the missing parts of the code below. They are marked with `???`. To make sure we see
+        some longer streaks, we are now flipping 100 coins - you will need to scroll the output area
+        to see all of it.</p>
+    </statement>
+    <program label="flips-2"
+             interactive="activecode"
+             datafile="SimpleRandom.h">
+<xi:include href="../../programs/loops/flips-2.cpp" parse="text"/>
+</program>
+  </exercise>
+
+  <p>Once we are satisfied that works, we can worry about our real goal. We want to keep flipping
+    until we get 4 heads in a row and then stop. We could add something like this at the end of our
+    loop body:</p>
+
+  <program>
+if (headStreak == 4) {
+    break;
+}
+  </program>
+
+  <p>But there is no guarantee we will see 4 heads in the first 100 flips. We could make the loop
+    count to 1000, but it is still possible (although very unlikely) we wouldn't see 4 heads.</p>
+
+  <p>The real problem here is that our problem involves counting, but the loop we need is not a <term>counting
+    loop</term> We need a <term>sentinel value loop</term> - one that stops when `headStreak` is 4.
+    Our counter is something extra we are doing, not what drives the loop logic.</p>
+
+  <exercise label="tablsdfsdfes_1"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Build a version of the simulation that correctly runs until 4 heads in a row are seen.</p>
+    </statement>
+    <blocks>
+      <block order="3">
+        <cline>#include &lt;iostream></cline>
+        <cline>#include "SimpleRandom.h"</cline>
+        <cline>using namespace std;</cline>
+        <cline></cline>
+        <cline>int main() {</cline>
+      </block>
+      <block order="2">
+        <choice correct="yes">
+          <cline>  int headStreak = 0;</cline>
+          <cline>  int flip = 0;</cline>
+        </choice>
+        <choice>
+          <cline>  int headStreak = 1;</cline>
+          <cline>  int flip = 0;</cline>
+        </choice>
+      </block>
+      <block order="4">
+        <choice correct="yes">
+          <cline>  while (headStreak &lt; 4) {</cline>
+          <cline>    ++flip;</cline>
+          <cline>    cout &lt;&lt; flip &lt;&lt; ":\t";</cline>
+        </choice>
+        <choice>
+          <cline>  while (flip &lt; 4) {</cline>
+          <cline>    ++flip;</cline>
+          <cline>    cout &lt;&lt; flip &lt;&lt; ":\t";</cline>
+        </choice>
+      </block>
+      <block order="1">
+        <cline>    int coinToss = randRange(0, 1);</cline>
+        <cline>    if(coinToss == 0) {</cline>
+        <cline>      headStreak = 0;</cline>
+        <cline>      cout &lt;&lt; "Tails" &lt;&lt; endl;</cline>
+        <cline>    } else {</cline>
+        <cline>      ++headStreak;</cline>
+        <cline>      cout &lt;&lt; "Heads. That is " &lt;&lt; headStreak </cline>
+        <cline>         &lt;&lt; " in a row." &lt;&lt; endl;</cline>
+        <cline>    }</cline>
+      </block>
+      <block order="5">
+        <choice correct="yes">
+          <cline>  }</cline>
+          <cline>}</cline>
+        </choice>
+        <choice>
+          <cline>    ++headStreak;</cline>
+          <cline>  }</cline>
+          <cline>}</cline>
+        </choice>
+        <choice>
+          <cline>    ++flip;</cline>
+          <cline>  }</cline>
+          <cline>}</cline>
+        </choice>
+      </block>
+    </blocks>
+    <program datafile="SimpleRandom.h"></program>
+  </exercise>
+
+</section>

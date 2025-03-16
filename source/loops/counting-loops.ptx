@@ -1,0 +1,165 @@
+<section xml:id="loops_counting"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Counting Loops</title>
+
+  <p>Every loop has the same conceptual structure:</p>
+
+  <pre>
+INITIALIZE LOOP VARIABLE
+WHILE CONDITION IS TRUE
+    DO SOMETHING
+    UPDATE LOOP VARIABLE
+  </pre>
+
+  <p>But there are some different ways to apply that basic pattern that are worth learning. The first in the <term>counting loop</term>. A counting loop does what the title advertises: it counts. It starts at a number, and then counts up or down to another number. Like this loop that counts from 1 to 5:
+    <idx>
+      <h>loop</h>
+      <h>counting</h>
+    </idx></p>
+
+  <program interactive="activecode" label="cl-1">
+<xi:include href="../../programs/loops/counting-1.cpp" parse="text"/>
+</program>
+
+  <p>Note that to get 5 repetitions when starting from 1, we need to count up to and including 5. For reasons that will become clear when we introduce arrays and strings, computer scientists often number things starting from 0. So often times, we count from 0. Most programmers would write a loop that repeats 5 times as starting from 0 and counting up to but not including 5, like this:</p>
+
+  <program interactive="activecode" label="cl-2">
+<xi:include href="../../programs/loops/counting-2.cpp" parse="text"/>
+</program>
+
+  <p>Note that the program repeats the body 5 times, but the output is now 0, 1, 2, 3, 4. If we care about the numbers being printed, that would be a problem. But often, we aren't doing much with the loop control variable other than tracking the progress of the loop. Say I want to print out `"Hello"` 5 times. It doesn't matter what my counter is doing, as long as it causes the loop to repeat 5 times:</p>
+
+  <program interactive="activecode" label="cl-3">
+<xi:include href="../../programs/loops/counting-3.cpp" parse="text"/>
+</program>
+
+  <p>That sample could initialize `line` to 1 and count up to 5. It could initialize line to 5 and count down (`--line`) while line was greater than 0. It could even start from 0, count by 10s (`line += 10`) and stop at 50. (That would probably be confusing however... <q>wait, why is this loop counting by 10s? Is that important?</q>)</p>
+
+  <p>Because the loop control variable has no meaning other than <q>the variable that is controlling the loop</q>, programmers have developed the convention of naming an otherwise meaningless loop counter `i`. If we need a second loop counter somewhere that `i` is already in use, we use `j`, then `k`, etc...</p>
+
+  <p>You should get used to seeing `i` used in this way, but don't interpret that as meaning it is now OK to name variables using single letters. Variables should still have meaningful names. It is just that for programmers who are used to thinking of `i` as always being <q>loop counter</q>, it is a meaningful name.</p>
+
+  <p>Also, if the loop counter has a meaning beyond <q>loop counter</q>, you should consider giving it a real name, not just `i`. Say you are counting off the months of the year 1-12. When written like this, even if you only see the tail end of the loop on your screen, it is clear that we are printing out the month:</p>
+
+  <program><![CDATA[
+int month = 1;
+while (month <= 12) {
+    //lots of other code
+    //...
+    //lots of other code
+    cout << month << endl;
+    month++;
+}]]>
+  </program>
+
+  <p>If we used `i` it would be easier to lose sight of the fact that `i` really means <q>month number</q> in this loop.</p>
+
+  <warning><p><term>Off by one</term> errors are one of the most common types of errors in programs. An off by one error occurs when a loop goes one step too far, or stops one step too early, or counts from 1-5 when it should count from 0-4. Pay close attention to whether you should use `&lt;` or `&lt;=` in loops.</p></warning>
+
+  <exercise label="mucp_6_1"
+            numbered="yes"
+            adaptive="yes"
+            indentation="show">
+    <statement>
+      <p>The program below should print out the even numbers between 20 and 40, inclusive,
+        but the code is mixed up and contains extra blocks. Put the necessary blocks
+        in the correct order.</p>
+    </statement>
+    <blocks>
+      <block order="2">
+        <choice correct="yes">
+          <cline>int main() {</cline>
+        </choice>
+        <choice>
+          <cline>main(int) {                         </cline>
+        </choice>
+      </block>
+      <block order="8">
+        <cline>   int n = 20;</cline>
+      </block>
+      <block order="7"
+             correct="no">
+        <cline>   int n = 0; </cline>
+      </block>
+      <block order="10">
+        <choice correct="yes">
+          <cline><![CDATA[   while (n <= 40) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[   while (n < 40) {                        ]]></cline>
+        </choice>
+      </block>
+      <block order="12">
+        <cline><![CDATA[      cout << n << endl;]]></cline>
+      </block>
+      <block order="3">
+        <cline>      n = n + 2;</cline>
+      </block>
+      <block order="4"
+             correct="no">
+        <cline>      n++;                 </cline>
+      </block>
+      <block order="11"
+             correct="no">
+        <cline>      n = n * 2;                 </cline>
+      </block>
+      <block order="1">
+        <cline>   }</cline>
+      </block>
+      <block order="5">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+  <exercise label="mucp_6_2"
+            numbered="yes"
+            adaptive="yes"
+            indentation="show">
+    <statement>
+      <p>The program below should count down from 100 to 0 in decrements of
+        10 but the code is mixed up and contains extra blocks. Put the necessary blocks
+        in the correct order.</p>
+    </statement>
+    <blocks>
+      <block order="6">
+        <cline>int main() {</cline>
+      </block>
+      <block order="2">
+        <cline>   int n = 100;</cline>
+      </block>
+      <block order="3"
+             correct="no">
+        <cline>   int n = 10; </cline>
+      </block>
+      <block order="1">
+        <cline>   while (n &gt;= 0) {</cline>
+      </block>
+      <block order="7"
+             correct="no">
+        <cline>   while (n &lt; 0) { </cline>
+      </block>
+      <block order="11"
+             correct="no">
+        <cline>   while (n &gt; 0) { </cline>
+      </block>
+      <block order="10">
+        <cline><![CDATA[      cout << n << endl;]]></cline>
+      </block>
+      <block order="5">
+        <cline>      n -= 10;</cline>
+      </block>
+      <block order="8"
+             correct="no">
+        <cline>      n += 10;                 </cline>
+      </block>
+      <block order="9">
+        <cline>   }</cline>
+      </block>
+      <block order="4">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

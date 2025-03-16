@@ -1,0 +1,31 @@
+<section xml:id="loops_do-while"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Do While</title>
+  <p>
+    <idx>
+      <h>do while loop</h>
+    </idx>There is one other less common loop format worth mentioning. The `do...while` loop. It looks like:</p>
+  
+  <pre>
+do {
+    body
+} while (condition);
+</pre>
+
+  <p>The `do...while` puts the test at the end of the loop. This means that the body of the loop is guaranteed to execute at least one time. Say you want to roll a pair of dice until you roll a pair. The know we want at least one iteration. So we might write it using do-while like this:</p>
+
+  <program xml:id="do-while-1" interactive="activecode" datafile="SimpleRandom.h">
+<xi:include href="../../programs/loops/do-while-1.cpp" parse="text"/>
+</program>
+
+  <p>Unfortunately, to test `die1` and `die2` in the condition, we need to declare them before the body of the loop. But you might still prefer that code to the `while` loop implementation. It starts the two dice with made up values that force the loop to run once:</p>
+
+  <program xml:id="do-while-2" interactive="activecode" datafile="SimpleRandom.h">
+<xi:include href="../../programs/loops/do-while-2.cpp" parse="text"/>
+</program>
+
+  <note>
+    <p>This program violates the usual advice to do updates at the end of the body. All the updates (rolling dice, and incrementing tries) happen at the start of the body. When you construct a loop so that it always has to run at least once and processes even the last value produced by the update, this reversed structure can be easier to read. <q>Make a new value, do work with it, then if needed, continue.</q></p>
+  </note>
+
+</section>

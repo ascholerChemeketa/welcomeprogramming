@@ -1,0 +1,143 @@
+<section xml:id="loops_for-statement"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>The for Statement</title>
+
+  <p>The loops we have written so far have three parts in common. They
+    initialize a loop control variable before the loop, they have a condition that depends on that variable, and they do
+    something inside the loop to update that variable:</p>
+
+<program line-numbers="yes" highlight-lines="1,2,4"><![CDATA[
+int i = 0;              //initialize
+while (i < 5) {         //test
+    cout << i << endl;
+    i++;                //update
+}
+]]></program>
+
+  <p>
+    <idx>
+      <h>for</h>
+    </idx>
+    <idx>
+      <h>loop</h>
+      <h>for</h>
+    </idx>
+    <idx>
+      <h>statement</h>
+      <h>for</h>
+    </idx> 
+    The <c>for</c> loop, is a way to expresses those three parts more
+    concisely. The <term>for</term> loop has three components in parentheses, separated by semicolons: the initializer,
+    the condition, and the update:</p>
+    
+    <pre>
+for (initializer; test; update) {
+    body
+}
+    </pre>
+
+    <p><ol>
+      <li>
+        <p>The <term>initializer</term> runs once at the very beginning of the loop. It is
+    equivalent to the line before the <c>while</c> statement.</p>
+      </li>
+      <li>
+        <p>The <term>condition</term> is checked each time through the loop. If it is <c>false</c>, the
+    loop ends. Otherwise, the body of the loop is executed (again).</p>
+      </li>
+      <li>
+        <p>At the end of each iteration, after the body, the <term>update</term> runs, and we go back to the start. (You can imagine that the update automatically gets inserted right before the } at the end of the body.)</p>
+      </li>
+    </ol>
+    </p>
+    
+    
+    <p>For example, we can rewrite the 1-5 loop this way: </p>
+
+  <program xml:id="loops_for-statement-0" interactive="codelens">
+<xi:include href="../../programs/loops/for-statement-0.cpp" parse="text"/>
+</program>
+
+  <p>The `for` loop is often easier to read because it puts all the loop-related statements at the top of the loop. Looking at the statement in that loop, I can tell that it start from 1, goes up to 5, and counts by 1. In the equivalent while loop, the update might be separated from the test by quite a bit of code, making it harder to see at a glance see what the loop is doing.</p>
+
+  <p>Here is the 2, 4, 6, 8 loop written as a `while` and as a `for` side by side for comparison:</p>
+
+  <sidebyside widths="45% 45%">
+  <program xml:id="loops_for-statement-11">
+<xi:include href="../../programs/loops/for-statement-1b.cpp" parse="text"/>
+</program>
+  <program xml:id="loops_for-statement-1b">
+<xi:include href="../../programs/loops/for-statement-1.cpp" parse="text"/>
+</program>
+  </sidebyside>
+
+  <p>There is another difference between <c>for</c> loops and <c>while</c> loops: if you declare a variable
+    in the initializer, it exists only <term>inside</term> the <c>for</c> loop. For example, this program has a syntax error - `i` no longer is in scope once we leave the loop:</p>
+
+  <program xml:id="loops_for-statement-2" interactive="activecode">
+<xi:include href="../../programs/loops/for-statement-2.cpp" parse="text"/>
+</program>
+
+  <p>This can actually be an advantage. If you want to keep reusing the same name for your loop counters, you can do so with a `for` loop. Each time a loop ends, the variables created in the initializer are no longer in scope.</p>
+
+  <p>For loops and while loops are interchangeable. There is no loop you can write with one that you can't write with the other. So you should pick the one that makes your code easiest to read. For a counting loop, a `for` loop is often the correct choice. For other kinds of loops (like the sentinel loop we are about to learn about), a while loop may allow for a clearer expression of your intent.</p>
+
+  <p>A final note about for loops: It is possible for the initialize or update to be empty:</p>
+
+<program>
+// empty initialize
+for ( ; i &lt; 5; i++) { ...
+
+// empty update
+for (int i = 0; i &lt; 5;  ) { ...
+</program>
+
+  <p>In the first one, `i` would already have to exist. In the second example, we would need to update `i` inside the loop body to avoid an infinite loop. Although these structures are legal, they are usually a sign that you are using a `for` loop when a `while` loop would be the better way to express what you want to do.</p>
+
+  <exercise label="mucp_6_7"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>On the last day of every year, we count down the seconds before the new year arrives. Write
+        the function <c>newYearCountdown</c>, which prints out a countdown from 10 and then prints out <q>Happy
+          New Year!</q>.</p>
+    </statement>
+    <blocks>
+      <block order="10">
+        <cline>void newYearCountdown() {</cline>
+      </block>
+      <block order="2">
+        <choice correct="yes">
+          <cline> for (int n = 10; n &gt; 0; --n) {</cline>
+        </choice>
+        <choice>
+          <cline> for (int n = 0; n &gt; 0; ++n) {</cline>
+        </choice>
+        <choice>
+          <cline> for (int n = 10; n &lt; 0; --n) {</cline>
+        </choice>
+        <choice>
+          <cline> for (int n = 0; n &lt; 0; ++n) {</cline>
+        </choice>
+      </block>
+      <block order="4">
+        <cline><![CDATA[  cout << n << " ";]]></cline>
+      </block>
+      <block order="4" correct="no">
+        <cline> ++n;</cline>
+      </block>
+      <block order="4" correct="no">
+        <cline> --n;</cline>
+      </block>
+      <block order="9">
+          <cline> }</cline>
+      </block>
+      <block order="5">
+        <cline><![CDATA[ cout << "Happy New Year!" << endl;]]></cline>
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

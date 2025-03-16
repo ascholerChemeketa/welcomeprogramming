@@ -1,0 +1,1 @@
+int index = fruit.indexOf('a', 2);  // returns 3

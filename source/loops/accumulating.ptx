@@ -1,0 +1,93 @@
+<section xml:id="loops_accumulating"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Accumulating</title>
+
+  <p>A common task we need to do as part of a loop is to <term>accumulate</term> some value<mdash/>to keep a running total of something. For example, we might want to add up all the numbers from 1 to 5. We could do that by creating a variable to hold the total, and then adding each number to the total as we go:
+  <idx><h>accumulate</h></idx></p>
+
+  <program interactive="codelens" label="acl-1">
+<xi:include href="../../programs/loops/accumulating-1.cpp" parse="text"/>
+</program>
+
+  <p>This successfully adds up the numbers that 1-5 and gets 15. Key parts of the recipe:
+    <ul>
+      <li>The <term>accumulator</term> variable `total` is declared before the loop starts. If we put total inside the loop, it would be recreated with each iteration and never grow. (It would also be unavailable on line 11 once we left the loop.)</li>
+      <li>Where we change the accumulator, the variable we are adding, `i` has the correct value (1, then 2, then 3,...)</li>
+    </ul>
+    If we change the order of the statements in The loop body we will violate this second rule and get the wrong answer:
+  </p>
+
+  <program interactive="codelens" label="acl-1">
+<xi:include href="../../programs/loops/accumulating-1.cpp" parse="text"/>
+</program>
+
+  <p>Now, because we are Updating the loop counter first, by the time we change the accumulator we are using the wrong value. We could fix that by changing the loop itself to count from zero up to but not including five, but It is easier to just have `++i` be the last statement.</p>
+
+  <insight>
+      <p>The structure for loops that generally keeps things as simple as possible is:</p>
+      <pre>
+      DO TEST ON CURRENT VALUE
+          DO WORK WITH CURRENT VALUE
+          GO TO THE NEXT VALUE (UPDATE LOOP CONTROL VARIABLE)
+      </pre>
+      <p>By updating the loop control variable at the end of the loop, we ensure that after changing the value, the next thing that happens is testing to see if we want to continue with the loop. If so, we use that value, then calculate the next one.</p>
+  </insight>
+
+  <exercise label="mucp_6_3"
+            numbered="yes"
+            adaptive="yes"
+            indentation="show">
+    <statement>
+      <p>The program below should find the sum of the first 10 natural numbers,
+        but the code is mixed up and contains extra blocks. Put the necessary blocks
+        in the correct order.</p>
+    </statement>
+    <blocks>
+      <block order="7">
+        <cline>int main() {</cline>
+      </block>
+      <block order="9">
+        <cline>   int n = 1;</cline>
+      </block>
+      <block order="10"
+             correct="no">
+        <cline>   int n = 10; </cline>
+      </block>
+      <block order="8">
+        <cline>   int sum = 0;</cline>
+      </block>
+      <block order="2"
+             correct="no">
+        <cline>   int sum = n;  </cline>
+      </block>
+      <block order="11">
+        <cline><![CDATA[   while (n <= 10) {]]></cline>
+      </block>
+      <block order="5"
+             correct="no">
+        <cline><![CDATA[   while (n < 100) {  ]]></cline>
+      </block>
+      <block order="3"
+             correct="no">
+        <cline><![CDATA[   while (n <= 9) {  ]]></cline>
+      </block>
+      <block order="6"
+             correct="no">
+        <cline><![CDATA[      cout << n << endl;  ]]></cline>
+      </block>
+      <block order="1">
+        <cline>      sum = sum + n;</cline>
+      </block>
+      <block order="13">
+        <cline>      n++;</cline>
+      </block>
+      <block order="4">
+        <cline>   }</cline>
+      </block>
+      <block order="12">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

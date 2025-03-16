@@ -1,0 +1,94 @@
+<section xml:id="loops_sentinel-loops"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Sentinel Loops</title>
+
+  <p>A second common pattern for designing a loop (after the counting loop) is the <term>sentinel loop</term>. It is used when we don't know how many times we will need to repeat a task, but we do know when to stop. In this strategy, the loop continues until a special value is encountered, called the <term>sentinel</term>. (A <em>sentinel</em> is someone who stands guard.)
+  <idx><h>sentinel loop</h></idx>
+  <idx><h>loop</h><h>sentinel</h></idx>
+  </p>
+
+  <p>Here is a program that keeps reading in numbers until it encounters 0. The program does not know, or care, how many numbers it is going to get. So it isn't really <q>counting</q>, it is just continuing until it hits the sentinel value 0.</p>
+
+  <program interactive="activecode" label="sl-1">
+<code>
+<xi:include href="../../programs/loops/sentinel-loops-1.cpp" parse="text"/>
+</code>
+<stdin>5 10 15 4 0</stdin>
+</program>
+
+  <p>Codelens doesn't handle input, so we are printing out information inside the loop about what is going on. This can be a useful way to debug loops even if you have a debugger that you can use to step through the code. It can be useful to see all the iterations of a loop at once so you can track patterns in what happens from one iteration to the next. Here, each iteration starts by printing `--------------`, and then updates us about what each line did.</p>
+
+  <p>Notice that the loop variable update - where we read in the next value for `number` - separates the body of the loop into two parts. The part above the update where we are using the current value of the variable, and the part after where we are using the <q>next</q> value.</p>
+
+  <p>Later on, we will often see this strategy implemented with a `bool` value or function call that returns a `bool` as the sentinel. Loops like this are very common:</p>
+
+  <program>
+while ( !atEndOfFile() ) {
+  // read a line and process it
+}
+  </program>
+
+  <p>Here, the `atEndOfFile` function returns `true` or `false` and is serving as our sentinel.  As long as there are more lines, `atEndOfFile()` will be `false`. That means `!atEndOfFile()` will be `true` and the loop executes again.</p>
+
+  <exercise label="mucp_6_8"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Help Goku reach power levels of over 9000! Write the function powerUp which takes
+        powerLevel as a parameter. powerUp checks to see if powerLevel is over 9000. If it isn't, it
+        repeatedly prints <q>More power!</q> and increments powerLevel by 1000 until powerLevel is
+        over 9000. Then powerUp prints <q>It's over 9000!</q>. Put the necessary blocks in the
+        correct order.</p>
+    </statement>
+    <blocks>
+      <block order="11">
+        <choice correct="yes">
+          <cline>void powerUp(int powerLevel) {</cline>
+        </choice>
+        <choice>
+          <cline>void powerUp() {                         </cline>
+        </choice>
+      </block>
+      <block order="6"
+             correct="no">
+        <cline>   int n = 0;  </cline>
+      </block>
+      <block order="7">
+        <choice correct="yes">
+          <cline><![CDATA[   while (powerLevel < 9000) {]]></cline>
+        </choice>
+        <choice>
+          <cline>   while (powerLevel &gt; 9000) {  </cline>
+        </choice>
+      </block>
+      <block order="5">
+        <cline><![CDATA[      cout << "More power!" << endl;]]></cline>
+      </block>
+      <block order="12">
+        <choice correct="yes">
+          <cline>      powerLevel = powerLevel + 1000;</cline>
+        </choice>
+        <choice>
+          <cline>      powerLevel++;  </cline>
+        </choice>
+      </block>
+      <block order="4"
+             correct="no">
+        <cline>      n++;  </cline>
+      </block>
+      <block order="8">
+        <cline>   }</cline>
+      </block>
+      <block order="3"
+             correct="no">
+        <cline><![CDATA[   if (powerLevel < 9000) {  ]]></cline>
+      </block>
+      <block order="1">
+        <cline><![CDATA[   cout << "It's over 9000!" << endl;]]></cline>
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

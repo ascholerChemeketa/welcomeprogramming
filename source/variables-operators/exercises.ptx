@@ -1,10 +1,108 @@
 <exercises xml:id="variables-operators_exercises"
          xmlns:xi="http://www.w3.org/2001/XInclude">
-         <!-- TODO : real exercises! -->
   <title>Exercises</title>
+
   <introduction>
     <p>Remember to work one step at a time! If you are feeling stuck, try to think of the smallest bit of work you can try to do in order to get one step closer to your goal. Then just worry about that one step of work. </p>
   </introduction>
+
+
+
+  <exercise label="asdd34sadf">
+    <statement>
+      <p>The code below reads in two integers `a` and `b. Add code to print their sum, product, the value of a divided by b, the remainder after a is divided by b, and the value of <m>2a + 3b</m>. Each value should go on its own line. For example, given the inputs `5 3`, you should print:</p>
+      <pre>8
+15
+1
+2
+19</pre>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/variables-operators/exercises-0.cpp" parse="text"/>
+        </preamble>
+        <code>
+    //Your code here
+        </code>
+        <postamble>
+}
+        </postamble>
+        <tests>
+        <iotest>
+          <input>5 3</input>
+          <output>8
+15
+1
+2
+19</output>
+        </iotest>
+        <iotest>
+          <input>1 3</input>
+          <output>4
+3
+0
+1
+11</output>
+        </iotest>
+        <iotest>
+          <input>10 10</input>
+          <output>20
+100
+1
+0
+50</output>
+        </iotest>
+        </tests>
+      </program>
+    </statement>
+  </exercise>
+
+
+
+  <exercise label="asdd34sarrgtdf">
+    <statement>
+      <p>The code declares an integer `a` and `b` and reads in a value for `a`. Later on, the code prints out the values of `a`, `b`, and `c`.</p>
+      <p>Your task is to add code in between those parts that:
+      <ul>
+      <li>Sets b to have the value that was read in for a.</li>
+      <li>Increases a by 10.</li>
+      <li>Declares c and sets it to have the value of a (new value) plus b.</li>
+      </ul>
+      </p>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/variables-operators/exercises-0b.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+    //Your code here
+
+        </code>
+        <postamble>
+    cout &lt;&lt; a &lt;&lt; " " &lt;&lt; b &lt;&lt; " " &lt;&lt; c &lt;&lt; endl;
+}
+        </postamble>
+        <tests>
+        <iotest>
+          <input>5</input>
+          <output>15 5 20</output>
+        </iotest>
+        <iotest>
+          <input>6</input>
+          <output>16 6 22</output>
+        </iotest>
+        <iotest>
+          <input>0</input>
+          <output>10 0 10</output>
+        </iotest>
+        <iotest>
+          <input>-1</input>
+          <output>9 -1 8</output>
+        </iotest>
+        </tests>
+      </program>
+    </statement>
+  </exercise>
+
 
   <exercise label="asdf">
     <statement>
@@ -76,4 +174,5 @@
     <hint><p>This is like the Time Case Study. Use a combination of division and remainder. Work on one coin type at a time and make sure to progress in a consistent direction (either increasing or decreasing value).</p></hint>
   </exercise>
 
+  
 </exercises>

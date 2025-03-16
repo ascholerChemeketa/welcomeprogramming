@@ -1,0 +1,35 @@
+<section xml:id="strings_which-loop-to-use" xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>Which Loop to Use</title>
+<p>
+<c>for</c> and <c>while</c> loops have the same capabilities; any <c>for</c> loop can be rewritten as a <c>while</c> loop, and vice versa.
+For example, we could have printed letters of the alphabet by using a <c>while</c> loop:
+</p>
+
+<program xml:id="strings_which-loop-to-use-1">
+<xi:include href="../../programs/strings/which-loop-to-use-1.cpp" parse="text"/>
+</program>
+
+<p>
+You might wonder when to use one or the other. It depends on whether you know how many times the loop will repeat.
+</p>
+
+<p>
+A <c>for</c> loop is <q>definite</q>, which means we know, at the beginning of the loop, how many times it will repeat.
+In the alphabet example, we know it will run 26 times.
+In that case, it's better to use a <c>for</c> loop, which puts all of the loop control code on one line.
+</p>
+
+<p>
+A <c>while</c> loop is <q>indefinite</q>, which means we don't know how many times it will repeat.
+For example, when validating user input as in <xref ref="validate">Section</xref>, it's impossible to know how many times the user will enter a wrong value.
+In this case, a <c>while</c> loop is more appropriate:
+</p>
+
+<program xml:id="strings_which-loop-to-use-2">
+<xi:include href="../../programs/strings/which-loop-to-use-2.cpp" parse="text"/>
+</program>
+
+<p>
+It's easier to read the <c>Scanner</c> function calls when they're not all on one line of code.
+</p>
+</section>

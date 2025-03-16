@@ -1,0 +1,217 @@
+<section xml:id="loops_tables"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Tables</title>
+  <p>One of the things loops are good for is generating tabular data. For example, before computers
+    were readily available, people had to calculate logarithms, sines and cosines, and other common
+    mathematical functions by hand. To make that easier, there were books containing long tables
+    where you could find the values of various functions. Creating these tables was slow and boring,
+    and the result tended to be full of errors.</p>
+  <p>When computers appeared on the scene, one of the initial reactions was, <q>This is great! We
+    can use the computers to generate the tables, so there will be no errors.</q> That turned out to
+    be true (mostly), but shortsighted. Soon thereafter computers and calculators were so pervasive
+    that the tables became obsolete.</p>
+  <p>Well, almost. It turns out that for some operations, computers use tables of values to get an
+    approximate answer, and then perform computations to improve the approximation. In some cases,
+    there have been errors in the underlying tables, most famously in the table the original Intel
+    Pentium used to perform floating-point division.</p>
+  <p>Although a <q>log table</q> is not as useful as it once was, it still makes a good example of
+    iteration.</p>
+  <listing label="tables_AC_1">
+    <caption> This active code outputs a sequence of values in the left column and their base 2
+      logarithms in the right column. </caption>
+    <program xml:id="tables_AC_1_editor"
+             interactive="activecode"
+             line-numbers="yes">
+      <code><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int main() {
+    int x = 1;
+    while (x <= 16) {
+        cout << x << "\t" << log2(x) << endl;
+        x = x + 1;
+    }
+}
+        ]]></code>
+    </program>
+  </listing>
+  <p>The sequence <c>\t</c> represents a <term>tab</term> character. A tab character causes the cursor
+    to shift to the right until it reaches one of the <term>tab stops</term>, which are normally
+    every eight characters. This helps the second column stay lined up even when the length of the
+    number in the first column goes from 1 to 2 digits. If we used the string `" "` to space out the
+    columns, the second column would jump over when the first column changed length.</p>
+
+  <p>When making a table, or doing any work with a loop, it is important to think about what
+    variable really is the loop control variable. Say you are asked to print a table of investment
+    income like the one below. The investment starts at $10,000 and grows by 20% until it reaches at
+    least $100,000:</p>
+
+  <console>
+    <output>Year	Investment Amount
+------------------------
+1	$10000
+2	$12000
+3	$14400
+4	$17280
+5	$20736
+6	$24883.2
+7	$29859.8
+8	$35831.8
+9	$42998.2
+10	$51597.8
+11	$61917.4
+12	$74300.8
+13	$89161
+14	$106993
+</output>
+  </console>
+
+  <p>Stop and think about what is really controlling that loop? Does the problem specify how many
+    months the process takes? No - it says that we want to stop when we hit $100,000+ not after X
+    months. (Though you could do math to figure out the number of months.) So despite counting from
+    1 to 14, this isn't really a counting loop. It is a sentinel value loop that is looking for the
+    balance to become $100,000+. Here is what the program might look like:</p>
+
+  <program xml:id="tables_AC_2_esdsdfditor"
+           interactive="activecode"
+           line-numbers="yes">
+<xi:include href="../../programs/loops/tables-1.cpp" parse="text"/>
+  </program>
+
+  <p>Key things to note: <ul>
+      <li>`balance` is the loop control variable. It is serving as an accumulator to store the
+    interest earned each year.</li>
+      <li>`years` is a counter variable we increase by one each time through the loop, but the loop
+    logic does not depend on its value.</li>
+      <li>There are multiple updates that need to happen each year. We need to increment `years`,
+    calculate the interest based on the current balance, and then update the balance.</li>
+      <li>The loop does not print the last row of the table. After the updates are done, if we have
+    hit the `TARGET`, the loop stops without printing the final value. So we do one last print
+    statement after the loop to handle that row.</li>
+      <li>Instead of magic numbers for `START_VALUE`, `GROWTH_RATE`,and `TARGET`, we have constants.
+    When values in a program should be reconfigurable, but do not come from input, it is a good idea
+    to make them constants and declare them together in one place.</li>
+    </ul>
+  </p>
+
+  <insight>
+    <p>It is often necessary (or at least easier) to handle the first or last item in a sequence
+      before or after the loop that handles the other items.</p>
+    <p>Doing this is better than putting an `if` inside the loop to do something special only in the
+      first or last iteration. We could move the final output inside the loop above by doing:</p>
+    <program><![CDATA[
+        ...
+        balance += interest;
+        if (balance >= TARGET) {
+            cout << years << "\t$" << balance << endl;
+        }
+    }
+    ]]>
+    </program>
+    <p>That solution needless complicates every iteration of the loop to guard against the special
+      case that we are actually now finished.</p>
+  </insight>
+
+  <exercise label="tables_1"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Let's write the code that prints out the powers of two up to 16.</p>
+    </statement>
+    <blocks>
+      <block order="3">
+        <cline>int main() {</cline>
+      </block>
+      <block order="4">
+        <cline>   int x = 1;</cline>
+      </block>
+      <block order="2">
+        <choice correct="yes">
+          <cline>   while (x &lt; 17) {</cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[   while (x < 16) {                        ]]></cline>
+        </choice>
+      </block>
+      <block order="6">
+        <choice correct="yes">
+          <cline><![CDATA[      cout << x << "\t" << pow(2, x) << endl;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[      cout << x << "\t" << pow(x, 2) << endl;                        ]]></cline>
+        </choice>
+      </block>
+      <block order="1">
+        <cline>      x++;</cline>
+        <cline>   }</cline>
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+  <exercise label="tables_3">
+    <statement>
+      <p>How would you write a tab character? <fillin mode="string"
+                case="insensitive"
+                answer=".*\\t.*"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"
+                  strip="no"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+  <exercise label="tables_4">
+    <statement>
+      <p>How can we modify the code below to print out a table of the first five odd numbers and
+        their perfect cubes?</p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+int main() {
+  int x = 1;
+  while (x < 11) {
+    cout << x << "\t" << pow(x, 2) << endl;
+    x = x + 1;
+  }
+}
+]]></code>
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement id="tables_4_opt_a">
+          <p>Change <c>pow(x,2)</c> to <c>pow(3,x)</c> and change <c>x = x + 1</c> to <c>x = x + 2</c>.</p>
+        </statement>
+        <feedback> Check the order of the <c>pow</c> function! </feedback>
+      </choice>
+      <choice>
+        <statement id="tables_4_opt_b">
+          <p>Change <c>pow(x,2)</c> to <c>pow(x,3)</c>.</p>
+        </statement>
+        <feedback> This will print out the first ten perfect cubes. </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="tables_4_opt_c">
+          <p>Change <c>pow(x,2)</c> to <c>pow(x,3)</c> and change <c>x = x + 1</c> to <c>x = x + 2</c>.</p>
+        </statement>
+        <feedback> Changing both the <c>pow</c> function and the increment in this way gives us the
+          right answer. </feedback>
+      </choice>
+      <choice>
+        <statement id="tables_4_opt_d">
+          <p>Change <c>x &lt; 11</c> to <c>x &lt; 6</c> and change <c>pow(x,2)</c> to <c>pow(x,3)</c>.</p>
+        </statement>
+        <feedback> This will print out the first five perfect cubes, but not the first five odd
+          perfect cubes.</feedback>
+      </choice>
+    </choices>
+  </exercise>
+</section>

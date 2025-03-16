@@ -133,6 +133,65 @@
         a course, you should expect a large style deduction for any program that uses global variables.</p>
     </warning>
   </subsection>
+  
+  <exercise label="mce_6_8">
+    <statement>
+      <p>Why are we allowed to use the variable <c>x</c> in both <c>main</c> and in the function
+        definition of <c>superSecretFunction</c>?</p>
+      <program language="cpp"
+               line-numbers="yes">
+        <code><![CDATA[
+int superSecretFunction(int n) {
+  int x = 0;
+  return (2 + (n * n) - 5 * n / 7) * x;
+}
+
+int main() {
+  int x = 1;
+  cout << "After using the super secret function, we get " << superSecretFunction (x);
+}
+]]></code>
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement id="mce_6_8_opt_a">
+          <p>We're using the same variable, but just reassigning the value from 0 to 1.</p>
+        </statement>
+        <feedback>
+          We are actually using two different variables that happen to have the same name.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="mce_6_8_opt_b">
+          <p>Although the name of both variables is <c>x</c>, they represent different locations in
+            memory, and thus are different variables.</p>
+        </statement>
+        <feedback>
+          One <c>x</c> is a local variable of <c>superSecretFunction</c> while the other is a local variable of <c>main</c>
+            .
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="mce_6_8_opt_c">
+          <p>We can assign them different values but not the same value. Thus, if both were
+            initialized to 0, then we'd get an error.</p>
+        </statement>
+        <feedback>
+          Since they are not in the same storage location, they can store any value, including
+            the same value.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="mce_6_8_opt_d">
+          <p>We're not allowed to do this. The code will result in an error.</p>
+        </statement>
+        <feedback>
+          The code does not produce an error.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
 
 
   <!-- TODO stack frame exercise?? -->

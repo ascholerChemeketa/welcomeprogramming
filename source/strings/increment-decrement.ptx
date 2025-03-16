@@ -1,0 +1,38 @@
+<section xml:id="strings_increment-decrement" xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>Increment and Decrement</title>
+<p>
+Here is another <c>while</c> loop example; this one displays the numbers 1 to 5:
+</p>
+
+<program xml:id="strings_increment-decrement-1">
+<xi:include href="../../programs/strings/increment-decrement-1.cpp" parse="text"/>
+</program>
+
+<p>
+    <idx><h>increment</h></idx>
+    <idx><h>decrement</h></idx>
+Assignments like <c>i = i + 1</c> don't often appear in loops, because Java provides a more concise way to add and subtract by one.
+Specifically, <c>++</c> is the <term>increment</term> operator; it has the same effect as <c>i = i + 1</c>.
+And <c><ndash/></c> is the <term>decrement</term> operator; it has the same effect as <c>i = i - 1</c>.
+</p>
+
+<p>
+If you want to increment or decrement a variable by an amount other than <c>1</c>, you can use <c>+=</c> and <c>-=</c>.
+For example, <c>i += 2</c> increments <c>i</c> by <c>2</c>:
+</p>
+
+<program xml:id="strings_increment-decrement-2">
+<xi:include href="../../programs/strings/increment-decrement-2.cpp" parse="text"/>
+</program>
+
+<p>
+And the output is as follows:
+</p>
+
+<console>
+<output>
+2, 4, 6, 8, Who do we appreciate?
+</output>
+</console>
+
+</section>

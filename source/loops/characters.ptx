@@ -1,0 +1,92 @@
+<section xml:id="loops_characters" xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>Characters</title>
+<p>
+Some of the most interesting problems in computer science involve searching and manipulating text.
+In the next few sections, we'll discuss how to apply loops to strings.
+Although the examples are short, the techniques work the same whether you have one word or one million words.
+</p>
+
+<p>
+    <idx><h>charAt</h></idx>
+    <idx><h>char</h></idx>
+    <idx><h>type</h><h>char</h></idx>
+Strings provide a function named <c>charAt</c>.
+It returns a <c>char</c>, a data type that stores an individual character (as opposed to strings of them):
+</p>
+
+<program xml:id="loops_characters-1">
+<xi:include href="../../programs/loops/characters-1.cpp" parse="text"/>
+</program>
+
+<p>
+The argument <c>0</c> means that we want the character at <term>index</term> 0.
+String indexes range from 0 to <m>n-1</m>, where <m>n</m> is the length of the string.
+So the character assigned to <c>letter</c> is <c>'b'</c>:
+</p>
+
+<p>
+\ttfamily
+</p>
+<tabular>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row><cell>b</cell><cell>a</cell><cell>n</cell><cell>a</cell><cell>n</cell><cell>a</cell></row>
+<row bottom="minor"><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row>
+<row><cell>0</cell><cell>1</cell><cell>2</cell><cell>3</cell><cell>4</cell><cell>5</cell></row>
+</tabular>
+<p>
+Characters work like the other data types you have seen.
+You can compare them using relational operators:
+</p>
+
+<program xml:id="loops_characters-2">
+<xi:include href="../../programs/loops/characters-2.cpp" parse="text"/>
+</program>
+
+<p>
+    <idx><h>quote mark</h></idx>
+    <idx><h>escape sequence</h></idx>
+Character literals, like <c>'A'</c>, appear in single quotes.
+Unlike string literals, which appear in double quotes, character literals can contain only a single character.
+Escape sequences, like <c>'
+t'</c>, are legal because they represent a single character.
+</p>
+
+<p>
+The increment and decrement operators also work with characters.
+So this loop displays the letters of the alphabet:
+</p>
+
+<program xml:id="loops_characters-3">
+<xi:include href="../../programs/loops/characters-3.cpp" parse="text"/>
+</program>
+
+<p>
+The output is shown here:
+</p>
+
+<console>
+<output>
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+</output>
+</console>
+
+<p>
+    <idx><h>Unicode</h></idx>
+Java uses <term>Unicode</term> to represent characters, so strings can store text in other alphabets like Cyrillic and Greek, and non-alphabetic languages like Chinese.
+You can read more about it at the Unicode website (<url href="https://unicode.org/"/>).
+</p>
+
+<p>
+In Unicode, each character is represented by a <q>code point</q>, which you can think of as an integer.
+The code points for uppercase Greek letters run from 913 to 937, so we can display the Greek alphabet like this:
+</p>
+
+<program xml:id="loops_characters-4">
+<xi:include href="../../programs/loops/characters-4.cpp" parse="text"/>
+</program>
+
+<p>
+This example uses a type cast to convert each integer (in the range) to the corresponding character.
+Try running the code and see what happens.
+</p>
+</section>

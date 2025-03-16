@@ -1,0 +1,255 @@
+<section xml:id="loops_while-statement"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>The while Statement</title>
+
+  <p>
+    <idx>
+      <h>iteration</h>
+    </idx>
+    <idx>
+      <h>looping</h>
+    </idx>
+    <idx>
+      <h>loop</h>
+    </idx> 
+    <term>Looping</term> or <term>iteration</term> is when a program repeatedly runs the same lines of code. A loop is created when the programmer specifies that the program need to jump back to a previous instruction instead of continuing to the next instruction. The name <term>loop</term> comes from the fact that a diagram of the path the program takes through the code makes a loop:</p>
+
+  <!-- <figure xml:id="fig_while">
+    <caption>Flow of execution for a <c>while</c> loop.</caption>
+    <image width="92.5%"
+           source="images/while.svg"/>
+  </figure> -->
+
+<!--TODO better diagram for here and for if/else-->
+    <figure xml:id="loop-structure-diagram">
+        <caption>Looping structures</caption>
+        <image>
+            <mermaid>
+flowchart TD
+    START([code before loop])
+    END([code after loop])
+    C{"test\ncondition"}
+    B[body of loop]
+
+    START --> C
+    C --> |true| B
+    C --> |false| END
+    B --> C
+            </mermaid>
+        </image>
+    </figure>
+
+  <p>
+    <idx>
+      <h>while</h>
+    </idx>
+    <idx>
+      <h>loop</h>
+      <h>while</h>
+    </idx>
+    <idx>
+      <h>statement</h>
+      <h>while</h>
+    </idx> The most fundamental loop structure in C++ is a <c>while</c> statement. It says <q>While the condition is true, do the body. Once the condition is false, continue with the code after the body.</q> Here is a simple example to watch in Codelens:</p>
+
+  <program xml:id="loops_while-statement-1" interactive="codelens">
+<xi:include href="../../programs/loops/while-statement-1.cpp" parse="text"/>
+</program>
+
+  <p> Reading the code in English sounds like this: <q>Set with <c>n</c> set to 3. While <c>n</c> is
+    greater than 0, print the value of <c>n</c>, and reduce the value of <c>n</c> by 1. After n is 0, print Blastoff!</q>
+  </p>
+
+  <p> The flow of execution for a <c>while</c> statement is as follows: <ol>
+      <li>
+        <p>Evaluate the condition in parentheses, yielding <c>true</c> or <c>false</c>.</p>
+      </li>
+      <li>
+        <p>If the condition is <c>false</c>, skip the body (statements in braces).</p>
+      </li>
+      <li>
+        <p>If the condition is <c>true</c>, execute the body and go back to step 1.</p>
+      </li>
+    </ol>
+  </p>
+
+  <p>
+    <idx>
+      <h>loop body</h>
+    </idx>
+    <idx>
+      <h>loop variable</h>
+    </idx>
+    <idx>
+      <h>infinite loop</h>
+    </idx>
+    <idx>
+      <h>loop</h>
+      <h>infinite</h>
+    </idx> 
+    <idx>
+      <h>loop</h>
+      <h>test</h>
+    </idx> 
+    <idx>
+      <h>loop</h>
+      <h>variable</h>
+    </idx> The <term>test</term> of the loop almost always has a variable as part of the expression it tests. Without a variable, there is no way for the loop to terminate once it starts. This variable is referred to as a <term>loop control variable</term>. The
+    <term>body</term> of the loop must change the value of that variable so that, eventually, the condition becomes <c>false</c> and the loop terminates. Otherwise, the loop will repeat forever, which is called an <term>infinite loop</term>: </p>
+
+  <program xml:id="loops_while-statement-2" interactive="codelens">
+<xi:include href="../../programs/loops/while-statement-2.cpp" parse="text"/>
+</program>
+
+  <p>This example will print the number <c>3</c> forever, or at least until you get bored of pressing <term>Next</term>.</p>
+
+  <warning>
+  <p>When you make an infinite loop on an ActiveCode problem, it will display `Compiling and running your program` for ~10 seconds until the server decides to stop your program. If you run an infinite loop on your own computer, you will need to stop the program manually. You can generally do this by pressing `Ctrl+C` in the terminal window where the program is running. That sends a <q>kill</q> signal to the program, which should stop it.
+  </p>
+  </warning>
+
+  <p>It is also possible for the body of a loop to never end up executing. Notice in this sample that the condition is `false` the first time we reach it. That means the body will never get a chance to execute:</p>
+
+  <program xml:id="loops_while-statement-3"  interactive="codelens">
+<code>
+<xi:include href="../../programs/loops/while-statement-3.cpp" parse="text"/>
+</code>
+</program>
+
+<!-- todo remove  colatz example and turn into exercise?? -->
+
+  <p>In the first example, we can prove that the loop terminates when <c>n</c> is positive. But in
+    general, it is not so easy to tell whether a loop terminates. For example, this loop continues
+    until <c>n</c> is 1 (which makes the condition <c>false</c>): </p>
+
+  <program xml:id="loops_while-statement-4"  interactive="activecode">
+<code>
+<xi:include href="../../programs/loops/while-statement-4.cpp" parse="text"/>
+</code>
+<stdin>3</stdin>
+</program>
+
+  <p>Each time through the loop, the program displays the value of <c>n</c> and then checks whether
+    it is even or odd. If it is even, the value of <c>n</c> is divided by 2. If it is odd, the value
+    is replaced by <m>3n+1</m>. For example, if the starting value is 3, the resulting sequence is
+    3, 10, 5, 16, 8, 4, 2, 1. </p>
+
+  <p>Since <c>n</c> sometimes increases and sometimes decreases, there is no obvious proof that <c>n</c>
+    will ever reach 1 and that the program will ever terminate. For some values of <c>n</c>, such as
+    the powers of two, we can prove that it terminates. The previous example ends with such a
+    sequence, starting when <c>n</c> is 16 (or <m>2^4</m>). </p>
+
+  <p>The hard question is whether this program terminates for <term>all</term> values of <c>n</c>.
+    So far, no one has been able to prove it <term>or</term> disprove it! For more information, see <url href="https://en.wikipedia.org/wiki/Collatz_conjecture"/>.
+  </p>
+  
+  <exercise label="while_statement_2">
+    <statement>
+      <p>The following code contains an infinite loop. Which is the best explanation for why the
+        loop does not terminate?</p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+int n = 10;
+int answer = 1;
+while (n > 0) {
+    answer = answer + n;
+    n = n + 1;
+}
+cout << answer;
+]]></code>
+      </program>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>
+          <p>n starts at 10 and is incremented by 1 each time through the loop, so it will always be
+            positive.</p>
+        </statement>
+        <feedback>
+          The loop will run as long as n is positive. In this case, we can see that n will never
+            become non-positive as the while statement condition will never be met.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>The answer starts at 1 and is incremented by n each time, so it will always be
+            positive.</p>
+        </statement>
+        <feedback>
+          While it is true that answer will always be positive, answer is not considered in the
+            loop condition.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>You cannot compare n to 0 in while loop. You must compare it to another variable.</p>
+        </statement>
+        <feedback>
+          It is perfectly valid to compare n to 0. Though indirectly, this is what causes the
+            infinite loop.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>In the while loop body, we must set n to False, and this code does not do that.</p>
+        </statement>
+        <feedback>
+          The loop condition must become False for the loop to terminate, but n by itself is not
+            the condition in this case.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="while_statement_4">
+    <statement>
+      <p>What is printed by this code? Make a memory diagram and trace the loop by hand.</p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+int n = 1;
+int x = 2;
+while (n < 5) {
+    n = n + 1;
+    x = x + 1;
+    n = n + 2;
+    x = x + n;
+}
+cout << n;
+cout << x;
+]]></code>
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>4 7</p>
+        </statement>
+        <feedback>
+          Setting a variable so the loop condition would be false in the middle of the loop body
+            does not keep the variable from actually being set.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>5 7</p>
+        </statement>
+        <feedback>
+          Setting a variable so the loop condition would be false in the middle of the loop body
+            does not stop execution of statements in the rest of the loop body.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>7 15</p>
+        </statement>
+        <feedback>
+          After n becomes 5 and the test would be False, but the test does not actually come
+            until after the end of the loop - only then stopping execution of the repetition of the
+            loop.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

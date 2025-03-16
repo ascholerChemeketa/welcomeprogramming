@@ -1,0 +1,51 @@
+<section xml:id="strings_indexfunction" xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>The indexOf function</title>
+<p>
+    <idx><h>indexOf</h></idx>
+To search for a specific character in a string, you could write a <c>for</c> loop and use <c>charAt</c> as in the previous section.
+However, the <c>String</c> class already provides a function for doing just that:
+</p>
+
+<program xml:id="strings_indexfunction-1">
+<xi:include href="../../programs/strings/indexfunction-1.cpp" parse="text"/>
+</program>
+
+<p>
+This example finds the index of <c>'a'</c> in the string.
+But the letter appears three times, so it's not obvious what <c>indexOf</c> might do.
+According to the documentation, it returns the index of the <term>first</term> appearance.
+</p>
+
+<p>
+To find subsequent appearances, you can use another version of <c>indexOf</c>, which takes a second argument that indicates where in the string to start looking:
+</p>
+
+<program xml:id="strings_indexfunction-2">
+<xi:include href="../../programs/strings/indexfunction-2.cpp" parse="text"/>
+</program>
+
+<p>
+To visualize how <c>indexOf</c> and other <c>String</c> functions work, it helps to draw a picture like <xref ref="fig_banana">Figure</xref>.
+The previous code starts at index 2 (the first <c>'n'</c>) and finds the next <c>'a'</c>, which is at index 3.
+</p>
+
+<p>
+    <idx><h>memory diagram</h></idx>
+    <idx><h>diagram</h><h>memory</h></idx>
+</p>
+<figure xml:id="fig_banana" >
+<caption>Memory diagram for a <c>String</c> of six characters.</caption>
+<image width="73%" source="images/banana.png" />
+</figure>
+<p>
+If the character happens to appear at the starting index, the starting index is the answer.
+So <c>fruit.indexOf('a', 5)</c> returns <c>5</c>.
+If the character does not appear in the string, <c>indexOf</c> returns <c>-1</c>.
+Since indexes cannot be negative, this value indicates the character was not found.
+</p>
+
+<p>
+You can also use <c>indexOf</c> to search for an entire string, not just a single character.
+For example, the expression <c>fruit.indexOf("nan")</c> returns <c>2</c>.
+</p>
+</section>
