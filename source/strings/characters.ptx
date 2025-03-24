@@ -30,7 +30,7 @@
 
     <p>The processor in your computer does not really work with characters. At a hardware level, everything is just a number (or to be more precise, a sequence of 1's and 0's). So to store and work with something like a character, it needs to be converted to a number.</p>
 
-    <p>Each character in C++ has a corresponding number, which is called its <term>ASCII</term> value. For example, the ASCII value for the letter 'A' is 65, and the ASCII value for the letter 'a' is 97. You can see the ASCII values for all characters at the <url href="http://www.asciitable.com/">ASCII Table</url>. The ASCII table has 256 entries (<m>2^8</m>) so it requires 8 bits to store a value large enough to represent any ASCII value. So, in C++, a `char` occupies 1 byte (8 bits) in memory.</p>
+    <p>Each character in C++ has a corresponding number, which is called its <term>ASCII</term> value. For example, the ASCII value for the letter 'A' is 65, and the ASCII value for the letter 'a' is 97. You can see the ASCII values for all characters at the <url href="http://www.asciitable.com/">ASCII Table</url>. The ASCII table has 256 entries (<m>2^8</m>) so it requires 8 bits to store a value large enough to represent any ASCII value. So, in C++, a `char` occupies 1 byte (8 bits) in memory. That means it can store the values -128 to 127.</p>
 
     <note><p>For more on ASCII values and representing data in binary, you can refer to <url href="https://author.runestone.academy/ns/books/published/welcomecs2/data-representation_data-representation.html?mode=browsing">the Data Representation chapter from the book Welcome to CS</url>.</p></note>
 
@@ -72,4 +72,51 @@
       <p>C++ provides a data type `wchar_t` (wide character type) for storing Unicode values. We will not cover it in this book, but pretty
       much anything you can do with a `char` you can do with a `wchar_t`. Do a search for <q>C++ wide character</q> to learn more if you are interested.</p>
     </note>
+
+
+  <exercise label="sdfsdf">
+    <statement>
+      <p>Which statements are correct about the <c>char</c> data type.</p>
+    </statement>
+    <choices multiple-correct="yes">
+      <choice>
+        <statement>
+          <p>They can store any value an `int` can</p>
+        </statement>
+        <feedback>
+          A char is stored as an integer, but can only store values from -128 to 127.
+        </feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <p>The ASCII code for upper case letters are <q>larger</q> than those for lower case letters</p>
+        </statement>
+        <feedback>
+          No, the ASCII code for upper case letters are smaller than those for lower case letters.
+        </feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <p>You can write a char literal using either `'` or `"`</p>
+        </statement>
+        <feedback>
+          You must use `'` for a char literal.
+        </feedback>
+      </choice>
+
+      <choice correct="yes">
+        <statement>
+          <p>A char must always store one character (not 0 or 2+)</p>
+        </statement>
+        <feedback>
+          Correct!
+        </feedback>
+      </choice>
+
+    </choices>
+  </exercise>
+
+
 </section>

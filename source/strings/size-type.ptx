@@ -3,20 +3,20 @@
 
   <title>`size_t`</title>
 
-  <p>If you look up the prototype for `length()` you will find a listing that looks like:</p>
+  <p>If you look up the prototype for `size()` you will find a listing that looks like:</p>
 
   <program>
-  size_type length() const;
+  size_type size() const;
   </program>
 
-  <p>The `const` at the end says <q>this function will not change the string</q>. This is a slightly different use of the `const` keyword than we have seen before when declaring constants. But it gets at the same idea. This `const` at the end of the prototype guarantees that if you call `fruit.length()`, the string `fruit` will not be modified.</p>
+  <p>The `const` at the end says <q>this function will not change the string</q>. This is a slightly different use of the `const` keyword than we have seen before when declaring constants. But it gets at the same idea. This `const` at the end of the prototype guarantees that if you call `fruit.size()`, the string `fruit` will not be modified.</p>
 
-  <p>The return type - `size_type` - is new. It would be reasonable to expect `length()` to return an `int`. We expect length to be a value like 0 or 6 or 3234. So why doesn't it? The short version is that we never expect the length to be negative and the exact size maximum size of an `int` variable is not always the same from one platform to another. You should think of `size_type` as a type that is guaranteed to be able to hold the size of any possible string and can only hold 0 or positive numbers.
+  <p>The return type - `size_type` - is new. It would be reasonable to expect `size()` to return an `int`. We expect size to be a value like 0 or 6 or 3234. So why doesn't it? The short version is that we never expect the size to be negative and the exact size maximum size of an `int` variable is not always the same from one platform to another. You should think of `size_type` as a type that is guaranteed to be able to hold the size of any possible string and can only hold 0 or positive numbers.
   <idx><h>size_t</h></idx></p>
 
   <p>To store a `size_type` we will use a variable of type `size_t`. This is a bit of a simplification (see <xref ref="size_t-vs-size_type"/>). But it will serve our needs just fine. You can use a `size_t` just like an `int`. You can do math with them, compare them to other numbers, etc... The only difference is that they can never hold a negative value. Trying to assign one will result in the value <q>wrapping around</q> and becoming a large positive one:</p>
 
-    <program xml:id="length_AC_1_editor"
+    <program xml:id="size_AC_1_editor"
              interactive="activecode"
              line-numbers="yes">
       <code><![CDATA[
@@ -25,10 +25,10 @@ using namespace std;
 
 int main() {
     string fruit = "Watermelon";
-    size_t wordLength = fruit.length();
-    cout << wordLength << endl;
+    size_t wordsize = fruit.size();
+    cout << wordsize << endl;
 
-    if (wordLength > 5) {
+    if (wordsize > 5) {
         cout << "That's a long word!" << endl;
     }
 
@@ -39,17 +39,17 @@ int main() {
         ]]></code>
     </program>
 
-  <insight><p>Any code that needs to talk about the length of a string, or the position of some character(s) in a string, will always use `size_t`. Because `size_t` is not that different than an `int` (other than not being unsigned and possibly having a different max value), you may be able to use `int` values anywhere a `size_t` is expected. But the compiler may give you a doing so<mdash/>it knows there are subtle differences that may cause issues.</p></insight>
+  <insight><p>Any code that needs to talk about the size of a string, or the position of some character(s) in a string, will always use `size_t`. Because `size_t` is not that different than an `int` (other than not being unsigned and possibly having a different max value), you may be able to use `int` values anywhere a `size_t` is expected. But the compiler may give you a doing so<mdash/>it knows there are subtle differences that may cause issues.</p></insight>
 
-  <p>Although you should try to use `size_t` when working with the length of strings or locations in strings, there may be times when you want to take something like the length and store it into an `int`. To do so, you just need to cast the value into an `int`:</p>
+  <p>Although you should try to use `size_t` when working with the size of strings or locations in strings, there may be times when you want to take something like the size and store it into an `int`. To do so, you just need to cast the value into an `int`:</p>
 
   <program>
-  int length = static_cast&lt;int>(fruit.length());
+  int size = static_cast&lt;int>(fruit.size());
   </program>
 
   <note xml:id="size_t-vs-size_type"><p>`size_t` is technically different than the `size_type` defined in `string`, which has the full name of `string::size_type`. However, `string::size_type` is usually defined as being the same as `size_t`. And `size_t` is often defined as being the same as `uint64_t` (see <xref ref="floatingpoint-math_other-size-types-unsigned"/> for `unit64_t`). So why have three different names for what all end up as the same type? Flexibility. It does not HAVE to be the case that `string::size_type` is always a 64-bit unsigned integer. On some computing platforms a different value might make more sense.</p></note>
 
-  <exercise label="length_1">
+  <exercise label="size_1">
     <statement>
       <p>Which statements are correct about the <c>size_t</c> data type.</p>
     </statement>

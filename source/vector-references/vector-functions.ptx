@@ -1,0 +1,155 @@
+<section xml:id="vector-references_vector-functions"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Functions and Vectors</title>
+
+  <p>Vectors can be the parameters or the return types for functions. For now, we need to specify what type of vector the function accepts or returns (`vector&lt;int>`, `vector&lt;string>`, etc...). Later on we will learn how to make a <q>generic</q> function that can work with a vector that stores any type.</p>
+
+  <p>Say we want to write a function that can add up all of the values in a `vector&lt;int.`. It could look like:</p>
+
+  <program xml:id="vector-references_vector-functions-1" line-numbers="yes">
+<xi:include href="../../programs/vector-references/vector-functions-1.cpp" parse="text"/>
+</program>
+
+  <p>However, that version of the function would <term>pass by value</term> and copy the entire vector that was passed. It would be better to <term>pass by const reference</term>. Nothing other than the parameter needs to be changed:</p>
+
+  <program xml:id="vector-references_vector-functions-2" line-numbers="yes" highlight-lines="2">
+<xi:include href="../../programs/vector-references/vector-functions-2.cpp" parse="text"/>
+</program>
+
+  <p>To return a vector, we can declare the return type to be a `vector&lt;T>` and then make sure to return an appropriate type of vector. (A returned value is always copied, though the compiler may do some tricks to avoid actually copying the data). This function returns a new vector that is a copy of the one passed in which every element gets doubled:</p>
+
+  <program xml:id="vector-references_vector-functions-3" interactive="activecode">
+<xi:include href="../../programs/vector-references/vector-functions-3.cpp" parse="text"/>
+</program>
+
+  <p>Note that we could write the function so that instead of making a new vector and returning that we modified the vector that was passed in:</p>
+
+  <program xml:id="vector-references_vector-functions-4" interactive="activecode">
+<xi:include href="../../programs/vector-references/vector-functions-4.cpp" parse="text"/>
+</program>
+
+  <p>In this version, we must take the vector parameter as a reference that is not `const` so we can modify the vector (line 7). Similarly, as we use a range-based loop to traverse the elements, we need to declare the element type to be an `int&amp;` - a reference to an int - so that we are working with the actual element and not a copy of its value (line 9). Because the parameter is modified, there is nothing new to return from the function. So the return type is declared as `void` (line 7) and when it is called in `main`, there is no result to store (line 17). Because we <term>passed by reference</term>, all of the changes made to `numbers` in `doubleValues` really were made to `myList` that was passed in from `main`.</p>
+
+  <exercise label="vector_functions_2"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Construct the <c>makeEven</c> function that makes a new vector by looping through <c>vec</c> to copy elements. Any element with an odd value get 1 added to make it even before it is copied.</p>
+    </statement>
+    <blocks>
+      <block order="10">
+        <choice correct="yes">
+          <cline><![CDATA[vector<int> makeEven(const vector<int>& vec) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[void makeEven(vector<int> vec) {                         ]]></cline>
+        </choice>
+      </block>
+      <block order="19">
+          <cline><![CDATA[   vector<int> copiedValues;]]></cline>
+      </block>
+      <block order="2">
+        <choice correct="yes">
+          <cline><![CDATA[   for (size_t i = 0; i < vec.size(); ++i) {]]></cline>
+          <cline><![CDATA[      int value = vec.at(i);]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[   for (int i = 0; i < vec.size(); ++i) {]]></cline>
+          <cline><![CDATA[      int value = vec.at(i);]]></cline>
+        </choice>
+      </block>
+      <block order="5">
+        <choice correct="yes">
+          <cline>      if (value % 2 == 1) {</cline>
+        </choice>
+        <choice>
+          <cline>      if (i % 2 == 1) {                         </cline>
+        </choice>
+      </block>
+      <block order="1">
+        <choice correct="yes">
+          <cline>         value += 1;</cline>
+          <cline>      }</cline>
+        </choice>
+        <choice>
+          <cline>         i += 1;                         </cline>
+          <cline>      }</cline>
+        </choice>
+      </block>
+      <block order="9">
+          <cline><![CDATA[      copiedValues.push_back(value);]]></cline>
+      </block>
+      <block order="7">
+        <cline>   }</cline>
+        <cline>   return vec;</cline>
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+
+  <exercise label="vectors_msdfsdc2">
+    <statement>
+      <p>Suppose the following code is run:</p>
+      <program>
+vector&lt;string&gt; lauren = {"happy", "to", "you", "September", "birthday", "girl"}
+</program>
+      <p>How would you save the string <c>"birthday"</c> from <c>lauren</c> to the variable <c>nurse</c>?</p>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement id="vectors_mc2_opt_a">
+          <p>
+            <c>nurse = lauren.at(4)</c>
+          </p>
+        </statement>
+        <feedback>
+          Vectors are zero-indexed, so the fifth element is the fourth index.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="vectors_mc2_opt_b">
+          <p>
+            <c>nurse = lauren.at(5)</c>
+          </p>
+        </statement>
+        <feedback>
+          Remember, vectors are zero-indexed!
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="vectors_mc2_opt_c">
+          <p>
+            <c>nurse = lauren.at(6)</c>
+          </p>
+        </statement>
+        <feedback>
+          Remember, vectors are zero-indexed!
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="vectors_mc2_opt_d">
+          <p>
+            <c>nurse = lauren(4)</c>
+          </p>
+        </statement>
+        <feedback>
+          This is not proper vector indexing.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="vectors_mc2_opt_e">
+          <p>
+            <c>nurse = lauren(5)</c>
+          </p>
+        </statement>
+        <feedback>
+          This is not proper vector indexing. Also, vectors are zero-indexed.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

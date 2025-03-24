@@ -1,67 +1,113 @@
-<section xml:id="computer-programming_using-escape-sequences" xmlns:xi="http://www.w3.org/2001/XInclude">
-<!-- TODO - Move to strings chapter -->
+<section xml:id="strings_using-escape-sequences"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<title>Using Escape Sequences</title>
-<p>
-It's possible to display multiple lines of output with only one line of code.
-You just have to tell C++ where to put the line breaks:
-</p>
+  <title>Other Escape Sequences</title>
 
-<listing filename="Hello3.java">
-<program xml:id="computer-programming_using-escape-sequences-1" interactive="activecode">
+  <p>We have already learned that printing `\t` prints a tab character instead of literally printing a `\` and a `t`. `\t` is known as an <term>escape sequence</term>.
+    <idx>
+      <h>escape sequence</h>
+    </idx> An <term>escape sequence</term> is a sequence of characters used to represent a single character that otherwise might be hard to type or might cause issues with parsing the code. In C++ escape sequences start with a backslash `\`. Anytime you see that symbol in a char or string, it means <q>start an escape sequence</q>. The character that comes after determines what sequence it is:
+  </p>
+  
+  <table xml:id="tab_escape">
+    <title>Common escape sequences</title>
+    <tabular>
+      <row bottom="minor">
+        <cell>
+          <c>\t</c>
+        </cell>
+        <cell>tab</cell>
+      </row>
+      <row bottom="minor">
+        <cell>
+          <c>\n</c>
+        </cell>
+        <cell>newline</cell>
+      </row>
+      <row bottom="minor">
+        <cell>
+          <c>\"</c>
+        </cell>
+        <cell>double quote</cell>
+      </row>
+      <row bottom="minor">
+        <cell>
+          <c>\'</c>
+        </cell>
+        <cell>single quote</cell>
+      </row>
+      <row bottom="minor">
+        <cell>
+          <c>\\</c>
+        </cell>
+        <cell>backslash</cell>
+      </row>
+    </tabular>
+  </table>
+
+  <p>An escape sequence represents a single character, and only counts as such despite looking like multiple characters. So the string `"a\tb"` has a `size()` of only 3 because `\t` is one character. The characters in that string look like:</p>
+  
+  <tabular>
+    <row bottom="minor">
+      <cell>0</cell>
+      <cell>1</cell>
+      <cell>2</cell>
+    </row>
+    <row>
+      <cell>a</cell>
+      <cell>(tab)</cell>
+      <cell>b</cell>
+    </row>
+  </tabular>
+
+  <p>Other than the tab sequence, the other text important formatting symbol is the `\n` or <term>newline</term> symbol. When a computer stores a text file, it needs a way to know where each line ends. To do that, the ASCII code 10 is used. It is referred to as the newline character and can be <q>typed</q> into a string in C++ using `\n`. When you print a newline character, the cursor moves to the beginning of the next line.
+  Using this, it is possible to have a single string that represents multiple lines of output. You just have to
+    tell C++ where to put the line breaks: <idx><h>newline</h></idx></p>
+
+  <listing filename="Hello3.java">
+    <program xml:id="strings_using-escape-sequences-1"
+             interactive="activecode">
 <xi:include href="../../programs/computer-programming/using-escape-sequences-1.cpp" parse="text"/>
 </program>
-</listing>
+  </listing>
 
-<p>
-The output is two lines, each ending with a newline character:
-</p>
+  <p>When the string is printed, we do not see the `\n`s, but they do create new lines.</p>
 
-<console>
-<output>
-Hello!
-How are you doing?
-</output>
-</console>
+  <note><title>endl vs `\n`</title><p>endl and `\n` both allow us to print newlines. `\n` can be <q>built into</q> a string as a character while `endl` is a special message that is sent to `cout`. Generally it is preferred to use `\n` when you are trying to make the newline be part of the string (because you are doing something like building up a multiline file). If you just want to print a newline after a string, it is preferred to use `endl` instead of modifying the string to include `\n`.</p></note>
 
-<p>
-    <idx><h>escape sequence</h></idx>
-Each <c>\n</c> is an <term>escape sequence</term>, or two characters of source code that represent a single character.
-(The backslash allows you to <term>escape</term> the string to write special characters.)
-Notice there is no space between <c>\n</c> and <c>How</c>.
-If you add a space there, there will be a space at the beginning of the second line.
-</p>
-<table xml:id="tab_escape" >
-<title>Common escape sequences</title>
-<tabular>
-<row bottom="minor"><cell></cell><cell></cell></row>
-<row><cell><c>\n</c></cell><cell>newline</cell></row>
-<row bottom="minor"><cell></cell><cell></cell></row>
-<row><cell><c>\t</c></cell><cell>tab</cell></row>
-<row bottom="minor"><cell></cell><cell></cell></row>
-<row><cell><c>\"</c></cell><cell>double quote</cell></row>
-<row bottom="minor"><cell></cell><cell></cell></row>
-<row><cell><c>\\</c></cell><cell>backslash</cell></row>
-<row bottom="minor"><cell></cell><cell></cell></row>
-</tabular>
-</table>
-<p>
-Java has a total of eight escape sequences, and the four most commonly used ones are listed in <xref ref="tab_escape">Table</xref>.
-For example, to write quotation marks inside of strings, you need to escape them with a backslash:
-</p>
+  <p>The other escape symbols are workarounds for the fact that `"`, `'`, and `\` are special symbols in strings and chars. A `"` normally marks the start or end of a string. So trying to write this causes errors for the compiler:</p>
 
-<program xml:id="computer-programming_using-escape-sequences-2">
+<program>
+cout &lt;&lt; "She said "Hello!" to me.";
+</program>
+
+  <p>To the compiler that looks like the string `"She said "` followed by a variable `Hello`, the symbol `!`, and then the string `" to me.".</p>
+
+  <p>To include the quotes in the string, we need to <term>escape</term> them using `\`:</p>
+
+  <program xml:id="strings_using-escape-sequences-2" interactive="activecode">
 <xi:include href="../../programs/computer-programming/using-escape-sequences-2.cpp" parse="text"/>
 </program>
 
-<p>
-The result is as follows:
-</p>
+  <p>The same trick is true of single quotes and of backslashes. Since `\` normally means <q>this is the start of an escape sequence</q>, we need an escape sequence to indicate that the value we want is really just a backslash. We need to use this trick to represent a Windows style file path that uses backslashes:</p>
 
-<console>
-<output>
-She said "Hello!" to me.
-</output>
-</console>
+  <program xml:id="strings_using-escape-sequences-3" interactive="activecode" compiler-args="-std=c++20">
+<xi:include href="../../programs/computer-programming/using-escape-sequences-3.cpp" parse="text"/>
+</program>
+
+  <exercise label="debugging_4">
+    <statement>
+      <p>What string does this represent? `He\'s going to \"YOLO\" it.` (Type it with the excape sequences replaced by what they represent.)
+      <fillin mode="string" answer="He's going to \&quot;YOLO\&quot; it."/>.
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
 
 </section>

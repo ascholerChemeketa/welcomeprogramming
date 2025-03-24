@@ -1,1 +1,0 @@
-cout << "The zeroth element is " << counts[0] << endl;

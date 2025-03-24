@@ -1,0 +1,156 @@
+<section xml:id="vector-references_constant-references"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Constant References</title>
+
+  <p>Pass by reference allows a function to modify the data it is passed. This can be useful,
+    especially if we are working with a large piece of data. Imagine we have a function to make a
+    string lower case. If that string uses pass by value, it needs to make a copy of my string,
+    modify that copy, then return the copy so the caller can use the new string. For a very long
+    string, that making those extra copies could be expensive. If the function uses pass by
+    reference, it can just modify the string that was passed in without having to make copies.</p>
+
+  <p>Sometimes we want to pass a reference to a function to avoid extra copies but we don't want
+    that function to be able to modify the data. Say we have a function `countEs` that will count
+    the number of `E`s that appear in the string. We don't want the function to change the string,
+    which `countEs(string&amp; s)` would allow. But we also don't want to copy the parameter, which
+    `countEs(string s) would do.</p>
+
+  <p>The solution is to use a <term>const reference</term>. A <term>const reference</term> is a
+    reference that promises not to change the data that is being pointed to: `add(const int&amp;
+    x)`. Remember that it helps to read declarations backwards <q>x is a reference to an int that
+    shall remain constant</q>. The compiler will treat that declaration as a promise. If you write
+    any code that tries to modify what the const reference points at, it will be a compile error:</p>
+
+  <program xml:id="vector-references_const-references-1"
+           interactive="activecode">
+<xi:include href="../../programs/vector-references/const-references-1.cpp" parse="text"/>
+</program>
+
+  <insight>
+    <p>Other than one detail described below, declaring a reference to be `const` doesn't allow it
+      to do anything new. It just asks the compiler to help avoid accidental changes to the
+      referenced value. It is a way for a function to make a binding promise to the caller: <q>you
+      are going to give me access to some of your memory, but I promise I won't change that memory.</q>
+    </p>
+    <p>The one extra things you can do with a const reference: a `const` reference is allowed to
+      reference a const variable (a normal constant). A normal reference is not allowed to.
+      Otherwise we could use the reference to change the `const`. We won't need to use this feature.</p>
+  </insight>
+
+  <p>So when should you pass by value, reference, or constant reference? <ul>
+      <li>
+        <term>Pass by value: <c>func(type name)</c></term>
+        <ul>
+          <li>Passing a small piece of data (int, double, char). Copying these is no more expensive than making a reference.</li>
+          <li>Passing a large piece of data and you want a copy.</li>
+        </ul>
+      </li>
+      <li>
+        <term>Pass by reference: <c>func(type&amp; name)</c></term>
+        <ul>
+          <li>Passing a large piece of data (string, vector) and you want the function to modify
+    that data.</li>
+        </ul>
+      </li>
+      <li>
+        <term>Pass by const reference: <c>func(const type&amp; name)</c></term>
+        <ul>
+          <li>Passing a large piece of data (string, vector) and you do NOT want the function to
+    modify that data.</li>
+        </ul>
+      </li>
+    </ul></p>
+  <insight>
+    <p>When in doubt, pass by value. It is the safest option. If you are going to pass by reference, favor using a const reference. Passing off data to another function and letting that function modify the data tends to <q>hide</q> what is happening and make it harder to reason about what a chunk of code does. A const reference avoids making extra copies but protects us from unwanted side effects that change data unexpectedly.</p>
+  </insight>
+
+
+  <exercise label="const-ref1">
+    <statement>
+      <p>Which would usually be the best way to accept a double parameter we are going to do calculations with?</p>
+    </statement>
+    <choices>
+      <choice  correct="yes">
+        <statement>
+          <p>By value</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>By reference</p>
+        </statement>
+        <feedback>
+          <p>A reference opens up the door to unanticipated changes.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>By const reference</p>
+        </statement>
+        <feedback>
+          <p>Copying a double is not that much work.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="const-ref2">
+    <statement>
+      <p>Which would usually be the best way to accept a vector parameter we are going to do calculations with? (Say find the largest value)</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>By value</p>
+        </statement>
+        <feedback>
+          <p>By value requires copying the entire vector.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>By reference</p>
+        </statement>
+        <feedback>
+          <p>A reference opens up the door to unanticipated changes.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>By const reference</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="const-ref3">
+    <statement>
+      <p>Which would usually be the best way to accept a vector parameter that we want to be able to modify? (To say remove all of the negative values)</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>By value</p>
+        </statement>
+        <feedback>
+          <p>By value copies the vector. We would only be able to modify the copy.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>By reference</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>By const reference</p>
+        </statement>
+        <feedback>
+          <p>We can't modify a const reference.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

@@ -1,95 +1,240 @@
-<!-- TODO - move to strings and revise -->
-<section xml:id="variables-operators_operators-for-strings"
+<section xml:id="strings_operators-for-strings"
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Operators for Strings</title>
+
+  <subsection>
+  <title>Comparisons</title>
   <p>
     <idx>
-      <h>string</h>
-      <h>operator</h>
-    </idx>
-    <idx>
       <h>operator</h>
       <h>string</h>
-    </idx> In general, you cannot perform mathematical operations on strings,
-    even if the strings look like numbers. The following expressions are illegal: </p>
-
-  <program xml:id="variables-operators_operators-for-strings-1">
-<xi:include href="../../programs/variables-operators/operators-for-strings-1.cpp" parse="text"/>
+    </idx> 
+    Strings support some of the same operators as numbers. For example, we can use the comparison operators to compare strings:
+    </p>
+    
+  <program xml:id="strings_operators-for-strings-1" interactive="activecode">
+<xi:include href="../../programs/strings/operators-for-strings-1.cpp" parse="text"/>
 </program>
 
+    <p>The equality tests are straightforward. `"apple"` is the same as itself, but not the same as `"Banana"`. Looking at the comparison between `"apple"` and `"Apple"`, it is clear that comparisons are <term>case sensitive</term><mdash/>they care about the difference between `a` and `A`.</p>
+    
+    <p>The <q>less than</q> tests are a little less obvious. But they make sense when you recall that characters have numeric values based on their position in the ASCII table (or Unicode table for wide characters). Why is `"Apple"` less than `"Banana"`? Because `A` comes before `B` on the ASCII table. Why is `"Banana" less than `"apple"`? Because `B` comes before `a` on the ASCII table. If the first <m>n</m> characters of two strings match, the <m>n + 1</m> characters will determine their order `"pear" &lt; "peer"` is true because both start with `pe` and the third character in pear - `a` - is <q>less than</q> the 3rd character in peer - `e`.</p>
 
-    <!-- TODO move to string section <idx> <h>type</h> <h>char</h> </idx> <idx> <h>type</h>
-    <h>String</h> </idx> --> 
+    <insight><p>Because string comparisons depend on case, it is common to convert strings to all lower or all upper case before comparing them.</p></insight>
 
-  <!-- 
-  TODO move to strings section
-  <p>A common source of confusion is that some strings <term>look</term> like integers, but they
-    are not. For example, <c>message</c> can contain the string <c>"123"</c>, which is made up of the characters <c>'1'</c>
-    , <c>'2'</c>, and <c>'3'</c>. But that is not the same thing as the integer <c>123</c>: </p>
-
-  <program xml:id="variables-operators_assigning-variables-2"
-           interactive="activecode">
-<xi:include href="../../programs/variables-operators/assigning-variables-2.cpp" parse="text"/>
-</program> -->
-
-  <p>
+    </subsection>
+    <subsection>
+      <title>Concatenation</title>
+      
+      <p>Strings also support the `+` operator. But for strings `+` does not mean <q>plus</q>. It means <term>concatenate</term>, which is a fancy way of saying <q>join end-to-end</q>. So `"Hello, " + "World!"` yields the string `"Hello, World!"`.
     <idx>
       <h>concatenate</h>
     </idx>
     <idx>
       <h>addition</h>
-      <h>string</h>
-    </idx> The <c>+</c> operator works with strings, but it might not do what you
-    expect. For strings, the <c>+</c> operator performs <term>concatenation</term>, which means
-    joining end-to-end. So <c>"Hello, " + "World!"</c> yields the string <c>"Hello, World!"</c>. </p>
+    </idx></p>
 
-  <p>Likewise if you have a variable called <c>name</c> that has type <c>String</c>, the expression <c>"Hello, " + name</c>
-    appends the value of <c>name</c> to the hello string, which creates a personalized greeting. </p>
+    <p>`+` and the `+=` shortcut  is useful if you want to build up a string piece by piece.</p>
 
-  <p>Since addition is defined for both numbers and strings, Java performs automatic conversions
-    you may not expect: </p>
+  <program>
+string name = "Ada";
+name = name + " Lovelace"; // name is now "Ada Lovelace"
+string greeting = "Hello, " + name + "!";
+                           // greeting is now "Hello, Ada Lovelace!"
 
-  <program xml:id="variables-operators_operators-for-strings-2"
-           interactive="activecode">
-<xi:include href="../../programs/variables-operators/operators-for-strings-2.cpp" parse="text"/>
+string name2 = "Alan";
+name2 += " Turing";        // name2 is now "Alan Turing"
+  </program>
+
+  <p> Many string algorithms involve reading one string and building another. For example, to
+    reverse a string, we can concatenate one character at a time to the front of a new string.
+    <idx>
+      <h>empty string</h>
+    </idx> The initial value of <c>reversed</c> is <c>""</c>, which is an <term>empty
+    string</term>. As we iterate through each character, we set `reversed` to be that character concatenated with the other characters we have seen. Since the loop goes from beginning to end, adding each character to the front of `reversed` means that the last character of `myString` ends up being the first character of `reversed`:</p>
+
+  <program xml:id="strings_string-reverse" interactive="activecode">
+<xi:include href="../../programs/strings/string-reverse.cpp" parse="text"/>
 </program>
 
-  <p>Java executes these operations from left to right. In the first line, <c>1 + 2</c> is <c>3</c>, and <c>3 + "Hello"</c>
-    is <c>"3Hello"</c>. But in the second line, <c>"Hello" + 1</c> is <c>"Hello1"</c>, and <c>"Hello1" + 2</c> is <c>"Hello12"</c>. <idx>
-      <h>order of operations</h>
-    </idx>
-    <idx>
-      <h>precedence</h>
-    </idx> When more than one operator appears in an expression, they are
-    evaluated according to the <term>order of operations</term>. Generally speaking, Java evaluates
-    operators from left to right (as you saw in the previous section). But for numeric operators,
-    Java follows mathematical conventions: <ul>
-      <li>
-        <p>Multiplication and division take <q>precedence</q> over addition and subtraction, which
-    means they happen first. So <c>1 + 2 * 3</c> yields 7, not 9, and <c>2 + 4 / 2</c> yields 4, not 3.</p>
-      </li>
-      <li>
-        <p>If the operators have the same precedence, they are evaluated from left to right. So in
-    the expression <c>minute * 100 / 60</c>, the multiplication happens first; if the value of <c>minute</c> is 59, we get <c>5900 / 60</c>,
-    which yields 98. If these same operations had gone from right to left, the result would have
-    been <c>59 * 1</c>, which is incorrect. <idx>
-            <h>parentheses</h>
-          </idx>
-    <idx>
-            <h>( ) parentheses</h>
-          </idx></p>
-      </li>
-      <li>
-        <p>Anytime you want to override the order of operations (or you are not sure what it is) you
-    can use parentheses. Expressions in parentheses are evaluated first, so <c>(1 + 2) * 3</c> is 9. You can
-    also use parentheses to make an expression easier to read, as in <c>(minute * 100) / 60</c>, even though it doesn't
-    change the result.</p>
-      </li>
-    </ul>
-  </p>
+  <exercise label="strings_comparable_4">
+    <statement>
+      <p>What would the result of the following comparison be? Where <c>1</c> means true and <c>0</c>
+        means false.</p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+"bread" < "bread";
+]]></code>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>1</p>
+        </statement>
+        <feedback>
+          They are equal so one can't be greater than the other.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>0</p>
+        </statement>
+        <feedback>
+          Correct! because they are equal. They are equal because all characters match.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
 
-  <p>See the official Java tutorials for a complete table of operator precedence
-    (<url href="https://thinkjava.org/operators"/>). If the order of operations is not obvious when looking
-    at an expression, you can always add parentheses to make it more clear. But over time, you
-    should internalize these kinds of details about the Java language. </p>
+  
+  <exercise label="strings_comparable_4">
+    <statement>
+      <p>What would the result of the following comparison be? Where <c>1</c> means true and <c>0</c>
+        means false.</p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+"car" == "Car";
+]]></code>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>1</p>
+        </statement>
+        <feedback>
+          Remember that case matters.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>0</p>
+        </statement>
+        <feedback>
+          Correct! The case of the first characters are different.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="strings_comparable_1">
+    <statement>
+      <p>What would the result of the following comparison be? Where <c>1</c> means true and <c>0</c>
+        means false.</p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+"Dog" < "Doghouse";
+]]></code>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>1</p>
+        </statement>
+        <feedback>
+          Both match up to the g but Dog is shorter than Doghouse so it comes first in the
+            dictionary.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>0</p>
+        </statement>
+        <feedback>
+          Strings are compared character by character.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="strings_comparable_2">
+    <statement>
+      <p>What would the result of the following comparison be? Where <c>1</c> means true and <c>0</c>
+        means false.</p>
+      <program line-numbers="yes">
+        <code>
+"dog" &lt; "Dog";
+</code>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>1</p>
+        </statement>
+        <feedback>
+          d is greater than D
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>0</p>
+        </statement>
+        <feedback>
+          Yes, upper case is less than lower case according to the ordinal values of the
+            characters.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>They are the same word</p>
+        </statement>
+        <feedback>
+          C++ is case sensitive meaning that upper case and lower case characters are different.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  
+
+  </subsection>
+
+  <warning><p>The `+` operator is defined for a char and a C-string, but it does not do what you expect. Avoid trying to write something like `"hell" + 'o'`. Make sure when you are using `+` you are using a variable of type `string` and not a string literal.</p></warning>
+
+  <exercise label="string_concatenation_3"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Put together the code below to create a function <c>greeter</c> that adds <q>Hello</q> before a message and <q>. goodbye.</q> after it behind and then prints the new message.
+        Example: <c>greeter("Bob")</c> will print <q>Hello Bob. goodbye.</q></p>
+    </statement>
+    <blocks>
+      <block order="8">
+        <choice correct="yes">
+          <cline>string beginning = "Hello ";</cline>
+          <cline>string end = ". goodbye.";</cline>
+        </choice>
+        <choice>
+          <cline>string beginning = "Hello"; </cline>
+          <cline>string end = ". goodbye.";</cline>
+        </choice>
+      </block>
+      <block order="5">
+        <choice correct="yes">
+          <cline>string newWord = beginning + message;</cline>
+        </choice>
+        <choice>
+          <cline>string newWord = message + beginning; </cline>
+        </choice>
+      </block>
+      <block order="5">
+        <choice correct="yes">
+          <cline>newWord += end;</cline>
+        </choice>
+        <choice>
+          <cline>newWord + end;</cline>
+        </choice>
+      </block>
+      <block order="3"
+             correct="no">
+        <cline><![CDATA[cout << "newWord"; ]]></cline>
+      </block>
+      <block order="6">
+        <cline>cout &lt;&lt; newWord;</cline>
+      </block>
+    </blocks>
+  </exercise>
 </section>

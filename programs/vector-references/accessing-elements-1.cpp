@@ -1,0 +1,1 @@
+cout << "The first element is " << counts.at(0) << endl;

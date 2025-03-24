@@ -1,147 +1,172 @@
-<section xml:id="strings_characters"
+<section xml:id="strings_indicies"
          xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Characters</title>
+  <title>Indexes in strings</title>
 
+  <p>Recall that we said that a string is an object that combines some methods (functions) like `size()` with data. Well, the data a string needs to store is a list of characters. The characters in a string are <term>indexed</term>, or numbered, starting from 0:<idx><h>index</h></idx></p>
 
-
-  <program>int length = fruit.length();
-char last = fruit[length];       // WRONG!!</program>
-  <p>That won't work. The reason is that there is no 6th letter in <c>"banana"</c>. Since we started
-    counting at 0, the 6 letters are numbered from 0 to 5. To get the last character, you have to
-    subtract 1 from <c>length</c>.</p>
-  <warning>
-    <p>A common source of error involving strings and other arrays is indexing out of bounds. This
-      is usually the result of forgetting to subtract 1 from <c>length</c>.</p>
-  </warning>
-  <listing label="length_AC_2">
-    <caption>
-      This active code outputs the last character in string <c>fruit</c> using the <c>length</c>
-        function.
-    </caption>
-    <program xml:id="length_AC_2_editor"
-             interactive="activecode"
-             line-numbers="yes">
-      <code><![CDATA[
-#include <iostream>
-using namespace std;
-
-int main() {
-    string fruit = "Watermelon";
-    size_t length = fruit.length();
-    char last = fruit[length-1];
-    cout << last;
-}
-        ]]></code>
-    </program>
-  </listing>
-
-
-  <p>
-    <idx>
-      <h>charAt</h>
-    </idx>
-    <idx>
-      <h>char</h>
-    </idx>
-    <idx>
-      <h>type</h>
-      <h>char</h>
-    </idx> Strings provide a function named <c>charAt</c>. It returns a <c>char</c>, a data
-    type that stores an individual character (as opposed to strings of them):
-  </p>
-
-  <program xml:id="strings_characters-1">
-<xi:include href="../../programs/strings/characters-1.cpp" parse="text"/>
-</program>
-
-  <p> The argument <c>0</c> means that we want the character at <term>index</term> 0. String indexes
-    range from 0 to <m>n-1</m>, where <m>n</m> is the length of the string. So the character
-    assigned to <c>letter</c> is <c>'b'</c>: </p>
-
-  <p> \ttfamily </p>
   <tabular>
     <row bottom="minor">
-      <cell></cell>
-      <cell></cell>
-      <cell></cell>
-      <cell></cell>
-      <cell></cell>
-      <cell></cell>
-    </row>
-    <row>
-      <cell>b</cell>
-      <cell>a</cell>
-      <cell>n</cell>
-      <cell>a</cell>
-      <cell>n</cell>
-      <cell>a</cell>
-    </row>
-    <row bottom="minor">
-      <cell></cell>
-      <cell></cell>
-      <cell></cell>
-      <cell></cell>
-      <cell></cell>
-      <cell></cell>
-    </row>
-    <row>
       <cell>0</cell>
       <cell>1</cell>
       <cell>2</cell>
       <cell>3</cell>
       <cell>4</cell>
       <cell>5</cell>
+      <cell>6</cell>
+      <cell>7</cell>
+      <cell>8</cell>
+      <cell>9</cell>
+      <cell>10</cell>
+    </row>
+    <row>
+      <cell>H</cell>
+      <cell>e</cell>
+      <cell>l</cell>
+      <cell>l</cell>
+      <cell>o</cell>
+      <cell> </cell>
+      <cell>W</cell>
+      <cell>o</cell>
+      <cell>r</cell>
+      <cell>l</cell>
+      <cell>d</cell>
     </row>
   </tabular>
-  <p> Characters work like the other data types you have seen. You can compare them using relational
-    operators: </p>
 
-  <program xml:id="strings_characters-2">
-<xi:include href="../../programs/strings/characters-2.cpp" parse="text"/>
-</program>
-
-  <p>
-    <idx>
-      <h>quote mark</h>
-    </idx>
-    <idx>
-      <h>escape sequence</h>
-    </idx> Character literals, like <c>'A'</c>, appear in single quotes.
-    Unlike string literals, which appear in double quotes, character literals can contain only a
-    single character. Escape sequences, like <c>'
-t'</c>, are legal because they represent a single
-    character. </p>
-
-  <p> The increment and decrement operators also work with characters. So this loop displays the
-    letters of the alphabet: </p>
-
-  <program xml:id="strings_characters-3">
-<xi:include href="../../programs/strings/characters-3.cpp" parse="text"/>
-</program>
-
-  <p> The output is shown here: </p>
-
-  <console>
-    <output>
-ABCDEFGHIJKLMNOPQRSTUVWXYZ
-</output>
-  </console>
+  <p>Note that:
+    <ul>
+    <li>The first character, `'H'`, is at index 0. Index 1 refers to the second character. This may be a little confusing at first, but it is a common way of numbering things in programming. (A good way to remember this that also hints at the reason for the convention<mdash/>the first character is 0 bytes from the start of the string.)</li>
+    <li>The string `Hello World` is 11 characters long. That is the answer `size()` would give you.</li>
+    <li>Because we start counting from 0, the last character is at index 10. The last character in a string is always at position `size() - 1`.</li>
+    </ul>
+  </p>
 
   <p>
     <idx>
-      <h>Unicode</h>
-    </idx> Java uses <term>Unicode</term> to represent characters, so strings
-    can store text in other alphabets like Cyrillic and Greek, and non-alphabetic languages like
-    Chinese. You can read more about it at the Unicode website (<url href="https://unicode.org/"/>). </p>
+      <h>string</h>
+      <h>at</h>
+    </idx> To access characters in a string, string objects provide a function <c>char at(size_t index)</c>. Given a location in the string, it returns the <c>char</c> at that index:
+  </p>
 
-  <p> In Unicode, each character is represented by a <q>code point</q>, which you can think of as an
-    integer. The code points for uppercase Greek letters run from 913 to 937, so we can display the
-    Greek alphabet like this: </p>
+  <listing label="size_AC_2">
+    <caption>
+      This active code outputs various characters from the string <c>myString</c>.
+    </caption>
+    <program xml:id="size_AC_2_editor"
+             interactive="activecode">
+<xi:include href="../../programs/strings/string-indicies-1.cpp" parse="text"/>
+    </program>
+  </listing>
 
-  <program xml:id="strings_characters-4">
-<xi:include href="../../programs/strings/characters-4.cpp" parse="text"/>
+  <p>Attempting to access a bad index like -1 or a number greater than or equal to the size results in a run time error:</p>
+
+  <program xml:id="string-indicies-2" interactive="activecode">
+<xi:include href="../../programs/strings/string-indicies-2.cpp" parse="text"/>
 </program>
 
-  <p> This example uses a type cast to convert each integer (in the range) to the corresponding
-    character. Try running the code and see what happens. </p>
+  <p>If we read carefully, we can see the error message tells us there was an `out_of_range` problem using the value 100 in a string with `size() (which is 11)`. Notice however that it does not tell us the line number the error occurred on. If it was not obvious we would need to use a debugger or print statements to identify the location. Here, we can tell that the error happened before the line that prints `"Well, that didn't work."` as we do not see it in the output.</p>
+
+  <warning>
+    <p>A common source of error involving strings and other arrays is indexing out of bounds. This
+      is usually the result of forgetting to subtract 1 from <c>size</c>. Asking for index 11 in this string would cause an error.</p>
+  </warning>
+
+  <p>You can also use the `at()` function to change the value of a character in a string by assigning a new character to the location:</p>
+  <program xml:id="string-indicies-3" interactive="activecode">
+<xi:include href="../../programs/strings/string-indicies-3.cpp" parse="text"/>
+</program>
+
+  <warning>
+    <title>The `[ ]` syntax and its dangers</title>
+    <p>There is another way to work with the characters in strings. Instead of `myString.at(index)` we can say `myString[index]`. The <q>bracket notation</q> (the `[ ]`) works the same as `.at()`, except for one critical difference. When you use a bad index with the brackets, no error is generated. Instead, your code reads from or writes to whatever is in memory either before or after the string's characters. This can cause your code to modify some other variable, or some other important part of the code of your program!</p>
+    <p>`.at()` is <q>safe</q> because it prevents you from accidentally doing bad things without knowing about it. `[ ]` is dangerous because it does whatever you ask it to, even if that makes no sense.</p>
+    <p>Why is there an unsafe version? It can be slightly faster to not stop and check if the index makes sense before using it. But only VERY slightly faster. You would have to be doing many thousands of string operations before the speed difference became noticeable to a person. And compilers can often detect from what your other code is doing that the safety check isn't needed and skip it.</p>
+    <p>C++ has a reputation for being a <q>dangerous language</q> because it doesn't always protect programmers from their own mistakes. One way to make the language safer is to avoid the <q>dangerous</q> way of doing things unless we have a very good reason not to. For this reason, we will only use `.at()` notation in this book.</p>
+  </warning>
+
+  <exercise label="extracting_characters_1">
+    <statement>
+      <p>What would replace the <q>?</q> in order to access the letter <q>b</q> in the string below?</p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+  string bake = "bake a cake!";
+  char letter = bake.at(?);
+]]></code>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>1</p>
+        </statement>
+        <feedback>
+          Don't forget that computer scientists do not start counting at 1!
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>0</p>
+        </statement>
+        <feedback>
+          Yes, this would access the letter "b".
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>2</p>
+        </statement>
+        <feedback>
+          This would access the letter "k".
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="extracting_characters_2">
+    <statement>
+      <p>What value does `lunch` end up with?</p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+  string lunch = "hello";
+  lunch.at(0) = lunch.at(3);
+]]></code>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>lunch</p>
+        </statement>
+        <feedback>
+          When we <code>cout</code> a <code>string</code> we print its content not its name.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>jello</p>
+        </statement>
+        <feedback>
+          Carefully check which string(s) we are indexing into.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>lello</p>
+        </statement>
+        <feedback>
+          Correct! We copy the 'l' from position 3 of "hello" to position 0.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>heljo</p>
+        </statement>
+        <feedback>
+          Consider which string(s) we are indexing into.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
 </section>

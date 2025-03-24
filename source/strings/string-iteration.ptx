@@ -1,58 +1,118 @@
-<section xml:id="strings_string-iteration" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>String Iteration</title>
-<p>
-    <idx><h>iteration</h></idx>
-Strings provide a function called <c>length</c> that returns the number of characters in the string.
-The following loop iterates the characters in <c>fruit</c> and displays them, one on each line:
-</p>
+<section xml:id="strings_string-iteration"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>String Iteration</title>
+  <p>By combining <c>size</c> and `at()`, we can write a loop that iterates through the characters of a
+    string: </p>
 
-<program xml:id="strings_string-iteration-1">
+  <program xml:id="strings_string-iteration-1" interactive="activecode">
 <xi:include href="../../programs/strings/string-iteration-1.cpp" parse="text"/>
 </program>
 
-<p>
-    <idx><h>string</h><h>length</h></idx>
-    <idx><h>length</h><h>string</h></idx>
-Because <c>length</c> is a function, you have to invoke it with parentheses (there are no arguments).
-When <c>i</c> is equal to the length of the string, the condition becomes <c>false</c> and the loop terminates.
-</p>
+  <p>The loop counts from 0 to `size() - 1` (note that we use `&lt; size()` in the test). For each of those values, it asks for the character at that index and then prints it. Notice that the counter for this loop is of type `size_t`. If we try to make it an `int`, the compiler will likely produce an error or warning when we try to compare it to `size()`, which is a `size_t`. Comparing signed numbers - those that can hold negative numbers like `int` - with unsigned values - those that can only hold positive values like `size_t` - can produce confusing results. </p>
 
-<p>
-To find the last letter of a string, you might be tempted to do something like the following:
-</p>
+  <p>We could use the same basic loop to modify each character. This program encrypts the string `myString` (very poorly) by shifting each character by 1 alphabetically:</p>
 
-<program xml:id="strings_string-iteration-2">
+  <program xml:id="strings_string-iteration-2" interactive="activecode">
 <xi:include href="../../programs/strings/string-iteration-2.cpp" parse="text"/>
 </program>
 
-<p>
-    <idx><h>StringIndexOutOfBoundsException</h></idx>
-    <idx><h>exception</h><h>StringIndexOutOfBounds</h></idx>
-This code compiles and runs, but invoking the <c>charAt</c> function throws a <c>StringIndexOutOfBoundsException</c>.
-The problem is that there is no sixth letter in <c>"banana"</c>.
-Since we started counting at 0, the six letters are indexed from 0 to 5.
-To get the last character, you have to subtract 1 from <c>length</c>:
-</p>
+  <subsection>
+    <title>The ranged-based for loop</title>
 
-<program xml:id="strings_string-iteration-3">
+  <p>If we are doing something like printing each character in a string, we don't actually care about which character is at which index. We just want to do something to each character (print it). There is a syntax to make that easier known as the <term>range-based for loop</term> or <term>enhanced for loop</term><idx><h>loop</h><h>range-based</h></idx> <idx><h>loop</h><h>enhanced for</h></idx><idx><h>for</h><h>enhanced</h></idx>:</p>
+
+  <program>
+    for (char c : myString) {
+        // use c
+    }
+  </program>
+
+  <p>You should read that loop as <q>for each character, call it c, in myString, do...</q> The range-based for loop automatically counts through the characters one by one. For each iteration of the loop, the next character is stored into the character variable declared in the loop. In that example, the character is named `c`, but you can name it anything you like. Then, in the loop, you can use that character variable to access the <q>current letter</q>. This example uses the ranged-based loop to count the number of spaces in a string:</p>
+
+  <program xml:id="strings_string-iteration-3" interactive="activecode">
 <xi:include href="../../programs/strings/string-iteration-3.cpp" parse="text"/>
 </program>
 
-<p>
-Many string algorithms involve reading one string and building another.
-For example, to reverse a string, we can concatenate one character at a time:
-</p>
+  <p>There are some limitations to the ranged-based loop that mean it is not always the best option:
 
-<program xml:id="strings_string-iteration-4">
-<xi:include href="../../programs/strings/string-iteration-4.cpp" parse="text"/>
-</program>
+  <ul>
+  <li>You don't know the index of the item you are working with</li>
+  <li>Changing the character you are working with does not change the string itself</li>
+  </ul>
+  
+  <p>There is a syntax for allowing changes to the character variable to also change the string. We will cover that syntax later in the book. <!--todo reference to & --> For now, if you care about the location of each character, or if you need to change the string as you iterate through it, you should not use a range-based loop.</p>
+  </p>
 
-<p>
-    <idx><h>empty string</h></idx>
-The initial value of <c>r</c> is <c>""</c>, which is an <term>empty string</term>.
-The loop iterates the indexes of <c>s</c> in reverse order.
-Each time through the loop, the <c>+=</c> operator appends the next character to <c>r</c>.
-When the loop exits, <c>r</c> contains the characters from <c>s</c> in reverse order.
-So the result of <c>reverse("banana")</c> is <c>"ananab"</c>.
-</p>
+  <p>There is no reason you ever have to use the ranged-based loops, you always can use a regular counting loop that counts from 0 to `size() - 1` and index into the string. But the syntax is so simple you likely will want to make use of them.</p>
+
+  </subsection>
+
+  
+  <exercise label="debugsdfsdging_4">
+    <statement>
+      <p>What would be printed by this code? (Hint: pay attention to the loop update).
+      <fillin mode="string" answer="cdn ok"/>.
+      </p>
+      <program>
+string s = "coding rocks";
+for (size_t i = 0; i &lt; s.length(); i += 2) {
+  cout &lt;&lt; s.at(i);
+}
+      </program>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>co.*</strcmp>
+          <feedback>
+            The loop counter starts at 0 and increments by 2 each time.
+          </feedback>
+        </test>
+        <test>
+          <strcmp>o.*</strcmp>
+          <feedback>
+            The loop counter starts at 0 and increments by 2 each time.
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  
+  <exercise label="debugsdfsdging_4">
+    <statement>
+      <p>What would be printed by this code? (Hint: pay attention to the loop start and end).
+      <fillin mode="string" answer="cdn ok"/>.
+      </p>
+      <program>
+string s = "hello;
+for (size_t i = 1; i &lt; s.length() - 1; ++i) {
+  cout &lt;&lt; s.at(i);
+}
+      </program>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>h.*</strcmp>
+          <feedback>
+            The loop counter starts at 1.
+          </feedback>
+        </test>
+        <test>
+          <strcmp>.*o</strcmp>
+          <feedback>
+            The loop stops when the counter is 1 less than the length of the string.
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
 </section>

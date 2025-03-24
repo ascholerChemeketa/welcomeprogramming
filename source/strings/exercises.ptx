@@ -1,134 +1,458 @@
-<section xml:id="strings_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
+<exercises xml:id="strings_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Exercises</title>
-<p>
-The code for this chapter is in the <term>ch06</term> directory of <term>ThinkJavaCode2</term>.
-See <xref ref="code">page</xref> for instructions on how to download the repository.
-Before you start the exercises, we recommend that you compile and run the examples.
-</p>
 
-<p>
-If you have not already read <xref ref="debugger">Appendix</xref>, now might be a good time.
-It describes the DrJava debugger, which is a useful tool for visualizing the flow of execution through loops.
-</p>
-<exercise>
-<statement>
-<p>
-Consider the following functions (<c>main</c> and <c>loop</c>):
-<ol>
-<li><p>Draw a table that shows the value of the variables <c>i</c> and <c>n</c> during the execution of <c>loop</c>.
-The table should contain one column for each variable and one line for each iteration.</p></li>
-<li><p>What is the output of this program?</p></li>
-<li><p>Can you prove that this loop terminates for any positive value of <c>n</c>?</p></li>
-</ol>
+  <exercise label="mucp_7sdf_9"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Build the function `censorLetter` which takes a string and
+        a char to censor as parameters and returns a <q>censored</q> string where all copies of the char are replaced with `*`. For example, `censorLetter("Bye
+        world", 'o')` returns the string <q>Bye w*rld</q>.</p>
+    </statement>
+    <blocks>
+      <block order="3">
+        <choice correct="yes">
+          <cline>string censorLetter(string input, char letter) {</cline>
+        </choice>
+        <choice>
+          <cline>string censorLetter(string input) {  </cline>
+        </choice>
+      </block>
+      <block order="6">
+        <choice correct="yes">
+          <cline>   size_t i = 0;</cline>
+        </choice>
+        <choice>
+          <cline>   size_t i = 1;  </cline>
+        </choice>
+      </block>
+      <block order="9">
+        <cline><![CDATA[   while (i < input.length()) {]]></cline>
+      </block>
+      <block order="13">
+        <choice correct="yes">
+          <cline>      if (input.at(i) == letter) {</cline>
+        </choice>
+        <choice>
+          <cline>      if (input.at(i) == "letter") {  </cline>
+        </choice>
+      </block>
+      <block order="8">
+        <choice correct="yes">
+          <cline>         input.at(i) = '*';</cline>
+        </choice>
+        <choice>
+          <cline>         '*' = input.at(i);  </cline>
+        </choice>
+      </block>
+      <block order="7">
+        <cline>      }</cline>
+      </block>
+      <block order="10">
+        <cline>      i++;</cline>
+      </block>
+      <block order="11">
+        <cline>   }</cline>
+      </block>
+      <block order="14">
+        <cline>   return input;</cline>
+      </block>
+      <block order="4">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
 
-</p>
+  
+  <exercise label="mucp_7_11"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Palindromes are symmetrical strings. That is a string that reads the same forwards and backwards.
+        palindromes: <q>hih</q>, <q>i</q>, <q>bob</q>, <q>tenet</q>, <q>soos</q>, <q>madam</q> . not
+        palindromes: <q>join</q>, <q>hat</q>, <q>frat</q>, <q>supper</q>, <q>rhythm</q>.</p>
+      <p>Let's write a function called `ispalindrome` which takes a string named `input` and returns a
+        `bool`. We will do so by using two indexes. One that starts at 0 and counts up. The other will start at the end of the string and count down. The function returns true if the string is a palindrome and false if not.  The code is
+        mixed up and contains extra blocks. Put the necessary blocks in the correct order.</p>
+    </statement>
+    <blocks>
+      <block order="1">
+        <choice correct="yes">
+          <cline>bool ispalindrome(string input) {</cline>
+        </choice>
+        <choice>
+          <cline>string ispalindrome(bool input) {  </cline>
+        </choice>
+      </block>
+      <block order="7">
+        <choice correct="yes">
+          <cline>   size_t front = 0;</cline>
+          <cline>   size_t front = back = input.length() - 1;</cline>
+        </choice>
+        <choice>
+          <cline>   size_t front = 0; </cline>
+          <cline>   size_t back = input.length(); </cline>
+        </choice>
+      </block>
+      <block order="4">
+        <choice correct="yes">
+          <cline>   while ( front &lt; back ) {</cline>
+        </choice>
+        <choice>
+          <cline>   while ( front &gt; back ) { </cline>
+        </choice>
+      </block>
+      <block order="2">
+        <cline>      if ( input.at(back) != input.at(front) ) {</cline>
+      </block>
+      <block order="14"
+             correct="no">
+        <cline>      else { </cline>
+      </block>
+      <block order="10">
+        <cline>         return false;</cline>
+        <cline>      }</cline>
+      </block>
+      <block order="13">
+        <cline>      front = front + 1;</cline>
+        <cline>      back = back - 1;</cline>
+      </block>
+      <block order="15">
+        <cline>   }</cline>
+      </block>
+      <block order="12">
+        <cline>   return true;</cline>
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
 
-<program xml:id="strings_exercises-1" interactive="activecode">
-<xi:include href="../../programs/strings/exercises-1.cpp" parse="text"/>
-</program>
+  
+  <exercise label="grgrefwedv23">
+    <statement>
+      <p>Complete the code to print the first, middle, and last characters of the string read as input. We will only use odd length strings as the inputs.</p>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <string>
+using namespace std;
 
-</statement>
-</exercise>
+int main() {
+    string input;
+    input >> input;
+]]>
+        </preamble>
+        <code>
 
-<exercise>
-<statement>
-<p>
-Let's say you are given a number, <m>a</m>, and you want to find its square root.
-One way to do that is to start with a rough guess about the answer, <m>x_0</m>, and then improve the guess by using this formula:
-<me>
-  x_1 =(x_0 + a/x_0) / 2
-</me>
-</p>
+    //write your code here
 
-<p>
-For example, if we want to find the square root of 9, and we start with <m>x_0 = 6</m>, then <m>x_1 = (6 + 9/6) / 2 = 3.75</m>, which is closer.
-We can repeat the procedure, using <m>x_1</m> to calculate <m>x_2</m>, and so on.
-In this case, <m>x_2 = 3.075</m> and <m>x_3 = 3.00091</m>.
-So the repetition converges quickly on the correct answer.
-</p>
+        </code>
+        <postamble visible="yes"><![CDATA[
+}]]></postamble>
+        <tests>
+          <iotest>
+            <input>hello</input>
+            <output>hlo</output>
+          </iotest>
+          <iotest>
+            <input>programming</input>
+            <output>pag</output>
+          </iotest>
+          <iotest>
+            <input>compute</input>
+            <output>cpe</output>
+          </iotest>
+        </tests>
+    </program>
+    <hint><p>Use `.length()` to figure out the length of the string. You can use that to figure out the middle and end position.</p></hint>
+    </statement>
+  </exercise>
 
-<p>
-Write a function called <c>squareRoot</c> that takes a <c>double</c> and returns an approximation of the square root of the parameter, using this technique.
-You should not use <c>Math.sqrt</c>.
-</p>
 
-<p>
-As your initial guess, you should use <m>a/2</m>.
-Your function should iterate until it gets two consecutive estimates that differ by less than 0.0001.
-You can use <c>Math.abs</c> to calculate the absolute value of the difference.
-</p>
-</statement>
-</exercise>
 
-<exercise>
-<statement>
-<p>
-One way to evaluate <m>\exp(-x^2)</m> is to use the infinite series expansion:
-<me>
-  \exp(-x^2) = 1 - x^2 + x^4/2 - x^6/6 + \ldots
-</me>
-</p>
+  <exercise label="wefwddfdss33e">
+    <statement>
+      <p>Write a `bool caturdayCheck(string word)` function. It should return `true` if the word has `"cat"` starting at either the first or second character of the word. Otherwise, return false.</p>
+      <p>For example:
+      </p>
+      <pre>
+Input: catch
+Output: true
 
-<p>
-The <m>i</m>th term in this series is <m>(-1)^i x^{2i} / i!</m>.
-Write a function named <c>gauss</c> that takes <c>x</c> and <c>n</c> as arguments and returns the sum of the first <c>n</c> terms of the series.
-You should not use <c>factorial</c> or <c>pow</c>.
-</p>
-</statement>
-</exercise>
+Input: scatter
+Output: true
 
-<exercise>
-<statement>
-<p>
-    <idx><h>abecedarian</h></idx>
-A word is said to be <q>abecedarian</q> if the letters in the word appear in alphabetical order.
-For example, the following are all six-letter English abecedarian words:
-</p>
-<blockquote>
-abdest, acknow, acorsy, adempt, adipsy, agnosy, befist, behint, 
-beknow, bijoux, biopsy, cestuy, chintz, deflux, dehors, dehort, 
-deinos, diluvy, dimpsy
-</blockquote>
-<p>
-Write a function called <c>isAbecedarian</c> that takes a <c>String</c> and returns a <c>boolean</c> indicating whether the word is abecedarian.
-</p>
-</statement>
-</exercise>
+Input: concatenate
+Output: false
+      </pre>
+      <p>Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <string>
+using namespace std;]]>
+        </preamble>
+        <code>
 
-<exercise xml:id="doubloon">
-<statement>
-<p>
-    <idx><h>doubloon</h></idx>
-A word is said to be a <q>doubloon</q> if every letter that appears in the word appears exactly twice.
-Here are some example doubloons found in the dictionary:
-</p>
-<blockquote>
-Abba, Anna, appall, appearer, appeases, arraigning, beriberi, bilabial, boob, Caucasus, coco, Dada, deed, Emmett, Hannah, horseshoer, intestines, Isis, mama, Mimi, murmur, noon, Otto, papa, peep, reappear, redder, sees, Shanghaiings, Toto
-</blockquote>
-<p>
-Write a function called <c>isDoubloon</c> that takes a string and checks whether it is a doubloon.
-To ignore case, invoke the <c>toLowerCase</c> function before checking.
-</p>
-</statement>
-</exercise>
+    //write your function here
 
-<exercise>
-<statement>
-<p>
-    <idx><h>Scrabble</h></idx>
-In Scrabble<fn>Scrabble is a registered trademark owned in the USA and Canada by Hasbro Inc., and in the rest of the world by J.<nbsp/>W.<nbsp/>Spear &amp; Sons Limited of Maidenhead, Berkshire, England, a subsidiary of Mattel Inc.</fn> each player has a set of tiles with letters on them.
-The object of the game is to use those letters to spell words.
-The scoring system is complex, but longer words are usually worth more than shorter words.
-</p>
 
-<p>
-Imagine you are given your set of tiles as a string, like <c>"quijibo"</c>, and you are given another string to test, like <c>"jib"</c>.
-</p>
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
 
-<p>
-Write a function called <c>canSpell</c> that takes two strings and checks whether the set of tiles can spell the word.
-You might have more than one tile with the same letter, but you can use each tile only once.
-</p>
-</statement>
-</exercise>
-</section>
+TEST_CASE("caturdayCheck") {
+  CHECK(caturdayCheck("cat") == true);
+  CHECK(caturdayCheck("crazy") == false);
+  CHECK(caturdayCheck("catsup") == true);
+  CHECK(caturdayCheck("concatenate") == false);
+  CHECK(caturdayCheck("scatter") == true);
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+    <hint>You should not need to check letter by letter... use a string function that allows you to ask "where is this substring within the string?". Use its answer to decide whether to print true or false</hint>
+  </exercise>
+
+  <exercise label="wwgertwh454wefw3erthed23qgrfer">
+    <statement>
+      <p>Write a `string wordShortener(string startWord)` function. If the `startWord` is 4 characters or less, return it. If it is more than 4 characters, return a new string that has the first two characters of the word followed by the last two characters.</p>
+      <p>For example:
+      </p>
+      <pre>
+Input: cs
+Output: cs
+Input: programming
+Output: prng
+      </pre>
+      <p>Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <string>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+    //write your function here
+
+
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("wordShortener") {
+  CHECK(wordShortener("cat") == "cat");
+  CHECK(wordShortener("crazy") == "crzy");
+  CHECK(wordShortener("mathematics") == "macs");
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+    <hint>`substr` is useful for getting the two chunks. If the string has length `n`, what index is the next to last character at?</hint>
+  </exercise>
+  
+
+  <exercise label="wwgertwh4543erthed23qgrfer">
+    <statement>
+      <p>Write the function `boldContents`. It takes a string that contains `[b]???[/b]` where ??? can be any text. It should return a string containing just the ??? part.</p>
+      <p>For example:
+      </p>
+      <pre>
+Input: [b]This is some text[/b]
+Output: This is some text
+
+Input: Hello [b]class[/b].
+Output: class
+      </pre>
+      <p>Includes and tests are present but hidden.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <string>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+string boldContents(string input) {
+    //write your code here
+}
+
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("boldContents") {
+  CHECK(boldContents("[b]Hello[/b]") == "Hello");
+  CHECK(boldContents("This is [b]real[/b] tricky") == "real");
+  CHECK(boldContents("A [b]really, really, really[/b] long string") == "really, really, really");
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+    <hint>You can use `.find()` to locate the start and end. You will need to do math to figure out how many characters are between them.</hint>
+  </exercise>
+
+
+
+  <exercise label="sdfwefw3e4t34">
+    <statement>
+      <p>Write an `string initials(string name)` function that takes a name like `Sergio Romas Garcia` or `Jane Goodall` and returns the initials for that name (`SRG` or `JG`). You should use spaces to identify name parts. You can assume there are always either one or two spaces.</p>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <string>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+
+    //write your function here
+
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("initials") {
+  CHECK(initials("Ruth Bader Ginsberg") == "RBG");
+  CHECK(initials("Anthony Scalia") == "AS");
+  CHECK(initials("Jane Goodall") == "JG");
+  CHECK(initials("Sergio Romas Garcia") == "SRG");
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+    <hint>Start by finding the first space. Then try finding a second space. Print out the locations.</hint>
+    <hint>Use a comparison with `string::npos` to check if the second space actually exists. You will need one set of logic for if there is one spaces and a different set if there are two spaces.</hint>
+  </exercise>
+
+  <exercise label="sdfwewewefdw3e4t34">
+    <statement>
+      <p>Write a function `int countQuotes(string s)`. It should count how many quotation marks (either `"` or `'`) there are in the string and return the total. Don't forget you need to use escape codes to represent the characters `"` and `'`. For example:
+      </p>
+      <pre>
+Input: Hello "world" 'this' is "a" test
+Output: 6
+      </pre>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <string>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+
+    //write your function here
+
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("countQuotes") {
+  CHECK(countQuotes("Hello \"world\" \'this\' is \"a\" test") == 6);
+  CHECK(countQuotes("It\'s a \"small\" world") == 3);
+  CHECK(countQuotes("\"\'\'\"") == 4);
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+    <hint>You will need to loop through the characters and count the quote symbols. Start by just printing the characters one by one. Then try to just print the quotes. Then count them.</hint>
+  </exercise>
+
+  
+  <exercise label="wdqdw">
+    <statement>
+      <p>Write a function `string leetspeak(string s)`. It should take the input string, and replace all the `e` characters with `3`, all the `o` characters with `0`, and all the `l` characters with `1`. Then return the modified version of the string. For example:
+      </p>
+      <pre>
+Input: hello world
+Output: h3110 w0r1d
+      </pre>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <string>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+
+    //write your function here
+
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("leetspeak") {
+  CHECK(leetspeak("oh no") == "0h n0");
+  CHECK(leetspeak("leet") == "1337");
+  CHECK(leetspeak("hello world") == "h3110 w0r1d");
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+    <hint>You will need to loop to iterate through the string. You can either modify the string you start with or build up a new string from scratch.</hint>
+  </exercise>
+
+  
+  <exercise label="wdqfwefwefdw">
+    <statement>
+      <p>Write a function `string stringCompactor(string s)`. It should take the input string and create a <q>compacted</q> version where only ever other character is kept (1st, 3rd, 5th,...). For example:
+      </p>
+      <pre>
+Input: hello
+Output: hlo
+
+Input: This is a test
+Output: Ti sats
+      </pre>
+      <program interactive="activecode">
+        <preamble visible="no"><![CDATA[
+#include <iostream>
+#include <string>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+    //write your function here
+
+        </code>
+        <tests visible="no">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("stringCompactor") {
+  CHECK(stringCompactor("hello") == "hlo");
+  CHECK(stringCompactor("goodbye now") == "gobenw");
+  CHECK(stringCompactor("This is a test") == "Ti sats");
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+    <hint>You will need a loop. The easiest way to do this is to build up a new string. But you could keep calling `erase` to delete the characters you do not want from the original string.</hint>
+  </exercise>
+
+</exercises>

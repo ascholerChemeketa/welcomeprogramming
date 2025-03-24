@@ -1,0 +1,347 @@
+<exercises xml:id="vector-references_exercises"
+           xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Exercises</title>
+
+  <exercise label="grgrefddwedv23">
+    <statement>
+      <p>Create a vector of strings called `words` that contains (in order) "Oregon" and "Washington". Then read in three more words (using `cin >> stringVariable`) and add them to the vector.</p>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+int main() {
+]]>
+        </preamble>
+        <code>
+
+    //write your code here
+
+        </code>
+        <postamble visible="yes"><![CDATA[
+    for(const string& s : words) {
+        cout << s << " ";
+    }
+}]]></postamble>
+        <tests>
+          <iotest>
+            <input>Wisconsin Colorado Florida</input>
+            <output>Oregon Washington Wisconsin Colorado Florida</output>
+          </iotest>
+          <iotest>
+            <input>Iowa Vermont Arizona</input>
+            <output>Oregon Washington Iowa Vermont Arizona</output>
+          </iotest>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  
+  <exercise label="fwwefwe">
+    <statement>
+      <p>Remove the first element of `vec` and then insert the value 6 at index 2.</p>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<int> vec = {1, 2, 3, 4, 5};
+]]>
+        </preamble>
+        <code>
+
+    //write your code here
+
+        </code>
+        <postamble visible="yes"><![CDATA[
+    for(int i : vec) {
+        cout << i << " ";
+    }
+}]]></postamble>
+        <tests>
+          <iotest>
+            <input></input>
+            <output>2 3 6 4 5</output>
+          </iotest>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  
+  <exercise label="grgrefddwedv23">
+    <statement>
+      <p>Create a vector of strings called `words` that contains (in order) "Oregon" and "Washington". Then read in three more words (using `cin >> stringVariable`) and add them to the vector.</p>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+]]>
+        </preamble>
+        <code>
+
+    //write your code here
+
+        </code>
+        <postamble visible="yes"><![CDATA[
+    for(const string& s : words) {
+        cout << s << " ";
+    }
+}]]></postamble>
+        <tests>
+          <iotest>
+            <input>Wisconsin Colorado Florida</input>
+            <output>Oregon Washington Wisconsin Colorado Florida</output>
+          </iotest>
+          <iotest>
+            <input>Iowa Vermont Arizona</input>
+            <output>Oregon Washington Iowa Vermont Arizona</output>
+          </iotest>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  <exercise label="vec-sdfswap">
+    <statement>
+      <p>Write the function `vector&lt;int>;swapEnds(???)` that copies the given vector and then swaps the first and last items of the copy before returning the copy. You get to decide on the parameter type to use (whether to take the input by value or reference).</p>
+      <p>For example:
+      </p>
+      <pre>
+Input: 1 2 3 4 5
+Returns: 5 2 3 4 1
+
+Input: 10 20 30
+Output: 30 20 10
+      </pre>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <vector>
+using namespace std;
+]]>
+        </preamble>
+        <code><![CDATA[
+
+    // write swapEnds
+]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+
+
+TEST_CASE("swapEnds") {
+  vector<int> vec1 = {1, 2, 3, 4};
+  trimZeros(vec1);
+  CHECK(vec1 == vector<int>({4, 2, 3, 1}));
+  vector<int> vec2 = {100, 200, 300};
+  trimZeros(vec2);
+  CHECK(vec2 == vector<int>({300, 200, 100}));
+  vector<int> vec3 = {10, 9, 8, 7, 6, 5, 4};
+  trimZeros(vec3);
+  CHECK(vec3 == vector<int>({4, 9, 8, 7, 6, 5, 10}));
+}]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  <exercise label="wefwddfdss33e">
+    <statement>
+      <p>Complete the function `trimZeros` that removes values from the end of `vec` until the last value is not 0.</p>
+      <p>For example:
+      </p>
+      <pre>
+Input: 1 4 0 0 0
+Result: 1 4
+
+Input: 1 8 3 0 2 0
+Result: 1 8 3 0 2
+      </pre>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <vector>
+using namespace std;
+]]>
+        </preamble>
+        <code><![CDATA[
+void trimZeros(vector<int>& vec) {
+    //write your code here
+}]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("trimZeros") {
+  vector<int> vec1 = {1, 4, 0, 0, 0};
+  trimZeros(vec1);
+  CHECK(vec1 == vector<int>({1, 4}));
+  vector<int> vec2 = {1, 8, 3, 0, 2, 0};
+  trimZeros(vec2);
+  CHECK(vec2 == vector<int>({1, 8, 3, 0, 2}));
+  vector<int> vec3 = {1, 6, 2};
+  trimZeros(vec3);
+  CHECK(vec3 == vector<int>({1, 6, 2}));
+}]]>
+        </tests>
+    </program>
+    </statement>
+    <hint><p>You will need a loop based on the value of the last element. Remember that the last element is at index `.size() - 1` and changes each time you remove something from the back.</p></hint>
+  </exercise>
+
+  <exercise label="dfdsf24f34f3f">
+    <statement>
+      <p>Complete the function `minimumVal` that returns the smallest value in `vec`</p>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <vector>
+using namespace std;
+]]>
+        </preamble>
+        <code><![CDATA[
+double minimumVal(const vector<double>& vec) {
+    //write your code here
+}
+]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("minimumVal") {
+  vector<double> vec1 = {4.2, 3.1, 2.5, 1.2};
+  CHECK(minimumVal(vec1) == doctest::Approx(1.2));
+  vector<double> vec2 = {4.2, -6,1, 3.1, 2.5, 1.2};
+  CHECK(minimumVal(vec2) == doctest::Approx(-6.1));
+}]]>
+        </tests>
+    </program>
+    </statement>
+    <hint><p>You will need a loop based on the value of the last element. Remember that the last element is at index `.size() - 1` and changes each time you remove something from the back.</p></hint>
+  </exercise>
+
+  <exercise label="dfdsf24f34f3f">
+    <statement>
+      <p>Complete the function `countOver` that returns the number of values greater than `value`.</p>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <vector>
+using namespace std;
+]]>
+        </preamble>
+        <code><![CDATA[
+int countOver(const vector<int>& vec, double value) {
+    //write your code here
+}
+]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("minimumVal") {
+  vector<double> temps = {98.6, 97.8, 100.3, 97.2, 98.7, 97.8, 99.8, 96.9, 98.2, 99.1, 99.9};
+  CHECK(countOver(temps, 98) == 8);
+  CHECK(countOver(temps, 99) == 4);
+  CHECK(countOver(temps, 100) == 1);
+  CHECK(countOver(temps, 102) == 0);
+  CHECK(countOver(temps, 98.6) == 5);
+}]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  <exercise label="dfdsf274f34f3f">
+    <statement>
+      <p>Write a function `isBlankFree` that takes a vector of strings and returns `true` if there are no empty strings (`""`) in it. Return `false` if there is at least one empty string.</p>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+]]>
+        </preamble>
+        <code><![CDATA[
+
+// write isBlankFree
+
+]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("isBlankFree") {
+  vector<string> test1 = {"he", "llo", "world", "", "!"};
+  CHECK(!isBlankFree(test1));
+  vector<string> test2 = {"he", "llo", "world", "!"};
+  CHECK(isBlankFree(test2));
+  vector<string> test3 = {"", "llo", "world", "!"};
+  CHECK(!isBlankFree(test3));
+  vector<string> test4 = {"he", "", "llo", "", "world", "!"};
+  CHECK(!isBlankFree(test4));
+}]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  
+  <exercise label="dfdsf274f34f3f">
+    <statement>
+      <p>Write a function `limit` that takes a vector of integers and returns a new vector that is a copy of the original where every value less than 0 is set to 0 and every value greater than 100 is set to 100.</p>
+      <p>For example, passing in `54 -6 82 100 102` would result in `54 0 82 100 100`.</p>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <vector>
+using namespace std;
+]]>
+        </preamble>
+        <code><![CDATA[
+
+// write limit
+
+]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("limit") {
+  vector<int> test1 = {54, -6, 82, 100, 102};
+  vector<int> result1 = limit(test1);
+  CHECK(result1 == vector<int>({54, 0, 82, 100, 100}));
+  vector<int> test2 = {-4, 0, -123};
+  vector<int> result2 = limit(test2);
+  CHECK(result2 == vector<int>({0, 0, 0}));
+  vector<int> test3 = {62, 102, 103, 18};
+  vector<int> result3 = limit(test3);
+  CHECK(result3 == vector<int>({62, 100, 100, 18}));
+}]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+
+</exercises>

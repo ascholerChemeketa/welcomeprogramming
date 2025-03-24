@@ -1,0 +1,94 @@
+<html>
+  <script type="module">
+
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+    // Set up SVG canvas dimensions
+const width = 800;
+const height = 200;
+
+// Sample linked list data
+const linkedList = [
+    { id: 1, value: "A", next: 2 },
+    { id: 2, value: "B", next: 3 },
+    { id: 3, value: "C", next: 4 },
+    { id: 5, value: "E", next: 4 },
+    { id: 4, value: "D", next: null }
+];
+
+// Create an SVG container
+const svg = d3.select("body")
+    .append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+const nodeRadius = 30;
+const xSpacing = 100;
+const startX = 50;
+const startY = height / 2;
+
+// Draw nodes
+const nodes = svg.selectAll("circle")
+    .data(linkedList)
+    .enter()
+    .append("circle")
+    .attr("cx", (d, i) => startX + i * xSpacing)
+    .attr("cy", startY)
+    .attr("r", nodeRadius)
+    .attr("fill", "lightblue")
+    .attr("stroke", "black");
+
+// Add text labels
+svg.selectAll("text")
+    .data(linkedList)
+    .enter()
+    .append("text")
+    .attr("x", (d, i) => startX + i * xSpacing)
+    .attr("y", startY)
+    .attr("dy", 5)
+    .attr("text-anchor", "middle")
+    .attr("font-size", "16px")
+    .text(d => d.value);
+
+// Draw links (arrows)
+linkedList.forEach((node, i) => {
+    if (node.next !== null) {
+        svg.append("line")
+            .attr("x1", startX + i * xSpacing + nodeRadius)
+            .attr("y1", startY)
+            .attr("x2", startX + (i + 1) * xSpacing - nodeRadius)
+            .attr("y2", startY)
+            .attr("stroke", "black")
+            .attr("stroke-width", 2)
+            .attr("marker-end", "url(#arrowhead)");
+    }
+});
+
+// Define arrow marker
+d3.select("svg").append("defs").append("marker")
+    .attr("id", "arrowhead")
+    .attr("viewBox", "0 0 10 10")
+    .attr("refX", 8)
+    .attr("refY", 5)
+    .attr("markerWidth", 6)
+    .attr("markerHeight", 6)
+    .attr("orient", "auto-start-reverse")
+    .append("path")
+    .attr("d", "M 0 0 L 10 5 L 0 10 z")
+    .attr("fill", "black");
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        svg {
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+        </style>
+    <title>Linked List Visualization</title>
+</head>
+<body></body>
+</html>

@@ -1,0 +1,187 @@
+<section xml:id="vector-references_traversing-recipes"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Recipes for vectors</title>
+
+  <introduction>
+    <p>There are many facets to learning <q>how to program</q>. You need to learn the syntax of one
+      or more languages; you need to develop a mental model for how algorithms operate; you must
+      learn how computers represent data; and you must develop your ability to solve problems using
+      all of these skills and knowledge. When you start learning to program, the low-level details
+      like syntax occupy much of your attention. As you progress, you spend less and less time
+      learning new syntax and more time learning to solve problems.</p>
+
+    <p>Problem solving is almost by definition a creative process. If we know how to solve the
+      problem already, we would likely not consider it to be a <q>problem</q>. Instead it would be a
+      task to get done. Every time you go to solve a problem, it will likely involve doing something
+      new. But few problems are truly unique. For any new problem you are solving, chances are there
+      is a similar problem which already has a solution that you can adapt to meet the new
+      challenge. So an important part of learning to program effectively is developing a <q>playbook</q>
+      - a set of common problems and algorithms that can solve them.</p>
+
+    <p>In this section we will look at some common problems that can be solved using vectors. We
+      will look at the algorithms used to solve them and how to implement them in C++.</p>
+  </introduction>
+
+  <subsection>
+    <title>Finding things</title>
+
+    <p>
+      <idx>
+        <h>search</h>
+      </idx> Our first common pattern is a <term>search</term>, which involves
+      traversing an vector while <q>searching</q> for a particular element.</p>
+
+    <program xml:id="vector-references_traversing-recipes-1"
+             interactive="activecode">
+<xi:include href="../../programs/vector-references/traversing-recipes-1.cpp" parse="text"/>
+</program>
+
+    <p>We start by assuming the value we are looking for is not present. This is done on line 10
+      where we set the `location` to the size of the array. If the size is 4, the only valid values
+      are 0-3, so we know `size()` represents an impossible value. Then, we traverse the vector to
+      check each element. If we find the target value in the vector, we change the `location` and
+      break out of the loop. When the loop is done, if `location` still matches the `size()`, we
+      know the value was not found.</p>
+    </subsection>
+
+    <subsection>
+      <title>Reduce</title>
+    <p>
+      <idx>
+        <h>reduce</h>
+      </idx> Another common traversal is a <term>reduce</term> operation, which <q>
+      reduces</q> an vector of values down to a single value. Examples include the sum or product of
+      the elements, the minimum, and the maximum. The following function takes an vector and returns
+      the sum of its elements. A reduction always needs an <term>accumulator</term> variable where
+      we store the answer. As we visit each element, we update that variable as appropriate.</p>
+
+    <p>We have already seen one reduction recipe - calculating the sum of the values in a vector. In this recipe, our accumulator is the total and starts with a value of 0:</p>
+
+    <program xml:id="vector-references_traversing-recipes-2">
+<xi:include href="../../programs/vector-references/traversing-recipes-2.cpp" parse="text"/>
+</program>
+
+    <p>Finding the smallest value in a vector can also be thought of as a reduction. In this case, our accumulator needs to keep track of the <q>smallest
+      value we have seen so far</q> (called `minimum` in the sample below). As we visit each
+      element, we compare it to `minimum`, and if it is lower, we need to change `minimum` to store
+      the new lowest value that we have just discovered. But for this to work, we can't start with 0
+      in our accumulator. If we did, we could go through the entire vector and never find anything smaller, and
+      thus end up thinking that 0 was the minimum value. For situations like this it is common to use
+      the first value to initialize the accumulator and then loop through all the elements after the
+      first:</p>
+
+    <program xml:id="vector-references_traversing-recipes-3">
+<xi:include href="../../programs/vector-references/traversing-recipes-3.cpp" parse="text"/>
+</program>
+    </subsection>
+
+    <subsection>
+      <title>Map</title>
+
+      <p>A <term>map</term> operation transforms each element in a vector to a new value. In <xref ref="vector-references_vector-functions"></xref> we saw two versions of the `doubleValues` function that performed a map operation. The first
+      version created a new vector and returned it. The second version modified the original vector
+      in place.</p>
+
+    </subsection>
+
+    <subsection>
+      <title>Filter</title>
+
+      <p>Finally, a <term>filter</term> operation traverses a vector and only keeps values that meet a certain condition. Although we could do this by removing unwanted values from the vector we start with, it is much easier to build up a vector with just the ones we want. This final sample demonstrates a function that filters out 0 values from a vector, producing a new one with only non-zero values:</p>
+
+    <program xml:id="vector-references_traversing-recipes-4"
+             interactive="activecode">
+<xi:include href="../../programs/vector-references/traversing-recipes-4.cpp" parse="text"/>
+</program>
+
+      <note><p>Simple does not always mean <q>bad</q> or <q>inefficient</q>. It will almost certainly be faster to build a new vector with just the desired values instead of removing multiple items from the existing vector.</p></note>
+    </subsection>
+
+  <exercise label="vectors_p7"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Suppose `vector&lt;string> album` has already been defined and is storing some number of strings representing song titles.
+      Construct a block of code that counts how many songs have an `e` in them.</p>
+    </statement>
+    <blocks>
+      <block order="2">
+        <cline>int count = 0;</cline>
+      </block>
+      <block order="4">
+        <cline><![CDATA[for (string title : album) {]]></cline>
+      </block>
+      <block order="3">
+        <cline> size_t ePosition = title.find('e');</cline>
+        <cline> if (ePosition != string::npos) {</cline>
+      </block>
+      <block order="9">
+        <cline>  ++count;</cline>
+        <cline> }</cline>
+      </block>
+      <block order="7">
+        <cline>}</cline>
+      </block>
+      <block order="8"
+             correct="no">
+        <cline><![CDATA[for (string album : title) {]]></cline>
+      </block>
+      <block order="3"
+             correct="no">
+        <cline> size_t ePosition = album.find('e');</cline>
+        <cline> if (ePosition != string::npos) {</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+
+
+  <exercise label="vectors_p37"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Build a function `onlyPassing` that takes a `vector&lt;char>` that contains a list of characters representing letter grades (A, B, C, D, F) and returns a new vector that has all the grades but the Fs.</p>
+    </statement>
+    <blocks>
+      <block order="4">
+        <cline><![CDATA[vector<char> onlyPassing(const vector<char>& grades) {]]></cline>
+      </block>
+      <block order="4" correct="no">
+        <cline><![CDATA[void onlyPassing(const vector<char>& grades) {]]></cline>
+      </block>
+      <block order="3">
+        <cline><![CDATA[ vector<char> result;]]></cline>
+      </block>
+      <block order="9">
+        <cline><![CDATA[ for (char grade : grades) {]]></cline>
+      </block>
+      <block order="7">
+        <cline><![CDATA[  if (grade != 'F') {]]></cline>
+        <cline><![CDATA[   result.push_back(grade);]]></cline>
+        <cline>  }</cline>
+      </block>
+      <block order="7"
+             correct="no">
+        <cline><![CDATA[  if (grade != 'F') {]]></cline>
+        <cline><![CDATA[   grades.erase(grade);]]></cline>
+        <cline>  }</cline>
+      </block>
+      <block order="7">
+        <cline> }</cline>
+      </block>
+      <block order="57">
+        <cline> return result;</cline>
+        <cline>}</cline>
+      </block>
+      <block order="76"
+             correct="no">
+        <cline> return grades;</cline>
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

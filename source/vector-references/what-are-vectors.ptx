@@ -1,0 +1,31 @@
+<section xml:id="vector-references_what-are-vectors"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>What are vectors?</title>
+  <p>
+    <idx>
+      <h>vector</h>
+    </idx>
+    <idx>
+      <h>element</h>
+    </idx> A <term>vector</term> is an ordered sequence of values stored in one contiguous block; the values in
+    the vector are called <term>elements</term> and are identified by indexes starting from 0. The elements can be of any type (but in C++ all the elements of a vector must be the same type). Thus we can have a vector of integers or a vector of strings:</p>
+
+  <figure>
+    <caption>A vector of `int`s.</caption>
+    <image width="30%"
+           source="images/vector-nums.svg"/>
+  </figure>
+
+  <figure>
+    <caption>A vector of `string`s.</caption>
+    <image width="40%"
+           source="images/vector-strings.svg"/>
+  </figure>
+
+  <p>An ordered collection is often referred to as a <term>list</term> and is one of the most common types of container for holding multiple pieces of data. An ordered collection that stores its data in one large block is known as an <term>array</term>. So another way to describe a vector is as an <q>array based list</q>. Most programming languages have an equivalent container, but the name tends to vary. In Python the most similar structure is a <term>list</term>; in Java it is an <term>ArrayList</term>; in JavaScript it is an <term>array</term></p>
+
+  <p>In C++ there are also a separate type <term>array</term>. Arrays in C++ are a more primitive structure - they are literally just a large block of memory that contains a sequence of smaller items. Vectors on the other hand are objects (in the same way strings are). A vector contains both data (an array) and functions that make it easier to work with that data.</p>
+
+  <p>You will notice many similarities between vectors and strings. This is not a coincidence - the two types are designed to do similar jobs. They both hold an ordered sequence of items. And it is perfectly legal to make a `vector` that holds `char`s. The primary difference is that when using a string, it is assumed that the value of the entire sequence has some meaning<mdash/>the string `"Hello world"`, represents a piece of text. A `vector` of `char`s would just represent a list of individual characters ('h', 'e', 'l'...).</p>
+
+</section>

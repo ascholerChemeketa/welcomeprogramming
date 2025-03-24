@@ -1,0 +1,134 @@
+<section xml:id="vector-references_counting-characters"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Case Study: Counting Characters</title>
+
+  <introduction>
+    <p>We now return to the example from the beginning of the chapter. Recall that we would like to
+      figure out how often each letter of the alphabet appears in a string. To do this efficiently,
+      we want to only traverse the string once. That means we need to keep track of 26 separate
+      values - how many 'a's, 'b's, 'c',... we have seen so far.</p>
+  </introduction>
+
+  <subsection>
+    <title>Understanding the problem</title>
+
+    <p>Any time we need to work with a list of related values a vector is a logical choice. In this
+      case, we need to store 26 integers (one for each letter). Rather than create 26 variables, we
+      can create a single vector of integers with 26 elements, one for each letter of the alphabet.
+      The only missing ingredient is how to map the letters of the alphabet to the indexes of our
+      vector. When we see `'a'` we need to know that it belongs in element index 0. When we see
+      `'b'` we need to know that it belongs in element index 1.</p>
+
+    <figure>
+      <caption>A vector to store letter counts.</caption>
+      <image width="50%"
+             source="images/vectors-letter-counts.svg"/>
+    </figure>
+
+    <p>We could use a large if/else chain (or a switch statement) to determine the right index for
+      each character. But since chars are inherently numeric, we can instead do some math. `'a'` has
+      the value 97. `'b'` has the value 98, `'c'` the value 99, and so on. So `'a' - 'a'` equals 0.
+      `'b' - 'a'` equals 1. `'c' - 'a'` equals 2. If we subtract `'a'` from a character we are
+      essentially calculating <q>how far is this letter from 'a?'</q>. And that value tells exactly
+      what index the character belongs to!</p>
+
+  </subsection>
+
+  <subsection>
+    <title>Starting the code</title>
+
+    <p>Sometimes we need to do some setup before we can write the code that we really want to write.
+      In this case, we need to loop through some string, and for each character figure out what
+      index it belongs to. There is no use trying to keep counts until we are sure we can do that.
+      So let us start with just some code to iterate through a string and print out each character,
+      followed by the index it belongs in:</p>
+
+    <program xml:id="vector-references_counting-characters-1"
+             interactive="activecode">
+<xi:include href="../../programs/vector-references/counting-characters-1.cpp" parse="text"/>
+</program>
+
+    <p>Testing out that code, it seems like there are a few problems: <ul>
+        <li>Upper case ``T`` gets a different index than ``t``</li>
+        <li>We are getting spaces, newlines, and punctuation</li>
+      </ul>
+    </p>
+
+    <p>So let us convert everything to lower and ignore anything that is not alphabetical:</p>
+
+    <program xml:id="vector-references_counting-characters-2"
+             interactive="activecode">
+<xi:include href="../../programs/vector-references/counting-characters-2.cpp" parse="text"/>
+</program>
+
+    <p>That looks better.</p>
+  </subsection>
+
+  <subsection>
+    <title>Keeping count</title>
+
+    <p>Now we are ready to do the work we originally set out to do - to keep count of how many times
+      each letter appears. We need to declare a vector of 26 int's before we start the loop and make
+      sure each is initialized to 0. Then, in our loop, we need to use the index to pick an element
+      from the vector to increment. To confirm that this is working, we will print out the new count
+      for that letter each time we make a change:</p>
+
+    <program xml:id="vector-references_counting-characters-3"
+             interactive="activecode">
+<xi:include href="../../programs/vector-references/counting-characters-3.cpp" parse="text"/>
+</program>
+
+    <p>That seems to be working well.</p>
+  </subsection>
+
+  <subsection>
+    <title>Cleanup and Final Output</title>
+    
+    <p>Now we can remove the extra printing from the loop that
+    traverses the string. After that traversal, we can traverse the vector to print out the values.
+    We want to print the index as well as the value of each element, so we will use a counting loop:</p>
+
+  <program xml:id="vector-references_counting-characters-4"
+             interactive="activecode">
+<xi:include href="../../programs/vector-references/counting-characters-4.cpp" parse="text"/>
+</program>
+
+  <p>This
+    is looking good. But it is a little tricky to read the output. To figure out how many `'t'`s
+    there are, we need to do some mental math. Let's make it easier to read by printing out the
+    letter instead of the index. We can do this by adding `'a'` to the index and casting it to a
+    char. Try modifying the code in the final loop to look like this:</p>
+
+  <program xml:id="vector-references_counting-characters-5">
+<xi:include href="../../programs/vector-references/counting-characters-5.cpp" parse="text"/>
+</program>
+  </subsection>
+
+  
+  <exercise label="program_lang_1">
+    <statement>
+      <p>Replace the value of `testString` in the program with the text from the box below. How many `e`'s are counted when you run the program on that text?
+      <fillin mode="number"
+                answer="38"/> </p>
+      <pre>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+      sed do eiusmod tempor incididunt ut labore et dolore magna
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+      ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      Duis aute irure dolor in reprehenderit in voluptate velit
+      esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+      occaecat cupidatat non proident, sunt in culpa qui officia
+      deserunt mollit anim id est laborum.
+      </pre>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+  
+
+</section>

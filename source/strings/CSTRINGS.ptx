@@ -1,48 +1,9 @@
-<section xml:id="strings_character-string-variables"
+<section xml:id="strings_character-cstrings"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <title>String Variables</title>
+  <title>`string`s vs C-strings</title>
 
-  <subsection>
-  <title>`string`s</title>
-
-  <p>Although we have worked with string literals enclosed in quotes like `"Hello world"`, we have yet to store or manipulate those strings. To do so, we need to create a variable of type <c>string</c>. To work with the <c>string</c> data type, you need to include the `&lt;string>` library. Then you can create and assign values to variable with type <c>string</c> in the usual ways:</p>
-
-  <listing label="string_variables_AC_1">
-    <program xml:id="string_variables_AC_1_editor"
-             interactive="activecode"
-             line-numbers="yes">
-      <code><![CDATA[
-#include <iostream>
-#include <string>
-using namespace std;
-
-int main() {
-    string first;
-    first = "Hello, ";
-    string second = "world.";
-    second = "there.";
-    cout << first << second << endl;
-}
-        ]]></code>
-    </program>
-  </listing>
-
-  <p>Strings have a maximum length that depends on the platform (usually billions of characters). And they can be can be just 1 character long, or even 0 characters. Unlike numeric types, if you fail to initialize a string, you can count on it being empty instead of having a random value:</p>
-
-  <program>
-string empty = "";
-string alsoEmpty;    // we know this string holds ""
-string single = "a";
-  </program>
-
-  <note><p>If you are already including <c>iostream</c>, you may get away with not explicitly including <c>string</c>.
-    In some environments, <c>iostream</c> will include <c>string</c> for you. But it is best to explicitly
-    include <c>string</c> if your code relies on it.</p></note>
-  
-  </subsection>
-  <subsection>
-  <title>`string`s vs string literals</title>
+  <note><p>This section explains some of the background on why string literals are different than string variables. Being aware of this information is important. But we will not be intentionally programming with the C-strings that are described here - so there are many complexities to C-strings that are intentionally left out of this coverage.</p></note>
 
   <p>A string literal like `"Hello"` does not have the `string` data type.</p>
 
@@ -52,106 +13,59 @@ string single = "a";
   
   <ul>
     <li><title>`char`</title><p>Stores exactly one character. Stores the character as a numeric value.</p></li>
-    <li><title>`string`</title><p>Stores 0+ characters. Stores them as an <term>object</term>.</p></li>
+    <li><title>`string`</title><p>Stores 0+ characters. Stores them as an <term>object</term>. The object contains a list of characters and functions to work with those characters.</p></li>
     <li><title>string literal (C-string)</title><p>A sequence of characters in quotes. Stored as a list of numeric values.</p></li>
   </ul>
   </p>
 
-  <p>We can output strings in the usual way:</p>
-  <program>
-cout &lt;&lt; first &lt;&lt; second &lt;&lt; endl;
-</program>
-  <listing label="string_variables_AC_2">
-    <caption>
-      Run this active code!
-    </caption>
-    <program xml:id="string_variables_AC_2_editor"
-             interactive="activecode"
-             line-numbers="yes">
+  <p>Thus it makes sense to ask a string variable what it's size is. But it does not make sense to ask that of a string literal. A string literal is not an object. It is <q>just</q> a sequence of characters.</p>
+
+    <program xml:id="string_variables_ACsdf_2_editor"
+             interactive="activecode">
       <code><![CDATA[
 #include <iostream>
 #include <string>
 using namespace std;
 
 int main() {
-    string first;
-    first = "Hello, ";
-    string second = "world.";
-    cout << first << second << endl;
+    string s = "Hello";
+    cout << s.size() << endl;        // prints 5
+    cout << "Hello".size() << endl;  // ERROR! There is no size method for a string literal
 }
         ]]></code>
-    </program>
-  </listing>
+        </program>
 
+  <p>The two critical things to remember are:
+  <ul>
+    <li>`'` indicates a `char` literal while `"` indicates a `string` literal</li>
+    <li>A literal value is different than a variable. In the case of a string, the variable and literal are very different.</li>
+  </ul>
+  </p>
 
+  <program><![CDATA[ 
+  cout << 'a' << endl;  // a char literal
+  char c = 'a';         // a char variable
+
+  cout << "hello" << endl;  // a string literal
+  string s = "hello";       // a string variable
+  ]]>
+  </program>
   
-  </subsection>
-  <exercise label="string_variables_1"
-            numbered="yes"
-            adaptive="yes"
-            indentation="hide">
-    <statement>
-      <p>Construct a block of code that correctly prints out a string variable.</p>
-    </statement>
-    <blocks>
-      <block order="3">
-        <cline>string x;</cline>
-      </block>
-      <block order="2">
-        <choice correct="yes">
-          <cline>x = "It is cold outside!";</cline>
-        </choice>
-        <choice>
-          <cline>x = It is cold outside;</cline>
-        </choice>
-      </block>
-      <block order="1">
-        <cline>cout &lt;&lt; x &lt;&lt; endl;</cline>
-      </block>
-    </blocks>
-  </exercise>
-  <exercise label="string_variables_2">
-    <statement>
-      <p>How would you initialize a string?</p>
-    </statement>
-    <choices>
-      <choice correct="yes">
-        <statement>
-          <p>string x = "Hello";</p>
-        </statement>
-        <feedback>
-          This is the correct way to initialize a string.
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>x = "Hello";</p>
-        </statement>
-        <feedback>
-          This is an assignment.
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>string x;</p>
-        </statement>
-        <feedback>
-          This is a declaration.
-        </feedback>
-      </choice>
-    </choices>
-  </exercise>
+  <p>As long as you keep those two facts in mind, and avoid trying to do work on string literals, you won't have to worry about other details. If you have a string literal to work with, store that literal into a variable and work with the variable.</p>
+
   <exercise label="string_variables_3">
     <statement>
-      <p>Click on each spot where a string assignment occurs.</p>
+      <p>Click on each string literal.</p>
     </statement>
     <areas>
       <cline><area correct="no">def main() {</area></cline>
       <cline>    <area correct="no">string fruit;</area></cline>
-      <cline>    <area correct="yes">fruit = "apple";</area></cline>
-      <cline>    <area correct="yes">fruit = "pear";</area></cline>
+      <cline>    <area correct="no">fruit = </area><area correct="yes">"apple";</area></cline>
+      <cline>    <area correct="no">fruit = </area><area correct="yes">"pear";</area></cline>
       <cline>    <area correct="no">string flavor;</area></cline>
-      <cline>    <area correct="yes">flavor = "vanilla";</area></cline>
+      <cline>    <area correct="no">flavor = </area><area correct="yes">"vanilla";</area></cline>
+      <cline>    <area correct="no">cout &lt;&lt; flavor;</area></cline>
+      <cline>    <area correct="no">cout &lt;&lt; </area><area correct="yes">"honey";</area></cline>
       <cline>}</cline>
     </areas>
   </exercise>

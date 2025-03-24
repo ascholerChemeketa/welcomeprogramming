@@ -1,0 +1,269 @@
+<section xml:id="vector-references_creating-vectors"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Creating vectors</title>
+  <p>
+    <idx>
+      <h>type</h>
+      <h>vector</h>
+    </idx>
+    <idx>
+      <h>&lt; > angle brackets</h>
+    </idx>
+    <idx>
+      <h>brackets</h>
+      <h>angle</h>
+    </idx>To use vectors, we must first include the `&lt;vector>` library. Then we can declare a variable with the type <c>vector&lt;TYPE></c> where `TYPE` is a data type like
+    `int`, `double`, or `string`. (The <c>&lt;></c> are referred to as <term>angle brackets</term>). For
+    example, the following lines declare that <c>counts</c> is an <q>vector of integers</q> and <c>values</c> is
+    a <q>vector of doubles</q>:</p>
+
+  <program xml:id="vector-references_creating-vector-1">
+<xi:include href="../../programs/vector-references/creating-vectors-1.cpp" parse="text"/>
+</program>
+
+  <p>We do not have to initialize vectors. Declaring a vector automatically creates an empty vector.
+    Just like a string, we can ask a vector for its `.size()` which will be a `size_t`. Doing so on
+    one of those vectors would return 0:</p>
+
+  <program xml:id="vector-references_creating-vector-2"
+           interactive="activecode">
+<xi:include href="../../programs/vector-references/creating-vectors-2.cpp" parse="text"/>
+</program>
+
+  <p>If we want to initialize the vector, we can do so with a list of specific values by enclosing
+    those values in braces and separating them with commas. This is known as <term>list
+    initialization</term>:</p>
+
+  <program xml:id="vector-references_creating-vector-3">
+<xi:include href="../../programs/vector-references/creating-vectors-3.cpp" parse="text"/>
+</program>
+
+  <p>The first line creates a vector of four integers, and the second line creates a vector of three
+    strings.</p>
+
+  <p>Finally, you can create a vector with a specific size and default value. The syntax to do this
+    is a little odd; it looks like a combination of a variable declarations and a function call:
+    `vector&lt;int>(10, 0)`. In fact, that's exactly what it is. The function we are invoking is an <c>vector</c>
+    constructor. A <term>constructor</term> is a special function that creates new objects and
+    initializes their instance variables. In this case, the constructor takes two arguments, the
+    size of the vector to make and what value to use for all of the elements.</p>
+
+  <program xml:id="vector-references_creating-vector-4">
+<xi:include href="../../programs/vector-references/creating-vectors-4.cpp" parse="text"/>
+</program>
+
+  <figure>
+    <caption>The vector `values` created by the previous code sample.</caption>
+    <image width="40%"
+           source="images/vector-3-doubles.svg"/>
+  </figure>
+
+
+  <p>Once you have a vector, you can copy it by doing an assignment:</p>
+  <program xml:id="vector-references_creating-vector-5">
+<xi:include href="../../programs/vector-references/creating-vectors-5.cpp" parse="text"/>
+</program>
+
+  <p>This results in two vectors that have identical lists of elements as diagramed below. Despite
+    having the same data, the two vectors are independent - if you modified `numbers` at this point,
+    `copy` would be unaffected.</p>
+
+  <figure>
+    <caption>Assigning a vector to another copies it.</caption>
+    <image width="30%"
+           source="images/vectors-copy.svg"/>
+  </figure>
+
+  <p>You may have noticed that we have not tried to print any of the vectors. That is because you
+    can't use `cout` to print an entire vector. Trying to write something like `cout &lt;&lt;
+    values;` will result in an error message that begins with something like:</p>
+
+  <console>
+    <output><![CDATA[
+test.cpp: In function ‘int main()’:
+test.cpp:13:10: error: no match for ‘operator<<’ (operand types are ‘std::ostream’ {aka ‘std::basic_ostream<char>’} and ‘std::vector<int>’)
+   13 |     cout << values;
+      |     ~~~~ ^~ ~~~~~~ ]]>
+  </output>
+  </console>
+
+  <p>It is trying to tell us that there is no way to use `&lt;&lt;` to send the vector to the output
+    stream `cout`. If we want to print the vector we have to it by printing the individual elements.
+    In the next section, we will learn how to access the elements so that we can see what is in our
+    vector and modify those values.</p>
+
+  <exercise label="vector_size_1">
+    <statement>
+      <p>Let <term>nums</term> be the vector { 0, 1, 2, 3, 4 }. What is <term> data type</term> <em>of</em> <c>nums.size()</c>
+        ? <fillin mode="string" answer="size_t"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>int</strcmp>
+          <feedback>
+            Incorrect! Remember, the size function returns an unsigned integer type.
+          </feedback>
+        </test>
+        <test>
+          <strcmp>5</strcmp>
+          <feedback>
+            What is the type of the size? (Not its value)
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <exercise label="vectors_1">
+    <statement>
+      <p>How would you create a vector of five words and initialize all of them to empty strings?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement id="vectors_1_opt_a">
+          <p>
+            <c><![CDATA[vector<string> words ("", 5);]]></c>
+          </p>
+        </statement>
+        <feedback>
+          Incorrect! Vector parameters are in the wrong order.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="vectors_1_opt_b">
+          <p>
+            <c><![CDATA[vector<string> words (5);]]></c>
+          </p>
+        </statement>
+        <feedback>
+          Correct! Vector elements are default constructed to empty strings.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="vectors_1_opt_c">
+          <p>
+            <c><![CDATA[vector<string> words (5, "");]]></c>
+          </p>
+        </statement>
+        <feedback>
+          Correct! We made a vector of strings with 5 elements, initialized to empty strings.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="vectors_1_opt_d">
+          <p>
+            <c><![CDATA[vector<char> words (5, '');]]></c>
+          </p>
+        </statement>
+        <feedback>
+          Incorrect! words should be a vector of strings.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="vectors_2">
+    <statement>
+      <p><term>Multiple Response</term> Which of the following could be an element of <term>words</term>
+        ?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>1</p>
+        </statement>
+        <feedback>
+          Incorrect! This is an integer, not a string.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>"a"</p>
+        </statement>
+        <feedback>
+          Correct!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>'a'</p>
+        </statement>
+        <feedback>
+          Incorrect! This is a character, not a string.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>"word"</p>
+        </statement>
+        <feedback>
+          Correct!
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>"1"</p>
+        </statement>
+        <feedback>
+          Correct!
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="vectors_4">
+    <statement>
+      <p>What are the values of <c>number</c>'s elements after this declaration?</p>
+      <program>
+vector&lt;int&gt; numbers(6);
+</program>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement id="vectors_4_opt_a">
+          <p>undefined (we don't know the values)</p>
+        </statement>
+        <feedback>
+          Integers are default constructed to a known value.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="vectors_4_opt_b">
+          <p>0</p>
+        </statement>
+        <feedback>
+          Integers are default constructed to a zero value.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="vectors_4_opt_c">
+          <p>6</p>
+        </statement>
+        <feedback>
+          6 is the size we want the vector to be.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="program_lanfsdfsdfg_1">
+    <statement>
+      <p>What can go in the blank to make a vector that has 8 copies of the value `true`;? <c>vector&lt;bool&gt; options(_____)</c>
+        <fillin mode="string"
+                case="insensitive"
+                answer="6\\s*,\\s*true"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>

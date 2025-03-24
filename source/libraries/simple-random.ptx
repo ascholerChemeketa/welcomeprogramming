@@ -1,12 +1,22 @@
-<section xml:id="libraries_simple-random" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>SimpleRandom</title>
+<section xml:id="libraries_simple-random"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>SimpleRandom</title>
 
+  <p>Generating pseudo random numbers involves two discrete steps:
+  <ul>
+    <li>Generating some pseudo random bits (a number).</li>
+    <li>Mapping that random number on to the range and distribution you want. Do you want numbers 1-6? Do you want 20-2000?</li>
+  </ul>
+  The C++ `random` library provides different components for the two jobs and requires users to select which tools to use. This library hides those details and combines the logic of the two steps so that you can just ask for a random value.
+  </p>
 
-
-  <datafile label="SimpleRandom.h" filename="SimpleRandom.h" language="cpp"><pre>
+  <datafile label="SimpleRandom.h"
+            filename="SimpleRandom.h"
+            language="cpp">
+    <pre>
 <xi:include href="../../programs/SimpleRandom.h" parse="text"/>
 </pre>
-</datafile>
+  </datafile>
 
 
 </section>

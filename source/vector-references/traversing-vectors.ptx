@@ -1,0 +1,110 @@
+<section xml:id="vector-references_traversing-vector"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Traversing vectors</title>
+
+  <p>
+    <idx>
+      <h>traversal</h>
+    </idx> Many computations can be implemented by looping through the
+    elements of an vector and performing an operation on each element. Looping through the elements
+    of an vector is called a <term>traversal</term>:</p>
+
+  <program xml:id="vector-references_traversing-vector-1" interactive="activecode">
+<xi:include href="../../programs/vector-references/traversing-vectors-1.cpp" parse="text"/>
+</program>
+
+  <p>You will notice that the traversal looks just like looping through the characters of a string. We use a variable of type `size_t` to track our position. And we use `.size()` to determine where to stop. Of course, we can do things other than print the elements. This example traverses an vector and squares each element: </p>
+
+  <program xml:id="vector-references_traversing-vector-1b" interactive="activecode">
+<xi:include href="../../programs/vector-references/traversing-vectors-1b.cpp" parse="text"/>
+</program>
+
+  <p>Also, similar to when iterating through the characters in a string, we can use a <term>range-based loop</term> to iterate through vectors. If we don't care about knowing the index of each item, this syntax can simplify things:</p>
+
+  <program xml:id="vector-references_traversing-vector-1c" interactive="activecode">
+<xi:include href="../../programs/vector-references/traversing-vectors-1c.cpp" parse="text"/>
+</program>
+
+  <p>Note that the local variable used to hold the current element during each iteration of the loop has the type of data that the vector is storing. For a `vector&lt;int>` we use `for (int NAME : ...` while for a `vector&lt;string>` we say `for (string NAME : ...`.</p>
+
+  <p>It is possible to use a range-based loop to modify elements in a vector. To do so, we have to add the `&amp;` symbol after the type of the loop variable:</p>
+
+  <program xml:id="vector-references_traversing-vector-1d" interactive="activecode">
+<xi:include href="../../programs/vector-references/traversing-vectors-1d.cpp" parse="text"/>
+</program>
+
+  <p>On line 7 we have `for (int&amp; value : a) because it needs to modify the elements in the vector `a`. The second loop does not need (or want) to modify anything, so it just uses `for (int value : a)`. So what is that symbol? It identifies the variable as a <term>reference</term> and it is time to tackle what that means and how they work.</p>
+
+
+  <exercise label="vectors_p4"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Construct a block of code that loops over a vector called <c>numbers</c> and transforms the vector
+        so each element is doubled.</p>
+    </statement>
+    <blocks>
+      <block order="7">
+        <cline><![CDATA[vector<int> numbers = {1, 2, 3, 4, 5};]]></cline>
+      </block>
+      <block order="8">
+        <cline><![CDATA[for (size_t i = 0; i < numbers.size(); i++) {]]></cline>
+      </block>
+      <block order="6">
+        <cline> numbers.at(i) = numbers.at(i) * 2;</cline>
+      </block>
+      <block order="5">
+        <cline>}</cline>
+      </block>
+      <block order="3"
+             correct="no">
+        <cline>vector numbers = {1, 2, 3, 4, 5}; </cline>
+      </block>
+      <block order="4"
+             correct="no">
+        <cline><![CDATA[for (size_t i = 1; i <= numbers.size(); ++i) { ]]></cline>
+      </block>
+      <block order="1"
+             correct="no">
+        <cline><![CDATA[for (int i = 0; i < numbers.size(); i++) { ]]></cline>
+      </block>
+      <block order="2"
+             correct="no">
+        <cline>numbers.at(i) * 2; </cline>
+      </block>
+    </blocks>
+  </exercise>
+
+  
+  <exercise label="vectors_p5"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Suppose you have the vector <c><![CDATA[vector<string> words = {"car", "cat", "switch", "alpha"}]]></c>. Construct a block of code that makes each word upper case and results in the vector to <c><![CDATA[vector<string> words = {"Car", "Cat", "Switch", "Alpha"}]]></c></p>
+    </statement>
+    <blocks>
+      <block order="7">
+        <cline><![CDATA[for (string word& : words) {]]></cline>
+      </block>
+      <block order="7" correct="no">
+        <cline><![CDATA[for (string word : words) {]]></cline>
+      </block>
+      <block order="7" correct="no">
+        <cline><![CDATA[for (string word in words) {]]></cline>
+      </block>
+      <block order="11">
+        <cline> word.at(0) = toupper(word.at(0));</cline>
+      </block>
+      <block order="11" correct="no">
+        <cline> words.at(0) = toupper(words.at(0));</cline>
+      </block>
+      <block order="3">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

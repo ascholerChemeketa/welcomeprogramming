@@ -1,42 +1,121 @@
-<section xml:id="strings_substrings" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Substrings</title>
-<p>
-    <idx><h>substring</h></idx>
-In addition to searching strings, we often need to extract parts of strings.
-The <c>substring</c> function returns a new string that copies letters from an existing string, given a pair of indexes:
-<ul>
-<li><p><c>fruit.substring(0, 3)</c> returns <c>"ban"</c></p></li>
-<li><p><c>fruit.substring(2, 5)</c> returns <c>"nan"</c></p></li>
-<li><p><c>fruit.substring(6, 6)</c> returns <c>""</c></p></li>
-</ul>
-</p>
+<section xml:id="strings_substrings"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Substrings</title>
 
-<p>
-Notice that the character indicated by the second index is <term>not</term> included.
-Defining <c>substring</c> this way simplifies some common operations.
-For example, to select a substring with length <c>len</c>, starting at index <c>i</c>, you could write <c>fruit.substring(i, i + len)</c>.
-</p>
+  <p>
+    <idx>
+      <h>substring</h>
+    </idx> In addition to searching strings, we often need to extract parts of
+    strings. The <c>substr</c> function returns a new string that copies characters from an existing
+    string. It's prototype is:</p>
 
-<p>
-    <idx><h>overloaded</h></idx>
-Like most string functions, <c>substring</c> is <term>overloaded</term>.
-That is, there are other versions of <c>substring</c> that have different parameters.
-If it's invoked with one argument, it returns the letters from that index to the end:
-<ul>
-<li><p><c>fruit.substring(0)</c> returns <c>"banana"</c></p></li>
-<li><p><c>fruit.substring(2)</c> returns <c>"nana"</c></p></li>
-<li><p><c>fruit.substring(6)</c> returns <c>""</c></p></li>
-</ul>
-</p>
+  <program>
+string substr (size_t pos = 0, size_t len = npos) const;
+</program>
 
-<p>
-The first example returns a copy of the entire string.
-The second example returns all but the first two characters.
-As the last example shows, <c>substring</c> returns the empty string if the argument is the length of the string.
-</p>
+  <p>`pos` is the index (position) to start from. `len` is the maximum number of characters to copy.
+    Notice that both parameters are optional. Saying `myString.substr()` is the same as
+    `myString.substr(0, string::npos)` which says <q>start from the beginning and have no maximum
+    number to copy</q>. Here are some sample uses of `substr`:</p>
 
-<p>
-We could also use <c>fruit.substring(2, fruit.length())</c> to get the result <c>"nana"</c>.
-But calling <c>substring</c> with one argument is more convenient when you want the end of the string.
-</p>
+  <program xml:id="strings_find-1"
+           interactive="activecode">
+<xi:include href="../../programs/strings/string-substr-1.cpp" parse="text"/>
+</program>
+
+  <p>Note that the original string is not changed. `substr` just copies parts of it, and does not remove them from the original string. Also note that even if we ask for just one character, the value is returned as a single character
+    string. Not as a char.</p>
+
+  <insight>
+    <p>If you want to get the one character at position `x` from a string as a `char`, use
+      `s.at(x)`. If you want to work with the single character as a `string`, use `s.find(x, 1)`.</p>
+  </insight>
+
+  <p>If you set an invalid `pos` for `substr` start from, a run time error will be generated (try
+    setting one of the `find`'s above to start from 1000).</p>
+
+  <p>It is common to combine `find` and `substr` to chop up strings. This simple program breaks up an email address into the mailbox name and the domain. Notice that if something we find is at index `x`, then asking for `substr(0, x)` copies everything up to but not including that item:</p>
+
+
+  <program xml:id="strings_find-2"
+           interactive="activecode">
+<code>
+<xi:include href="../../programs/strings/string-substr-2.cpp" parse="text"/>
+</code>
+<stdin>user@college.edu</stdin>
+</program>
+
+
+  <exercise label="size_1">
+    <statement>
+      <p>Given the string declaration: `string s = "football team"`, which is the correct way to copy the string `"ball"` from it?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>`s.substr(5)`</p>
+        </statement>
+        <feedback>
+          We need to specify a length
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>`s.substr(5, 9)`</p>
+        </statement>
+        <feedback>
+          The second parameter is the length, not the end index
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>`s.substr('b', 4)`</p>
+        </statement>
+        <feedback>
+          The first parameter is the index, not the character
+        </feedback>
+      </choice>
+      <choice>
+        <statement correct="yes">
+          <p>`s.substr(5, 4)`</p>
+        </statement>
+        <feedback>
+          Yes, we want to start at 5 and copy 4 characters
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  
+  <exercise label="size_1">
+    <statement>
+      <p>Given the string declaration: `string s = "football team"`, which are correct ways to copy the string `"team"` from it?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>`s.substr(9)`</p>
+        </statement>
+        <feedback>
+          Yes, we can start at 9 and copy the rest of the string
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>`s.substr(9, 4)`</p>
+        </statement>
+        <feedback>
+          Yes, we can start at 9 and copy 4 characters
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>`s.substr(-4)`</p>
+        </statement>
+        <feedback>
+          We can't use negative indexes in C++ (some languages allow that)
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
 </section>

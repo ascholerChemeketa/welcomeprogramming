@@ -1,0 +1,71 @@
+<section xml:id="strings_strings-and-functions"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Writing Functions With String</title>
+
+  <p>Although string objects have some useful built in functions, there will often be times you want to do some work that they do not handle. In these cases, you may want to write your own function to build, parse, or modify a string.</p>
+
+  <p>For the most part, strings work with functions in the same ways as other data types. We can use strings as parameters and/or return types. Here is a function that takes two strings like `"Ada"` and `"Lovelace"` and returns a new string that combines them with a space:</p>
+
+<program>
+string fullName(string first, string last) {
+    string fullName = first + " " + last;
+    return fullName;
+}
+</program>
+
+  <p>Sometimes, doing a job with a string like <q>check if there is a vowel</q> or <q>make this all uppercase</q> actually means working character by character to do the work. Here is an example which makes an upper case version of a string by calling `toupper` with each character in the original string and using those to build up a new string:</p>
+
+  <program interactive="activecode">
+<xi:include href="../../programs/strings/strings-and-functions-1.cpp" parse="text"/>
+  </program>
+
+  <note><p>It would be better to write all of our string parameters as `(const string&amp; s)` instead of just `(string s)`. `(string s)` makes a copy of whatever string is passed in as the parameter. If you pass a very large string to a function, making that copy can be expensive. The other syntax tells the compiler to skip the copy and work with the original string (`&amp;`) while making sure it does not get altered by accident (`const`).</p>
+  <p>We will learn about the `(const string&amp; s)` syntax later and just use the simple and inefficient version for now. But if you like, you can skip ahead to learn more about passing by const reference and start using it now. <!--todo xref to reference params --></p></note>
+
+
+
+  <exercise label="looping_counting_2"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Build the function <c>countLetter</c>. It accepts a string and the letter to count as arguments. It should return the number of times the letter appears in the string.</p>
+    </statement>
+    <blocks>
+      <block order="4">
+        <cline>int countLetters(string s, char letter) {</cline>
+      </block>
+      <block order="9">
+        <cline> int count = 0;</cline>
+      </block>
+      <block order="2">
+      <choice correct="yes">
+        <cline> <![CDATA[for (size_t i = 0; i < s.length(); ++i) {]]></cline>
+      </choice>
+      <choice>
+        <cline> <![CDATA[for (size_t i = 0; i < letter.length(); ++i) {]]></cline>
+      </choice>
+      </block>
+      <block order="10">
+        <cline>  if (s.at(i) == letter) {</cline>
+      </block>
+      <block order="6">
+        <cline>   count = count + 1;</cline>
+        <cline>  }</cline>
+      </block>
+      <block order="13" correct="no">
+        <cline>  i = i + 1;</cline>
+        <cline> }</cline>
+      </block>
+      <block order="10">
+        <cline> }</cline>
+      </block>
+      <block order="1">
+        <cline> return count;</cline>
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>
