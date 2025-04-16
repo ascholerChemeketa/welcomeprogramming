@@ -1,0 +1,35 @@
+<chapter xml:id="structs"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Structs</title>
+
+  <introduction>
+    <p>Imagine you are writing a program that makes use of lots of points on the x, y plane. Each point requires two doubles - an x coordinate and a y coordinate - to represent. We can create two variables like `x1` and `y1` and think of the pair as our <q>point</q>, but there are many issues this will lead to:
+    <ul>
+      <li>We have to remember that the variables <q>go</q> with each other. Other than the names looking similar, there is nothing that links the two together. </li>
+      <li>We have to pass two variables to functions to pass the <q>point</q>.</li>
+      <li>We can't return two variables from a function. So there is no way to return a <q>point</q>.</li>
+      <li>We can't store a list of points in a vector. Instead, would need one vector with x values and another with y values.</li>
+    </ul>
+    What we really need is a new data type that combines the two variables together.
+    </p>
+    <p>In this chapter, we will learn to build our own new data types by aggregating (combing) multiple simpler pieces of data.</p>
+  </introduction>
+
+  <!-- <xi:include href="motivation.ptx"/> -->
+  <xi:include href="structs.ptx"/>
+  <xi:include href="member-access.ptx"/>
+  <xi:include href="operators-on-structures.ptx"/>
+  <xi:include href="structures-functions.ptx"/>
+  <xi:include href="pure-functions.ptx"/>
+  <xi:include href="compound-structures.ptx"/>
+  <xi:include href="enumerated-types.ptx"/>
+  <xi:include href="enum-values.ptx"/>
+  <xi:include href="structs-vectors.ptx"/>
+  <xi:include href="vectors-structs.ptx"/>
+  <xi:include href="case-study-students.ptx"/>
+  <xi:include href="case-study-students2.ptx"/>
+  <xi:include href="case-study-students3.ptx"/>
+  <xi:include href="vocabulary.ptx"/>
+  <xi:include href="exercises.ptx"/>
+
+</chapter>

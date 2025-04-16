@@ -1,0 +1,112 @@
+<section xml:id="structs_enum-values"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Values for Enums</title>
+
+  <p>In general, you should not need to care about what numeric values each enum option
+    represents.Although you can use a static cast to get or set the value, you would never want to
+    say `static_cast&lt;Suit>(1)` instead of `Suit::DIAMONDS`.</p>
+
+  <p>However, there are times when the enumerated values naturally map to integers. For example, if
+    we are using the enumerated type to represent the rank of playing cards, it might be useful to
+    have `Rank::ACE` have the value 1, `Rank::TWO` have the value 2, `Rank::JACK` have the value 11,
+    etc.... That way we can take any rank and do a `static_cast&lt;int>` to get its value.</p>
+
+  <p>In this case, we want the lowest value used to be 1, not 0. We can do this by explicitly
+    setting the value of the first item in the enum to 1. The rest of the values will be set
+    automatically based on that first value. For example, if we want `ACE` to be 1, we can write:</p>
+
+  <program>enum class Rank {
+    ACE = 1, TWO, THREE, FOUR, FIVE,
+    SIX, SEVEN, EIGHT, NINE, TEN,
+    JACK, QUEEN, KING
+};</program>
+
+  <p>Now `ACE` is 1, `TWO` is 2, and so on. The last value, `KING`, will be 13.</p>
+
+  <p>We can even assign values to other items in the list. Say we want to represent US coin types.
+    We could write:</p>
+
+  <program>enum class Coin {
+    PENNY = 1, NICKEL = 5, DIME = 10, QUARTER = 25
+};</program>
+
+  <p>Now we can use the enumerated type to represent the value of a coin. For example, if we want to
+    represent a quarter, we can write:</p>
+
+  <program>Coin myCoin = Coin::QUARTER;</program>
+
+  <p>And if we want to get the value of that coin, we can write:</p>
+
+  <program>int value = static_cast&lt;int&gt;(myCoin);</program>
+
+  <p>And the value of `value` will be 25.</p>
+
+  <p>There are some significant limitations to this technique. Every option needs a different value
+    - you could not have `Rank::JACK`, `Rank::QUEEN`, `Rank::KING` all have the value 10 if you were
+    programming a game where all of those cards should have the same value.</p>
+
+  <p>Given this limitation, and the fact that `getValue(myCoin)` is much clearer to read than
+    `static_cast&lt;int>(myCoin)`, it is likely better to use a function to turn enumerated options
+    into the value we want them to represent. This function will give the correct value for each
+    coin type, regardless of whether or not the enum was defined with specific numeric values:</p>
+
+  <program xml:id="structs_enum-values-1">
+<xi:include href="../../programs/structs/structs_enum-values-1.cpp" parse="text"/>
+  </program>
+
+  <exercise label="alt_exsadfasdf"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Construct a `Class` enum and a Student struct with a string name and Class classStanding.
+        Put the enum before the struct:</p>
+    </statement>
+    <blocks>
+      <block>
+        <choice correct="yes">
+          <cline>enum class Class {</cline>
+        </choice>
+        <choice>
+          <cline>struct Class {</cline>
+        </choice>
+      </block>
+      <block>
+        <cline>  FRESHMEN = 9,</cline>
+      </block>
+      <block>
+        <cline>  SOPHOMORE,</cline>
+      </block>
+      <block>
+        <cline>  JUNIOR,</cline>
+      </block>
+      <block>
+        <cline>  SENIOR</cline>
+        <cline>};</cline>
+      </block>
+      <block>
+        <choice correct="yes">
+          <cline>struct Student {</cline>
+        </choice>
+        <choice>
+          <cline>enum class Student {</cline>
+        </choice>
+      </block>
+      <block>
+        <cline>  std::string name;</cline>
+      </block>
+      <block>
+        <choice correct="yes">
+          <cline>  Class classStanding;</cline>
+        </choice>
+        <choice>
+          <cline>  Class::classStanding;</cline>
+        </choice>
+      </block>
+      <block>
+        <cline>};</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

@@ -1,0 +1,126 @@
+<section xml:id="structs_enumerated-types"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Enumerated types</title>
+
+  <p>Now that we know about structs, how might you represent a playing card? A playing card has two
+    attributes: a suit and a rank. The suit can be one of four values: clubs, diamonds, hearts,
+    or spades. The rank can be one of 13 values: ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, jack,
+    queen, or king.</p>
+
+  <p>One way to represent this information is to use two integers. For example, we could represent
+    the suit as an integer from 0 to 3, and the rank as an integer from 1 to 13. This works, but
+    it is not very clear, especially for the suit. Is suit 2 hearts? clubs? We would have to make
+    a decision and remember it. We could use constants like `const int HEART = 2;` to help make the code clearer, but that would not prevent the code from setting a card's suit to be 534 instead of a value from 0 to 3.</p>
+
+  <p>Another way to represent the suit would be to use strings like `"Hearts"` or `"Clubs"`. This works, but it is not very efficient. Strings take up more space than integers, and they are slower to compare. And again, there is nothing in this scheme that prevents the code from setting the suit of a card to be a string like "Unicorns" instead of "Hearts".</p>
+
+  <p>To describe a type of data where every value must be one of a fixed list of values (like heart, diamond, spade, or club), C++ provides a feature called an <term>enumerated type</term> or <term>enum class</term>. (Enumerate means to list things one by one.) To define an enumerated type we use the keyword `enum` followed by the name we want to give the type and then a list of the possible values:<idx><h>enumerated type</h></idx><idx><h>enum</h></idx></p>
+
+  <p>For example, here is the definition of the enumerated type `Suit`:</p>
+  <program>enum class Suit { CLUBS, DIAMONDS, HEARTS, SPADES };</program>
+
+  <p>As with structs, enums are typically defined near the top of a code file (or in an included file) so they are available everywhere after that point. And because the values are used much like constants, it is convention to give them all caps names as shown above.</p>
+
+
+  <p>Once defined, we can use `Suit` as the data type and any of the possible values as constants in our code. Those values are referred to by using the syntax `Suit::VALUE`, which says <q>VALUE from the suit namespace</q>:</p>
+
+  <program>
+// Create a variable of type Suit and set to HEARTS
+Suit leadSuit = Suit::HEARTS;
+</program>
+
+  <p>Behind the scenes, each value of type `Suit` is represented by a different integer value. We can do a static cast to get the integer value of a Suit like this:</p>
+
+  <program xml:id="structs_enumerated-types-1" interactive="activecode">
+<xi:include href="../../programs/structs/structs_enumerated-types-1.cpp" parse="text"/>
+  </program>
+
+  <p>The values that are being used for each value come directly from the order they were declared in the `Suit` enum. `CLUBS` is the first option we listed, so it got the value 0. `DIAMONDS` was next, so it gets the value 1. And so on. Although the values are stored as integers, we can't use freely an enumerated value as an integer or an integer as an enumerated value. For example, the following code will not compile:</p>
+
+  <program><![CDATA[
+Suit mySuit = 1;        // ERROR: 1 is not a Suit
+int i = Suit::CLUBS;    // ERROR: Suit::CLUBS is not an int
+cout << Suit::CLUBS;    // ERROR: cout doesn't know what a Suit is
+]]></program>
+
+  <p>All of those uses would require a static cast to convert the integer into a Suit or the Suit into an integer:</p>
+
+  <program><![CDATA[
+Suit mySuit = static_cast<Suit>(1);       // OK - mySuit is now DIAMONDS
+int i = static_cast<int>(Suit::CLUBS);    // OK, i is now 0
+cout << static_cast<int>(Suit::CLUBS);    // Prints 0
+]]></program>
+
+  <p>However, we can use our enumeration as a parameter or return type for a function. And we can compare enumerated types using any comparison operators that would work on numbers. This code sample demonstrates a function `dominantSuit` that compares two suits and returns the larger of the two (the one with the higher value as defined by our ordering). It then passes that Suit to `suitToString` which returns a string describing the suit:</p>
+
+  <program xml:id="structs_enumerated-types-2" interactive="activecode">
+<xi:include href="../../programs/structs/structs_enumerated-types-2.cpp" parse="text"/>
+  </program>
+
+  <p>Key points to note:
+  <ul>
+    <li>There is no need to pass enums by reference. Suit is essentially just an integer.</li>
+    <li>We can compare suits using `>` and they get compared as numbers. When `dominantSuit` is passed `Suit:DIAMONDS` and `Suit::HEARTS`, it compares them using the values 1 and 2 respectively. It returns a copy of the value of the larger one, but it returns the `Suit` value, not the number.</li>
+  </ul>
+  </p>
+
+  <insight><p>Enumerated values are a great use case for `switch` statements. We have a finite list of items that all have unique integer values. We could write `suitToString` with if/else logic, but the switch is a little more succinct.</p></insight>
+
+  <note><p>C++ has an older, similar syntax for making an enum that skips the word `class`. That syntax is considered more dangerous as the values defined become the values freely <q>decay</q> into integers and become part of the global namespace, which can easily lead to name collisions (situations where the same name could mean multiple things - like `BLACK` referring to both a font color and a background color).</p></note>
+
+
+  <exercise label="enum_type_3">
+    <statement>
+      <p>Based on the ``Flavor`` enumeration below, what value does ``Rank`` enumerated type, what integer value does <c>COOKIESNCREAM</c> have? <fillin mode="number" case="insensitive" answer="3"/>
+      </p>
+      <program>enum class Flavor {
+    VANILLA, CHOCOLATE, STRAWBERRY,
+    COOKIESNCREAM, MINTCHIP, COOKIEDOUGH
+};</program>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <exercise label="enum_type_sdf324">
+    <statement>
+      <p>Based on the ``Flavor`` enum below, what would you write to create a `Flavor` variable called `scoop1` and assign it the <q>mint chip</q> value?</p>
+      <p>
+      <fillin width="40" mode="string" answer="Flavor\\s+scoop1\\s*=\\s*Flavor::MINTCHIP;?"/>
+      </p>
+      <program>enum class Flavor {
+    VANILLA, CHOCOLATE, STRAWBERRY,
+    COOKIESNCREAM, MINTCHIP, COOKIEDOUGH
+};</program>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>^[^:]+$</strcmp>
+          <feedback>You need to use the ::</feedback>
+        </test>
+        <test>
+          <strcmp>^.*::m.*$</strcmp>
+          <feedback>Check the capitalization of <q>mint chip</q>.</feedback>
+        </test>
+        <test>
+          <strcmp>^.*f.*$</strcmp>
+          <feedback>Check the capitalization of <q>Flavor</q>.</feedback>
+        </test>
+        <test>
+          <strcmp>^.*enum.*$</strcmp>
+          <feedback>You don't need the keyword `enum` when making a variable.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+</section>

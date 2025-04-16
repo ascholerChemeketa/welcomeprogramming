@@ -1,0 +1,116 @@
+<section xml:id="structs_pure-functions"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Pure functions</title>
+
+  <p>A function is considered a <term>pure function</term> if the result depends only on
+            the arguments, and it has no <q>side effects</q> like modifying an argument or
+            outputting something. The only result of calling a pure function is the
+            return value.<idx><h>pure function</h></idx><idx><h>function</h><h>pure</h></idx></p>
+
+  <p>Let's consider an `increment` function that changes a time like 3:48 to 3:49 or
+  11:59 to 12:00. We have two ways we could design the function. It could be a pure function that returns a new time or a <term>modifying function</term> that takes a time by reference and changes it.<idx><h>modifying function</h></idx></p>
+
+  <p>First lets consider a pure version (named `incrementPure` just to clarify things once we have two versions):</p>
+
+    <program label="pure_function_AC_2" interactive="codelens">
+<xi:include href="../../programs/structs/pure-functions-2.cpp" parse="text"/>
+    </program>
+
+  <note><p>Codelens does not support `format`. Normally we would want to use `format({:0>2}, time2.minute)` to make a 0 minute value print as `00`.</p></note>
+
+  <p>This version takes a `Time` by const reference and calls it `t`. It then makes a copy of the time, modifies the copy, and returns it. We could also write a pure function using pass by value. With pass by value, the parameter is already a copy of the argument that was passed in. So we don't need to explicitly make a copy of the parameter to modify:</p>
+
+    <program label="pure_function_AC_2b" interactive="codelens">
+<xi:include href="../../programs/structs/pure-functions-2b.cpp" parse="text"/>
+    </program>
+
+  <p>Now lets consider a modifying version:</p>
+
+    <program label="pure_function_AC_3" interactive="codelens">
+<xi:include href="../../programs/structs/pure-functions-3.cpp" parse="text"/>
+    </program>
+
+  <p>This version takes a `Time` by reference and modifies it. It does not return anything new - the whole point of this function is it's <q>side effect</q> of changing the parameter.</p>
+
+  <p>Either version could be used to build any program we like. If you wanted to change an existing time with the pure version, you could just use an assignment to store the new value into an existing variable:</p>
+
+  <program>
+    Time time = { 11, 59 };
+    // Get the new time and store it as new value for old variable
+    time = incrementPure(time);
+    // time is now 12:00
+  </program>
+
+  <p>And if the caller does not want to modify an existing time when they call the pure version, they can make their own copy before calling the function:</p>
+  <program>
+    Time time = { 11, 59 };
+    // Make a copy of the time and modify the copy
+    Time newTime = time;
+    incrementPure(newTime);
+    // time is still 11:59, newTime is 12:00
+  </program>
+
+  <p>So which is best? Pure functions help to maintain the abstraction of a function. When a function does nothing but give us an answer, we don't have to worry about what else might be going on behind the scenes. You do not ever have to worry about there possibly being hidden interactions between various functions because one function made some hidden change to the program's state that then changes how the next function behaves. In fact, there are programming languages, called <term>functional</term> programming
+    languages, that only allow pure functions. These languages are designed to make it easier to write bug free code, and to write tests to prove that the code is correct by compltely eliminating the chance of side effects.</p>
+
+  <p>However, pure functions can be less efficient. Our pure `increment` function must make a new `Time` struct each time we call it. This is more work than just changing a number or two in an existing struct, which the modifying version does. In situations where we have a large struct with many member variables and want to have a function that only changes one of the variables, it can be wasteful to make a copy.</p>
+
+  <p>In general, you should favor pure functions for smaller structs (where the efficiency differences aren't as extreme) or situations that clearly imply that a new value or copy are being made. Favor modifying functions when you make are making small changes to a large existing struct or the situation clearly involves changing an existing value and then not caring about the old value. Do try to stick to one approach or another. Writing a function that modifies the input and returns a new value</p>
+
+  <exercise label="which_is_best_1">
+    <statement>
+      <p>What situations would be good ones to use a modifying function (as opposed to a pure function)?</p>
+    </statement>
+    <choices multiple-correct="yes" randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>To modify a large piece of data</p>
+        </statement>
+        <feedback>
+          Correct!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>To modify a small piece of data</p>
+        </statement>
+        <feedback>
+          When working with smaller pieces of data, the efficiency difference between the two approaches is not as extreme.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>When trying to minimize complexity.</p>
+        </statement>
+        <feedback>
+          Modifying functions tend to make the code more complex. You have to worry about what the function is doing to the data and how that might affect other parts of the program.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  
+  <exercise label="debuggdding_2">
+    <statement>
+      <p>Match each function prototype to the approach it appears to be using.</p>
+    </statement>
+    <feedback>
+      <p>Try again!</p>
+    </feedback>
+    <matches>
+      <match>
+        <premise>`Point shift(Point p)`</premise>
+        <response>A pure function using pass by value</response>
+      </match>
+      <match>
+        <premise>`void shift(Point&amp; p)`</premise>
+        <response>A modifying function</response>
+      </match>
+      <match>
+        <premise>`Point shift(const Point&amp; p)`</premise>
+        <response>A pure function using pass by reference</response>
+      </match>
+    </matches>
+  </exercise>
+
+</section>

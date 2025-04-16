@@ -1,0 +1,248 @@
+<section xml:id="structs_case-study-students"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Case Study: Students</title>
+
+  <introduction>
+    <p>We have a datafile ``Students.txt`` below that has information about the students in a course. For each student there are 3 lines:
+      <ul>
+        <li>Name (first middle last)</li>
+        <li>Status (inactive or active)</li>
+        <li>Grades (10 grades, comma separated)</li>
+      </ul>
+      We want to read in this data and then calculate each student's average. We may also want to calculate the class average and the highest average.
+    </p>
+
+    <datafile label="datafile-students.txt" filename="Students.txt">
+    <pre>Maxine Q. Craft
+Active
+80,93,64,68,87,70,84,83,97,71
+Stella N. McFadden
+Active
+83,79,62,98,97,93,78,67,73,62
+Oren C. Singleton
+Inactive
+86,81,69,77,78,76,84,97,68,69
+Palmer R. Price
+Active
+84,98,98,87,61,96,89,77,73,73
+Gray J. Witt
+Active
+61,68,70,75,96,84,61,71,85,87
+Hilary B. Gill
+Inactive
+82,86,72,92,82,94,82,97,79,82
+Ingrid A. Horne
+Active
+72,66,65,91,65,93,99,93,92,63
+Byron U. Stout
+Active
+64,70,94,65,90,63,88,65,76,65
+    </pre></datafile>
+  </introduction>
+
+  <subsection>
+    <title>Understanding the problem</title>
+
+    <p>We don't necessarily need to store all of the data if all we want to do is print out each student's average. We could try to read in a name, remember it, read in the scores after it, calculate the average, and then forget all of that data as we move on to the next student. But if we want to do multiple computations on the data it will be handy to store it. It will also make the code easier to write and test if we can think of getting and storing the data as separate from calculating with the data.</p>
+
+    <p>Just worrying about storing the data for now, we can break this problem into a few key parts:
+    <ul>
+      <li>Design our storage</li>
+      <li>Figure out how to create a student from two lines of text</li>
+      <li>Read in all of the students</li>
+    </ul>
+    </p>
+  </subsection>
+
+  <subsection>
+    <title>Storing a student</title>
+
+    <p>For each Student we need to store the name and the grades. While we could store the name as a single string, it might be helpful to have the first, middle and last names separated so that we can easily print a name in different formats (e.g. <q>first, last</q> or <q>first last</q>).</p>
+    
+    <p>Then we have the status. We know there are only two possible values to store, so it would make sense to make an enumeration for them. We could of course just store the string `"Active"` or `"Inactive"`, but an enumeration is more efficient to store and work with. And we won't have to worry about typos as much. The compiler can't identify `status == "Atcive"` as an error, but it can identify that `status == Status.ATCIVE` doesn't make sense.</p>
+
+    <p>Finally we need a list of scores, which sounds like a vector.</p>
+
+    <p>In main, we will store the entire roster as a vector of type Student:</p>
+
+  <program datafile="Students.txt" label="structs_case-study-students-1">
+<xi:include href="../../programs/structs/case-study-students-1.cpp" parse="text"/>
+</program>
+
+  </subsection>
+
+  <subsection>
+    <title>Parsing a Name</title>
+
+    <p>Now that we know how we want to store the data, we can worry about creating a student from three lines of text. There will be a significant amount of logic in turning text like `Byron U. Stout` or `64,70,94,65,90,63,88,65,76,65` into the right data. So to make the job easier to tackle, let's break it up.</p>
+
+    <p>First we will just worry about turning a string like `Byron U. Stout` into a `Name` struct. We could either find each space and use those to chop up the string. But since the tokens are separated by whitespaces, we could also use a `stringstream` to "read" the data from the string into the parts of a name. Complete the code to do this job using a stringstream:</p>
+    
+  <exercise label="mucedwsdfsfsdf_2"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Construct the algorithm to produce a name struct from a string.</p>
+    </statement>
+<blocks>
+  <block name="createNumber" depends="">
+    <cline><![CDATA[Name createName(const string& line) {]]></cline>
+  </block>
+  <block name="n" depends="createNumber">
+    <cline><![CDATA[    Name name;]]></cline>
+  </block>
+  <block name="ss" depends="createNumber">
+    <cline><![CDATA[    stringstream ss(line);]]></cline>
+  </block>
+  <block name="f" depends="ss n">
+    <cline><![CDATA[    ss >> name.first;]]></cline>
+  </block>
+  <block name="m" depends="f">
+    <cline><![CDATA[    ss >> name.middle;]]></cline>
+  </block>
+  <block name="l" depends="m">
+    <cline><![CDATA[    ss >> name.last;]]></cline>
+  </block>
+  <block name="name" depends="l">
+    <cline><![CDATA[    return name;]]></cline>
+  </block>
+  <block name="" depends="name">
+    <cline><![CDATA[}]]></cline>
+  </block>
+</blocks>
+    </exercise>
+  </subsection>
+
+  <subsection>
+    <title>Getting the Status</title>
+    <p>Next we need a function to turn the string `Active` or `Inactive` into a Status value.</p>
+    <p>We can use a simple if statement to check the string and return the right value. Write the code for this function:</p>
+    <exercise label="sdf4f3f34f">
+      <statement>
+        <p>Construct the algorithm to return either `Status::ACTIVE` or `Status::INACTIVE` based on the contents of the parameter `line`. Throw a `logic_error` if `line` is not `"Active"` or `"Inactive"`:</p>
+      </statement>
+      <program interactive="activecode">
+        <preamble><![CDATA[
+#include <string>
+#include <exception>
+#include <stdexcept>
+using namespace std;
+
+enum class Status {
+    INACTIVE,
+    ACTIVE
+};
+
+Status createStatus(const string& line) {
+]]></preamble>
+        <code>
+    // FIX ME
+    throw logic_error("Invalid status");
+</code>
+        <tests visible="yes"><![CDATA[
+}
+
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("createStatus") {
+  CHECK(createStatus("Active") == Status::ACTIVE);
+  CHECK(createStatus("Inactive") == Status::INACTIVE);
+  CHECK_THROWS(createStatus("ooops"));
+  CHECK_THROWS(createStatus("active"));
+}
+        ]]></tests>
+      </program>
+      </exercise>
+  </subsection>
+
+  <subsection>
+    <title>Parsing the Scores</title>
+
+    <p>Finally we need to parse the scores. We need to take the comma separated values and break them into individual values and store each into a vector. We can't use a stringstream for this since the tokens we want (the numbers) are separated by commas and not whitespace. So instead, we will have to use logic like this:
+    </p>
+
+    <program language="natural">
+while there is a comma in the string
+    get the text up to the comma
+    turn it into a number
+    add it to the vector
+    remove the text up to the comma from the string
+turn the remaining text into a number
+add it to the vector
+    </program>
+    
+  <exercise label="mucedw4ddsdfsfsdf_2"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Construct the algorithm to produce a vector of doubles from the line of scores. Note that the function takes `line` by value so we can safely modify the copy that results. If we took it by const reference, we would not be able to modify `line` by removing one part at a time.</p>
+    </statement>
+<blocks>
+  <block name="a" depends="">
+    <cline><![CDATA[vector<double> createScores(string line) {]]></cline>
+  </block>
+  <block name="b1" depends="a">
+    <cline><![CDATA[    vector<double> scores;]]></cline>
+  </block>
+  <block name="b2" depends="a">
+    <cline><![CDATA[    size_t nextComma = line.find(',');]]></cline>
+  </block>
+  <block name="c" depends="b1 b2">
+    <cline><![CDATA[    while (nextComma != string::npos) {]]></cline>
+  </block>
+  <block name="d1" depends="c">
+    <cline><![CDATA[        string scoreStr = line.substr(0, nextComma);]]></cline>
+  </block>
+  <block name="d2" depends="d1">
+    <cline><![CDATA[        double score = stod(scoreStr);]]></cline>
+  </block>
+  <block name="d3" depends="d2">
+    <cline><![CDATA[        scores.push_back(score);]]></cline>
+  </block>
+  <block name="e1" depends="d1">
+    <cline><![CDATA[        // remove up through comma]]></cline>
+    <cline><![CDATA[        line = line.substr(nextComma + 1);]]></cline>
+  </block>
+  <block name="e2" depends="e1">
+    <cline><![CDATA[        nextComma = line.find(',');]]></cline>
+  </block>
+  <block name="f" depends="e2 d3">
+    <cline><![CDATA[    }]]></cline>
+  </block>
+  <block name="g" depends="f">
+    <cline><![CDATA[    // Handle the last score after the last comma]]></cline>
+    <cline><![CDATA[    double score = stod(line);]]></cline>
+    <cline><![CDATA[    scores.push_back(score);]]></cline>
+  </block>
+  <block name="h" depends="g">
+    <cline><![CDATA[    return scores;]]></cline>
+    <cline><![CDATA[}]]></cline>
+  </block>
+  </blocks>
+    </exercise>
+  </subsection>
+
+  <subsection>
+    <title>Building the Student</title>
+
+    <p>With those helper functions in place, it is easy to build a student. Given the three lines of data, we can call the three functions we have already written and assign their results into the right members of a Student struct:</p>
+
+    <program>
+Student createStudent(const string&amp; nameLine,
+                      const string&amp; statusLine,
+                      const string&amp; scoresLine) {
+    Student student;
+    student.name = createName(nameLine);
+    student.currentStatus = createStatus(statusLine);
+    student.scores = createScores(scoresLine);
+    return student;
+}
+    </program>
+  </subsection>
+
+</section>

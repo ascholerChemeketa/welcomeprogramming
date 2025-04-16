@@ -1,0 +1,130 @@
+<section xml:id="structs_case-study-students2"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Case Study: Students - Part 2</title>
+
+  <introduction>
+    <p>We now have a way to turn data in strings into a Student struct. We still are missing code to read in from the file and also missing code to calculate the average.We can work on these parts in whatever order we like. If we want to do calculations, we can create some test students in code and use them for calculations. If we want to work on the input, we can read from the file and create students, then verify those.</p>
+    <p>Our code for the calculations will be easier to verify as they do not involve IO. So lets tackle them next.</p>
+  </introduction>
+
+  <subsection>
+    <title>Calculating One Average</title>
+
+    <p>Eventually, we want to calculate the average for each student. But it will be easier to start with just calculating the average for a single student. If we build a function to do that, we can then call that function with each of the students.</p>
+
+    <p>The function to calculate an average doesn't even need to know about the entire student. It just needs access to the vector of scores. So it might look like:</p>
+
+<program>
+double calculateAverage(const vector&lt;double>&amp; scores) {
+    double total = 0.0;
+    for (double score : scores) {
+        total += score;
+    }
+    return total / scores.size();
+}
+</program>
+
+   <exercise label="sdfvc44f3f34f">
+    <statement>
+      <p>Given the function above, assuming you have a student variable `s`, complete this code to calculate the student's average and store it as a double called `avg`?</p>
+    </statement>
+    <choices randomize="yes">
+        <choice correct="yes"><statement>`double avg = calculateAverage(s.scores);`</statement></choice>
+        <choice>
+        <statement>`double avg = s.calculateAverage();`</statement>
+        <feedback>calculateAverage is not a member function</feedback>
+        </choice>
+        <choice>
+        <statement>`calculateAverage(avg, s);`</statement>
+        <feedback>calculateAverage is a pure function that returns a result</feedback>
+        </choice>
+        <choice>
+        <statement>`double avg = calculateAverage(s);`</statement>
+        <feedback>calculateAverage takes just the student's scores, not the entire student</feedback>
+        </choice>
+        <choice>
+        <statement>`calculateAverage(s.scores);`</statement>
+        <feedback>That does nothing with the average that is returned</feedback>
+        </choice>
+      </choices>
+    </exercise>
+  </subsection>
+
+  <subsection>
+    <title>Calculating all the Averages</title>
+
+    <p>Now we want to calculate multiple averages and print them all. Because we are going to be printing the data, it will be hard to use doctest unit tests. Instead, we will simply run a program with some test data and examine the output to see if it looks correct.</p>
+
+    <exercise label="sdf4f331f34f">
+      <statement>
+        <p>`main` has code to build multiple students. Add code to loop through the students and print the first name and average score for each. Put each student on a separate line and use a single space between the name and score:</p>
+      </statement>
+      <program interactive="activecode">
+        <preamble><![CDATA[#include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
+#include <stdexcept>
+using namespace std;
+
+struct Name {
+    string first;
+    string middle;
+    string last;
+};
+
+enum class Status {
+    INACTIVE,
+    ACTIVE
+};
+
+struct Student {
+    Name name;
+    Status currentStatus;
+    vector<double> scores;
+};
+
+double calculateAverage(const vector<double>& scores) {
+    double total = 0.0;
+    for (double score : scores) {
+        total += score;
+    }
+    return total / scores.size();
+}
+
+vector<Student> getTestStudents() {
+    vector<Student> students;
+    Student s1 = { {"Alex", "B", "Smith"}, Status::ACTIVE, { 90.0, 85.0, 88.0 } };
+    Student s2 = { {"Beth", "C", "Jones"}, Status::INACTIVE, { 98.0, 82.0, 80.0 } };
+    Student s3 = { {"Daniel", "D", "Chen"}, Status::ACTIVE, { 92.0, 95.0, 74.0 } };
+    students.push_back(s1);
+    students.push_back(s2);
+    students.push_back(s3);
+    return students;
+}
+
+int main() {
+    vector<Student> students = getTestStudents();
+]]></preamble>
+        <code>
+    // FIX ME
+    // loop through students, print first name and average
+</code>
+<postamble>
+}
+</postamble>  
+        <tests>
+        <iotest>
+            <input></input>
+            <output>Alex 87.6667
+Beth 86.6667
+Daniel 87</output>
+        </iotest>
+        </tests>
+      </program>
+      <hint><p>If you are stuck, start by looping through the students vector and just printing each first name. Accessing a first name should look something like `s.name.first`. Once that is working, use the `calculateAverage` function on each student's `scores`.</p></hint>
+      </exercise>
+  </subsection>
+
+</section>

@@ -1,0 +1,207 @@
+<section xml:id="structs_member-access"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Accessing instance variables</title>
+  <p>You can read the values of an instance variable using the same syntax we
+    used to write them:</p>
+  <program>
+int x = blank.x;
+</program>
+  <p>The expression <c>blank.x</c> means <q>go to the memory named <c>blank</c> and get the value stored in the part named <c>x</c>.</q>
+    In this case we assign that value to a local variable named <c>x</c>. Notice that there is no
+    conflict between the local variable named <c>x</c> and the instance variable named <c>x</c>. The
+    purpose of dot notation is to identify <em>which</em> variable you are referring to
+    unambiguously.</p>
+  <p>You can use dot notation as part of any C++ expression, so the following
+    are legal.</p>
+  <program>cout &lt;&lt; blank.x &lt;&lt; ", " &lt;&lt; blank.y &lt;&lt; endl;
+double distance = sqrt(blank.x * blank.x + blank.y * blank.y);</program>
+  <listing label="accessing_instance_variables_AC_1">
+    <caption>
+      In this active code, we access the instance variables of <c>Point</c> object <c>black</c> using
+        dot notation and output their values. Next, we output the distance from the origin.
+    </caption>
+    <program xml:id="accessing_instance_variables_AC_1_editor"
+             interactive="activecode"
+             line-numbers="yes">
+      <code><![CDATA[
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+struct Point {
+    double x, y;
+};
+
+int main() {
+    Point blank;
+    blank.x = 3.0;
+    blank.y = 4.0;
+    cout << blank.x << ", " << blank.y << endl;
+    double distance = sqrt(blank.x * blank.x + blank.y * blank.y);
+    cout << distance << endl;
+}
+        ]]></code>
+    </program>
+  </listing>
+  <exercise label="accessing_instance_variables_1">
+    <statement>
+      <p>In <c>string x = thing.cube;</c>, what is the object and what is the instance variable we are reading the value
+        of?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement id="accessing_instance_variables_1_opt_a">
+          <p><c>string</c> is the instance variable, <c>cube</c> is the object</p>
+        </statement>
+        <feedback>
+          <c>string</c> is a data type.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="accessing_instance_variables_1_opt_b">
+          <p><c>x</c> is the instance variable, <c>thing</c> is the object</p>
+        </statement>
+        <feedback>
+          <c>x</c> is the local variable.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="accessing_instance_variables_1_opt_c">
+          <p><c>thing</c> is the instance variable, <c>cube</c> is the object</p>
+        </statement>
+        <feedback>
+          Consider the placement of <c>thing</c> &#x2013; it is before the <c>.</c>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="accessing_instance_variables_1_opt_d">
+          <p><c>cube</c> is the instance variable, <c>thing</c> is the object</p>
+        </statement>
+        <feedback>
+          Yes, we access the instance variable <c>cube</c> of the object <c>thing</c> using the dot
+            operator.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="accessing_instance_variables_1_opt_e">
+          <p><c>cube</c> is the instance variable, <c>string</c> is the object</p>
+        </statement>
+        <feedback>
+          <c>string</c> is a data type.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="accessing_instance_variables_2">
+    <statement>
+      <p>What will print?</p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+struct Blue {
+  double x, y;
+};
+
+int main() {
+  Blue blank;
+  blank.x = 7.0;
+  blank.y = 2.0;
+  cout << blank.y << blank.x;
+  double distance = blank.x * blank.x + blank.y * blank.y;
+  cout << distance << endl;
+}
+]]></code>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement id="accessing_instance_variables_2_opt_a">
+          <p>
+            <c>2 7 53</c>
+          </p>
+        </statement>
+        <feedback>
+          Spaces need to be printed out like any other output.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="accessing_instance_variables_2_opt_a">
+          <p>
+            <c>7 2 53</c>
+          </p>
+        </statement>
+        <feedback>
+          Spaces need to be printed out like any other output.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="accessing_instance_variables_2_opt_b">
+          <p>
+            <c>2753</c>
+          </p>
+        </statement>
+        <feedback>
+          There are no spaces in the correct output.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="accessing_instance_variables_2_opt_c">
+          <p>
+            <c>7253</c>
+          </p>
+        </statement>
+        <feedback>
+          The order in which the variables are printed out do not need to match the order in
+            which they are declared.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="accessing_instance_variables_3">
+    <statement>
+      <p>You want to go to the object named <c>circle</c> and get the integer value of <c>y</c>, then
+        assign it to the local variable <c>x</c>. How would you do that?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement id="accessing_instance_variables_3_opt_a">
+          <p>
+            <c>int y = circle.x();</c>
+          </p>
+        </statement>
+        <feedback>
+          No parentheses are needed.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="accessing_instance_variables_3_opt_b">
+          <p>
+            <c>int circle = x.y;</c>
+          </p>
+        </statement>
+        <feedback>
+          You should be assigning to the local variable <c>x</c>.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="accessing_instance_variables_3_opt_c">
+          <p>
+            <c>int y = circle.x;</c>
+          </p>
+        </statement>
+        <feedback>
+          You should be assigning to the local variable <c>x</c>.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="accessing_instance_variables_3_opt_d">
+          <p>
+            <c>int x = circle.y;</c>
+          </p>
+        </statement>
+        <feedback>
+          This is the correct way to assign the value of <c>y</c> to <c>x</c>.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+</section>

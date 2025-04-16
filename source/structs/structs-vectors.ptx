@@ -1,0 +1,185 @@
+<section xml:id="structs_vectors"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Structs and Vectors</title>
+
+    <p>Structs and vectors are similar in that they allow us to store multiple values in a package with a single name. But there are some important differences:
+    <ul>
+      <li>Every member of a struct can be of any type, while all members of a vector must be of the same type.</li>
+      <li>The number of items in a struct is fixed by the defined members. A vector can grow or shrink.</li>
+      <li>You can use a loop to traverse a vector or a variable to easily store an index. There is no equivalent way to loop through the members of a struct or specify one with a variable.</li>
+    </ul>
+    </p>
+    <p>
+    There are times where we could use either a vector or a struct to store a collection of data. We could store a mathematical point as a struct with two members, `x` and `y`, or we could store it as a vector with two elements. But usually, one of the two is a better choice. Here are some guidelines to help you decide which to use:
+      <ul>
+        <li>If all the items are a different type, you need a struct.</li>
+        <li>If the number of items can vary, a vector is the better tool.</li>
+        <li>If it is natural to refer to items by name, a struct might be preferred. For a point, it might be more natural to use `p1.x` instead of `p1.at(0)`.</li>
+        <li>If you want to loop through items or pick them via a value stored in a variable, a vector is more appropriate.</li>
+      </ul>
+    </p>
+
+    <p>So what if you need the strengths of booth? You can combine the two by using a vector inside of a struct, by making a vector of structs, or even by doing both at once.</p>
+
+    <title>Structs with Vectors</title>
+
+    <p>Say we want to store students who have names and a list of exam scores. We would like to be able to loop through their scores to do things like calculate an average. We also need to be able to add scores. We could represent those scores as a vector of doubles within a `Student` struct:</p>
+
+    <program xml:id="structs_vectors-1">
+struct Student {
+  string name;
+  vector&lt;double> exams;
+};
+</program>
+
+    <p>Now a student is defined as something that has a name and an exams. The exams is a list
+      (vector) of values. The memory diagram for a particular student would look something like
+      this:</p>
+
+    <figure align="center">
+      <image source="images/structs-struct-vector.svg"
+             width="40%"
+             alt="A student struct with a name and exams fields"/>
+    </figure>
+
+    <p>To create that student, we could use a list of two items, in which the second item is a list
+      to use for the exams:</p>
+
+    <program >
+Student student1 = {
+  "Beth Jones",
+  { 84.2, 94.3, 96.7 }
+};
+</program>
+
+    <p>To access a particular exam score, we would use the dot operator to access the vector and
+      then the dot operator again to use a method of the vector:</p>
+
+    <program>
+// Print the first exam score
+cout &lt;&lt; student1.exams.at(0) &lt;&lt; endl;
+// Print the number of exams
+cout &lt;&lt; student1.exams.size() &lt;&lt; endl;
+// Add a new score
+student1.exams.push_back(100.0);
+</program>
+
+  
+  <exercise label="sdfwfwefwef">
+    <statement>
+      <p>Which statements are advantages of structs?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>They can store multiple types of data in one package</p>
+        </statement>
+        <feedback>
+          Correct!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>It is easy to loop through the members.</p>
+        </statement>
+        <feedback>
+          You can't index into a struct with a variable. That makes it impossible to loop through them.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>You can add or remove items at runtime.</p>
+        </statement>
+        <feedback>
+          The members of a struct are fixed at compile time. You can't add or remove them.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Members can be given meaningful names.</p>
+        </statement>
+        <feedback>
+          Correct!
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  
+  <exercise label="sdfkkwfwefwef">
+    <statement>
+      <p>Which statements are advantages of vectors?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>They can store multiple types of data in one package</p>
+        </statement>
+        <feedback>
+          A vector must be of a single type. You can't mix types in a vector.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>It is easy to loop through the elements.</p>
+        </statement>
+        <feedback>
+          Correct!
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>You can add or remove items at runtime.</p>
+        </statement>
+        <feedback>
+          The members of a struct are fixed at compile time. You can't add or remove them.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Elements can be given meaningful names.</p>
+        </statement>
+        <feedback>
+          Elements have indexes, not names. In some situations, 0, 1, 2, ... might be considered meaningful, but you can't assign other names to identify the elements.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="compodund_2">
+    <statement>
+      <p>Below is a struct `CarType` and a code snippet that creates a variable `type1`. What could replace the `???` to print the second model of `type1`? (The value `"Camry"`)</p>
+      <p><fillin mode="string" answer="type1.models.size\\(\\s\\);?"/> </p>
+      
+          <program>
+struct CarType {
+  string make;
+  vector&lt;string> models;
+};
+...
+CarType type1 = {
+  "Toyota",
+  { "Corolla", "Camry", "RAV4" }
+};
+cout &lt;&lt; ???;
+</program>
+
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>.*Camry.*</strcmp>
+          <feedback>
+            You need to access the value from the vector, not just give the value that you know is there.
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+    <hint><p>Your answer should have three parts separated by dots. You should use the `size()` member of the vector that is inside `type1`</p></hint>
+  </exercise>
+
+
+</section>

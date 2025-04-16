@@ -1,0 +1,390 @@
+<exercises xml:id="structs_exercises"
+           xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Exercises</title>
+
+  <exercise label="g2rgre1fddwedv23">
+    <statement>
+      <p>Define an `enum` called ``Direction`` Examine the `TEST_CASE` to figure out the members it should have and the order they should be defined in.</p>
+      </statement>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <string>
+using namespace std;
+
+]]>
+        </preamble>
+        <code>
+
+//write your code here
+
+        </code>
+        <tests visible="yes">
+<![CDATA[
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+
+TEST_CASE("dirName") {
+  CHECK(Direction::NORTH < Direction::SOUTH);
+  CHECK(Direction::SOUTH < Direction::EAST);
+  CHECK(Direction::EAST < Direction::WEST);
+}]]>
+        </tests>
+    </program>
+  </exercise>
+
+  
+  <exercise label="fwwet354fwe">
+    <statement>
+      <p>Write the functions `colorToString`. It should take a value of the provided `Color` struct and return a string.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <string>
+using namespace std;
+
+enum class Color {RED, GREEN, BLUE};
+
+]]>
+        </preamble>
+        <code>
+
+    //write your code here
+
+        </code>
+        <tests visible="yes">
+<![CDATA[
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("colorToString") {
+    CHECK(colorToString(Color::RED) == "Red");
+    CHECK(colorToString(Color::GREEN) == "Green");
+    CHECK(colorToString(Color::BLUE) == "Blue");
+}
+]]>
+        </tests>
+    </program>
+  </exercise>
+
+  
+  <exercise label="gr2gref4gfddwedv23">
+    <statement>
+      <p>Use the given enumerations to write a function `Result getResult(Choice player1, Choice player2)` . It should determine the winner of a round of Rock, Paper, Scissors between two players (Rock beats Scissors, Scissors beats Paper and Paper beats Rock). Return WIN if player1 wins, LOSE if player1 loses or DRAW if there is no winner.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <string>
+using namespace std;
+
+enum class Choice {ROCK, PAPER, SCISSORS};
+enum class Result {WIN, LOSE, DRAW};
+]]>
+        </preamble>
+        <code>
+
+//write your code here
+
+        </code>
+<tests visible="yes">
+<![CDATA[
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("getResult") {
+    CHECK(getResult(Choice::ROCK, Choice::SCISSORS) == Result::WIN);
+    CHECK(getResult(Choice::ROCK, Choice::PAPER) == Result::LOSE);
+    CHECK(getResult(Choice::SCISSORS, Choice::ROCK) == Result::LOSE);
+    CHECK(getResult(Choice::SCISSORS, Choice::PAPER) == Result::WIN);
+    CHECK(getResult(Choice::PAPER, Choice::ROCK) == Result::WIN);
+    CHECK(getResult(Choice::PAPER, Choice::SCISSORS) == Result::LOSE);
+    CHECK(getResult(Choice::ROCK, Choice::ROCK) == Result::DRAW);
+    CHECK(getResult(Choice::PAPER, Choice::PAPER) == Result::DRAW);
+    CHECK(getResult(Choice::SCISSORS, Choice::SCISSORS) == Result::DRAW);
+}
+]]>
+</tests>
+    </program>
+    <hint><p>There are various ways to try to be clever, but the most straightforward approach is to use nested ifs. Use the order of the `CHECKS` as a guide.</p></hint>
+  </exercise>
+
+
+  
+  <exercise label="gr2gr72dwedv23">
+    <statement>
+      <p>Define a struct named Team. A team is identified by a name (string) and numbers of losses and of wins (ints).</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+using namespace std;
+
+]]>
+        </preamble>
+        <code>
+
+//write your code here
+
+        </code>
+        <postamble visible="yes"><![CDATA[
+int main() {
+    Team t1;
+    t1.name = "Storm";
+    t1.wins = 10;
+    t1.losses = 5;
+    cout << t1.name << " " << t1.wins << " " << t1.losses << endl;
+}
+]]>
+        </postamble>
+<tests visible="yes">
+  <iotest>
+    <input>Storm 10 5</input>
+    <output>Storm 10 5</output>
+  </iotest>
+</tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="gxr2gref49dwedv23">
+    <statement>
+      <p>Write the function `bool before(const Date&amp; d1, const Date&amp; d2)`. It should return true if `d1` is before `d2`. Return false if they are the same or `d2` comes first.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Date {
+    int year;
+    int month;
+    int day;
+};
+
+]]>
+        </preamble>
+        <code>
+
+//write your code here
+
+        </code>
+<tests visible="yes">
+<![CDATA[
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("before") {
+    Date d1 = {2023, 10, 1};
+    Date d2 = {2023, 10, 2};
+    Date d3 = {2023, 9, 6};
+    Date d4 = {2022, 8, 12};
+    CHECK(before(d1, d2) == true);
+    CHECK(before(d2, d1) == false);
+    CHECK(before(d1, d3) == false);
+    CHECK(before(d3, d1) == true);
+    CHECK(before(d1, d4) == false);
+    CHECK(before(d4, d1) == true);
+    CHECK(before(d1, d1) == false);
+}
+]]>
+</tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="gxrynedv23">
+    <statement>
+      <p>Write the function `midPoint`. It should take two `Point`s and return a new `Point` that is halfway between them.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+using namespace std;
+
+struct Point {
+    double x;
+    double y;
+};
+
+]]>
+        </preamble>
+        <code>
+
+//write your code here
+
+        </code>
+<tests visible="yes">
+<![CDATA[
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("midPoint") {
+    Point p1 = {0, 0};
+    Point p2 = {4, 4};
+    Point p3 = {5, 3};
+    Point mp12 = midPoint(p1, p2);
+    Point mp23 = midPoint(p2, p3);
+    CHECK(mp12.x == 2);
+    CHECK(mp12.y == 2);
+    CHECK(mp23.x == 4.5);
+    CHECK(mp23.y == 3.5);
+}
+]]>
+</tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="gx2435rynedv23">
+    <statement>
+      <p>Write the <term>modifying</term> function `flip`. It should take a Point and modify it be swapping its x and y values.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+using namespace std;
+
+struct Point {
+    double x;
+    double y;
+};
+
+]]>
+        </preamble>
+        <code>
+
+//write your code here
+
+        </code>
+<tests visible="yes">
+<![CDATA[
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("swap") {
+    Point p1 = {-1, 4};
+    Point p2 = {5, 3};
+    swap(p1);
+    swap(p2);
+    CHECK(p1.x == 4);
+    CHECK(p1.y == -1);
+    CHECK(p2.x == 3);
+    CHECK(p2.y == 5);
+}
+]]>
+</tests>
+    </program>
+    <hint><p>You probably need a temporary variable to hold one value while you do the swap.</p></hint>
+  </exercise>
+
+
+  <exercise label="gx6blkgf438v23">
+    <statement>
+      <p>Complete the function `maxY`. It should return the largest `y` value of any of the points in the vector it is given.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+using namespace std;
+
+struct Point {
+    double x;
+    double y;
+};
+
+double maxY(const vector<Point>& points) {]]>
+        </preamble>
+        <code>
+
+    //write your code here
+
+        </code>
+        <postamble visible="yes"><![CDATA[
+}
+
+]]>
+        </postamble>
+<tests visible="yes">
+<![CDATA[
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("maxY") {
+    vector<Point> points = {{1, 2}, {3, 4}, {5, 6}};
+    CHECK(maxY(points) == 6);
+    points.push_back({7, 8});
+    CHECK(maxY(points) == 8);
+    points.push_back({9, 7});
+    CHECK(maxY(points) == 8);
+}
+]]>
+</tests>
+    </program>
+  </exercise>
+
+  <exercise label="gx6bl546m23">
+    <statement>
+      <p>A player in a word game has a set of tiles. Each tile has a value and a letter. Complete the function `bool hasTile(const Player&amp; p, char c)` that returns true if the given player has at least one tile with the same letter as `c`. Otherwise return false.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+using namespace std;
+
+struct Tile {
+   int value;
+   char letter;
+};
+
+struct Player {
+    int score;
+    vector<Tile> tiles;
+};
+
+bool hasTile(const Player& p, char c) {
+]]>
+        </preamble>
+        <code>
+
+    //write your code here
+
+        </code>
+        <postamble visible="yes"><![CDATA[
+}
+]]>
+        </postamble>
+<tests visible="yes">
+<![CDATA[
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("hasTile") {
+    Player p1 = {56, {{1, 'A'}, {3, 'B'}, {1, 'E'}}};
+    Player p2 = {132, {{2, 'D'}, {10, 'Z'}, {4, 'F'}, {1, 'E'}}};
+    CHECK(hasTile(p1, 'A') == true);
+    CHECK(hasTile(p1, 'B') == true);
+    CHECK(hasTile(p1, 'E') == true);
+    CHECK(hasTile(p1, 'F') == false);
+    CHECK(hasTile(p2, 'A') == false);
+    CHECK(hasTile(p2, 'D') == true);
+    CHECK(hasTile(p1, 'E') == true);
+}
+]]>
+</tests>
+    </program>
+    <hint><p>If you are stuck, start by just writing a loop to print out the letter of each tile the player has. Once you have that working, then worry about checking each one to see if it is a match for `c`.</p></hint>
+  </exercise>
+</exercises>
