@@ -1,0 +1,120 @@
+<exercises xml:id="references-exceptions_exercises"
+           xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Exercises</title>
+
+  <exercise label="VARS_2derveregver">
+    <statement>
+      <p>Write the function `chop`. It should be a `void` function that takes a string by reference and removes all but the first three characters of the string. For example, if the string passed in is `"function"` it should be changed to `"fun"`. You do not need to worry about parameters with less than three characters.</p>
+      <p>Design note: Returning a new string and not modifying the parameter would likely be a better function design. We are writing it this way just to practice using references.</p>
+      <program interactive="activecode">
+        <preamble><![CDATA[
+#include <iostream>
+#include <string>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+//Write the function chop here
+
+
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("chop") {
+  string s1 = "function";
+  chop(s1);
+  CHECK(s1 == "fun");
+
+  string s2 = "notion";
+  chop(s2);
+  CHECK(s2 == "not");
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  <exercise label="V3ARS_2derveregver">
+    <statement>
+      <p>Write the function `sign`. It should take an int parameter and return a `bool`. It returns true if the number is greater than 0, and false if the number is less than zero. If the number is exactly 0, you should throw a `logic_error` with any message you like.</p>
+
+      <program interactive="activecode">
+        <preamble><![CDATA[
+#include <iostream>
+#include <string>
+#include <exception>
+#include <stdexcept>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+//Write the function sign here
+
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("sign") {
+  CHECK(sign(12) == true);
+  CHECK(sign(-5) == false);
+
+  CHECK_THROWS_AS(sign(0), logic_error);
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  <exercise label="VARS_2fwebrth">
+    <statement>
+      <p>Write the function `middleJob`. It should call `onlyPositive` and pass it `number`. If `onlyPositive` returns a result, `middleJob` should return that answer. If `onlyPositive` throws an exception, `middleJob` should catch the exception and return -1.</p>
+      <p>Note: It is possible to just recreate the logic of onlyPositive and use an if/else to make middleJob return the right value. You should avoid solving it this way. Use `try...catch`</p>
+      <program interactive="activecode">
+        <preamble><![CDATA[
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+using namespace std;
+
+int onlyPositive(int x) {
+    if( x > 0) {
+        return x;
+    }
+    throw out_of_range("x is not positive");
+    return 0;  //make compiler happy
+}]]>
+        </preamble>
+        <code>
+
+//Write the function middleJob here
+int middleJob(int number) {
+
+
+}
+
+        </code>
+        <tests visible="yes">
+<![CDATA[
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("middleJob") {
+    CHECK(middleJob(2) == 2);
+    CHECK(middleJob(6) == 6);
+    CHECK(middleJob(-4) == -1);
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+</exercises>

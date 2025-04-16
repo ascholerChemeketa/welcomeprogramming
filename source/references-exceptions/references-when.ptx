@@ -1,0 +1,141 @@
+<section xml:id="references-exceptions_references-when"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>When to Use References</title>
+
+  <p>So when should you pass by value, reference, or constant reference? Here is a comparison of the three methods and when you should use them.<ul>
+      <li>
+        <term>Pass by value: <c>func(type name)</c></term>
+        <ul>
+          <li>Parameter is a copy of passed data.</li>
+          <li>Use when passing a small piece of data (int, double, char). Copying these is no more expensive than making a reference.</li>
+          <li>Use when passing a large piece of data and you want a copy.</li>
+        </ul>
+      </li>
+      <li>
+        <term>Pass by reference: <c>func(type&amp; name)</c></term>
+        <ul>
+          <li>Parameter is an alias for the passed variable.</li>
+          <li>Use when passing a large piece of data (string, vector) and you want the function to modify
+    that data.</li>
+        </ul>
+      </li>
+      <li>
+        <term>Pass by const reference: <c>func(const type&amp; name)</c></term>
+        <ul>
+          <li>Parameter is an alias for the passed variable but can't be used to modify it.</li>
+          <li>Passing a large piece of data (string, vector) and you do NOT want the function to
+    modify that data.</li>
+        </ul>
+      </li>
+    </ul></p>
+
+  <p>Of course, any set of rules will have its exceptions. But the guidelines above describe the preferred method for most situations.</p>
+
+  <p>A final point is that a literal value can't be passed into a function by reference. The reference needs to point at a storage location, not a value. If there is a function `void foo(string&amp; s)` the following would cause a compiler error:</p>
+
+  <program>
+    // error: can't pass a literal by reference
+    foo("hello world");
+  </program>
+
+  <p>The error message would be something like `cannot bind non-const lvalue`. Storing the string into a variable and passing that variable would work:</p>
+
+  <program>
+    string s = "hello world";
+    foo(s);
+  </program>
+
+  <insight>
+    <p>When in doubt, pass by value. It is the safest option. If you are going to pass by reference, favor using a const reference. Passing off data to another function and letting that function modify the data tends to <q>hide</q> what is happening and make it harder to reason about what a chunk of code does. A const reference avoids making extra copies but protects us from unwanted side effects that change data unexpectedly.</p>
+  </insight>
+
+
+  <exercise label="const-ref1">
+    <statement>
+      <p>Which would usually be the best way to accept a double parameter we are going to do calculations with?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice  correct="yes">
+        <statement>
+          <p>By value</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>By reference</p>
+        </statement>
+        <feedback>
+          <p>A reference opens up the door to unanticipated changes.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>By const reference</p>
+        </statement>
+        <feedback>
+          <p>Copying a double is not that much work.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="const-ref2">
+    <statement>
+      <p>Which would usually be the best way to accept a vector parameter we are going to do calculations with? (Say find the largest value)</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>By value</p>
+        </statement>
+        <feedback>
+          <p>By value requires copying the entire vector.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>By reference</p>
+        </statement>
+        <feedback>
+          <p>A reference opens up the door to unanticipated changes.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>By const reference</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="const-ref3">
+    <statement>
+      <p>Which would usually be the best way to accept a vector parameter that we want to be able to modify? (To say remove all of the negative values)</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>By value</p>
+        </statement>
+        <feedback>
+          <p>By value copies the vector. We would only be able to modify the copy.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>By reference</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>By const reference</p>
+        </statement>
+        <feedback>
+          <p>We can't modify a const reference.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

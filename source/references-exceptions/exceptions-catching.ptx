@@ -1,0 +1,28 @@
+<section xml:id="references-exceptions_exceptions-catching"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Exception Passing Through Levels</title>
+
+  <p>Instead of catching the exception in `mediumJob`, we could catch it at a higher level, like `main`:</p>
+
+  <program xml:id="references-exceptions_exceptions-catching-1" interactive="activecode">
+<xi:include href="../../programs/references-exceptions/exceptions-catching-1.cpp" parse="text"/>
+</program>
+
+  <p>Here, the exception will happen in line 8. Since there is no `try` block around line 8 in `mediumJob`, we immediately exit that function and jump back to `bigJob`. `bigJob` called `mediumJob` on line 14, so that location is checked for a `try` block. Because there is none, we exit `bigJob` without running lines 15-16 and jump back to main.</p>
+
+  <p>Finally, in main where we called `bigJob` (line 21) the code is inside of a `try`. So execution in the `try` stops (line 22 never runs) and jumps to the start of the attached `catch`. Lines 24-25 then run.</p>
+
+  <figure>
+    <caption>The function `substr` throws an exception that passes through `mediumJob` and `bigJob` before being caught in `main`.</caption>
+    <image width="35%"
+            source="images/exceptions-multiple-level.svg"/>
+  </figure>
+
+  <p>A `try...catch` in `mediumJob()` or `bigJob()` would have caught the exception and stopped it from passing up on to higher levels. But if they do not want to try to handle the exception, no extra code is needed in them to allow the exception to pass up.</p>
+
+  <p>When an exception passes up through levels of function calls like this, we say it is being <term>propagated</term> up the call stack. <idx><h>propagate</h></idx>.</p>
+
+  <note><p>Execution not surrounded by a `try` block stops execution of the function the code is in and immediately jumps back to the caller. No value is returned via the normal `return` process.</p></note>
+
+</section>
