@@ -1,0 +1,75 @@
+<section xml:id="objects_objects"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Objects</title>
+
+  <p>As we learned while working with strings, <term>object</term>s are entities in code that unite
+    some data (state) and functions that work on that data (behaviors)<idx>
+      <h>object</h>
+    </idx>. When other parts of a program's code are making use of an object, they rely on those
+    functions to work with object and manipulate its state.</p>
+
+  <p>You can think of an object as being like a struct that has built in
+    functions. To understand how objects are different than structs, let's start by comparing procedural code that we
+    might write to define and work with a Point struct with the object-oriented code we would write for a Point
+    object.</p>
+    
+    <p>Below the two approaches are presented side by side. Don't worry about trying to understand all of the
+    code. For now, just note some key differences. We will learn about why the code is different in
+    the next few sections. <ul>
+      <li>We have a `class Point` instead of a `struct Point`. (line 7)</li>
+      <li>The keywords public and private appear in the class. (lines 8, 11)</li>
+      <li>The member variables `x` and `y` have been renamed `m_x` and `m_y` (line 9).</li>
+      <li>The functions are defined inside of the class. (The class does not end until line 30).</li>
+      <li>The `createPoint` function is now just called `Point`. And it lacks a return type! (line
+    13)</li>
+      <li>The `shift` and `toString` functions do not take a `Point` parameter (lines 19 and 26).</li>
+      <li>The code that is using the `Point` (the `main` function), calls functions on a particular
+    point instead of passing points as parameters. It is `p1.toString` instead of `toString(p1)`.
+    (line 36).</li>
+    </ul>
+  </p>
+
+  <listing>
+
+    <caption>Struct vs. Class</caption>
+    <sidebyside>
+
+      <program xml:id="objects_objects-1">
+<xi:include href="../../programs/objects/objects-1.cpp" parse="text"/>
+  </program>
+
+      <program xml:id="objects_objects-2"
+               line-numbers="yes"
+               highlight-lines="7-9 11 13 19 26  30 36">
+<xi:include href="../../programs/objects/objects-2.cpp" parse="text"/>
+  </program>
+    </sidebyside>
+  </listing>
+
+
+  <note>
+    <p>In truth, C++ structs are much more similar to classes than we are describing in this
+      chapter. Everything that can be done with classes can be done with structs as well. The only
+      major difference is that struct members are public by default while class members are private.</p>
+    <p>We are intentionally only using the basic features of structs to emphasize the
+      conceptual differences between procedural programming and object oriented programming.</p>
+  </note>
+
+  
+  <exercise label="debugging_4">
+    <statement>
+      <p>In the struct version, `main` calls `shiftPoint(p1, 1.0, 2.0);` to move p1 over 1 and up 2. Look at the object version of the code for the equivalent object-oriented syntax.</p>
+      <p>Now imagine the struct version said `shiftPoint(p3, 0, 5.1);`. What would the equivalent object-oriented version be? <fillin mode="string" case="insensitive" answer="p3.shiftPoint(0, 5.1);"/>.
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>\s*p3.shiftPoint\(\s*0\s*,\s*5\.1\s*\);?\s*</strcmp>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>

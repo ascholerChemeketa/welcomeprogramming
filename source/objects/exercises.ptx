@@ -1,0 +1,248 @@
+<exercises xml:id="objects_exercises"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Exercises</title>
+
+  <exercise label="fdsf345t43">
+    <statement>
+      <p>Complete the code by creating a `Point` `p1` that represents (3, 4.5).</p>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/objects/exercises-point.cpp" parse="text"/>
+
+int main() {
+
+        </preamble>
+        <code>
+
+    //write your code here
+
+        </code>
+        <postamble>
+
+    cout &lt;&lt; p1.getX() &lt;&lt; " " &lt;&lt; p1.getY() endl;
+        </postamble>
+        <tests visible="no">
+          <iotest>
+            <input></input>
+            <output>3 4.5</output>
+          </iotest>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  
+  <exercise label="fdsfret4f3">
+    <statement>
+      <p>The existing code will make a point `p1` at (4, 3). Shift it so it is at (1, 1).</p>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/objects/exercises-point.cpp" parse="text"/>
+    Point p1(4, 3);
+        </preamble>
+        <code>
+
+    //write your code here
+
+        </code>
+        <postamble>
+
+    cout &lt;&lt; p1.getX() &lt;&lt; " " &lt;&lt; p1.getY() endl;
+        </postamble>
+        <tests visible="no">
+          <iotest>
+            <input></input>
+            <output>1 1</output>
+          </iotest>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+
+  <exercise label="fdsf345sdfet4f3">
+    <statement>
+      <p>The existing code will make a point `p1`. Make a point `p2` that has x and y value that are 1 more than the values for `p1`.</p>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/objects/exercises-point.cpp" parse="text"/>
+
+int main() {
+    double a, b;
+    cin >> a >> b;
+    Point p1(a, b);
+        </preamble>
+        <code>
+
+    //write your code here
+
+        </code>
+        <postamble>
+
+    cout &lt;&lt; p2.getX() &lt;&lt; " " &lt;&lt; p2.getY() endl;
+        </postamble>
+        <tests visible="no">
+          <iotest>
+            <input>1 2</input>
+            <output>2 3</output>
+          </iotest>
+          <iotest>
+            <input>-1.5 3</input>
+            <output>-0.5 4</output>
+          </iotest>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  <exercise label="recfeddfsdft4f3">
+    <statement>
+      <p>Add a definition for the `getPerimeter` function in `Rectangle`. Your code will be inside the class.</p>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/objects/exercises-rectangle-1.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+    //write your code here
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/objects/exercises-rectangle-2.cpp" parse="text"/>
+
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("Test getPerimeter") {
+    Rectangle r1;
+    r1.setWidth(3);
+    r1.setHeight(4);
+    Rectangle r2;
+    r2.setWidth(5);
+    r2.setHeight(6);
+
+    CHECK(r1.getPerimeter() == doctest::Approx(14));
+    CHECK(r2.getPerimeter() == doctest::Approx(22));
+}
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  <exercise label="recfed3dfsdft4f3">
+    <statement>
+      <p>Add a definition for the `getArea` function that is declared in `Rectangle`. Your code will be outside the class, so you need to use the scope resolution operator.</p>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/objects/exercises-rectangle-1.cpp" parse="text"/>
+<xi:include href="../../programs/objects/exercises-rectangle-2.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+//write your code here (it is outside the class)
+
+        </code>
+        <tests visible="yes">
+
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("Test getArea") {
+    Rectangle r1;
+    r1.setWidth(3);
+    r1.setHeight(4);
+    Rectangle r2;
+    r2.setWidth(5);
+    r2.setHeight(6);
+
+    CHECK(r1.getArea() == doctest::Approx(12));
+    CHECK(r2.getArea() == doctest::Approx(30));
+}
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  <exercise label="recfed3d9879ft4f3">
+    <statement>
+      <p>Add a definitions for the 2-arg constructor You are defining it outside of the class. Check the comments for a hint on how it should behave.</p>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/objects/exercises-rectangle-1.cpp" parse="text"/>
+<xi:include href="../../programs/objects/exercises-rectangle-2.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+//write your code here (it is outside the class)
+
+        </code>
+        <tests visible="yes">
+
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("Test 2-arg cosntructor") {
+    Rectangle r1(3, 4);
+    CHECK(r1.getWidth() == doctest::Approx(3));
+    CHECK(r1.getHeight() == doctest::Approx(4));
+
+    Rectangle r2(7, 1.4);
+    CHECK(r2.getWidth() == doctest::Approx(7));
+    CHECK(r2.getHeight() == doctest::Approx(1.4));
+
+    // Make anonymous rectangles with negative value and check that exception is thrown
+    CHECK_THROWS_AS(Rectangle(3, -4), logic_error);
+    CHECK_THROWS_AS(Rectangle(-2, 5), logic_error);
+}
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+  <exercise label="recfed3d945879ft4f3">
+    <statement>
+      <p>Add a definition for the scale function so the code passes the test. You are defining it outside of the class. Check the comment for tips on how it should behave.</p>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/objects/exercises-rectangle-1.cpp" parse="text"/>
+<xi:include href="../../programs/objects/exercises-rectangle-2.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+//write your code here (it is outside the class)
+
+        </code>
+        <tests visible="yes">
+
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("Test scale") {
+    Rectangle r1;
+    r1.setWidth(3);
+    r1.setHeight(4);
+    
+    r1.scale(3);
+    CHECK(r1.getWidth() == doctest::Approx(9));
+    CHECK(r1.getHeight() == doctest::Approx(12));
+
+    r1.scale(0.5);
+    CHECK(r1.getWidth() == doctest::Approx(4.5));
+    CHECK(r1.getHeight() == doctest::Approx(6));
+
+    r1.scale(-2);
+    CHECK(r1.getWidth() == doctest::Approx(4.5));
+    CHECK(r1.getHeight() == doctest::Approx(6));
+}
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+
+</exercises>

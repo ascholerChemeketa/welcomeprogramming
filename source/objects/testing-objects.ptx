@@ -1,0 +1,110 @@
+<section xml:id="objects_testing-objects"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Testing Objects</title>
+
+  <p>When writing unit tests for objects, we have a challenge - the testing code is generally
+    outside of the class and thus can't directly inspect object members. This means that we need to
+    make sure the interface provides enough information to test the object. The easiest way to do
+    this is to provide getters for every member variable.</p>
+
+  <p>Because out tests must rely on the public functions, they will be focused on testing the
+    interface of the class. Which is actually a logical thing to do. The interface to the class is
+    what all other code will be interacting with. And it is the interface that needs to remain
+    consistent to avoid breaking other code.</p>
+
+  <p>In general, each member function (including constructors) should get one or more tests. The
+    exception are simple getters. They will end up getting tested as part of every other test. Each
+    test will need to start by constructing an object to test, then manipulating it, and then
+    checking its state. Here is what a few of the tests for our Point class might look like:</p>
+
+  <program xml:id="objects_constructors-1">
+<xi:include href="../../programs/objects/testing-objects-1.cpp" parse="text"/>
+  </program>
+
+  <p>As always, we should stop to consider what special cases there are and ensure that the behavior
+    for those is tested. And, if any code is conditional, we should make sure it properly handles
+    different cases. For example, if our Point class has a `getQuadrant` that returned 1-4 depending
+    on the quadrant the point was in, we would want to make sure each of the four possible answers
+    was returned when appropriate.</p>
+
+  <p>Because every test will need to use a constructor and various getters, we will likely want to
+    start by implementing and testing those in our initial development. If we were starting out to
+    develop the point class, we would likely want to start out with something like this:</p>
+
+  <program xml:id="objects_constructors-2"
+           interactive="activecode">
+<xi:include href="../../programs/objects/testing-objects-2.cpp" parse="text"/>
+  </program>
+
+  <p>Once we have that base in place, we can use incremental development and pick one function at a
+    time to work on.</p>
+
+  <exercise label="wf243f">
+    <statement>
+      <p>Examine the code below. There is a test written for a function `scaleFromOrigin`. Write the
+        missing function so it passes the test cases.</p>
+      <program interactive="activecode">
+        <preamble><![CDATA[#include <iostream>
+using namespace std;
+
+class Point {
+public:
+    Point(double x, double y) {
+        m_x = x;
+        m_y = y;
+    }
+
+    double getX() {
+        return m_x;
+    }
+
+    double getY() {
+        return m_y;
+    }
+
+ ]]>
+        </preamble>
+        <code><![CDATA[
+
+//YOUR CODE HERE
+
+]]>
+        </code>
+        <tests visible="yes"><![CDATA[
+
+private:
+    double m_x, m_y;
+};
+
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("Point scaleFromOrigin") {
+    Point p1(3.0, 4.2);
+    p1.scaleFromOrigin(2);
+    CHECK(p1.getX() == doctest::Approx(6.0));
+    CHECK(p1.getY() == doctest::Approx(8.4));
+
+
+    Point p2(1.1, -2.2);
+    p2.scaleFromOrigin(4);
+    CHECK(p2.getX() == doctest::Approx(4.4));
+    CHECK(p2.getY() == doctest::Approx(-8.8));
+}
+
+]]>
+        </tests>
+      </program>
+    </statement>
+    <hint>
+      <p>When scaling a figure from the origin, we simply need to multiply both the x and y
+        coordinates of each point by the scale factor. So (3, 4.2) scaled by a factor of 2 results
+        in (6, 8.4).</p>
+    </hint>
+    <hint>
+      <p>Your function should be `void` and should take a single `double` or `int` as its parameter.</p>
+    </hint>
+  </exercise>
+
+</section>

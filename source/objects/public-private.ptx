@@ -1,0 +1,203 @@
+<section xml:id="objects_public-private"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Public and Private</title>
+
+  <subsection><title>Using Public and Private</title>
+
+  <p>A class definition defines two things: the <term>interface</term> that is used to work with
+    objects of that class and the <term>implementation</term> that describes how the work is
+    actually done. The interface is the part of the class that is visible to the rest of the program
+    while the implementation is hidden. A programmer who is working on some other part of the
+    program should only have to worry about the interface of the class and not the implementation.
+    This idea is referred to as <term>information hiding</term>. <idx>
+      <h>interface</h>
+    </idx>
+    <idx>
+      <h>implementation</h>
+    </idx></p>
+
+  <p>The keywords `private` and `public` are known as <term>access modifiers</term> and are used to
+    define what parts of a class are visible to code outside of that class. Using `public:` in a
+    class says <q>everything from here until the next access modifier is visible</q>. Using
+    `private:` <q>everything from here until the next access modifier is hidden</q>. </p>
+
+  <p>By default, all members of a class are private unless you place them in a public section, but it is good to explicitly indicate what you expect to be private. You can switch back and forth between public and private sections as many times as you like and put them in any order you like. Some programmers put the private portion first and the public section second. We will put the public section first as it is the part we wish to emphasize to anyone trying to understand the class.</p>
+
+  <p>It is a syntax error for code outside of a class to try to access members of that class that
+    were defined in a private block:</p>
+
+  <program xml:id="objects_public-private-1"
+           interactive="activecode">
+<xi:include href="../../programs/objects/public-private-1.cpp" parse="text"/>
+</program>
+
+  <p>In this sample, the two member variables are named `m_x` and `m_y`. It is common convention
+    (but not a syntax requirement) to decorate member variable names to clearly identify them. One
+    convention is the one used here - to put a `m_` in front of each name. Another convention is to
+    use a single underscore after the name, like `x_` or `y_`. The member variables are declared in
+    a `private` block of the class and thus line 21 is a syntax error because it tries to access the
+    private member from outside of the class.</p>
+
+  <p>To enable the rest of the program to access the information stored in the object, we need to
+    provide a public interface that reveals the information. Functions that return a piece of data
+    from an object are known as <term>getters</term> or <term>accessors</term> and usually have a name like `getThing()`. This
+    sample adds getters for `m_x` and `m_y`:</p>
+
+  <program xml:id="objects_public-private-2"
+           interactive="activecode">
+<xi:include href="../../programs/objects/public-private-2.cpp" parse="text"/>
+  </program>
+
+  <p>Now, the main function has a way to access the x coordinate of the point - via the public
+    function that returns the private piece of data.</p>
+
+  <p>This public interface is a way for the class to control what other code can do to the object.
+    Now other code can find out the value of `m_x` by asking the `getX` function for a copy of the
+    value. But there is no way for outside code to get change the value of `m_x` because direct
+    access is prevented. Other code can't even access `m_y` at all as we have not provided a getter
+    for that value.</p>
+
+  <insight>
+    <p>A good rule of thumb is that member variables should be private and member functions public. The functions are the interface and the variables are the implementation.</p>
+    <p>There will be rare exceptions:
+    <ul>
+      <li>A constant variable might reasonably be made public - there is no way for outside code to use it to change the state of the object.</li>
+      <li>There might be a function that is a useful helper to other member functions but makes no sense for outside code to use. That function could be marked private to prevent its use from outside the class.</li>
+    </ul>
+    But unless you have a very good reason, stick the the rule of thumb.
+    </p>
+  </insight>
+  
+  <exercise label="question14_1_3">
+    <statement>
+      <p>Multiple Response: Which of the following appear to be accessor functions?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>getSuit</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>setRank</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>print</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>getRank</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="mce_14_3">
+    <statement>
+      <p>Which of the following are true?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement id="mce_14_3_opt_a">
+          <p>By default, <c>struct</c> member variables are private.</p>
+        </statement>
+        <feedback>
+          By default, <c>struct</c> member variables are public. This is the main difference between a <c>class</c>
+            and a <c>struct</c>.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="mce_14_3_opt_b">
+          <p>By default, <c>class</c> member variables are private.</p>
+        </statement>
+        <feedback>
+          This is different from a <c>struct</c>, whose member variables default to be public.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="mce_14_3_opt_c">
+          <p>Private member variables can be accessed within the class.</p>
+        </statement>
+        <feedback>
+          Private member variables are private to things outside of the class.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="mce_14_3_opt_d">
+          <p>Public member variables can be accessed within the class.</p>
+        </statement>
+        <feedback>
+          Public member variables can be accessed anywhere, including within the class.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</subsection>
+<subsection><title>Why use Private</title>
+  <p>This may seems like a lot of extra work. Instead of letting code access the member variables of a class directly, we instead write a function that code can call to get the value of that member. Most objects end up with many short `getX()` style functions that just do something as simple as `return m_x;`. So what is the advantage?</p>
+
+  <p>Because all outside access must pass through the public interface, the class has the ability to hide the details of the implementation. This is known as <term>information hiding</term>. Hidden information helps to enforce a wall between the code that should know all of the details of a given class (the code in the class) and code that should not depend on those details.</p>
+
+  <p> We say that code is <term>tightly coupled</term> when it depends on all of the details of other parts of the code. When code is tightly coupled, programmers need to know
+    how all of those details work.</p>
+
+  <p>By forcing other code to use a public interface instead of the private details, we promote <term>loosely coupled</term> code. In loosely coupled code, a programmer does not need to know about all the details of some class they are using. If they are working with a `Color` object, they should not need to know how to make the color darker by manipluating its data. Instead, they should be able to just call a function like `darken()` and let the `Color` class handle the details of how to do that.</p>
+
+    <p>Furthermore, in loosely coupled code, it is much easier to change the
+    implementation details without breaking other code. If other code is constantly checking `m_x` and `m_y` directly, we can't change those variables without breaking that code.But if we force other code to use the public interface, we can change the implementation details
+    as long as we preserve the interface.</p>
+    
+    <p>For example, the programmer who is working on the Point class might decide they want to store
+    the data for a Point in polar coordinates (as an angle and distance from 0,0 instead of an x, y
+    pair). As long as they preserved the interface that assumed x and y coordinates, other code
+    would not need to change. Note in this sample that `main` does not need to change at all even
+    though Point is now storing its data in an entirely different way:</p>
+
+  <program xml:id="objects_public-private-3"
+           interactive="activecode">
+<xi:include href="../../programs/objects/public-private-3.cpp" parse="text"/>
+  </program>
+
+  <p>Running this sample with the Codelens reveals what is going on. `main` asks for a point to be
+    made with the coordinates 3, 4. The Point class translates this request into the data it will
+    actually store, `m_distance` and `m_angle`. Later, when `main` asks for Point p1 to `getX()`,
+    the Point class calculates the x location from what it has stored and returns that value.</p>
+
+  <p>The code isn't handling some of the special cases for translating from x,y to polar coordinates
+    correctly, but it still serves to illustrate the power of loose coupling. We can make
+    significant changes to the `Point` class without affecting the `main` function because `Point`
+    forces other code to use an interface that hides the implementation details.</p>
+
+    <exercise label="question14_2_1">
+      <statement>
+        <p>What are some of the benefits of information hiding?</p>
+      </statement>
+      <choices randomize="yes">
+        <choice>
+          <statement>
+            <p>It keeps code secret from other programmers and users.</p>
+          </statement>
+          <feedback>
+            Incorrect! <q>hiding</q> is not a great term for what we are really doing. <q>protecting</q> might be a better description.
+          </feedback>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p>It makes it easier to change implementation details of a class without breaking code that uses the class.</p>
+          </statement>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p>It allows us to enforce boundaries between code that <q>knows the details</q> of a particular type and code that does not know or depend on those details.</p>
+          </statement>
+        </choice>
+      </choices>
+    </exercise>
+
+    </subsection>
+</section>

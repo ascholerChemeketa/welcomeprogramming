@@ -1,0 +1,88 @@
+<section xml:id="objects_modular-classes"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Classes and Modules</title>
+
+  <introduction>
+    <p>Code is written to communicate algorithms to computers. But it also serves an important role in communicating ideas from one programmer to another.</p>
+    <p>The more complex the code, the more important this communication is. Complex code bases rely on abstractions to make them more manageable. But abstractions only help when programmers understand those abstractions.</p>
+    <p>To help communicate to other programmers how a given class works, we often rely on both written documentation and visual diagrams.</p>
+  </introduction>
+
+  <subsection>
+    <title>UML Class Diagrams</title>
+  <p>
+    <idx>
+      <h>UML</h>
+    </idx>
+<term>Unified Modeling Language</term> (UML) is a graphical language for 
+    visualizing, specifying, constructing, and documenting the artifacts of a software system. There are many different kinds of diagrams used in UML and we won't attempt to cover them all.</p>
+
+  <p>UML <term>class diagrams</term> are one of the most common types of UML diagrams. A class diagram
+ defines a graphical way to
+    summarize the state (member variables) and  behaviors (member functions or methods) of an object.</p>
+    <p> Each class is represented by a box with three sections. The top section has the name of the class. The next section a list of member variables. And the last section has a list of the methods.
+      <idx>
+        <h>class diagram</h>
+      </idx>
+      <idx>
+        <h>diagram</h>
+        <h>class</h>
+      </idx></p>
+
+      <figure>
+        <caption>Format of a class diagram</caption>
+        <image>
+          <mermaid>
+        classDiagram
+            class ClassName{
+              -memberVariable: type
+              +memberFunction(param: type): returnType
+            }
+            </mermaid>
+        </image>
+      </figure>
+  
+
+    <p>The diagram format is fairly simple, but there are a few quirks to get used to. The sections are used to store variables and methods, not private versus public members.
+      In UML, the plus sign (<c>+</c>) identifies a <c>public</c> member while a minus sign (<c>-</c>)
+        indicates a <c>private</c> one. Usually, all of the variables (second section) will be private and all of the functions (third sections) will be public. But if there is a private function, it still belongs in the third section.</p>
+    <p>In addition, UML is designed to be language independent. So it does not use the syntax of any particular programming language. Instead, it uses a language-independent syntax. To identify the types of members, parameters, and return types UML places them after the variable or function name. For example, in UML we write <c>x: int</c> rather than C++ syntax, <c>int x</c>.</p>
+
+    <p>Here is what a class diagram for </p>
+
+    <figure>
+      <caption>Point class diagram. Note the private `check` function still belongs in the third section of the diagram with the other methods.</caption>
+      <image>
+          <mermaid>
+      classDiagram
+          class Point{
+            -m_x: double
+            -m_y: double
+            +Point(x: double, y: double)
+            +getX() double
+            +getY() double
+            +setX(x: double)
+            +setY(y: double)
+            +distanceToOrigin() double
+            -check() bool
+          }
+          </mermaid>
+      </image>
+  </figure>
+
+  <insight><p>Class diagrams show a class. They represent information about data types available to the compiler. There is only one Point class no matter how many Point objects get created.</p>
+    <p>Other types of diagrams, like memory diagrams focus on particular objects that exist at run time. A memory diagram might show multiple Point objects as at runtime we can create many instances of the class.</p></insight>
+</subsection>
+
+<subsection>
+  <title>Doxygen for Classes</title>
+  <p>When writing documentation for a class, we typically want to document all of the functions. They typically include the entire public portion of the interface to the class. And that is the part that other programmers should be interacting with. In addition, it is a good idea to comment the class itself with a description of what it is intended to represent.</p>
+  <p>We do not necessarily need to document the member variables as they are the hidden information other programmers shouldn't be worried about. But to help anyone who does need to maintain the class, it can be useful to add comments with any key information about them. For instance, if our point class assumed that the units were centimeters, and that was important for anyone working on the code to understand that, we would likely want to document that next to `m_x` and `m_y`.</p>
+  <p>Here is an example of what documentation for a partial version of the Point class might looks like:</p>
+  
+  <program xml:id="objects_documentation-1">
+<xi:include href="../../programs/objects/documentation-1.cpp" parse="text"/>
+      </program>
+</subsection>
+
+</section>

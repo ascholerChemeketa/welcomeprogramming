@@ -1,0 +1,131 @@
+<section xml:id="objects_scope-resolution"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Defining Functions Outside of the Class</title>
+
+  <p>We previously learned that we can declare functions (provide the prototype) in one place and define them (write their full bodies) elsewhere.
+    Doing so allows:
+    <ul>
+      <li>Us to define functions in any order we want (as long as we declare them first).</li>
+      <li>Create a list of the available functions without wading into the implementation details.</li>
+      <li>Satisfy the demands of the C++ compiler when breaking code into multiple files.</li>
+    </ul>
+  </p>
+
+  <p>However, if we try to separate definitions of member functions from their declarations, we will
+    run into an issue. Here is a failed attempt to move the `Point` constructor's definition
+    outside of the class:</p>
+
+  <program interactive="activecode">
+<xi:include href="../../programs/objects/headers-1.cpp" parse="text"/>
+</program>
+
+  <p>Attempting to build the code fails. The compiler has no idea what line 11 is doing. It looks
+    like a function called <q>Point</q> that has no return type. And in that function, we use
+    variables `m_x` and `m_y` without ever declaring them. There are similar issues with the `getX`
+    function.</p>
+
+  <p>What the compiler needs is a hint that these functions are members of the class <c>Point</c>. We do
+    that by adding the class name and the <term>scope resolution operator</term> <c>::</c> to the function definitions. Saying
+    `Point::getX` says <q>This is the getX that belongs to Point.</q> And saying `Point::Point` says <q>This
+    is the constructors that belongs to Point.</q> Here is a working version of the code:</p>
+
+  <program interactive="activecode">
+<xi:include href="../../programs/objects/headers-2.cpp" parse="text"/>
+</program>
+
+  <insight>
+    <p>Any time you want to define a function outside of the class declaration, you need to use the
+      scope resolution operator.</p>
+  </insight>
+
+  <exercise label="implicit_variable_access_2">
+    <statement>
+      <p>When should you use the scope resolution operator <c>::</c>?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>Any time you define a member function.</p>
+        </statement>
+        <feedback>
+          Incorrect! The scope resolution operator is not always necessary!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>When you implement member functions inside of the class definition.</p>
+        </statement>
+        <feedback>
+          Incorrect! When you write member functions inside of the class definition, you do
+            not need to specify the scope.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>When you implement member functions outside of the class definition.</p>
+        </statement>
+        <feedback>
+          Correct! When you write member functions outside of the class definition, you need to specify the scope, hence the :: operator!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Never! It is bad practice!</p>
+        </statement>
+        <feedback>
+          Incorrect! The scope resolution operator is good practice when used correctly!
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="mce_11_2">
+    <statement>
+      <p>What is the correct way to define a member function called <c>string getEmail();</c> outside the class
+        definition?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>
+            <c>string Student::getEmail()</c>
+          </p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+            <p>
+              <c>Student::string getEmail()</c>
+            </p>
+        </statement>
+        <feedback>
+          string is not a member of Student, it is the return type of the function.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            <c>Student::string Student::getEmail()</c>
+          </p>
+        </statement>
+        <feedback>
+          string is not a member of Student, it is the return type of the function.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            <c>Student { string getEmail() }</c>
+          </p>
+        </statement>
+        <feedback>
+          We use the `::` operator when referring to a member function outside the class. The
+            `{}` brackets are not used in this case.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  
+</section>

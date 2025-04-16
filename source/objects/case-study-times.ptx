@@ -1,0 +1,192 @@
+<section xml:id="objects_case-study-times"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Case Study: Times</title>
+
+  <introduction>
+    <p>We realize that a calendar program we are helping build is going to is going to have to store and work with times of the day. We have been put in charge of writing the Time class to manage those.</p>
+
+    <p>Some tasks we expect to need them to do:
+      <ul>
+        <li>Store a time of day.</li>
+        <li>Present it in 12 hour (AM/PM) format or 24 hour format.</li>
+        <li>Figure out a new time by adding a number of minutes to a given time.</li>
+      </ul>
+      We do not need to worry about seconds.
+    </p>
+  </introduction>
+
+  <subsection>
+    <title>Making a Plan</title>
+    <p>We need to start by figuring out how to represent the data. There are many ways we could represent a time:
+        <ul>
+          <li>As the number of minutes since midnight. We could calculate the hour as needed (96 minutes is just another way of saying 1 hour and 36 minutes).</li>
+          <li>As an hours and minutes in 24 hour time.</li>
+          <li>As an hours and minutes in 12 hour time plus whether it is AM or PM.</li>
+        </ul>
+    </p>
+    <p>Believe it or not, the first option is a common approach for representing time in computers. But we will choose the second option. It will make thinking in terms of hours and minutes, which we will need to do for many tasks, more straightforward.</p>
+  </subsection>
+
+  <subsection>
+    <title>The Basics</title>
+
+    <p>As our first step, we need to define the variables, a constructor, and some getters. That way we have something to test:</p>
+
+      <program line-numbers="yes"
+               interactive="activecode">
+<code>
+<xi:include href="../../programs/objects/case-study-time-1.cpp" parse="text"/>
+</code>
+      <tests visible="yes"><![CDATA[
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("Time constructor") {
+    Time t(1, 2);
+    CHECK(t.getHour() == 1);
+    CHECK(t.getMinute() == 2);
+    Time t2(14, 20);
+    CHECK(t.getHour() == 14);
+    CHECK(t.getMinute() == 20);
+}
+]]>
+      </tests>
+      </program>
+
+  </subsection>
+
+  <subsection>
+    <title>Handling Invalid Times</title>
+
+    <p>This seems to work well for correct times, but what about incorrect ones? What should we do if someone asks to make `Time t1(11, 95)`? Should we turn that into 12:35? Or should we treat that as an error and throw an exception? This is a design choice. Assuming that we should try to fix the issue can make the class a little more forgiving to use. Maybe it will be helpful for other code to assume that `Time` classes will handle issues like that. But it could also lead to bugs. What if other code didn't realize it was asking for the minutes value to be something that does not really make sense? If our code attempts to <q>fix</q> the issue, that could hide the fact there is a bug elsewhere.</p>
+
+    <p>So let's do some basic sanity checking. We might start by writing something like this in our constructor:</p>
+
+    <program>
+Time(int hours, int minutes) {
+    if(hours &lt; 0 || hours > 23) {
+        throw logic_error("Invalid value for hours");
+    }
+    if(minutes &lt; 0 || minutes > 59) {
+        throw logic_error("Invalid value for minutes");
+    }
+    m_hours = hours;
+    m_minutes = minutes;
+}
+    </program>
+
+    <p>This would work just fine. But we likely will need similar code elsewhere. Maybe we should build a function that checks if a given time is valid. We could then use that function to help check the time we are trying to construct. Because this function is only intended for internal use, we might want to mark it private.</p>
+
+    <program>
+      void Time::validate() {
+          if(m_hours &lt; 0 || m_hours > 23) {
+              throw logic_error("Invalid hours value in time");
+          }
+          if(m_hours &lt; 0 || m_hours > 59) {
+              throw logic_error("Invalid minutes value in time");
+          }
+      }
+    </program>
+
+    <p>We could then use that function in our constructor:</p>
+
+    <program>
+      Time(int hours, int minutes) {
+          m_hours = hours;
+          m_minutes = minutes;
+          // check the values, throw an exception if they are invalid
+          validate();
+      }
+    </program>
+  </subsection>
+
+  <subsection>
+    <title>Displaying Times</title>
+
+    <p>Next let's tackle getting string representations of the time. We want to be able to generate either a 12 hour or 24 hour format. Before we write the functions, we will set up some tests:</p>
+
+    <program>
+      TEST_CASE("Time toString12Hour") {
+          Time t(1, 2);
+          CHECK(t.toString12Hour() == "1:02 AM");
+          Time t2(14, 20);
+          CHECK(t2.toString12Hour() == "2:20 PM");
+          Time t3(12, 6);
+          CHECK(t3.toString12Hour() == "12:06 PM");
+      }
+
+      TEST_CASE("Time toString24Hour") {
+          Time t(1, 2);
+          CHECK(t.toString24Hour() == "01:02");
+          CHECK(t.toString12Hour() == "1:02 AM");
+          Time t2(14, 20);
+          CHECK(t2.toString24Hour() == "14:20");
+          CHECK(t2.toString12Hour() == "2:20 PM");
+      }
+      </program>
+      <program>
+        string toString24Hour() {
+            // minutes should always be 2 digits, use 0 to pad
+            string tString = format("{}:{:0>2}", m_hours, m_minutes);
+            return tString;
+        }
+        string toString12Hour() {
+            // decide what hour to display
+            int displayHour = m_hours % 12;
+            if (displayHour == 0) {
+              displayHour = 12;
+            }
+            string tString = format("{}:{:0>2}", displayHour, m_minutes);
+            string ampm = (m_hours &lt; 12) ? "AM" : "PM";
+            return tString + " " + ampm;
+        }
+      </program>
+  </subsection>
+
+  <subsection>
+    <title>Modifiers</title>
+
+    <p>Next we need to decide how and if to support changing the time. One approach would be to make Time objects <term>immutable</term>, or unchangeable. If we do not provide setters, or any other methods to change the member variables of a Time, it will be impossible for other code to modify a time. Instead, that code will have to make a new Time anytime it wants to work with a new value. This design choice can make it easier for other code to share Time objects using references without having to worry about one part of the code changing a Time that another part is relying on to not change.<idx><h>immutable</h></idx></p>
+
+    <p>But we decide we will support modification of Time objects. Then the question becomes how to do so. Do we provide setters for both hours and minutes? Do we provide a function that sets both to new values? If we anticipate other code will need to change times from something like 8:00 to 7:30 on a regular basis, it would be nice to provide a single function to do so. So let's provide both:</p>
+
+      <program line-numbers="yes">
+      void setHour(int hour) {
+          m_hours = hour;
+          validate();
+      }
+
+      void setMinute(int minute) {
+          m_minutes = minute;
+          validate();
+      }
+      
+      void setTime(int hour, int minute) {
+          m_hours = hour;
+          m_minutes = minute;
+          validate();
+      }
+      </program>
+  </subsection>
+  <subsection>
+    <title>Adding Minutes</title>
+
+    <p>Finally, we need to add a function that adds minutes to a time so that other code can easily calculate the </p>
+
+    <program>
+      Time addMinutes(int minutes) {
+          m_minutes += minutes;
+          // if minutes is greater than 59, we need to adjust hours
+          if (m_minutes > 59) {
+              m_hours += m_minutes / 60;
+              m_minutes = m_minutes % 60;
+          }
+          // if hours is greater than 23, we need to adjust it
+          if (m_hours > 23) {
+              m_hours = m_hours % 24;
+          }
+      }
+    </program>
+  </subsection>
+</section>

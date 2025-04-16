@@ -1,0 +1,67 @@
+<section xml:id="objects_classes"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Classes</title>
+
+  <p>Like a `struct`, a <term>class</term> defines a new type of object. That datatype consists of
+    other pieces of data that we refer to as its <term>member variables</term> or as <term>instance
+    variables</term>. However, a class will also have <term>member functions</term> - functions that
+    are a part of the class. <idx>
+      <h>instance variable</h>
+    </idx>
+    <idx>
+      <h>member variables</h>
+    </idx>
+    <idx>
+      <h>member functions</h>
+    </idx></p>
+
+  <program>
+      class Point {
+          ...member functions...
+          ...member variables...
+      };
+      </program>
+
+  <p>Think of the class definition as a <q>blueprint</q> that describes what a type of data is. The
+    `class Point` does not actually create a point anymore than the blueprint of a house gives you
+    something to live in. To work with the Point data type, we must make a `Point` object from the
+    blueprint. We call the object an <term>instance</term> of the class. For example, we might
+    create a `Point` object named `p1` like this:
+  <idx>
+    <h>class</h>
+  </idx>
+  <idx>
+    <h>instance</h>
+  </idx>
+  </p>
+
+  <program>
+class Point {
+    ...member functions...
+
+    ...member variables...
+    double m_x, m_y;
+};
+
+int main() {
+    Point p1;
+}
+</program>
+
+  <p>Here, we assume that a point has two member variables `m_x` and `m_y`. That means any time we
+    make a `Point` object, we are creating a package that has two named parts:</p>
+
+  <figure align="center">
+    <caption>A memory diagram of Point p1</caption>
+    <image source="images/objects-point-memory-diagram.svg"
+           width="50%"
+           alt="p1 is a point that contains two variables m_x and m_y"/>
+  </figure>
+
+
+  <p>As usual, the name of the variable <c>p1</c> appears outside the box, and its data appears inside the box.
+    In this case, the data is two separate member variables, which are represented with two boxes. However, unlike with a struct,
+  we can't access those values by saying `p1.m_x` or `p1.m_y`. That is because the members of a class are inaccessible outside of the class by default.
+  Why are the inaccessible? How do we use them if they are inaccessible? We will tackle that next...</p>
+
+</section>

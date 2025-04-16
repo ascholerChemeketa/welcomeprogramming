@@ -1,0 +1,36 @@
+<section xml:id="objects_using-modules"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Using Modules</title>
+
+  <p>Things are even simpler if we use C++ modules. In that case, we don't need to make separate .h and .cpp files. And the only thing we generally need to export other than the module itself is the class we are defining.</p>
+
+  <program>
+...
+export module Point;
+export class Point {
+  ...
+  </program>
+
+  <p>We may still wish to place the function definitions outside of the class. That way, the class definition has the minimal amount of code necessary and sticks to just what an <q>outside user</q> of the code should care about. The implementation details are there, but out of the way. But all of this code can go into a single file like `Point.cxx`:</p>
+
+  <program interactive="activecode">
+    <xi:include href="../../programs/objects/headers-1.cpp" parse="text"/>
+</program>
+
+  <note>
+    <p>It is still possible to separate the module into an interface file and an implementation file if we want to do so. However, with modules, there is not the same technical need to do so.</p>
+  </note>
+
+  <p>With that file defined, we are ready to import the library and build the code:</p>
+
+  <program interactive="activecode">
+    <xi:include href="../../programs/objects/headers-3.cpp" parse="text"/>
+  </program>
+
+  <console>
+<input>g++ -std=c++20 Point.cxx main.cpp -o program.exe</input>
+  </console>
+  
+
+</section>
