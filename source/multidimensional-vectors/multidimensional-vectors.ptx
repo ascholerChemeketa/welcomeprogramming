@@ -1,0 +1,57 @@
+<section xml:id="multidimensional-vectors_multidimensional-vectors"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Multidimensional vectors</title>
+
+  <p>Vectors can be thought of as one dimensional storage. They represent a straight line of data, where there is one index used to locate each element.</p>
+
+  <figure>
+    <caption>A vector requires one index to locate any particular item. The index 4 locates the value 5.</caption>
+    <image width="30%"
+           source="images/vectors-1d.svg"/>
+  </figure>
+
+  <p>Multidimensional storage is storage that requires 2 or more indexes to specify an element.</p>
+
+  <figure>
+    <caption>Two dimensional storage requires 2 indexes to locate a value. The value at row index 1 and column index 5, is 8.</caption>
+    <image width="40%"
+           source="images/vectors-2d.svg"/>
+  </figure>
+
+  <p>In C++, we can create multidimensional storage by making a vector that contains vectors. By convention, we think of the main vector as holding the horizontal rows of data. So to store the data shown in the figure above, we need to make a vector that contains three rows:</p>
+
+  <program>
+  vector&lt;??type??> table(3, ??value??);
+  </program>
+
+  <p>But what type does the vector hold? And what value should be used as the starting value for each row? Well, each row holds a list of numbers - a `vector&lt;int>`. And we want to start each of those rows as a vector that contains 5 copies of 0. (We will add the real data later).</p>
+
+  <program>
+  // A row of 5 integers, all initialized to 0
+  vector&lt;int> row(5, 0);
+  // A table that has three copies of row
+  vector&lt;vector&lt;int>> table(3, row);
+  </program>
+
+  <p>`table` itself is a vector with three elements. Each of those elements is a vector. Although we are trying to represent 2-dimensional storage, what we have is really a 1-dimensional list in which each value is a 1-dimensional list.</p>
+
+  <figure>
+    <caption>A memory model for `table`</caption>
+    <image width="45%"
+           source="images/vectors-table-empty.svg"/>
+  </figure>
+
+  <p>If we want to initialize the vector with particular values, we can do so using a list initializer that contains a list of lists:</p>
+
+  <program><![CDATA[ 
+vector<vector<int>> table = {
+    {6, 3, 2, 5, 7},
+    {11, 1, 4, 5, 8},
+    {7, 2, 6, 5, 3}
+};
+  ]]>
+  </program>
+
+  <p>This would make the 3 row, 5 column table of data shown at the top of the page. Note that the outer `{...}` surround a list of three things separated by `,`. Each of those three things is a list of 5 items that are in `{...}` and separated by a comma. (The newlines to space out the data more like how we picture it in the table are optional. The initialization could be on one long line.)</p>
+
+</section>

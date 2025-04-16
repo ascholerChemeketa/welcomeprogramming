@@ -1,0 +1,177 @@
+<section xml:id="multidimensional-vectors_grading"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Case Study: Quiz Grading</title>
+
+  <introduction>
+    <p>We have the key and a set of student answers for a multiple choice quiz. We deal with a lot
+      of these quizzes and would like to write some code to help score quizzes and identify problems
+      that may be too easy or hard.</p>
+  </introduction>
+
+  <subsection>
+    <title>Understanding the problem</title>
+
+    <p>We are not really writing a full program here. Instead, we are just trying to build a toolbox
+      that we can use on a certain type of data.</p>
+
+    <p>There are two different tasks we are looking to write code for. The first is to calculate the
+      score for each student. The second is to calculate the average score for each question (how
+      hard it was). The two tasks likely will share some logic, but it does not seem like either one
+      depends on the other.</p>
+
+    <p>Both functions will depend on the same data, the key and the student answers. So let's start
+      by thinking how to represent that data.</p>
+  </subsection>
+
+  <subsection>
+    <title>Designing Data</title>
+
+    <p>The key for the quiz can be represented as a list of characters. The key for a 5 question
+      quiz might look like:</p>
+
+    <pre>
+A C C D B
+</pre>
+
+    <p>And the student answers as a list where each <q>row</q> is a different student's responses to
+      the. A set of four student's responses to a 5 question quiz might look like this (where `_`
+      represents an unanswered question):</p>
+
+    <pre>
+A C B D B
+C C C C C
+A C C D B
+B C _ D B
+</pre>
+
+    <p>The key looks like a single dimensional vector of characters. The student answers a 2-D grid
+      of characters. Let's write some typedefs to name vectors with the appropriate dimensions:</p>
+
+    <program><![CDATA[
+typedef vector<char> Answers;
+typedef vector<Answers> ResponseSet;
+]]></program>
+
+    <p>We could write our code without those definitions, but they should help make our code a
+      little more readable.</p>
+  </subsection>
+
+  <subsection>
+    <title>Student Grades</title>
+
+    <p>To compute student grades, we need to compare each student's answers to the key and count how
+      many match. I think that whenever I calculate the grades I will want to do so for all the
+      students. So let's build a function that calculates all the grades and returns a vector of
+      them. </p>
+
+    <p>This function will need to accept the grid of student answers and the key. It should return a
+      vector of scores. We will represent the score as number of correct answers (not as percents)
+      to avoid having to worry about rounding issues.</p>
+
+    <exercise label="veasdfwef2ewc-2">
+      <statement>
+        <p>Most of this function is written. All that is missing (look for `???`) are the indexes to
+          use when comparing a student's answer to the key. Fill in those blanks with the correct
+          counting variable - either `studentNumber` or `questionNumber`. </p>
+      </statement>
+      <program interactive="activecode">
+      <preamble>
+<xi:include href="../../programs/multidimensional-vectors/grading-pre.cpp" parse="text"/>
+</preamble>
+      <code>
+<xi:include href="../../programs/multidimensional-vectors/grading-1.cpp"
+            parse="text"/>
+      </code>
+      <postamble>
+<xi:include href="../../programs/multidimensional-vectors/grading-test-1.cpp" parse="text"/>
+</postamble>
+      </program>
+      <hint>
+        <p>Remember that `studentAnswers` is a grid where each student is a row and each question is
+          a column.</p>
+      </hint>
+    </exercise>
+
+    <note>
+      <p>We did not do any error checking to make sure that each student has enough answers. If the
+        key is longer than a student's row of answers, we will end up going out of bounds on the
+        student grid. In that case the vector will generate an exception. If we wanted, we could try
+        to catch that exception. But it is not clear what we should do to fix the problem. So we
+        will just let any possible exception propagate to whatever program calls this.</p>
+    </note>
+  </subsection>
+
+  <subsection>
+    <title>Question Difficulty</title>
+
+    <p>Now we need to build a function to calculate the difficulty of questions. This time, let's
+      build a function that just focuses on one function at a time. We will need to iterate through
+      all of the students, but we will just be looking at one question. So we will only need a
+      single loop.</p>
+
+    <p>Complete the code below. You will not need all of the blocks.</p>
+
+    <exercise label="vfwefwef"
+              numbered="yes"
+              adaptive="yes"
+              indentation="hide">
+      <statement>
+        <p>Most of this function is written. All that is missing (look for `???`) are the indexes to
+          use when comparing a student's answer to the key. Fill in those blanks with the correct
+          counting variable - either `studentNumber` or `questionNumber`. </p>
+      </statement>
+
+      <blocks>
+        <block>
+          <cline>double questionDifficulty(</cline>
+          <cline>    const ResponseSet&amp; studentAnswers,</cline>
+          <cline>    const Answers&amp; key,</cline>
+          <cline>    int questionNum</cline>
+          <cline>) {</cline>
+        </block>
+        <block>
+          <cline>    // want to produce a decimal eventually</cline>
+          <cline>    double numCorrect = 0;</cline>
+        </block>
+        <block>
+          <cline>    size_t numStudents = studentAnswers.size();</cline>
+          <cline>    for (size_t i = 0; i &lt; numStudents; ++i) {</cline>
+        </block>
+        <block correct="no">
+          <cline>    size_t numQuestions = key.size();</cline>
+          <cline>    for (size_t i = 0; i &lt; numQuestions; ++i) {</cline>
+        </block>
+        <block>
+          <cline>        char answer = studentAnswers.at(i).at(questionNum);</cline>
+          <cline>        char correctAnswer = key.at(questionNum);</cline>
+        </block>
+        <block correct="no">
+          <cline>        char answer = studentAnswers.at(questionNum).at(i);</cline>
+          <cline>        char correctAnswer = key.at(questionNum);</cline>
+        </block>
+        <block>
+          <cline>        if (answer == correctAnswer) {</cline>
+          <cline>            ++numCorrect;</cline>
+          <cline>        }</cline>
+        </block>
+        <block>
+          <cline>    }</cline>
+        </block>
+        <block>
+          <cline>    return numCorrect / numStudents;</cline>
+          <cline>}</cline>
+        </block>
+      </blocks>
+
+      <program label="fewfwefdwwef"/>
+      <program-preamble>
+<xi:include href="../../programs/multidimensional-vectors/grading-pre.cpp" parse="text"/>
+</program-preamble>
+      <program-postamble>
+<xi:include href="../../programs/multidimensional-vectors/grading-test-2.cpp" parse="text"/>
+</program-postamble>
+
+    </exercise>
+  </subsection>
+
+</section>

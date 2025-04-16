@@ -1,0 +1,27 @@
+<section xml:id="multidimensional-vectors_single-d-traversal"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Single Dimension Traversals</title>
+
+  <p>It is also possible to traverse just one dimension of a multidimensional set of data. Say we just want to print out the third row of a table of data. This only requires traversing in one dimension - side to side through a single row. The list of elements we need to visit looks like:</p>
+
+<pre>
+matrix.at(2).at(0)
+matrix.at(2).at(1)
+matrix.at(2).at(2)
+matrix.at(2).at(3)
+</pre>
+
+  <figure>
+    <caption>The third row of data in a 3x4 matrix.</caption>
+    <image width="45%"
+           source="images/vectors-matrix3x4-lastrow.svg"/>
+  </figure>
+
+  <p>The row of everything we are trying to access is `2`. The column number is the only one that changes. This means we can use a set value for the row index. We still have to specify both a row and column to access a single `int` value in the table. We just will use a fixed value for the row.</p>
+
+  <program label="asdfas3sdddadewqwe" interactive="activecode">
+<xi:include href="../../programs/multidimensional-vectors/1d-traversal-1.cpp" parse="text"/>
+  </program>
+
+</section>

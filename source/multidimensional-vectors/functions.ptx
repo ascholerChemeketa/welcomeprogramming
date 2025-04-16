@@ -1,0 +1,36 @@
+<section xml:id="multidimensional-vectors_functions"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Functions for Multidimensional Vectors</title>
+
+  <p>When writing functions with multidimensional vectors, we should follow the same guideline as writing functions for normal vectors. Primarily, we should use pass by reference to avoid making needless copies of our data. If we don't intend on modifying the data, we should use pass by const reference.</p>
+
+  <p>If we are writing multiple functions that all work with the same multidimensional data type, a `typedef` make make our code easier to read. For example, say we are working with two dimensional vectors of integers and want to write a function `doubleAll` that takes a table of data as a parameter, and returns a new table where all the values are doubled. We can either use the prototype on line 1, or we can do the typedef on line 3 and then write the prototype shown on line 4.</p>
+
+  <program line-numbers="yes" highlight-lines="1,4"><![CDATA[
+  vector<vector<int>> doubleAll(const vector<vector<int>>& table);
+
+  typedef vector<vector<int>> IntTable;
+  IntTable doubleAll(const IntTable& table);
+  ]]></program>
+
+  <p>In this sample, we use two functions to work with a multidimensional collection of numbers:</p>
+
+  <program label="asdfeddadewqwe" interactive="activecode">
+<xi:include href="../../programs/multidimensional-vectors/functions-1.cpp" parse="text"/>
+  </program>
+
+  <p>Note that these functions calculate the `colCount` for each row. Previous samples calculated one `colCount` based on the size of the first row. Calculating each row's length independently means these functions will work correctly on <q>jagged</q> structures. <term>Rectangular</term> data has the same number of columns in every row. In non-rectangular or jagged data, each row can have a different length.</p>
+
+<pre>
+// Jagged data
+1 2
+3 4 5
+6
+
+// Rectangular data
+1 2 3
+4 5 6
+</pre>
+
+</section>

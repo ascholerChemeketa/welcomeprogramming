@@ -1,0 +1,321 @@
+<exercises xml:id="multidimensional-vectors_exercises"
+           xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Exercises</title>
+
+  <note><p>When you fail a `CHECK` the vector will not automatically be displayed. Each problem declares a `print` function you can use to help debug your code.</p></note>
+  
+  <exercise label="sdfsdfsdf">
+    <statement>
+      <p>Write code for the function `additiveInverse`. It should take the 2D matrix given and change it into its additive inverse by multiplying each value in the matrix by -1.</p>
+    </statement>
+      <program interactive="activecode" codelens="no">
+        <preamble visible="yes"><![CDATA[#include <iostream>
+#include <vector>
+using namespace std;
+
+]]>
+
+<xi:include href="../../programs/multidimensional-vectors/exercise-print-ints.cpp" parse="text"/>
+        </preamble>
+        <code><![CDATA[
+
+void additiveInverse(vector<vector<int>>& matrix) {
+    // write your code here
+}
+
+]]>
+        </code>
+        <tests visible="yes"><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("additiveInverse") {
+    vector<vector<int>> test1 = {{1,2,3},
+                                 {4,5,6}};
+    vector<vector<int>> result1 = {{-1,-2,-3},
+                                    {-4,-5,-6}};
+    CHECK(additiveInverse(test1) == result1);
+
+    vector<vector<int>> test2 = {{-4,0},
+                                 {3,-1}};
+    vector<vector<int>> result2 = {{4,0},
+                                   {-3,1}};
+    CHECK(additiveInverse(test2) == result2);
+}]]>
+        </tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="smallsadfswfwefest">
+    <statement>
+      <p>Write the function `vector&lt;vector&lt;int>>; create(int rows, int cols)`. It should return a 2D vector of integers that is the correct dimensions. All the values should be 0</p>
+      </statement>
+      <program interactive="activecode" codelens="no">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <vector>
+using namespace std;
+
+]]>
+<xi:include href="../../programs/multidimensional-vectors/exercise-print-ints.cpp" parse="text"/>
+        </preamble>
+        <code><![CDATA[
+
+vector<vector<int>> create(int rows, int cols) {
+    // write your code here
+}
+]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("create") {
+  vector<vector<int>> vec1 = create(2, 2);
+  vector<vector<int>> goal1 = {{0, 0}, {0, 0}};
+  CHECK(vec1 == goal1);
+
+  vector<vector<int>> vec2 = create(3, 4);
+  vector<vector<int>> goal2 = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+  CHECK(vec2 == goal2);
+}]]>
+        </tests>
+    </program>
+    <hint><p>This should only take 1 or 2 lines of code and should not require any loops. Refer back to the first page in the chapter for an example.</p></hint>
+  </exercise>
+
+  <exercise label="wefwdd3fdss33e">
+    <statement>
+      <p>Complete the function `maxValue` that returns the largest value from a 2D vector of integers.</p>
+      <p>The logic should be the same as finding the maximum value in a 1D vector, you just multiple loops.</p>
+    </statement>
+      <program interactive="activecode" codelens="no">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <vector>
+using namespace std;
+
+]]>
+<xi:include href="../../programs/multidimensional-vectors/exercise-print-ints.cpp" parse="text"/>
+        </preamble>
+        <code><![CDATA[
+int maxValue(const vector<vector<int>>& data) {
+    //write your code here
+}]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("maxValue") {
+    vector<vector<int>> test1 = {{1,7,3},
+                                 {4,5,6}};
+    CHECK(maxValue(test1) == 7);
+
+    vector<vector<int>> test2 = {{-4,0},
+                                 {3,-1}};
+    CHECK(maxValue(test2) == 3);
+}]]>
+        </tests>
+    </program>
+  </exercise>
+
+  <exercise label="wefwddfey56dss33e">
+    <statement>
+      <p>Complete the function `diagonalAdder` that adds up the numbers on the diagonal (from upper left to lower right) of a 2D vector. You can assume the vector is <q>square</q> - it has the same number of rows as columns. For example, in this matrix:</p>
+      <pre>
+1 2 3
+4 5 6
+7 8 9
+      </pre>
+      <p>The diagonal is 1, 5, 9. Adding those up should result in 15.</p>
+    </statement>
+      <program interactive="activecode" codelens="no">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <vector>
+using namespace std;
+
+]]>
+<xi:include href="../../programs/multidimensional-vectors/exercise-print-ints.cpp" parse="text"/>
+        </preamble>
+        <code><![CDATA[
+int diagonalAdder(const vector<vector<int>>& data) {
+    //write your code here
+}]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("diagonalAdder") {
+    vector<vector<int>> test1 = {{1,7,3},
+                                 {4,5,6},
+                                 {7,8,9}};
+    CHECK(diagonalAdder(test1) == 15);
+
+    vector<vector<int>> test2 = {{-4,0},
+                                 {3,2}};
+    CHECK(diagonalAdder(test2) == -2);
+}]]>
+        </tests>
+    </program>
+    <hint><p>What is true of the row and column number for all elements on the diagonal?</p></hint>
+    <hint><p>You should only need one loop to do this.</p></hint>
+  </exercise>
+
+  <exercise label="wefwddfey456dss33e">
+    <statement>
+      <p>Complete the function `revDiagonalAdder` that adds up and returns the numbers on the reverse diagonal (from upper right lower left) of a 2D vector of integers. You can assume the vector is <q>square</q> - it has the same number of rows as columns. For example, in this matrix:</p>
+      <pre>
+1 2 3
+4 5 6
+0 8 9
+      </pre>
+      <p>The reverse diagonal is 3, 5, 0. Adding those up should result in 8.</p>
+    </statement>
+      <program interactive="activecode" codelens="no">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <vector>
+using namespace std;
+
+]]>
+<xi:include href="../../programs/multidimensional-vectors/exercise-print-ints.cpp" parse="text"/>
+        </preamble>
+        <code><![CDATA[
+
+// declare and write the function here
+
+]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("revDiagonalAdder") {
+    vector<vector<int>> test1 = {{1,7,3},
+                                 {4,5,6},
+                                 {0,8,9}};
+    CHECK(revDiagonalAdder(test1) == 8);
+
+    vector<vector<int>> test2 = {{-4,0},
+                                 {3,2}};
+    CHECK(revDiagonalAdder(test2) == 3);
+}]]>
+        </tests>
+    </program>
+    <hint><p>There is a relationship between the row and column number. As the row number increases, the column number decreases. Row 0 uses the last column. Row 1 uses the column before that. Row 2 uses the column before that. The last row uses column 0.</p></hint>
+  </exercise>
+
+  
+
+  <exercise label="wefwddsdfsdfey456dss33e">
+    <statement>
+      <p>Complete the function `secondRowProduct` that computes the product of all of the items in the second row of a 2D vector of integers. Given this data:</p>
+      <pre>
+1 2 3
+4 5 6
+0 8 9
+      </pre>
+      <p>You would return 120 (4 * 5 * 6).</p>
+      <p>Tip: When multiplying, you will want to start your accumulator variable with 1 not 0.</p>
+    </statement>
+      <program interactive="activecode" codelens="no">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <vector>
+using namespace std;
+
+]]>
+<xi:include href="../../programs/multidimensional-vectors/exercise-print-ints.cpp" parse="text"/>
+        </preamble>
+        <code><![CDATA[
+
+// declare and write the function here
+
+]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("secondRowProduct") {
+    vector<vector<int>> test1 = {{1,7,3},
+                                 {4,5,6},
+                                 {0,8,9}};
+    CHECK(secondRowProduct(test1) == 120);
+
+    vector<vector<int>> test2 = {{-4,0},
+                                 {3,2}};
+    CHECK(secondRowProduct(test2) == 6);
+}]]>
+        </tests>
+    </program>
+  </exercise>
+
+
+
+  <exercise label="wefwddfey456dss33e">
+    <statement>
+      <p>Complete the function `mirror`. Given a 2D vector of integers:</p>
+      <pre>
+1 2 3
+4 5 6
+      </pre>
+      <p>It should produce a new vector where the data is mirrored horizontally:</p>
+      <pre>
+3 2 1
+6 5 4
+      </pre>
+      <p>You may assume that the data is always 2 rows and 3 columns.</p>
+    </statement>
+      <program interactive="activecode" codelens="no">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <vector>
+using namespace std;
+
+]]>
+<xi:include href="../../programs/multidimensional-vectors/exercise-print-ints.cpp" parse="text"/>
+        </preamble>
+        <code><![CDATA[
+
+vector<vector<int>> mirror(const vector<vector<int>>& data) {
+    // copy the data so result has the same size
+    vector<vector<int>> result = data;
+    // add code to modify the result
+}
+
+]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("revDiagonalAdder") {
+    vector<vector<int>> mirror = {{1,7,3},
+                                 {4,5,6}};
+    vector<vector<int>> result = {{3,7,1},
+                                   {6,5,4}};
+    CHECK(mirror(result) == result);
+
+    vector<vector<int>> test2 = {{-4,0},
+                                 {3,2}};
+    vector<vector<int>> result2 = {{0,-4},
+                                    {2,3}};
+    CHECK(mirror(result2) == result2);
+}]]>
+        </tests>
+    </program>
+  </exercise>
+
+</exercises>
