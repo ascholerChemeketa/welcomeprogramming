@@ -1,0 +1,134 @@
+<section xml:id="input-output_file-output"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Files and Streams</title>
+
+  <subsection><title>Files</title>
+  <p>Programs need ways to store information in a way that is accessible to other programs and that will persist after the program ends. The most common way to do this is to write information to a file.</p>
+
+    <p>Files come in two main flavors, binary and text based. In reality, all files are binary - they are all just a sequence of 1s and 0s. But in text based files, all of the content is ASCII  encoded (or Unicode or some similar encoding) text. Text files are designed to be easy for humans to open and read. All of our source code files in C++ are written as text files. They also are often used for things like configuration files, log files, etc...
+    <idx>
+      <h>file</h>
+      <h>text</h>
+    </idx></p>
+
+    <p>In a binary file, there may be some text that is encoded as characters, but most of the content is 1s and 0s that have other meanings - numbers, colors, etc... Binary files are typically more compact and quicker for computers to read and write. But they are much more difficult for humans to work with - you need a special program to edit the raw data and knowledge of how the data has been structured. Binary files are typically used for things like images, movies, complex documents that include formatting (like MS Word documents), and storage of large amounts of data.    <idx>
+      <h>file</h>
+      <h>binary</h>
+    </idx></p>
+
+    <p>In this book we will focus on text files. They are much easier to work with and are perfectly good for learning the basics of reading and writing data. There are some general tricks for working with binary data, but most of the challenges when working with binary files relate to understanding how a particular file is structured rather than how to read/write the data.</p>
+
+   <p>We will refer to the files in this book that your programs can work with as <term>datafiles</term>. Here is a datafile named `Numbers.txt`:</p>
+
+  <datafile label="input-output_numbers.txt" filename="Numbers.txt" rows="2" cols="20"><pre>10 20 30
+40 50 60</pre>
+  </datafile>
+
+  <p>In a program we can refer to `"Numbers.txt"` to specify that file.</p>
+
+  <warning>
+  <p>You will only be able to use datafiles in programs that are set up to include them. Make sure to check the instructions for any exercises as to what datafiles are available for use in that program.</p></warning>
+
+  <note>
+  <title>The working directory</title>
+    <p>The <term>working directory</term> refers to the directory on your computer's filesystem where a program is doing its work. Often times for the program we write, the working directory is simply the same directory as the program is located (something like `C:\Programs\HelloWorld` or `\home\astudent\HelloWorld`). But it is possible to be currently working in one directory and launch a program that is somewhere else.</p>
+
+    <p>In this book, datafiles that you are to read will automatically be placed in the working directory. If you are running a program on your own computer, you will have to make sure that you know where your working directory is and you place any files you want to work with in it.</p>
+  </note>
+
+  <exercise label="sd34r3fdsf3sd">
+    <statement>
+      <p>A file that is meant to be read by humans (or by programs) is called a 
+        <fillin mode="string" answer="text"/> file. A file that is not human readable without special tools is known as a <fillin mode="string" answer="binary"/> file.</p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>datafile</strcmp>
+          <feedback>That is what the files programs can use in this book are referred to as.</feedback>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>datafile</strcmp>
+          <feedback>That is what the files programs can use in this book are referred to as.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</subsection>
+<subsection>
+<title>Streams</title>
+    <p>The tools we will use to work with files in C++ are called `ofstream` and `ifstream`. The <term>stream</term> part of the name refers to a general idea - a <q>stream</q> of data that is produced by one thing and consumed by another.</p>
+
+    <p>We have already encountered some streams. `cin` and `cout` are streams that send data between the console and a program. `cin` is an input stream, it bring information from the console to the program. `cout` on the other hand is an output stream that sends data from the program to the console. Each time we use `>>` or `&lt;&lt;` we are either removing some data from a stream or inserting some data into it.</p>
+
+    <p>As you will see, working with files is not that different than working with the console. That is the power of an abstraction. By thinking of both working with files and the console as examples of <q>sending information to/from the program</q>, we can develop and use one set of techniques that lets us solve both problems.</p>
+  <exercise label="question15_2_2">
+    <statement>
+      <p>What is a stream object?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>an abstract object that works exclusively with cin and cout statements</p>
+        </statement>
+        <feedback>
+          Incorrect! Stream objects do work with cin and cout, but that is not all that they do!
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>an abstract object on which input and ouput operations are performed</p>
+        </statement>
+        <feedback>
+          Correct!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>an abstract object that works only with file data</p>
+        </statement>
+        <feedback>
+          Incorrect! Stream objects do work with file data, but they do other things too.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>an abstract object that controls the flow of statements</p>
+        </statement>
+        <feedback>
+          Incorrect! This is not at all what stream objects do, you should try re-reading to get
+          a better understanding!
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+  <exercise label="question15_1_3">
+    <statement>
+      <p>Match the stream to its type.</p>
+    </statement>
+    <feedback>
+      Try again!
+    </feedback>
+    <matches>
+      <match order="1">
+        <premise>cin</premise>
+        <response>ifstream</response>
+      </match>
+      <match order="2">
+        <premise>cout</premise>
+        <response>ofstream</response>
+      </match>
+    </matches>
+  </exercise>
+</subsection>
+
+</section>

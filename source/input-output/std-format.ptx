@@ -1,0 +1,68 @@
+<section xml:id="input-output_std-format"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>std::format</title>
+  <p>
+    <idx>
+      <h>std::format</h>
+    </idx> We have seen some very basic tricks for formatting text - how to use tab and newline characters. But those tools are clumsy for making columns of text and do not help us do anything more complex. `std::format` is a function from the `&lt;format>` library that helps to do things like:
+    <ul>
+      <li>Print out text in well aligned columns.</li>
+      <li>Easily combine other data types with strings.</li>
+      <li>Print out decimal values to different precision.</li>
+    </ul>
+    </p>
+
+  <p>As with `std::cout` or `std::endl`, you can either use the full formal name of `std::format` or you can add `using namespace std;` to your file and then use the shorter `format`. Format is interesting in that it takes a variable number of arguments:</p>
+
+  <program>
+    format(FORMAT_STRING, ARG1, ARG2, ...);
+  </program>
+
+  <p>`FORMAT_STRING` is a string that contains the format you want to use and must always be provided. Think of it as a <q>Mad Lib</q> style template with blanks that need be filled in. The blanks are represented by `{}` within the string. The other arguments are the values you want to place in those blanks. There needs to be as many extra arguments as there are blanks in the `FORMAT_STRING`. Here is a simple example that uses formats two extra arguments.</p>
+
+  <program label="input-output_std-format-1" autorun="yes" interactive="activecode">
+<xi:include href="../../programs/input-output/std-format-1.cpp" parse="text"/>
+</program>
+
+  <p>Notice the two `{}` in the first parameter. Those are the locations where the next two parameters, `name` and `age` are placed. Also notice that we do not have to use `to_string` on age, format automatically turns the `int` into a `string`.</p>
+
+
+  <p>If we want to insert another variable's value into the string being generated, we need to add another `{}` placeholder to the format string and then pass an additional parameter:</p>
+  
+  <program label="input-output_std-format-1" autorun="yes" interactive="activecode">
+<xi:include href="../../programs/input-output/std-format-2.cpp" parse="text"/>
+</program>
+
+  <note>
+    <p>`std::format` is new as of the C++20 standard. You will need to tell your compiler that you want to use C++20 features to make use of it.</p>
+    <p>There are other tools that can be used to format text. For example, `printf` is a function that has been around for a long time and is available in C and C++. You can also send special messages to `cout` to tell it things like <q>display numbers with 4 digits of accuracy</q>. These other tools are still widely used, especially in code that has been around for a while. In this book, we will focus on `std::format` because it has the best combination of safety and simplicity for modern C++ programming.</p>
+  </note>
+
+  <exercise label="sdfsdfsdfdsf3sd">
+    <statement>
+      <p>What should replace the `???` so the code prints `ten is 10`?</p>
+      <p>
+        <fillin mode="string" answer="{} is {}"/>
+      </p>
+      <program><![CDATA[int n = 10;
+string s = "ten";
+cout << format("???"), s, n);]]></program>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>.*}is{.*</strcmp>
+          <feedback>We want spaces around is!</feedback>
+        </test>
+        <test>
+          <strcmp>^[^{]*$</strcmp>
+          <feedback>How do you put a placeholder in the string?</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>

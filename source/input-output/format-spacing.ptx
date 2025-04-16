@@ -1,0 +1,112 @@
+<section xml:id="input-output_format-spacing"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Format Spacing</title>
+
+  <p>The `[fill]`, `[align]` and `[width]` values allow us to control the spacing of elements. This is especially useful for making well aligned columns of data when the values on different lines have different widths.</p>
+  
+<program>{:[[fill]align][sign]["#"][0][width][precision][type]}</program>
+
+  <p>`[width]` is the starting point for doing this kind of formatting. It specifies a minimum size for the item. If the item being formatted is shorter than that, spaces are added. (Nothing is done to items that are larger than that value). Here are some examples with `_` printed before and after each item to show where spaces were added.</p>
+
+  <program label="input-output_format-spacing-1" interactive="activecode">
+<xi:include href="../../programs/input-output/format-spacing-1.cpp" parse="text"/>
+</program>
+
+  <p>Note that spaces were used when we needed padding to fill in space. Those spaces were added before the item (the item is right justified). To change from this default, we can use the `[fill]` and `[align]` values. The `[align]` option can be specified as `&lt;` to left justify the item, `^` to center the item, or `>` to right justify it. If desired, a single character can be provided as the `fill` to use instead of spaces. (You have to specify the alignment if you want to use fill):</p>
+
+  <program label="input-output_format-spacing-2" interactive="activecode">
+<xi:include href="../../programs/input-output/format-spacing-2.cpp" parse="text"/>
+</program>
+
+  <p>Again, width comes in handiest when trying to line up columns of text. To do this, it helps to come up with a plan for what your columns will look like and how you want to justify them. Say I want to print:</p>
+
+  <pre>   4:55 | someperson       |       $20.20
+  12:02 | aguy             |     $1233.20
+   8:14 | thatgirl         |        $1.12</pre>
+
+  <p>My columns look like:
+  <ul>
+    <li>hour 2 digits, right justified</li>
+    <li>minutes 2 digits, right justified, fill with 0s (so 2 becomes 02)</li>
+    <li>A bar with spaces on either side</li>
+    <li>name left justified, with 16 characters of space</li>
+    <li>A bar with spaces</li>
+    <li>money, right justified, 12 spaces with 2 digits after the decimal point</li>
+  </ul>
+  </p>
+  <p>To do this, I might try using the following format string:</p>
+  <pre>{:>2}:{:0>2} | {:&lt;16} | ${:>12.2f}</pre>
+  <p>Notice the ` | ` characters where I want bars with spaces around them and the $ before the money placeholder. Here it is in action:</p>
+
+  <program label="input-output_format-spacing-3" interactive="activecode">
+<xi:include href="../../programs/input-output/format-spacing-3.cpp" parse="text"/>
+</program>
+
+  <p>Do you notice a problem? The dollar sign is not part of the number being formatted, so the extra spaces added to the money come between the $ and the digits. To fix this, I could format the money into a string first, then use that string to make the final output. While I am at it, I might make a function that does this work so it is easy to generate a line of output:</p>
+
+  <program label="input-output_format-spacing-4" interactive="activecode">
+<xi:include href="../../programs/input-output/format-spacing-4.cpp" parse="text"/>
+</program>
+
+  <exercise label="fasdsdffn-1">
+    <statement>
+      <p>Match each format code with its description.</p>
+    </statement>
+    <feedback>
+      <p>Try again!</p>
+    </feedback>
+    <matches>
+      <match>
+        <premise>{:^10}</premise>
+        <response>Center within 10 characters of space</response>
+      </match>
+      <match>
+        <premise>{:0^10}</premise>
+        <response>Center within 10 characters of space, use `0` as the fill</response>
+      </match>
+      <match>
+        <premise>{:>10}</premise>
+        <response>Right align within 10 characters of space</response>
+      </match>
+      <match>
+        <premise>{:>10.0f}</premise>
+        <response>Right align within 10 characters of space, print as a fixed decimal with 0 decimal places</response>
+      </match>
+    </matches>
+  </exercise>
+
+
+  <exercise label="sdfsdfsdfdsf3sd">
+    <statement>
+      <p>What should replace the `???` so the code prints `hello===`? </p>
+      <p>
+        <fillin mode="string" answer="{:=&lt;8}"/>
+      </p>
+      <program><![CDATA[cout << format("???"), "hello");]]></program>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>^[^&lt;]*$</strcmp>
+          <feedback>You are not left justifying</feedback>
+        </test>
+        <test>
+          <strcmp>3</strcmp>
+          <feedback>We have 8 total spaces we are trying to fill</feedback>
+        </test>
+        <test>
+          <strcmp>^[^=]*$</strcmp>
+          <feedback>You need to set the fill char to `=`</feedback>
+        </test>
+        <test>
+        <feedback>Your format should look like {:[[fill]align][width]}</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>

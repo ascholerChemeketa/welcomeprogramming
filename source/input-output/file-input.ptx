@@ -1,0 +1,182 @@
+<section xml:id="input-output_file-input"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>File Input</title>
+
+    <p>In C++ we include the `&lt;fstream>` library to work with files. It provides two key types of object: `ifstream` (input file stream) and `ofstream` (output file stream). These objects are used to read from and write to files respectively.</p>
+
+
+  <p>
+    <idx>
+      <h>file input</h>
+    </idx>To read from a file, we need to create a `std::ifstream` object. (If you are `using namespace std;` you can shorten that to `ifstream`). Like making a string or any other variable, we need to give the stream a name:</p>
+
+    <program>
+ifstream inFile;
+    </program>
+
+    <p>Once we have a stream object, we need to open a file. This is done with the `open` method of the stream object. The `open` method takes a string as a parameter that is the name of the file we want to open. Once the file is open, we can read from it using the `>>` operator just like we were reading from the console.</p>
+
+    <p>This program opens the datafile `Numbers.txt` shown on the previous page and reads the first two numbers from it:</p>
+
+  <program datafile="Numbers.txt" label="input-output_file-input-1"  interactive="activecode">
+<xi:include href="../../programs/input-output/file-input-1.cpp" parse="text"/>
+</program>
+
+    <exercise label="w4fesaf434f">
+      <statement><p>What happens if you try changing the filename to something else like `"oops.txt"`?</p></statement>
+
+      <choices randomize="yes">
+        <choice>
+          <statement>
+            <p>An error message is printed and you are asked for a new file name</p>
+          </statement>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p>All of the numbers show up as 0</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>There is an exception</p>
+          </statement>
+        </choice>
+      </choices>
+    </exercise>
+
+
+    <p>The streams provided by `&lt;fstream>` are a bit frustrating in that they do not automatically report errors.
+    If you want to know if the stream is OK, you have to use one of these checks:</p>
+
+  <program>
+// Check if the stream is OK
+if (inFile.good()) {
+  // stream is OK
+}
+// Or short version:
+if (inFile) {
+  // stream is OK
+}
+
+// Check for errors
+if (inFile.error()) {
+  // stream is NOT OK
+}
+// Or short version:
+if (!inFile) {
+  // stream is NOT OK
+}
+  </program>
+
+  <p>Here is a version of the program that checks to make sure the file was opened successfully. It also uses a shortened form of creating the `ifstream` and opening a file with it.</p>
+
+  <program datafile="Numbers.txt" label="input-output_file-input-2"  interactive="activecode">
+<xi:include href="../../programs/input-output/file-input-2.cpp" parse="text"/>
+</program>
+
+  <p>Try changing the filename this program is opening to see that it catches the issue. By returning from main, we end the program early when there was a failure opening the file. (Returning a non-zero value is the convention for <q>there was an error in the program</q>). We could instead throw an exception, try opening a different file, etc...</p>
+
+  <exercise label="question15_3_1">
+    <statement>
+      <p>Consider this code snippet:
+
+        <program>ifstream myFile;
+myFile.open("file-name");
+        </program>
+
+        Finish each sentence.</p>
+    </statement>
+    <feedback>
+      Try again!
+    </feedback>
+    <matches>
+      <match order="1">
+        <premise>The data type is</premise>
+        <response>ifstream.</response>
+      </match>
+      <match order="2">
+        <premise>The name of the file you want to open is</premise>
+        <response>"file-name".</response>
+      </match>
+      <match order="3">
+        <premise>The result of this code snippet is an object named</premise>
+        <response>myFile.</response>
+      </match>
+      <match order="4">
+        <premise>The result of this code snippet supports the same operators as</premise>
+        <response>cin.</response>
+      </match>
+    </matches>
+  </exercise>
+
+  <exercise label="question15_3_2a">
+    <statement>
+      <p>The <c>ifstream</c> member function called <fillin mode="string"
+                case="insensitive"
+                answer="^(\\.)?error(\\(\\))?"/>
+        checks to see if there has been an error while using the stream.</p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <exercise label="mce_15_2">
+    <statement>
+      <p>The code below reads data from a file called <c>input.txt</c>. What is wrong with the following code?</p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main() {
+  string filename = "input.txt";
+  ifstream infile;
+  infile.open(filename);
+  string input;
+  filename >> input;
+}
+]]></code>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement id="mce_15_2_opt_a">
+          <p>We should use <c>ofstream</c> instead of <c>ifstream</c>.</p>
+        </statement>
+        <feedback>
+          Since we are dealing with an input file, we should use <c>ifstream</c>.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="mce_15_2_opt_b">
+          <p>The values used with <c>>></c> are incorrect.</p>
+        </statement>
+        <feedback>
+          We are supposed to read input through the <c>ifstream</c> object, not the filename. This line should be <c>infile >> input;</c>.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="mce_15_2_opt_c">
+          <p>We cannot use a variable to store the filename.</p>
+        </statement>
+        <feedback>
+          Since the name of the file is just a string, we can store it in a variable.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="mce_15_2_opt_d">
+          <p>There are no errors with this code.</p>
+        </statement>
+        <feedback>
+          Take another look at the code. Are we reading the input correctly into <c>input</c>?
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+</section>

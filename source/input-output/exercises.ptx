@@ -1,123 +1,371 @@
-<section xml:id="input-output_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Exercises</title>
-<p>
-The code for this chapter is in the <term>ch03</term> directory of <term>ThinkJavaCode2</term>.
-See <xref ref="code">page</xref> for instructions on how to download the repository.
-Before you start the exercises, we recommend that you compile and run the examples.
-</p>
+<exercises xml:id="input-output_exercises"
+           xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Exercises</title>
+  <introduction>
+    <p>The exercises in this chapter make use of the following datafiles.</p>
+    <datafile label="datafile-poem.txt"
+              xml:id="datafile-poem.txt"
+              filename="poem.txt">
+      <pre>Two roads diverged in a yellow wood,
+And sorry I could not travel both
+And be one traveler, long I stood
+And looked down one as far as I could
+To where it bent in the undergrowth;
+Then took the other, as just as fair,
+And having perhaps the better claim
+Because it was grassy and wanted wear,
+Though as for that the passing there
+Had worn them really about the same,
+And both that morning equally lay
+In leaves no step had trodden black.
+Oh, I kept the first for another day!
+Yet knowing how way leads on to way
+I doubted if I should ever come back.
+I shall be telling this with a sigh
+Somewhere ages and ages hence:
+Two roads diverged in a wood, and I,
+I took the one less traveled by,
+And that has made all the difference.</pre>
+    </datafile>
 
-<p>
-If you have not already read <xref ref="commandline">Appendix</xref>, now might be a good time.
-It describes the command-line interface, which is a powerful and efficient way to interact with your computer.
-</p>
-<exercise>
-<statement>
-<p>
-When you use <c>printf</c>, the Java compiler does not check your format string.
-See what happens if you try to display a value with type <c>int</c> using <c>%f</c>.
-And what happens if you display a <c>double</c> using <c>%d</c>?
-What if you use two format specifiers, but then provide only one value?
-</p>
-</statement>
-</exercise>
+    <datafile label="datafile-class.txt"
+              xml:id="datafile-class.txt"
+              filename="class.txt">
+      <pre>Alex     Jones      9        3.4    14
+Beth     Hamilton   12       3.7    18
+Charles  White      11       3.5    16
+Daniel   Kim        10       3.8    16
+Ethan    Brooks     11       3.9    17
+Faith    Flemmings  10       3.0    15
+Gigi     Guerro     9        3.2    14</pre>
+    </datafile>
+  </introduction>
 
-<exercise>
-<statement>
-<p>
-Write a program that converts a temperature from Celsius to Fahrenheit.
-It should (1) prompt the user for input, (2) read a <c>double</c> value from the keyboard, (3) calculate the result, and (4) format the output to one decimal place.
-When it's finished, it should work like this:
-</p>
+  <exercise label="cp_1sdfsd5_1">
+    <statement>
+      <p>Write a program that reads the first `skipWords` number of words from <xref ref="datafile-poem.txt"
+              text="custom">
+        poem.txt</xref> without printing them and prints the next word to `cout`.</p>
+    </statement>
+    <program datafile="poem.txt"
+             interactive="activecode">
+        <preamble><![CDATA[#include <iostream>
+#include <fstream>
+#include <string>
+#include <format>
+using namespace std;
 
-<console>
-<output>
-Enter a temperature in Celsius: 24
-24.0 C = 75.2 F
-</output>
-</console>
+int main() {
+    int skipWords = 0;
+    cin >> skipWords;
+]]>
+        </preamble>
+        <code>
+    // Write your code here.
+</code>
+<postamble><![CDATA[
+}
+]]></postamble>
+    <tests>
+      <iotest>
+        <input>0</input>
+        <output>Two</output>
+      </iotest>
+      <iotest>
+        <input>7</input>
+        <output>And</output>
+      </iotest>
+      <iotest>
+        <input>17</input>
+        <output>traveler</output>
+      </iotest>
+    </tests>
+    </program>
+    <hint>
+      <p>You might want to start by reading and printing the first word just to make sure your input is working.</p>
+    </hint>
+    <hint>
+      <p>While debugging, print out something like `WORD skip` for each skipped word. Once you are confident you are skipping the words, you can remove that print statement.</p>
+    </hint>
+  </exercise>
 
-<p>
-Here is the formula to do the conversion:
-<me>
-  F = C \times \frac{9}{5} + 32
-</me>
-</p>
+  <exercise label="cp_1sdfsd5_sdf1">
+    <statement>
+      <p>Write a program that reads the first `skipLines` number of lines from <xref ref="datafile-poem.txt"
+              text="custom">
+        poem.txt</xref> without printing them and prints the next line to `cout`.</p>
+    </statement>
+    <program datafile="poem.txt"
+             interactive="activecode">
+        <preamble><![CDATA[#include <iostream>
+#include <fstream>
+#include <string>
+#include <format>
+using namespace std;
 
-<p>
-<term>Hint:</term> Be careful not to use integer division!
-</p>
-</statement>
-</exercise>
+int main() {
+    int skipLines = 0;
+    cin >> skipLines;
+]]>
+        </preamble>
+        <code>
+    // Write your code here.
+</code>
+<postamble><![CDATA[
+}
+]]></postamble>
+    <tests>
+      <iotest>
+        <input>0</input>
+        <output>Two roads diverged in a yellow wood,</output>
+      </iotest>
+      <iotest>
+        <input>2</input>
+        <output>And be one traveler, long I stood</output>
+      </iotest>
+      <iotest>
+        <input>19</input>
+        <output>And that has made all the difference.</output>
+      </iotest>
+    </tests>
+    </program>
+    <hint>
+      <p>`getline` is the easy way to read a whole line.</p>
+    </hint>
+  </exercise>
 
-<exercise>
-<statement>
-<p>
-Write a program that converts a total number of seconds to hours, minutes, and seconds.
-It should (1) prompt the user for input, (2) read an integer from the keyboard, (3) calculate the result, and (4) use <c>printf</c> to display the output.
-For example, <c>"5000 seconds = 1 hours, 23 minutes, and 20 seconds"</c>.
-</p>
+  <exercise label="cp_1sd3ddfsd5_sdf1">
+    <statement>
+      <p>The file <xref ref="datafile-class.txt"
+              text="custom">class.txt</xref> has lines that look
+        like this:</p>
+      <pre>First      Last     Grade        GPA    Age</pre>
+      <p>Hidden code will open the file and read past some number of the lines (determined by the input). You should add code
+        to continue reading from `inFile` and print the first name from the next line in the
+        file. (It is safe to use `>>` for your input even though the hidden code uses `getline`).</p>
+    </statement>
+    <program datafile="class.txt"
+             interactive="activecode">
+        <preamble visible="no"><![CDATA[#include <iostream>
+#include <fstream>
+#include <string>
+#include <format>
+using namespace std;
 
-<p>
-<term>Hint:</term> Use the remainder operator.
-</p>
-</statement>
-</exercise>
+int main() {
+    int skipLines = 0;
+    cin >> skipLines;
+    ifstream inFile;
+    inFile.open("class.txt");
+    for (int i = 0; i < skipLines; i++) {
+        string line;
+        getline(inFile, line);
+    }
+]]>
+        </preamble>
+        <code>
+// Hidden code is above... main() is already started and inFile is open
 
-<exercise xml:id="guess">
-<statement>
-<p>
-The goal of this exercise is to program a <term>Guess My Number</term> game.
-When it's finished, it should work like this:
-</p>
+    // Write your code to read from inFile here
+</code>
+<postamble>
+}
+</postamble>
+    <tests>
+      <iotest>
+        <input>0</input>
+        <output>Alex</output>
+      </iotest>
+      <iotest>
+        <input>1</input>
+        <output>Beth</output>
+      </iotest>
+      <iotest>
+        <input>3</input>
+        <output>Daniel</output>
+      </iotest>
+    </tests>
+    </program>
+    <hint>
+      <p>This is much easier using `>>` instead of `getline`</p>
+    </hint>
+    <hint>
+      <p>Remember you have to read all of the tokens in order. If you don't want a piece of data, read it and then do nothing with it.</p>
+    </hint>
+  </exercise>
 
-<console>
-<output>
-I'm thinking of a number between 1 and 100
-(including both). Can you guess what it is?
-Type a number: 45
-Your guess is: 45
-The number I was thinking of is: 14
-You were off by: 31
-</output>
-</console>
+  <exercise label="cp_1sdssddfsd5_sdf1">
+    <statement>
+      <p>The file <xref ref="datafile-class.txt"
+              text="custom">class.txt</xref> has lines that look
+        like this:</p>
+      <pre>First      Last     Grade        GPA    Age</pre>
+      <p>Hidden code will open the file and read past some number of the lines (determined by the input). You should add code
+        to continue reading from `inFile` and print the first name and age (with a space between) of the next line in the
+        file. (It is safe to use `>>` for your input even though the hidden code uses `getline`).</p>
+    </statement>
+    <program datafile="class.txt"
+             interactive="activecode">
+        <preamble visible="no"><![CDATA[#include <iostream>
+#include <fstream>
+#include <string>
+#include <format>
+using namespace std;
 
-<p>
-To choose a random number, you can use the <c>Random</c> class in <c>java.util</c>.
-Here's how it works:
-</p>
+int main() {
+    int skipLines = 0;
+    cin >> skipLines;
+    ifstream inFile;
+    inFile.open("class.txt");
+    for (int i = 0; i < skipLines; i++) {
+        string line;
+        getline(inFile, line);
+    }
+]]>
+        </preamble>
+        <code>
+// Hidden code is above... main() is already started and inFile is open
 
-<p>
-    <idx><h>GuessStarter.java</h></idx>
-</p>
+    // Write your code to read from inFile here
+</code>
+<postamble>
+}
+</postamble>
+    <tests>
+      <iotest>
+        <input>0</input>
+        <output>Alex 14</output>
+      </iotest>
+      <iotest>
+        <input>1</input>
+        <output>Beth 18</output>
+      </iotest>
+      <iotest>
+        <input>3</input>
+        <output>Daniel 16</output>
+      </iotest>
+    </tests>
+    </program>
+    <hint>
+      <p>This is much easier using `>>` instead of `getline`</p>
+    </hint>
+    <hint>
+      <p>Remember you have to read all of the tokens in order. If you don't want a piece of data, read it and then do nothing with it.</p>
+    </hint>
+  </exercise>
+  
+  <exercise label="cp_1s56d5d_sdf1">
+    <statement>
+      <p>The file <xref ref="datafile-class.txt"
+              text="custom">class.txt</xref> has lines that look
+        like this:</p>
+      <pre>First      Last     Grade        GPA    Age</pre>
+      <p>Hidden code will open the file and read past some number of the lines (determined by the input). You should add code
+        to continue reading from `inFile` and print out the next three first names with a space after each. (It is safe to use `>>` for your input even though the hidden code uses `getline`).</p>
+    </statement>
+    <program datafile="class.txt"
+             interactive="activecode">
+        <preamble visible="no"><![CDATA[#include <iostream>
+#include <fstream>
+#include <string>
+#include <format>
+using namespace std;
 
-<listing filename="GuessStarter.java">
-<program xml:id="input-output_exercises-1" interactive="activecode">
-<xi:include href="../../programs/input-output/exercises-1.cpp" parse="text"/>
-</program>
-</listing>
+int main() {
+    int skipLines = 0;
+    cin >> skipLines;
+    ifstream inFile;
+    inFile.open("class.txt");
+    for (int i = 0; i < skipLines; i++) {
+        string line;
+        getline(inFile, line);
+    }
+]]>
+        </preamble>
+        <code>
+// Hidden code is above... main() is already started and inFile is open
 
-<p>
-    <idx><h>new</h></idx>
-    <idx><h>operator</h><h>new</h></idx>
-Like the <c>Scanner</c> class in this chapter, <c>Random</c> has to be imported before we can use it.
-And as with <c>Scanner</c>, we have to use the <c>new</c> operator to create a <c>Random</c> (number generator).
-</p>
+    // Write your code to read from inFile here
+</code>
+<postamble>
+}
+</postamble>
+    <tests>
+      <iotest>
+        <input>0</input>
+        <output>Alex Beth Charles</output>
+      </iotest>
+      <iotest>
+        <input>1</input>
+        <output>Beth Charles Daniel</output>
+      </iotest>
+      <iotest>
+        <input>4</input>
+        <output>Ethan Faith Gigi</output>
+      </iotest>
+    </tests>
+    </program>
+    <hint>
+      <p>If you use `>>`, remember that you have to read all of the tokens in order. If you don't want a piece of data, read it and then do nothing with it.</p>
+    </hint>
+    <hint>
+      <p>This is a spot where it might make sense to mix `>>` and `getline`. On each line, consume the first name by reading it into a variable, then use getline to read the rest of the line (and ignore it).</p>
+    </hint>
+  </exercise>
 
-<p>
-Then we can use the function <c>nextInt</c> to generate a random number.
-In this example, the result of <c>nextInt(100)</c> will be between 0 and 99, including both.
-Adding 1 yields a number between 1 and 100, including both.
-<ol>
-<li><p>The definition of <c>GuessStarter</c> is in a file called <term>GuessStarter.java</term>, in the directory called <term>ch03</term>, in the repository for this book.</p></li>
-<li><p>Compile and run this program.</p></li>
-<li><p>Modify the program to prompt the user; then use a <c>Scanner</c> to read a line of user input.
-Compile and test the program.</p></li>
-<li><p>Read the user input as an integer and display the result.
-Again, compile and test.</p></li>
-<li><p>Compute and display the difference between the user's guess and the number that was generated.</p></li>
-</ol>
+  <exercise label="cp_1sd3fsd5d_sdf1">
+    <statement>
+      <p>The file <xref ref="datafile-class.txt"
+              text="custom">class.txt</xref> has lines that look
+        like this:</p>
+      <pre>First      Last     Grade        GPA    Age</pre>
+      <p>Hidden code will open the file and read past some number of the lines. You should add code
+        to continue reading from `inFile` and print out the average of the GPA values for all the rest of the lines. (It is safe to use `>>` for your input even though the hidden code uses `getline`).</p>
+      <p>Note that there is a newline after the last piece of data (the line that starts with `Gigi` and ends with `14`). You will likely need to check `infile` for an error after attempting to read in the data for each line before you count the line or do anything with it.</p>
+    </statement>
+    <program datafile="class.txt"
+             interactive="activecode">
+        <preamble visible="no"><![CDATA[#include <iostream>
+#include <fstream>
+#include <string>
+#include <format>
+using namespace std;
 
-</p>
-</statement>
-</exercise>
-</section>
+int main() {
+    int skipLines = 0;
+    cin >> skipLines;
+    ifstream inFile;
+    inFile.open("class.txt");
+    for (int i = 0; i < skipLines; i++) {
+        string line;
+        getline(inFile, line);
+    }
+]]>
+        </preamble>
+        <code>
+// Hidden code is above... main() is already started and inFile is open
+
+    // Write your code to read from inFile here
+</code>
+<postamble>
+}
+</postamble>
+    <tests>
+      <iotest>
+        <input>0</input>
+        <output>3.5</output>
+      </iotest>
+      <iotest>
+        <input>5</input>
+        <output>3.1</output>
+      </iotest>
+    </tests>
+    </program>
+    <hint>
+      <p>Start by just printing out all of the GPAs. The last two GPAs should be 3 and 3.2. If you see an extra value after those, or two copies of 3.2 at the end, you are probably trying to read one extra line of data and failing. Check for failure after reading the data before you use it.</p>
+    </hint>
+    <hint>
+      <p>You will need to accumulator variables - one to add up the GPAs and the other to keep a count of how many lines you have read.</p>
+    </hint>
+  </exercise>
+</exercises>

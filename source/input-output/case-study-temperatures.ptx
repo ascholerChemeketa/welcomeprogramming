@@ -1,0 +1,138 @@
+<section xml:id="input-output_case-study-temperatures"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Case Study: Temperature Ranges</title>
+
+  <introduction>
+    <p>We have a long list of weather data for a number of US cities in a datafile. Each line of the contains:
+    <ul>
+    <li>city name</li>
+    <li>state</li>
+    <li>average January temperature</li>
+    <li>average July temperature</li>
+    <li>average annual rainfall</li>
+    </ul></p>
+
+    <datafile label="datafile-temps.txt" filename="Temps.txt">
+    <pre>Albany	NY	22.2	71.1	38.6
+Albuquerque	NM	35.7	78.5	9.47
+Anchorage	AK	15.8	58.4	16.08
+Atlanta	GA	42.7	80	50.2
+Austin	TX	50.2	84.2	33.65
+Baltimore	MD	32.3	76.5	41.94
+Boise	ID	30.2	74.7	12.19
+Chicago	IL	22	73.3	36.27
+Dallas	TX	44.1	85	34.73
+Denver	CO	29.2	73.4	15.81
+Duluth	MN	8.4	65.5	31
+Portland	OR	39.9	68.1	37.07
+    </pre></datafile>
+
+    <p>We would like to read the file, for each city print out the range of temperatures seen, and find the one city with the largest difference between the average January and July temperatures.</p>
+  </introduction>
+
+  <subsection>
+    <title>Understanding the problem</title>
+    <p>We can break this problem into a few key parts:
+    <ul>
+      <li>Read the file</li>
+      <li>For each city, calculate the range of temperatures</li>
+      <li>Figuring out which city has the largest differential</li>
+    </ul>
+    The second part depends on having data to work with, and the third part depends on the second part, so we will need to tackle them in order.
+    </p>
+    <p>We don't need to store the data for very long. As we read each line, we can calculate the temperature range for that city and decide <q>is this a bigger difference than I have seen so far?</q>. If so, we will remember this new city.</p>
+  </subsection>
+
+  <subsection>
+    <title>Reading Data</title>
+
+    <p>Our data looks like it should be easy to read using `>>`. Every piece of data is separated by whitespace and each line has exactly the same number of tokens. (If some of the cities had two word names like `San Francisco` that would make things much harder!)</p>
+
+    <p>Rather than trying to read all the data at once, let's just try to read the first line. There isn't an easy way to <q>skip</q> tokens in a text file. We have to read all the data in the file, even if we don't care about what is there. So on each line, we need to read all five pieces of data. Here is an attempt to do that for just the first line:</p>
+
+  <program datafile="Temps.txt" label="input-output_case-study-temperature-1"  interactive="activecode">
+<xi:include href="../../programs/input-output/case-study-temperature-1.cpp" parse="text"/>
+</program>
+
+    <p>Next up, we can loop to read and print all of the data. Complete the logic for doing so:</p>
+  </subsection>
+
+  <subsection>
+    <title>Calculating Differences</title>
+
+    <p>Now let's calculate the temperature range for each city. We can do this by subtracting the average January temperature from the average July temperature. For now, we will just print out those values, along with the two temperatures.</p>
+
+  <program datafile="Temps.txt" label="input-output_case-study-temperature-2"  interactive="activecode">
+<xi:include href="../../programs/input-output/case-study-temperature-2.cpp" parse="text"/>
+</program>
+  </subsection>
+
+  <subsection>
+    <title>Finding the Max</title>
+
+    <p>Now we can worry about identifying which town has the largest difference. To do this, we need to keep track of two pieces of information: which town has the biggest difference so far (a string) and what that difference is (a double). Each time we see a new city, we will check to see if it's difference is greater than the max difference we have seen. If so, we will update both values.</p>
+
+  <exercise label="mucpsd_1ascasvdssc5_2"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Construct the algorithm to find the largest difference. Assume `inFile` is already open.</p>
+    </statement>
+    <blocks>
+      <block>
+        <cline>double maxDiff = 0;</cline>
+        <cline>string maxCity = "???";</cline>
+      </block>
+      <block>
+<cline>while (!inFile.eof()) {</cline>
+      </block>
+      <block>
+      <cline> string city, state;</cline>
+<cline> double janTemp, julyTemp, rainfall;</cline>
+<cline> inFile >> city >> state;</cline>
+<cline> inFile >> janTemp >> julyTemp >> rainfall;</cline>
+<cline> if (inFile.fail()) {</cline>
+<cline>   break; // Exit the loop if we could not read</cline>
+<cline> }</cline>
+      </block>
+      <block>
+<cline> double tempDiff = julyTemp - janTemp;</cline>
+      </block>
+      <block>
+<cline> if (tempDiff > maxDiff) {</cline>
+      </block>
+      <block>
+<cline>   maxDiff = tempDiff;</cline>
+<cline>   maxCity = city;</cline>
+      </block>
+      <block>
+<cline> }</cline>
+      </block>
+      <block>
+<cline>}</cline>
+<cline>cout &lt;&lt; town;</cline>
+<cline>cout &lt;&lt; " has the largest temp differential: ";</cline>
+<cline>cout &lt;&lt; maxCity &lt;&lt; " degrees";</cline>
+      </block>
+    </blocks>
+    <program-preamble><![CDATA[#include <iostream>
+#include <fstream>
+#include <format>
+#include <string>
+using namespace std;
+
+int main() {
+    ifstream inFile;
+    inFile.open("Temps.txt");
+    
+    ]]></program-preamble>
+    <program datafile="Temps.txt">
+    </program>
+    <program-postamble>}</program-postamble>
+  </exercise>
+
+  </subsection>
+
+</section>

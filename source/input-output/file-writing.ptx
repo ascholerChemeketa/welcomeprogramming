@@ -1,0 +1,218 @@
+<section xml:id="input-output_file-writing"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>File Output</title>
+
+  <p>To write to a file, we need to create a `std::ofstream` object and then use its `.open()` method to open a file. Once that is done, we can write to the file using `&lt;&lt;`.</p>
+  
+  <p>In this book, you will have no way to see the data in files that you write other than to try to open them and read the data. So that is what this program does. After it finishes writing some numbers to the file `data.txt`, it closes the file to make sure that it is available to open for reading, and then opens it with an `ifstream` to read the data back in:</p>
+
+  <program label="input-output_file-writing-1"  interactive="activecode">
+<xi:include href="../../programs/input-output/file-writing-1.cpp" parse="text"/>
+</program>
+
+  <p>When you open a file name that does not exist, it is automatically created in the working directory. If a file with that name already exists, it is <term>truncated</term> on opening. That means any existing data is wiped out. If you would rather add to the existing contents of the file, you can choose to <term>append</term> to the file. The open command can take an optional second parameter specifying the mode to use for writing. The mode `ios::app` says to append new output to the end of the file instead of truncating the file:
+  <idx><h>truncate</h></idx></p>
+
+  <program>myOutFile.open("data.txt", ios::app)</program>
+
+  
+  <exercise label="question15_2_1">
+    <statement>
+      <p>You create an <fillin mode="string"
+                case="insensitive"
+                answer="(std::)?ostream"/> object to write
+        data to a file, and a <fillin mode="string"
+                case="insensitive"
+                answer="(std::)?istream"/> object to
+        read data from a file. In order to define objects to input from a file or send output to a
+        file, you must include the <c>&lt;</c> <fillin mode="string"
+                case="insensitive"
+                answer="fstream"/> <c>&gt;</c>
+        header file. </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <exercise label="mce_15_5">
+    <statement>
+      <p>What are the contents of the output file <c>output.txt</c> after running the code below?</p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main() {
+  ofstream outfile("output.txt");
+
+  if (!outfile.good()) {
+    cout << "Unable to open file" << endl;
+  }
+
+  cout << "Powers of 2: ";
+  outfile << "2 4 8 16 32 64" << endl;
+}
+]]></code>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement id="mce_15_5_opt_a">
+          <p>2 4 8 16 32 64</p>
+        </statement>
+        <feedback>
+          This is the only thing we write to the output file.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="mce_15_5_opt_b">
+          <p>Powers of 2: 2 4 8 16 31 64</p>
+        </statement>
+        <feedback>
+          Take another look at the stream objects used in the code.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="mce_15_5_opt_c">
+          <p>Powers of 2:</p>
+        </statement>
+        <feedback>
+          This is printed to standard output, not the output file.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="mce_15_5_opt_d">
+          <p>Unable to open file</p>
+        </statement>
+        <feedback>
+          Although this may be printed, this is not the contents of the output file.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  
+  <exercise label="question15_4_1"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Create a code block that copies all the lines from one file to another file.</p>
+    </statement>
+    <blocks>
+      <block order="5">
+        <cline>ifstream infile("input_file_name");</cline>
+        <cline>ofstream outfile("input_file_name");</cline>
+      </block>
+      <block order="6">
+        <cline>if (infile.error() || outfile.error() ) {</cline>
+      </block>
+      <block order="4">
+        <cline><![CDATA[ cout << "Unable to open one of the files." << endl;]]></cline>
+      </block>
+      <block order="2">
+        <cline> return 1;</cline>
+        <cline>}</cline>
+      </block>
+      <block order="3">
+      <choice correct="yes">
+        <cline>while (!infile.eof()) {</cline>
+      </choice>
+      <choice>
+        <cline>while (!outfile.eof()) {</cline>
+      </choice>
+      </block>
+      <block order="9">
+        <choice correct="yes">
+          <cline> string line;</cline>
+          <cline> getline(infile, line);</cline>
+        </choice>
+        <choice>
+          <cline> string line;</cline>
+          <cline> getline(outfile, line);</cline>
+        </choice>
+      </block>
+      <block order="1">
+        <choice correct="yes">
+        <cline><![CDATA[ outfile << line << endl;]]></cline>
+        </choice>
+        <choice>
+        <cline><![CDATA[ cout << line << endl;]]></cline>
+        </choice>
+      </block>
+      <block order="7">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+  
+  <exercise label="mucp_15_2"
+            numbered="yes"
+            adaptive="yes"
+            indentation="show">
+    <statement>
+      <p>Let's write a program that prompts the user for a filename and
+        opens that file. Put the necessary blocks of code in the correct order.</p>
+    </statement>
+    <blocks>
+      <block order="2">
+        <cline>int main() {</cline>
+      </block>
+      <block order="10">
+        <choice correct="yes">
+          <cline>   string filename;</cline>
+        </choice>
+        <choice>
+          <cline>   ifstream filename;  </cline>
+        </choice>
+      </block>
+      <block order="12">
+        <cline><![CDATA[   cout << "Enter the name of the file: ";]]></cline>
+      </block>
+      <block order="3">
+        <cline>   cin &gt;&gt; filename;</cline>
+      </block>
+      <block order="7">
+        <choice correct="yes">
+          <cline>   ifstream infile(filename);</cline>
+        </choice>
+        <choice>
+          <cline>   ifstream filename;  </cline>
+        </choice>
+      </block>
+      <block order="11">
+        <cline>   if (infile.error()) {</cline>
+      </block>
+      <block order="8">
+        <cline><![CDATA[      cout << "Unable to open the file." << endl;]]></cline>
+      </block>
+      <block order="9">
+        <cline>      exit(1);</cline>
+      </block>
+      <block order="1">
+        <cline>   }</cline>
+      </block>
+      <block order="5">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>
