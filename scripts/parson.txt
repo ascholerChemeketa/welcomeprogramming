@@ -1,0 +1,19 @@
+vector<Student> getStudentData() {
+    ifstream file("Students.txt");
+    if (!file.is_open()) {
+        throw runtime_error("Could not open file");
+    }
+    vector<Student> students;
+    while (!file.eof()) {
+        string nameLine, statusLine, scoresLine;
+        getline(file, nameLine);
+        getline(file, statusLine);
+        getline(file, scoresLine);
+        if(file.fail()) {
+            break; // Exit loop if reading fails
+        }
+        Student student = createStudent(nameLine, statusLine, scoresLine);
+        students.push_back(student);
+    }
+    return students;
+}

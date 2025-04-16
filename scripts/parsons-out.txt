@@ -1,0 +1,74 @@
+<blocks>
+  <block name="" depends="">
+    <cline><![CDATA[vector<Student> getStudentData() {]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[    ifstream file("Students.txt");]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[    if (!file.is_open()) {]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[        throw runtime_error("Could not open file");]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[    }]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[    vector<Student> students;]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[    while (!file.eof()) {]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[        string nameLine, statusLine, scoresLine;]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[        getline(file, nameLine);]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[        getline(file, statusLine);]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[        getline(file, scoresLine);]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[        if(file.fail()) {]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[            break; // Exit loop if reading fails]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[        }]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[        Student student = createStudent(nameLine, statusLine, scoresLine);]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[        students.push_back(student);]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[    }]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[    return students;]]></cline>
+  </block>
+  <block name="" depends="">
+    <cline><![CDATA[}]]></cline>
+  </block>
+
+  <block name="" depends="">
+    <cline>
+    </cline>
+  </block>
+  <block name="" depends="">
+    <choice>
+      <cline correct="yes">
+      </cline>
+    </choice>
+    <choice>
+      <cline>
+      </cline>
+    </choice>
+  </block>
+</blocks>
