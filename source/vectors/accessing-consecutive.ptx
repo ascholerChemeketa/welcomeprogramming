@@ -1,0 +1,103 @@
+<section xml:id="vectors_accessing-consecutive"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Accessing Consecutive Elements</title>
+
+  <p>Sometimes while traversing, we want to compare one element with another. For instance, if we
+    want to see if values in a vector are in order we can check each value to make sure it is larger
+    than the previous one. For example, in a four item vector, if the 2nd element is larger than the
+    1st, and the 3rd is larger than the 2nd, and the 4th is larger than the 3rd, we know that all
+    four elements are in order.</p>
+
+  <p>To compare every item with the previous, it is generally easiest to use a counting loop instead
+    of a range-based loop. Our counting variable (typically `i`) represents <q>the current index</q>.
+    Assuming we are counting up, the next lower value - `i - 1` would be the <q>previous index</q>
+    and the next high value - `i + 1` would be <q>the next index</q>. Thus `vec.at(i)` is the <q>current
+    element</q>, `vec.at(i - 1)` is the <q>previous element</q> and `vec.at(i + 1)` is the <q>next
+    element</q>.</p>
+
+  <p>When using `i - 1` or `i + 1`, we have to adjust our loop to make sure we do not go out of
+    bounds on the vector. If we start counting from 0, and try to access `i - 1`, we would end up
+    with index `-1`, which would cause an exception. So we should start our loop at index 1. Pay
+    special attention to lines 10 and 11 in this sample. By starting the loop counter at 1, we know
+    it will be safe to check the previous index:</p>
+
+  <program xml:id="vectors_accessing-consecutive-1"
+           interactive="activecode">
+<xi:include href="../../programs/vectors/accessing-consecutive-1.cpp" parse="text"/>
+</program>
+
+  <p>If we want to access the next value at `i + 1`, we need to make sure our loop stops earlier.
+    Index `size() - 1` is the index of the last element. So our loop needs to stop before it gets to
+    that point. The last index the loop iterates on should `i = size() - 2` so that when it
+    calculates `i + 1` it gets that index.</p>
+
+
+  <exercise label="vectors_p4"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Construct a block of code that compares the <q>current</q> element with the <q>next</q>
+        element at each iteration to determine if a vector is in order. Assume `vec` has already
+        been declared and initialized.</p>
+    </statement>
+    <blocks>
+      <block>
+        <cline><![CDATA[bool inOrder = true;]]></cline>
+      </block>
+      <block>
+        <choice>
+          <cline><![CDATA[for (size_t i = 1; i < vec.size(); ++i) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[for (size_t i = 0; i < numbers.size(); i++) {]]></cline>
+        </choice>
+        <choice correct="yes">
+          <cline><![CDATA[for (size_t i = 0; i < numbers.size() - 1; i++) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[for (size_t i = 0; i < numbers.size() - 2; i++) {]]></cline>
+        </choice>
+      </block>
+      <block>
+        <choice correct="yes">
+          <cline><![CDATA[ int current = vec.at(i);]]></cline>
+          <cline><![CDATA[ int next = vec.at(i + 1);]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[ int current = vec.at(i);]]></cline>
+          <cline><![CDATA[ int next = vec.at(i) + 1;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[ int current = vec.at(i - 1);]]></cline>
+          <cline><![CDATA[ int next = vec.at(i);]]></cline>
+        </choice>
+      </block>
+      <block>
+      <choice>
+        <cline><![CDATA[ // check for problem]]></cline>
+        <cline><![CDATA[ if (current < next) {]]></cline>
+        </choice>
+      <choice>
+        <cline><![CDATA[ // check for problem]]></cline>
+        <cline><![CDATA[ if (next > current) {]]></cline>
+      </choice>
+      <choice correct="yes">
+        <cline><![CDATA[ // check for problem]]></cline>
+        <cline><![CDATA[ if (current > next) {]]></cline>
+      </choice>
+      </block>
+      <block>
+        <cline>  // Found a problem</cline>
+        <cline>  inOrder = false;</cline>
+        <cline>  break;</cline>
+      </block>
+      <block>
+        <cline><![CDATA[ }]]></cline>
+        <cline><![CDATA[}]]></cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

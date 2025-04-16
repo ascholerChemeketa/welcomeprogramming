@@ -1,4 +1,4 @@
-<section xml:id="vector-references_creating-vectors"
+<section xml:id="vectors_creating-vectors"
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Creating vectors</title>
   <p>
@@ -17,25 +17,25 @@
     example, the following lines declare that <c>counts</c> is an <q>vector of integers</q> and <c>values</c> is
     a <q>vector of doubles</q>:</p>
 
-  <program xml:id="vector-references_creating-vector-1">
-<xi:include href="../../programs/vector-references/creating-vectors-1.cpp" parse="text"/>
+  <program xml:id="vectors_creating-vector-1">
+<xi:include href="../../programs/vectors/creating-vectors-1.cpp" parse="text"/>
 </program>
 
   <p>We do not have to initialize vectors. Declaring a vector automatically creates an empty vector.
     Just like a string, we can ask a vector for its `.size()` which will be a `size_t`. Doing so on
     one of those vectors would return 0:</p>
 
-  <program xml:id="vector-references_creating-vector-2"
+  <program xml:id="vectors_creating-vector-2"
            interactive="activecode">
-<xi:include href="../../programs/vector-references/creating-vectors-2.cpp" parse="text"/>
+<xi:include href="../../programs/vectors/creating-vectors-2.cpp" parse="text"/>
 </program>
 
   <p>If we want to initialize the vector, we can do so with a list of specific values by enclosing
     those values in braces and separating them with commas. This is known as <term>list
     initialization</term>:</p>
 
-  <program xml:id="vector-references_creating-vector-3">
-<xi:include href="../../programs/vector-references/creating-vectors-3.cpp" parse="text"/>
+  <program xml:id="vectors_creating-vector-3">
+<xi:include href="../../programs/vectors/creating-vectors-3.cpp" parse="text"/>
 </program>
 
   <p>The first line creates a vector of four integers, and the second line creates a vector of three
@@ -48,8 +48,8 @@
     initializes their instance variables. In this case, the constructor takes two arguments, the
     size of the vector to make and what value to use for all of the elements.</p>
 
-  <program xml:id="vector-references_creating-vector-4">
-<xi:include href="../../programs/vector-references/creating-vectors-4.cpp" parse="text"/>
+  <program xml:id="vectors_creating-vector-4">
+<xi:include href="../../programs/vectors/creating-vectors-4.cpp" parse="text"/>
 </program>
 
   <figure>
@@ -60,8 +60,8 @@
 
 
   <p>Once you have a vector, you can copy it by doing an assignment:</p>
-  <program xml:id="vector-references_creating-vector-5">
-<xi:include href="../../programs/vector-references/creating-vectors-5.cpp" parse="text"/>
+  <program xml:id="vectors_creating-vector-5">
+<xi:include href="../../programs/vectors/creating-vectors-5.cpp" parse="text"/>
 </program>
 
   <p>This results in two vectors that have identical lists of elements as diagramed below. Despite

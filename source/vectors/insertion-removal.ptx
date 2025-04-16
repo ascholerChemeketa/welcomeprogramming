@@ -1,4 +1,4 @@
-<section xml:id="vector-references_insertion-removal"
+<section xml:id="vectors_insertion-removal"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <title>Inserting and Removing Elements</title>
@@ -9,28 +9,34 @@
     `push_back(T value)` takes a value of the type the vector can contain (type `T`) and
     adds it to the end of the vector. `pop_back()` simply removes the last element.</p>
 
-  <program xml:id="vector-references_insertion-removal-1">
-<xi:include href="../../programs/vector-references/insertion-removal-1.cpp" parse="text"/>
+  <program xml:id="vectors_insertion-removal-1">
+<xi:include href="../../programs/vectors/insertion-removal-1.cpp" parse="text"/>
 </program>
 
   <p>The end of a vector is the <q>normal</q> location to add or remove elements due to the way the data is stored. All of the elements of a vector are stored in one contiguous block of memory. So if we want to remove something from the middle, everything after the removed item needs to shift over to fill in the hole that was made. Similarly, to insert something in the middle, we first need to move all of the elements after that point over to make a place for the new element. When using a vector we do not have to worry about doing this work ourselves - it is done by the vector for us - but it does explain why there is a `push_back()` and not a `push_front()` or `push_middle()`.</p>
 
   <p>If we do want to remove an element at another location, there is an `.erase(iterator)` member function. It requires an <term>iterator</term> be passed as the parameter. Iterators are objects that store (and manipulate) a location in a collection of data. For now, all we need to know about iterators is how to make one. To make an iterator that points to index `X` of a vector named `vectorName`, you can specify `vectorName.begin() + X`. And if you want to point at index 0, you can just say `vectorName.begin()`. For example:</p>
 
-  <program xml:id="vector-references_insertion-removal-2">
-<xi:include href="../../programs/vector-references/insertion-removal-2.cpp" parse="text"/>
+  <program xml:id="vectors_insertion-removal-2">
+<xi:include href="../../programs/vectors/insertion-removal-2.cpp" parse="text"/>
 </program>
 
   <p>It is possible to remove a whole range of elements by specifying a start and end location. All the items from start, up to but not including the end location, will be removed. This means that to specify removing up to and including the last element, we want to pass in the location that is AFTER the last element. In a vector with 3 items, the last element is at index 2. So we would use `vectorName.begin() + 3` to specify <q>until the end of the vector</q>. Fortunately, rather than do this, we can also just say `vectorName.end()`:</p>
 
-  <program xml:id="vector-references_insertion-removal-3">
-<xi:include href="../../programs/vector-references/insertion-removal-3.cpp" parse="text"/>
+  <program xml:id="vectors_insertion-removal-3">
+<xi:include href="../../programs/vectors/insertion-removal-3.cpp" parse="text"/>
+</program>
+
+  <p>To clear out all the elements in a vector, we can either say to erase from the beginning to the end, or use the `.clear()` method of the vector:</p>
+
+  <program xml:id="vectors_insertion-removal-clear">
+<xi:include href="../../programs/vectors/insertion-removal-clear.cpp" parse="text"/>
 </program>
 
   <p>The `.insert(iterator, value)` function works by the same logic to specify where you wish to insert a value. Whatever value is currently at that location and anything after it are <q>pushed over</q> one location so that the new value can be placed in the specified location. This program uses `insert` to add some items to a vector:</p>
 
-  <program xml:id="vector-references_insertion-removal-4" interactive="activecode">
-<xi:include href="../../programs/vector-references/insertion-removal-4.cpp" parse="text"/>
+  <program xml:id="vectors_insertion-removal-4" interactive="activecode">
+<xi:include href="../../programs/vectors/insertion-removal-4.cpp" parse="text"/>
 </program>
 
   <p>Specifying an invalid location for either `.insert()` or `.erase()` will result in a run time error.</p>

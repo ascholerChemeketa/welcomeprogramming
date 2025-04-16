@@ -1,4 +1,4 @@
-<section xml:id="vector-references_traversing-recipes"
+<section xml:id="vectors_traversing-recipes"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <title>Recipes for vectors</title>
@@ -32,9 +32,9 @@
       </idx> Our first common pattern is a <term>search</term>, which involves
       traversing an vector while <q>searching</q> for a particular element.</p>
 
-    <program xml:id="vector-references_traversing-recipes-1"
+    <program xml:id="vectors_traversing-recipes-1"
              interactive="activecode">
-<xi:include href="../../programs/vector-references/traversing-recipes-1.cpp" parse="text"/>
+<xi:include href="../../programs/vectors/traversing-recipes-1.cpp" parse="text"/>
 </program>
 
     <p>We start by assuming the value we are looking for is not present. This is done on line 10
@@ -45,7 +45,7 @@
       know the value was not found.</p>
     </subsection>
 
-    <subsection>
+    <subsection xml:id="vectors_traversing-recipes-reduction">
       <title>Reduce</title>
     <p>
       <idx>
@@ -58,8 +58,8 @@
 
     <p>We have already seen one reduction recipe - calculating the sum of the values in a vector. In this recipe, our accumulator is the total and starts with a value of 0:</p>
 
-    <program xml:id="vector-references_traversing-recipes-2">
-<xi:include href="../../programs/vector-references/traversing-recipes-2.cpp" parse="text"/>
+    <program xml:id="vectors_traversing-recipes-2">
+<xi:include href="../../programs/vectors/traversing-recipes-2.cpp" parse="text"/>
 </program>
 
     <p>Finding the smallest value in a vector can also be thought of as a reduction. In this case, our accumulator needs to keep track of the <q>smallest
@@ -71,15 +71,15 @@
       the first value to initialize the accumulator and then loop through all the elements after the
       first:</p>
 
-    <program xml:id="vector-references_traversing-recipes-3">
-<xi:include href="../../programs/vector-references/traversing-recipes-3.cpp" parse="text"/>
+    <program xml:id="vectors_traversing-recipes-3">
+<xi:include href="../../programs/vectors/traversing-recipes-3.cpp" parse="text"/>
 </program>
     </subsection>
 
     <subsection>
       <title>Map</title>
 
-      <p>A <term>map</term> operation transforms each element in a vector to a new value. In <xref ref="vector-references_vector-functions"></xref> we saw two versions of the `doubleValues` function that performed a map operation. The first
+      <p>A <term>map</term> operation transforms each element in a vector to a new value. In <xref ref="vectors_vector-functions"></xref> we saw two versions of the `doubleValues` function that performed a map operation. The first
       version created a new vector and returned it. The second version modified the original vector
       in place.</p>
 
@@ -90,9 +90,9 @@
 
       <p>Finally, a <term>filter</term> operation traverses a vector and only keeps values that meet a certain condition. Although we could do this by removing unwanted values from the vector we start with, it is much easier to build up a vector with just the ones we want. This final sample demonstrates a function that filters out 0 values from a vector, producing a new one with only non-zero values:</p>
 
-    <program xml:id="vector-references_traversing-recipes-4"
+    <program xml:id="vectors_traversing-recipes-4"
              interactive="activecode">
-<xi:include href="../../programs/vector-references/traversing-recipes-4.cpp" parse="text"/>
+<xi:include href="../../programs/vectors/traversing-recipes-4.cpp" parse="text"/>
 </program>
 
       <note><p>Simple does not always mean <q>bad</q> or <q>inefficient</q>. It will almost certainly be faster to build a new vector with just the desired values instead of removing multiple items from the existing vector.</p></note>

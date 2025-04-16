@@ -1,4 +1,4 @@
-<section xml:id="vector-references_accessing-elements"
+<section xml:id="vectors_accessing-elements"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <title>Accessing Elements</title>
@@ -17,15 +17,15 @@
     syntax that we do with strings. We use the `.at(index)` function to specify the element we wish
     to work with:</p>
 
-  <program xml:id="vector-references_accessing-elements-1">
-<xi:include href="../../programs/vector-references/accessing-elements-1.cpp" parse="text"/>
+  <program xml:id="vectors_accessing-elements-1">
+<xi:include href="../../programs/vectors/accessing-elements-1.cpp" parse="text"/>
 </program>
 
   <p> You can use the element retrieved by <c>.at(index)</c> as if it was a variable that contains that one
     element. You can assign it new values and use any appropriate operators on the result: </p>
 
-  <program xml:id="vector-references_accessing-elements-2">
-<xi:include href="../../programs/vector-references/accessing-elements-2.cpp" parse="text"/>
+  <program xml:id="vectors_accessing-elements-2">
+<xi:include href="../../programs/vectors/accessing-elements-2.cpp" parse="text"/>
 </program>
 
   <p>Note that the naming of elements can be tricky. The first element has the index 0. So some
@@ -41,9 +41,9 @@
     there will be a runtime error when that statement executes. This program runs fine until we try
     to access `counts.at(4)`:</p>
 
-  <program xml:id="vector-references_accessing-elements-3"
+  <program xml:id="vectors_accessing-elements-3"
            interactive="activecode">
-<xi:include href="../../programs/vector-references/accessing-elements-3.cpp" parse="text"/>
+<xi:include href="../../programs/vectors/accessing-elements-3.cpp" parse="text"/>
 </program>
 
   <p>As usual, the error message is a little cryptic. The important part is the `out_of_range`

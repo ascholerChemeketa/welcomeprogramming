@@ -1,4 +1,4 @@
-<section xml:id="vector-references_vector-functions"
+<section xml:id="vectors_vector-functions"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <title>Functions and Vectors</title>
@@ -7,26 +7,26 @@
 
   <p>Say we want to write a function that can add up all of the values in a `vector&lt;int.`. It could look like:</p>
 
-  <program xml:id="vector-references_vector-functions-1" line-numbers="yes">
-<xi:include href="../../programs/vector-references/vector-functions-1.cpp" parse="text"/>
+  <program xml:id="vectors_vector-functions-1" line-numbers="yes">
+<xi:include href="../../programs/vectors/vector-functions-1.cpp" parse="text"/>
 </program>
 
   <p>However, that version of the function would <term>pass by value</term> and copy the entire vector that was passed. It would be better to <term>pass by const reference</term>. Nothing other than the parameter needs to be changed:</p>
 
-  <program xml:id="vector-references_vector-functions-2" line-numbers="yes" highlight-lines="2">
-<xi:include href="../../programs/vector-references/vector-functions-2.cpp" parse="text"/>
+  <program xml:id="vectors_vector-functions-2" line-numbers="yes" highlight-lines="2">
+<xi:include href="../../programs/vectors/vector-functions-2.cpp" parse="text"/>
 </program>
 
   <p>To return a vector, we can declare the return type to be a `vector&lt;T>` and then make sure to return an appropriate type of vector. (A returned value is always copied, though the compiler may do some tricks to avoid actually copying the data). This function returns a new vector that is a copy of the one passed in which every element gets doubled:</p>
 
-  <program xml:id="vector-references_vector-functions-3" interactive="activecode">
-<xi:include href="../../programs/vector-references/vector-functions-3.cpp" parse="text"/>
+  <program xml:id="vectors_vector-functions-3" interactive="activecode">
+<xi:include href="../../programs/vectors/vector-functions-3.cpp" parse="text"/>
 </program>
 
   <p>Note that we could write the function so that instead of making a new vector and returning that we modified the vector that was passed in:</p>
 
-  <program xml:id="vector-references_vector-functions-4" interactive="activecode">
-<xi:include href="../../programs/vector-references/vector-functions-4.cpp" parse="text"/>
+  <program xml:id="vectors_vector-functions-4" interactive="activecode">
+<xi:include href="../../programs/vectors/vector-functions-4.cpp" parse="text"/>
 </program>
 
   <p>In this version, we must take the vector parameter as a reference that is not `const` so we can modify the vector (line 7). Similarly, as we use a range-based loop to traverse the elements, we need to declare the element type to be an `int&amp;` - a reference to an int - so that we are working with the actual element and not a copy of its value (line 9). Because the parameter is modified, there is nothing new to return from the function. So the return type is declared as `void` (line 7) and when it is called in `main`, there is no result to store (line 17). Because we <term>passed by reference</term>, all of the changes made to `numbers` in `doubleValues` really were made to `myList` that was passed in from `main`.</p>
@@ -98,7 +98,7 @@ vector&lt;string&gt; lauren = {"happy", "to", "you", "September", "birthday", "g
 </program>
       <p>How would you save the string <c>"birthday"</c> from <c>lauren</c> to the variable <c>nurse</c>?</p>
     </statement>
-    <choices>
+    <choices randomize="yes">
       <choice correct="yes">
         <statement id="vectors_mc2_opt_a">
           <p>
