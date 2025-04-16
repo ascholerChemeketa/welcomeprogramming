@@ -1,7 +1,5 @@
-<section xml:id="functions-testing_returning" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Returning</title>
-
-  <p>Now we are ready to worry about how a function like <c>doubleValue</c> does its work. The <term>body</term> of a function Is the statements that are in curly braces after the functions prototype. They are the code that runs when the function is called. As a reminder, here is the body of the <c>doubleValue</c> function:</p>
+<section xml:id="program-design_defining-new-functions" xmlns:xi="http://www.w3.org/2001/XInclude">
+<title>Defining Functions</title>
 
   <p>We have seen some of the advantages of functions while using the <c>cmath</c> library. Functions are an <term>abstraction</term>. We can use code without worrying about exactly how it works. You probably will never need to look at the code behind the <c>cos</c> function. But as long as we know its name and what parameters it takes, we can make use of it.
   <idx>
@@ -12,7 +10,7 @@
   <p>Functions also provide an efficient way to <term>reuse</term> code. Instead of calling the <c>cos</c> function when you wanted to do a cosine calculation, you could copy and paste the code for the function into your program. But then you would have to fix any bugs in every place you pasted the code. And if you wanted to change the way the cosine was calculated, you would have to change it in every place you pasted the code. That is a lot of work and a lot of opportunities to make mistakes. The function means we can use that code without copy and paste. If we find a bug in the function, we can fix it in one place and all the places that use it will be fixed. 
   </p>
 
-  <insight>
+  <insight xml:id="DRY">
   <p><term>DRY</term> or <q>Don't Repeat Yourself</q> is a widely shared maxim for writing good code. If you find yourself copy/pasting chunks of code while programming, there is probably a better way to solve your problem. Writing a function is one way to reuse logic without repeating it.</p>
   </insight>
 
@@ -45,8 +43,8 @@
     <p>Here is an example of a very simple function that takes a single number and doubles it:</p>
 
 
-<program xml:id="functions-testing_returning-1">
-<xi:include href="../../programs/functions-testing/returning-1.cpp" parse="text"/>
+<program xml:id="program-design_defining-new-functions-1">
+<xi:include href="../../programs/program-design/defining-new-functions-1.cpp" parse="text"/>
 </program>
 
 <p> Ignoring the statements inside the function for now, here are the three parts of the function prorotype:
@@ -66,16 +64,17 @@
     </dl>
   </p>
 
-  <p>Given that information, we should be able to use that function to double the value of a number, even if we don't Understand exactly how the function does its job. (Being able to use a function without understanding HOW it does its job is one of the key ideas of a function!) Here is a full program that makes use of the double value function:</p>
+  <p>Given that information, we should be able to use that function to double the value of a number, even if we do not understand exactly how the function does its job. (Being able to use a function without understanding HOW it does its job is one of the key ideas of a function!) Here is a full program that makes use of the double value function:</p>
 
 
-<program xml:id="functions-testing_defining-new-functions-2">
-<xi:include href="../../programs/functions-testing/defining-new-functions-2.cpp" parse="text"/>
+<program xml:id="program-design_defining-new-functions-2" interactive="activecode">
+<xi:include href="../../programs/program-design/defining-new-functions-2.cpp" parse="text"/>
 </program>
 
-<p>This simple program sets the value of x to be 5. It then passes x to the double value function in order to calculate y. Unsurprisingly, when we print y, the output is 10.</p>
+  <p>Note that the function definition for <c>doubleValue</c> is before <c>main</c>, where we make a call to the function.
+  For now, we must always define a function before we try to use it. If you try moving the code for <c>main</c> above the <c>doubleValue</c> definition, the compiler will spit out an error message. When it hits the function call, it has not yet learned about <c>doubleValue</c>.</p>
 
-  <note><p>It can help to think of there being two programmers involved in writing code involving a function. Imagine there is one programmer who writes the function. They don't know anything about what is going on in the rest of the program. There is another programmer who is using the function. They don't know anything about what happens inside the function (other than the information they are passing in and what should come back).</p></note>
+  <p>This simple program sets the value of x to be 5. It then passes x to the double value function in order to calculate y. Unsurprisingly, when we print y, the output is 10.</p>
 
   <exercise label="output_vars_4">
     <statement>

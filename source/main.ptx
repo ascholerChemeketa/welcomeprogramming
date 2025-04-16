@@ -7,8 +7,8 @@
       <figures level="2"/>
       <exercises level="2"/>
     </numbering>
-    <programs language="cpp"
-              compiler-args="-Wall -Wextra -std=c++20 -Wno-unused-variable -Wno-unused-parameter"
+    <programs language="cpp" codelens="no"
+              compiler-args=" -Wall -Wextra -std=c++20 -fmodules-ts -Wno-unused-variable -Wno-unused-parameter"
               timelimit="5000"/>
     <rename element="colophon">License</rename>
     <rename element="frontmatter">About this book</rename>
@@ -27,11 +27,26 @@
     <xi:include href="./conditionals-logic/index.ptx"/>
     <xi:include href="./loops/index.ptx"/>
     <xi:include href="./strings/index.ptx"/>
-    <xi:include href="./vector-references/index.ptx"/>
+    <xi:include href="./references-exceptions/index.ptx"/>
+    <xi:include href="./vectors/index.ptx"/>
+    <xi:include href="./multidimensional-vectors/index.ptx"/>
+    <xi:include href="./input-output/index.ptx"/>
+    <xi:include href="./program-design/index.ptx"/>
+    <xi:include href="./structs/index.ptx"/>
+    <xi:include href="./objects/index.ptx"/>
+
+    <chapter><title>Interacting Objects and Composition</title></chapter>
+    <chapter><title>Pointers and Aggregation</title></chapter>
+    <chapter><title>Inheritance</title></chapter>
+    <chapter><title>Operator Overloads</title></chapter>
+    <chapter><title>Heap and Memory Management</title></chapter>
+    <chapter><title>Templates</title></chapter>
+    <chapter><title>Recursion</title></chapter>
+    <chapter><title>Maps and Iterators</title></chapter>
+    <chapter><title>HOFs and Algorithms</title></chapter>
+
     <!-- <xi:include href="./arrays-references/index.ptx"/> -->
     <!-- 
-    <xi:include href="./loops-strings/index.ptx"/>
-    <xi:include href="./input-output/index.ptx"/>
     <xi:include href="./recursive-functions/index.ptx"/>
     <xi:include href="./immutable-objects/index.ptx"/>
     <xi:include href="./mutable-objects/index.ptx"/>

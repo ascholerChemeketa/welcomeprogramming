@@ -159,11 +159,27 @@
     </listing>
   </subsection>
 
+  <p>The process we used to develop this program is known as <term>incremental development</term> -  building a program in small steps instead of all
+    at once. The key ideas are: <ul>
+      <li>
+        <p>Start with a working program and make small changes or additions one at a time.</p>
+      </li>
+      <li>
+        <p>Testing each change and fixing any errors before building new code on top of the buggy
+    code.</p>
+      </li>
+    </ul> The goal is to have confidence in all of of the code other than
+    your most recent changes. That way you know exactly what to blame if the program stops working
+    as expected. If you do get stuck along the way, you can always go back to the last working
+    version of the code and start over from there.<idx>
+      <h>incremental development</h>
+    </idx>
+  </p>
+
   <insight>
     <p>Breaking large problems into a series of smaller, simpler problems is a powerful general
-      problem solving technique.</p>
-    <p>Programs are developed in stages. Sitting down and trying to write all the code at once is
-      much harder than breaking the program into parts and tackling them one at a time.</p>
+      problem solving technique and a critical habit in programming.</p>
+    <p>Early on as a developer, you should not write more than a few lines of code without stopping to test that they are working as you intended. If there is an error in something you have written, focus on fixing what you have (or back tracking and trying something else). Trying to add more logic to code that isn't working will just make finding and fixing the issue harder.</p>
   </insight>
 
 

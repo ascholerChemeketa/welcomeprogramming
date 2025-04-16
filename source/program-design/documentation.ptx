@@ -1,4 +1,4 @@
-<section xml:id="functions-testing_documentation" xmlns:xi="http://www.w3.org/2001/XInclude">
+<section xml:id="program-design_documentation" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Documenting Functions</title>
 
   <p>To preserve their value as abstractions, we should be able to use a function without
@@ -7,8 +7,8 @@
   can you tell how this function works?
   </p>
 
-  <program xml:id="functions-testing_documentation-1">
-<xi:include href="../../programs/functions-testing/documentation-1.cpp" parse="text"/>
+  <program xml:id="program-design_documentation-1">
+<xi:include href="../../programs/program-design/documentation-1.cpp" parse="text"/>
   </program>
 
   <p>It clearly has something to do with the highest temperature. But what do <c>start</c> and
@@ -19,8 +19,8 @@
   to read (and understand) the code of the function to get that information, we can (and should)
   provide it as comments that go with the function. Here is an example of doing so:</p>
 
-  <program xml:id="functions-testing_documentation-2" line-numbers="yes" highlight-lines="1-8">
-<xi:include href="../../programs/functions-testing/documentation-2.cpp" parse="text"/>
+  <program xml:id="program-design_documentation-2" line-numbers="yes" highlight-lines="1-8">
+<xi:include href="../../programs/program-design/documentation-2.cpp" parse="text"/>
   </program>
 
   <p>
@@ -61,18 +61,16 @@
   <p>This is not an exhaustive list of the things that can be documented (there are things like <c>@author</c>, <c>@bug</c>
   <c>@example</c>, etc...). But these are the most critical items. When working on a programming team or in a class, there will likely be conventions for what items need to be included in your documentation.</p>
 
+  <p>In addition to documenting those aspects of the function, you can provide a longer description for the function after the @ items. This example does so to provide extra information about how the function does its job and
+  what happens if it cannot:</p>
+
+  <program xml:id="program-design_documentation-3" line-numbers="yes" highlight-lines="1-10">
+<xi:include href="../../programs/program-design/documentation-3.cpp" parse="text"/>
+  </program>
+
+
   <note><p>Many text editors understand Doxygen style comments (or have plugins to do so). You should try
   searching to see what options there are for Doxygen in your favorite editor. That will make it easier
   to write comments in the right format and also make those comments more useful to you.</p></note>
-
-  <p>In addition to documenting those aspects of the function, you can provide a longer description for the function after the @ items. This example does so to provide extra information about how the function does its job and what happens if it cannot:</p>
-
-  <program xml:id="functions-testing_documentation-3" line-numbers="yes" highlight-lines="1-10">
-<xi:include href="../../programs/functions-testing/documentation-3.cpp" parse="text"/>
-  </program>
-
-  <note>
-    <p>Many functions in this book lack full comments to reduce the amount of text you need to read through to find the important bits of each code sample. You should assume that any functions you write should be commented.</p>
-  </note>
 
 </section>

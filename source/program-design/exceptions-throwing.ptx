@@ -1,0 +1,22 @@
+<section xml:id="program-design_exceptions-throwing"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Exception Throwing</title>
+
+  <p>When using exceptions, code that detects a problem which it cannot handle should `throw` an exception. You can do so by using the `throw` keyword followed by what you want to throw. Although you can thrown anything (an int, string, etc...). It is generally best to throw some type of `exception`.</p>
+
+  <p>`exception` itself is what is known as an <term>abstract</term> data type. It is a type that describes many more specific types, but nothing is just an `exception`. (Similar to <q>animal</q>. <q>animal</q> describes many different types of creature, but nothing is just an <q>animal</q>. Each particular animal is a dog, or a cat, or a horse.)</p>
+
+  <p>Thus we need to throw something more specific like a `logic_error`. To do that, we say `throw logic_error(STRING);`. The `STRING` should be a string that describes what went wrong. `logic_error` is from the `&lt;stdexcept>` library, so we also need to include it. This sample shows mediumJob throwing a `logic_error`:</p>
+
+  <program xml:id="program-design_exceptions-throwing-1" interactive="activecode">
+<xi:include href="../../programs/program-design/exceptions-throwing-1.cpp" parse="text"/>
+</program>
+
+  <p>In this version of the program, the author of `mediumJob` wrote logic to check for the conditions that would lead to an error. If things do not look good, the function throws the exception (line 10). This ends execution of `mediumJob` and immediately jumps back to `bigJob` to see if the exception is caught there.</p>
+
+  <note><p>One a function throws an exception, no more code will run and no value will be returned via any `return` statements. A `throw` represents a function completely giving up on its job.</p></note>
+
+  <insight><p>`logic_error` is a good catchall for <q>something does not make sense here</q>. There may be times when some other type of exception makes more sense, but we will generally just throw a `logic_error` when throwing exceptions in this book.</p></insight>
+
+</section>

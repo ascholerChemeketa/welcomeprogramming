@@ -1,4 +1,4 @@
-<section xml:id="functions-testing_headers"
+<section xml:id="program-design_headers"
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Header Files</title>
 
@@ -13,10 +13,10 @@
 
   <listing>
     <caption>`library.h`</caption>
-    <program label="functions-testing_headers-library.h"
+    <program label="program-design_headers-library.h"
              line-numbers="yes"
              highlight-lines="3,5,16">
-<xi:include href="../../programs/functions-testing/headers-library.h" parse="text"/>
+<xi:include href="../../programs/program-design/headers-library.h" parse="text"/>
   </program>
   </listing>
 
@@ -38,12 +38,14 @@
     </ul>
   </p>
 
+  <p>It is possible to have functions defined in ``library.cpp`` that are not declared in ``library.h``. Doing so indicates that the unlisted functions are not for use by other ``.cpp`` files - they are <term>internal</term> functions that other code should not rely on.</p>
+
   <p>The header file is designed for `.cpp` files to include it using the <c>#include</c> directive:</p>
 
   <listing>
     <caption>`main.cpp` (with include)</caption>
-    <program label="functions-testing_headers-main-3.cpp">
-<xi:include href="../../programs/functions-testing/headers-main-3.cpp" parse="text"/>
+    <program label="program-design_headers-main.cpp" datafile="Library.cxx">
+<xi:include href="../../programs/program-design/headers-main.cpp" parse="text"/>
   </program>
   </listing>
 
@@ -78,8 +80,11 @@
            width="60%"/>
   </figure>
 
+
   <p>Finally, note that we do not normally have a <q>main.h</q>. `main.cpp` does not have functions
     that are used in any other files and the whole point of a `.h` is to share a list of
     declarations for the functions available in a file.</p>
+
+    <!--TODO examples from chapter11_header-files.html -->
 
 </section>

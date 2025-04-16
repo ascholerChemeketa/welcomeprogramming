@@ -1,0 +1,64 @@
+<section xml:id="program-design_modules"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Modules</title>
+
+  <p>The C++20 standard introduced <term>modules</term>. Modules are a way to break code into multiple
+  files that does not require the use of header files. This method is new, not completely supported by
+  all compilers, and many existing libraries rely on the traditional method of header files. So we will not
+  be using modules extensively in this book.
+  However, it is worth mentioning them here because they are a new way to organize code and
+  they are likely to be the future of C++ programming and the technique more closely matches how other
+  languages work.
+
+    <idx>
+      <h>modules</h>
+    </idx></p>
+
+  <p>A module is written in a single file instead of a .h.cpp pair. Often times, a different extension is used to indicate that a file ia a C++ module. In this book we will use the extension ``.cxx``. Although it is possible to write a module that spans multiple files, we will keep things simple by placing each module in a single file.</p>
+
+  <p>To create a module, we need two new keywords. The `module` keyword is used to declare that we are starting a module. Within a module, `export` is used to state what code in the module is made available to use outside of the module. In a simple library, we may export everything. But in a more complex code base, there may be helper functions that are needed in the module that do not make sense to use outside of the module. In that case, we would not `export` those functions.</p>
+
+  <p>Here is a module file `library.cxx` that would work just like our `library.h`/`library.cpp` pair:</p>
+
+  <listing>
+    <caption>`library.h`</caption>
+    <program label="function-modules-library.cxx"
+             line-numbers="yes"
+             highlight-lines="2, 8, 18">
+<xi:include href="../../programs/program-design/modules-library.cxx" parse="text"/>
+  </program>
+  </listing>
+
+  <p>Key things to note: <ul>
+      <li>Line 2 uses `module;` to declare that this is a module and begin the <q>global module fragment</q>.
+      Any includes (uses of non-module libraries) need to be in this part of the file. If there are no includes needed in a file, this part can be skipped. (We could remove the `&lt;`cmath> include and then remove everything before line 8.)</li>
+      <li><p>Line 8 does three things:
+      <ul>
+      <li>It starts this module</li>
+      <li>It gives the module the name `library`</li>
+      <li>The word `export` makes this library available outside of the module.</li>
+       </ul>
+       </p></li>
+      <li>Line 18 also uses `export` to state that the `doubleValue` function will also be available outside of the module.</li>
+      </ul>
+  </p>
+
+  <p>To use a module in another file, we need to `import` the module (not include it):</p>
+
+  <listing>
+    <caption>`main.cpp` (with import)</caption>
+    <program label="program-design_modules-main.cpp" interactive="activecode" datafile="library.cxx">
+<xi:include href="../../programs/program-design/modules-main.cpp" parse="text"/>
+  </program>
+  </listing>
+
+
+  <datafile label="library.cxx"
+            filename="library.cxx"
+            language="cpp">
+    <pre>
+<xi:include href="../../programs/program-design/modules-library.cxx" parse="text"/>
+</pre>
+  </datafile>
+
+</section>

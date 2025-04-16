@@ -1,0 +1,281 @@
+<exercises xml:id="program-design_exercises"
+           xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Exercises</title>
+
+  <exercise label="mce_5_2">
+    <statement>
+      <p>What would be returned by <c>secretFunction</c> if the input was 14?</p>
+      <program line-numbers="yes">
+        <code>
+int secretFunction(int input) {
+  if (input % 2 == 0) {
+    return 3 * input - 2;
+  }
+  else {
+    if (input % 7 == 0) {
+      return input;
+    }
+    return 2 * input + 9;
+  }
+  return input + 4;
+}
+</code>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement id="mce_5_2_opt_a">
+          <p>14</p>
+        </statement>
+        <feedback>
+          Although 14 is divisible by 7, take another look at the conditionals.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="mce_5_2_opt_b">
+          <p>18</p>
+        </statement>
+        <feedback>
+          The flow of code would never reach the last return statement.
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="mce_5_2_opt_c">
+          <p>36</p>
+        </statement>
+        <feedback>
+          Check your order of operations!
+        </feedback>
+      </choice>
+      <choice>
+        <statement id="mce_5_2_opt_d">
+          <p>37</p>
+        </statement>
+        <feedback>
+          Take a closer look at the conditional statements.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement id="mce_5_2_opt_e">
+          <p>40</p>
+        </statement>
+        <feedback>
+          Since 14 is divisible by 2, the function returns two less than three times 14.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="mucp_5_1"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Vacation time! But before you go, you need to convert your currency.
+        Let's write the code for the <c>dollarToYen</c> function. <c>dollarToYen</c>
+        takes dollar as a parameter and returns the equivalent amount of Japanese yen.
+        The conversion rate is 1 USD equals 149.72 Japanese yen.
+        Put the necessary blocks of code in the correct order.</p>
+    </statement>
+    <blocks>
+      <block order="1">
+        <cline>double dollarToYen(double dollar) {</cline>
+      </block>
+      <block order="5"
+             correct="no">
+        <cline>int dollarToYen(double dollar) {  </cline>
+      </block>
+      <block order="7"
+             correct="no">
+        <cline>void dollarToYen(double dollar) {  </cline>
+      </block>
+      <block order="4"
+             correct="no">
+        <cline>double dollarToYen() {  </cline>
+      </block>
+      <block order="2">
+        <cline>   double yen = 149.72 * dollar;  </cline>
+      </block>
+      <block order="6">
+        <cline>   return yen;</cline>
+      </block>
+      <block order="8"
+             correct="no">
+        <cline>   return 149.72 * yen;  </cline>
+      </block>
+      <block order="3">
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+  <exercise label="VARS_2ervergver">
+    <statement>
+      <p>Many computations can be expressed more concisely using the <q>multadd</q> operation,
+        which takes three operands and computes <c>a * b + c</c>. Some processors even provide a hardware
+        implementation of this operation for floating-point numbers. Write the function `multadd` so that it takes in three double values and returns the result of multiplying the first two and then adding the third value.</p>
+      <program interactive="activecode">
+        <preamble><![CDATA[
+#include <iostream>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+//Write the function multadd here
+
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("multadd") {
+  CHECK(multadd(3, 2, 1.5) == doctest::Approx(7.5));
+  CHECK(multadd(1.25, 3.0, 6) == doctest::Approx(9.75));
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+
+  <exercise label="VARS_2fwebrth">
+    <statement>
+      <p>The <q>wind chill temperature</q> is the temperature it feels like when the wind is blowing. The National Weather Service uses the formula <m>WCT = 35.74 + 0.6215T - 35.75(V^{0.16}) + 0.4275T(V^{0.16})</m> where T is the temperature in degrees F and V is the wind speed (velocity) in miles per hour to calculate the wind chill temperature.  You need to write a function that will do that computation. Examine the tests and determine what the function you need to write is called, what parameters it should take, and what it should return. Then write the function.</p>
+      <program interactive="activecode">
+        <preamble><![CDATA[
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+using namespace std;]]>
+        </preamble>
+        <code>
+
+//Write the function here
+
+
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("windChillTemp") {
+  // 10 mph wind with 50 degree temp
+  CHECK(windChillTemp(10.0, 50) == doctest::Approx(45.5868));
+  // 15.25 mph wind with 32.6 degree temp
+  CHECK(windChillTemp(15.25, 32.6) == doctest::Approx(21.975));
+}
+]]>
+        </tests>
+    </program>
+    </statement>
+  </exercise>
+
+
+  <!-- <exercise>
+    <statement>
+      <p> This exercise reviews the flow of execution through a program with multiple functions.
+        Read the following code and answer the questions: </p>
+
+      <program xml:id="program-design_exercises-1"
+               interactive="activecode">
+<xi:include href="../../programs/program-design/exercises-1.cpp" parse="text"/>
+</program>
+
+      <program xml:id="program-design_exercises-2"
+               interactive="activecode">
+<xi:include href="../../programs/program-design/exercises-2.cpp" parse="text"/>
+</program>
+
+      <program xml:id="program-design_exercises-3"
+               interactive="activecode">
+<xi:include href="../../programs/program-design/exercises-3.cpp" parse="text"/>
+</program>
+
+      <ol>
+        <li>
+          <p>Write the number 1 next to the first line of code in this program that will execute.</p>
+        </li>
+        <li>
+          <p>Write the number 2 next to the second line of code, and so on until the end of the
+            program. If a line is executed more than once, it might end up with more than one number
+            next to it.</p>
+        </li>
+        <li>
+          <p>What is the value of the parameter <c>blimp</c> when <c>baffle</c> gets invoked?</p>
+        </li>
+        <li>
+          <p>What is the output of this program?</p>
+        </li>
+      </ol>
+    </statement>
+  </exercise> -->
+
+  <!-- <exercise>
+    <statement>
+      <p> Answer the following questions without running the program on a computer. <ol>
+          <li>
+            <p>Draw a stack diagram that shows the state of the program the first time <c>ping</c> is
+        invoked.</p>
+          </li>
+          <li>
+            <p>What is output by the following program? Be precise about the placement of spaces and
+        newlines.</p>
+          </li>
+        </ol>
+
+      </p>
+
+      <program xml:id="program-design_exercises-4"
+               interactive="activecode">
+<xi:include href="../../programs/program-design/exercises-4.cpp" parse="text"/>
+</program>
+
+      <program xml:id="program-design_exercises-5"
+               interactive="activecode">
+<xi:include href="../../programs/program-design/exercises-5.cpp" parse="text"/>
+</program>
+
+      <program xml:id="program-design_exercises-6"
+               interactive="activecode">
+<xi:include href="../../programs/program-design/exercises-6.cpp" parse="text"/>
+</program>
+
+      <program xml:id="program-design_exercises-7"
+               interactive="activecode">
+<xi:include href="../../programs/program-design/exercises-7.cpp" parse="text"/>
+</program>
+
+    </statement>
+  </exercise>
+
+  <exercise>
+    <statement>
+      <p> Draw a stack diagram that shows the state of the program the <term>second</term> time <c>zoop</c>
+        is invoked. What is the complete output? </p>
+
+      <program xml:id="program-design_exercises-8"
+               interactive="activecode">
+<xi:include href="../../programs/program-design/exercises-8.cpp" parse="text"/>
+</program>
+
+      <program xml:id="program-design_exercises-9"
+               interactive="activecode">
+<xi:include href="../../programs/program-design/exercises-9.cpp" parse="text"/>
+</program>
+
+      <program xml:id="program-design_exercises-10"
+               interactive="activecode">
+<xi:include href="../../programs/program-design/exercises-10.cpp" parse="text"/>
+</program>
+
+      <program xml:id="program-design_exercises-11">
+<xi:include href="../../programs/program-design/exercises-11.cpp" parse="text"/>
+</program>
+
+    </statement>
+  </exercise> -->
+</exercises>

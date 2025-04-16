@@ -63,4 +63,56 @@ int z = ++x;  // z is 4, x is now 4 - ++x happened first
 
   <p>There is no reason you ever have to use the various shortcut operators. But you are going to see them in code written by others, so it is important to recognize what they do.</p>
 
+  <section xml:id="variables-operators_streams">
+    <title>Streams in Programming</title>
+    <p>A stream in programming is an abstraction used to perform input and output (I/O) operations. It represents a sequence of data elements made available over time. Streams are commonly used to read data from input devices like keyboards or files and to write data to output devices like screens or files.</p>
+    <p>In C++, streams are provided by the Standard Library through classes like <code>std::cin</code>, <code>std::cout</code>, and <code>std::fstream</code>. For example:</p>
+
+    <program>
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    string name;
+    cout &lt;&lt; "Enter your name: ";
+    cin &gt;&gt; name;
+    cout &lt;&lt; "Hello, " &lt;&lt; name &lt;&lt; "!" &lt;&lt; endl;
+    return 0;
+}
+    </program>
+
+    <p>In this example, <code>std::cin</code> is used to read input from the user, and <code>std::cout</code> is used to display output to the screen. Streams make it easy to handle I/O operations in a consistent and efficient manner.</p>
+  </section>
+
+  <section xml:id="variables-operators_file-streams">
+    <title>Reading Integers from a File</title>
+    <p>Streams can also be used to read data from files. Here is an example of reading three integers from a text file named <code>data.txt</code>:</p>
+
+    <program>
+#include &lt;fstream&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    ifstream inputFile("data.txt");
+    if (!inputFile) {
+        cerr &lt;&lt; "Error opening file." &lt;&lt; endl;
+        return 1;
+    }
+
+    int a, b, c;
+    inputFile &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+    inputFile.close();
+
+    cout &lt;&lt; "Read integers: " &lt;&lt; a &lt;&lt; ", " &lt;&lt; b &lt;&lt; ", " &lt;&lt; c &lt;&lt; endl;
+    return 0;
+}
+    </program>
+
+    <p>Ensure that the file <code>data.txt</code> exists in the same directory as the program and contains three integers separated by spaces or newlines. For example:</p>
+    <programlisting>
+10 20 30
+    </programlisting>
+  </section>
+
 </section>

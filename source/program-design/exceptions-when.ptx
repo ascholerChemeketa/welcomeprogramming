@@ -1,0 +1,28 @@
+<section xml:id="program-design_exceptions-when"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Exception When</title>
+
+  <p>After all those details, it is worth briefly reviewing when you should throw an exception. To do this, it helps to imagine that every function is written by a different programmer. Those programmers working on higher level functions know something about lower level ones, but not all of the details. The programmers of low level functions might know nothing at all about higher level ones.</p>
+
+  <figure>
+    <caption>The author of `stringToBool` has no idea what is happening at higher levels. The authors of higher level code do not fully understand what might cause issues for `stringToBool`.</caption>
+    <image width="25%"
+            source="images/exceptions.svg"/>
+  </figure>
+
+  <p>In this situation, `stringToBool` will be the place that the code recognizes `stringToBool("cat")` is a problem. But the code that knows what to do about that problem is higher up. So `stringToBool` should throw an exception and let a higher level function deal with it.</p>
+
+  <p>Using exceptions, here is what our `stringToBool` should look like:</p>
+
+  <program xml:id="program-design_exceptions-when-1" line-numbers="yes" highlight-lines="7-8">
+<xi:include href="../../programs/program-design/error-handling-with-exceptions-1.cpp" parse="text"/>
+</program>
+
+  <p>When the function can't do its job, it makes a message on line 7 and then throws that message on line 8. Line 9 will never execute because of the throw. But some compilers will still want to see that the function ends with a return. In cases like that, it is typical to return some default value and leave a comment to note that the line is just there to make the compiler happy.</p>
+
+  <insight>
+    <p>Exceptions are used to get information about an error from low-level code that detects the error to high-level code that knows what to do about the error.</p>
+  </insight>
+
+</section>

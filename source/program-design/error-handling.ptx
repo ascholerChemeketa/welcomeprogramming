@@ -1,0 +1,84 @@
+<section xml:id="program-design_error-handling"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Error Handling</title>
+
+  <introduction>
+  <p>Sometimes a running function will recognize that there is no way to do its job. Perhaps it is supposed to read a file and that file does not exist. Or maybe it was given a parameter that makes no sense. To explore our options, we will use this function:</p>
+
+  <program xml:id="program-design_error-handling-1">
+<xi:include href="../../programs/program-design/error-handling-1.cpp" parse="text"/>
+</program>
+
+  <p>If the function is called with either `"true"` or `"false"`, all is good. But what should the function do if it is called with `"cat"`?</p>
+
+  <p>The best way to handle the bad value will depend on what the program overall is doing: Is the data user input and we should ask for a new value? Is there a log file that we should print errors to? Is the failure to determine true/false an unrecoverable error?</p>
+
+  <p>Whoever is writing this particular <q>low-level</q> function might have no idea of what the <q>higher level code</q> is doing and thus how to best handle the issue. Furthermore, it is possible the function is being used by many different programs. In that case, there is no single best way to handle the issue.</p>
+  
+  <figure>
+    <caption>A function like `stringToBool` that calls no other functions and does a small task is <q>low-level</q>. A function like `main` that is responsible for everything is <q>high-level</q>.</caption>
+    <image width="25%"
+            source="images/exceptions.svg"/>
+  </figure>
+
+
+  <p>Thus we need a way for a low-level function to communicate back to the caller that there is a problem. The higher-level code is the right place to decide what to do about that issue.</p>
+
+  <p>There are a few common ways to do this: 
+  <ul>
+    <li>End the program with an assertion.</li>
+    <li>Return a special value that indicates an error occurred.</li>
+    <li>Use an extra reference parameter as an error flag.</li>
+    <li>Throw an exception.</li>
+  </ul>
+  </p>
+  </introduction>
+  <subsection>
+    <title>Assertions</title>
+    <p>The first solution is not much of a solution. It is just giving up completely. An <term>assertion</term> is a check that if failed will cause the whole program to end. In C++ we can use include the `&lt;cassert>` library and then make an assertion using `assert`. An `assert` takes a condition to check. If that condition is true, the program continues. If the condition is false, the entire program stops:</p>
+  <program xml:id="program-design_error-handling-2" interactive="activecode">
+<xi:include href="../../programs/program-design/error-handling-2.cpp" parse="text"/>
+</program>
+    <p>Assertions can be useful in development to make sure a program stops instead of trying to hide errors. And they can be useful to make 100% sure a program stops in some critical situation. But they aren't a good tool if want to have any chance to recover from the issue.</p>
+  </subsection>
+
+  <subsection>
+    <title>Special Values</title>
+    <p>The next strategy is to return a special value that indicates an error. This is the strategy used by `size_t string::find(string value)`. It returns the special `string::npos` value when the value is not found.</p>
+
+    <p>However, this is only possible if there is a special value that can't possibly be a real answer. 
+    `string::npos` is a valid `size_t`. But it can never be a valid index into a string. So the caller can check for that special value and know that the search failed.</p>
+
+    <p>In the case of our function, there are only two legal values to return - true or false. And each is a possible real result. So there is no possible special value that can be used to indicate <q>error - I don't know what to do.</q></p>
+
+    <p>In addition to not always being possible, there is a more subtle issue with returning a special value. What if the caller doesn't know how to handle the error?</p>
+
+    <p>For example, imagine a `main()` that has called `bigJob()` that has called `mediumJob()` and that has called `stringToBool()`. `stringToBool()` passes a special value back to `mediumJob()`. `mediumJob()` needs to look for that special value and decide what to do. If it doesn't know how to respond to the issue, it would need its own special value to return to `bigJob()`, which might need to pass a message back to `main()`. Passing error values through multiple levels until we reach a level of code that knows what to do can be painful.</p>
+  </subsection>
+
+  <subsection>
+    <title>Error Flag</title>
+    <p>If we can't return a special value, we could instead use an extra error flag to indicate if there was an issue. To do so, we would add an extra bool reference parameter:</p>
+
+    <program xml:id="program-design_error-handling-3">
+<xi:include href="../../programs/program-design/error-handling-3.cpp" parse="text"/>
+</program>
+
+  <p>Now to call the function, the caller needs to pass in a `bool` variable:</p>
+
+  <program>
+  bool wasError = false;
+  bool result = stringToBool("cat", wasError);
+  </program>
+
+    <p>After `stringToBool` executes, the caller can check `wasError`. If it has changed to `true`, we know not to trust value that was returned by the function.</p>
+
+    <p>This method works. But it requires the extra parameter and suffers from the same issue as returning a special value. Sometimes, the caller won't know what to do about the error. So it would need to set an error flag for its caller, who might need to set an error flag for its caller... We have to modify the entire chain of functions so that the high-level code can get an error back from low-level code.</p>
+  </subsection>
+
+  <subsection>
+    <title>Exceptions</title>
+    <p>Exceptions are the most powerful and complex mechanism for solving our problems. They are given their own sections in the following pages.</p>
+  </subsection>
+</section>

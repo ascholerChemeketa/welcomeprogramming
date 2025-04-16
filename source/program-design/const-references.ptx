@@ -1,0 +1,41 @@
+<section xml:id="program-design_constant-references"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Constant References</title>
+
+  <p>Pass by reference allows a function to modify the data it is passed. This can be useful,
+    especially if we are working with a large piece of data. Imagine we have a function to make a
+    string lower case. If that string uses pass by value, it needs to make a copy of my string,
+    modify that copy, then return the copy so the caller can use the new string. For a very long
+    string, that making those extra copies could be expensive. If the function uses pass by
+    reference, it can just modify the string that was passed in without having to make copies.</p>
+
+  <p>Sometimes we want to pass a reference to a function to avoid extra copies but we don't want
+    that function to be able to modify the data. Say we have a function `countEs` that will count
+    the number of `E`s that appear in the string. We don't want the function to change the string,
+    which `countEs(string&amp; s)` would allow. But we also don't want to copy the parameter, which
+    `countEs(string s) would do.</p>
+
+  <p>The solution is to use a <term>const reference</term>. A <term>const reference</term> is a
+    reference that promises not to change the data that is being pointed to: `add(const int&amp;
+    x)`. Remember that it helps to read declarations backwards <q>x is a reference to an int that
+    shall remain constant</q>. The compiler will treat that declaration as a promise. If you write
+    any code that tries to modify what the const reference points at, it will be a compile error:</p>
+
+  <program xml:id="program-design_const-references-1"
+           interactive="activecode">
+<xi:include href="../../programs/program-design/const-references-1.cpp" parse="text"/>
+</program>
+
+  <insight>
+    <p>Other than one detail described below, declaring a reference to be `const` doesn't allow it
+      to do anything new. It just asks the compiler to help avoid accidental changes to the
+      referenced value. It is a way for a function to make a binding promise to the caller: <q>you
+      are going to give me access to some of your memory, but I promise I won't change that memory.</q>
+    </p>
+    <p>The one extra things you can do with a const reference: a `const` reference is allowed to
+      reference a const variable (a normal constant). A normal reference is not allowed to.
+      Otherwise we could use the reference to change the `const`. We won't need to use this feature.</p>
+  </insight>
+
+</section>

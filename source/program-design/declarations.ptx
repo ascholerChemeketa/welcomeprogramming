@@ -1,10 +1,9 @@
-<section xml:id="functions-testing_declarations"
+<section xml:id="program-design_declarations"
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Declaring vs Defining Functions</title>
 
   <p>Although we have been using functions for a while now, we have not yet discussed the difference
-    between <term>declaring</term> a function and <term>defining</term> a function. The distinction
-    is important because it helps us understand how the compiler processes our code. <idx>
+    between <term>declaring</term> a function and <term>defining</term> a function.<idx>
       <h>function</h>
       <h>declaration</h>
     </idx><idx>
@@ -17,16 +16,16 @@
     the program. To write a function declaration, we write its prototype, but instead of providing
     the body, we just place a <c>;</c> at the end:</p>
 
-  <program xml:id="functions-testing_declarations-1">
-<xi:include href="../../programs/functions-testing/declarations-1.cpp" parse="text"/>
+  <program xml:id="program-design_declarations-1">
+<xi:include href="../../programs/program-design/declarations-1.cpp" parse="text"/>
   </program>
 
 
   <p>A <term>function definition</term> is the actual implementation of the function. It is what we
     have seen up to now - the prototype plus the body of the function.</p>
 
-  <program xml:id="functions-testing_declarations-2">
-<xi:include href="../../programs/functions-testing/declarations-2.cpp" parse="text"/>
+  <program xml:id="program-design_declarations-2">
+<xi:include href="../../programs/program-design/declarations-2.cpp" parse="text"/>
   </program>
 
   <p>When we declare a function, we are telling the compiler that the function exists and that it
@@ -35,14 +34,15 @@
     knows whether or not the function call makes sense. Later on, when it sees the actual function
     definition, it can actually link up the code from the call to the code in the function.</p>
 
-  <p>This allows us to use the function before we define it. This is useful when we have multiple
+  <p>This distinction allows us to write that uses a function before we define it. This flexibility for
+    ordering definitions is useful when we have multiple
     functions that call each other, or when we want to separate the implementation of a function
     from its use. Say I want to put the <c>main</c> function in my program at the top of my code file. I
     can do so by first declaring my functions, then writing main, then defining my other functions.</p>
 
-  <program xml:id="functions-testing_declarations-3"
+  <program xml:id="program-design_declarations-3"
            interactive="activecode">
-<xi:include href="../../programs/functions-testing/declarations-3.cpp" parse="text"/>
+<xi:include href="../../programs/program-design/declarations-3.cpp" parse="text"/>
   </program>
 
   <p>Think of a declaration as you making a promise to the compiler and a definition as you

@@ -33,6 +33,8 @@ int main() {
     </program>
   </listing>
 
+  <note><p>The full formal name of string is `std::string`. Like with `std::cout` or `std::endl`, you can either use that full name or add `using namespace std;` to your file, in which case the compiler will assume that `string` really means `std::string`.</p></note>
+
   <p>Strings have a maximum length that depends on the platform (usually billions of characters). And they can be can be just 1 character long, or even 0 characters. Unlike numeric types, if you fail to initialize a string, you can count on it being empty instead of having a random value:</p>
 
   <program>

@@ -1,0 +1,146 @@
+<section xml:id="program-design_incremental-development" xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Incremental Development</title>
+
+
+      <p> In the last part of this exercise, you need to write a function that invokes another
+        function you wrote. Whenever you do that, it is a good idea to test the first function
+        carefully before working on the second. Otherwise, you might find yourself debugging two
+        functions at the same time, which can be difficult. </p>
+
+      <p> One of the purposes of this exercise is to practice pattern-matching: the ability to
+        recognize a specific problem as an instance of a general category of problems. </p>
+
+
+  <p>Beginners often wonder why it's worth the trouble to write other functions, when they could
+    just do everything in <c>main</c>. The <c>NewLine</c> example demonstrates a few reasons: <ul>
+      <li>
+        <p>Creating a new function allows you to <term>name a block of statements</term>, which
+    makes the code easier to read and understand.</p>
+      </li>
+      <li>
+        <p>Introducing new functions can <term>make the program shorter</term> by eliminating
+    repetitive code. For example, to display nine consecutive newlines, you could invoke <c>threeLine</c>
+    three times.</p>
+      </li>
+      <li>
+        <p>A common problem-solving technique is to <term>break problems down</term> into
+    subproblems. functions allow you to focus on each subproblem in isolation, and then compose them
+    into a complete solution.</p>
+      </li>
+    </ul>
+  </p>
+
+  <p>Perhaps most importantly, organizing your code into multiple functions allows you to test
+    individual parts of your program separately. It's easier to get a complex program working if you
+    know that each function works correctly. </p>
+
+
+
+<p>
+    <idx><h>incremental development</h></idx>
+    <idx><h>design process</h></idx>
+People often make the mistake of writing a lot of code before they try to compile and run it.
+Then they spend way too much time debugging.
+A better approach is <term>incremental development</term>.
+Its key aspects are as follows:
+<ul>
+<li><p>Start with a working program and make small, incremental changes.
+At any point, if there is an error, you will know where to look.</p></li>
+<li><p>Use variables to hold intermediate values so you can check them, either with print statements or by using a debugger.</p></li>
+<li><p>Once the program is working, you can consolidate multiple statements into compound expressions (but only if it does not make the program more difficult to read).</p></li>
+</ul>
+</p>
+
+<p>
+As an example, suppose you want to find the distance between two points, given by the coordinates <m>(x_1, y_1)</m> and <m>(x_2, y_2)</m>.
+By the usual definition:
+<me>
+  distance = \sqrt{(x_2 - x_1)^2 +(y_2 - y_1)^2}
+</me>
+</p>
+
+<p>
+The first step is to consider what a <c>distance</c> function should look like in Java.
+In other words, what are the inputs (parameters) and what is the output (return value)?
+For this function, the parameters are the two points, and it is natural to represent them using four <c>double</c> values.
+The return value is the distance, which should also have type <c>double</c>.
+</p>
+
+<p>
+    <idx><h>stub</h></idx>
+Already we can write an outline for the function, which is sometimes called a <term>stub</term>.
+The stub includes the function declaration and a <c>return</c> statement:
+</p>
+
+<program xml:id="program-design_incremental-development-1">
+<xi:include href="../../programs/program-design/incremental-development-1.cpp" parse="text"/>
+</program>
+
+<p>
+The <c>return</c> statement is a placeholder that is necessary only for the program to compile.
+At this stage, the program doesn't do anything useful, but it is good to compile it so we can find any syntax errors before we add more code.
+</p>
+
+<p>
+    <idx><h>testing</h></idx>
+It's usually a good idea to think about testing <term>before</term> you develop new functions; doing so can help you figure out how to implement them.
+To test the function, we can invoke it from <c>main</c> by using the sample values:
+</p>
+
+<program xml:id="program-design_incremental-development-2">
+<xi:include href="../../programs/program-design/incremental-development-2.cpp" parse="text"/>
+</program>
+
+<p>
+With these values, the horizontal distance is 3.0 and the vertical distance is 4.0.
+So the result should be 5.0, the hypotenuse of a 3-4-5 triangle.
+When you are testing a function, it is necessary to know the right answer.
+</p>
+
+<p>
+Once we have compiled the stub, we can start adding code one line at a time.
+After each incremental change, we recompile and run the program.
+If there is an error, we have a good idea of where to look: the lines we just added.
+</p>
+
+<p>
+The next step is to find the differences, <m>x_2 - x_1</m> and <m>y_2 - y_1</m>.
+We store those values in temporary variables named <c>dx</c> and <c>dy</c>, so that we can examine them with print statements before proceeding.
+They should be 3.0 and 4.0:
+</p>
+
+<program xml:id="program-design_incremental-development-3">
+<xi:include href="../../programs/program-design/incremental-development-3.cpp" parse="text"/>
+</program>
+
+<p>
+    <idx><h>scaffolding</h></idx>
+We will remove the print statements when the function is finished.
+Code like that is called <term>scaffolding</term>, because it is helpful for building the program but is not part of the final product.
+</p>
+
+<p>
+The next step is to square <c>dx</c> and <c>dy</c>.
+We could use the <c>Math.pow</c> function, but it is simpler (and more efficient) to multiply each term by itself.
+Then we add the squares and print the result so far:
+</p>
+
+<program xml:id="program-design_incremental-development-4">
+<xi:include href="../../programs/program-design/incremental-development-4.cpp" parse="text"/>
+</program>
+
+<p>
+Again, you should compile and run the program at this stage and check the intermediate value, which should be 25.0.
+Finally, we can use <c>Math.sqrt</c> to compute and return the result:
+</p>
+
+<program xml:id="program-design_incremental-development-5">
+<xi:include href="../../programs/program-design/incremental-development-5.cpp" parse="text"/>
+</program>
+
+<p>
+As you gain more experience programming, you might write and debug more than one line at a time.
+But if you find yourself spending a lot of time debugging, consider taking smaller steps.
+</p>
+</section>
