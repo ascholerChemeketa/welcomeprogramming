@@ -11,7 +11,7 @@
         world", 'o')` returns the string <q>Bye w*rld</q>.</p>
     </statement>
     <blocks>
-      <block order="3">
+      <block>
         <choice correct="yes">
           <cline>string censorLetter(string input, char letter) {</cline>
         </choice>
@@ -19,7 +19,7 @@
           <cline>string censorLetter(string input) {  </cline>
         </choice>
       </block>
-      <block order="6">
+      <block>
         <choice correct="yes">
           <cline>   size_t i = 0;</cline>
         </choice>
@@ -27,10 +27,10 @@
           <cline>   size_t i = 1;  </cline>
         </choice>
       </block>
-      <block order="9">
+      <block>
         <cline><![CDATA[   while (i < input.length()) {]]></cline>
       </block>
-      <block order="13">
+      <block>
         <choice correct="yes">
           <cline>      if (input.at(i) == letter) {</cline>
         </choice>
@@ -38,7 +38,7 @@
           <cline>      if (input.at(i) == "letter") {  </cline>
         </choice>
       </block>
-      <block order="8">
+      <block>
         <choice correct="yes">
           <cline>         input.at(i) = '*';</cline>
         </choice>
@@ -46,19 +46,19 @@
           <cline>         '*' = input.at(i);  </cline>
         </choice>
       </block>
-      <block order="7">
+      <block>
         <cline>      }</cline>
       </block>
-      <block order="10">
+      <block>
         <cline>      i++;</cline>
       </block>
-      <block order="11">
+      <block>
         <cline>   }</cline>
       </block>
-      <block order="14">
+      <block>
         <cline>   return input;</cline>
       </block>
-      <block order="4">
+      <block>
         <cline>}</cline>
       </block>
     </blocks>
@@ -78,7 +78,7 @@
         mixed up and contains extra blocks. Put the necessary blocks in the correct order.</p>
     </statement>
     <blocks>
-      <block order="1">
+      <block>
         <choice correct="yes">
           <cline>bool ispalindrome(string input) {</cline>
         </choice>
@@ -86,7 +86,7 @@
           <cline>string ispalindrome(bool input) {  </cline>
         </choice>
       </block>
-      <block order="7">
+      <block>
         <choice correct="yes">
           <cline>   size_t front = 0;</cline>
           <cline>   size_t front = back = input.length() - 1;</cline>
@@ -96,7 +96,7 @@
           <cline>   size_t back = input.length(); </cline>
         </choice>
       </block>
-      <block order="4">
+      <block>
         <choice correct="yes">
           <cline>   while ( front &lt; back ) {</cline>
         </choice>
@@ -104,25 +104,24 @@
           <cline>   while ( front &gt; back ) { </cline>
         </choice>
       </block>
-      <block order="2">
+      <block>
         <cline>      if ( input.at(back) != input.at(front) ) {</cline>
       </block>
-      <block order="14"
-             correct="no">
+      <block correct="no">
         <cline>      else { </cline>
       </block>
-      <block order="10">
+      <block>
         <cline>         return false;</cline>
         <cline>      }</cline>
       </block>
-      <block order="13">
+      <block>
         <cline>      front = front + 1;</cline>
         <cline>      back = back - 1;</cline>
       </block>
-      <block order="15">
+      <block>
         <cline>   }</cline>
       </block>
-      <block order="12">
+      <block>
         <cline>   return true;</cline>
         <cline>}</cline>
       </block>

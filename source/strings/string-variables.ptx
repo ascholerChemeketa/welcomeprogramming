@@ -197,28 +197,28 @@ cout << s.at( s.length() - 5 ) << endl;
       <p>Construct a program that prints out the length of the string <pf>Programming</pf>.</p>
     </statement>
     <blocks>
-      <block order="6" name="main">
+      <block name="main">
         <cline>int main() {</cline>
           </block>
-          <block order="7" name="course" depends="main">
+          <block name="course" depends="main">
         <cline> string course = "Programming";</cline>
       </block>
-      <block order="3" name="num_chars" depends="main">
+      <block name="num_chars" depends="main">
         <cline> size_t num_chars;</cline>
       </block>
-      <block order="1" correct="no" name="bad1">
+      <block correct="no" name="bad1">
         <cline> string num_chars; </cline>
       </block>
-      <block order="2"  name="set_num_chars" depends="course num_chars">
+      <block  name="set_num_chars" depends="course num_chars">
         <choice correct="yes">
           <cline> num_chars = course.length();</cline></choice>
         <choice  name="bad2">
           <cline> num_chars = length(course); </cline></choice>
       </block>
-      <block order="4" name="print_num_chars" depends="set_num_chars">
+      <block name="print_num_chars" depends="set_num_chars">
         <cline><![CDATA[ cout << num_chars << endl;]]></cline>
       </block>
-      <block order="5" depends="print_num_chars">
+      <block depends="print_num_chars">
         <cline>}</cline>
       </block>
     </blocks>

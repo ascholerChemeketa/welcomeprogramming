@@ -116,21 +116,21 @@ int main() {
       <p>Create a code block that copies all the lines from one file to another file.</p>
     </statement>
     <blocks>
-      <block order="5">
+      <block>
         <cline>ifstream infile("input_file_name");</cline>
         <cline>ofstream outfile("input_file_name");</cline>
       </block>
-      <block order="6">
+      <block>
         <cline>if (infile.error() || outfile.error() ) {</cline>
       </block>
-      <block order="4">
+      <block>
         <cline><![CDATA[ cout << "Unable to open one of the files." << endl;]]></cline>
       </block>
-      <block order="2">
+      <block>
         <cline> return 1;</cline>
         <cline>}</cline>
       </block>
-      <block order="3">
+      <block>
       <choice correct="yes">
         <cline>while (!infile.eof()) {</cline>
       </choice>
@@ -138,7 +138,7 @@ int main() {
         <cline>while (!outfile.eof()) {</cline>
       </choice>
       </block>
-      <block order="9">
+      <block>
         <choice correct="yes">
           <cline> string line;</cline>
           <cline> getline(infile, line);</cline>
@@ -148,7 +148,7 @@ int main() {
           <cline> getline(outfile, line);</cline>
         </choice>
       </block>
-      <block order="1">
+      <block>
         <choice correct="yes">
         <cline><![CDATA[ outfile << line << endl;]]></cline>
         </choice>
@@ -156,7 +156,7 @@ int main() {
         <cline><![CDATA[ cout << line << endl;]]></cline>
         </choice>
       </block>
-      <block order="7">
+      <block>
         <cline>}</cline>
       </block>
     </blocks>
@@ -172,10 +172,10 @@ int main() {
         opens that file. Put the necessary blocks of code in the correct order.</p>
     </statement>
     <blocks>
-      <block order="2">
+      <block>
         <cline>int main() {</cline>
       </block>
-      <block order="10">
+      <block>
         <choice correct="yes">
           <cline>   string filename;</cline>
         </choice>
@@ -183,13 +183,13 @@ int main() {
           <cline>   ifstream filename;  </cline>
         </choice>
       </block>
-      <block order="12">
+      <block>
         <cline><![CDATA[   cout << "Enter the name of the file: ";]]></cline>
       </block>
-      <block order="3">
+      <block>
         <cline>   cin &gt;&gt; filename;</cline>
       </block>
-      <block order="7">
+      <block>
         <choice correct="yes">
           <cline>   ifstream infile(filename);</cline>
         </choice>
@@ -197,19 +197,19 @@ int main() {
           <cline>   ifstream filename;  </cline>
         </choice>
       </block>
-      <block order="11">
+      <block>
         <cline>   if (infile.error()) {</cline>
       </block>
-      <block order="8">
+      <block>
         <cline><![CDATA[      cout << "Unable to open the file." << endl;]]></cline>
       </block>
-      <block order="9">
+      <block>
         <cline>      exit(1);</cline>
       </block>
-      <block order="1">
+      <block>
         <cline>   }</cline>
       </block>
-      <block order="5">
+      <block>
         <cline>}</cline>
       </block>
     </blocks>

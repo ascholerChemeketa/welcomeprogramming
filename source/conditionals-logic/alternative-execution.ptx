@@ -98,11 +98,11 @@ int main() {
         the price is less than $30.00, print <q>Inexpensive!</q>:</p>
     </statement>
     <blocks>
-      <block order="1">
+      <block>
         <cline>int cost = 0;</cline>
         <cline>cin &gt;&gt; cost;</cline>
       </block>
-      <block order="5">
+      <block>
         <choice correct="yes">
           <cline>if (cost &gt; 30) {</cline>
         </choice>
@@ -110,13 +110,13 @@ int main() {
           <cline>if (cost &gt; 30) </cline>
         </choice>
       </block>
-      <block order="3">
+      <block>
         <cline><![CDATA[ cout << "Expensive!";]]></cline>
       </block>
-      <block order="6">
+      <block>
         <cline>} //"if" bracket</cline>
       </block>
-      <block order="7">
+      <block>
         <choice correct="yes">
           <cline>else {</cline>
         </choice>
@@ -124,7 +124,7 @@ int main() {
           <cline>else (cost &lt; 30) {</cline>
         </choice>
       </block>
-      <block order="2">
+      <block>
         <choice correct="yes">
           <cline><![CDATA[ cout << "Inexpensive!";]]></cline>
         </choice>
@@ -132,7 +132,7 @@ int main() {
           <cline><![CDATA[ cout << "Inexpensive!"]]></cline>
         </choice>
       </block>
-      <block order="4">
+      <block>
         <cline>} //"else" bracket</cline>
       </block>
     </blocks>

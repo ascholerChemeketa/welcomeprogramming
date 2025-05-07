@@ -72,49 +72,46 @@
         even.</p>
     </statement>
     <blocks>
-      <block order="1">
+      <block>
         <cline>bool positiveFlag = (x &gt; 0);</cline>
       </block>
-      <block order="14"
-             correct="no">
+      <block correct="no">
         <cline><![CDATA[bool positiveFlag = (x < 0); ]]></cline>
       </block>
-      <block order="2">
+      <block>
         <cline>bool evenFlag = (x % 2 == 0);</cline>
       </block>
-      <block order="10"
-             correct="no">
+      <block correct="no">
         <cline>bool evenFlag = (x % 2 == 1); </cline>
       </block>
-      <block order="11">
+      <block>
         <cline>if (evenFlag &amp;&amp; positiveFlag) {</cline>
       </block>
-      <block order="3"
-             correct="no">
+      <block correct="no">
         <cline>if (evenFlag || positiveFlag) {  </cline>
       </block>
-      <block order="9">
+      <block>
         <cline> cout &lt;&lt; "both";</cline>
       </block>
-      <block order="6">
+      <block>
         <cline>} else if (evenFlag) {</cline>
       </block>
-      <block order="4">
+      <block>
         <cline> cout &lt;&lt; "even";</cline>
       </block>
-      <block order="13">
+      <block>
         <cline>} else if (positiveFlag) {</cline>
       </block>
-      <block order="7">
+      <block>
         <cline><![CDATA[ cout << "positive";]]></cline>
       </block>
-      <block order="12">
+      <block>
         <cline>} else {</cline>
       </block>
-      <block order="8">
+      <block>
         <cline> cout &lt;&lt; "neither";</cline>
       </block>
-      <block order="5">
+      <block>
         <cline>}</cline>
       </block>
     </blocks>

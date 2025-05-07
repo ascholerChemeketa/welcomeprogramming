@@ -46,32 +46,28 @@
         so each element is doubled.</p>
     </statement>
     <blocks>
-      <block order="7">
+      <block>
         <cline><![CDATA[vector<int> numbers = {1, 2, 3, 4, 5};]]></cline>
       </block>
-      <block order="8">
+      <block>
         <cline><![CDATA[for (size_t i = 0; i < numbers.size(); i++) {]]></cline>
       </block>
-      <block order="6">
+      <block>
         <cline> numbers.at(i) = numbers.at(i) * 2;</cline>
       </block>
-      <block order="5">
+      <block>
         <cline>}</cline>
       </block>
-      <block order="3"
-             correct="no">
+      <block correct="no">
         <cline>vector numbers = {1, 2, 3, 4, 5}; </cline>
       </block>
-      <block order="4"
-             correct="no">
+      <block correct="no">
         <cline><![CDATA[for (size_t i = 1; i <= numbers.size(); ++i) { ]]></cline>
       </block>
-      <block order="1"
-             correct="no">
+      <block correct="no">
         <cline><![CDATA[for (int i = 0; i < numbers.size(); i++) { ]]></cline>
       </block>
-      <block order="2"
-             correct="no">
+      <block correct="no">
         <cline>numbers.at(i) * 2; </cline>
       </block>
     </blocks>
@@ -86,22 +82,22 @@
       <p>Suppose you have the vector <pf><![CDATA[vector<string> words = {"car", "cat", "switch", "alpha"}]]></pf>. Construct a block of code that makes each word upper case and results in the vector to <pf><![CDATA[vector<string> words = {"Car", "Cat", "Switch", "Alpha"}]]></pf></p>
     </statement>
     <blocks>
-      <block order="7">
+      <block>
         <cline><![CDATA[for (string word& : words) {]]></cline>
       </block>
-      <block order="7" correct="no">
+      <block correct="no">
         <cline><![CDATA[for (string word : words) {]]></cline>
       </block>
-      <block order="7" correct="no">
+      <block correct="no">
         <cline><![CDATA[for (string word in words) {]]></cline>
       </block>
-      <block order="11">
+      <block>
         <cline> word.at(0) = toupper(word.at(0));</cline>
       </block>
-      <block order="11" correct="no">
+      <block correct="no">
         <cline> words.at(0) = toupper(words.at(0));</cline>
       </block>
-      <block order="3">
+      <block>
         <cline>}</cline>
       </block>
     </blocks>

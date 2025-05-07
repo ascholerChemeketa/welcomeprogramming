@@ -202,7 +202,7 @@ name2 += " Turing";        // name2 is now "Alan Turing"
         Example: <pf>greeter("Bob")</pf> will print <q>Hello Bob. goodbye.</q></p>
     </statement>
     <blocks>
-      <block order="8">
+      <block>
         <choice correct="yes">
           <cline>string beginning = "Hello ";</cline>
           <cline>string end = ". goodbye.";</cline>
@@ -212,7 +212,7 @@ name2 += " Turing";        // name2 is now "Alan Turing"
           <cline>string end = ". goodbye.";</cline>
         </choice>
       </block>
-      <block order="5">
+      <block>
         <choice correct="yes">
           <cline>string newWord = beginning + message;</cline>
         </choice>
@@ -220,7 +220,7 @@ name2 += " Turing";        // name2 is now "Alan Turing"
           <cline>string newWord = message + beginning; </cline>
         </choice>
       </block>
-      <block order="5">
+      <block>
         <choice correct="yes">
           <cline>newWord += end;</cline>
         </choice>
@@ -228,11 +228,10 @@ name2 += " Turing";        // name2 is now "Alan Turing"
           <cline>newWord + end;</cline>
         </choice>
       </block>
-      <block order="3"
-             correct="no">
+      <block correct="no">
         <cline><![CDATA[cout << "newWord"; ]]></cline>
       </block>
-      <block order="6">
+      <block>
         <cline>cout &lt;&lt; newWord;</cline>
       </block>
     </blocks>

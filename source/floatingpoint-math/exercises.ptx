@@ -16,37 +16,34 @@
         height of 4. Store the result into a variable before printing it.</p>
     </statement>
     <blocks>
-      <block order="1" name="start">
+      <block name="start">
         <cline>int main() {</cline>
       </block>
-      <block order="7"
-             correct="no">
+      <block correct="no">
         <cline><![CDATA[ cout << 3.14 * 3 ^ 2 * 4; ]]></cline>
       </block>
-      <block order="6" name="height" depends="start">
+      <block name="height" depends="start">
         <cline> double height = 4; </cline>
       </block>
-      <block order="11" name="radius" depends="start">
+      <block name="radius" depends="start">
         <cline> double radius = 3; </cline>
     </block>
-      <block order="5" name="base" depends="radius">
+      <block name="base" depends="radius">
         <cline> double base = 3.14 * pow(radius, 2); </cline>
       </block>
-      <block order="2"
-             correct="no">
+      <block correct="no">
         <cline> double base = 3.14 * radius ^ 2; </cline>
       </block>
-      <block order="10"
-             correct="no">
+      <block correct="no">
         <cline><![CDATA[ cout << base * height; ]]></cline>
       </block>
-      <block order="8" name="vol" depends="base height">
+      <block name="vol" depends="base height">
         <cline> double volume = base * height; </cline>
       </block>
-      <block order="4" name="print" depends="vol">
+      <block name="print" depends="vol">
         <cline> cout &lt;&lt; volume; </cline>
       </block>
-      <block order="3" depends="print">
+      <block depends="print">
         <cline>}</cline>
       </block>
     </blocks>
@@ -63,10 +60,10 @@
         saving if the system originally costed $359.99?</p>
     </statement>
     <blocks>
-      <block order="4">
+      <block>
         <cline>int main() {</cline>
       </block>
-      <block order="5">
+      <block>
         <choice correct="yes">
           <cline> double game = 359.99;</cline>
         </choice>
@@ -74,7 +71,7 @@
           <cline> double game = $359.99; </cline>
         </choice>
       </block>
-      <block order="2">
+      <block>
         <choice correct="yes">
           <cline> double discount = game * 0.60;</cline>
         </choice>
@@ -82,7 +79,7 @@
           <cline> double discount = game - (0.60 * game); </cline>
         </choice>
       </block>
-      <block order="9">
+      <block>
         <choice correct="yes">
           <cline> double moneySaved = game - discount;</cline>
         </choice>
@@ -93,10 +90,10 @@
           <cline> double moneySaved = game + discount;</cline>
         </choice>
       </block>
-      <block order="1">
+      <block>
         <cline> <![CDATA[ cout << moneySaved; ]]></cline>
       </block>
-      <block order="6">
+      <block>
         <cline>}</cline>
       </block>
     </blocks>

@@ -128,30 +128,26 @@
         order). This should work no matter what <pf>vec</pf> is.</p>
     </statement>
     <blocks>
-      <block order="4">
+      <block>
         <cline>vec.at(0) = 6;</cline>
       </block>
-      <block order="1">
+      <block>
         <cline>vec.at(2) = vec.at(2) * 2;</cline>
       </block>
-      <block order="5">
+      <block>
         <cline>size_t last = vec.size() - 1;</cline>
         <cline>vec.at(last)++;</cline>
       </block>
-      <block order="7"
-             correct="no">
+      <block correct="no">
         <cline>vec.at(1) = 6; </cline>
       </block>
-      <block order="2"
-             correct="no">
+      <block correct="no">
         <cline>vec.at(0) == 6; </cline>
       </block>
-      <block order="6"
-             correct="no">
+      <block correct="no">
         <cline>vec.at(3) = vec.at(3) * 2; </cline>
       </block>
-      <block order="3"
-             correct="no">
+      <block correct="no">
         <cline>size_t last = vec.size(); </cline>
         <cline>vec.at(last)++;</cline>
       </block>

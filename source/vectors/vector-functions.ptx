@@ -39,7 +39,7 @@
       <p>Construct the <pf>makeEven</pf> function that makes a new vector by looping through <pf>vec</pf> to copy elements. Any element with an odd value get 1 added to make it even before it is copied.</p>
     </statement>
     <blocks>
-      <block order="10">
+      <block>
         <choice correct="yes">
           <cline><![CDATA[vector<int> makeEven(const vector<int>& vec) {]]></cline>
         </choice>
@@ -47,10 +47,10 @@
           <cline><![CDATA[void makeEven(vector<int> vec) {                         ]]></cline>
         </choice>
       </block>
-      <block order="19">
+      <block>
           <cline><![CDATA[   vector<int> copiedValues;]]></cline>
       </block>
-      <block order="2">
+      <block>
         <choice correct="yes">
           <cline><![CDATA[   for (size_t i = 0; i < vec.size(); ++i) {]]></cline>
           <cline><![CDATA[      int value = vec.at(i);]]></cline>
@@ -60,7 +60,7 @@
           <cline><![CDATA[      int value = vec.at(i);]]></cline>
         </choice>
       </block>
-      <block order="5">
+      <block>
         <choice correct="yes">
           <cline>      if (value % 2 == 1) {</cline>
         </choice>
@@ -68,7 +68,7 @@
           <cline>      if (i % 2 == 1) {                         </cline>
         </choice>
       </block>
-      <block order="1">
+      <block>
         <choice correct="yes">
           <cline>         value += 1;</cline>
           <cline>      }</cline>
@@ -78,10 +78,10 @@
           <cline>      }</cline>
         </choice>
       </block>
-      <block order="9">
+      <block>
           <cline><![CDATA[      copiedValues.push_back(value);]]></cline>
       </block>
-      <block order="7">
+      <block>
         <cline>   }</cline>
         <cline>   return vec;</cline>
         <cline>}</cline>

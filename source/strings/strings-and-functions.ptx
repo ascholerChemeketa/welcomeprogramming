@@ -33,13 +33,13 @@ string fullName(string first, string last) {
       <p>Build the function <pf>countLetter</pf>. It accepts a string and the letter to count as arguments. It should return the number of times the letter appears in the string.</p>
     </statement>
     <blocks>
-      <block order="4">
+      <block>
         <cline>int countLetters(string s, char letter) {</cline>
       </block>
-      <block order="9">
+      <block>
         <cline> int count = 0;</cline>
       </block>
-      <block order="2">
+      <block>
       <choice correct="yes">
         <cline> <![CDATA[for (size_t i = 0; i < s.length(); ++i) {]]></cline>
       </choice>
@@ -47,21 +47,21 @@ string fullName(string first, string last) {
         <cline> <![CDATA[for (size_t i = 0; i < letter.length(); ++i) {]]></cline>
       </choice>
       </block>
-      <block order="10">
+      <block>
         <cline>  if (s.at(i) == letter) {</cline>
       </block>
-      <block order="6">
+      <block>
         <cline>   count = count + 1;</cline>
         <cline>  }</cline>
       </block>
-      <block order="13" correct="no">
+      <block correct="no">
         <cline>  i = i + 1;</cline>
         <cline> }</cline>
       </block>
-      <block order="10">
+      <block>
         <cline> }</cline>
       </block>
-      <block order="1">
+      <block>
         <cline> return count;</cline>
         <cline>}</cline>
       </block>

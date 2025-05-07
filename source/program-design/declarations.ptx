@@ -67,31 +67,26 @@
         other function definition. There are many possible correct orderings.</p>
     </statement>
     <blocks>
-      <block order="2"
-             name="foo_declare">
+      <block name="foo_declare">
         <cline>void foo();</cline>
       </block>
-      <block order="3"
-             name="foo"
+      <block name="foo"
              depends="foo_declare">
         <cline>void foo() {</cline>
         <cline> cout &lt;&lt; "Hello!" &lt;&lt; endl;</cline>
         <cline> bar();</cline>
         <cline>}</cline>
       </block>
-      <block order="5"
-             name="bar_declare">
+      <block name="bar_declare">
         <cline>void bar();</cline>
       </block>
-      <block order="4"
-             name="bar"
+      <block name="bar"
              depends="bar_declare">
         <cline>void bar() {</cline>
         <cline> cout &lt;&lt; "Bye!" &lt;&lt; endl;</cline>
         <cline>}</cline>
       </block>
-      <block order="1"
-             depends="foo_declare">
+      <block depends="foo_declare">
         <cline>int main() {</cline>
         <cline> foo();</cline>
         <cline>} </cline>

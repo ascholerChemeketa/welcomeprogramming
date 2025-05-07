@@ -43,10 +43,10 @@
       check each element. If we find the target value in the vector, we change the <pf>location</pf> and
       break out of the loop. When the loop is done, if <pf>location</pf> still matches the <pf>size()</pf>, we
       know the value was not found.</p>
-    </subsection>
+  </subsection>
 
-    <subsection xml:id="vectors_traversing-recipes-reduction">
-      <title>Reduce</title>
+  <subsection xml:id="vectors_traversing-recipes-reduction">
+    <title>Reduce</title>
     <p>
       <idx>
         <h>reduce</h>
@@ -56,80 +56,89 @@
       the sum of its elements. A reduction always needs an <term>accumulator</term> variable where
       we store the answer. As we visit each element, we update that variable as appropriate.</p>
 
-    <p>We have already seen one reduction recipe - calculating the sum of the values in a vector. In this recipe, our accumulator is the total and starts with a value of 0:</p>
+    <p>We have already seen one reduction recipe - calculating the sum of the values in a vector. In
+      this recipe, our accumulator is the total and starts with a value of 0:</p>
 
     <program xml:id="vectors_traversing-recipes-2">
 <xi:include href="../../programs/vectors/traversing-recipes-2.cpp" parse="text"/>
 </program>
 
-    <p>Finding the smallest value in a vector can also be thought of as a reduction. In this case, our accumulator needs to keep track of the <q>smallest
-      value we have seen so far</q> (called <pf>minimum</pf> in the sample below). As we visit each
-      element, we compare it to <pf>minimum</pf>, and if it is lower, we need to change <pf>minimum</pf> to store
-      the new lowest value that we have just discovered. But for this to work, we can't start with 0
-      in our accumulator. If we did, we could go through the entire vector and never find anything smaller, and
-      thus end up thinking that 0 was the minimum value. For situations like this it is common to use
-      the first value to initialize the accumulator and then loop through all the elements after the
-      first:</p>
+    <p>Finding the smallest value in a vector can also be thought of as a reduction. In this case,
+      our accumulator needs to keep track of the <q>smallest value we have seen so far</q> (called <pf>minimum</pf>
+      in the sample below). As we visit each element, we compare it to <pf>minimum</pf>, and if it is
+      lower, we need to change <pf>minimum</pf> to store the new lowest value that we have just discovered.
+      But for this to work, we can't start with 0 in our accumulator. If we did, we could go through
+      the entire vector and never find anything smaller, and thus end up thinking that 0 was the
+      minimum value. For situations like this it is common to use the first value to initialize the
+      accumulator and then loop through all the elements after the first:</p>
 
     <program xml:id="vectors_traversing-recipes-3">
 <xi:include href="../../programs/vectors/traversing-recipes-3.cpp" parse="text"/>
 </program>
-    </subsection>
+  </subsection>
 
-    <subsection>
-      <title>Map</title>
+  <subsection>
+    <title>Map</title>
 
-      <p>A <term>map</term> operation transforms each element in a vector to a new value. In <xref ref="vectors_vector-functions"></xref> we saw two versions of the <pf>doubleValues</pf> function that performed a map operation. The first
+    <p>A <term>map</term> operation transforms each element in a vector to a new value. In <xref ref="vectors_vector-functions"></xref>
+      we saw two versions of the <pf>doubleValues</pf> function that performed a map operation. The first
       version created a new vector and returned it. The second version modified the original vector
       in place.</p>
 
-    </subsection>
+  </subsection>
 
-    <subsection>
-      <title>Filter</title>
+  <subsection>
+    <title>Filter</title>
 
-      <p>Finally, a <term>filter</term> operation traverses a vector and only keeps values that meet a certain condition. Although we could do this by removing unwanted values from the vector we start with, it is much easier to build up a vector with just the ones we want. This final sample demonstrates a function that filters out 0 values from a vector, producing a new one with only non-zero values:</p>
+    <p>Finally, a <term>filter</term> operation traverses a vector and only keeps values that meet a
+      certain condition. Although we could do this by removing unwanted values from the vector we
+      start with, it is much easier to build up a vector with just the ones we want. This final
+      sample demonstrates a function that filters out 0 values from a vector, producing a new one
+      with only non-zero values:</p>
 
     <program xml:id="vectors_traversing-recipes-4"
              interactive="activecode">
 <xi:include href="../../programs/vectors/traversing-recipes-4.cpp" parse="text"/>
 </program>
 
-      <note><p>Simple does not always mean <q>bad</q> or <q>inefficient</q>. It will almost certainly be faster to build a new vector with just the desired values instead of removing multiple items from the existing vector.</p></note>
-    </subsection>
+    <note>
+      <p>Simple does not always mean <q>bad</q> or <q>inefficient</q>. It will almost certainly be
+        faster to build a new vector with just the desired values instead of removing multiple items
+        from the existing vector.</p>
+    </note>
+  </subsection>
 
   <exercise label="vectors_p7"
             numbered="yes"
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Suppose <pf>vector&lt;string> album</pf> has already been defined and is storing some number of strings representing song titles.
-      Construct a block of code that counts how many songs have an <pf>e</pf> in them.</p>
+      <p>Suppose <pf>vector&lt;string> album</pf> has already been defined and is storing some number of strings
+        representing song titles. Construct a block of code that counts how many songs have an <pf>e</pf>
+        in them.</p>
     </statement>
     <blocks>
-      <block order="2">
+      <block>
         <cline>int count = 0;</cline>
       </block>
-      <block order="4">
+      <block>
         <cline><![CDATA[for (string title : album) {]]></cline>
       </block>
-      <block order="3">
+      <block>
         <cline> size_t ePosition = title.find('e');</cline>
         <cline> if (ePosition != string::npos) {</cline>
       </block>
-      <block order="9">
+      <block>
         <cline>  ++count;</cline>
         <cline> }</cline>
       </block>
-      <block order="7">
+      <block>
         <cline>}</cline>
       </block>
-      <block order="8"
-             correct="no">
+      <block correct="no">
         <cline><![CDATA[for (string album : title) {]]></cline>
       </block>
-      <block order="3"
-             correct="no">
+      <block correct="no">
         <cline> size_t ePosition = album.find('e');</cline>
         <cline> if (ePosition != string::npos) {</cline>
       </block>
@@ -137,47 +146,46 @@
   </exercise>
 
 
-
   <exercise label="vectors_p37"
             numbered="yes"
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Build a function <pf>onlyPassing</pf> that takes a <pf>vector&lt;char></pf> that contains a list of characters representing letter grades (A, B, C, D, F) and returns a new vector that has all the grades but the Fs.</p>
+      <p>Build a function <pf>onlyPassing</pf> that takes a <pf>vector&lt;char></pf> that contains a list of characters
+        representing letter grades (A, B, C, D, F) and returns a new vector that has all the grades
+        but the Fs.</p>
     </statement>
     <blocks>
-      <block order="4">
+      <block>
         <cline><![CDATA[vector<char> onlyPassing(const vector<char>& grades) {]]></cline>
       </block>
-      <block order="4" correct="no">
+      <block correct="no">
         <cline><![CDATA[void onlyPassing(const vector<char>& grades) {]]></cline>
       </block>
-      <block order="3">
+      <block>
         <cline><![CDATA[ vector<char> result;]]></cline>
       </block>
-      <block order="9">
+      <block>
         <cline><![CDATA[ for (char grade : grades) {]]></cline>
       </block>
-      <block order="7">
+      <block>
         <cline><![CDATA[  if (grade != 'F') {]]></cline>
         <cline><![CDATA[   result.push_back(grade);]]></cline>
         <cline>  }</cline>
       </block>
-      <block order="7"
-             correct="no">
+      <block correct="no">
         <cline><![CDATA[  if (grade != 'F') {]]></cline>
         <cline><![CDATA[   grades.erase(grade);]]></cline>
         <cline>  }</cline>
       </block>
-      <block order="7">
+      <block>
         <cline> }</cline>
       </block>
-      <block order="57">
+      <block>
         <cline> return result;</cline>
         <cline>}</cline>
       </block>
-      <block order="76"
-             correct="no">
+      <block correct="no">
         <cline> return grades;</cline>
         <cline>}</cline>
       </block>

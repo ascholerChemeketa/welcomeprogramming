@@ -86,11 +86,11 @@ Ford Focus 2015
         <p>Note that <pf>upperToLower</pf> intentionally uses pass by value to work with a copy of <pf>upper</pf> that it can freely modify.</p>
     </statement>
     <blocks>
-      <block order="4">
+      <block>
         <cline>string upperToLower(string upper) {</cline>
         <cline><![CDATA[   for (char& c : upper) {]]></cline>
       </block>
-      <block order="12">
+      <block>
         <choice correct="yes">
           <cline>      c = static_cast&lt;char>(tolower(c));</cline>
         </choice>
@@ -98,27 +98,27 @@ Ford Focus 2015
           <cline>      static_cast&lt;char>(tolower(c));  </cline>
         </choice>
       </block>
-      <block order="3">
+      <block>
         <cline>   }</cline>
         <cline>   return upper;</cline>
         <cline>}</cline>
       </block>
-      <block order="15">
+      <block>
         <cline>int main() {</cline>
       </block>
-      <block order="7">
+      <block>
         <cline>   ifstream infile("UPPER.txt");</cline>
       </block>
-      <block order="13">
+      <block>
         <cline>   if (!infile) {</cline>
         <cline><![CDATA[      cout << "Unable to open a file." << endl;]]></cline>
         <cline>      exit(1);</cline>
         <cline>   }</cline>
       </block>
-      <block order="1">
+      <block>
         <cline>   while (!infile.eof()) {</cline>
       </block>
-      <block order="5">
+      <block>
         <choice correct="yes">
         <cline>      string line;</cline>
           <cline>      line = upperToLower(line);</cline>
@@ -128,10 +128,10 @@ Ford Focus 2015
           <cline>      upperToLower(line);  </cline>
         </choice>
       </block>
-      <block order="11">
+      <block>
         <cline><![CDATA[      cout << line << endl;]]></cline>
       </block>
-      <block order="9">
+      <block>
         <cline>   }</cline>
         <cline>}</cline>
       </block>

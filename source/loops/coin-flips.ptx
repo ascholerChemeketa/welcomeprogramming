@@ -69,14 +69,14 @@ if (headStreak == 4) {
       <p>Build a version of the simulation that correctly runs until 4 heads in a row are seen.</p>
     </statement>
     <blocks>
-      <block order="3">
+      <block>
         <cline>#include &lt;iostream></cline>
         <cline>#include "SimpleRandom.h"</cline>
         <cline>using namespace std;</cline>
         <cline></cline>
         <cline>int main() {</cline>
       </block>
-      <block order="2">
+      <block>
         <choice correct="yes">
           <cline>  int headStreak = 0;</cline>
           <cline>  int flip = 0;</cline>
@@ -86,7 +86,7 @@ if (headStreak == 4) {
           <cline>  int flip = 0;</cline>
         </choice>
       </block>
-      <block order="4">
+      <block>
         <choice correct="yes">
           <cline>  while (headStreak &lt; 4) {</cline>
           <cline>    ++flip;</cline>
@@ -98,7 +98,7 @@ if (headStreak == 4) {
           <cline>    cout &lt;&lt; flip &lt;&lt; ":\t";</cline>
         </choice>
       </block>
-      <block order="1">
+      <block>
         <cline>    int coinToss = randRange(0, 1);</cline>
         <cline>    if(coinToss == 0) {</cline>
         <cline>      headStreak = 0;</cline>
@@ -109,7 +109,7 @@ if (headStreak == 4) {
         <cline>         &lt;&lt; " in a row." &lt;&lt; endl;</cline>
         <cline>    }</cline>
       </block>
-      <block order="5">
+      <block>
         <choice correct="yes">
           <cline>  }</cline>
           <cline>}</cline>

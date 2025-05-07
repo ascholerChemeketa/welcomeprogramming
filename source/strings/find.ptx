@@ -162,11 +162,11 @@
         the string.</p>
     </statement>
     <blocks>
-      <block order="4">
+      <block>
         <cline>int main() {</cline>
         <cline> string state = "Mississippi";</cline>
       </block>
-      <block order="2">
+      <block>
         <choice correct="yes">
           <cline> size_t indexA = city.find('i');</cline>
         </choice>
@@ -174,7 +174,7 @@
           <cline> size_t indexA = city.find(i); </cline>
         </choice>
       </block>
-      <block order="1">
+      <block>
         <choice correct="yes">
           <cline> size_t indexB = city.find('i', indexA + 1);</cline>
         </choice>
@@ -182,7 +182,7 @@
           <cline> size_t indexB = city.find('i', indexA);</cline>
         </choice>
       </block>
-      <block order="5">
+      <block>
         <choice correct="yes">
           <cline> size_t indexC = city.find('i', indexB + 1);</cline>
         </choice>
@@ -190,7 +190,7 @@
           <cline> size_t indexC = city.find('i', indexA + 1);</cline>
         </choice>
       </block>
-      <block order="3">
+      <block>
         <cline> <![CDATA[cout << indexC << endl;]]></cline>
         <cline>}</cline>
       </block>

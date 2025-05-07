@@ -13,28 +13,25 @@
         the sum. Put the necessary blocks in the correct order.</p>
     </statement>
     <blocks>
-      <block order="2">
+      <block>
         <cline>int summation(int start, int end) {</cline>
       </block>
-      <block order="8"
-             correct="no">
+      <block correct="no">
         <cline>void summation(int start, int end) {  </cline>
       </block>
-      <block order="3"
-             correct="no">
+      <block correct="no">
         <cline>int summation() {  </cline>
       </block>
-      <block order="6">
+      <block>
         <cline>   int n = start;</cline>
       </block>
-      <block order="4">
+      <block>
         <cline>   int sum = 0;</cline>
       </block>
-      <block order="12"
-             correct="no">
+      <block correct="no">
         <cline>   int sum = start;  </cline>
       </block>
-      <block order="11">
+      <block>
         <choice correct="yes">
           <cline><![CDATA[   while (n <= end) {]]></cline>
         </choice>
@@ -42,23 +39,22 @@
           <cline><![CDATA[   while (n < end) {  ]]></cline>
         </choice>
       </block>
-      <block order="10">
+      <block>
         <cline>      sum = sum + n;</cline>
       </block>
-      <block order="14">
+      <block>
         <cline>      n++;</cline>
       </block>
-      <block order="1">
+      <block>
         <cline>   }</cline>
       </block>
-      <block order="7">
+      <block>
         <cline>   return sum;</cline>
       </block>
-      <block order="13"
-             correct="no">
+      <block correct="no">
         <cline>   return n;  </cline>
       </block>
-      <block order="9">
+      <block>
         <cline>}</cline>
       </block>
     </blocks>
@@ -77,53 +73,49 @@
         declared first, then temp, and lastly remainder.</p>
     </statement>
     <blocks>
-      <block order="9">
+      <block>
         <cline>int reverseNumber(int num) {</cline>
       </block>
-      <block order="8"
-             correct="no">
+      <block correct="no">
         <cline>void reverseNumber(int num) {  </cline>
       </block>
-      <block order="10">
+      <block>
         <cline>   int reverse = 0;</cline>
       </block>
-      <block order="13"
-             correct="no">
+      <block correct="no">
         <cline>   int reverse = 0  </cline>
       </block>
-      <block order="4">
+      <block>
         <cline>   int temp = num;</cline>
       </block>
-      <block order="7">
+      <block>
         <cline>   int remainder = 0;</cline>
       </block>
-      <block order="15"
-             correct="no">
+      <block correct="no">
         <cline>   int remainder;  </cline>
       </block>
-      <block order="5">
+      <block>
         <cline>   while (temp &gt; 0) {</cline>
       </block>
-      <block order="11">
+      <block>
         <cline>      remainder = temp % 10;</cline>
       </block>
-      <block order="2">
+      <block>
         <cline>      reverse = reverse * 10 + remainder;</cline>
       </block>
-      <block order="3">
+      <block>
         <cline>      temp = temp / 10;</cline>
       </block>
-      <block order="1">
+      <block>
         <cline>   }</cline>
       </block>
-      <block order="12">
+      <block>
         <cline>   return reverse;</cline>
       </block>
-      <block order="6"
-             correct="no">
+      <block correct="no">
         <cline>   return temp;  </cline>
       </block>
-      <block order="14">
+      <block>
         <cline>}</cline>
       </block>
     </blocks>
