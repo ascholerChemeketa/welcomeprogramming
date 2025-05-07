@@ -141,7 +141,7 @@ Circle Cylinder::getBase() const {
 
   <p>Given this Cylinder class, we can even compose function calls. A common looking construct in object-oriented code is something like: <pf>cylinder1.getBase().getCenter().getY()</pf>. We first get the base of the Cylinder, which is a Circle. Then we ask that Circle to do <pf>getY</pf>. This is a place where returning a const reference from <pf>Cylinder::getBase()</pf> and <pf>Circle::getRadius</pf> could avoid needless work. The versions we have return copies of the objects. So even though we do not store those copies into variables, it still involves making some new, nameless objects that then get discarded.</p>
 
-  <exercise label="hosdfsdfe" language="cpp">
+  <exercise label="interacting-objects_complex-composition-ex-1" language="cpp">
     <statement>
         <p>Form a statement to get the area of cylinder1's base. You will not need all the blocks.</p>
     </statement>
@@ -154,7 +154,7 @@ Circle Cylinder::getBase() const {
     </blocks>
 </exercise>
 
-<exercise label="hosdfssddfsdfdfe" language="cpp">
+<exercise label="interacting-objects_complex-composition-ex-2" language="cpp">
   <statement>
       <p>Form a statement to check if the x location (as defined by the center of its base) of cylinder1 is 5.</p>
   </statement>
@@ -168,7 +168,7 @@ Circle Cylinder::getBase() const {
   </blocks>
 </exercise>
 
-<exercise label="hosdfssds3ddfsdfdfe" language="cpp">
+<exercise label="interacting-objects_complex-composition-ex-3" language="cpp">
   <statement>
       <p>Form a statement to get the distance between the centers of cylinder1 and cylinder2. You will have to use some blocks more than once.</p>
   </statement>

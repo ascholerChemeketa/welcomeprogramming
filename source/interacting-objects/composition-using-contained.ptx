@@ -23,7 +23,7 @@
 
   <p>Finding the distance between two points is a job for a Point, not the Circle. So when we ask <pf>c1.contains(Point(3.2, 2.0))</pf>, the circle starts by asking its center Point to calculate the distance to that point (<pf>m_center.distanceTo(p)</pf>). It then uses that value to compute the final answer.</p>
   
-  <exercise label="program_flang_1">
+  <exercise label="interacting-objects_composition-using-contained-ex-1">
     <statement>
       <p>Assume the <pf>Address</pf> class has a <pf>getZip()</pf> function. How could we call that function on the composed <pf>Address</pf> within the <pf>Contact</pf> class defuned below? (You do not have to do anything with the zip, just make the function call).</p>
         <p><fillin mode="string"
@@ -55,7 +55,7 @@
 
   
   
-  <exercise label="sdf4ssddddf" randomize="yes">
+  <exercise label="interacting-objects_composition-using-contained-ex-2" randomize="yes">
     <statement>
       <p>Imagine a Circle member function <pf>intersects(const Circle&amp; other)</pf>. What variables can be directly accessed inside the function.</p>
     </statement>

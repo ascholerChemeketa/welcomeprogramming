@@ -22,7 +22,7 @@ ifstream inFile;
 <xi:include href="../../programs/input-output/file-input-1.cpp" parse="text"/>
 </program>
 
-    <exercise label="w4fesaf434f">
+    <exercise label="input-output_file-input-ex-1">
       <statement><p>What happens if you try changing the filename to something else like <pf>"oops.txt"</pf>?</p></statement>
 
       <choices randomize="yes">
@@ -76,7 +76,7 @@ if (!inFile) {
 
   <p>Try changing the filename this program is opening to see that it catches the issue. By returning from main, we end the program early when there was a failure opening the file. (Returning a non-zero value is the convention for <q>there was an error in the program</q>). We could instead throw an exception, try opening a different file, etc...</p>
 
-  <exercise label="question15_3_1">
+  <exercise label="input-output_file-input-ex-2">
     <statement>
       <p>Consider this code snippet:
 
@@ -109,7 +109,7 @@ myFile.open("file-name");
     </matches>
   </exercise>
 
-  <exercise label="question15_3_2a">
+  <exercise label="input-output_file-input-ex-3">
     <statement>
       <p>The <pf>ifstream</pf> member function called <fillin mode="string"
                 case="insensitive"
@@ -125,7 +125,7 @@ myFile.open("file-name");
     </evaluation>
   </exercise>
 
-  <exercise label="mce_15_2">
+  <exercise label="input-output_file-input-ex-4">
     <statement>
       <p>The code below reads data from a file called <pf>input.txt</pf>. What is wrong with the following code?</p>
       <program line-numbers="yes">

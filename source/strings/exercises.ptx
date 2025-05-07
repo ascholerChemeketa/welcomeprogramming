@@ -1,7 +1,7 @@
 <exercises xml:id="strings_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Exercises</title>
 
-  <exercise label="mucp_7sdf_9"
+  <exercise label="strings_exercises-ex-1"
             numbered="yes"
             adaptive="yes"
             indentation="hide">
@@ -65,7 +65,7 @@
   </exercise>
 
   
-  <exercise label="mucp_7_11"
+  <exercise label="strings_exercises-ex-2"
             numbered="yes"
             adaptive="yes"
             indentation="hide">
@@ -129,7 +129,7 @@
   </exercise>
 
   
-  <exercise label="grgrefwedv23">
+  <exercise label="strings_exercises-ex-3">
     <statement>
       <p>Complete the code to print the first, middle, and last characters of the string read as input. We will only use odd length strings as the inputs.</p>
       <program interactive="activecode">
@@ -171,7 +171,7 @@ int main() {
 
 
 
-  <exercise label="wefwddfdss33e">
+  <exercise label="strings_exercises-ex-4">
     <statement>
       <p>Write a <pf>bool caturdayCheck(string word)</pf> function. It should return <pf>true</pf> if the word has <pf>"cat"</pf> starting at either the first or second character of the word. Otherwise, return false.</p>
       <p>For example:
@@ -218,7 +218,7 @@ TEST_CASE("caturdayCheck") {
     <hint>You should not need to check letter by letter... use a string function that allows you to ask "where is this substring within the string?". Use its answer to decide whether to print true or false</hint>
   </exercise>
 
-  <exercise label="wwgertwh454wefw3erthed23qgrfer">
+  <exercise label="strings_exercises-ex-5">
     <statement>
       <p>Write a <pf>string wordShortener(string startWord)</pf> function. If the <pf>startWord</pf> is 4 characters or less, return it. If it is more than 4 characters, return a new string that has the first two characters of the word followed by the last two characters.</p>
       <p>For example:
@@ -260,7 +260,7 @@ TEST_CASE("wordShortener") {
   </exercise>
   
 
-  <exercise label="wwgertwh4543erthed23qgrfer">
+  <exercise label="strings_exercises-ex-6">
     <statement>
       <p>Write the function <pf>boldContents</pf>. It takes a string that contains <pf>[b]???[/b]</pf> where ??? can be any text. It should return a string containing just the ??? part.</p>
       <p>For example:
@@ -305,7 +305,7 @@ TEST_CASE("boldContents") {
 
 
 
-  <exercise label="sdfwefw3e4t34">
+  <exercise label="strings_exercises-ex-7">
     <statement>
       <p>Write an <pf>string initials(string name)</pf> function that takes a name like <pf>Sergio Romas Garcia</pf> or <pf>Jane Goodall</pf> and returns the initials for that name (<pf>SRG</pf> or <pf>JG</pf>). You should use spaces to identify name parts. You can assume there are always either one or two spaces.</p>
       <program interactive="activecode">
@@ -339,7 +339,7 @@ TEST_CASE("initials") {
     <hint>Use a comparison with <pf>string::npos</pf> to check if the second space actually exists. You will need one set of logic for if there is one spaces and a different set if there are two spaces.</hint>
   </exercise>
 
-  <exercise label="sdfwewewefdw3e4t34">
+  <exercise label="strings_exercises-ex-8">
     <statement>
       <p>Write a function <pf>int countQuotes(string s)</pf>. It should count how many quotation marks (either <pf>"</pf> or <pf>'</pf>) there are in the string and return the total. Don't forget you need to use escape codes to represent the characters <pf>"</pf> and <pf>'</pf>. For example:
       </p>
@@ -377,7 +377,7 @@ TEST_CASE("countQuotes") {
   </exercise>
 
   
-  <exercise label="wdqdw">
+  <exercise label="strings_exercises-ex-9">
     <statement>
       <p>Write a function <pf>string leetspeak(string s)</pf>. It should take the input string, and replace all the <pf>e</pf> characters with <pf>3</pf>, all the <pf>o</pf> characters with <pf>0</pf>, and all the <pf>l</pf> characters with <pf>1</pf>. Then return the modified version of the string. For example:
       </p>
@@ -415,7 +415,7 @@ TEST_CASE("leetspeak") {
   </exercise>
 
   
-  <exercise label="wdqfwefwefdw">
+  <exercise label="strings_exercises-ex-10">
     <statement>
       <p>Write a function <pf>string stringCompactor(string s)</pf>. It should take the input string and create a <q>compacted</q> version where only ever other character is kept (1st, 3rd, 5th,...). For example:
       </p>

@@ -70,7 +70,7 @@ cout << static_cast<int>(Suit::CLUBS);    // Prints 0
   <note><p>C++ has an older, similar syntax for making an enum that skips the word <pf>class</pf>. That syntax is considered more dangerous as the values defined become the values freely <q>decay</q> into integers and become part of the global namespace, which can easily lead to name collisions (situations where the same name could mean multiple things - like <pf>BLACK</pf> referring to both a font color and a background color).</p></note>
 
 
-  <exercise label="enum_type_3">
+  <exercise label="structs_enumerated-types-ex-1">
     <statement>
       <p>Based on the <pf>Flavor</pf> enumeration below, what value does <pf>Rank</pf> enumerated type, what integer value does <pf>COOKIESNCREAM</pf> have? <fillin mode="number" case="insensitive" answer="3"/>
       </p>
@@ -88,7 +88,7 @@ cout << static_cast<int>(Suit::CLUBS);    // Prints 0
     </evaluation>
   </exercise>
 
-  <exercise label="enum_type_sdf324">
+  <exercise label="structs_enumerated-types-ex-2">
     <statement>
       <p>Based on the <pf>Flavor</pf> enum below, what would you write to create a <pf>Flavor</pf> variable called <pf>scoop1</pf> and assign it the <q>mint chip</q> value?</p>
       <p>

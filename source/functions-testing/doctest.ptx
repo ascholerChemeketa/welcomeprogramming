@@ -52,7 +52,7 @@ test.cpp:28: ERROR: CHECK( heronsFormula(3, 4, 5) == doctest::Approx(6) ) is NOT
 
   <p>Lines 3 and 4 show that we are looking at the <pf>TEST_CASE</pf> name <pf>heronsFormula</pf> on line <pf>27</pf> of the program. If we had more function, each would have its own <pf>TEST_CASE</pf>, so this would help identify which test was failing. Then on line 6 we are shown a <pf>CHECK</pf> that is failing. Immediately after that on line 7, we are shown the actual values that were used. Here, I can see that <pf>heronsFormula(3, 4, 5)</pf> evaluated to <pf>2.44949</pf> and that value is not <pf>Approx( 6 )</pf>.</p>
 
-<exercise label="doctest-1">
+<exercise label="functions-testing_doctest-ex-1">
     <statement>
       <p>First run the program and examine the output. Then fix the code and run it again to see the report for a program that passes all of its tests.</p>
     </statement>

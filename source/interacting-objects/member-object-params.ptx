@@ -54,7 +54,7 @@ bool Circle::contains(const Point&amp; p) const;
 
   <insight><p>Access modifiers are designed to protect parts of the code (the Circle class) from other parts of the code (non-Circle code), not to protect individual objects from other objects. That is why they apply to classes of data.</p></insight>
 
-  <exercise label="program_l3angd_1">
+  <exercise label="interacting-objects_member-object-params-ex-1">
     <statement>
       <p>Imagine there are Circles <pf>c1</pf> and <pf>c2</pf>. They have a member function <pf>bool sameAs(const Circle&amp; c) const;</pf>. How would you call that method to ask <pf>c2</pf> if it is the same as <pf>c1</pf>?</p>
         <p><fillin mode="string"
@@ -78,7 +78,7 @@ bool Circle::contains(const Point&amp; p) const;
   </exercise>
   
 
-  <exercise label="keyworferds_3">
+  <exercise label="interacting-objects_member-object-params-ex-2">
     <statement>
       <p>Click on the use of <pf>const</pf> which promises that the object running the code of <pf>sameAs</pf> will not be modified.</p>
     </statement>
@@ -91,7 +91,7 @@ bool Circle::contains(const Point&amp; p) const;
   </exercise>
   
 
-  <exercise label="keyworfdfderds_3">
+  <exercise label="interacting-objects_member-object-params-ex-3">
     <statement>
       <p>Click on the use of <pf>const</pf> which promises that the object passed as a parameter to <pf>sameAs</pf> will not be modified.</p>
     </statement>

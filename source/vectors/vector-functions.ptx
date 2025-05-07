@@ -31,7 +31,7 @@
 
   <p>In this version, we must take the vector parameter as a reference that is not <pf>const</pf> so we can modify the vector (line 7). Similarly, as we use a range-based loop to traverse the elements, we need to declare the element type to be an <pf>int&amp;</pf> - a reference to an int - so that we are working with the actual element and not a copy of its value (line 9). Because the parameter is modified, there is nothing new to return from the function. So the return type is declared as <pf>void</pf> (line 7) and when it is called in <pf>main</pf>, there is no result to store (line 17). Because we <term>passed by reference</term>, all of the changes made to <pf>numbers</pf> in <pf>doubleValues</pf> really were made to <pf>myList</pf> that was passed in from <pf>main</pf>.</p>
 
-  <exercise label="vector_functions_2"
+  <exercise label="vectors_vector-functions-ex-1"
             numbered="yes"
             adaptive="yes"
             indentation="hide">
@@ -90,7 +90,7 @@
   </exercise>
 
 
-  <exercise label="vectors_msdfsdc2">
+  <exercise label="vectors_vector-functions-ex-2">
     <statement>
       <p>Suppose the following code is run:</p>
       <program>
