@@ -12,7 +12,7 @@
     </idx> 
   </p>
 
-  <program xml:id="conditionals-logic_chaining-nesting-1">
+  <program>
 <xi:include href="../../programs/conditionals-logic/chaining-nesting-1.cpp" parse="text"/>
 </program>
 
@@ -28,7 +28,7 @@
       <h>chaining</h>
     </idx></p>
 
-  <program xml:id="conditionals-logic_chaining-nesting-2">
+  <program>
 <xi:include href="../../programs/conditionals-logic/chaining-nesting-2.cpp" parse="text"/>
 </program>
 
@@ -38,7 +38,7 @@
 
   <p>These chains can be as long as you like. For example, this code determines someone's letter grade. If their score is 90+, we print out A and all the remaining tests are completely skipped. Otherwise, we execute the next check-m-is their score 80+? As soon as one branch is true, all the remaining tests and their associated blocks are skipped. Note that the last else does not need an if - it is the default case that handles things when all the other tests fail:</p>
 
-  <program xml:id="conditionals-logic_chaining-nesting-3" interactive="activecode">
+  <program label="conditionals-logic_chaining-nesting-program-1" interactive="activecode">
   <code>
 <xi:include href="../../programs/conditionals-logic/chaining-nesting-3.cpp" parse="text"/>
 </code>
@@ -47,7 +47,7 @@
 
   <p>When writing something like that, you must be careful to order the tests so that no earlier test also matches the condition of a later test. Here is a flawed attempt at the grade logic. If someone's grade is 82, that makes the first test true. So the first block will execute and print out <q>You got a D</q>. Then all the rest of the conditionals will be skipped. Nothing will make execution skip ahead to the <q>right</q> block.</p>
 
-  <program xml:id="conditionals-logic_chaining-nesting-4">
+  <program>
 <xi:include href="../../programs/conditionals-logic/chaining-nesting-4.cpp" parse="text"/>
 </program>
 

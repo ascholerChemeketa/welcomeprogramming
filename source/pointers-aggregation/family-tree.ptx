@@ -58,7 +58,7 @@
 
   <p>Now let's look at a sample program that uses this code to set up a simple family tree:</p>
 
-  <program label="wefwefwefxx" compile-also="person-family-cxx">
+  <program compile-also="person-family-cxx">
 <xi:include href="../../programs/pointers-aggregation/person-family-user-1.cpp" parse="text"/>
   </program>
 
@@ -66,13 +66,13 @@
 
   <p>Now let's get trickier. We are going to try to navigating all the way from Henry up to the top of the family tree (a person with no known mother). To do this, we need a way to track <q>the current person</q>. However, once we have created the family, we want to avoid making any new Person objects that are copies of the people - there should only ever be one <q>Henry</q> in the program. So we need <pf>currentPerson</pf> to be an alias for one of the existing Person objects, and not a new Person. Thus we will make <pf>Person* currentPerson</pf>. Were we to use <pf>Person currentPerson</pf>, we would be making a copy of a Person instead of linking to an already existing one. We will start simple by printing a few generations starting from Henry:</p>
 
-  <program label="wefweffd4wefxx" compile-also="person-family-cxx" interactive="activecode">
+  <program label="pointers-aggregation_family-tree-program-1" compile-also="person-family-cxx" interactive="activecode">
 <xi:include href="../../programs/pointers-aggregation/person-family-user-2.cpp" parse="text"/>
   </program>
 
   <p>This program starts with a pointer to Henry, uses that to get a pointer to his mother, and then uses that new pointer to get a pointer to Henry's grandmother. We can continue this chain for as long as it takes to reach the top of the tree by adding a loop. We will reuse the <pf>currentPerson</pf> pointer to always store the person we are currently at. Once the <pf>currentPerson</pf> is null, we know we have run out of family members!</p>
 
-  <program label="wefwe4ffd4wefxx" compile-also="person-family-cxx" interactive="activecode">
+  <program label="pointers-aggregation_family-tree-program-2" compile-also="person-family-cxx" interactive="activecode">
 <xi:include href="../../programs/pointers-aggregation/person-family-user-3.cpp" parse="text"/>
   </program>
 

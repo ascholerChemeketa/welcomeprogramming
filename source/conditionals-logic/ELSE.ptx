@@ -19,7 +19,7 @@
     <term>Conditional statements</term> give us this ability. The simplest
     conditional statement in C++ is the <pf>if</pf> statement: </p>
 
-  <program xml:id="conditionals-logic_ifelse-statement-1">
+  <program>
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-1.cpp" parse="text"/>
 </program>
 
@@ -42,7 +42,7 @@
     by <pf>if</pf> and <pf>else</pf>. The possibilities are called <term>branches</term>, and the condition
     determines which branch gets executed: </p>
 
-  <program xml:id="conditionals-logic_ifelse-statement-2">
+  <program>
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-2.cpp" parse="text"/>
 </program>
 
@@ -54,7 +54,7 @@
   <p> The braces are optional for branches that have only one statement. So we could have written
     the previous example this way: </p>
 
-  <program xml:id="conditionals-logic_ifelse-statement-3"
+  <program label="conditionals-logic_ifelse-statement-program-1"
            interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-3.cpp" parse="text"/>
 </program>
@@ -63,7 +63,7 @@
     the mistake of adding statements to a one-line <pf>if</pf> or <pf>else</pf> block. This code is misleading
     because it's not indented correctly: </p>
 
-  <program xml:id="conditionals-logic_ifelse-statement-4"
+  <program label="conditionals-logic_ifelse-statement-program-2"
            interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-4.cpp" parse="text"/>
 </program>
@@ -71,7 +71,7 @@
   <p> Since there are no braces, only the first <pf>println</pf> is part of the <pf>if</pf> statement. Here is
     what the compiler actually sees: </p>
 
-  <program xml:id="conditionals-logic_ifelse-statement-5"
+  <program label="conditionals-logic_ifelse-statement-program-3"
            interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-5.cpp" parse="text"/>
 </program>
@@ -86,14 +86,14 @@
     at the end of the <pf>if</pf> or <pf>else</pf> lines. Instead, a new block should be defined using braces.
     Another common mistake is to put a semicolon after the condition, like this: </p>
 
-  <program xml:id="conditionals-logic_ifelse-statement-6">
+  <program>
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-6.cpp" parse="text"/>
 </program>
 
   <p> This code will compile, but the program will output <pf>"x is even"</pf> regardless of the value of <pf>x</pf>.
     Here is the same incorrect code with better formatting: </p>
 
-  <program xml:id="conditionals-logic_ifelse-statement-7">
+  <program>
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-7.cpp" parse="text"/>
 </program>
 
@@ -130,7 +130,7 @@
 
   <p> You can use flag variables as part of a conditional statement: </p>
 
-  <program xml:id="conditionals-logic_boolevariables-3">
+  <program>
 <xi:include href="../../programs/conditionals-logic/boolevariables-3.cpp" parse="text"/>
 </program>
 

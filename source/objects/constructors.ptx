@@ -49,7 +49,7 @@ Point p1(3, 4);
       the anonymous Point. Either syntax will produce the same results, but you should recognize
       that <pf>Point(3, 4)</pf> creates an anonymous point.</p>
 
-    <program xml:id="objects_constructors-1"
+    <program label="objects_constructors-program-1"
              interactive="codelens">
 <xi:include href="../../programs/objects/constructors-1.cpp" parse="text"/>
 </program>
@@ -115,7 +115,7 @@ Point(double x = 0, double y = 0) {...
       the member variables are both set to 0 automatically at the start of each constructor. This is
       because the variables themselves are given default values of 0 on lines 15 and 16:</p>
 
-    <program xml:id="objects_constructors-2"
+    <program label="objects_constructors-program-2"
              interactive="codelens">
 <xi:include href="../../programs/objects/constructors-2.cpp" parse="text"/>
   </program>
@@ -124,13 +124,13 @@ Point(double x = 0, double y = 0) {...
       constructors. Say we want to provide many different constructors for a <pf>Time</pf> class. We could
       either write this:</p>
 
-    <program xml:id="objects_constructors-3">
+    <program>
 <xi:include href="../../programs/objects/constructors-3.cpp" parse="text"/>
   </program>
 
     <p>Or we would use default values for the members and then simplify the code to this:</p>
 
-    <program xml:id="objects_constructors-4">
+    <program>
 <xi:include href="../../programs/objects/constructors-4.cpp" parse="text"/>
   </program>
 
@@ -146,7 +146,7 @@ Point(double x = 0, double y = 0) {...
     <p>As with structs, we can copy one object into another using the assignment operator <pf>=</pf>. Doing
       so results in two distinct objects that happen to have the same data:</p>
 
-    <program xml:id="objects_constructors-5">
+    <program>
 Point p1(3, 4);
 Point p2 = p1; // copy p1 into p2
     </program>

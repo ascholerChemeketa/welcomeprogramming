@@ -7,7 +7,7 @@ Here is the beginning of a class that reads an image from a file and shows the i
 The class is called <pf>Sprite</pf> because a moving image is sometimes called a <term>sprite</term>, in the context of computer graphics:
 </p>
 
-<program xml:id="advanced-topics_event-listeners-1">
+<program>
 <xi:include href="../../programs/advanced-topics/event-listeners-1.cpp" parse="text"/>
 </program>
 
@@ -29,7 +29,7 @@ If an error occurs during reading, an <pf>IOException</pf> is caught, and the pr
 <pf>Actor</pf> requires that we provide <pf>draw</pf> and <pf>step</pf> functions:
 </p>
 
-<program xml:id="advanced-topics_event-listeners-2">
+<program>
 <xi:include href="../../programs/advanced-topics/event-listeners-2.cpp" parse="text"/>
 </program>
 
@@ -71,7 +71,7 @@ Here's an implementation of <pf>keyPressed</pf> that uses a <pf>switch</pf> stat
 (There is no <pf>default</pf> branch, so we ignore all other keys.)
 </p>
 
-<program xml:id="advanced-topics_event-listeners-3">
+<program>
 <xi:include href="../../programs/advanced-topics/event-listeners-3.cpp" parse="text"/>
 </program>
 
@@ -84,7 +84,7 @@ While the user holds down an arrow key, the sprite will move at a constant speed
 Here's an implementation of <pf>keyReleased</pf> that runs when the user releases the key:
 </p>
 
-<program xml:id="advanced-topics_event-listeners-4">
+<program>
 <xi:include href="../../programs/advanced-topics/event-listeners-4.cpp" parse="text"/>
 </program>
 
@@ -97,7 +97,7 @@ We don't need the <pf>keyTyped</pf> function for this example, but it's required
 So we provide an implementation that does nothing:
 </p>
 
-<program xml:id="advanced-topics_event-listeners-5">
+<program>
 <xi:include href="../../programs/advanced-topics/event-listeners-5.cpp" parse="text"/>
 </program>
 
@@ -105,7 +105,7 @@ So we provide an implementation that does nothing:
 Now, here's the code we need to create a <pf>Sprite</pf>, add it to a <pf>Drawing</pf>, and configure it as a <pf>KeyListener</pf>:
 </p>
 
-<program xml:id="advanced-topics_event-listeners-6">
+<program>
 <xi:include href="../../programs/advanced-topics/event-listeners-6.cpp" parse="text"/>
 </program>
 

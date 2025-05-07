@@ -16,7 +16,7 @@ Here is the beginning of the <pf>Player</pf> definition:
     <idx><h>Player</h></idx>
 </p>
 
-<program xml:id="extending-classes_player-class-1">
+<program>
 <xi:include href="../../programs/extending-classes/player-class-1.cpp" parse="text"/>
 </program>
 
@@ -30,7 +30,7 @@ In this example, we have to use <pf>this</pf> to distinguish between the instanc
 The primary function that <pf>Player</pf> provides is <pf>play</pf>, which decides which card to discard during each turn:
 </p>
 
-<program xml:id="extending-classes_player-class-2">
+<program>
 <xi:include href="../../programs/extending-classes/player-class-2.cpp" parse="text"/>
 </program>
 
@@ -48,7 +48,7 @@ Since we have not written them yet, this is an example of top-down design.
 Here's <pf>searchForMatch</pf>, which looks in the player's hand for a card that matches the previously played card:
 </p>
 
-<program xml:id="extending-classes_player-class-3">
+<program>
 <xi:include href="../../programs/extending-classes/player-class-3.cpp" parse="text"/>
 </program>
 
@@ -58,7 +58,7 @@ If there are no cards that match, it returns <pf>null</pf>.
 In that case, we have to draw cards until we get a match, which is what <pf>drawForMatch</pf> does:
 </p>
 
-<program xml:id="extending-classes_player-class-4">
+<program>
 <xi:include href="../../programs/extending-classes/player-class-4.cpp" parse="text"/>
 </program>
 
@@ -74,7 +74,7 @@ Both <pf>searchForMatch</pf> and <pf>drawForMatch</pf> use <pf>cardMatches</pf>,
 This function is a straightforward translation of the rules of the game:
 </p>
 
-<program xml:id="extending-classes_player-class-5">
+<program>
 <xi:include href="../../programs/extending-classes/player-class-5.cpp" parse="text"/>
 </program>
 

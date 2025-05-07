@@ -45,7 +45,7 @@ p2.getX();
       <pf>Point::getX()</pf>, it will point to <pf>p1</pf> since we called <pf>p1.getX()</pf> on line 23. Then, on line
       26 when we call <pf>p2.getX()</pf>, <pf>this</pf> will be pointing at <pf>p2</pf>.</p>
 
-    <program xml:id="objects_member-access-1"
+    <program label="objects_member-access-program-1"
              interactive="codelens">
 <xi:include href="../../programs/objects/member-access-1.cpp" parse="text"/>
 </program>
@@ -124,7 +124,7 @@ p2.getX();
       setter</term> function. These are functions that take a value and use that to set a member
       variable. This version of the Point class adds a setter for <pf>m_x</pf>:</p>
 
-    <program xml:id="objects_member-access-2"
+    <program label="objects_member-access-program-2"
              interactive="codelens">
 <xi:include href="../../programs/objects/member-access-2.cpp" parse="text"/>
 </program>
@@ -139,7 +139,7 @@ p2.getX();
 
     <p>Say you are creating a Person class and you want to make sure that the age of a person never
       gets set to a negative value. You could design the class to prevent that from happening:</p>
-    <program xml:id="objects_member-access-3"
+    <program label="objects_member-access-program-3"
              interactive="activecode">
 <xi:include href="../../programs/objects/member-access-3.cpp" parse="text"/>
 </program>

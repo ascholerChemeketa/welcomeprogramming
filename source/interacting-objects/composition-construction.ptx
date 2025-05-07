@@ -5,7 +5,7 @@
 
   <p>Lets use Codelens to take a closer look at the process by which a Circle is constructed. Run the code line by line. Pay close attention to what happens as it starts the Circle constructor on line 20:</p>
 
-  <program interactive="codelens" label="dsfdsfdg12312">
+  <program label="interacting-objects_composition-construction-program-1" interactive="codelens">
 <xi:include href="../../programs/interacting-objects/circle-construct-1.cpp" parse="text"/>
   </program>
 
@@ -47,7 +47,7 @@ test.cpp:15:47: error: no matching function for call to ‘Point::Point()’
 
   <p>The <pf>:</pf> symbol indicates that we are starting the initializer list. The <pf>member1(data)</pf> part tells the compiler to set up <pf>member1</pf> using the data provided. Here is a real version using out Circle class. Try running it step by step. Again, focus on what happens right as the Circle constructor starts up:</p>
 
-  <program interactive="codelens" label="dsfds3fdg12312">
+  <program label="interacting-objects_composition-construction-program-2" interactive="codelens">
 <xi:include href="../../programs/interacting-objects/circle-construct-2.cpp" parse="text"/>
   </program>
 
@@ -85,7 +85,7 @@ test.cpp:15:47: error: no matching function for call to ‘Point::Point()’
 
   <p>Here is a final version with all three constructors. They give a consumer of the Circle class (like the <pf>main</pf> function), a wide range of ways to make a Circle:</p>
 
-  <program interactive="codelens" label="dsfdsfddg12312">
+  <program label="interacting-objects_composition-construction-program-3" interactive="codelens">
 <xi:include href="../../programs/interacting-objects/circle-construct-3.cpp" parse="text"/>
   </program>
 

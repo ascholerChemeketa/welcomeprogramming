@@ -5,7 +5,7 @@ We begin by defining a <pf>Langton</pf> class that has a grid and information ab
 The constructor takes the grid dimensions as parameters:
 </p>
 
-<program xml:id="reusing-classes_langtons-ant-1">
+<program>
 <xi:include href="../../programs/reusing-classes/langtons-ant-1.cpp" parse="text"/>
 </program>
 
@@ -20,7 +20,7 @@ The constructor takes the grid dimensions as parameters:
 Here's an <pf>update</pf> function that implements the rules for Langton's Ant:
 </p>
 
-<program xml:id="reusing-classes_langtons-ant-2">
+<program>
 <xi:include href="../../programs/reusing-classes/langtons-ant-2.cpp" parse="text"/>
 </program>
 
@@ -28,7 +28,7 @@ Here's an <pf>update</pf> function that implements the rules for Langton's Ant:
 The <pf>flipCell</pf> function gets the <pf>Cell</pf> at the ant's location, figures out which way to turn, and changes the state of the cell:
 </p>
 
-<program xml:id="reusing-classes_langtons-ant-3">
+<program>
 <xi:include href="../../programs/reusing-classes/langtons-ant-3.cpp" parse="text"/>
 </program>
 
@@ -46,7 +46,7 @@ So we add 3 instead, since one left turn is the same as three right turns.
 The <pf>moveAnt</pf> function moves the ant forward one square, using <pf>head</pf> to determine which way is forward:
 </p>
 
-<program xml:id="reusing-classes_langtons-ant-4">
+<program>
 <xi:include href="../../programs/reusing-classes/langtons-ant-4.cpp" parse="text"/>
 </program>
 
@@ -54,7 +54,7 @@ The <pf>moveAnt</pf> function moves the ant forward one square, using <pf>head</
 Here is the <pf>main</pf> function we use to create and display the <pf>Langton</pf> object:
 </p>
 
-<program xml:id="reusing-classes_langtons-ant-5" interactive="activecode">
+<program label="reusing-classes_langtons-ant-program-1" interactive="activecode">
 <xi:include href="../../programs/reusing-classes/langtons-ant-5.cpp" parse="text"/>
 </program>
 

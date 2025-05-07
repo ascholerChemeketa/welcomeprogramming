@@ -9,7 +9,7 @@
 
   <p>To start exploring exceptions, we will look at a string function that throws exceptions. <pf>substr</pf> throws an exception if we give it a bad index, as shown in this sample:</p>
 
-  <program xml:id="program-design_exceptions-1" interactive="activecode">
+  <program label="program-design_exceptions-program-1" interactive="activecode">
 <xi:include href="../../programs/program-design/exceptions-1.cpp" parse="text"/>
 </program>
 
@@ -35,7 +35,7 @@
 
   <p><pf>exception</pf> is a data type defined in the <pf>&lt;exception></pf> library. <pf>catch(const exception&amp; e)</pf> says that <pf>e</pf> is going to be a const reference to an <pf>exception</pf> that is coming from somewhere else. Let's add that to our program to catch the exception that is coming from <pf>substr</pf>:</p>
 
-  <program xml:id="program-design_exceptions-2" interactive="activecode">
+  <program label="program-design_exceptions-program-2" interactive="activecode">
 <xi:include href="../../programs/program-design/exceptions-2.cpp" parse="text"/>
 </program>
 

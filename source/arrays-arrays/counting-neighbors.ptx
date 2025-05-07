@@ -13,7 +13,7 @@ If we try to count all possible neighbors, we'll go out of bounds.
 The following function uses a <pf>try</pf>-<pf>catch</pf> statement to deal with these special cases:
 </p>
 
-<program xml:id="arrays-arrays_counting-neighbors-1">
+<program>
 <xi:include href="../../programs/arrays-arrays/counting-neighbors-1.cpp" parse="text"/>
 </program>
   <figure xml:id="fig_neighbors" >
@@ -39,7 +39,7 @@ So the non-existent cells around the perimeter are considered to be off.
 Now we can use <pf>test</pf> to implement <pf>countAlive</pf>, which takes a grid location, <pf>(r, c)</pf>, and returns the number of live neighbors surrounding that location:
 </p>
 
-<program xml:id="arrays-arrays_counting-neighbors-2">
+<program>
 <xi:include href="../../programs/arrays-arrays/counting-neighbors-2.cpp" parse="text"/>
 </program>
 

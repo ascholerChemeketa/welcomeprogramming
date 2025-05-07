@@ -17,7 +17,7 @@ So here's one way we could make the code more general:
 <li><p>Define a new superclass, which we call <pf>Actor</pf>, that provides the two functions needed by <pf>Drawing</pf>:
 
 
-<program xml:id="advanced-topics_interfaces-1">
+<program>
 <xi:include href="../../programs/advanced-topics/interfaces-1.cpp" parse="text"/>
 </program>
 </p></li>
@@ -37,7 +37,7 @@ Java provides another mechanism for inheritance that solves these problems.
 We can define <pf>Actor</pf> as an <pf>interface</pf> instead of a <pf>class</pf>, like this:
 </p>
 
-<program xml:id="advanced-topics_interfaces-2">
+<program>
 <xi:include href="../../programs/advanced-topics/interfaces-2.cpp" parse="text"/>
 </program>
 
@@ -63,7 +63,7 @@ Here's a version of <pf>DrawablePolygon</pf> that extends <pf>Polygon</pf> and i
 So it inherits functions from <pf>Polygon</pf>, and it is required to provide the functions in <pf>Actor</pf>; namely <pf>draw</pf> and <pf>step</pf>:
 </p>
 
-<program xml:id="advanced-topics_interfaces-3">
+<program>
 <xi:include href="../../programs/advanced-topics/interfaces-3.cpp" parse="text"/>
 </program>
 
@@ -72,7 +72,7 @@ In terms of inheritance, <pf>DrawablePolygon</pf> is both a <pf>Polygon</pf> and
 So the following assignments are legal:
 </p>
 
-<program xml:id="advanced-topics_interfaces-4">
+<program>
 <xi:include href="../../programs/advanced-topics/interfaces-4.cpp" parse="text"/>
 </program>
 
@@ -80,7 +80,7 @@ So the following assignments are legal:
 And the same is true for subclasses of <pf>DrawablePolygon</pf>; these assignments are legal too:
 </p>
 
-<program xml:id="advanced-topics_interfaces-5" interactive="activecode">
+<program label="advanced-topics_interfaces-program-1" interactive="activecode">
 <xi:include href="../../programs/advanced-topics/interfaces-5.cpp" parse="text"/>
 </program>
 

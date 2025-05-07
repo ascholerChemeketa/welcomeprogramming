@@ -7,7 +7,7 @@
     When using pointers with objects, we are likely to encounter a syntax annoyance. Say we have a Pointer called <pf>myPointer</pf> that points at a <pf>Point</pf> object and we want to call the <pf>getX()</pf> function of that Point. We know that the pointer is just a memory address. To use it we need to dereference it - <pf>*myPointer</pf> will give us <q>the object that myPointer points at</q>. So we write the following to access the <pf>getX()</pf> of that object (using our <xref ref="point-final-cxx-listing" text="title"/>):
   </p>
 
-  <program interactive="activecode" label="pointers-objects-example" compile-also="point-final-cxx">
+  <program label="pointers-aggregation_pointers-objects-program-1" interactive="activecode" compile-also="point-final-cxx">
 <xi:include href="../../programs/pointers-aggregation/pointers-objects-1.cpp" parse="text"/>
   </program>
 
@@ -32,7 +32,7 @@
 
   <p>So the final correct version of our simple program using the <term>pointer member access operator</term> would look like:</p>
 
-  <program interactive="activecode" label="pointers-objects-example2" compile-also="point-final-cxx">
+  <program label="pointers-aggregation_pointers-objects-program-2" interactive="activecode" compile-also="point-final-cxx">
 <xi:include href="../../programs/pointers-aggregation/pointers-objects-2.cpp" parse="text"/>
   </program>
 

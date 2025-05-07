@@ -25,7 +25,7 @@
 
   <p>The flexibility of pointers introduces some risks. It is easy to end up with a pointer that holds an address that does not make sense. If we declare a pointer, but do not initialize it, it will be pointing to an unpredictable location in memory (whatever bits were in memory where the pointer was placed will be interpreted as an address). That is the case below:</p>
 
-  <program label="asd3fades3dfdsdf3" interactive="activecode" highlight-lines="4" line-numbers="yes" codelens="yes" compiler-args="-std=c++20 -fsanitize=address">
+  <program label="pointers-aggregation_why-program-1" interactive="activecode" highlight-lines="4" line-numbers="yes" codelens="yes" compiler-args="-std=c++20 -fsanitize=address">
 <xi:include href="../../programs/pointers-aggregation/pointers-bugs-1.cpp" parse="text"/>
   </program>
 

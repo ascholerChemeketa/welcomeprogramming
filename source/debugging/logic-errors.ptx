@@ -71,7 +71,7 @@ Writing complex expressions is fine as long as they are readable, but they can b
 It is often a good idea to break a complex expression into a series of assignments to temporary variables:
 </p>
 
-<program xml:id="debugging_ive-got-a-big-hairy-expression-it-doesnt-do-what-i-expect-1">
+<program>
 <xi:include href="../../programs/debugging/ive-got-a-big-hairy-expression-it-doesnt-do-what-i-expect-1.cpp" parse="text"/>
 </program>
 
@@ -79,7 +79,7 @@ It is often a good idea to break a complex expression into a series of assignmen
 This example can be rewritten as follows:
 </p>
 
-<program xml:id="debugging_ive-got-a-big-hairy-expression-it-doesnt-do-what-i-expect-2">
+<program>
 <xi:include href="../../programs/debugging/ive-got-a-big-hairy-expression-it-doesnt-do-what-i-expect-2.cpp" parse="text"/>
 </program>
 
@@ -97,7 +97,7 @@ Another problem that can occur with big expressions is that the order of operati
 For example, to evaluate <m>\frac{x}{2 \pi}</m>, you might write this:
 </p>
 
-<program xml:id="debugging_ive-got-a-big-hairy-expression-it-doesnt-do-what-i-expect-3">
+<program>
 <xi:include href="../../programs/debugging/ive-got-a-big-hairy-expression-it-doesnt-do-what-i-expect-3.cpp" parse="text"/>
 </program>
 
@@ -110,7 +110,7 @@ This code computes <m>\frac{x}{2}\pi</m>.
 If you are not sure of the order of operations, check the documentation, or use parentheses to make it explicit.
 </p>
 
-<program xml:id="debugging_ive-got-a-big-hairy-expression-it-doesnt-do-what-i-expect-4">
+<program>
 <xi:include href="../../programs/debugging/ive-got-a-big-hairy-expression-it-doesnt-do-what-i-expect-4.cpp" parse="text"/>
 </program>
 
@@ -128,7 +128,7 @@ This version is correct, and more readable for other people who haven't memorize
 If you have a return statement with a complex expression, you don't have a chance to display the value before returning:
 </p>
 
-<program xml:id="debugging_my-function-doesnt-return-what-i-expect-1">
+<program>
 <xi:include href="../../programs/debugging/my-function-doesnt-return-what-i-expect-1.cpp" parse="text"/>
 </program>
 
@@ -136,7 +136,7 @@ If you have a return statement with a complex expression, you don't have a chanc
 Instead of writing everything in one statement, use temporary variables:
 </p>
 
-<program xml:id="debugging_my-function-doesnt-return-what-i-expect-2">
+<program>
 <xi:include href="../../programs/debugging/my-function-doesnt-return-what-i-expect-2.cpp" parse="text"/>
 </program>
 

@@ -10,7 +10,7 @@
     For example, consider a program that converts integers like <pf>1</pf>, <pf>2</pf>, and <pf>3</pf> into
     words like <pf>"one"</pf>, <pf>"two"</pf>, and <pf>"three"</pf>: </p>
 
-  <program xml:id="conditionals-logic_switch-statement-1">
+  <program>
 <xi:include href="../../programs/conditionals-logic/switch-statement-1.cpp" parse="text"/>
 </program>
 
@@ -25,7 +25,7 @@
     write numbers in long form (e.g., <q>one hundred twenty-three and 45/100 dollars</q>). An
     alternative way to evaluate many possible values of an expression is to use a <pf>switch</pf> statement: </p>
 
-  <program xml:id="conditionals-logic_switch-statement-2">
+  <program>
 <xi:include href="../../programs/conditionals-logic/switch-statement-2.cpp" parse="text"/>
 </program>
 
@@ -35,7 +35,7 @@
 
   <p>If there is no <pf>break</pf>, execution will continue on, ignoring the <pf>case</pf>'s it encounters. This is a feature that makes switches  particularly useful when multiple cases can be grouped: </p>
 
-  <program xml:id="conditionals-logic_switch-statement-3">
+  <program>
 <xi:include href="../../programs/conditionals-logic/switch-statement-3.cpp" parse="text"/>
 </program>
 
@@ -49,13 +49,13 @@
 
 <p>Consider this somewhat silly example that reads in a number of monkeys and then prints out a message. It uses a conditional to pick the right form of monkey (singular or plural):</p>
 
-  <program xml:id="conditionals-logic_ternary-statement-1">
+  <program>
 <xi:include href="../../programs/conditionals-logic/ternary-statement-1.cpp" parse="text"/>
 </program>
 
   <p>It is awkward to write basically the same code twice just so we can change one word. An alternative is to use the <term>ternary conditional operator</term>. This operator is a shorthand way to write a simple if/else statement that produces one of two values. It is called <q>ternary</q> because it has three parts: a condition, a value to return if the condition is true, and a value to return if the condition is false. It takes the form <code> (TEST ? VALUE1 : VALUE2) </code> first is the test, followed by a question mark. If the test is true, the expression produces <pf>VALUE1</pf>. If it is false, it produces <pf>VALUE2</pf>. (The parentheses are not necessary but help to show what is part of ternary operator expression.) Here is the monkeys example rewritten to use it:</p>
 
-  <program xml:id="conditionals-logic_ternary-statement-2">
+  <program>
 <xi:include href="../../programs/conditionals-logic/ternary-statement-2.cpp" parse="text"/>
 </program>
   

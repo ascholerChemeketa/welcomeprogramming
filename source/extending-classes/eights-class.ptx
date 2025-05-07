@@ -32,7 +32,7 @@ Here is the beginning of the class definition for <pf>Eights</pf>, which encapsu
     <idx><h>Eights</h></idx>
 </p>
 
-<program xml:id="extending-classes_eights-class-1">
+<program>
 <xi:include href="../../programs/extending-classes/eights-class-1.cpp" parse="text"/>
 </program>
 
@@ -48,7 +48,7 @@ The next piece we'll need is a function that checks whether the game is over.
 If either hand is empty, we're done:
 </p>
 
-<program xml:id="extending-classes_eights-class-2">
+<program>
 <xi:include href="../../programs/extending-classes/eights-class-2.cpp" parse="text"/>
 </program>
 
@@ -57,7 +57,7 @@ When the draw pile is empty, we have to shuffle the discard pile.
 Here is a function for that:
 </p>
 
-<program xml:id="extending-classes_eights-class-3">
+<program>
 <xi:include href="../../programs/extending-classes/eights-class-3.cpp" parse="text"/>
 </program>
 
@@ -68,7 +68,7 @@ Then we put the saved card back into <pf>discardPile</pf> and shuffle <pf>drawPi
 We can use <pf>reshuffle</pf> as part of the <pf>draw</pf> function:
 </p>
 
-<program xml:id="extending-classes_eights-class-4">
+<program>
 <xi:include href="../../programs/extending-classes/eights-class-4.cpp" parse="text"/>
 </program>
 
@@ -76,7 +76,7 @@ We can use <pf>reshuffle</pf> as part of the <pf>draw</pf> function:
 The <pf>nextPlayer</pf> function takes the current player as a parameter and returns the player who should go next:
 </p>
 
-<program xml:id="extending-classes_eights-class-5">
+<program>
 <xi:include href="../../programs/extending-classes/eights-class-5.cpp" parse="text"/>
 </program>
 
@@ -86,7 +86,7 @@ It displays the hand of each player, the contents of the discard pile, and the n
 Finally, it waits for the user to press the <term>Enter</term> key:
 </p>
 
-<program xml:id="extending-classes_eights-class-6">
+<program>
 <xi:include href="../../programs/extending-classes/eights-class-6.cpp" parse="text"/>
 </program>
 
@@ -96,7 +96,7 @@ It reads the top card off the discard pile and passes it to <pf>player.play</pf>
 The result is the card the player chose, which is added to the discard pile:
 </p>
 
-<program xml:id="extending-classes_eights-class-7">
+<program>
 <xi:include href="../../programs/extending-classes/eights-class-7.cpp" parse="text"/>
 </program>
 
@@ -104,7 +104,7 @@ The result is the card the player chose, which is added to the discard pile:
 Finally, we use <pf>takeTurn</pf> and the other functions to write <pf>playGame</pf>:
 </p>
 
-<program xml:id="extending-classes_eights-class-8">
+<program>
 <xi:include href="../../programs/extending-classes/eights-class-8.cpp" parse="text"/>
 </program>
 

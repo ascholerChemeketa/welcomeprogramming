@@ -5,7 +5,7 @@ Now we are ready to write <pf>update</pf>, which gets invoked each time through 
 It uses the GoL rules to compute the state of the grid after the next time step:
 </p>
 
-<program xml:id="arrays-arrays_updating-grid-1">
+<program>
 <xi:include href="../../programs/arrays-arrays/updating-grid-1.cpp" parse="text"/>
 </program>
 
@@ -18,7 +18,7 @@ We do that by traversing the grid twice: first, <pf>countNeighbors</pf> counts t
 Here's <pf>countNeighbors</pf>:
 </p>
 
-<program xml:id="arrays-arrays_updating-grid-2">
+<program>
 <xi:include href="../../programs/arrays-arrays/updating-grid-2.cpp" parse="text"/>
 </program>
 
@@ -40,7 +40,7 @@ The reason is that, in this example, we need the indexes <pf>r</pf> and <pf>c</p
 <pf>updateGrid</pf> uses <pf>getCell</pf> to select each <pf>Cell</pf> in the grid, and <pf>updateCell</pf> to do the update:
 </p>
 
-<program xml:id="arrays-arrays_updating-grid-3">
+<program>
 <xi:include href="../../programs/arrays-arrays/updating-grid-3.cpp" parse="text"/>
 </program>
 
@@ -48,7 +48,7 @@ The reason is that, in this example, we need the indexes <pf>r</pf> and <pf>c</p
 <pf>updateCell</pf> implements the GoL rules: if the cell is alive, it dies if it has fewer than two or more than three neighbors; if the cell is dead, it comes to life if it has exactly three:
 </p>
 
-<program xml:id="arrays-arrays_updating-grid-4">
+<program>
 <xi:include href="../../programs/arrays-arrays/updating-grid-4.cpp" parse="text"/>
 </program>
 

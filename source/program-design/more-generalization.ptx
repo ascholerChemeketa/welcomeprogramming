@@ -6,7 +6,7 @@ However, the inner loop is now encapsulated in the <pf>printRow</pf> function.
 We can encapsulate the outer loop in a function too:
 </p>
 
-<program xml:id="immutable-objects_more-generalization-1">
+<program>
 <xi:include href="../../programs/immutable-objects/more-generalization-1.cpp" parse="text"/>
 </program>
 
@@ -15,7 +15,7 @@ The initial version of <pf>printTable</pf> always displays six rows.
 We can generalize it by replacing the literal <pf>6</pf> with a parameter:
 </p>
 
-<program xml:id="immutable-objects_more-generalization-2">
+<program>
 <xi:include href="../../programs/immutable-objects/more-generalization-2.cpp" parse="text"/>
 </program>
 
@@ -40,7 +40,7 @@ That's better, but it always displays the same number of columns.
 We can generalize more by adding a parameter to <pf>printRow</pf>:
 </p>
 
-<program xml:id="immutable-objects_more-generalization-3">
+<program>
 <xi:include href="../../programs/immutable-objects/more-generalization-3.cpp" parse="text"/>
 </program>
 
@@ -49,7 +49,7 @@ Now <pf>printRow</pf> takes two parameters: <pf>n</pf> is the value whose multip
 Since we added a parameter to <pf>printRow</pf>, we also have to change the line in <pf>printTable</pf> where it is invoked:
 </p>
 
-<program xml:id="immutable-objects_more-generalization-4">
+<program>
 <xi:include href="../../programs/immutable-objects/more-generalization-4.cpp" parse="text"/>
 </program>
 
@@ -66,7 +66,7 @@ Since <m>ab = ba</m>, all the entries in the table appear twice.
 You could save ink by printing half of the table, and you would have to change only <term>one line</term> of <pf>printTable</pf>:
 </p>
 
-<program xml:id="immutable-objects_more-generalization-5">
+<program>
 <xi:include href="../../programs/immutable-objects/more-generalization-5.cpp" parse="text"/>
 </program>
 

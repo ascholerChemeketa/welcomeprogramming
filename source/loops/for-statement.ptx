@@ -54,7 +54,7 @@ for (initializer; test; update) {
     
     <p>For example, we can rewrite the 1-5 loop this way: </p>
 
-  <program xml:id="loops_for-statement-0" interactive="codelens">
+  <program label="loops_for-statement-program-1" interactive="codelens">
 <xi:include href="../../programs/loops/for-statement-0.cpp" parse="text"/>
 </program>
 
@@ -63,10 +63,10 @@ for (initializer; test; update) {
   <p>Here is the 2, 4, 6, 8 loop written as a <pf>while</pf> and as a <pf>for</pf> side by side for comparison:</p>
 
   <sidebyside widths="45% 45%">
-  <program xml:id="loops_for-statement-11">
+  <program>
 <xi:include href="../../programs/loops/for-statement-1b.cpp" parse="text"/>
 </program>
-  <program xml:id="loops_for-statement-1b">
+  <program>
 <xi:include href="../../programs/loops/for-statement-1.cpp" parse="text"/>
 </program>
   </sidebyside>
@@ -74,7 +74,7 @@ for (initializer; test; update) {
   <p>There is another difference between <pf>for</pf> loops and <pf>while</pf> loops: if you declare a variable
     in the initializer, it exists only <term>inside</term> the <pf>for</pf> loop. For example, this program has a syntax error - <pf>i</pf> no longer is in scope once we leave the loop:</p>
 
-  <program xml:id="loops_for-statement-2" interactive="activecode">
+  <program label="loops_for-statement-program-2" interactive="activecode">
 <xi:include href="../../programs/loops/for-statement-2.cpp" parse="text"/>
 </program>
 

@@ -38,7 +38,7 @@ The base case is the easiest version of the problem; for <pf>noX</pf>, it's the 
 If the argument is an empty string, there are no <pf>x</pf>'s to be removed:
 </p>
 
-<program xml:id="recursive-functions_codingbat-problems-1">
+<program>
 <xi:include href="../../programs/recursive-functions/codingbat-problems-1.cpp" parse="text"/>
 </program>
 
@@ -52,7 +52,7 @@ For <pf>noX</pf>, it's removing all the <pf>x</pf>'s from a shorter string.
 So let's split the string into two parts, the first letter and the rest:
 </p>
 
-<program xml:id="recursive-functions_codingbat-problems-2">
+<program>
 <xi:include href="../../programs/recursive-functions/codingbat-problems-2.cpp" parse="text"/>
 </program>
 
@@ -60,7 +60,7 @@ So let's split the string into two parts, the first letter and the rest:
 Now we can make a recursive call to remove the <pf>x</pf>'s from <pf>rest</pf>:
 </p>
 
-<program xml:id="recursive-functions_codingbat-problems-3">
+<program>
 <xi:include href="../../programs/recursive-functions/codingbat-problems-3.cpp" parse="text"/>
 </program>
 
@@ -70,7 +70,7 @@ Otherwise, we have to concatenate <pf>first</pf> and <pf>recurse</pf>.
 Here's the <pf>if</pf> statement we need:
 </p>
 
-<program xml:id="recursive-functions_codingbat-problems-4">
+<program>
 <xi:include href="../../programs/recursive-functions/codingbat-problems-4.cpp" parse="text"/>
 </program>
 
@@ -99,7 +99,7 @@ So the base case is when we've reached the end of the array.
 At that point, we know there are no more <pf>11</pf>s:
 </p>
 
-<program xml:id="recursive-functions_codingbat-problems-5">
+<program>
 <xi:include href="../../programs/recursive-functions/codingbat-problems-5.cpp" parse="text"/>
 </program>
 
@@ -109,7 +109,7 @@ After that, we can recursively check the rest of the array.
 Similar to the <pf>noX</pf> problem, we look at only one integer per function call:
 </p>
 
-<program xml:id="recursive-functions_codingbat-problems-6">
+<program>
 <xi:include href="../../programs/recursive-functions/codingbat-problems-6.cpp" parse="text"/>
 </program>
 

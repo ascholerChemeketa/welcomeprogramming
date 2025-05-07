@@ -17,19 +17,19 @@ WHILE CONDITION IS TRUE
       <h>counting</h>
     </idx></p>
 
-  <program interactive="activecode" label="cl-1">
+  <program label="loops_counting-program-1" interactive="activecode">
 <xi:include href="../../programs/loops/counting-1.cpp" parse="text"/>
 </program>
 
   <p>Note that to get 5 repetitions when starting from 1, we need to count up to and including 5. For reasons that will become clear when we introduce arrays and strings, computer scientists often number things starting from 0. So often times, we count from 0. Most programmers would write a loop that repeats 5 times as starting from 0 and counting up to but not including 5, like this:</p>
 
-  <program interactive="activecode" label="cl-2">
+  <program label="loops_counting-program-2" interactive="activecode">
 <xi:include href="../../programs/loops/counting-2.cpp" parse="text"/>
 </program>
 
   <p>Note that the program repeats the body 5 times, but the output is now 0, 1, 2, 3, 4. If we care about the numbers being printed, that would be a problem. But often, we aren't doing much with the loop control variable other than tracking the progress of the loop. Say I want to print out <pf>"Hello"</pf> 5 times. It doesn't matter what my counter is doing, as long as it causes the loop to repeat 5 times:</p>
 
-  <program interactive="activecode" label="cl-3">
+  <program label="loops_counting-program-3" interactive="activecode">
 <xi:include href="../../programs/loops/counting-3.cpp" parse="text"/>
 </program>
 

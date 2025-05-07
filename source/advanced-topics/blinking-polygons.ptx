@@ -6,7 +6,7 @@ At this point, we have a simple program that draws polygons; we can make it more
 Here's a loop that runs the animation:
 </p>
 
-<program xml:id="advanced-topics_blinking-polygons-1">
+<program>
 <xi:include href="../../programs/advanced-topics/blinking-polygons-1.cpp" parse="text"/>
 </program>
 
@@ -19,7 +19,7 @@ Then we sleep with a delay calculated to update about 30 times per second.
 Here's what the <pf>step</pf> function of <pf>Drawing</pf> looks like:
 </p>
 
-<program xml:id="advanced-topics_blinking-polygons-2">
+<program>
 <xi:include href="../../programs/advanced-topics/blinking-polygons-2.cpp" parse="text"/>
 </program>
 
@@ -32,7 +32,7 @@ In order for this code to compile, we need <pf>DrawablePolygon</pf> to provide a
 Here's a version that doesn't do anything; we'll override it in subclasses:
 </p>
 
-<program xml:id="advanced-topics_blinking-polygons-3">
+<program>
 <xi:include href="../../programs/advanced-topics/blinking-polygons-3.cpp" parse="text"/>
 </program>
 
@@ -41,7 +41,7 @@ Now let's design a new type of polygon that blinks.
 We'll define a class named <pf>BlinkingPolygon</pf> that extends <pf>RegularPolygon</pf> and adds two more attributes: <pf>visible</pf>, which indicates whether the polygon is visible, and <pf>count</pf>, which counts the number of time steps since the last blink:
 </p>
 
-<program xml:id="advanced-topics_blinking-polygons-4">
+<program>
 <xi:include href="../../programs/advanced-topics/blinking-polygons-4.cpp" parse="text"/>
 </program>
 

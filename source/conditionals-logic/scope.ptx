@@ -4,7 +4,7 @@
 
   <p>It is important to note that each block has its own scope. That means a local variable declared in a branch is not available outside that branch. For example, here is a broken program to compute someone's pay, possibly including extra pay for overtime (over 40 hours):</p>
 
-  <program xml:id="conditionals-logic_scope-1" interactive="activecode">
+  <program label="conditionals-logic_scope-program-1" interactive="activecode">
 <code>
 <xi:include href="../../programs/conditionals-logic/scope.cpp" parse="text"/>
 </code>
@@ -15,7 +15,7 @@
 
   <p>If you try running that program, the compiler will tell you that <pf>pay</pf> is not defined at the end of <pf>main</pf>. That is because when a variable is declared inside a block, it is scoped only for that block. Either <pf>pay</pf> gets created in the <pf>if</pf> and goes out of scope (is no longer available) at the end of the <pf>if</pf>, or it gets created in the <pf>else</pf> and is only available there. To fix the program, we need to declare <pf>pay</pf> before the if/else structure:</p>
 
-  <program xml:id="conditionals-logic_scope-2" interactive="activecode">
+  <program label="conditionals-logic_scope-program-2" interactive="activecode">
 <code>
 <xi:include href="../../programs/conditionals-logic/scope-2.cpp" parse="text"/>
 </code>
@@ -31,7 +31,7 @@
 
   <warning><p>It is possible to declare a variable with the same name in an inner block as in an outer block. This is called <term>shadowing</term>. The inner variable will hide the outer variable, but the outer variable is still there. This can be confusing, so it is best to avoid shadowing when possible.
   </p>
-    <program xml:id="conditionals-logic_scope-4">
+    <program>
     int x = 10;
     if(x &lt; 100) {
         // This is a "different" x

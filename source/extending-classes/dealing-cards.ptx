@@ -6,7 +6,7 @@ And during the game, we need to move cards between hands and piles.
 If we add the following function to <pf>CardCollection</pf>, it can meet both of these requirements:
 </p>
 
-<program xml:id="extending-classes_dealing-cards-1">
+<program>
 <xi:include href="../../programs/extending-classes/dealing-cards-1.cpp" parse="text"/>
 </program>
 
@@ -16,7 +16,7 @@ The second parameter, <pf>n</pf>, is the number of cards to deal.
 We will use this function to implement <pf>dealAll</pf>, which deals (or moves) all of the remaining cards:
 </p>
 
-<program xml:id="extending-classes_dealing-cards-2">
+<program>
 <xi:include href="../../programs/extending-classes/dealing-cards-2.cpp" parse="text"/>
 </program>
 
@@ -25,7 +25,7 @@ At this point, we can create a <pf>Deck</pf> and start dealing cards.
 Here's a simple example that deals five cards to a hand, and deals the rest into a draw pile:
 </p>
 
-<program xml:id="extending-classes_dealing-cards-3" interactive="activecode">
+<program label="extending-classes_dealing-cards-program-1" interactive="activecode">
 <xi:include href="../../programs/extending-classes/dealing-cards-3.cpp" parse="text"/>
 </program>
 
@@ -54,7 +54,7 @@ Notice that the first parameter is supposed to be a <pf>CardCollection</pf>.
 But we invoked it like this:
 </p>
 
-<program xml:id="extending-classes_dealing-cards-4">
+<program>
 <xi:include href="../../programs/extending-classes/dealing-cards-4.cpp" parse="text"/>
 </program>
 

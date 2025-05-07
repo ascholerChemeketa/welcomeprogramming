@@ -17,7 +17,7 @@
 
   <p>So why is the first version preferable? To answer that question, we will start by reviewing how normal variables work. Each regular variable is a name for a different location in memory (a different box to store things in). Given this code:</p>
 
-  <program xml:id="references-exceptions_references-1">
+  <program>
 <xi:include href="../../programs/references-exceptions/references-1.cpp" parse="text"/>
 </program>
 
@@ -50,7 +50,7 @@
 
   <p><pf>b</pf> is an <term>alias</term> for <pf>a</pf> - it is another way to name the exact same storage that <pf>a</pf> names. If we change <pf>b</pf>, we change that value. Run this Codelens sample to see its animation of the situation:</p>
 
-  <program xml:id="references-exceptions_references-2" interactive="codelens">
+  <program label="references-exceptions_references-program-1" interactive="codelens">
 <xi:include href="../../programs/references-exceptions/references-2.cpp" parse="text"/>
 </program>
 

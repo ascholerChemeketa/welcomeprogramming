@@ -65,7 +65,7 @@
     tell C++ where to put the line breaks: <idx><h>newline</h></idx></p>
 
   <listing filename="Hello3.java">
-    <program xml:id="strings_using-escape-sequences-1"
+    <program label="strings_using-escape-sequences-program-1"
              interactive="activecode">
 <xi:include href="../../programs/computer-programming/using-escape-sequences-1.cpp" parse="text"/>
 </program>
@@ -85,13 +85,13 @@ cout &lt;&lt; "She said "Hello!" to me.";
 
   <p>To include the quotes in the string, we need to <term>escape</term> them using <pf>\</pf>:</p>
 
-  <program xml:id="strings_using-escape-sequences-2" interactive="activecode">
+  <program label="strings_using-escape-sequences-program-2" interactive="activecode">
 <xi:include href="../../programs/computer-programming/using-escape-sequences-2.cpp" parse="text"/>
 </program>
 
   <p>The same trick is true of single quotes and of backslashes. Since <pf>\</pf> normally means <q>this is the start of an escape sequence</q>, we need an escape sequence to indicate that the value we want is really just a backslash. We need to use this trick to represent a Windows style file path that uses backslashes:</p>
 
-  <program xml:id="strings_using-escape-sequences-3" interactive="activecode" compiler-args="-std=c++20">
+  <program label="strings_using-escape-sequences-program-3" interactive="activecode" compiler-args="-std=c++20">
 <xi:include href="../../programs/computer-programming/using-escape-sequences-3.cpp" parse="text"/>
 </program>
 

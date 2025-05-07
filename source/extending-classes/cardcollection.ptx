@@ -25,7 +25,7 @@ Since this class will represent different piles and hands of cards, we'll add a 
     <idx><h>CardCollection</h></idx>
 </p>
 
-<program xml:id="extending-classes_cardcollection-1">
+<program>
 <xi:include href="../../programs/extending-classes/cardcollection-1.cpp" parse="text"/>
 </program>
 
@@ -34,7 +34,7 @@ As with the <pf>Pile</pf> class, we need a way to add cards to the collection.
 Here is the <pf>addCard</pf> function from the previous chapter:
 </p>
 
-<program xml:id="extending-classes_cardcollection-2">
+<program>
 <xi:include href="../../programs/extending-classes/cardcollection-2.cpp" parse="text"/>
 </program>
 
@@ -45,7 +45,7 @@ Inside <pf>addCard</pf> and other instance functions, you can access instance va
 So from here on, we will drop it:
 </p>
 
-<program xml:id="extending-classes_cardcollection-3">
+<program>
 <xi:include href="../../programs/extending-classes/cardcollection-3.cpp" parse="text"/>
 </program>
 
@@ -54,7 +54,7 @@ We also need to be able to remove cards from the collection.
 The following function takes an index, removes the card at that location, and shifts the following cards left to fill the gap:
 </p>
 
-<program xml:id="extending-classes_cardcollection-4">
+<program>
 <xi:include href="../../programs/extending-classes/cardcollection-4.cpp" parse="text"/>
 </program>
 
@@ -65,7 +65,7 @@ It is most efficient to choose the last one, so we don't have to shift any cards
 Here is an overloaded version of <pf>popCard</pf> that removes and returns the last card:
 </p>
 
-<program xml:id="extending-classes_cardcollection-5">
+<program>
 <xi:include href="../../programs/extending-classes/cardcollection-5.cpp" parse="text"/>
 </program>
 
@@ -73,11 +73,11 @@ Here is an overloaded version of <pf>popCard</pf> that removes and returns the l
 <pf>CardCollection</pf> also provides <pf>isEmpty</pf>, which returns <pf>true</pf> if there are no cards left, and <pf>size</pf>, which returns the number of cards:
 </p>
 
-<program xml:id="extending-classes_cardcollection-6">
+<program>
 <xi:include href="../../programs/extending-classes/cardcollection-6.cpp" parse="text"/>
 </program>
   
-<program xml:id="extending-classes_cardcollection-7">
+<program>
 <xi:include href="../../programs/extending-classes/cardcollection-7.cpp" parse="text"/>
 </program>
 
@@ -87,7 +87,7 @@ Instead, you have to use the functions <pf>get</pf> and <pf>set</pf>.
 Here is a wrapper for <pf>get</pf>:
 </p>
 
-<program xml:id="extending-classes_cardcollection-8">
+<program>
 <xi:include href="../../programs/extending-classes/cardcollection-8.cpp" parse="text"/>
 </program>
 
@@ -95,7 +95,7 @@ Here is a wrapper for <pf>get</pf>:
 <pf>lastCard</pf> gets the last card (but doesn't remove it):
 </p>
 
-<program xml:id="extending-classes_cardcollection-9">
+<program>
 <xi:include href="../../programs/extending-classes/cardcollection-9.cpp" parse="text"/>
 </program>
 
@@ -106,7 +106,7 @@ In order to control the ways card collections are modified, we don't provide a w
 The only modifiers we provide are the two versions of <pf>popCard</pf> and the following version of <pf>swapCards</pf>:
 </p>
 
-<program xml:id="extending-classes_cardcollection-10">
+<program>
 <xi:include href="../../programs/extending-classes/cardcollection-10.cpp" parse="text"/>
 </program>
 
@@ -114,7 +114,7 @@ The only modifiers we provide are the two versions of <pf>popCard</pf> and the f
 Finally, we use <pf>swapCards</pf> to implement <pf>shuffle</pf>, which we described in <xref ref="shuffle">Section</xref>:
 </p>
 
-<program xml:id="extending-classes_cardcollection-11">
+<program>
 <xi:include href="../../programs/extending-classes/cardcollection-11.cpp" parse="text"/>
 </program>
 

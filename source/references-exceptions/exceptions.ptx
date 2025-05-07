@@ -9,7 +9,7 @@
 
   <p>To start exploring exceptions, we will use a familiar string function. When <pf>substr</pf> is given a bad index it responds by throwing an exception. Try running this sample that ends up asking for a substring starting at index 50 in a much shorter string:</p>
 
-  <program xml:id="references-exceptions_exceptions-1" interactive="activecode">
+  <program label="references-exceptions_exceptions-program-1" interactive="activecode">
 <xi:include href="../../programs/references-exceptions/exceptions-1.cpp" parse="text"/>
 </program>
 
@@ -35,7 +35,7 @@
 
   <p><pf>exception</pf> is a data type defined in the <pf>&lt;exception></pf> library. <pf>catch(const exception&amp; e)</pf> says that the variable <pf>e</pf> is going to be a const reference to an <pf>exception</pf> that is coming from somewhere else. Let's add that to our program to catch the exception that is coming from <pf>substr</pf>:</p>
 
-  <program xml:id="references-exceptions_exceptions-2" interactive="activecode">
+  <program label="references-exceptions_exceptions-program-2" interactive="activecode">
 <xi:include href="../../programs/references-exceptions/exceptions-2.cpp" parse="text"/>
 </program>
 

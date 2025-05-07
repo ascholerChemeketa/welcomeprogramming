@@ -16,7 +16,7 @@ We could use a <pf>boolean</pf> instead, but it's good practice to design classe
 Here is a <pf>Cell</pf> class that declares these instance variables:
 </p>
 
-<program xml:id="arrays-arrays_cell-class-1">
+<program>
 <xi:include href="../../programs/arrays-arrays/cell-class-1.cpp" parse="text"/>
 </program>
 
@@ -31,7 +31,7 @@ The next step is to write a constructor.
 Here's one that takes <pf>x</pf>, <pf>y</pf>, and <pf>size</pf> as parameters, and sets <pf>state</pf> to a default value:
 </p>
 
-<program xml:id="arrays-arrays_cell-class-2">
+<program>
 <xi:include href="../../programs/arrays-arrays/cell-class-2.cpp" parse="text"/>
 </program>
 
@@ -40,7 +40,7 @@ The following function draws a cell.
 Like the <pf>paint</pf> function in <xref ref="graphics">Appendix</xref>, it takes a graphics context as a parameter:
 </p>
 
-<program xml:id="arrays-arrays_cell-class-3">
+<program>
 <xi:include href="../../programs/arrays-arrays/cell-class-3.cpp" parse="text"/>
 </program>
 
@@ -54,7 +54,7 @@ We also need functions to get and set the cell's state.
 We could just provide <pf>getState</pf> and <pf>setState</pf>, but the code will be more readable if we provide functions customized for the Game of Life:
 </p>
 
-<program xml:id="arrays-arrays_cell-class-4">
+<program>
 <xi:include href="../../programs/arrays-arrays/cell-class-4.cpp" parse="text"/>
 </program>
 

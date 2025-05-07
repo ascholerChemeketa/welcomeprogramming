@@ -11,7 +11,7 @@
       <h>floating-point</h>
     </idx> If I divide 1.3 by 2.65, it is pretty clear that I expect a decimal (floating-point) answer. Thus C++ performs <term>floating-point division</term> and produces a decimal value. Using that knowledge, we can now calculate decimal value, like <q>what part of an hour is 45 minutes?</q>. We just have to make sure we use floating-point values in the calculation:</p>
 
-  <program xml:id="floatingpoint-math_floatingpoint-division-1"
+  <program label="floatingpoint-math_floatingpoint-division-program-1"
            interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/floatingpoint-division-1.cpp" parse="text"/>
 </program>
@@ -27,7 +27,7 @@
     <caption>
       Run the code to see what type of division occurs each time.
     </caption>
-    <program label="floating_point_a1_editor"
+    <program label="floatingpoint-math_floatingpoint-division-program-2"
              interactive="activecode"
              line-numbers="yes">
       <code><![CDATA[
@@ -60,7 +60,7 @@ int main() {
   <p>This is true for other operations as well. If you add 4 to 2.5, the compiler assumes you want a decimal answer. However, this decision is made at each step of the calculation, without considering what might happen later. So the order of operations can matter. For example, consider the following code:
   </p>
 
-  <program xml:id="floatingpoint-math_floatingpoint-division-2"
+  <program label="floatingpoint-math_floatingpoint-division-program-3"
            interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/floatingpoint-division-2.cpp" parse="text"/>
 </program>
@@ -75,7 +75,7 @@ int main() {
   <p>One way to solve this problem (once you figure out the logic error) is to make sure that if you want a decimal
   answer, that you do math with decimal values. This code works as expected: </p>
 
-  <program xml:id="floatingpoint-math_floatingpoint-division-3"
+  <program label="floatingpoint-math_floatingpoint-division-program-4"
            interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/floatingpoint-division-3.cpp" parse="text"/>
   </program>

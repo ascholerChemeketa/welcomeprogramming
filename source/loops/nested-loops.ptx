@@ -13,7 +13,7 @@
     Nesting loops allow you to iterate over all the possible values for one variable for each value of the other variable. Among other things, this is useful for generating 2-dimensional tables. For example, a <q>multiplication
     table up to 8x8</q> needs to take each number from 1-8 and then multiply it by each value from 1-8: </p>
 
-  <program xml:id="loops_nested-loops-1" interactive="activecode">
+  <program label="loops_nested-loops-program-1" interactive="activecode">
 <xi:include href="../../programs/loops/nested-loops-1.cpp" parse="text"/>
 </program>
 
@@ -27,7 +27,7 @@
     as the <q>outer loop</q>, and the second loop (<pf>for j</pf>) is known as the <q>inner loop</q>. The outer loop is responsible for iterating over the rows. For each row, the inner loop repeats for each of the 8 columns, printing out the row number <pf>i</pf> multiplied by the column number <pf>j</pf> followed by a tab. After the inner loop finishes, a newline is printed to start a new row. Then the outer loop continues to the next row. This process can be seen in the Codelense example below. It has the same structure, but produces a smaller table and calls the counters <pf>row and </pf>col` for clarity:
   </p>
 
-  <program xml:id="loops_nested-loops-2" interactive="codelens">
+  <program label="loops_nested-loops-program-2" interactive="codelens">
 <xi:include href="../../programs/loops/nested-loops-2.cpp" parse="text"/>
 </program>
 

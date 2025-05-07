@@ -10,19 +10,19 @@
     elements of an vector and performing an operation on each element. Looping through the elements
     of an vector is called a <term>traversal</term>:</p>
 
-  <program xml:id="vectors_traversing-vector-1" interactive="activecode">
+  <program label="vectors_traversing-vector-program-1" interactive="activecode">
 <xi:include href="../../programs/vectors/traversing-vectors-1.cpp" parse="text"/>
 </program>
 
   <p>You will notice that the traversal looks just like looping through the characters of a string. We use a variable of type <pf>size_t</pf> to track our position. And we use <pf>.size()</pf> to determine where to stop. Of course, we can do things other than print the elements. This example traverses an vector and squares each element: </p>
 
-  <program xml:id="vectors_traversing-vector-1b" interactive="activecode">
+  <program label="vectors_traversing-vector-program-2" interactive="activecode">
 <xi:include href="../../programs/vectors/traversing-vectors-1b.cpp" parse="text"/>
 </program>
 
   <p>Also, similar to when iterating through the characters in a string, we can use a <term>range-based loop</term> to iterate through vectors. If we don't care about knowing the index of each item, this syntax can simplify things:</p>
 
-  <program xml:id="vectors_traversing-vector-1c" interactive="activecode">
+  <program label="vectors_traversing-vector-program-3" interactive="activecode">
 <xi:include href="../../programs/vectors/traversing-vectors-1c.cpp" parse="text"/>
 </program>
 
@@ -30,7 +30,7 @@
 
   <p>It is possible to use a range-based loop to modify elements in a vector. To do so, we have to make the local variable that stores each element a reference. By declaring the type as <pf>int&amp;</pf> we can avoid copying the value of each element into the loop variable. Instead, the loop variable will be an alias for the current element.</p>
 
-  <program xml:id="vectors_traversing-vector-1d" interactive="activecode">
+  <program label="vectors_traversing-vector-program-4" interactive="activecode">
 <xi:include href="../../programs/vectors/traversing-vectors-1d.cpp" parse="text"/>
 </program>
 

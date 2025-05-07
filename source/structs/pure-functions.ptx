@@ -12,7 +12,7 @@
 
   <p>First lets consider a pure version (named <pf>incrementPure</pf> just to clarify things once we have two versions):</p>
 
-    <program label="pure_function_AC_2" interactive="codelens">
+    <program label="structs_pure-functions-program-1" interactive="codelens">
 <xi:include href="../../programs/structs/pure-functions-2.cpp" parse="text"/>
     </program>
 
@@ -20,13 +20,13 @@
 
   <p>This version takes a <pf>Time</pf> by const reference and calls it <pf>t</pf>. It then makes a copy of the time, modifies the copy, and returns it. We could also write a pure function using pass by value. With pass by value, the parameter is already a copy of the argument that was passed in. So we don't need to explicitly make a copy of the parameter to modify:</p>
 
-    <program label="pure_function_AC_2b" interactive="codelens">
+    <program label="structs_pure-functions-program-2" interactive="codelens">
 <xi:include href="../../programs/structs/pure-functions-2b.cpp" parse="text"/>
     </program>
 
   <p>Now lets consider a modifying version:</p>
 
-    <program label="pure_function_AC_3" interactive="codelens">
+    <program label="structs_pure-functions-program-3" interactive="codelens">
 <xi:include href="../../programs/structs/pure-functions-3.cpp" parse="text"/>
     </program>
 

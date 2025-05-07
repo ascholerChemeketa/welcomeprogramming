@@ -7,25 +7,25 @@
 
   <p>Say we want to write a function that can add up all of the values in a <pf>vector&lt;int.</pf>. It could look like:</p>
 
-  <program xml:id="vectors_vector-functions-1" line-numbers="yes">
+  <program line-numbers="yes">
 <xi:include href="../../programs/vectors/vector-functions-1.cpp" parse="text"/>
 </program>
 
   <p>However, that version of the function would <term>pass by value</term> and copy the entire vector that was passed. It would be better to <term>pass by const reference</term>. Nothing other than the parameter needs to be changed:</p>
 
-  <program xml:id="vectors_vector-functions-2" line-numbers="yes" highlight-lines="2">
+  <program line-numbers="yes" highlight-lines="2">
 <xi:include href="../../programs/vectors/vector-functions-2.cpp" parse="text"/>
 </program>
 
   <p>To return a vector, we can declare the return type to be a <pf>vector&lt;T></pf> and then make sure to return an appropriate type of vector. (A returned value is always copied, though the compiler may do some tricks to avoid actually copying the data). This function returns a new vector that is a copy of the one passed in which every element gets doubled:</p>
 
-  <program xml:id="vectors_vector-functions-3" interactive="activecode">
+  <program label="vectors_vector-functions-program-1" interactive="activecode">
 <xi:include href="../../programs/vectors/vector-functions-3.cpp" parse="text"/>
 </program>
 
   <p>Note that we could write the function so that instead of making a new vector and returning that we modified the vector that was passed in:</p>
 
-  <program xml:id="vectors_vector-functions-4" interactive="activecode">
+  <program label="vectors_vector-functions-program-2" interactive="activecode">
 <xi:include href="../../programs/vectors/vector-functions-4.cpp" parse="text"/>
 </program>
 

@@ -9,13 +9,13 @@
 
   <p><pf>[width]</pf> is the starting point for doing this kind of formatting. It specifies a minimum size for the item. If the item being formatted is shorter than that, spaces are added. (Nothing is done to items that are larger than that value). Here are some examples with <pf>_</pf> printed before and after each item to show where spaces were added.</p>
 
-  <program label="input-output_format-spacing-1" interactive="activecode">
+  <program label="input-output_format-spacing-program-1" interactive="activecode">
 <xi:include href="../../programs/input-output/format-spacing-1.cpp" parse="text"/>
 </program>
 
   <p>Note that spaces were used when we needed padding to fill in space. Those spaces were added before the item (the item is right justified). To change from this default, we can use the <pf>[fill]</pf> and <pf>[align]</pf> values. The <pf>[align]</pf> option can be specified as <pf>&lt;</pf> to left justify the item, <pf>^</pf> to center the item, or <pf>></pf> to right justify it. If desired, a single character can be provided as the <pf>fill</pf> to use instead of spaces. (You have to specify the alignment if you want to use fill):</p>
 
-  <program label="input-output_format-spacing-2" interactive="activecode">
+  <program label="input-output_format-spacing-program-2" interactive="activecode">
 <xi:include href="../../programs/input-output/format-spacing-2.cpp" parse="text"/>
 </program>
 
@@ -39,13 +39,13 @@
   <pre>{:>2}:{:0>2} | {:&lt;16} | ${:>12.2f}</pre>
   <p>Notice the <pf> | </pf> characters where I want bars with spaces around them and the $ before the money placeholder. Here it is in action:</p>
 
-  <program label="input-output_format-spacing-3" interactive="activecode">
+  <program label="input-output_format-spacing-program-3" interactive="activecode">
 <xi:include href="../../programs/input-output/format-spacing-3.cpp" parse="text"/>
 </program>
 
   <p>Do you notice a problem? The dollar sign is not part of the number being formatted, so the extra spaces added to the money come between the $ and the digits. To fix this, I could format the money into a string first, then use that string to make the final output. While I am at it, I might make a function that does this work so it is easy to generate a line of output:</p>
 
-  <program label="input-output_format-spacing-4" interactive="activecode">
+  <program label="input-output_format-spacing-program-4" interactive="activecode">
 <xi:include href="../../programs/input-output/format-spacing-4.cpp" parse="text"/>
 </program>
 

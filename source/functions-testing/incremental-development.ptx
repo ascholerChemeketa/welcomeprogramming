@@ -30,7 +30,7 @@
     </idx> Given this, we can write an outline for the function, which is sometimes
     called a <term>stub</term>. The stub includes the function declaration and a <pf>return</pf> statement: </p>
 
-  <program xml:id="functions-testing_incremental-development-1">
+  <program>
 <xi:include href="../../programs/functions-testing/incremental-development-1.cpp" parse="text"/>
 </program>
 
@@ -38,7 +38,7 @@
     to compile. Which means that we can test the function without worrying about syntax errors. This
     program has some tests that will call the function and check its answer for various inputs: </p>
 
-  <program xml:id="functions-testing_incremental-development-2" interactive="activecode">
+  <program label="functions-testing_incremental-development-program-1" interactive="activecode">
 <xi:include href="../../programs/functions-testing/incremental-development-2.cpp" parse="text"/>
 </program>
 
@@ -49,7 +49,7 @@
   <p> Say we want to find the difference between the two x values and the two y values first. We
     might write code to do this, and then print out the values: </p>
 
-  <program xml:id="functions-testing_incremental-development-3" interactive="activecode">
+  <program label="functions-testing_incremental-development-program-2" interactive="activecode">
 <xi:include href="../../programs/functions-testing/incremental-development-3.cpp" parse="text"/>
 </program>
 
@@ -80,14 +80,14 @@
     simpler to multiply each term by itself. Then we add the squares and print
     the result so far. This is what the new version might look like with the new scaffolding added and the old removed:</p>
 
-  <program xml:id="functions-testing_incremental-development-4">
+  <program>
 <xi:include href="../../programs/functions-testing/incremental-development-4.cpp" parse="text"/>
 </program>
 
 
   <p>Once we tested that version, we could try to finish the function be returning the square root of <pf>dsquared</pf>. That last line would hopefully pass the final tests for the function itself. Once we were sure it did, we could remove the debugging scaffolding to leave something like:</p>
 
-  <program xml:id="functions-testing_incremental-development-5">
+  <program>
 <xi:include href="../../programs/functions-testing/incremental-development-5.cpp" parse="text"/>
 </program>
 

@@ -19,7 +19,7 @@
     gets executed. <term>Conditional statements</term> give us this ability. The simplest
     conditional statement in C++ is the <pf>if</pf> statement: </p>
 
-  <program xml:id="conditionals-logic_ifelse-statement-1">
+  <program>
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-1.cpp" parse="text"/>
 </program>
   <subsection>
@@ -64,7 +64,7 @@
   <subsection>
     <title>The body</title>
 
-    <program xml:id="conditionals-logic_ifelse-statement-1a"
+    <program label="conditionals-logic_if-statement-program-1"
              interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-1a.cpp" parse="text"/>
 </program>
@@ -100,7 +100,7 @@
       statement that is going to be executed when the conditional is true we can write it in either
       of these two ways: </p>
 
-    <program xml:id="conditionals-logic_ifelse-statement-1b">
+    <program>
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-1b.cpp" parse="text"/>
 </program>
 
@@ -112,7 +112,7 @@
       compiler, it can be dangerous to skip braces<mdash/>even when they are optional<mdash/>. It
       makes it easy to accidentally add a statement to a one-line <pf>if</pf> block.</p>
 
-    <program xml:id="conditionals-logic_ifelse-statement-4"
+    <program label="conditionals-logic_if-statement-program-2"
              interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-4.cpp" parse="text"/>
 </program>
@@ -120,7 +120,7 @@
     <p>Since there are no braces, only the first <pf>cout</pf> is part of the <pf>if</pf> statement. Here is
       what the compiler actually sees: </p>
 
-    <program xml:id="conditionals-logic_ifelse-statement-5"
+    <program label="conditionals-logic_if-statement-program-3"
              interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-5.cpp" parse="text"/>
 </program>
@@ -137,14 +137,14 @@
       semicolon at the end of the line with <pf>if (condition)</pf>. That is because the body is technically part of
       the same statement. You could correctly write the code like this: </p>
 
-    <program xml:id="conditionals-logic_ifelse-statement-1c">
+    <program>
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-1c.cpp" parse="text"/>
 </program>
 
     <p>If you put a semicolon after the condition, the compiler will treat the <pf>if</pf> statement as
       if there is no body, and the subsequent block will run independently.</p>
 
-    <program xml:id="conditionals-logic_ifelse-statement-6"
+    <program label="conditionals-logic_if-statement-program-4"
              interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-6.cpp" parse="text"/>
 </program>
@@ -152,7 +152,7 @@
     <p> This code will compile, but the program will output <pf>"x is even"</pf> regardless of the value of <pf>x</pf>.
       Here is what the compiler sees in that sample:</p>
 
-    <program xml:id="conditionals-logic_ifelse-statement-7"
+    <program label="conditionals-logic_if-statement-program-5"
              interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-7.cpp" parse="text"/>
 </program>
@@ -166,7 +166,7 @@
     <statement>
       <p>Observe the code below. <q>Bigger</q> doesn't print! How can you modify this so that all of
         the statements print?</p>
-      <program label="conditionals-logic_if-statement-ex-1">
+      <program>
       <code><![CDATA[
     int x = 12;
     if (x == 12) {

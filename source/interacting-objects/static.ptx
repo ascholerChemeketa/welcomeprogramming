@@ -17,7 +17,7 @@
     <p>
       Whenever you see the keyword <pf>static</pf> in front of a member variable or function, think <q>shared</q> or <q>class level</q>. A static variable is shared by all objects of a class. Only one copy of the variable exists, and if you change it in one object, it changes for all objects of that class. In this sample, we have a static variable <pf>numStudents</pf> that keeps track of how many objects of the <pf>Student</pf> class have been created. The constructor increases this value by one each time it is called. Initially, it is set to 0. After the first student is created, it changes to 1. The second student changes it to 2. And so on. When any student accesses the variable, they see the current value of that counter:</p>
 
-    <program line-numbers="yes" interactive="activecode" highlight-lines="9, 14, 18, 21-22">
+    <program label="interacting-objects_static-program-1" line-numbers="yes" interactive="activecode" highlight-lines="9, 14, 18, 21-22">
 <xi:include href="../../programs/interacting-objects/static-1.cpp" parse="text"/>
     </program>
 
@@ -35,7 +35,7 @@
 
     <p>One important use of <pf>static</pf> variables is to declare class level constants. Say in a class Square we want to have a constant for the number of sides. We could write:</p>
 
-    <program line-numbers="yes" interactive="activecode" highlight-lines="8, 23, 27">
+    <program label="interacting-objects_static-program-2" line-numbers="yes" interactive="activecode" highlight-lines="8, 23, 27">
 <xi:include href="../../programs/interacting-objects/static-2.cpp" parse="text"/>
     </program>
 

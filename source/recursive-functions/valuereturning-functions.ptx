@@ -46,7 +46,7 @@ The first step is to decide what the parameters and return type are.
 Since <pf>factorial</pf> is defined for integers, the function takes an <pf>int</pf> as a parameter and returns an <pf>int</pf>:
 </p>
 
-<program xml:id="recursive-functions_valuereturning-functions-1">
+<program>
 <xi:include href="../../programs/recursive-functions/valuereturning-functions-1.cpp" parse="text"/>
 </program>
 
@@ -55,7 +55,7 @@ Next, we think about the base case.
 If the argument happens to be 0, we return 1:
 </p>
 
-<program xml:id="recursive-functions_valuereturning-functions-2">
+<program>
 <xi:include href="../../programs/recursive-functions/valuereturning-functions-2.cpp" parse="text"/>
 </program>
 
@@ -63,7 +63,7 @@ If the argument happens to be 0, we return 1:
 Otherwise, and this is the interesting part, we have to make a recursive call to find the factorial of <m>n-1</m>, and then multiply it by <m>n</m>:
 </p>
 
-<program xml:id="recursive-functions_valuereturning-functions-3">
+<program>
 <xi:include href="../../programs/recursive-functions/valuereturning-functions-3.cpp" parse="text"/>
 </program>
 

@@ -8,13 +8,13 @@
 
   <p>For example, we might know that lots of other code will want to calculate how far a given <pf>Point</pf> is from the origin. Rather than make client code implement that calculation, it would be a good idea to provide a <pf>distanceToOrigin</pf> function that returns how far away the point is from the origin (0, 0).</p>
 
-  <program xml:id="objects_constructors-1">
+  <program>
 <xi:include href="../../programs/objects/member-functions-1.cpp" parse="text"/>
   </program>
 
   <p>Or it could use the getters to access those members. Notice that in a member function like <pf>distanceToOrigin()</pf> we can call another member function like <pf>getX()</pf> without specifying what Point we want to work with. Outside of the class, we would have to say something like <pf>p1.getX()</pf> or <pf>p2.getX()</pf> to specify what point should do the <pf>getX()</pf> behavior. But if we have already called <pf>p1.distanceToOrigin()</pf>, then while executing <pf>distanceToOrigin()</pf> it is assumed that we are working with <pf>p1</pf> as our <q>current point</q>. So in the same way that <pf>m_x</pf> is understood to mean <pf>p1.m_x</pf>, <pf>getX()</pf> is assumed to mean <pf>p1.getX()</pf>:</p>
 
-  <program xml:id="objects_constructors-2">
+  <program>
 <xi:include href="../../programs/objects/member-functions-2.cpp" parse="text"/>
   </program>
 
@@ -24,7 +24,7 @@
 
   <p>What other functions might we want to add to a Point class? It depends on how we anticipate points will be used. Some possible examples might be a function to shift a point or one to get a string representation of the point:</p>
 
-  <program xml:id="objects_constructors-3" interactive="activecode">
+  <program label="objects_member-functions-program-1" interactive="activecode">
 <xi:include href="../../programs/objects/member-functions-3.cpp" parse="text"/>
   </program>
 

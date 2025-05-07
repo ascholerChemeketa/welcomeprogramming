@@ -6,7 +6,7 @@
   <introduction>
   <p>Sometimes a running function will recognize that there is no way to do its job. Perhaps it is supposed to read a file and that file does not exist. Or maybe it was given a parameter that makes no sense. To explore our options, we will use this function:</p>
 
-  <program xml:id="references-exceptions_error-handling-1">
+  <program>
 <xi:include href="../../programs/references-exceptions/error-handling-1.cpp" parse="text"/>
 </program>
 
@@ -37,7 +37,7 @@
   <subsection>
     <title>Assertions</title>
     <p>The first solution is not much of a solution. It is just giving up completely. An <term>assertion</term> is a check that if failed will cause the whole program to end. In C++ we can use include the <pf>&lt;cassert></pf> library and then make an assertion using <pf>assert</pf>. An <pf>assert</pf> takes a condition to check. If that condition is true, the program continues. If the condition is false, the entire program stops:</p>
-  <program xml:id="references-exceptions_error-handling-2" interactive="activecode">
+  <program label="references-exceptions_error-handling-program-1" interactive="activecode">
 <xi:include href="../../programs/references-exceptions/error-handling-2.cpp" parse="text"/>
 </program>
     <p>Assertions can be useful in development to make sure a program stops instead of trying to coverup an issue and continue. And they can be useful to make 100% sure a program stops in some situation where continuing on could have undesirable consequences. But they aren't a good tool if want to have any chance to recover from the issue.</p>
@@ -61,7 +61,7 @@
     <title>Error Flag</title>
     <p>If we can't return a special value, we could instead use an extra error flag to indicate if there was an issue. To do so, we would add an extra bool reference parameter:</p>
 
-    <program xml:id="references-exceptions_error-handling-3">
+    <program>
 <xi:include href="../../programs/references-exceptions/error-handling-3.cpp" parse="text"/>
 </program>
 

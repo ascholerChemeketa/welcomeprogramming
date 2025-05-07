@@ -52,7 +52,7 @@ flowchart TD
       <h>while</h>
     </idx> The most fundamental loop structure in C++ is a <pf>while</pf> statement. It says <q>While the condition is true, do the body. Once the condition is false, continue with the code after the body.</q> Here is a simple example to watch in Codelens:</p>
 
-  <program xml:id="loops_while-statement-1" interactive="codelens">
+  <program label="loops_while-statement-program-1" interactive="codelens">
 <xi:include href="../../programs/loops/while-statement-1.cpp" parse="text"/>
 </program>
 
@@ -97,7 +97,7 @@ flowchart TD
     </idx> The <term>test</term> of the loop almost always has a variable as part of the expression it tests. Without a variable, there is no way for the loop to terminate once it starts. This variable is referred to as a <term>loop control variable</term>. The
     <term>body</term> of the loop must change the value of that variable so that, eventually, the condition becomes <pf>false</pf> and the loop terminates. Otherwise, the loop will repeat forever, which is called an <term>infinite loop</term>: </p>
 
-  <program xml:id="loops_while-statement-2" interactive="codelens">
+  <program label="loops_while-statement-program-2" interactive="codelens">
 <xi:include href="../../programs/loops/while-statement-2.cpp" parse="text"/>
 </program>
 
@@ -110,7 +110,7 @@ flowchart TD
 
   <p>It is also possible for the body of a loop to never end up executing. Notice in this sample that the condition is <pf>false</pf> the first time we reach it. That means the body will never get a chance to execute:</p>
 
-  <program xml:id="loops_while-statement-3"  interactive="codelens">
+  <program label="loops_while-statement-program-3"  interactive="codelens">
 <code>
 <xi:include href="../../programs/loops/while-statement-3.cpp" parse="text"/>
 </code>
@@ -122,7 +122,7 @@ flowchart TD
     general, it is not so easy to tell whether a loop terminates. For example, this loop continues
     until <pf>n</pf> is 1 (which makes the condition <pf>false</pf>): </p>
 
-  <program xml:id="loops_while-statement-4"  interactive="activecode">
+  <program label="loops_while-statement-program-4"  interactive="activecode">
 <code>
 <xi:include href="../../programs/loops/while-statement-4.cpp" parse="text"/>
 </code>

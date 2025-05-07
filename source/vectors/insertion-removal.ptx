@@ -9,7 +9,7 @@
     <pf>push_back(T value)</pf> takes a value of the type the vector can contain (type <pf>T</pf>) and
     adds it to the end of the vector. <pf>pop_back()</pf> simply removes the last element.</p>
 
-  <program xml:id="vectors_insertion-removal-1">
+  <program>
 <xi:include href="../../programs/vectors/insertion-removal-1.cpp" parse="text"/>
 </program>
 
@@ -17,25 +17,25 @@
 
   <p>If we do want to remove an element at another location, there is an <pf>.erase(iterator)</pf> member function. It requires an <term>iterator</term> be passed as the parameter. Iterators are objects that store (and manipulate) a location in a collection of data. For now, all we need to know about iterators is how to make one. To make an iterator that points to index <pf>X</pf> of a vector named <pf>vectorName</pf>, you can specify <pf>vectorName.begin() + X</pf>. And if you want to point at index 0, you can just say <pf>vectorName.begin()</pf>. For example:</p>
 
-  <program xml:id="vectors_insertion-removal-2">
+  <program>
 <xi:include href="../../programs/vectors/insertion-removal-2.cpp" parse="text"/>
 </program>
 
   <p>It is possible to remove a whole range of elements by specifying a start and end location. All the items from start, up to but not including the end location, will be removed. This means that to specify removing up to and including the last element, we want to pass in the location that is AFTER the last element. In a vector with 3 items, the last element is at index 2. So we would use <pf>vectorName.begin() + 3</pf> to specify <q>until the end of the vector</q>. Fortunately, rather than do this, we can also just say <pf>vectorName.end()</pf>:</p>
 
-  <program xml:id="vectors_insertion-removal-3">
+  <program>
 <xi:include href="../../programs/vectors/insertion-removal-3.cpp" parse="text"/>
 </program>
 
   <p>To clear out all the elements in a vector, we can either say to erase from the beginning to the end, or use the <pf>.clear()</pf> method of the vector:</p>
 
-  <program xml:id="vectors_insertion-removal-clear">
+  <program>
 <xi:include href="../../programs/vectors/insertion-removal-clear.cpp" parse="text"/>
 </program>
 
   <p>The <pf>.insert(iterator, value)</pf> function works by the same logic to specify where you wish to insert a value. Whatever value is currently at that location and anything after it are <q>pushed over</q> one location so that the new value can be placed in the specified location. This program uses <pf>insert</pf> to add some items to a vector:</p>
 
-  <program xml:id="vectors_insertion-removal-4" interactive="activecode">
+  <program label="vectors_insertion-removal-program-1" interactive="activecode">
 <xi:include href="../../programs/vectors/insertion-removal-4.cpp" parse="text"/>
 </program>
 

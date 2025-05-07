@@ -8,7 +8,7 @@
   When <pf>break</pf> is encountered, the loop is immediately exited and the program continues with the statement following the loop. Try running this code sample and notice that when the value of <pf>i</pf> is 3, the loop is exited early:
   </p>
 
-  <program interactive="codelens"><![CDATA[ 
+  <program label="loops_break-continue-program-1" interactive="codelens"><![CDATA[ 
 #include <iostream>
 using namespace std;
 
@@ -43,7 +43,7 @@ while ( !endOfFile() ) {
 
   <p>The <pf>continue</pf> statement works like break, but instead of skipping to the end of the loop, it skips the rest of the body for this iteration, and then restarts the loop. This sample uses <pf>continue</pf> to skip printing 3:</p>
 
-  <program interactive="codelens"><![CDATA[ 
+  <program label="loops_break-continue-program-2" interactive="codelens"><![CDATA[ 
 #include <iostream>
 using namespace std;
 
@@ -61,7 +61,7 @@ int main() {
 
   <p>Note that this sample works because the for loop update always happens at the end of each iteration. Even if we use continue to stop it early. The sample below using a <pf>while</pf> has an infinite loop. When <pf>i</pf> is 3 and we hit the <pf>continue</pf>, the update on line 11 never gets to run. If you run it as is, it will keep running until the server decides to stop the program - at that point you will see <pf>0 1 2</pf>, the only numbers that got printed before the code got stuck. To fix it, you would have to add a line with <pf>++i;</pf> right before the continue to take us to the next value of i.</p>
 
-  <program interactive="activecode" label="bc-4"><![CDATA[ 
+  <program label="loops_break-continue-program-3" interactive="activecode"><![CDATA[ 
 #include <iostream>
 using namespace std;
 

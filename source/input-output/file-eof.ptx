@@ -4,7 +4,7 @@
 
     <p>What if you do not know how many tokens there are to read? Well, we can simply keep reading until we either encounter the end of the file or produce an error. Trying to read a token once we are at the end of the file will cause the stream to go into a failure state. If we want to try to stop before an input actually fails, we can use the <pf>.eof()</pf> method to ask <q>are you at the End Of File yet?</q>. It returns <pf>true</pf> if the end has been reached. So <pf>!streamName.eof()</pf> checks <q>is there more to read?</q></p>
 
-  <program datafile="Numbers.txt" label="input-output_file-input-eof-1"  interactive="activecode">
+  <program label="input-output_file-eof-program-1" datafile="Numbers.txt"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-eof-1.cpp" parse="text"/>
 </program>
 
@@ -16,7 +16,7 @@ Alice Johnson
 Robert Brown
 Emily K. Davis</pre></datafile>
 
-  <program datafile="Names.txt" label="input-output_file-input-eof-2"  interactive="activecode">
+  <program label="input-output_file-eof-program-2" datafile="Names.txt"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-eof-2.cpp" parse="text"/>
 </program>
 
@@ -24,7 +24,7 @@ Emily K. Davis</pre></datafile>
 
   <p>We can also use the <pf>getline</pf> function to read an entire line of text. This is useful when we want to read a whole line of text into a string variable. The <pf>getline</pf> function takes two parameters: the stream and the string variable to read into. Here is an example:</p>
 
-  <program datafile="Names.txt" label="input-output_file-input-eof-3"  interactive="activecode">
+  <program label="input-output_file-eof-program-3" datafile="Names.txt"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-eof-3.cpp" parse="text"/>
 </program>
 
@@ -52,7 +52,7 @@ Ford Focus 2015
 
   <p>The easiest way to read it in would likely be something like what is shown below. If we used <pf>getline</pf> we would have to do our own work to then split the line up into parts.</p>
 
-  <program datafile="Cars.txt" label="input-output_file-input-eof-4"  interactive="activecode">
+  <program label="input-output_file-eof-program-4" datafile="Cars.txt"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-eof-4.cpp" parse="text"/>
 </program>
 

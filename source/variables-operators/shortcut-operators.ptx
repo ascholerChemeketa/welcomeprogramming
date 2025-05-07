@@ -5,19 +5,19 @@
 
   <p>There are some operations that happen very frequently in programs. Adding 1 to a variable for example:</p>
 
-  <program xml:id="variables-operators_shortcut-operators-1">
+  <program>
 numberCorrect = numberCorrect + 1;
 </program>
 
   <p>Because this operation is so common, C++ provides a shortcut for it. <pf>x += y;</pf> means <q>increase the current value of x by y</q>So we could shorten the sample above to:</p>
 
-  <program xml:id="variables-operators_shortcut-operators-2">
+  <program>
 numberCorrect += 1;
 </program>
 
   <p>It does not change the code at all, but it is a little easier to type. There are similar shortcuts for other arithmetic operations:</p>
 
-<program xml:id="variables-operators_shortcut-operators-3">
+<program>
 score -= 10;    // decrease the value of score by 10
 score *= 2;     // double the value of score
 score /= 3;     // divide the value of score by 3
@@ -31,7 +31,7 @@ score /= 3;     // divide the value of score by 3
       <h>--</h>
     </idx></p>
 
-  <program xml:id="variables-operators_shortcut-operators-4">
+  <program>
 int numberCorrect = 0;
 numberCorrect++;        // numberCorrect is now 1
 numberCorrect++;        // numberCorrect is now 2
@@ -40,7 +40,7 @@ numberCorrect--;        // numberCorrect is now 1
 
   <p>To add one last wrinkle, you can also place <pf>++</pf> and <pf>--</pf> before a variable.</p>
   
-  <program xml:id="variables-operators_shortcut-operators-5">
+  <program>
 int numberCorrect = 0;
 ++numberCorrect;        // numberCorrect is now 1
 ++numberCorrect;        // numberCorrect is now 2
@@ -50,7 +50,7 @@ int numberCorrect = 0;
   <p>What is the difference? When <pf>++</pf> or <pf>--</pf> is placed before the variable, the value of the variable is changed before the rest of the expression is evaluated. When <pf>++</pf> or <pf>--</pf> is placed after the variable, the value of the variable is changed after the rest of the expression is evaluated. When used as the only operator in a statement, this does not matter. But in this example it does:
   </p>
 
-  <program xml:id="variables-operators_shortcut-operators-6">
+  <program>
 int x = 2;
 int y = x++;  // y is 2, x is now 3 - x++ happened last
 int z = ++x;  // z is 4, x is now 4 - ++x happened first

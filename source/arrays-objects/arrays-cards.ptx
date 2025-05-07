@@ -8,7 +8,7 @@ The following statement creates an array of 52 cards.
 <xref ref="fig_cardarray">Figure</xref> shows the memory diagram for this array.
 </p>
 
-<program xml:id="arrays-objects_arrays-cards-1">
+<program>
 <xi:include href="../../programs/arrays-objects/arrays-cards-1.cpp" parse="text"/>
 </program>
   <figure xml:id="fig_cardarray" >
@@ -25,7 +25,7 @@ Initially the references are all <pf>null</pf>.
 Even so, you can access the elements of the array in the usual way:
 </p>
 
-<program xml:id="arrays-objects_arrays-cards-2">
+<program>
 <xi:include href="../../programs/arrays-objects/arrays-cards-2.cpp" parse="text"/>
 </program>
 
@@ -35,7 +35,7 @@ Even so, you can access the elements of the array in the usual way:
 But if you try to access the instance variables of non-existent <pf>Card</pf> objects, you will get a <pf>NullPointerException</pf>:
 </p>
 
-<program xml:id="arrays-objects_arrays-cards-3">
+<program>
 <xi:include href="../../programs/arrays-objects/arrays-cards-3.cpp" parse="text"/>
 </program>
 
@@ -46,7 +46,7 @@ That code won't work until we put cards in the array.
 One way to populate the array is to write nested <pf>for</pf> loops:
 </p>
 
-<program xml:id="arrays-objects_arrays-cards-4">
+<program>
 <xi:include href="../../programs/arrays-objects/arrays-cards-4.cpp" parse="text"/>
 </program>
 
@@ -74,7 +74,7 @@ You have seen the pattern for traversing an array several times, so the followin
     <idx><h>printDeck</h></idx>
 </p>
 
-<program xml:id="arrays-objects_arrays-cards-5">
+<program>
 <xi:include href="../../programs/arrays-objects/arrays-cards-5.cpp" parse="text"/>
 </program>
 
@@ -88,7 +88,7 @@ Then again, we don't have to write our own <pf>printDeck</pf> function.
 The <pf>Arrays</pf> class provides a <pf>toString</pf> function that invokes <pf>toString</pf> on the elements of an array and concatenates the results:
 </p>
 
-<program xml:id="arrays-objects_arrays-cards-6">
+<program>
 <xi:include href="../../programs/arrays-objects/arrays-cards-6.cpp" parse="text"/>
 </program>
 
