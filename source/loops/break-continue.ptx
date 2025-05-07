@@ -2,10 +2,10 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Breaking and Continuing</title>
 
-  <p>There are two special statements that can be used inside any kind of loop to change the normal flow of the loop: <c>break</c> and <c>continue</c>. These statements are used to exit the loop early or skip the rest of the current iteration, respectively.</p>
+  <p>There are two special statements that can be used inside any kind of loop to change the normal flow of the loop: <pf>break</pf> and <pf>continue</pf>. These statements are used to exit the loop early or skip the rest of the current iteration, respectively.</p>
 
   <p>
-  When <c>break</c> is encountered, the loop is immediately exited and the program continues with the statement following the loop. Try running this code sample and notice that when the value of <c>i</c> is 3, the loop is exited early:
+  When <pf>break</pf> is encountered, the loop is immediately exited and the program continues with the statement following the loop. Try running this code sample and notice that when the value of <pf>i</pf> is 3, the loop is exited early:
   </p>
 
   <program interactive="codelens"><![CDATA[ 
@@ -24,7 +24,7 @@ int main() {
 ]]>
   </program>
   
-  <p>That example is kind of silly. We should just rewrite the test of the `for` loop to be `i != 3` or `i &lt; 3`. It is more useful when you have complex logic in the loop body that that might either find a result or error that means there is no point in continuing the rest of the loop.
+  <p>That example is kind of silly. We should just rewrite the test of the <pf>for</pf> loop to be <pf>i != 3</pf> or <pf>i &lt; 3</pf>. It is more useful when you have complex logic in the loop body that that might either find a result or error that means there is no point in continuing the rest of the loop.
   </p>
 
   <p>For example consider <term>parsing</term> a file of code. <term>parsing</term> is the process of breaking up structured text or data and forming a representation of what it contains. Compilers parse code files when they read the .cpp files we write and turn it into machine code that can run. If on a given line of code there is a bad error, the parser may decide it makes more sense to give up than to try to continue reading more. We could express this with something like:</p>
@@ -41,7 +41,7 @@ while ( !endOfFile() ) {
 }
 </program>
 
-  <p>The <c>continue</c> statement works like break, but instead of skipping to the end of the loop, it skips the rest of the body for this iteration, and then restarts the loop. This sample uses `continue` to skip printing 3:</p>
+  <p>The <pf>continue</pf> statement works like break, but instead of skipping to the end of the loop, it skips the rest of the body for this iteration, and then restarts the loop. This sample uses <pf>continue</pf> to skip printing 3:</p>
 
   <program interactive="codelens"><![CDATA[ 
 #include <iostream>
@@ -59,7 +59,7 @@ int main() {
 ]]>
   </program>
 
-  <p>Note that this sample works because the for loop update always happens at the end of each iteration. Even if we use continue to stop it early. The sample below using a `while` has an infinite loop. When `i` is 3 and we hit the `continue`, the update on line 11 never gets to run. If you run it as is, it will keep running until the server decides to stop the program - at that point you will see `0 1 2`, the only numbers that got printed before the code got stuck. To fix it, you would have to add a line with `++i;` right before the continue to take us to the next value of i.</p>
+  <p>Note that this sample works because the for loop update always happens at the end of each iteration. Even if we use continue to stop it early. The sample below using a <pf>while</pf> has an infinite loop. When <pf>i</pf> is 3 and we hit the <pf>continue</pf>, the update on line 11 never gets to run. If you run it as is, it will keep running until the server decides to stop the program - at that point you will see <pf>0 1 2</pf>, the only numbers that got printed before the code got stuck. To fix it, you would have to add a line with <pf>++i;</pf> right before the continue to take us to the next value of i.</p>
 
   <program interactive="activecode" label="bc-4"><![CDATA[ 
 #include <iostream>

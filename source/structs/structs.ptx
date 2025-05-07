@@ -3,45 +3,45 @@
 
   <title>Structs</title>
   <p>In C++, the simplest way to create a new aggregate data type is by defining a <term>struct</term>.
-    A <c>struct</c> is a collection of variables, possibly of different types, that are grouped
+    A <pf>struct</pf> is a collection of variables, possibly of different types, that are grouped
     together under a single name.</p>
   <p>As a simple example, let us consider a point in the x, y plane.
     In mathematical notation, points are often written in parentheses, with a comma separating the
     coordinates. For example, <m>(0, 0)</m> indicates the origin, and <m>(x, y)</m> indicates the
     point <m>x</m> units to the right and <m>y</m> units up from the origin.</p>
-  <p>To create a new data type that represents a point, we can use this <c>struct</c> definition:</p>
+  <p>To create a new data type that represents a point, we can use this <pf>struct</pf> definition:</p>
   <program>struct Point {
   double x, y;
 };</program>
-  <p>This definition indicates that there are two elements in this structure, named <c>x</c> and <c>y</c>.
+  <p>This definition indicates that there are two elements in this structure, named <pf>x</pf> and <pf>y</pf>.
     These elements are called <term>instance variables</term> or <term>members</term>.<idx><h>member</h></idx><idx><h>instance variable</h></idx></p>
   <warning>
     <p>It is a common error to leave off the semi-colon at the end of a
       structure definition. It might seem odd to put a semi-colon after a
       squiggly-brace, but you'll get used to it.</p>
   </warning>
-  <p>The <c>struct</c> definition must appear before it is used and be in scope where you use it. This means that they generally appear outside of any function definition, usually at the beginning of the
-    program (after the <c>include</c> statements) so that they are available in all the functions. If building a program in multiple files, the struct definition generally goes into a header or module file that other files can import or include to make use of.</p>
+  <p>The <pf>struct</pf> definition must appear before it is used and be in scope where you use it. This means that they generally appear outside of any function definition, usually at the beginning of the
+    program (after the <pf>include</pf> statements) so that they are available in all the functions. If building a program in multiple files, the struct definition generally goes into a header or module file that other files can import or include to make use of.</p>
     
-  <p>A <term>struct</term> defines a new type of data. Think of it as a <q>blueprint</q> that describes how to build an item of that type. `struct Point` does not actually create a point anymore than the blueprint of a house gives you something to live in. To actually make a point that we can work with, we need to create a variable using the new data type that has been defined. The value that is created is referred to as an <term>instance</term> of the struct.<idx><h>instance</h></idx></p>
+  <p>A <term>struct</term> defines a new type of data. Think of it as a <q>blueprint</q> that describes how to build an item of that type. <pf>struct Point</pf> does not actually create a point anymore than the blueprint of a house gives you something to live in. To actually make a point that we can work with, we need to create a variable using the new data type that has been defined. The value that is created is referred to as an <term>instance</term> of the struct.<idx><h>instance</h></idx></p>
   <program>Point blank;
 blank.x = 3.0;
 blank.y = 4.0;</program>
-  <p>The first line is a conventional variable declaration: <c>blank</c> has type <c>Point</c>. The next two
+  <p>The first line is a conventional variable declaration: <pf>blank</pf> has type <pf>Point</pf>. The next two
     lines initialize the instance variables of the structure. The <q>dot notation</q> used here is
-    similar to the syntax for invoking a function on an object, as in <c>fruit.length()</c>.</p>
+    similar to the syntax for invoking a function on an object, as in <pf>fruit.length()</pf>.</p>
   <p>The result of these assignments is shown in the following state diagram:</p>
   <figure align="center">
     <image source="images/struct-stackdiagram.png"
            width="20%"
            alt="'blank' names a box with two halves. One is 'x: 3' the other is 'y: 4'."/>
   </figure>
-  <p>As usual, the name of the variable <c>blank</c> appears outside the box and its value appears inside
+  <p>As usual, the name of the variable <pf>blank</pf> appears outside the box and its value appears inside
     the box. In this case, that value is a compound object with two named instance variables.</p>
   <exercise label="point_objects_1">
     <statement>
-      <p>Which of the following would be the correct way to initialize the <c>x</c> instance variable
-        of the <c>Point</c> object?</p>
+      <p>Which of the following would be the correct way to initialize the <pf>x</pf> instance variable
+        of the <pf>Point</pf> object?</p>
       <program line-numbers="yes">
         <code>
 struct Point() {
@@ -113,7 +113,7 @@ int main() {
   </exercise>
   <exercise label="point_objects_3">
     <statement>
-      <p><c>struct</c> definitions generally occur&#x2026;</p>
+      <p><pf>struct</pf> definitions generally occur&#x2026;</p>
     </statement>
     <choices randomize="yes">
       <choice>

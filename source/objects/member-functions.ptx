@@ -6,21 +6,21 @@
   
   <p>One of the goals for objects is that they <term>encapsulate</term> a particular piece of data - they bundle that data with functions to help work with it. We want to build in as much functionality as is reasonable so that other code can <q>ask</q> the object to perform tasks instead of having to figure out how to do it themselves..</p>
 
-  <p>For example, we might know that lots of other code will want to calculate how far a given `Point` is from the origin. Rather than make client code implement that calculation, it would be a good idea to provide a `distanceToOrigin` function that returns how far away the point is from the origin (0, 0).</p>
+  <p>For example, we might know that lots of other code will want to calculate how far a given <pf>Point</pf> is from the origin. Rather than make client code implement that calculation, it would be a good idea to provide a <pf>distanceToOrigin</pf> function that returns how far away the point is from the origin (0, 0).</p>
 
   <program xml:id="objects_constructors-1">
 <xi:include href="../../programs/objects/member-functions-1.cpp" parse="text"/>
   </program>
 
-  <p>Or it could use the getters to access those members. Notice that in a member function like `distanceToOrigin()` we can call another member function like `getX()` without specifying what Point we want to work with. Outside of the class, we would have to say something like `p1.getX()` or `p2.getX()` to specify what point should do the `getX()` behavior. But if we have already called `p1.distanceToOrigin()`, then while executing `distanceToOrigin()` it is assumed that we are working with `p1` as our <q>current point</q>. So in the same way that `m_x` is understood to mean `p1.m_x`, `getX()` is assumed to mean `p1.getX()`:</p>
+  <p>Or it could use the getters to access those members. Notice that in a member function like <pf>distanceToOrigin()</pf> we can call another member function like <pf>getX()</pf> without specifying what Point we want to work with. Outside of the class, we would have to say something like <pf>p1.getX()</pf> or <pf>p2.getX()</pf> to specify what point should do the <pf>getX()</pf> behavior. But if we have already called <pf>p1.distanceToOrigin()</pf>, then while executing <pf>distanceToOrigin()</pf> it is assumed that we are working with <pf>p1</pf> as our <q>current point</q>. So in the same way that <pf>m_x</pf> is understood to mean <pf>p1.m_x</pf>, <pf>getX()</pf> is assumed to mean <pf>p1.getX()</pf>:</p>
 
   <program xml:id="objects_constructors-2">
 <xi:include href="../../programs/objects/member-functions-2.cpp" parse="text"/>
   </program>
 
-  <p>Although member functions can directly access member variables and the first version of `distanceToOrigin` looks simpler, it can useful to use getters and setters to access the data. This way, if we later decide to change the implementation of the class, we have less code to fix. Say we decided to switch to storing the point with polar coordinates. In the first version we would have to rewrite all three shown functions. In the second version, we would have to rewrite `getX` and `getY` but then could leave `distanceToOrigin` or other functions alone if we wanted. (Though in this case it would make sense to change the function as the new version could avoid doing any computations).</p>
+  <p>Although member functions can directly access member variables and the first version of <pf>distanceToOrigin</pf> looks simpler, it can useful to use getters and setters to access the data. This way, if we later decide to change the implementation of the class, we have less code to fix. Say we decided to switch to storing the point with polar coordinates. In the first version we would have to rewrite all three shown functions. In the second version, we would have to rewrite <pf>getX</pf> and <pf>getY</pf> but then could leave <pf>distanceToOrigin</pf> or other functions alone if we wanted. (Though in this case it would make sense to change the function as the new version could avoid doing any computations).</p>
 
-  <note><p>A call to a function does involve a very tiny cost in terms of machine level instructions to be executed. But compilers can often optimize away these costs - there is a good chance that a compiler will turn something like `getX()` into a direct use of the correct value in memory. For most projects, you are much better off optimizing code for readability and maintainability instead of trying to optimize for low level behavior.</p></note>
+  <note><p>A call to a function does involve a very tiny cost in terms of machine level instructions to be executed. But compilers can often optimize away these costs - there is a good chance that a compiler will turn something like <pf>getX()</pf> into a direct use of the correct value in memory. For most projects, you are much better off optimizing code for readability and maintainability instead of trying to optimize for low level behavior.</p></note>
 
   <p>What other functions might we want to add to a Point class? It depends on how we anticipate points will be used. Some possible examples might be a function to shift a point or one to get a string representation of the point:</p>
 
@@ -52,14 +52,14 @@ class rightTriangle {
       <choice correct="yes">
         <statement>
           <p>
-            <c>return 0.5 * getBase() * getHeight();</c>
+            <pf>return 0.5 * getBase() * getHeight();</pf>
           </p>
         </statement>
       </choice>
       <choice>
         <statement>
           <p>
-            <c>return 0.5 * m_base * m_height;</c>
+            <pf>return 0.5 * m_base * m_height;</pf>
           </p>
         </statement>
         <feedback>
@@ -69,7 +69,7 @@ class rightTriangle {
       <choice>
         <statement>
           <p>
-            <c>return 0.5 * triangle.getBase() * triangle.getHeight();</c>
+            <pf>return 0.5 * triangle.getBase() * triangle.getHeight();</pf>
           </p>
         </statement>
         <feedback>
@@ -99,14 +99,14 @@ class rightTriangle {
       <choice correct="yes">
         <statement>
           <p>
-            <c>m_x += dx;</c>
+            <pf>m_x += dx;</pf>
           </p>
         </statement>
       </choice>
       <choice>
         <statement>
           <p>
-            <c>x += dx;</c>
+            <pf>x += dx;</pf>
           </p>
         </statement>
         <feedback>
@@ -116,7 +116,7 @@ class rightTriangle {
       <choice>
         <statement>
           <p>
-            <c>setX(m_x + dx);</c>
+            <pf>setX(m_x + dx);</pf>
           </p>
         </statement>
         <feedback>
@@ -126,7 +126,7 @@ class rightTriangle {
       <choice>
         <statement>
           <p>
-            <c>m_x = dx;</c>
+            <pf>m_x = dx;</pf>
           </p>
         </statement>
         <feedback>
@@ -136,7 +136,7 @@ class rightTriangle {
       <choice>
         <statement>
           <p>
-            <c>m_x + dx;</c>
+            <pf>m_x + dx;</pf>
           </p>
         </statement>
         <feedback>

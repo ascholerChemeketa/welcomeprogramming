@@ -2,28 +2,28 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>File Input</title>
 
-    <p>In C++ we include the `&lt;fstream>` library to work with files. It provides two key types of object: `ifstream` (input file stream) and `ofstream` (output file stream). These objects are used to read from and write to files respectively.</p>
+    <p>In C++ we include the <pf>&lt;fstream></pf> library to work with files. It provides two key types of object: <pf>ifstream</pf> (input file stream) and <pf>ofstream</pf> (output file stream). These objects are used to read from and write to files respectively.</p>
 
 
   <p>
     <idx>
       <h>file input</h>
-    </idx>To read from a file, we need to create a `std::ifstream` object. (If you are `using namespace std;` you can shorten that to `ifstream`). Like making a string or any other variable, we need to give the stream a name:</p>
+    </idx>To read from a file, we need to create a <pf>std::ifstream</pf> object. (If you are <pf>using namespace std;</pf> you can shorten that to <pf>ifstream</pf>). Like making a string or any other variable, we need to give the stream a name:</p>
 
     <program>
 ifstream inFile;
     </program>
 
-    <p>Once we have a stream object, we need to open a file. This is done with the `open` method of the stream object. The `open` method takes a string as a parameter that is the name of the file we want to open. Once the file is open, we can read from it using the `>>` operator just like we were reading from the console.</p>
+    <p>Once we have a stream object, we need to open a file. This is done with the <pf>open</pf> method of the stream object. The <pf>open</pf> method takes a string as a parameter that is the name of the file we want to open. Once the file is open, we can read from it using the <pf>>></pf> operator just like we were reading from the console.</p>
 
-    <p>This program opens the datafile `Numbers.txt` shown on the previous page and reads the first two numbers from it:</p>
+    <p>This program opens the datafile <pf>Numbers.txt</pf> shown on the previous page and reads the first two numbers from it:</p>
 
   <program datafile="Numbers.txt" label="input-output_file-input-1"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-1.cpp" parse="text"/>
 </program>
 
     <exercise label="w4fesaf434f">
-      <statement><p>What happens if you try changing the filename to something else like `"oops.txt"`?</p></statement>
+      <statement><p>What happens if you try changing the filename to something else like <pf>"oops.txt"</pf>?</p></statement>
 
       <choices randomize="yes">
         <choice>
@@ -45,7 +45,7 @@ ifstream inFile;
     </exercise>
 
 
-    <p>The streams provided by `&lt;fstream>` are a bit frustrating in that they do not automatically report errors.
+    <p>The streams provided by <pf>&lt;fstream></pf> are a bit frustrating in that they do not automatically report errors.
     If you want to know if the stream is OK, you have to use one of these checks:</p>
 
   <program>
@@ -68,7 +68,7 @@ if (!inFile) {
 }
   </program>
 
-  <p>Here is a version of the program that checks to make sure the file was opened successfully. It also uses a shortened form of creating the `ifstream` and opening a file with it.</p>
+  <p>Here is a version of the program that checks to make sure the file was opened successfully. It also uses a shortened form of creating the <pf>ifstream</pf> and opening a file with it.</p>
 
   <program datafile="Numbers.txt" label="input-output_file-input-2"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-2.cpp" parse="text"/>
@@ -111,7 +111,7 @@ myFile.open("file-name");
 
   <exercise label="question15_3_2a">
     <statement>
-      <p>The <c>ifstream</c> member function called <fillin mode="string"
+      <p>The <pf>ifstream</pf> member function called <fillin mode="string"
                 case="insensitive"
                 answer="^(\\.)?error(\\(\\))?"/>
         checks to see if there has been an error while using the stream.</p>
@@ -127,7 +127,7 @@ myFile.open("file-name");
 
   <exercise label="mce_15_2">
     <statement>
-      <p>The code below reads data from a file called <c>input.txt</c>. What is wrong with the following code?</p>
+      <p>The code below reads data from a file called <pf>input.txt</pf>. What is wrong with the following code?</p>
       <program line-numbers="yes">
         <code><![CDATA[
 #include <iostream>
@@ -147,18 +147,18 @@ int main() {
     <choices randomize="yes">
       <choice>
         <statement id="mce_15_2_opt_a">
-          <p>We should use <c>ofstream</c> instead of <c>ifstream</c>.</p>
+          <p>We should use <pf>ofstream</pf> instead of <pf>ifstream</pf>.</p>
         </statement>
         <feedback>
-          Since we are dealing with an input file, we should use <c>ifstream</c>.
+          Since we are dealing with an input file, we should use <pf>ifstream</pf>.
         </feedback>
       </choice>
       <choice correct="yes">
         <statement id="mce_15_2_opt_b">
-          <p>The values used with <c>>></c> are incorrect.</p>
+          <p>The values used with <pf>>></pf> are incorrect.</p>
         </statement>
         <feedback>
-          We are supposed to read input through the <c>ifstream</c> object, not the filename. This line should be <c>infile >> input;</c>.
+          We are supposed to read input through the <pf>ifstream</pf> object, not the filename. This line should be <pf>infile >> input;</pf>.
         </feedback>
       </choice>
       <choice>
@@ -174,7 +174,7 @@ int main() {
           <p>There are no errors with this code.</p>
         </statement>
         <feedback>
-          Take another look at the code. Are we reading the input correctly into <c>input</c>?
+          Take another look at the code. Are we reading the input correctly into <pf>input</pf>?
         </feedback>
       </choice>
     </choices>

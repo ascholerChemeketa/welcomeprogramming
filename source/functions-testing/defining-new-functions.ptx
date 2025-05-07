@@ -1,20 +1,20 @@
 <section xml:id="functions-testing_defining-new-functions" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Defining Functions</title>
 
-  <p>We have seen some of the advantages of functions while using the <c>cmath</c> library. Functions are an <term>abstraction</term>. We can use code without worrying about exactly how it works. You probably will never need to look at the code behind the <c>cos</c> function. But as long as we know its name and what parameters it takes, we can make use of it.
+  <p>We have seen some of the advantages of functions while using the <pf>cmath</pf> library. Functions are an <term>abstraction</term>. We can use code without worrying about exactly how it works. You probably will never need to look at the code behind the <pf>cos</pf> function. But as long as we know its name and what parameters it takes, we can make use of it.
   <idx>
     <h>abstraction</h>
   </idx>
   </p>
   
-  <p>Functions also provide an efficient way to <term>reuse</term> code. Instead of calling the <c>cos</c> function when you wanted to do a cosine calculation, you could copy and paste the code for the function into your program. But then you would have to fix any bugs in every place you pasted the code. And if you wanted to change the way the cosine was calculated, you would have to change it in every place you pasted the code. That is a lot of work and a lot of opportunities to make mistakes. The function means we can use that code without copy and paste. If we find a bug in the function, we can fix it in one place and all the places that use it will be fixed. 
+  <p>Functions also provide an efficient way to <term>reuse</term> code. Instead of calling the <pf>cos</pf> function when you wanted to do a cosine calculation, you could copy and paste the code for the function into your program. But then you would have to fix any bugs in every place you pasted the code. And if you wanted to change the way the cosine was calculated, you would have to change it in every place you pasted the code. That is a lot of work and a lot of opportunities to make mistakes. The function means we can use that code without copy and paste. If we find a bug in the function, we can fix it in one place and all the places that use it will be fixed. 
   </p>
 
   <insight xml:id="DRY">
   <p><term>DRY</term> or <q>Don't Repeat Yourself</q> is a widely shared maxim for writing good code. If you find yourself copy/pasting chunks of code while programming, there is probably a better way to solve your problem. Writing a function is one way to reuse logic without repeating it.</p>
   </insight>
 
-  <p>Many abstractions are available in the <c>cmath</c> library as well as other C++ libraries. But we can also make our own new abstractionby defining our own functions. A function definition takes this form:
+  <p>Many abstractions are available in the <pf>cmath</pf> library as well as other C++ libraries. But we can also make our own new abstractionby defining our own functions. A function definition takes this form:
     <program>
     RETURN_TYPE FUNCTION_NAME(PARAMETER_LIST) {
       STATEMENTS
@@ -51,15 +51,15 @@
   <dl>
       <li>
         <title>returnType</title>
-        <p>This function returns an <c>int</c>.</p>
+        <p>This function returns an <pf>int</pf>.</p>
       </li>
       <li>
         <title>functionName</title>
-        <p>The function is called <c>doubleValue</c>.</p>
+        <p>The function is called <pf>doubleValue</pf>.</p>
       </li>
       <li>
         <title>parameters</title>
-        <p>The function takes one parameter, an int that will be called <c>num</c>.</p>
+        <p>The function takes one parameter, an int that will be called <pf>num</pf>.</p>
       </li>
     </dl>
   </p>
@@ -71,8 +71,8 @@
 <xi:include href="../../programs/functions-testing/defining-new-functions-2.cpp" parse="text"/>
 </program>
 
-  <p>Note that the function definition for <c>doubleValue</c> is before <c>main</c>, where we make a call to the function.
-  For now, we must always define a function before we try to use it. If you try moving the code for <c>main</c> above the <c>doubleValue</c> definition, the compiler will spit out an error message. When it hits the function call, it has not yet learned about <c>doubleValue</c>.</p>
+  <p>Note that the function definition for <pf>doubleValue</pf> is before <pf>main</pf>, where we make a call to the function.
+  For now, we must always define a function before we try to use it. If you try moving the code for <pf>main</pf> above the <pf>doubleValue</pf> definition, the compiler will spit out an error message. When it hits the function call, it has not yet learned about <pf>doubleValue</pf>.</p>
 
   <p>This simple program sets the value of x to be 5. It then passes x to the double value function in order to calculate y. Unsurprisingly, when we print y, the output is 10.</p>
 
@@ -90,15 +90,15 @@
     </feedback>
     <matches>
       <match order="1">
-        <premise><c>double</c></premise>
+        <premise><pf>double</pf></premise>
         <response>return type</response>
       </match>
       <match order="2">
-        <premise><c>cutInHalf</c></premise>
+        <premise><pf>cutInHalf</pf></premise>
         <response>name</response>
       </match>
       <match order="3">
-        <premise><c>int value</c></premise>
+        <premise><pf>int value</pf></premise>
         <response>parameters</response>
       </match>
     </matches>

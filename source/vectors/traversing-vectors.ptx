@@ -14,7 +14,7 @@
 <xi:include href="../../programs/vectors/traversing-vectors-1.cpp" parse="text"/>
 </program>
 
-  <p>You will notice that the traversal looks just like looping through the characters of a string. We use a variable of type `size_t` to track our position. And we use `.size()` to determine where to stop. Of course, we can do things other than print the elements. This example traverses an vector and squares each element: </p>
+  <p>You will notice that the traversal looks just like looping through the characters of a string. We use a variable of type <pf>size_t</pf> to track our position. And we use <pf>.size()</pf> to determine where to stop. Of course, we can do things other than print the elements. This example traverses an vector and squares each element: </p>
 
   <program xml:id="vectors_traversing-vector-1b" interactive="activecode">
 <xi:include href="../../programs/vectors/traversing-vectors-1b.cpp" parse="text"/>
@@ -26,15 +26,15 @@
 <xi:include href="../../programs/vectors/traversing-vectors-1c.cpp" parse="text"/>
 </program>
 
-  <p>Note that the local variable used to hold the current element during each iteration of the loop has the type of data that the vector is storing. For a `vector&lt;int>` we use `for (int NAME : ...` while for a `vector&lt;string>` we say `for (string NAME : ...`.</p>
+  <p>Note that the local variable used to hold the current element during each iteration of the loop has the type of data that the vector is storing. For a <pf>vector&lt;int></pf> we use <pf>for (int NAME : ...</pf> while for a <pf>vector&lt;string></pf> we say <pf>for (string NAME : ...</pf>.</p>
 
-  <p>It is possible to use a range-based loop to modify elements in a vector. To do so, we have to make the local variable that stores each element a reference. By declaring the type as `int&amp;` we can avoid copying the value of each element into the loop variable. Instead, the loop variable will be an alias for the current element.</p>
+  <p>It is possible to use a range-based loop to modify elements in a vector. To do so, we have to make the local variable that stores each element a reference. By declaring the type as <pf>int&amp;</pf> we can avoid copying the value of each element into the loop variable. Instead, the loop variable will be an alias for the current element.</p>
 
   <program xml:id="vectors_traversing-vector-1d" interactive="activecode">
 <xi:include href="../../programs/vectors/traversing-vectors-1d.cpp" parse="text"/>
 </program>
 
-  <p>On line 7 we have `for (int&amp; value : a) because it needs to modify the elements in the vector `a`. The second loop does not need (or want) to modify anything, so it just uses `for (int value : a)`. The rules for when to use references in a range-based loop are the same as for functions.</p>
+  <p>On line 7 we have <pf>for (int&amp; value : a) because it needs to modify the elements in the vector </pf>a<pf>. The second loop does not need (or want) to modify anything, so it just uses </pf>for (int value : a)`. The rules for when to use references in a range-based loop are the same as for functions.</p>
 
 
   <exercise label="vectors_p4"
@@ -42,7 +42,7 @@
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Construct a block of code that loops over a vector called <c>numbers</c> and transforms the vector
+      <p>Construct a block of code that loops over a vector called <pf>numbers</pf> and transforms the vector
         so each element is doubled.</p>
     </statement>
     <blocks>
@@ -83,7 +83,7 @@
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Suppose you have the vector <c><![CDATA[vector<string> words = {"car", "cat", "switch", "alpha"}]]></c>. Construct a block of code that makes each word upper case and results in the vector to <c><![CDATA[vector<string> words = {"Car", "Cat", "Switch", "Alpha"}]]></c></p>
+      <p>Suppose you have the vector <pf><![CDATA[vector<string> words = {"car", "cat", "switch", "alpha"}]]></pf>. Construct a block of code that makes each word upper case and results in the vector to <pf><![CDATA[vector<string> words = {"Car", "Cat", "Switch", "Alpha"}]]></pf></p>
     </statement>
     <blocks>
       <block order="7">

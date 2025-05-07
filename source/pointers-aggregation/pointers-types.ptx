@@ -4,10 +4,10 @@
   <title>Types of Pointers</title>
 
   <p>
-    Every pointer has a type. A pointer might be a <q>pointer to an int</q> (`int*`), a <q>pointer to a double</q> (`double*`), or a <q>pointer to a Circle</q> (`Circle*`). This information is essential because it tells the compiler how to interpret the data that the pointer points to. For example, given `double* p`, the compiler knows that if we try to use the memory `p` points at, it only makes sense to use it as a double.
+    Every pointer has a type. A pointer might be a <q>pointer to an int</q> (<pf>int*</pf>), a <q>pointer to a double</q> (<pf>double*</pf>), or a <q>pointer to a Circle</q> (<pf>Circle*</pf>). This information is essential because it tells the compiler how to interpret the data that the pointer points to. For example, given <pf>double* p</pf>, the compiler knows that if we try to use the memory <pf>p</pf> points at, it only makes sense to use it as a double.
   </p>
 
-  <p>This sample creates three different pointers, `p`, `p2`, and `p3`, each of a different type:</p>
+  <p>This sample creates three different pointers, <pf>p</pf>, <pf>p2</pf>, and <pf>p3</pf>, each of a different type:</p>
 
   <program label="asdfadesdf3" interactive="activecode" highlight-lines="8, 14, 20" line-numbers="yes" codelens="yes">
 <xi:include href="../../programs/pointers-aggregation/pointers-types-1.cpp" parse="text"/>
@@ -19,12 +19,12 @@
 <xi:include href="../../programs/pointers-aggregation/pointers-types-2.cpp" parse="text"/>
   </program>
 
-  <p>It is also an error to try to store a value other than a memory address into a pointer. Given `int x = 10;`, we can't ask a pointer to store `x` - that names the value `10`, not the memory address of x.</p>
+  <p>It is also an error to try to store a value other than a memory address into a pointer. Given <pf>int x = 10;</pf>, we can't ask a pointer to store <pf>x</pf> - that names the value <pf>10</pf>, not the memory address of x.</p>
 
   <program label="asdfadesdfdsdf3" interactive="activecode" highlight-lines="8" line-numbers="yes" codelens="yes">
 <xi:include href="../../programs/pointers-aggregation/pointers-types-3.cpp" parse="text"/>
   </program>
 
-  <note><p>It is possible to declare a pointer with no specific type as a `void*`. However, because that address has no defined type, the compiler won't let us do much with that address. It does not know if the address points at data that should be treated as a double, an int, or a Circle.</p></note>
+  <note><p>It is possible to declare a pointer with no specific type as a <pf>void*</pf>. However, because that address has no defined type, the compiler won't let us do much with that address. It does not know if the address points at data that should be treated as a double, an int, or a Circle.</p></note>
 
 </section>

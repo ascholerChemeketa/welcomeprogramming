@@ -16,13 +16,13 @@
 <xi:include href="../../programs/conditionals-logic/chaining-nesting-1.cpp" parse="text"/>
 </program>
 
-  <p>If `x` is greater than 0, the initial `if` block runs and the entire `else` is skipped. But if `x` is not greater than 0, the initial `else` block runs. In it, we make a new decision and either execute the inner `if` or the inner `else`.</p>
+  <p>If <pf>x</pf> is greater than 0, the initial <pf>if</pf> block runs and the entire <pf>else</pf> is skipped. But if <pf>x</pf> is not greater than 0, the initial <pf>else</pf> block runs. In it, we make a new decision and either execute the inner <pf>if</pf> or the inner <pf>else</pf>.</p>
 
   <p>These kinds of nested structures are common, but they can become
     difficult to read very quickly. Good indentation is essential to make the structure (or intended
     structure) apparent to the reader. </p>
 
-  <p>When nested conditions are focusing on a series of related tests (like what value `x` has), there is an alternative way to write the nesting. This other way of writing the same logic is called <term>chaining</term> because it links a series of <c>if</c> and <c>else</c>
+  <p>When nested conditions are focusing on a series of related tests (like what value <pf>x</pf> has), there is an alternative way to write the nesting. This other way of writing the same logic is called <term>chaining</term> because it links a series of <pf>if</pf> and <pf>else</pf>
     blocks:  
     <idx>
       <h>chaining</h>
@@ -32,9 +32,9 @@
 <xi:include href="../../programs/conditionals-logic/chaining-nesting-2.cpp" parse="text"/>
 </program>
 
-  <p>It is important to recognize that this is really just a pair of nested conditionals. The second `if` is really the body of the first `else`. We have just written it on the same line as the `else`. This is just a styling convention, not a new language feature. The logic remains the same. Either we do the first `if` body, and then skip the `else` body (which includes the second `if` and its attached `else`) or we do the `else` that has us make a new choice.</p>
+  <p>It is important to recognize that this is really just a pair of nested conditionals. The second <pf>if</pf> is really the body of the first <pf>else</pf>. We have just written it on the same line as the <pf>else</pf>. This is just a styling convention, not a new language feature. The logic remains the same. Either we do the first <pf>if</pf> body, and then skip the <pf>else</pf> body (which includes the second <pf>if</pf> and its attached <pf>else</pf>) or we do the <pf>else</pf> that has us make a new choice.</p>
   
-  <p>Although it is functionally the same as nested code, most programmers prefer to read and write this form. It makes it clear that we are picking one of three related branches to execute. This form is also preferable to a series of `if` statements unconnected by `else`'s as it guarantees that only one of the blocks in the chain will get to execute.</p>
+  <p>Although it is functionally the same as nested code, most programmers prefer to read and write this form. It makes it clear that we are picking one of three related branches to execute. This form is also preferable to a series of <pf>if</pf> statements unconnected by <pf>else</pf>'s as it guarantees that only one of the blocks in the chain will get to execute.</p>
 
   <p>These chains can be as long as you like. For example, this code determines someone's letter grade. If their score is 90+, we print out A and all the remaining tests are completely skipped. Otherwise, we execute the next check-m-is their score 80+? As soon as one branch is true, all the remaining tests and their associated blocks are skipped. Note that the last else does not need an if - it is the default case that handles things when all the other tests fail:</p>
 

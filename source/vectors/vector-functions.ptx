@@ -3,9 +3,9 @@
 
   <title>Functions and Vectors</title>
 
-  <p>Vectors can be the parameters or the return types for functions. For now, we need to specify what type of vector the function accepts or returns (`vector&lt;int>`, `vector&lt;string>`, etc...). Later on we will learn how to make a <q>generic</q> function that can work with a vector that stores any type.</p>
+  <p>Vectors can be the parameters or the return types for functions. For now, we need to specify what type of vector the function accepts or returns (<pf>vector&lt;int></pf>, <pf>vector&lt;string></pf>, etc...). Later on we will learn how to make a <q>generic</q> function that can work with a vector that stores any type.</p>
 
-  <p>Say we want to write a function that can add up all of the values in a `vector&lt;int.`. It could look like:</p>
+  <p>Say we want to write a function that can add up all of the values in a <pf>vector&lt;int.</pf>. It could look like:</p>
 
   <program xml:id="vectors_vector-functions-1" line-numbers="yes">
 <xi:include href="../../programs/vectors/vector-functions-1.cpp" parse="text"/>
@@ -17,7 +17,7 @@
 <xi:include href="../../programs/vectors/vector-functions-2.cpp" parse="text"/>
 </program>
 
-  <p>To return a vector, we can declare the return type to be a `vector&lt;T>` and then make sure to return an appropriate type of vector. (A returned value is always copied, though the compiler may do some tricks to avoid actually copying the data). This function returns a new vector that is a copy of the one passed in which every element gets doubled:</p>
+  <p>To return a vector, we can declare the return type to be a <pf>vector&lt;T></pf> and then make sure to return an appropriate type of vector. (A returned value is always copied, though the compiler may do some tricks to avoid actually copying the data). This function returns a new vector that is a copy of the one passed in which every element gets doubled:</p>
 
   <program xml:id="vectors_vector-functions-3" interactive="activecode">
 <xi:include href="../../programs/vectors/vector-functions-3.cpp" parse="text"/>
@@ -29,14 +29,14 @@
 <xi:include href="../../programs/vectors/vector-functions-4.cpp" parse="text"/>
 </program>
 
-  <p>In this version, we must take the vector parameter as a reference that is not `const` so we can modify the vector (line 7). Similarly, as we use a range-based loop to traverse the elements, we need to declare the element type to be an `int&amp;` - a reference to an int - so that we are working with the actual element and not a copy of its value (line 9). Because the parameter is modified, there is nothing new to return from the function. So the return type is declared as `void` (line 7) and when it is called in `main`, there is no result to store (line 17). Because we <term>passed by reference</term>, all of the changes made to `numbers` in `doubleValues` really were made to `myList` that was passed in from `main`.</p>
+  <p>In this version, we must take the vector parameter as a reference that is not <pf>const</pf> so we can modify the vector (line 7). Similarly, as we use a range-based loop to traverse the elements, we need to declare the element type to be an <pf>int&amp;</pf> - a reference to an int - so that we are working with the actual element and not a copy of its value (line 9). Because the parameter is modified, there is nothing new to return from the function. So the return type is declared as <pf>void</pf> (line 7) and when it is called in <pf>main</pf>, there is no result to store (line 17). Because we <term>passed by reference</term>, all of the changes made to <pf>numbers</pf> in <pf>doubleValues</pf> really were made to <pf>myList</pf> that was passed in from <pf>main</pf>.</p>
 
   <exercise label="vector_functions_2"
             numbered="yes"
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Construct the <c>makeEven</c> function that makes a new vector by looping through <c>vec</c> to copy elements. Any element with an odd value get 1 added to make it even before it is copied.</p>
+      <p>Construct the <pf>makeEven</pf> function that makes a new vector by looping through <pf>vec</pf> to copy elements. Any element with an odd value get 1 added to make it even before it is copied.</p>
     </statement>
     <blocks>
       <block order="10">
@@ -96,13 +96,13 @@
       <program>
 vector&lt;string&gt; lauren = {"happy", "to", "you", "September", "birthday", "girl"}
 </program>
-      <p>How would you save the string <c>"birthday"</c> from <c>lauren</c> to the variable <c>nurse</c>?</p>
+      <p>How would you save the string <pf>"birthday"</pf> from <pf>lauren</pf> to the variable <pf>nurse</pf>?</p>
     </statement>
     <choices randomize="yes">
       <choice correct="yes">
         <statement id="vectors_mc2_opt_a">
           <p>
-            <c>nurse = lauren.at(4)</c>
+            <pf>nurse = lauren.at(4)</pf>
           </p>
         </statement>
         <feedback>
@@ -112,7 +112,7 @@ vector&lt;string&gt; lauren = {"happy", "to", "you", "September", "birthday", "g
       <choice>
         <statement id="vectors_mc2_opt_b">
           <p>
-            <c>nurse = lauren.at(5)</c>
+            <pf>nurse = lauren.at(5)</pf>
           </p>
         </statement>
         <feedback>
@@ -122,7 +122,7 @@ vector&lt;string&gt; lauren = {"happy", "to", "you", "September", "birthday", "g
       <choice>
         <statement id="vectors_mc2_opt_c">
           <p>
-            <c>nurse = lauren.at(6)</c>
+            <pf>nurse = lauren.at(6)</pf>
           </p>
         </statement>
         <feedback>
@@ -132,7 +132,7 @@ vector&lt;string&gt; lauren = {"happy", "to", "you", "September", "birthday", "g
       <choice>
         <statement id="vectors_mc2_opt_d">
           <p>
-            <c>nurse = lauren(4)</c>
+            <pf>nurse = lauren(4)</pf>
           </p>
         </statement>
         <feedback>
@@ -142,7 +142,7 @@ vector&lt;string&gt; lauren = {"happy", "to", "you", "September", "birthday", "g
       <choice>
         <statement id="vectors_mc2_opt_e">
           <p>
-            <c>nurse = lauren(5)</c>
+            <pf>nurse = lauren(5)</pf>
           </p>
         </statement>
         <feedback>

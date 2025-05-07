@@ -7,9 +7,9 @@
   <p>
     <idx>
       <h>INF</h>
-    </idx> The first is <term>infinity</term>, which is represented by the constant <c>INFINITY</c>.
+    </idx> The first is <term>infinity</term>, which is represented by the constant <pf>INFINITY</pf>.
     This is used to represent values that are too large to be stored in a floating-point number.
-    Recall that `double`s can store enormous values, so you are likely only to run into `INFINITY`
+    Recall that <pf>double</pf>s can store enormous values, so you are likely only to run into <pf>INFINITY</pf>
     if you do some math that results in an answer that approaches infinity like dividing by 0 or
     trying to calculate <m>tan(\frac{\pi}{2})</m>. </p>
 
@@ -17,16 +17,16 @@
     <idx>
       <h>NAN</h>
     </idx> The second is <term>Not a Number</term>, which is represented by the
-    constant <c>NAN</c>. This is used to represent values that are not real numbers, such as the result
-    of taking the square root of a negative number. `NAN` is not equal to any value, including
-    itself, so the only way to check if a value is <q>Not a Number</q> is to use the `isnan`
-    function from the `cmath` library. </p>
+    constant <pf>NAN</pf>. This is used to represent values that are not real numbers, such as the result
+    of taking the square root of a negative number. <pf>NAN</pf> is not equal to any value, including
+    itself, so the only way to check if a value is <q>Not a Number</q> is to use the <pf>isnan</pf>
+    function from the <pf>cmath</pf> library. </p>
 
   <p>Once you have a value that is one of these special values, doing more math with it will
-    generally just result in the same special value. Any number + `INFINITY` is `INFINITY`. `NAN` +
-    a number is still `NAN`. So they are mostly useful as indicators that some bit of math has gone
+    generally just result in the same special value. Any number + <pf>INFINITY</pf> is <pf>INFINITY</pf>. <pf>NAN</pf> +
+    a number is still <pf>NAN</pf>. So they are mostly useful as indicators that some bit of math has gone
     wrong. In this book we will never attempt to calculate either of these or rely on doing anything
-    with these values. But if you ever see `NAN` or `INF` as the result of outputting a
+    with these values. But if you ever see <pf>NAN</pf> or <pf>INF</pf> as the result of outputting a
     floating-point number, you will know what they mean. </p>
 
 </section>

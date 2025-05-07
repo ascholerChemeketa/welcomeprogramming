@@ -2,7 +2,7 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Increment and Decrement</title>
 
-  <p>Here is another <c>while</c> loop example; this one displays the numbers 1 to 5: </p>
+  <p>Here is another <pf>while</pf> loop example; this one displays the numbers 1 to 5: </p>
 
   <program xml:id="loops_increment-decrement-1">
 <xi:include href="../../programs/loops/increment-decrement-1.cpp" parse="text"/>
@@ -14,17 +14,17 @@
     </idx>
     <idx>
       <h>decrement</h>
-    </idx> Assignments like <c>i = i + 1</c> don't often appear in loops, because C++
-    provides a more concise way to add and subtract by one. Recall that, <c>++</c> is the <term>
-    increment</term> operator; it has the same effect as <c>i = i + 1</c>. And <c>--</c> is the <term>
-    decrement</term> operator; it has the same effect as <c>i = i - 1</c>. </p>
+    </idx> Assignments like <pf>i = i + 1</pf> don't often appear in loops, because C++
+    provides a more concise way to add and subtract by one. Recall that, <pf>++</pf> is the <term>
+    increment</term> operator; it has the same effect as <pf>i = i + 1</pf>. And <pf>--</pf> is the <term>
+    decrement</term> operator; it has the same effect as <pf>i = i - 1</pf>. </p>
 
-  <p>We introduced these <q>shortcut operators</q> back in <xref ref="variables-operators_shortcut-operators"/>. There, we said there is no reason you have to use them, but you should learn to recognize them as they are commonly used. Loops are the most important example of this. Programmers will almost always write `i++` or `++i`</p>
+  <p>We introduced these <q>shortcut operators</q> back in <xref ref="variables-operators_shortcut-operators"/>. There, we said there is no reason you have to use them, but you should learn to recognize them as they are commonly used. Loops are the most important example of this. Programmers will almost always write <pf>i++</pf> or <pf>++i</pf></p>
 
-  <note><p>In C++, there are some differences between `i++` and `++i` that can make the choice of which to use important. If you are using them as part of a larger expression, the placement of the `++` changes when the increment happens. If you are using `++` on more complex structures, the preincrment version - `++i` - can be more efficient than the post increment version. When used on their own with integer variables it does not matter which you use. But it is not a bad habit to get used to writing `++i` by default.</p></note>
+  <note><p>In C++, there are some differences between <pf>i++</pf> and <pf>++i</pf> that can make the choice of which to use important. If you are using them as part of a larger expression, the placement of the <pf>++</pf> changes when the increment happens. If you are using <pf>++</pf> on more complex structures, the preincrment version - <pf>++i</pf> - can be more efficient than the post increment version. When used on their own with integer variables it does not matter which you use. But it is not a bad habit to get used to writing <pf>++i</pf> by default.</p></note>
 
-  <p>If you want to increment or decrement a variable by an amount other than <c>1</c>, you can use <c>+=</c>
-    and <c>-=</c>. For example, <c>i += 2</c> increments <c>i</c> by <c>2</c>: </p>
+  <p>If you want to increment or decrement a variable by an amount other than <pf>1</pf>, you can use <pf>+=</pf>
+    and <pf>-=</pf>. For example, <pf>i += 2</pf> increments <pf>i</pf> by <pf>2</pf>: </p>
 
   <program xml:id="loops_increment-decrement-2">
 <xi:include href="../../programs/loops/increment-decrement-2.cpp" parse="text"/>
@@ -66,38 +66,38 @@ int main() {
     <choices randomize="yes">
       <choice>
         <statement id="mce_6_10_opt_a">
-          <p><c>repeatBot</c> can only take one word as an argument.</p>
+          <p><pf>repeatBot</pf> can only take one word as an argument.</p>
         </statement>
         <feedback>
-          A <c>string</c> is any number of characters or words surrounded by double quotes, not just
+          A <pf>string</pf> is any number of characters or words surrounded by double quotes, not just
             one word.
         </feedback>
       </choice>
       <choice>
         <statement id="mce_6_10_opt_b">
-          <p><c>n</c> is declared to be 0 and 0 is always less than 5.</p>
+          <p><pf>n</pf> is declared to be 0 and 0 is always less than 5.</p>
         </statement>
         <feedback>
-          The code doesn't loop infinitely because of the value <c>n</c> was declared to be.
+          The code doesn't loop infinitely because of the value <pf>n</pf> was declared to be.
         </feedback>
       </choice>
       <choice>
         <statement id="mce_6_10_opt_c">
-          <p>Every time the <c>while</c> loop runs, <c>n</c> is reset to 0, so it will always be less than
+          <p>Every time the <pf>while</pf> loop runs, <pf>n</pf> is reset to 0, so it will always be less than
             5.</p>
         </statement>
         <feedback>
-          The initialization of <c>n</c> occurs outside the <c>while</c> loop, so the value of <c>n</c>
+          The initialization of <pf>n</pf> occurs outside the <pf>while</pf> loop, so the value of <pf>n</pf>
             does not get reset to 0.
         </feedback>
       </choice>
       <choice correct="yes">
         <statement id="mce_6_10_opt_d">
-          <p><c>n</c> is declared to be 0 and we continuously decrement <c>n</c> so it will always be
+          <p><pf>n</pf> is declared to be 0 and we continuously decrement <pf>n</pf> so it will always be
             less than 5.</p>
         </statement>
         <feedback>
-          Since <c>n</c> starts at 0 and gets smaller, the conditional for the <c>while</c> loop will
+          Since <pf>n</pf> starts at 0 and gets smaller, the conditional for the <pf>while</pf> loop will
             always be true, and thus the code runs forever.
         </feedback>
       </choice>
@@ -130,34 +130,34 @@ int main() {
     <choices randomize="yes">
       <choice>
         <statement id="mce_6_11_opt_a">
-          <p><c>n &gt; 5</c> is not a valid conditional, so the <c>while</c> loop doesn't execute.</p>
+          <p><pf>n &gt; 5</pf> is not a valid conditional, so the <pf>while</pf> loop doesn't execute.</p>
         </statement>
         <feedback>
-          <c>n &gt; 5</c> is a boolean statement and thus is a valid conditional.
+          <pf>n &gt; 5</pf> is a boolean statement and thus is a valid conditional.
         </feedback>
       </choice>
       <choice>
         <statement id="mce_6_11_opt_b">
-          <p>The value of <c>n</c> never gets modified in the <c>while</c> loop.</p>
+          <p>The value of <pf>n</pf> never gets modified in the <pf>while</pf> loop.</p>
         </statement>
         <feedback>
-          <c>n</c> is incremented in the <c>while</c> loop after the <c>cout</c> statement.
+          <pf>n</pf> is incremented in the <pf>while</pf> loop after the <pf>cout</pf> statement.
         </feedback>
       </choice>
       <choice>
         <statement id="mce_6_11_opt_c">
-          <p>In the <c>cout</c> statement, only spaces are printed.</p>
+          <p>In the <pf>cout</pf> statement, only spaces are printed.</p>
         </statement>
         <feedback>
-          <c>input</c> is also printed.
+          <pf>input</pf> is also printed.
         </feedback>
       </choice>
       <choice correct="yes">
         <statement id="mce_6_11_opt_d">
-          <p>The conditional for the <c>while</c> loop is not met.</p>
+          <p>The conditional for the <pf>while</pf> loop is not met.</p>
         </statement>
         <feedback>
-          Since <c>n</c> is declared to be 0, 0 is not greater than 5, so the <c>while</c> loop does
+          Since <pf>n</pf> is declared to be 0, 0 is not greater than 5, so the <pf>while</pf> loop does
             not execute.
         </feedback>
       </choice>

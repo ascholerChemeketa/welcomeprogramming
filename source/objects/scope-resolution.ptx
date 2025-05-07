@@ -13,7 +13,7 @@
   </p>
 
   <p>However, if we try to separate definitions of member functions from their declarations, we will
-    run into an issue. Here is a failed attempt to move the `Point` constructor's definition
+    run into an issue. Here is a failed attempt to move the <pf>Point</pf> constructor's definition
     outside of the class:</p>
 
   <program interactive="activecode">
@@ -22,12 +22,12 @@
 
   <p>Attempting to build the code fails. The compiler has no idea what line 11 is doing. It looks
     like a function called <q>Point</q> that has no return type. And in that function, we use
-    variables `m_x` and `m_y` without ever declaring them. There are similar issues with the `getX`
+    variables <pf>m_x</pf> and <pf>m_y</pf> without ever declaring them. There are similar issues with the <pf>getX</pf>
     function.</p>
 
-  <p>What the compiler needs is a hint that these functions are members of the class <c>Point</c>. We do
-    that by adding the class name and the <term>scope resolution operator</term> <c>::</c> to the function definitions. Saying
-    `Point::getX` says <q>This is the getX that belongs to Point.</q> And saying `Point::Point` says <q>This
+  <p>What the compiler needs is a hint that these functions are members of the class <pf>Point</pf>. We do
+    that by adding the class name and the <term>scope resolution operator</term> <pf>::</pf> to the function definitions. Saying
+    <pf>Point::getX</pf> says <q>This is the getX that belongs to Point.</q> And saying <pf>Point::Point</pf> says <q>This
     is the constructors that belongs to Point.</q> Here is a working version of the code:</p>
 
   <program interactive="activecode">
@@ -41,7 +41,7 @@
 
   <exercise label="implicit_variable_access_2">
     <statement>
-      <p>When should you use the scope resolution operator <c>::</c>?</p>
+      <p>When should you use the scope resolution operator <pf>::</pf>?</p>
     </statement>
     <choices randomize="yes">
       <choice>
@@ -83,21 +83,21 @@
 
   <exercise label="mce_11_2">
     <statement>
-      <p>What is the correct way to define a member function called <c>string getEmail();</c> outside the class
+      <p>What is the correct way to define a member function called <pf>string getEmail();</pf> outside the class
         definition?</p>
     </statement>
     <choices randomize="yes">
       <choice correct="yes">
         <statement>
           <p>
-            <c>string Student::getEmail()</c>
+            <pf>string Student::getEmail()</pf>
           </p>
         </statement>
       </choice>
       <choice>
         <statement>
             <p>
-              <c>Student::string getEmail()</c>
+              <pf>Student::string getEmail()</pf>
             </p>
         </statement>
         <feedback>
@@ -107,7 +107,7 @@
       <choice>
         <statement>
           <p>
-            <c>Student::string Student::getEmail()</c>
+            <pf>Student::string Student::getEmail()</pf>
           </p>
         </statement>
         <feedback>
@@ -117,12 +117,12 @@
       <choice>
         <statement>
           <p>
-            <c>Student { string getEmail() }</c>
+            <pf>Student { string getEmail() }</pf>
           </p>
         </statement>
         <feedback>
-          We use the `::` operator when referring to a member function outside the class. The
-            `{}` brackets are not used in this case.
+          We use the <pf>::</pf> operator when referring to a member function outside the class. The
+            <pf>{}</pf> brackets are not used in this case.
         </feedback>
       </choice>
     </choices>

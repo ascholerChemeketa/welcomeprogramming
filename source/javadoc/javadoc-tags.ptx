@@ -9,8 +9,8 @@ It's generally a good idea to document each class and function, so that other pr
     <idx><h>param tag</h></idx>
     <idx><h>return tag</h></idx>
     <idx><h>documentation</h><h>Javadoc tags</h></idx>
-To organize the documentation into sections, Javadoc supports optional <term>tags</term> that begin with the at sign (<c>@</c>).
-For example, we can use <c>@author</c> and <c>@version</c> to provide information about the class:
+To organize the documentation into sections, Javadoc supports optional <term>tags</term> that begin with the at sign (<pf>@</pf>).
+For example, we can use <pf>@author</pf> and <pf>@version</pf> to provide information about the class:
 </p>
 
 <program xml:id="javadoc_javadoc-tags-1">
@@ -20,11 +20,11 @@ For example, we can use <c>@author</c> and <c>@version</c> to provide informatio
 <p>
     <idx><h>description</h></idx>
 Documentation comments should begin with a <term>description</term> of the class or function, followed by the tags.
-These two sections are separated by a blank line (not counting the \relax<c>*</c>).
+These two sections are separated by a blank line (not counting the \relax<pf>*</pf>).
 </p>
 
 <p>
-For functions, we can use <c>@param</c> and <c>@return</c> to provide information about parameters and return values:
+For functions, we can use <pf>@param</pf> and <pf>@return</pf> to provide information about parameters and return values:
 </p>
 
 <program xml:id="javadoc_javadoc-tags-2">
@@ -38,22 +38,22 @@ For functions, we can use <c>@param</c> and <c>@return</c> to provide informatio
 Notice the relationship between the Javadoc comment (in the source code) and the resulting documentation (in the HTML page).
 </p>
 <figure xml:id="fig_javadoc" >
-<caption>HTML documentation for <c>isSingleDigit</c>.</caption>
+<caption>HTML documentation for <pf>isSingleDigit</pf>.</caption>
 <image width="92.5%" source="images/javadoc.png" />
 </figure>
 <p>
-When writing parameter comments, do not include a hyphen (<c>-</c>) after the <c>@param</c> tag.
+When writing parameter comments, do not include a hyphen (<pf>-</pf>) after the <pf>@param</pf> tag.
 Otherwise, you will have two hyphens in the resulting HTML documentation.
 </p>
 
 <p>
-Notice also that the <c>@return</c> tag should not specify the type of the function.
-Comments like \relax<c>@return boolean</c> are not useful, because you already know the return type from the function's signature.
+Notice also that the <pf>@return</pf> tag should not specify the type of the function.
+Comments like \relax<pf>@return boolean</pf> are not useful, because you already know the return type from the function's signature.
 </p>
 
 <p>
-functions with multiple parameters should have separate <c>@param</c> tags that describe each one.
-Void functions should have no <c>@return</c> tag, since they do not return a value.
+functions with multiple parameters should have separate <pf>@param</pf> tags that describe each one.
+Void functions should have no <pf>@return</pf> tag, since they do not return a value.
 Each tag should be on its own line in the source code.
 </p>
 </section>

@@ -1,9 +1,9 @@
 <section xml:id="arrays-arrays_other-grid-functions" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Other Grid functions</title>
 <p>
-In addition to <c>draw</c> and <c>paint</c>, the <c>GridCanvas</c> class provides functions for working with the grid itself.
-<c>numRows</c> and <c>numCols</c> return the number of rows and columns.
-We can get this information from the 2D array, using <c>length</c>:
+In addition to <pf>draw</pf> and <pf>paint</pf>, the <pf>GridCanvas</pf> class provides functions for working with the grid itself.
+<pf>numRows</pf> and <pf>numCols</pf> return the number of rows and columns.
+We can get this information from the 2D array, using <pf>length</pf>:
 </p>
 
 <program xml:id="arrays-arrays_other-grid-functions-1">
@@ -12,13 +12,13 @@ We can get this information from the 2D array, using <c>length</c>:
 
 <p>
 Because we are using row-major order, the 2D array is an array of rows.
-<c>numRows</c> simply returns the length of the rows array.
-<c>numCols</c> returns the length of the first row, which is the number of columns.
+<pf>numRows</pf> simply returns the length of the rows array.
+<pf>numCols</pf> returns the length of the first row, which is the number of columns.
 Since the rows all have the same length, we have to check only one.
 </p>
 
 <p>
-<c>GridCanvas</c> also provides a function that gets the <c>Cell</c> at a given location, and for convenience when starting the game, a function that turns on the <c>Cell</c> at a given location.
+<pf>GridCanvas</pf> also provides a function that gets the <pf>Cell</pf> at a given location, and for convenience when starting the game, a function that turns on the <pf>Cell</pf> at a given location.
 </p>
 
 <program xml:id="arrays-arrays_other-grid-functions-2">

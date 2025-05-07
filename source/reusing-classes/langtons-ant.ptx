@@ -1,7 +1,7 @@
 <section xml:id="reusing-classes_langtons-ant" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Langton's Ant</title>
 <p>
-We begin by defining a <c>Langton</c> class that has a grid and information about the ant.
+We begin by defining a <pf>Langton</pf> class that has a grid and information about the ant.
 The constructor takes the grid dimensions as parameters:
 </p>
 
@@ -11,13 +11,13 @@ The constructor takes the grid dimensions as parameters:
 
 <p>
     <idx><h>state</h></idx>
-<c>grid</c> is a <c>GridCanvas</c> object, which represents the state of the cells.
-<c>xpos</c> and <c>ypos</c> are the coordinates of the ant, and <c>head</c> is the <q>heading</q> of the ant; that is, which direction it is facing.
-<c>head</c> is an integer with four possible values, where <c>0</c> means the ant is facing <q>north</q> (i.e., toward the top of the screen), <c>1</c> means <q>east</q>, etc.
+<pf>grid</pf> is a <pf>GridCanvas</pf> object, which represents the state of the cells.
+<pf>xpos</pf> and <pf>ypos</pf> are the coordinates of the ant, and <pf>head</pf> is the <q>heading</q> of the ant; that is, which direction it is facing.
+<pf>head</pf> is an integer with four possible values, where <pf>0</pf> means the ant is facing <q>north</q> (i.e., toward the top of the screen), <pf>1</pf> means <q>east</q>, etc.
 </p>
 
 <p>
-Here's an <c>update</c> function that implements the rules for Langton's Ant:
+Here's an <pf>update</pf> function that implements the rules for Langton's Ant:
 </p>
 
 <program xml:id="reusing-classes_langtons-ant-2">
@@ -25,7 +25,7 @@ Here's an <c>update</c> function that implements the rules for Langton's Ant:
 </program>
 
 <p>
-The <c>flipCell</c> function gets the <c>Cell</c> at the ant's location, figures out which way to turn, and changes the state of the cell:
+The <pf>flipCell</pf> function gets the <pf>Cell</pf> at the ant's location, figures out which way to turn, and changes the state of the cell:
 </p>
 
 <program xml:id="reusing-classes_langtons-ant-3">
@@ -33,17 +33,17 @@ The <c>flipCell</c> function gets the <c>Cell</c> at the ant's location, figures
 </program>
 
 <p>
-We use the remainder operator, <c>%</c>, to make <c>head</c> wrap around: if <c>head</c> is 3 and we turn right, it wraps around to 0; if <c>head</c> is 0 and we turn left, it wraps around to 3.
+We use the remainder operator, <pf>%</pf>, to make <pf>head</pf> wrap around: if <pf>head</pf> is 3 and we turn right, it wraps around to 0; if <pf>head</pf> is 0 and we turn left, it wraps around to 3.
 </p>
 
 <p>
-Notice that to turn right, we add 1 to <c>head</c>.
-To turn left, we could subtract 1, but <c>-1 % 4</c> is <c>-1</c> in Java.
+Notice that to turn right, we add 1 to <pf>head</pf>.
+To turn left, we could subtract 1, but <pf>-1 % 4</pf> is <pf>-1</pf> in Java.
 So we add 3 instead, since one left turn is the same as three right turns.
 </p>
 
 <p>
-The <c>moveAnt</c> function moves the ant forward one square, using <c>head</c> to determine which way is forward:
+The <pf>moveAnt</pf> function moves the ant forward one square, using <pf>head</pf> to determine which way is forward:
 </p>
 
 <program xml:id="reusing-classes_langtons-ant-4">
@@ -51,7 +51,7 @@ The <c>moveAnt</c> function moves the ant forward one square, using <c>head</c> 
 </program>
 
 <p>
-Here is the <c>main</c> function we use to create and display the <c>Langton</c> object:
+Here is the <pf>main</pf> function we use to create and display the <pf>Langton</pf> object:
 </p>
 
 <program xml:id="reusing-classes_langtons-ant-5" interactive="activecode">
@@ -59,8 +59,8 @@ Here is the <c>main</c> function we use to create and display the <c>Langton</c>
 </program>
 
 <p>
-Most of this code is the same as the <c>main</c> we used to create and run <c>Conway</c>, in <xref ref="conwaymain">Section</xref>.
-It creates and configures a <c>JFrame</c> and runs <c>mainloop</c>.
+Most of this code is the same as the <pf>main</pf> we used to create and run <pf>Conway</pf>, in <xref ref="conwaymain">Section</xref>.
+It creates and configures a <pf>JFrame</pf> and runs <pf>mainloop</pf>.
 </p>
 
 <p>
@@ -69,7 +69,7 @@ If you run this code with a grid size of \mbox{61 x 61} or larger, you will see 
 </p>
 
 <p>
-Because we designed <c>Cell</c> and <c>GridCanvas</c> to be reusable, we didn't have to modify them at all.
-However, we now have two copies of <c>main</c> and <c>mainloop</c><mdash/>one in <c>Conway</c>, and one in <c>Langton</c>.
+Because we designed <pf>Cell</pf> and <pf>GridCanvas</pf> to be reusable, we didn't have to modify them at all.
+However, we now have two copies of <pf>main</pf> and <pf>mainloop</pf><mdash/>one in <pf>Conway</pf>, and one in <pf>Langton</pf>.
 </p>
 </section>

@@ -8,7 +8,7 @@
 
     <p>Recall that prime numbers are those that are only divisible by 1 and themselves. They play a significant role in computer cryptography where they help to form computationally hard problems.</p>
     
-    <p>We would like to find all of the prime numbers less than or equal to a value `n`. We will do so by making two functions. One that decides if a given number is prime and a second that counts the primes up to `n`.</p>
+    <p>We would like to find all of the prime numbers less than or equal to a value <pf>n</pf>. We will do so by making two functions. One that decides if a given number is prime and a second that counts the primes up to <pf>n</pf>.</p>
 
     <program>
     bool isPrime(int number);
@@ -19,11 +19,11 @@
   </subsection>
 
   <subsection>
-    <title>Understanding `isPrime` and Tests</title>
+    <title>Understanding <pf>isPrime</pf> and Tests</title>
 
-    <p>Let us start with the `isPrime` function. We will need to test it with a variety of numbers. We want to test it with some numbers that are prime and some that are not. 3, 7, 17, and 23 are all prime numbers. 4, 15, and 181 are not. We will also test it with 1 and 2, which are special cases. 1 is not prime (prime numbers should have 2 factors), and 2 is the only even prime number.</p>
+    <p>Let us start with the <pf>isPrime</pf> function. We will need to test it with a variety of numbers. We want to test it with some numbers that are prime and some that are not. 3, 7, 17, and 23 are all prime numbers. 4, 15, and 181 are not. We will also test it with 1 and 2, which are special cases. 1 is not prime (prime numbers should have 2 factors), and 2 is the only even prime number.</p>
 
-    <p>Let's turn some of those into test values. If the following `CHECK`s all pass, we should feel good about our function:</p>
+    <p>Let's turn some of those into test values. If the following <pf>CHECK</pf>s all pass, we should feel good about our function:</p>
 
     <program>
 <xi:include href="../../programs/loops/isPrime-tests.cpp" parse="text"/>
@@ -32,7 +32,7 @@
 
   <subsection>
     <title>isPrime</title>
-    <p>Let's build the `isPrime` function. The activity below will help you build your way to a solution in the exercise below it.</p>
+    <p>Let's build the <pf>isPrime</pf> function. The activity below will help you build your way to a solution in the exercise below it.</p>
 
     <activity label="isPrime-instructions">
       <title>isPrime Guide</title>
@@ -40,15 +40,15 @@
         <p>Work through the tabs (a), (b)... in order to build your way to a solution of the exercise below.</p>
       </introduction>
       <task>
-        <p>To test if a number `n` is prime, we need to see if anything in the range 2 to `n - 1` can divide into it. The starter code has a counting loop that is missing some pieces (marked with `???`). Fill in the blanks so that the loop counts from 2 to `n - 1`.</p>
-        <p>Don't worry about passing the tests yet, just look at the program output and verify that the loop is iterating the correct number of times. Make sure your counter does not go all the way to `n` or stop at `n - 2`.</p>
+        <p>To test if a number <pf>n</pf> is prime, we need to see if anything in the range 2 to <pf>n - 1</pf> can divide into it. The starter code has a counting loop that is missing some pieces (marked with <pf>???</pf>). Fill in the blanks so that the loop counts from 2 to <pf>n - 1</pf>.</p>
+        <p>Don't worry about passing the tests yet, just look at the program output and verify that the loop is iterating the correct number of times. Make sure your counter does not go all the way to <pf>n</pf> or stop at <pf>n - 2</pf>.</p>
       </task>
       <task>
-        <p>Now let's check if the current value of the loop counter divides into `n`. Recall that if `n` is divisible by `i`, then `n % i` will be 0. Add a conditional to check if `i` divides into `n`. If so, print out `"NOT A PRIME!"`.</p>
+        <p>Now let's check if the current value of the loop counter divides into <pf>n</pf>. Recall that if <pf>n</pf> is divisible by <pf>i</pf>, then <pf>n % i</pf> will be 0. Add a conditional to check if <pf>i</pf> divides into <pf>n</pf>. If so, print out <pf>"NOT A PRIME!"</pf>.</p>
         <p>Again, don't worry about passing the tests yet, just look at the program output and verify that the code prints out the message at the right times.</p>
       </task>
       <task>
-        <p>If you find a factor, there is no point continuing on with the loop - we know that `n` is not prime. One way to handle this would be to use `break` to stop if we find a factor. We would need a variable to keep track of if we think the number is prime. Initially, we would assume it is. If we find a divisor we would change our mind. Here is pseudocode for that approach:</p>
+        <p>If you find a factor, there is no point continuing on with the loop - we know that <pf>n</pf> is not prime. One way to handle this would be to use <pf>break</pf> to stop if we find a factor. We would need a variable to keep track of if we think the number is prime. Initially, we would assume it is. If we find a divisor we would change our mind. Here is pseudocode for that approach:</p>
 
         <pre>
         isPrime = true
@@ -59,24 +59,24 @@
         return isPrime
         </pre>
 
-        <p>Another way would be to simply `return false;` as soon as we find the factor. This approach would have the advantage of not needing a variable to keep track of our answer.</p>
+        <p>Another way would be to simply <pf>return false;</pf> as soon as we find the factor. This approach would have the advantage of not needing a variable to keep track of our answer.</p>
 
         <p>Choose one of these approaches and implement it. You should pass most of the tests now, but will still fail the special case of 1.</p>
       </task>
 
       <task>
-        <p>We still have a problem with the special case. Our loop never runs if `n` is 1. So we end up returning `true`. Sometimes the best way to deal with a special case is to just add logic to handle it. Add a condition that returns `false` if `n == 1`. This logic could go either before or after the loop.</p>
+        <p>We still have a problem with the special case. Our loop never runs if <pf>n</pf> is 1. So we end up returning <pf>true</pf>. Sometimes the best way to deal with a special case is to just add logic to handle it. Add a condition that returns <pf>false</pf> if <pf>n == 1</pf>. This logic could go either before or after the loop.</p>
         <p>You should now pass all of the tests, but will have a lot of extra output.</p>
       </task>
 
       <task>
-      <p>Now remove all the `cout` statements. They were helpful for testing and debugging your code, but will not be needed or wanted in the final version of the function. Make sure you still pass all the tests!</p>
+      <p>Now remove all the <pf>cout</pf> statements. They were helpful for testing and debugging your code, but will not be needed or wanted in the final version of the function. Make sure you still pass all the tests!</p>
       </task>
     </activity>
 
 
     <exercise label="isPrime">
-    <statement>Use the guide above to build `isPrime`.</statement>
+    <statement>Use the guide above to build <pf>isPrime</pf>.</statement>
     <program interactive="activecode"
              >
     <preamble  visible="no">
@@ -93,9 +93,9 @@
   </subsection>
 
   <subsection>
-    <title>Understanding `countPrimes` and Tests</title>
+    <title>Understanding <pf>countPrimes</pf> and Tests</title>
 
-    <p>Count primes needs to check each value from 1 to `n` to see if it is prime. Consulting the internet to find a list of prime numbers, it appears that there are 2 primes less than or equal to 4, 4 primes less than or equal to 10, and 25 primes less than or equal to 100. A tricky case for this problem might be right at a number that is prime. 11 is the 5th prime, so let's include it as a test case:</p>
+    <p>Count primes needs to check each value from 1 to <pf>n</pf> to see if it is prime. Consulting the internet to find a list of prime numbers, it appears that there are 2 primes less than or equal to 4, 4 primes less than or equal to 10, and 25 primes less than or equal to 100. A tricky case for this problem might be right at a number that is prime. 11 is the 5th prime, so let's include it as a test case:</p>
 
     <program>
 <xi:include href="../../programs/loops/countPrimes-tests.cpp" parse="text"/>
@@ -105,7 +105,7 @@
   <subsection>
     <title>countPrimes</title>
 
-    <p>Count primes needs to check each value from 1 to `n` to see if it is prime. Fortunately, we now have `isPrime` to do the checking for us. We will need an accumulator to keep track of how many primes we have seen. The guide below will help you build out the needed code in the exercise below.</p>
+    <p>Count primes needs to check each value from 1 to <pf>n</pf> to see if it is prime. Fortunately, we now have <pf>isPrime</pf> to do the checking for us. We will need an accumulator to keep track of how many primes we have seen. The guide below will help you build out the needed code in the exercise below.</p>
 
     <activity label="countPrimes-instructions">
       <title>countPrimes Guide</title>
@@ -113,20 +113,20 @@
         <p>Work through the tabs (a), (b)... in order to build your way to a solution of the exercise below.</p>
       </introduction>
       <task>
-        <p>Let's start in on the rest of the code for `countPrimes`. We know we need to count from 1 to `n`. Write a loop that does that and prints out each value. Don't worry about checking primes or passing the tests. Just make sure the loop counts through he right numbers.</p>
+        <p>Let's start in on the rest of the code for <pf>countPrimes</pf>. We know we need to count from 1 to <pf>n</pf>. Write a loop that does that and prints out each value. Don't worry about checking primes or passing the tests. Just make sure the loop counts through he right numbers.</p>
       </task>
       <task>
-        <p>To identify the primes will need your `isPrime` function. Copy the final version and paste it into the program below where the comment indicates.</p>
-        <p>Try testing each number that your loop counts through by calling your `isPrime` function and passing it the current number. If `isPrime` returns true, print out `"Prime"`.</p>
+        <p>To identify the primes will need your <pf>isPrime</pf> function. Copy the final version and paste it into the program below where the comment indicates.</p>
+        <p>Try testing each number that your loop counts through by calling your <pf>isPrime</pf> function and passing it the current number. If <pf>isPrime</pf> returns true, print out <pf>"Prime"</pf>.</p>
       </task>
       <task>
-        <p>Any time you print `"Prime"`, also make sure to increment the variable `numPrimes`. It will get returned at the end of the function.</p>
-        <p>You should now pass the tests. You can remove the `cout` lines from the function.</p>
+        <p>Any time you print <pf>"Prime"</pf>, also make sure to increment the variable <pf>numPrimes</pf>. It will get returned at the end of the function.</p>
+        <p>You should now pass the tests. You can remove the <pf>cout</pf> lines from the function.</p>
       </task>
     </activity>
 
     <exercise label="countPrimes">
-    <statement>Use the guide above to build `countPrimes`.</statement>
+    <statement>Use the guide above to build <pf>countPrimes</pf>.</statement>
     <program interactive="activecode"
              >
     <preamble  visible="no">
@@ -146,7 +146,7 @@
   <subsection>
     <title>Wrapup</title>
     <!-- todo xref to dev chapter-->
-    <p>You now hopefully have a working `countPrimes` function. At this point, building a main function to get some input and print out the final result is easy. Here is such a program. If you want, you can paste in your functions from the exercise above to try it out:</p>
+    <p>You now hopefully have a working <pf>countPrimes</pf> function. At this point, building a main function to get some input and print out the final result is easy. Here is such a program. If you want, you can paste in your functions from the exercise above to try it out:</p>
 
     <program interactive="activecode">
 <code>
@@ -157,12 +157,12 @@
 
     <p>This case study previews some of the advantages of doing <term>iterative development</term> - building and testing one piece of a program at a time. We will learn more about solving complex problems by breaking them down in a future chapter. </p>
 
-    <p>It also demonstrates the advantages of building <term>abstraction</term>s - wrapping complex logic into a function like `isPrime` so that you don't have to worry about those details when you just want to know <q>is this number prime?</q>.</p>
+    <p>It also demonstrates the advantages of building <term>abstraction</term>s - wrapping complex logic into a function like <pf>isPrime</pf> so that you don't have to worry about those details when you just want to know <q>is this number prime?</q>.</p>
     
-    <p>Instead of writing that function, we could have written the logic for `isPrime` into `countPrimes`. That would involve a nested loop where the outer loop counted `i` from 2 to `n` and the inner loop counted from 2 to `i`, checking to see if any value divides into `i`. Although that would work, it would be more complex to build and debug. Making the </p>
+    <p>Instead of writing that function, we could have written the logic for <pf>isPrime</pf> into <pf>countPrimes</pf>. That would involve a nested loop where the outer loop counted <pf>i</pf> from 2 to <pf>n</pf> and the inner loop counted from 2 to <pf>i</pf>, checking to see if any value divides into <pf>i</pf>. Although that would work, it would be more complex to build and debug. Making the </p>
 
     <note>
-    <p>Our functions aren't very efficient. There are some tweaks we could make to speed them up (for instance, there is no point in checking values larger than <m>\sqrt{n}</m> to see if they are factors, so we could stop the `isPrime` loop at that point). But there are much faster algorithms for determining if values are prime. So if efficiency was a big concern, we would be better off going back to the drawing board than trying to improve this algorithm.</p></note>
+    <p>Our functions aren't very efficient. There are some tweaks we could make to speed them up (for instance, there is no point in checking values larger than <m>\sqrt{n}</m> to see if they are factors, so we could stop the <pf>isPrime</pf> loop at that point). But there are much faster algorithms for determining if values are prime. So if efficiency was a big concern, we would be better off going back to the drawing board than trying to improve this algorithm.</p></note>
 
   </subsection>
 </section>

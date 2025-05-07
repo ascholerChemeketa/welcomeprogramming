@@ -14,18 +14,18 @@ In this section, we present <term>bottom-up design</term>, which goes the other 
 <p>
 Looking at the rules of Crazy Eights, we can identify some of the functions we'll need:
 <ul>
-<li><p>Create the deck, the players, and the discard and draw piles. Deal the cards and set up the game. (<c>Eights</c> constructor)</p></li>
-<li><p>Check whether the game is over. (<c>isDone</c>)</p></li>
-<li><p>If the draw pile is empty, shuffle the discard pile and move the cards into the draw pile. (<c>reshuffle</c>)</p></li>
-<li><p>Draw a card, reshuffling the discard pile if necessary. (<c>drawCard</c>)</p></li>
-<li><p>Keep track of whose turn it is, and switch from one player to the next. (<c>nextPlayer</c>)</p></li>
-<li><p>Display the state of the game, and wait for the user before running the next turn. (<c>displayState</c>)</p></li>
+<li><p>Create the deck, the players, and the discard and draw piles. Deal the cards and set up the game. (<pf>Eights</pf> constructor)</p></li>
+<li><p>Check whether the game is over. (<pf>isDone</pf>)</p></li>
+<li><p>If the draw pile is empty, shuffle the discard pile and move the cards into the draw pile. (<pf>reshuffle</pf>)</p></li>
+<li><p>Draw a card, reshuffling the discard pile if necessary. (<pf>drawCard</pf>)</p></li>
+<li><p>Keep track of whose turn it is, and switch from one player to the next. (<pf>nextPlayer</pf>)</p></li>
+<li><p>Display the state of the game, and wait for the user before running the next turn. (<pf>displayState</pf>)</p></li>
 </ul>
 </p>
 
 <p>
 Now we can start implementing the pieces.
-Here is the beginning of the class definition for <c>Eights</c>, which encapsulates the state of the game:
+Here is the beginning of the class definition for <pf>Eights</pf>, which encapsulates the state of the game:
 </p>
 
 <p>
@@ -39,11 +39,11 @@ Here is the beginning of the class definition for <c>Eights</c>, which encapsula
 <p>
 In this version, there are always two players.
 One of the exercises at the end of the chapter asks you to modify this code to handle more players.
-The <c>Eights</c> class also includes a draw pile, a discard pile, and a <c>Scanner</c>, which we will use to prompt the user after each turn.
+The <pf>Eights</pf> class also includes a draw pile, a discard pile, and a <pf>Scanner</pf>, which we will use to prompt the user after each turn.
 </p>
 
 <p>
-The constructor for <c>Eights</c> initializes the instance variables and deals the cards, similar to <xref ref="dealing">Section</xref>.
+The constructor for <pf>Eights</pf> initializes the instance variables and deals the cards, similar to <xref ref="dealing">Section</xref>.
 The next piece we'll need is a function that checks whether the game is over.
 If either hand is empty, we're done:
 </p>
@@ -62,10 +62,10 @@ Here is a function for that:
 </program>
 
 <p>
-The first line saves the top card from <c>discardPile</c>.
-The next line transfers the rest of the cards to <c>drawPile</c>.
-Then we put the saved card back into <c>discardPile</c> and shuffle <c>drawPile</c>.
-We can use <c>reshuffle</c> as part of the <c>draw</c> function:
+The first line saves the top card from <pf>discardPile</pf>.
+The next line transfers the rest of the cards to <pf>drawPile</pf>.
+Then we put the saved card back into <pf>discardPile</pf> and shuffle <pf>drawPile</pf>.
+We can use <pf>reshuffle</pf> as part of the <pf>draw</pf> function:
 </p>
 
 <program xml:id="extending-classes_eights-class-4">
@@ -73,7 +73,7 @@ We can use <c>reshuffle</c> as part of the <c>draw</c> function:
 </program>
 
 <p>
-The <c>nextPlayer</c> function takes the current player as a parameter and returns the player who should go next:
+The <pf>nextPlayer</pf> function takes the current player as a parameter and returns the player who should go next:
 </p>
 
 <program xml:id="extending-classes_eights-class-5">
@@ -81,7 +81,7 @@ The <c>nextPlayer</c> function takes the current player as a parameter and retur
 </program>
 
 <p>
-The last function from our bottom-up design is <c>displayState</c>.
+The last function from our bottom-up design is <pf>displayState</pf>.
 It displays the hand of each player, the contents of the discard pile, and the number of cards in the draw pile.
 Finally, it waits for the user to press the <term>Enter</term> key:
 </p>
@@ -91,8 +91,8 @@ Finally, it waits for the user to press the <term>Enter</term> key:
 </program>
 
 <p>
-Using these pieces, we can write <c>takeTurn</c>, which executes one player's turn.
-It reads the top card off the discard pile and passes it to <c>player.play</c>, which you saw in the previous section.
+Using these pieces, we can write <pf>takeTurn</pf>, which executes one player's turn.
+It reads the top card off the discard pile and passes it to <pf>player.play</pf>, which you saw in the previous section.
 The result is the card the player chose, which is added to the discard pile:
 </p>
 
@@ -101,7 +101,7 @@ The result is the card the player chose, which is added to the discard pile:
 </program>
 
 <p>
-Finally, we use <c>takeTurn</c> and the other functions to write <c>playGame</c>:
+Finally, we use <pf>takeTurn</pf> and the other functions to write <pf>playGame</pf>:
 </p>
 
 <program xml:id="extending-classes_eights-class-8">

@@ -3,26 +3,26 @@
 
   <title>Exception Passing Through Levels</title>
 
-  <p>Instead of catching the exception in `mediumJob`, we could catch it at a higher level, like `main`:</p>
+  <p>Instead of catching the exception in <pf>mediumJob</pf>, we could catch it at a higher level, like <pf>main</pf>:</p>
 
   <program xml:id="references-exceptions_exceptions-catching-1" interactive="activecode">
 <xi:include href="../../programs/references-exceptions/exceptions-catching-1.cpp" parse="text"/>
 </program>
 
-  <p>Here, the exception will happen in line 8. Since there is no `try` block around line 8 in `mediumJob`, we immediately exit that function and jump back to `bigJob`. `bigJob` called `mediumJob` on line 14, so that location is checked for a `try` block. Because there is none, we exit `bigJob` without running lines 15-16 and jump back to main.</p>
+  <p>Here, the exception will happen in line 8. Since there is no <pf>try</pf> block around line 8 in <pf>mediumJob</pf>, we immediately exit that function and jump back to <pf>bigJob</pf>. <pf>bigJob</pf> called <pf>mediumJob</pf> on line 14, so that location is checked for a <pf>try</pf> block. Because there is none, we exit <pf>bigJob</pf> without running lines 15-16 and jump back to main.</p>
 
-  <p>Finally, in main where we called `bigJob` (line 21) the code is inside of a `try`. So execution in the `try` stops (line 22 never runs) and jumps to the start of the attached `catch`. Lines 24-25 then run.</p>
+  <p>Finally, in main where we called <pf>bigJob</pf> (line 21) the code is inside of a <pf>try</pf>. So execution in the <pf>try</pf> stops (line 22 never runs) and jumps to the start of the attached <pf>catch</pf>. Lines 24-25 then run.</p>
 
   <figure>
-    <caption>The function `substr` throws an exception that passes through `mediumJob` and `bigJob` before being caught in `main`.</caption>
+    <caption>The function <pf>substr</pf> throws an exception that passes through <pf>mediumJob</pf> and <pf>bigJob</pf> before being caught in <pf>main</pf>.</caption>
     <image width="35%"
             source="images/exceptions-multiple-level.svg"/>
   </figure>
 
-  <p>A `try...catch` in `mediumJob()` or `bigJob()` would have caught the exception and stopped it from passing up on to higher levels. But if they do not want to try to handle the exception, no extra code is needed in them to allow the exception to pass up.</p>
+  <p>A <pf>try...catch</pf> in <pf>mediumJob()</pf> or <pf>bigJob()</pf> would have caught the exception and stopped it from passing up on to higher levels. But if they do not want to try to handle the exception, no extra code is needed in them to allow the exception to pass up.</p>
 
   <p>When an exception passes up through levels of function calls like this, we say it is being <term>propagated</term> up the call stack. <idx><h>propagate</h></idx>.</p>
 
-  <note><p>Execution not surrounded by a `try` block stops execution of the function the code is in and immediately jumps back to the caller. No value is returned via the normal `return` process.</p></note>
+  <note><p>Execution not surrounded by a <pf>try</pf> block stops execution of the function the code is in and immediately jumps back to the caller. No value is returned via the normal <pf>return</pf> process.</p></note>
 
 </section>

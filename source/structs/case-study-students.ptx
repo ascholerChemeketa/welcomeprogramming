@@ -4,7 +4,7 @@
   <title>Case Study: Students</title>
 
   <introduction>
-    <p>We have a datafile ``Students.txt`` below that has information about the students in a course. For each student there are 3 lines:
+    <p>We have a datafile <pf>Students.txt</pf> below that has information about the students in a course. For each student there are 3 lines:
       <ul>
         <li>Name (first middle last)</li>
         <li>Status (inactive or active)</li>
@@ -60,7 +60,7 @@ Active
 
     <p>For each Student we need to store the name and the grades. While we could store the name as a single string, it might be helpful to have the first, middle and last names separated so that we can easily print a name in different formats (e.g. <q>first, last</q> or <q>first last</q>).</p>
     
-    <p>Then we have the status. We know there are only two possible values to store, so it would make sense to make an enumeration for them. We could of course just store the string `"Active"` or `"Inactive"`, but an enumeration is more efficient to store and work with. And we won't have to worry about typos as much. The compiler can't identify `status == "Atcive"` as an error, but it can identify that `status == Status.ATCIVE` doesn't make sense.</p>
+    <p>Then we have the status. We know there are only two possible values to store, so it would make sense to make an enumeration for them. We could of course just store the string <pf>"Active"</pf> or <pf>"Inactive"</pf>, but an enumeration is more efficient to store and work with. And we won't have to worry about typos as much. The compiler can't identify <pf>status == "Atcive"</pf> as an error, but it can identify that <pf>status == Status.ATCIVE</pf> doesn't make sense.</p>
 
     <p>Finally we need a list of scores, which sounds like a vector.</p>
 
@@ -75,9 +75,9 @@ Active
   <subsection>
     <title>Parsing a Name</title>
 
-    <p>Now that we know how we want to store the data, we can worry about creating a student from three lines of text. There will be a significant amount of logic in turning text like `Byron U. Stout` or `64,70,94,65,90,63,88,65,76,65` into the right data. So to make the job easier to tackle, let's break it up.</p>
+    <p>Now that we know how we want to store the data, we can worry about creating a student from three lines of text. There will be a significant amount of logic in turning text like <pf>Byron U. Stout</pf> or <pf>64,70,94,65,90,63,88,65,76,65</pf> into the right data. So to make the job easier to tackle, let's break it up.</p>
 
-    <p>First we will just worry about turning a string like `Byron U. Stout` into a `Name` struct. We could either find each space and use those to chop up the string. But since the tokens are separated by whitespaces, we could also use a `stringstream` to "read" the data from the string into the parts of a name. Complete the code to do this job using a stringstream:</p>
+    <p>First we will just worry about turning a string like <pf>Byron U. Stout</pf> into a <pf>Name</pf> struct. We could either find each space and use those to chop up the string. But since the tokens are separated by whitespaces, we could also use a <pf>stringstream</pf> to "read" the data from the string into the parts of a name. Complete the code to do this job using a stringstream:</p>
     
   <exercise label="mucedwsdfsfsdf_2"
             numbered="yes"
@@ -117,11 +117,11 @@ Active
 
   <subsection>
     <title>Getting the Status</title>
-    <p>Next we need a function to turn the string `Active` or `Inactive` into a Status value.</p>
+    <p>Next we need a function to turn the string <pf>Active</pf> or <pf>Inactive</pf> into a Status value.</p>
     <p>We can use a simple if statement to check the string and return the right value. Write the code for this function:</p>
     <exercise label="sdf4f3f34f">
       <statement>
-        <p>Construct the algorithm to return either `Status::ACTIVE` or `Status::INACTIVE` based on the contents of the parameter `line`. Throw a `logic_error` if `line` is not `"Active"` or `"Inactive"`:</p>
+        <p>Construct the algorithm to return either <pf>Status::ACTIVE</pf> or <pf>Status::INACTIVE</pf> based on the contents of the parameter <pf>line</pf>. Throw a <pf>logic_error</pf> if <pf>line</pf> is not <pf>"Active"</pf> or <pf>"Inactive"</pf>:</p>
       </statement>
       <program interactive="activecode">
         <preamble><![CDATA[
@@ -180,7 +180,7 @@ add it to the vector
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Construct the algorithm to produce a vector of doubles from the line of scores. Note that the function takes `line` by value so we can safely modify the copy that results. If we took it by const reference, we would not be able to modify `line` by removing one part at a time.</p>
+      <p>Construct the algorithm to produce a vector of doubles from the line of scores. Note that the function takes <pf>line</pf> by value so we can safely modify the copy that results. If we took it by const reference, we would not be able to modify <pf>line</pf> by removing one part at a time.</p>
     </statement>
 <blocks>
   <block name="a" depends="">

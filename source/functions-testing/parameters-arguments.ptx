@@ -16,7 +16,7 @@
 
   <sidebyside widths="45% 45%">
     <listing>
-      <caption><c>myFunction</c> has two parameters, <c>x</c> and <c>y</c>.</caption>
+      <caption><pf>myFunction</pf> has two parameters, <pf>x</pf> and <pf>y</pf>.</caption>
       <program>
 int myFunction(int x, int y) {
   ...
@@ -24,7 +24,7 @@ int myFunction(int x, int y) {
 </program>
     </listing>
     <listing>
-      <caption>The arguments 2, 4 are being passed to <c>myFunction</c> in a call made from <c>main</c>.</caption>
+      <caption>The arguments 2, 4 are being passed to <pf>myFunction</pf> in a call made from <pf>main</pf>.</caption>
       <program>
 int main() {
     int result = myFunction(2, 4);
@@ -36,7 +36,7 @@ int main() {
   
   <exercise label="params_args_4">
     <statement>
-      <p>Match the function declaration to an example of its function call. (We haven't learned much about <c>string</c>s, but they are the type of data for pieces of text like <c>"hello"</c>.)</p>
+      <p>Match the function declaration to an example of its function call. (We haven't learned much about <pf>string</pf>s, but they are the type of data for pieces of text like <pf>"hello"</pf>.)</p>
     </statement>
     <feedback>
       <p>Try again!</p>
@@ -69,25 +69,25 @@ int main() {
           <title>Valid parameter lists:</title>
           <ul>
             <li>
-              <c>int foo() {</c>
+              <pf>int foo() {</pf>
             </li>
             <li>
-              <c>int foo(int x) {</c>
+              <pf>int foo(int x) {</pf>
             </li>
             <li>
-              <c>int foo(double x) {</c>
+              <pf>int foo(double x) {</pf>
             </li>
             <li>
-              <c>int foo(int x, int y, int z) {</c>
+              <pf>int foo(int x, int y, int z) {</pf>
             </li>
           </ul>
         </li>
         <li>
           <title>Invalid parameter lists:</title>
           <ul>
-            <li><c>int foo {</c> (missing the parameter list)</li>
-            <li><c>int foo(int x, y) {</c> (no type for y)</li>
-            <li><c>int foo(int x double y) {</c> (no comma between x and y)</li>
+            <li><pf>int foo {</pf> (missing the parameter list)</li>
+            <li><pf>int foo(int x, y) {</pf> (no type for y)</li>
+            <li><pf>int foo(int x double y) {</pf> (no comma between x and y)</li>
           </ul>
         </li>
       </dl>
@@ -103,27 +103,27 @@ int main() {
       <choice>
         <statement id="multiple_params_1_opt_a">
           <p>
-            <c>totalcost (double cost, tax, discount)</c>
+            <pf>totalcost (double cost, tax, discount)</pf>
           </p>
         </statement>
         <feedback id="multiple_params_1_opt_a">
-          <p><c>totalcost</c> needs a return type, and each parameter needs a data type.</p>
+          <p><pf>totalcost</pf> needs a return type, and each parameter needs a data type.</p>
         </feedback>
       </choice>
       <choice>
         <statement id="multiple_params_1_opt_b">
           <p>
-            <c>totalCost (double cost, double tax) {</c>
+            <pf>totalCost (double cost, double tax) {</pf>
           </p>
         </statement>
         <feedback id="multiple_params_1_opt_b">
-          <p><c>totalcost</c> needs a return type.</p>
+          <p><pf>totalcost</pf> needs a return type.</p>
         </feedback>
       </choice>
       <choice correct="yes">
         <statement id="multiple_params_1_opt_c">
           <p>
-            <c>void totalCost (double cost, double tax, double discount) {</c>
+            <pf>void totalCost (double cost, double tax, double discount) {</pf>
           </p>
         </statement>
         <feedback id="multiple_params_1_opt_c">
@@ -139,28 +139,28 @@ int main() {
   <subsection>
     <title>Argument Types</title>
 
-    <p>Arguments are matched in order to the parameters of a function. Given <c>int myFunction(int x, int y)</c>, the call <c>myFunction(3, 6)</c> is passing 3 to use for the value of <c>x</c> and 6 to use for
-      <c>y</c>. Some programming languages allow you to specify what argument goes with which parameter,
+    <p>Arguments are matched in order to the parameters of a function. Given <pf>int myFunction(int x, int y)</pf>, the call <pf>myFunction(3, 6)</pf> is passing 3 to use for the value of <pf>x</pf> and 6 to use for
+      <pf>y</pf>. Some programming languages allow you to specify what argument goes with which parameter,
       but C++ does not. Thus you need to make sure you pass parameters in the correct order. If
-      there is a function <c>double round(double number, int places)</c> and you want to call it to round
-      3.14159 to 2 decimal places, you must call it with <c>round(3.14159, 2)</c>. If you write
-      <c>round(2, 3.14159)</c>, you are saying <q>round 2 to 3.14159 decimal places</q>.</p>
+      there is a function <pf>double round(double number, int places)</pf> and you want to call it to round
+      3.14159 to 2 decimal places, you must call it with <pf>round(3.14159, 2)</pf>. If you write
+      <pf>round(2, 3.14159)</pf>, you are saying <q>round 2 to 3.14159 decimal places</q>.</p>
 
     <p>Generally, an argument passed to a function must match the type of that parameter. If you try
       to pass a value of the wrong type, C++ will look at what is being passed to decide what to do: <ol>
         <li>If the argument can safely be converted to the parameter type, C++ will do so. For
-      example, if you have a function <c>int myFunction(double x)</c> and you call it with
-      <c>myFunction(3)</c>, C++ will convert the integer 3 to the double 3.0.</li>
+      example, if you have a function <pf>int myFunction(double x)</pf> and you call it with
+      <pf>myFunction(3)</pf>, C++ will convert the integer 3 to the double 3.0.</li>
         <li><p>If the argument can be converted to the parameter type, but the conversion might lose
-      information C++ will give a warning. For example, if you have a function <c>int myFunction(int x)</c> and you call it with <c>myFunction(3.14159)</c>, C++ will warn you that information may be
+      information C++ will give a warning. For example, if you have a function <pf>int myFunction(int x)</pf> and you call it with <pf>myFunction(3.14159)</pf>, C++ will warn you that information may be
       lost. As always, you should consider warnings like this to be a giant flashing danger sign. In
-      that function call, <c>x</c> would have the value 3 and you would lose the decimal information.</p>
+      that function call, <pf>x</pf> would have the value 3 and you would lose the decimal information.</p>
       <p>If you want to lose information, do a cast to explicitly tell the compiler (and other programmers) that you are
-      intentionally changing the type. Something like: <c>myFunction( static_cast&lt;int&gt;(3.14159) )</c></p>
+      intentionally changing the type. Something like: <pf>myFunction( static_cast&lt;int&gt;(3.14159) )</pf></p>
       </li>
         <li>If the argument cannot be converted to the parameter type, C++ will give an error. For
-      example, if you have a function <c>int myFunction(double x)</c> and you call it with
-      <c>myFunction("hello")</c>, C++ will give an error because it cannot convert the string <c>"hello"</c>
+      example, if you have a function <pf>int myFunction(double x)</pf> and you call it with
+      <pf>myFunction("hello")</pf>, C++ will give an error because it cannot convert the string <pf>"hello"</pf>
       into a double.</li>
       </ol>
     </p>
@@ -168,7 +168,7 @@ int main() {
     
   <exercise label="multiple_params_2">
     <statement>
-      <p>Which of the following is a legal function call of the function below? Assume you are calling from main, where there are local variables: <c>double p = 3.14;</c> and <c>int x = 12;</c></p>
+      <p>Which of the following is a legal function call of the function below? Assume you are calling from main, where there are local variables: <pf>double p = 3.14;</pf> and <pf>int x = 12;</pf></p>
       <program>
       double multiply(int num, double other) {
         ...
@@ -178,7 +178,7 @@ int main() {
       <choice>
         <statement id="multiple_params_2_opt_a">
           <p>
-            <c>multiply(int x, double p);</c>
+            <pf>multiply(int x, double p);</pf>
           </p>
         </statement>
         <feedback id="multiple_params_2_opt_a">
@@ -188,7 +188,7 @@ int main() {
       <choice correct="yes">
         <statement id="multiple_params_2_opt_b">
           <p>
-            <c>multiply(x, p);</c>
+            <pf>multiply(x, p);</pf>
           </p>
         </statement>
         <feedback id="multiple_params_2_opt_b">
@@ -198,7 +198,7 @@ int main() {
       <choice>
         <statement id="multiple_params_2_opt_c">
           <p>
-            <c>multiply(double p, int x);</c>
+            <pf>multiply(double p, int x);</pf>
           </p>
         </statement>
         <feedback id="multiple_params_2_opt_c">
@@ -208,7 +208,7 @@ int main() {
       <choice>
         <statement id="multiple_params_2_opt_d">
           <p>
-            <c>multiply(p, x);</c>
+            <pf>multiply(p, x);</pf>
           </p>
         </statement>
         <feedback id="multiple_params_2_opt_d">
@@ -227,7 +227,7 @@ int main() {
       <idx><h>pass by value</h></idx>
     </p>
 
-    <p>Consider this program displayed in Codelens. Notice that when <c>y</c> is passed to the function, it is only the value <c>5</c> that is passed. That value is <em>copied</em> into <c>x</c>. Anything that happens to <c>x</c> in the function has no impact on <c>y</c> in <c>main</c>.</p>
+    <p>Consider this program displayed in Codelens. Notice that when <pf>y</pf> is passed to the function, it is only the value <pf>5</pf> that is passed. That value is <em>copied</em> into <pf>x</pf>. Anything that happens to <pf>x</pf> in the function has no impact on <pf>y</pf> in <pf>main</pf>.</p>
 
     <program xml:id="functions-testing_parameters-arguments-1"
              interactive="codelens">

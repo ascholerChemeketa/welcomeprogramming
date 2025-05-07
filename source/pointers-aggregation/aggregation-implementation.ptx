@@ -3,15 +3,15 @@
 
   <title>Implementing Aggregation</title>
 
-  <p>To implement aggregation in C++, we need to have a variable that gives us access to some memory without owning it. That means we can't use a regular variable, like a `Point m_center`, as regular variables <q>own</q> a chunk of memory. When a regular variable goes out of scope, the variable it names goes away. Pointers (and references) are different. A pointer just names a place in memory where we store a memory address (hopefully the address of some useful piece of data). When the pointer goes away, all that is lost is that copy of the address. The data at that address is not lost.</p>
+  <p>To implement aggregation in C++, we need to have a variable that gives us access to some memory without owning it. That means we can't use a regular variable, like a <pf>Point m_center</pf>, as regular variables <q>own</q> a chunk of memory. When a regular variable goes out of scope, the variable it names goes away. Pointers (and references) are different. A pointer just names a place in memory where we store a memory address (hopefully the address of some useful piece of data). When the pointer goes away, all that is lost is that copy of the address. The data at that address is not lost.</p>
 
   <insight>
     <p>
       Different types of variables have different ownership semantics (meaning).
       <ul>
-        <li>A <q>regular</q> variable (like `x` in `int x = 10;`) owns the memory it is using.</li>
-        <li>A <q>reference</q> variable (like `r` in `int&amp; r = x;`) does NOT own the memory it is using. It is an alias for another variable.</li>
-        <li>A <q>pointer</q> variable (like `p` in `int* p = &amp;x;`) may or may not own the memory it points at. Until we learn about dynamic allocation, we will assume pointers do NOT own the memory they point at.</li>
+        <li>A <q>regular</q> variable (like <pf>x</pf> in <pf>int x = 10;</pf>) owns the memory it is using.</li>
+        <li>A <q>reference</q> variable (like <pf>r</pf> in <pf>int&amp; r = x;</pf>) does NOT own the memory it is using. It is an alias for another variable.</li>
+        <li>A <q>pointer</q> variable (like <pf>p</pf> in <pf>int* p = &amp;x;</pf>) may or may not own the memory it points at. Until we learn about dynamic allocation, we will assume pointers do NOT own the memory they point at.</li>
       </ul>
     </p>
   </insight>
@@ -30,15 +30,15 @@
 
   <p>Key things to note about this implementation:
     <ul>
-      <li>The `m_center` is now a `Point*` (line 24).</li>
-      <li>The constructor takes a `Point *` (line 5).</li>
-      <li>To use `m_center`'s functions, we need to use the `->` operator (lines 14, 18).</li>
+      <li>The <pf>m_center</pf> is now a <pf>Point*</pf> (line 24).</li>
+      <li>The constructor takes a <pf>Point *</pf> (line 5).</li>
+      <li>To use <pf>m_center</pf>'s functions, we need to use the <pf>-></pf> operator (lines 14, 18).</li>
       <li>When we construct a Circle, we pass it the address of an already existing Point (lines 34 and 37).</li>
     </ul>
     We have to pass an existing Point object to the Circle constructor because the Circle will not have its own storage for a Point. Instead, it will just store the address of a Point, which means that Point must already exist elsewhere in memory.
   </p>
 
-  <p>A memory diagram for the main function after all of the Circles are constructed would look lime the image below. `c1` and `c2` don't hold their own Point objects, they hold the memory address of `p1`.</p>
+  <p>A memory diagram for the main function after all of the Circles are constructed would look lime the image below. <pf>c1</pf> and <pf>c2</pf> don't hold their own Point objects, they hold the memory address of <pf>p1</pf>.</p>
 
   <figure>
     <caption>Memory diagram of p1, c1, and c2 using aggregation.</caption>
@@ -47,17 +47,17 @@
            alt="In Circles c1 and c2, the m_center holds the memory address of Point p1"/>
   </figure>
 
-  <p>This means, that any change to `p1` will be <q>seen</q> by the two Circle objects. We can see this in the last few lines of the program above. Shifting Point `p1` affects the center of both `c1` and `c2` because they both use the actual Point `p1` as their center.</p>
+  <p>This means, that any change to <pf>p1</pf> will be <q>seen</q> by the two Circle objects. We can see this in the last few lines of the program above. Shifting Point <pf>p1</pf> affects the center of both <pf>c1</pf> and <pf>c2</pf> because they both use the actual Point <pf>p1</pf> as their center.</p>
 
   <note>
-    <p>This is a critical distinction between aggregation and composition. If we made two circles from a Point `p1` with the composition version of Circle, each Circle would make its own copy of the data from `p1` and store that data.</p>
+    <p>This is a critical distinction between aggregation and composition. If we made two circles from a Point <pf>p1</pf> with the composition version of Circle, each Circle would make its own copy of the data from <pf>p1</pf> and store that data.</p>
     <figure>
       <caption>Memory diagram of p1, c1, and c2 using composition.</caption>
       <image source="images/composition-circles.svg"
              width="80%"
              alt="In Circles c1 and c2, the m_center hold copies of the data from p1"/>
     </figure>
-    <p>Given this structure in memory, future changes to `p1` would not affect either Circle's center point as those are different objects in memory.</p>
+    <p>Given this structure in memory, future changes to <pf>p1</pf> would not affect either Circle's center point as those are different objects in memory.</p>
   </note>
 
 </section>

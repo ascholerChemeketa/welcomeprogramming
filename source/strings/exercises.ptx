@@ -6,8 +6,8 @@
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Build the function `censorLetter` which takes a string and
-        a char to censor as parameters and returns a <q>censored</q> string where all copies of the char are replaced with `*`. For example, `censorLetter("Bye
+      <p>Build the function <pf>censorLetter</pf> which takes a string and
+        a char to censor as parameters and returns a <q>censored</q> string where all copies of the char are replaced with <pf>*</pf>. For example, `censorLetter("Bye
         world", 'o')` returns the string <q>Bye w*rld</q>.</p>
     </statement>
     <blocks>
@@ -73,8 +73,8 @@
       <p>Palindromes are symmetrical strings. That is a string that reads the same forwards and backwards.
         palindromes: <q>hih</q>, <q>i</q>, <q>bob</q>, <q>tenet</q>, <q>soos</q>, <q>madam</q> . not
         palindromes: <q>join</q>, <q>hat</q>, <q>frat</q>, <q>supper</q>, <q>rhythm</q>.</p>
-      <p>Let's write a function called `ispalindrome` which takes a string named `input` and returns a
-        `bool`. We will do so by using two indexes. One that starts at 0 and counts up. The other will start at the end of the string and count down. The function returns true if the string is a palindrome and false if not.  The code is
+      <p>Let's write a function called <pf>ispalindrome</pf> which takes a string named <pf>input</pf> and returns a
+        <pf>bool</pf>. We will do so by using two indexes. One that starts at 0 and counts up. The other will start at the end of the string and count down. The function returns true if the string is a palindrome and false if not.  The code is
         mixed up and contains extra blocks. Put the necessary blocks in the correct order.</p>
     </statement>
     <blocks>
@@ -166,7 +166,7 @@ int main() {
           </iotest>
         </tests>
     </program>
-    <hint><p>Use `.length()` to figure out the length of the string. You can use that to figure out the middle and end position.</p></hint>
+    <hint><p>Use <pf>.length()</pf> to figure out the length of the string. You can use that to figure out the middle and end position.</p></hint>
     </statement>
   </exercise>
 
@@ -174,7 +174,7 @@ int main() {
 
   <exercise label="wefwddfdss33e">
     <statement>
-      <p>Write a `bool caturdayCheck(string word)` function. It should return `true` if the word has `"cat"` starting at either the first or second character of the word. Otherwise, return false.</p>
+      <p>Write a <pf>bool caturdayCheck(string word)</pf> function. It should return <pf>true</pf> if the word has <pf>"cat"</pf> starting at either the first or second character of the word. Otherwise, return false.</p>
       <p>For example:
       </p>
       <pre>
@@ -221,7 +221,7 @@ TEST_CASE("caturdayCheck") {
 
   <exercise label="wwgertwh454wefw3erthed23qgrfer">
     <statement>
-      <p>Write a `string wordShortener(string startWord)` function. If the `startWord` is 4 characters or less, return it. If it is more than 4 characters, return a new string that has the first two characters of the word followed by the last two characters.</p>
+      <p>Write a <pf>string wordShortener(string startWord)</pf> function. If the <pf>startWord</pf> is 4 characters or less, return it. If it is more than 4 characters, return a new string that has the first two characters of the word followed by the last two characters.</p>
       <p>For example:
       </p>
       <pre>
@@ -257,13 +257,13 @@ TEST_CASE("wordShortener") {
         </tests>
     </program>
     </statement>
-    <hint>`substr` is useful for getting the two chunks. If the string has length `n`, what index is the next to last character at?</hint>
+    <hint><pf>substr</pf> is useful for getting the two chunks. If the string has length <pf>n</pf>, what index is the next to last character at?</hint>
   </exercise>
   
 
   <exercise label="wwgertwh4543erthed23qgrfer">
     <statement>
-      <p>Write the function `boldContents`. It takes a string that contains `[b]???[/b]` where ??? can be any text. It should return a string containing just the ??? part.</p>
+      <p>Write the function <pf>boldContents</pf>. It takes a string that contains <pf>[b]???[/b]</pf> where ??? can be any text. It should return a string containing just the ??? part.</p>
       <p>For example:
       </p>
       <pre>
@@ -301,14 +301,14 @@ TEST_CASE("boldContents") {
         </tests>
     </program>
     </statement>
-    <hint>You can use `.find()` to locate the start and end. You will need to do math to figure out how many characters are between them.</hint>
+    <hint>You can use <pf>.find()</pf> to locate the start and end. You will need to do math to figure out how many characters are between them.</hint>
   </exercise>
 
 
 
   <exercise label="sdfwefw3e4t34">
     <statement>
-      <p>Write an `string initials(string name)` function that takes a name like `Sergio Romas Garcia` or `Jane Goodall` and returns the initials for that name (`SRG` or `JG`). You should use spaces to identify name parts. You can assume there are always either one or two spaces.</p>
+      <p>Write an <pf>string initials(string name)</pf> function that takes a name like <pf>Sergio Romas Garcia</pf> or <pf>Jane Goodall</pf> and returns the initials for that name (<pf>SRG</pf> or <pf>JG</pf>). You should use spaces to identify name parts. You can assume there are always either one or two spaces.</p>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
 #include <iostream>
@@ -337,12 +337,12 @@ TEST_CASE("initials") {
     </program>
     </statement>
     <hint>Start by finding the first space. Then try finding a second space. Print out the locations.</hint>
-    <hint>Use a comparison with `string::npos` to check if the second space actually exists. You will need one set of logic for if there is one spaces and a different set if there are two spaces.</hint>
+    <hint>Use a comparison with <pf>string::npos</pf> to check if the second space actually exists. You will need one set of logic for if there is one spaces and a different set if there are two spaces.</hint>
   </exercise>
 
   <exercise label="sdfwewewefdw3e4t34">
     <statement>
-      <p>Write a function `int countQuotes(string s)`. It should count how many quotation marks (either `"` or `'`) there are in the string and return the total. Don't forget you need to use escape codes to represent the characters `"` and `'`. For example:
+      <p>Write a function <pf>int countQuotes(string s)</pf>. It should count how many quotation marks (either <pf>"</pf> or <pf>'</pf>) there are in the string and return the total. Don't forget you need to use escape codes to represent the characters <pf>"</pf> and <pf>'</pf>. For example:
       </p>
       <pre>
 Input: Hello "world" 'this' is "a" test
@@ -380,7 +380,7 @@ TEST_CASE("countQuotes") {
   
   <exercise label="wdqdw">
     <statement>
-      <p>Write a function `string leetspeak(string s)`. It should take the input string, and replace all the `e` characters with `3`, all the `o` characters with `0`, and all the `l` characters with `1`. Then return the modified version of the string. For example:
+      <p>Write a function <pf>string leetspeak(string s)</pf>. It should take the input string, and replace all the <pf>e</pf> characters with <pf>3</pf>, all the <pf>o</pf> characters with <pf>0</pf>, and all the <pf>l</pf> characters with <pf>1</pf>. Then return the modified version of the string. For example:
       </p>
       <pre>
 Input: hello world
@@ -418,7 +418,7 @@ TEST_CASE("leetspeak") {
   
   <exercise label="wdqfwefwefdw">
     <statement>
-      <p>Write a function `string stringCompactor(string s)`. It should take the input string and create a <q>compacted</q> version where only ever other character is kept (1st, 3rd, 5th,...). For example:
+      <p>Write a function <pf>string stringCompactor(string s)</pf>. It should take the input string and create a <q>compacted</q> version where only ever other character is kept (1st, 3rd, 5th,...). For example:
       </p>
       <pre>
 Input: hello
@@ -452,7 +452,7 @@ TEST_CASE("stringCompactor") {
         </tests>
     </program>
     </statement>
-    <hint>You will need a loop. The easiest way to do this is to build up a new string. But you could keep calling `erase` to delete the characters you do not want from the original string.</hint>
+    <hint>You will need a loop. The easiest way to do this is to build up a new string. But you could keep calling <pf>erase</pf> to delete the characters you do not want from the original string.</hint>
   </exercise>
 
 </exercises>

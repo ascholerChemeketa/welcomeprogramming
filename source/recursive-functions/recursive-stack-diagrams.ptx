@@ -10,23 +10,23 @@ The same kind of diagram can make it easier to interpret a recursive function.
 
 <p>
 Remember that every time a function gets called, Java creates a new frame that contains the function's parameters and variables.
-<xref ref="fig_stack2">Figure</xref> is a stack diagram for <c>countdown</c>, called with <c>n == 3</c>.
+<xref ref="fig_stack2">Figure</xref> is a stack diagram for <pf>countdown</pf>, called with <pf>n == 3</pf>.
 </p>
 <figure xml:id="fig_stack2" >
-<caption>Stack diagram for the <c>countdown</c> program.</caption>
+<caption>Stack diagram for the <pf>countdown</pf> program.</caption>
 <image width="73%" source="images/stack2.png" />
 </figure>
 <p>
-By convention, the frame for <c>main</c> is at the top, and the stack of other frames grows down.
+By convention, the frame for <pf>main</pf> is at the top, and the stack of other frames grows down.
 That way, we can draw stack diagrams on paper without needing to guess how far they will grow.
-The frame for <c>main</c> is empty because <c>main</c> does not have any variables.
-(It has the parameter <c>args</c>, but since we're not using it, we left it out of the diagram.)
+The frame for <pf>main</pf> is empty because <pf>main</pf> does not have any variables.
+(It has the parameter <pf>args</pf>, but since we're not using it, we left it out of the diagram.)
 </p>
 
 <p>
     <idx><h>base case</h></idx>
-There are four frames for <c>countdown</c>, each with a different value for the parameter <c>n</c>.
-The last frame, with <c>n == 0</c>, is called the <term>base case</term>.
+There are four frames for <pf>countdown</pf>, each with a different value for the parameter <pf>n</pf>.
+The last frame, with <pf>n == 0</pf>, is called the <term>base case</term>.
 It does not make a recursive call, so there are no more frames below it.
 </p>
 
@@ -35,7 +35,7 @@ It does not make a recursive call, so there are no more frames below it.
     <idx><h>exception</h><h>StackOverflow</h></idx>
 If there is no base case in a recursive function, or if the base case is never reached, the stack would grow forever<mdash/>at least in theory.
 In practice, the size of the stack is limited.
-If you exceed the limit, you get a <c>StackOverflowError</c>.
+If you exceed the limit, you get a <pf>StackOverflowError</pf>.
 </p>
 
 <p>

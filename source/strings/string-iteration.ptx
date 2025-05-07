@@ -1,16 +1,16 @@
 <section xml:id="strings_string-iteration"
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>String Iteration</title>
-  <p>By combining <c>size</c> and `at()`, we can write a loop that iterates through the characters of a
+  <p>By combining <pf>size</pf> and <pf>at()</pf>, we can write a loop that iterates through the characters of a
     string: </p>
 
   <program xml:id="strings_string-iteration-1" interactive="activecode">
 <xi:include href="../../programs/strings/string-iteration-1.cpp" parse="text"/>
 </program>
 
-  <p>The loop counts from 0 to `size() - 1` (note that we use `&lt; size()` in the test). For each of those values, it asks for the character at that index and then prints it. Notice that the counter for this loop is of type `size_t`. If we try to make it an `int`, the compiler will likely produce an error or warning when we try to compare it to `size()`, which is a `size_t`. Comparing signed numbers - those that can hold negative numbers like `int` - with unsigned values - those that can only hold positive values like `size_t` - can produce confusing results. </p>
+  <p>The loop counts from 0 to <pf>size() - 1</pf> (note that we use <pf>&lt; size()</pf> in the test). For each of those values, it asks for the character at that index and then prints it. Notice that the counter for this loop is of type <pf>size_t</pf>. If we try to make it an <pf>int</pf>, the compiler will likely produce an error or warning when we try to compare it to <pf>size()</pf>, which is a <pf>size_t</pf>. Comparing signed numbers - those that can hold negative numbers like <pf>int</pf> - with unsigned values - those that can only hold positive values like <pf>size_t</pf> - can produce confusing results. </p>
 
-  <p>We could use the same basic loop to modify each character. This program encrypts the string `myString` (very poorly) by shifting each character by 1 alphabetically:</p>
+  <p>We could use the same basic loop to modify each character. This program encrypts the string <pf>myString</pf> (very poorly) by shifting each character by 1 alphabetically:</p>
 
   <program xml:id="strings_string-iteration-2" interactive="activecode">
 <xi:include href="../../programs/strings/string-iteration-2.cpp" parse="text"/>
@@ -27,7 +27,7 @@
     }
   </program>
 
-  <p>You should read that loop as <q>for each character, call it c, in myString, do...</q> The range-based for loop automatically counts through the characters one by one. For each iteration of the loop, the next character is stored into the character variable declared in the loop. In that example, the character is named `c`, but you can name it anything you like. Then, in the loop, you can use that character variable to access the <q>current letter</q>. This example uses the ranged-based loop to count the number of spaces in a string:</p>
+  <p>You should read that loop as <q>for each character, call it c, in myString, do...</q> The range-based for loop automatically counts through the characters one by one. For each iteration of the loop, the next character is stored into the character variable declared in the loop. In that example, the character is named <pf>c</pf>, but you can name it anything you like. Then, in the loop, you can use that character variable to access the <q>current letter</q>. This example uses the ranged-based loop to count the number of spaces in a string:</p>
 
   <program xml:id="strings_string-iteration-3" interactive="activecode">
 <xi:include href="../../programs/strings/string-iteration-3.cpp" parse="text"/>
@@ -43,7 +43,7 @@
   <p>There is a syntax for allowing changes to the character variable to also change the string. We will cover that syntax later in the book. <!--todo reference to & --> For now, if you care about the location of each character, or if you need to change the string as you iterate through it, you should not use a range-based loop.</p>
   </p>
 
-  <p>There is no reason you ever have to use the ranged-based loops, you always can use a regular counting loop that counts from 0 to `size() - 1` and index into the string. But the syntax is so simple you likely will want to make use of them.</p>
+  <p>There is no reason you ever have to use the ranged-based loops, you always can use a regular counting loop that counts from 0 to <pf>size() - 1</pf> and index into the string. But the syntax is so simple you likely will want to make use of them.</p>
 
   </subsection>
 

@@ -17,11 +17,11 @@ For example:
 
 <p>
 This function takes a point as an argument and displays its attributes in parentheses.
-If you invoke <c>printPoint(blank)</c>, it displays <c>(3, 4)</c>.
+If you invoke <pf>printPoint(blank)</pf>, it displays <pf>(3, 4)</pf>.
 </p>
 
 <p>
-As another example, we can rewrite the <c>distance</c> function from <xref ref="distance">Section</xref> so that it takes two <c>Point</c>s as parameters instead of four <c>double</c>s:
+As another example, we can rewrite the <pf>distance</pf> function from <xref ref="distance">Section</xref> so that it takes two <pf>Point</pf>s as parameters instead of four <pf>double</pf>s:
 </p>
 
 <program xml:id="mutable-objects_objects-as-parameters-2">
@@ -33,8 +33,8 @@ Passing objects as parameters makes the source code more readable and less error
 </p>
 
 <p>
-You actually don't need to write a <c>distance</c> function, because <c>Point</c> objects already have one.
-To compute the distance between two points, we invoke <c>distance</c> on one and pass the other as an argument:
+You actually don't need to write a <pf>distance</pf> function, because <pf>Point</pf> objects already have one.
+To compute the distance between two points, we invoke <pf>distance</pf> on one and pass the other as an argument:
 </p>
 
 <program xml:id="mutable-objects_objects-as-parameters-3" interactive="activecode">
@@ -42,8 +42,8 @@ To compute the distance between two points, we invoke <c>distance</c> on one and
 </program>
 
 <p>
-It turns out you don't need the <c>printPoint</c> function either.
-If you invoke <c>System.out.println(blank)</c>, it prints the type of the object and the values of the attributes:
+It turns out you don't need the <pf>printPoint</pf> function either.
+If you invoke <pf>System.out.println(blank)</pf>, it prints the type of the object and the values of the attributes:
 </p>
 
 <console>
@@ -54,7 +54,7 @@ java.awt.Point[x=3,y=4]
 
 <p>
     <idx><h>toString</h></idx>
-<c>Point</c> objects provide a function called <c>toString</c> that returns a string representation of a point.
-When you call <c>println</c> with objects, it <term>automatically</term> calls <c>toString</c> and displays the result.
+<pf>Point</pf> objects provide a function called <pf>toString</pf> that returns a string representation of a point.
+When you call <pf>println</pf> with objects, it <term>automatically</term> calls <pf>toString</pf> and displays the result.
 </p>
 </section>

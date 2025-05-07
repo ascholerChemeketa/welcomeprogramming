@@ -14,7 +14,7 @@
   <p>A <term>function declaration</term> is a statement that tells the compiler about a function's
     name, return type, and parameters. It is a promise that the function will be defined later in
     the program. To write a function declaration, we write its prototype, but instead of providing
-    the body, we just place a <c>;</c> at the end:</p>
+    the body, we just place a <pf>;</pf> at the end:</p>
 
   <program xml:id="program-design_declarations-1">
 <xi:include href="../../programs/program-design/declarations-1.cpp" parse="text"/>
@@ -37,7 +37,7 @@
   <p>This distinction allows us to write that uses a function before we define it. This flexibility for
     ordering definitions is useful when we have multiple
     functions that call each other, or when we want to separate the implementation of a function
-    from its use. Say I want to put the <c>main</c> function in my program at the top of my code file. I
+    from its use. Say I want to put the <pf>main</pf> function in my program at the top of my code file. I
     can do so by first declaring my functions, then writing main, then defining my other functions.</p>
 
   <program xml:id="program-design_declarations-3"
@@ -100,24 +100,24 @@
   </exercise>
   <exercise label="mce_5_3">
     <statement>
-      <p>If we wanted to create a boolean function called <c>isPrime</c>, which takes an <c>int input</c> as a
+      <p>If we wanted to create a boolean function called <pf>isPrime</pf>, which takes an <pf>int input</pf> as a
         parameter, which of the following would be the correct function header?</p>
     </statement>
     <choices randomize="yes">
       <choice>
         <statement id="mce_5_3_opt_a">
           <p>
-            <c>boolean isPrime(int input) {</c>
+            <pf>boolean isPrime(int input) {</pf>
           </p>
         </statement>
         <feedback>
-          In C++, use the <c>bool</c> keyword for a boolean.
+          In C++, use the <pf>bool</pf> keyword for a boolean.
         </feedback>
       </choice>
       <choice>
         <statement id="mce_5_3_opt_b">
           <p>
-            <c>bool isPrime (input) {</c>
+            <pf>bool isPrime (input) {</pf>
           </p>
         </statement>
         <feedback>
@@ -128,7 +128,7 @@
       <choice correct="yes">
         <statement id="mce_5_3_opt_c">
           <p>
-            <c>bool isPrime(int input) {</c>
+            <pf>bool isPrime(int input) {</pf>
           </p>
         </statement>
         <feedback>
@@ -138,7 +138,7 @@
       <choice>
         <statement id="mce_5_3_opt_d">
           <p>
-            <c>int isPrime(bool input) {</c>
+            <pf>int isPrime(bool input) {</pf>
           </p>
         </statement>
         <feedback>

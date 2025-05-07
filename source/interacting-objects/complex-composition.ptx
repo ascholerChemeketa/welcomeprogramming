@@ -25,7 +25,7 @@
     </image>
   </figure>
 
-  <p>This definition of Segment <q>owns</q> two Point objects, but does not control any other data directly. Every function in the class would need to rely on `m_start`, `m_end`, or both to do its work. Here are what some functions might look like:</p>
+  <p>This definition of Segment <q>owns</q> two Point objects, but does not control any other data directly. Every function in the class would need to rely on <pf>m_start</pf>, <pf>m_end</pf>, or both to do its work. Here are what some functions might look like:</p>
 
 <program>
 double Segment::getStartX() const {
@@ -59,7 +59,7 @@ double Segment::length() const {
     </image>
   </figure>
 
-  <p>Now a Segment is composed from three other objects - the two points and a string (don't forget that strings are objects!). Note in the UML diagram, each class is only represented one time. So even though a Segment uses two instances of the Point class, there is just one Point box. However, in a memory diagram of a Segment `s1` at run time, there would be two contained points:</p>
+  <p>Now a Segment is composed from three other objects - the two points and a string (don't forget that strings are objects!). Note in the UML diagram, each class is only represented one time. So even though a Segment uses two instances of the Point class, there is just one Point box. However, in a memory diagram of a Segment <pf>s1</pf> at run time, there would be two contained points:</p>
 
   <figure>
     <caption>A memory diagram of Segment s1.</caption>
@@ -139,7 +139,7 @@ Circle Cylinder::getBase() const {
 }
   </program>
 
-  <p>Given this Cylinder class, we can even compose function calls. A common looking construct in object-oriented code is something like: ``cylinder1.getBase().getCenter().getY()``. We first get the base of the Cylinder, which is a Circle. Then we ask that Circle to do `getY`. This is a place where returning a const reference from `Cylinder::getBase()` and `Circle::getRadius` could avoid needless work. The versions we have return copies of the objects. So even though we do not store those copies into variables, it still involves making some new, nameless objects that then get discarded.</p>
+  <p>Given this Cylinder class, we can even compose function calls. A common looking construct in object-oriented code is something like: <pf>cylinder1.getBase().getCenter().getY()</pf>. We first get the base of the Cylinder, which is a Circle. Then we ask that Circle to do <pf>getY</pf>. This is a place where returning a const reference from <pf>Cylinder::getBase()</pf> and <pf>Circle::getRadius</pf> could avoid needless work. The versions we have return copies of the objects. So even though we do not store those copies into variables, it still involves making some new, nameless objects that then get discarded.</p>
 
   <exercise label="hosdfsdfe" language="cpp">
     <statement>

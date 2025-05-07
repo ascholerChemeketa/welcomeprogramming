@@ -3,10 +3,10 @@
 
   <title>Other Escape Sequences</title>
 
-  <p>We have already learned that printing `\t` prints a tab character instead of literally printing a `\` and a `t`. `\t` is known as an <term>escape sequence</term>.
+  <p>We have already learned that printing <pf>\t</pf> prints a tab character instead of literally printing a <pf>\</pf> and a <pf>t</pf>. <pf>\t</pf> is known as an <term>escape sequence</term>.
     <idx>
       <h>escape sequence</h>
-    </idx> An <term>escape sequence</term> is a sequence of characters used to represent a single character that otherwise might be hard to type or might cause issues with parsing the code. In C++ escape sequences start with a backslash `\`. Anytime you see that symbol in a char or string, it means <q>start an escape sequence</q>. The character that comes after determines what sequence it is:
+    </idx> An <term>escape sequence</term> is a sequence of characters used to represent a single character that otherwise might be hard to type or might cause issues with parsing the code. In C++ escape sequences start with a backslash <pf>\</pf>. Anytime you see that symbol in a char or string, it means <q>start an escape sequence</q>. The character that comes after determines what sequence it is:
   </p>
   
   <table xml:id="tab_escape">
@@ -14,38 +14,38 @@
     <tabular>
       <row bottom="minor">
         <cell>
-          <c>\t</c>
+          <pf>\t</pf>
         </cell>
         <cell>tab</cell>
       </row>
       <row bottom="minor">
         <cell>
-          <c>\n</c>
+          <pf>\n</pf>
         </cell>
         <cell>newline</cell>
       </row>
       <row bottom="minor">
         <cell>
-          <c>\"</c>
+          <pf>\"</pf>
         </cell>
         <cell>double quote</cell>
       </row>
       <row bottom="minor">
         <cell>
-          <c>\'</c>
+          <pf>\'</pf>
         </cell>
         <cell>single quote</cell>
       </row>
       <row bottom="minor">
         <cell>
-          <c>\\</c>
+          <pf>\\</pf>
         </cell>
         <cell>backslash</cell>
       </row>
     </tabular>
   </table>
 
-  <p>An escape sequence represents a single character, and only counts as such despite looking like multiple characters. So the string `"a\tb"` has a `size()` of only 3 because `\t` is one character. The characters in that string look like:</p>
+  <p>An escape sequence represents a single character, and only counts as such despite looking like multiple characters. So the string <pf>"a\tb"</pf> has a <pf>size()</pf> of only 3 because <pf>\t</pf> is one character. The characters in that string look like:</p>
   
   <tabular>
     <row bottom="minor">
@@ -60,7 +60,7 @@
     </row>
   </tabular>
 
-  <p>Other than the tab sequence, the other text important formatting symbol is the `\n` or <term>newline</term> symbol. When a computer stores a text file, it needs a way to know where each line ends. To do that, the ASCII code 10 is used. It is referred to as the newline character and can be <q>typed</q> into a string in C++ using `\n`. When you print a newline character, the cursor moves to the beginning of the next line.
+  <p>Other than the tab sequence, the other text important formatting symbol is the <pf>\n</pf> or <term>newline</term> symbol. When a computer stores a text file, it needs a way to know where each line ends. To do that, the ASCII code 10 is used. It is referred to as the newline character and can be <q>typed</q> into a string in C++ using <pf>\n</pf>. When you print a newline character, the cursor moves to the beginning of the next line.
   Using this, it is possible to have a single string that represents multiple lines of output. You just have to
     tell C++ where to put the line breaks: <idx><h>newline</h></idx></p>
 
@@ -71,25 +71,25 @@
 </program>
   </listing>
 
-  <p>When the string is printed, we do not see the `\n`s, but they do create new lines.</p>
+  <p>When the string is printed, we do not see the <pf>\n</pf>s, but they do create new lines.</p>
 
-  <note><title>endl vs `\n`</title><p>endl and `\n` both allow us to print newlines. `\n` can be <q>built into</q> a string as a character while `endl` is a special message that is sent to `cout`. Generally it is preferred to use `\n` when you are trying to make the newline be part of the string (because you are doing something like building up a multiline file). If you just want to print a newline after a string, it is preferred to use `endl` instead of modifying the string to include `\n`.</p></note>
+  <note><title>endl vs <pf>\n</pf></title><p>endl and <pf>\n</pf> both allow us to print newlines. <pf>\n</pf> can be <q>built into</q> a string as a character while <pf>endl</pf> is a special message that is sent to <pf>cout</pf>. Generally it is preferred to use <pf>\n</pf> when you are trying to make the newline be part of the string (because you are doing something like building up a multiline file). If you just want to print a newline after a string, it is preferred to use <pf>endl</pf> instead of modifying the string to include <pf>\n</pf>.</p></note>
 
-  <p>The other escape symbols are workarounds for the fact that `"`, `'`, and `\` are special symbols in strings and chars. A `"` normally marks the start or end of a string. So trying to write this causes errors for the compiler:</p>
+  <p>The other escape symbols are workarounds for the fact that <pf>"</pf>, <pf>'</pf>, and <pf>\</pf> are special symbols in strings and chars. A <pf>"</pf> normally marks the start or end of a string. So trying to write this causes errors for the compiler:</p>
 
 <program>
 cout &lt;&lt; "She said "Hello!" to me.";
 </program>
 
-  <p>To the compiler that looks like the string `"She said "` followed by a variable `Hello`, the symbol `!`, and then the string `" to me.".</p>
+  <p>To the compiler that looks like the string <pf>"She said "</pf> followed by a variable <pf>Hello</pf>, the symbol <pf>!</pf>, and then the string `" to me.".</p>
 
-  <p>To include the quotes in the string, we need to <term>escape</term> them using `\`:</p>
+  <p>To include the quotes in the string, we need to <term>escape</term> them using <pf>\</pf>:</p>
 
   <program xml:id="strings_using-escape-sequences-2" interactive="activecode">
 <xi:include href="../../programs/computer-programming/using-escape-sequences-2.cpp" parse="text"/>
 </program>
 
-  <p>The same trick is true of single quotes and of backslashes. Since `\` normally means <q>this is the start of an escape sequence</q>, we need an escape sequence to indicate that the value we want is really just a backslash. We need to use this trick to represent a Windows style file path that uses backslashes:</p>
+  <p>The same trick is true of single quotes and of backslashes. Since <pf>\</pf> normally means <q>this is the start of an escape sequence</q>, we need an escape sequence to indicate that the value we want is really just a backslash. We need to use this trick to represent a Windows style file path that uses backslashes:</p>
 
   <program xml:id="strings_using-escape-sequences-3" interactive="activecode" compiler-args="-std=c++20">
 <xi:include href="../../programs/computer-programming/using-escape-sequences-3.cpp" parse="text"/>
@@ -97,7 +97,7 @@ cout &lt;&lt; "She said "Hello!" to me.";
 
   <exercise label="debugging_4">
     <statement>
-      <p>What string does this represent? `He\'s going to \"YOLO\" it.` (Type it with the excape sequences replaced by what they represent.)
+      <p>What string does this represent? <pf>He\'s going to \"YOLO\" it.</pf> (Type it with the excape sequences replaced by what they represent.)
       <fillin mode="string" answer="He's going to \&quot;YOLO\&quot; it."/>.
       </p>
     </statement>

@@ -1,15 +1,15 @@
 <section xml:id="designing-classes_getters-setters" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Getters and Setters</title>
 <p>
-Recall that the instance variables of <c>Time</c> are <c>private</c>.
-We can access them from within the <c>Time</c> class, but if we try to read or write them from another class, the compiler reports an error.
+Recall that the instance variables of <pf>Time</pf> are <pf>private</pf>.
+We can access them from within the <pf>Time</pf> class, but if we try to read or write them from another class, the compiler reports an error.
 </p>
 
 <p>
     <idx><h>private</h></idx>
     <idx><h>variable</h><h>private</h></idx>
 A class that uses objects defined in another class is called a <term>client</term>.
-For example, here is a new class called <c>TimeClient</c>:
+For example, here is a new class called <pf>TimeClient</pf>:
 </p>
 
 <p>
@@ -59,11 +59,11 @@ We can do that by providing one function for each instance variable:
     <idx><h>getter</h></idx>
     <idx><h>function</h><h>getter</h></idx>
 functions like these are formally called <q>accessors</q>, but more commonly referred to as <term>getters</term>.
-By convention, the function that gets a variable named <c>something</c> is called <c>getSomething</c>.
+By convention, the function that gets a variable named <pf>something</pf> is called <pf>getSomething</pf>.
 </p>
 
 <p>
-We can fix the compiler error in <c>TimeClient</c> by using the getter:
+We can fix the compiler error in <pf>TimeClient</pf> by using the getter:
 </p>
 
 <program xml:id="designing-classes_getters-setters-3">
@@ -71,7 +71,7 @@ We can fix the compiler error in <c>TimeClient</c> by using the getter:
 </program>
 
 <p>
-If we decide that <c>TimeClient</c> should also be able to modify the instance variables of <c>Time</c>, we can provide functions to do that too:
+If we decide that <pf>TimeClient</pf> should also be able to modify the instance variables of <pf>Time</pf>, we can provide functions to do that too:
 </p>
 
 <program xml:id="designing-classes_getters-setters-4">
@@ -84,7 +84,7 @@ If we decide that <c>TimeClient</c> should also be able to modify the instance v
     <idx><h>setter</h></idx>
     <idx><h>function</h><h>setter</h></idx>
 These functions are formally called <q>mutators</q>, but more commonly known as <term>setters</term>.
-The naming convention is similar; the function that sets <c>something</c> is usually called <c>setSomething</c>.
+The naming convention is similar; the function that sets <pf>something</pf> is usually called <pf>setSomething</pf>.
 </p>
 
 <p>

@@ -17,7 +17,7 @@
       <h>if</h>
     </idx>Now that we have boolean values, we need to use them to control what code gets executed.
     <term>Conditional statements</term> give us this ability. The simplest
-    conditional statement in C++ is the <c>if</c> statement: </p>
+    conditional statement in C++ is the <pf>if</pf> statement: </p>
 
   <program xml:id="conditionals-logic_ifelse-statement-1">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-1.cpp" parse="text"/>
@@ -28,7 +28,7 @@
       <h>block</h>
     </idx> The expression in parentheses is called the <term>condition</term>. If
     it is true, the statements in braces get executed. The If the condition is false, execution skips
-    over that <term>block</term> of code. The condition in parentheses can be any <c>boolean</c>
+    over that <term>block</term> of code. The condition in parentheses can be any <pf>boolean</pf>
     expression. </p>
 
   <p>
@@ -39,14 +39,14 @@
       <h>statement</h>
       <h>else</h>
     </idx> A second form of conditional statement has two possibilities, indicated
-    by <c>if</c> and <c>else</c>. The possibilities are called <term>branches</term>, and the condition
+    by <pf>if</pf> and <pf>else</pf>. The possibilities are called <term>branches</term>, and the condition
     determines which branch gets executed: </p>
 
   <program xml:id="conditionals-logic_ifelse-statement-2">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-2.cpp" parse="text"/>
 </program>
 
-  <p> If the remainder when <c>x</c> is divided by 2 is 0, we know that <c>x</c> is even, and the
+  <p> If the remainder when <pf>x</pf> is divided by 2 is 0, we know that <pf>x</pf> is even, and the
     program displays a message to that effect. If the condition is false, the second print statement
     is executed instead. Since the condition must be true or false, exactly one of the branches will
     run. </p>
@@ -60,7 +60,7 @@
 </program>
 
   <p> However, it's better to use braces<mdash/>even when they are optional<mdash/>to avoid making
-    the mistake of adding statements to a one-line <c>if</c> or <c>else</c> block. This code is misleading
+    the mistake of adding statements to a one-line <pf>if</pf> or <pf>else</pf> block. This code is misleading
     because it's not indented correctly: </p>
 
   <program xml:id="conditionals-logic_ifelse-statement-4"
@@ -68,7 +68,7 @@
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-4.cpp" parse="text"/>
 </program>
 
-  <p> Since there are no braces, only the first <c>println</c> is part of the <c>if</c> statement. Here is
+  <p> Since there are no braces, only the first <pf>println</pf> is part of the <pf>if</pf> statement. Here is
     what the compiler actually sees: </p>
 
   <program xml:id="conditionals-logic_ifelse-statement-5"
@@ -76,28 +76,28 @@
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-5.cpp" parse="text"/>
 </program>
 
-  <p> As a result, the second <c>println</c> runs no matter what. Even experienced programmers make this
+  <p> As a result, the second <pf>println</pf> runs no matter what. Even experienced programmers make this
     mistake; search the web for Apple's <q>goto fail</q> bug. </p>
 
   <p>
     <idx>
       <h>\{\} curly braces</h>
     </idx> In all previous examples, notice that there is no semicolon
-    at the end of the <c>if</c> or <c>else</c> lines. Instead, a new block should be defined using braces.
+    at the end of the <pf>if</pf> or <pf>else</pf> lines. Instead, a new block should be defined using braces.
     Another common mistake is to put a semicolon after the condition, like this: </p>
 
   <program xml:id="conditionals-logic_ifelse-statement-6">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-6.cpp" parse="text"/>
 </program>
 
-  <p> This code will compile, but the program will output <c>"x is even"</c> regardless of the value of <c>x</c>.
+  <p> This code will compile, but the program will output <pf>"x is even"</pf> regardless of the value of <pf>x</pf>.
     Here is the same incorrect code with better formatting: </p>
 
   <program xml:id="conditionals-logic_ifelse-statement-7">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-7.cpp" parse="text"/>
 </program>
 
-  <p> Because of the semicolon, the <c>if</c> statement compiles as if there are no braces, and the
+  <p> Because of the semicolon, the <pf>if</pf> statement compiles as if there are no braces, and the
     subsequent block runs independently. As a general rule, each line of Java code should end with a
     semicolon or brace<mdash/>but not both. </p>
 
@@ -116,9 +116,9 @@
       </idx>
     <idx>
         <h>== equals operator</h>
-      </idx>Remember that a single <c>=</c> represents assignment -
-      it says <q>gets the value</q>. A double equals <c>==</c> asks the question <q>is equal to?</q>.
-      A common mistake is to use a single <c>=</c> instead of a double <c>==</c> when comparing values.
+      </idx>Remember that a single <pf>=</pf> represents assignment -
+      it says <q>gets the value</q>. A double equals <pf>==</pf> asks the question <q>is equal to?</q>.
+      A common mistake is to use a single <pf>=</pf> instead of a double <pf>==</pf> when comparing values.
       If you make this mistake, the compiler will emit a warning like the one shown below that tells
       you you are using an assignment operator in a place where a true/false value is expected. </p>
     <console>

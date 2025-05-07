@@ -8,7 +8,7 @@ Before you start the exercises, we recommend that you compile and run the exampl
 <exercise>
 <statement>
 <p>
-In <c>GridCanvas</c>, write a function named <c>countOn</c> that returns the total number of cells that are <q>on</q>.
+In <pf>GridCanvas</pf>, write a function named <pf>countOn</pf> that returns the total number of cells that are <q>on</q>.
 This function can be used, for example, to track the population in Game of Life over time.
 </p>
 </statement>
@@ -23,12 +23,12 @@ As a result, moving objects such as Gliders either crash into the wall or go out
 
 <p>
 An interesting variation of the Game of Life is a <q>toroidal</q> grid, meaning that the cells <q>wrap around</q> on the edges.
-Modify the <c>test</c> function of <c>GridCanvas</c> so that the coordinates <c>r</c> and <c>c</c> map to the opposite side of the grid if they are too low or two high.
+Modify the <pf>test</pf> function of <pf>GridCanvas</pf> so that the coordinates <pf>r</pf> and <pf>c</pf> map to the opposite side of the grid if they are too low or two high.
 </p>
 
 <p>
 Run your code with a Glider (see <xref ref="fig_glider">Figure</xref>) to see if it works.
-You can initialize the Glider by modifying the constructor in the <c>Conway</c> class, or by reading it from a file (see the next exercise).
+You can initialize the Glider by modifying the constructor in the <pf>Conway</pf> class, or by reading it from a file (see the next exercise).
 </p>
 </statement>
 </exercise>
@@ -59,13 +59,13 @@ For example, here is an \mbox{8 x 10} grid with a Glider near the upper-left cor
 </console>
 
 <p>
-Lines that begin with <c>!</c> are comments and should be ignored.
+Lines that begin with <pf>!</pf> are comments and should be ignored.
 The rest of the file describes the grid, row by row.
-A period represents a dead cell, and an uppercase <c>O</c> represents a live cell.
+A period represents a dead cell, and an uppercase <pf>O</pf> represents a live cell.
 See <url href="https://conwaylife.com/wiki/Plaintext"/> for more examples.
 <ol>
 <li><p>Create a plain text file with the contents shown above, and save the file as <term>glider.cells</term> in the same directory as your code.</p></li>
-<li><p>Define a constructor for the <c>Conway</c> class that takes a string representing the name (or path) of a <q>.cells</q> file.
+<li><p>Define a constructor for the <pf>Conway</pf> class that takes a string representing the name (or path) of a <q>.cells</q> file.
 Here is a starting point:
 
 
@@ -73,17 +73,17 @@ Here is a starting point:
 <xi:include href="../../programs/arrays-arrays/exercises-1.cpp" parse="text"/>
 </program>
 </p></li>
-<li><p>Modify the <c>main</c> function to invoke the constructor as follows:
+<li><p>Modify the <pf>main</pf> function to invoke the constructor as follows:
 
 
 <program xml:id="arrays-arrays_exercises-2">
 <xi:include href="../../programs/arrays-arrays/exercises-2.cpp" parse="text"/>
 </program>
 </p></li>
-<li><p>Handle the <c>FileNotFoundException</c> that may be thrown when creating a <c>Scanner</c> for a <c>File</c> by invoking <c>printStackTrace</c> on the exception object and calling <c>System.exit()</c> with a status of <c>1</c>, indicating an error.</p></li>
-<li><p>Continue implementing the constructor by reading all non-comment lines into an <c>ArrayList</c> via <c>hasNextLine</c> and <c>nextLine</c> of the <c>Scanner</c>.</p></li>
-<li><p>Determine the number of rows and columns of the grid by examining the <c>ArrayList</c> contents.</p></li>
-<li><p>Create and initialize a <c>GridCanvas</c> based on the <c>ArrayList</c>.</p></li>
+<li><p>Handle the <pf>FileNotFoundException</pf> that may be thrown when creating a <pf>Scanner</pf> for a <pf>File</pf> by invoking <pf>printStackTrace</pf> on the exception object and calling <pf>System.exit()</pf> with a status of <pf>1</pf>, indicating an error.</p></li>
+<li><p>Continue implementing the constructor by reading all non-comment lines into an <pf>ArrayList</pf> via <pf>hasNextLine</pf> and <pf>nextLine</pf> of the <pf>Scanner</pf>.</p></li>
+<li><p>Determine the number of rows and columns of the grid by examining the <pf>ArrayList</pf> contents.</p></li>
+<li><p>Create and initialize a <pf>GridCanvas</pf> based on the <pf>ArrayList</pf>.</p></li>
 </ol>
 </p>
 
@@ -114,22 +114,22 @@ x = 10, y = 8
 </console>
 
 <p>
-The first line specifies <c>x</c> (the number of columns) and <c>y</c> (the number of rows).
-Subsequent lines consist of the letters <c>b</c> (dead), <c>o</c> (alive), and <c>$</c> (end of line), optionally preceded by a count.
-The pattern ends with <c>!</c>, after which any remaining file contents are ignored.
+The first line specifies <pf>x</pf> (the number of columns) and <pf>y</pf> (the number of rows).
+Subsequent lines consist of the letters <pf>b</pf> (dead), <pf>o</pf> (alive), and <pf>$</pf> (end of line), optionally preceded by a count.
+The pattern ends with <pf>!</pf>, after which any remaining file contents are ignored.
 </p>
 
 <p>
-Lines beginning with <c>#</c> have special meaning and are not part of the pattern.
-For example, <c>#C</c> is a comment line.
+Lines beginning with <pf>#</pf> have special meaning and are not part of the pattern.
+For example, <pf>#C</pf> is a comment line.
 You can read more about RLE format on <url href="https://conwaylife.com/wiki/RLE"/>.
 <ol>
 <li><p>Create a plain text file with the preceding contents, and save the file as <term>glider.rle</term> in the same directory as your code.</p></li>
-<li><p>Modify your constructor from the previous exercise to check the last three characters of the <c>path</c>.
-If they are <c>"rle"</c>, then you will need to process the file as RLE.
+<li><p>Modify your constructor from the previous exercise to check the last three characters of the <pf>path</pf>.
+If they are <pf>"rle"</pf>, then you will need to process the file as RLE.
 Otherwise, assume the file is in <q>.cells</q> format.</p></li>
 <li><p>In the end, your constructor should be able to read and initialize grids in both formats.
-Test your constructor by modifying the <c>main</c> function to read different files.</p></li>
+Test your constructor by modifying the <pf>main</pf> function to read different files.</p></li>
 </ol>
 
 </p>

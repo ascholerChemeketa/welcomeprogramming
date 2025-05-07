@@ -10,31 +10,31 @@ Consider the following example:
 </program>
 
 <p>
-The name of the function is <c>countdown</c>; it takes a single integer as a parameter.
-If the parameter is 0, it displays the word <c>Blastoff!</c>.
-Otherwise, it displays the number and then invokes itself, passing <c>n - 1</c> as the argument.
+The name of the function is <pf>countdown</pf>; it takes a single integer as a parameter.
+If the parameter is 0, it displays the word <pf>Blastoff!</pf>.
+Otherwise, it displays the number and then invokes itself, passing <pf>n - 1</pf> as the argument.
 </p>
 
 <p>
-What happens if we invoke <c>countdown(3)</c> from <c>main</c>?
+What happens if we invoke <pf>countdown(3)</pf> from <pf>main</pf>?
 </p>
 <blockquote>
-The execution of <c>countdown</c> begins with <c>n == 3</c>, and since <c>n</c> is not 0, it displays the value 3, and then invokes itself...
+The execution of <pf>countdown</pf> begins with <pf>n == 3</pf>, and since <pf>n</pf> is not 0, it displays the value 3, and then invokes itself...
 <blockquote>
-The execution of <c>countdown</c> begins with <c>n == 2</c>, and since <c>n</c> is not 0, it displays the value 2, and then invokes itself...
+The execution of <pf>countdown</pf> begins with <pf>n == 2</pf>, and since <pf>n</pf> is not 0, it displays the value 2, and then invokes itself...
 <blockquote>
-The execution of <c>countdown</c> begins with <c>n == 1</c>, and since <c>n</c> is not 0, it displays the value 1, and then invokes itself...
+The execution of <pf>countdown</pf> begins with <pf>n == 1</pf>, and since <pf>n</pf> is not 0, it displays the value 1, and then invokes itself...
 <blockquote>
-The execution of <c>countdown</c> begins with <c>n == 0</c>, and since <c>n</c> is 0, it displays the word <c>Blastoff!</c><nbsp/>and then returns.
+The execution of <pf>countdown</pf> begins with <pf>n == 0</pf>, and since <pf>n</pf> is 0, it displays the word <pf>Blastoff!</pf><nbsp/>and then returns.
 </blockquote>
-The <c>countdown</c> that got <c>n == 1</c> returns.
+The <pf>countdown</pf> that got <pf>n == 1</pf> returns.
 </blockquote>
-The <c>countdown</c> that got <c>n == 2</c> returns.
+The <pf>countdown</pf> that got <pf>n == 2</pf> returns.
 </blockquote>
-The <c>countdown</c> that got <c>n == 3</c> returns.
+The <pf>countdown</pf> that got <pf>n == 3</pf> returns.
 </blockquote>
 <p>
-And then you're back in <c>main</c>.
+And then you're back in <pf>main</pf>.
 So the total output looks like this:
 </p>
 
@@ -48,7 +48,7 @@ Blastoff!
 </console>
 
 <p>
-As a second example, we'll rewrite the functions <c>newLine</c> and <c>threeLine</c> from <xref ref="adding_functions">Section</xref>.
+As a second example, we'll rewrite the functions <pf>newLine</pf> and <pf>threeLine</pf> from <xref ref="adding_functions">Section</xref>.
 Here they are again:
 </p>
 
@@ -67,8 +67,8 @@ A more general alternative would be the following:
 </program>
 
 <p>
-This function takes an integer, <c>n</c>, as a parameter and displays <c>n</c> newlines.
-The structure is similar to <c>countdown</c>.
+This function takes an integer, <pf>n</pf>, as a parameter and displays <pf>n</pf> newlines.
+The structure is similar to <pf>countdown</pf>.
 As long as <m>n</m> is greater than 0, it displays a newline and then invokes itself to display <m>(n-1)</m> additional newlines.
 The total number of newlines is <m>1 + (n - 1)</m>, which is just what we wanted: <m>n</m>.
 </p>

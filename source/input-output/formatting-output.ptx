@@ -1,7 +1,7 @@
 <section xml:id="input-output_formatting-output" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Formatting Output</title>
 <p>
-When you output a <c>double</c> by using <c>print</c> or <c>println</c>, it displays up to 16 decimal places:
+When you output a <pf>double</pf> by using <pf>print</pf> or <pf>println</pf>, it displays up to 16 decimal places:
 </p>
 
 <program xml:id="input-output_formatting-output-1">
@@ -21,8 +21,8 @@ The result is as follows:
 <p>
     <idx><h>printf</h></idx>
 That might be more than you want.
-<c>System.out</c> provides another function, called <c>printf</c>, that gives you more control of the format.
-The <q>f</q> in <c>printf</c> stands for <q>formatted</q>.
+<pf>System.out</pf> provides another function, called <pf>printf</pf>, that gives you more control of the format.
+The <q>f</q> in <pf>printf</pf> stands for <q>formatted</q>.
 Here's an example:
 </p>
 
@@ -35,7 +35,7 @@ Here's an example:
     <idx><h>format specifier</h></idx>
 The first value in the parentheses is a <term>format string</term> that specifies how the output should be displayed.
 This format string contains ordinary text followed by a <term>format specifier</term>, which is a special sequence that starts with a percent sign.
-The format specifier <c>%.3f</c> indicates that the following value should be displayed as floating-point, rounded to three decimal places:
+The format specifier <pf>%.3f</pf> indicates that the following value should be displayed as floating-point, rounded to three decimal places:
 </p>
 
 <console>
@@ -63,13 +63,13 @@ The result is as follows:
 </console>
 
 <p>
-Like <c>print</c>, <c>printf</c> does not append a newline.
+Like <pf>print</pf>, <pf>printf</pf> does not append a newline.
 So format strings often end with a newline character.
 </p>
 
 <p>
-The format specifier <c>%d</c> displays integer values (<q>d</q> stands for <q>decimal</q>, meaning base 10 integer).
-The values are matched up with the format specifiers in order, so <c>inch</c> is displayed using <c>%d</c>, and <c>cm</c> is displayed using <c>%f</c>.
+The format specifier <pf>%d</pf> displays integer values (<q>d</q> stands for <q>decimal</q>, meaning base 10 integer).
+The values are matched up with the format specifiers in order, so <pf>inch</pf> is displayed using <pf>%d</pf>, and <pf>cm</pf> is displayed using <pf>%f</pf>.
 </p>
 
 <p>
@@ -85,24 +85,24 @@ There are many options, and the details can be overwhelming.
 <title>Example format specifiers</title>
 <tabular>
 <row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
-<row><cell><c>%d</c></cell><cell>Integer in base 10 (<q>decimal</q>)</cell><cell><c>12345</c></cell></row>
+<row><cell><pf>%d</pf></cell><cell>Integer in base 10 (<q>decimal</q>)</cell><cell><pf>12345</pf></cell></row>
 <row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
-<row><cell><c>%,d</c></cell><cell>Integer with comma separators</cell><cell><c>12,345</c></cell></row>
+<row><cell><pf>%,d</pf></cell><cell>Integer with comma separators</cell><cell><pf>12,345</pf></cell></row>
 <row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
-<row><cell><c>%08d</c></cell><cell>Padded with zeros, at least 8 digits wide</cell><cell><c>00012345</c></cell></row>
+<row><cell><pf>%08d</pf></cell><cell>Padded with zeros, at least 8 digits wide</cell><cell><pf>00012345</pf></cell></row>
 <row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
-<row><cell><c>%f</c></cell><cell>Floating-point number</cell><cell><c>6.789000</c></cell></row>
+<row><cell><pf>%f</pf></cell><cell>Floating-point number</cell><cell><pf>6.789000</pf></cell></row>
 <row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
-<row><cell><c>%.2f</c></cell><cell>Rounded to 2 decimal places</cell><cell><c>6.79</c></cell></row>
+<row><cell><pf>%.2f</pf></cell><cell>Rounded to 2 decimal places</cell><cell><pf>6.79</pf></cell></row>
 <row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
-<row><cell><c>%s</c></cell><cell>String of characters</cell><cell><c>"Hello"</c></cell></row>
+<row><cell><pf>%s</pf></cell><cell>String of characters</cell><cell><pf>"Hello"</pf></cell></row>
 <row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
-<row><cell><c>%x</c></cell><cell>Integer in base 16 (<q>hexadecimal</q>)</cell><cell><c>bc614e</c></cell></row>
+<row><cell><pf>%x</pf></cell><cell>Integer in base 16 (<q>hexadecimal</q>)</cell><cell><pf>bc614e</pf></cell></row>
 <row bottom="minor"><cell></cell><cell></cell><cell></cell></row>
 </tabular>
 </table>
 <p>
-For more details, refer to the documentation of <c>java.util.Formatter</c>.
+For more details, refer to the documentation of <pf>java.util.Formatter</pf>.
 The easiest way to find documentation for Java classes is to do a web search for <q>Java</q> and the name of the class.
 </p>
 </section>

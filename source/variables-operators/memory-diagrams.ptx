@@ -2,14 +2,14 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <title>Memory Diagrams</title>
-  <p>Because C++ uses the <c>=</c> symbol for assignment, it is tempting to interpret the statement <c>a = b</c>
+  <p>Because C++ uses the <pf>=</pf> symbol for assignment, it is tempting to interpret the statement <pf>a = b</pf>
     as a statement of equality. It is not! The best way to think of what the symbol means is <q>take
     the value that is on the right side and store it into the location on the left side</q>. For
-    that reason, programmers often pronounce <c>=</c> as <q>gets set to</q> or just <q>gets</q>.
-    Thus <c>a = 5;</c> is not <q>a equals 5</q> but <q>a gets set to 5</q></p>
+    that reason, programmers often pronounce <pf>=</pf> as <q>gets set to</q> or just <q>gets</q>.
+    Thus <pf>a = 5;</pf> is not <q>a equals 5</q> but <q>a gets set to 5</q></p>
 
   <p>Equality is commutative, and assignment is not. For example, in mathematics if <m>a = 7</m>,
-    then <m>7 = a</m>. In C++ <c>a = 7;</c> is a legal assignment statement, but <c>7 = a;</c> is not. The left
+    then <m>7 = a</m>. In C++ <pf>a = 7;</pf> is a legal assignment statement, but <pf>7 = a;</pf> is not. The left
     side of an assignment statement has to be a variable name (storage location). </p>
 
   <p>Also, in mathematics, a statement of equality is true for all time. If <m>a = b</m> now, <m>a</m>
@@ -24,11 +24,11 @@
 </program>
 
   <p>Key things to note: <ul>
-      <li>The second line sets <c>b</c> to have a <em>copy</em> of the value <c>a</c> has. That does
-    mean that temporarily they are equal to each other. But <c>b = a</c> does not permanently equate the
-    two. It only copies the value that <c>a</c> has at that exact moment into the memory labeled <c>b</c>
+      <li>The second line sets <pf>b</pf> to have a <em>copy</em> of the value <pf>a</pf> has. That does
+    mean that temporarily they are equal to each other. But <pf>b = a</pf> does not permanently equate the
+    two. It only copies the value that <pf>a</pf> has at that exact moment into the memory labeled <pf>b</pf>
     .</li>
-      <li>The third line changes the value of <c>a</c>, but that has no effect on <c>b</c>.</li>
+      <li>The third line changes the value of <pf>a</pf>, but that has no effect on <pf>b</pf>.</li>
     </ul>
   </p>
   <p>
@@ -48,7 +48,7 @@
     For example, <xref ref="fig_state">Figure</xref> shows the state of the program after these
     assignment statements run:</p>
   <figure xml:id="fig_state">
-    <caption>Memory diagram of the variables <c>a</c> and <c>b</c>.</caption>
+    <caption>Memory diagram of the variables <pf>a</pf> and <pf>b</pf>.</caption>
     <image width="25%%"
            source="images/state.svg"/>
   </figure>
@@ -64,10 +64,10 @@
     outside and its current value inside. </p>
 
   <p>As the program runs, the state of memory changes, so memory diagrams show only a particular
-    point in time. For example, if we added the line <c>int c = 0;</c> to the previous example, the memory
+    point in time. For example, if we added the line <pf>int c = 0;</pf> to the previous example, the memory
     diagram would look like <xref ref="fig_state2">Figure</xref>. </p>
   <figure xml:id="fig_state2">
-    <caption>Memory diagram of the variables <c>a</c>, <c>b</c>, and <c>c</c>.</caption>
+    <caption>Memory diagram of the variables <pf>a</pf>, <pf>b</pf>, and <pf>c</pf>.</caption>
     <image width="25%"
            source="images/state2.svg"/>
   </figure>
@@ -89,11 +89,11 @@
   <exercise label="assignment_1">
     <statement>
       <p>Mentally run the code below. When you reach point A, what values do the following variables hold?</p>
-      <p><c>x</c> <fillin mode="number" answer="4"/></p>
-      <p><c>y</c> <fillin mode="number" answer="2"/></p>
+      <p><pf>x</pf> <fillin mode="number" answer="4"/></p>
+      <p><pf>y</pf> <fillin mode="number" answer="2"/></p>
       <p>What values do they hold at the end of the program?</p>
-      <p><c>x</c> <fillin mode="number" answer="2"/></p>
-      <p><c>y</c> <fillin mode="number" answer="4"/></p>
+      <p><pf>x</pf> <fillin mode="number" answer="2"/></p>
+      <p><pf>y</pf> <fillin mode="number" answer="4"/></p>
       <p>
       <program>
 <xi:include href="../../programs/variables-operators/memory-diagrams-2.cpp" parse="text"/>

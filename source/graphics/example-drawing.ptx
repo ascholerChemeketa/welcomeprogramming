@@ -4,11 +4,11 @@
     <idx><h>Mickey Mouse</h></idx>
 Suppose we want to draw a <q>Hidden Mickey</q>, which is an icon that represents Mickey Mouse (see <url href="https://en.wikipedia.org/wiki/Hidden_Mickey"/>).
 We can use the oval we just drew as the face, and then add two ears.
-To make the code more readable, let's use <c>Rectangle</c> objects to represent bounding boxes.
+To make the code more readable, let's use <pf>Rectangle</pf> objects to represent bounding boxes.
 </p>
 
 <p>
-Here's a function that takes a <c>Rectangle</c> and invokes <c>fillOval</c>:
+Here's a function that takes a <pf>Rectangle</pf> and invokes <pf>fillOval</pf>:
 </p>
 
 <program xml:id="graphics_example-drawing-1">
@@ -26,7 +26,7 @@ And here's a function that draws Mickey Mouse:
 <p>
 The first line draws the face.
 The next three lines create a smaller rectangle for the ears.
-We <c>translate</c> the rectangle up and left for the first ear, then to the right for the second ear.
+We <pf>translate</pf> the rectangle up and left for the first ear, then to the right for the second ear.
 The result is shown in <xref ref="fig_mickey">Figure</xref>.
 </p>
 <figure xml:id="fig_mickey" >
@@ -34,7 +34,7 @@ The result is shown in <xref ref="fig_mickey">Figure</xref>.
 <image width="73%" source="images/mickey.png" />
 </figure>
 <p>
-You can read more about <c>Rectangle</c> and <c>translate</c> in <xref ref="mutable">Chapter</xref>.
+You can read more about <pf>Rectangle</pf> and <pf>translate</pf> in <xref ref="mutable">Chapter</xref>.
 See the exercises at the end of this appendix for more example drawings.
 </p>
 </section>

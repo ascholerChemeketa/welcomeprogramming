@@ -1,10 +1,10 @@
 <section xml:id="pointers-aggregation_this"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <title>Objects and `this`</title>
+  <title>Objects and <pf>this</pf></title>
 
-  <p>In <xref ref="objects_member-access"/> we learned that within a member function of a class, `this` means the object executing the member function.
-     But at that point, we did not delve into what `this` actually is. Now that we have covered pointers, we are ready to do so. `this` is a pointer that is automatically initialized with the memory address of the current object.
+  <p>In <xref ref="objects_member-access"/> we learned that within a member function of a class, <pf>this</pf> means the object executing the member function.
+     But at that point, we did not delve into what <pf>this</pf> actually is. Now that we have covered pointers, we are ready to do so. <pf>this</pf> is a pointer that is automatically initialized with the memory address of the current object.
   </p>
 
   <figure align="center">
@@ -14,16 +14,16 @@
           alt="When getX is called on p1, this holds the memory address of p1"/>
   </figure>
 
-  <p>This program demonstrates using `this` inside a member function like `Point::getX()` to get the address of the current object:</p>
+  <p>This program demonstrates using <pf>this</pf> inside a member function like <pf>Point::getX()</pf> to get the address of the current object:</p>
   
   <program interactive="activecode" label="poiasf43ffdasdfe">
 <xi:include href="../../programs/pointers-aggregation/this-1.cpp" parse="text"/>
   </program>
 
   <p>
-    One way we can use `this` is to explicitly access member variables or functions of the current object.</p>
+    One way we can use <pf>this</pf> is to explicitly access member variables or functions of the current object.</p>
     
-  <p>As an example of that, consider `getX()`. It currently has `return m_x`. The `m_x` in it is understood to mean <q>the m_x of the current object</q>. Writing `this->m_x` explicitly says that is what we want to do:
+  <p>As an example of that, consider <pf>getX()</pf>. It currently has <pf>return m_x</pf>. The <pf>m_x</pf> in it is understood to mean <q>the m_x of the current object</q>. Writing <pf>this->m_x</pf> explicitly says that is what we want to do:
   </p>
 
   <program line-numbers="yes" highlight-lines="2">
@@ -32,7 +32,7 @@ double Point::getX() {
 }
   </program>
 
-  <p>If you prefer, you can always use `this->` within member functions to make accessing members explicit. (Though we are already using the `m_` naming convention to clarify which variables are members.) However, keep in mind that `this->` can only be used to access member variables or functions. You can not use it to access local variables or parameters that are not a part of the object. For example, in `setX`, you can use it on `m_x`, but not on the parameter `x`:</p>
+  <p>If you prefer, you can always use <pf>this-></pf> within member functions to make accessing members explicit. (Though we are already using the <pf>m_</pf> naming convention to clarify which variables are members.) However, keep in mind that <pf>this-></pf> can only be used to access member variables or functions. You can not use it to access local variables or parameters that are not a part of the object. For example, in <pf>setX</pf>, you can use it on <pf>m_x</pf>, but not on the parameter <pf>x</pf>:</p>
 
   <program line-numbers="yes" highlight-lines="4">
 Point::setX(double x) {
@@ -42,9 +42,9 @@ Point::setX(double x) {
 }
   </program>
 
-  <note><p>In some other programming languages, like javascript, `this` is required and every access of a member variable needs to use `this`.</p></note>
+  <note><p>In some other programming languages, like javascript, <pf>this</pf> is required and every access of a member variable needs to use <pf>this</pf>.</p></note>
 
-  <p>Another use of `this` is to allow an object to return either its address or a reference to itself.</p>
+  <p>Another use of <pf>this</pf> is to allow an object to return either its address or a reference to itself.</p>
 
   <program line-numbers="yes" highlight-lines="2">
 double* Point::getAddress() {
@@ -57,10 +57,10 @@ Point&amp; Point::getReference() {
   </program>
 
   <p>
-    The second function is the tricky one. We start with the current object's memory address. We then dereference it with `*this` to get the object itself. The `&amp;` in the return type indicates that we are returning a reference to the object, not a copy of it.</p>
+    The second function is the tricky one. We start with the current object's memory address. We then dereference it with <pf>*this</pf> to get the object itself. The <pf>&amp;</pf> in the return type indicates that we are returning a reference to the object, not a copy of it.</p>
 
   <p>
-    There is a fun (but not essential) trick that is enabled by returning a reference to the current object in a function that otherwise would be void. It can allow method chaining where we write something like `p1.setX(3.0).setY(4.0)`. For example, we could rewrite `setX` and `setY` to return references:
+    There is a fun (but not essential) trick that is enabled by returning a reference to the current object in a function that otherwise would be void. It can allow method chaining where we write something like <pf>p1.setX(3.0).setY(4.0)</pf>. For example, we could rewrite <pf>setX</pf> and <pf>setY</pf> to return references:
   </p>
 
   <program line-numbers="yes" highlight-lines="1, 3, 6, 8">
@@ -75,5 +75,5 @@ Point&amp; Point::getReference() {
   }
   </program>
 
-  <p>Now, after the call to `setX` does its work, it returns the object that was executing it. So `p1.setX(3.0)` turns into `p1`, which is then used to execute `setY(4.0)`.</p>
+  <p>Now, after the call to <pf>setX</pf> does its work, it returns the object that was executing it. So <pf>p1.setX(3.0)</pf> turns into <pf>p1</pf>, which is then used to execute <pf>setY(4.0)</pf>.</p>
 </section>

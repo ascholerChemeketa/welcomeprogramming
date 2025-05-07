@@ -2,7 +2,7 @@
 <title>More Generalization</title>
 <p>
 The previous result is similar to the <q>nested loops</q> approach in <xref ref="nested">Section</xref>.
-However, the inner loop is now encapsulated in the <c>printRow</c> function.
+However, the inner loop is now encapsulated in the <pf>printRow</pf> function.
 We can encapsulate the outer loop in a function too:
 </p>
 
@@ -11,8 +11,8 @@ We can encapsulate the outer loop in a function too:
 </program>
 
 <p>
-The initial version of <c>printTable</c> always displays six rows.
-We can generalize it by replacing the literal <c>6</c> with a parameter:
+The initial version of <pf>printTable</pf> always displays six rows.
+We can generalize it by replacing the literal <pf>6</pf> with a parameter:
 </p>
 
 <program xml:id="immutable-objects_more-generalization-2">
@@ -20,7 +20,7 @@ We can generalize it by replacing the literal <c>6</c> with a parameter:
 </program>
 
 <p>
-Here is the output of <c>printTable(7)</c>:
+Here is the output of <pf>printTable(7)</pf>:
 </p>
 
 <console>
@@ -37,7 +37,7 @@ Here is the output of <c>printTable(7)</c>:
 
 <p>
 That's better, but it always displays the same number of columns.
-We can generalize more by adding a parameter to <c>printRow</c>:
+We can generalize more by adding a parameter to <pf>printRow</pf>:
 </p>
 
 <program xml:id="immutable-objects_more-generalization-3">
@@ -45,8 +45,8 @@ We can generalize more by adding a parameter to <c>printRow</c>:
 </program>
 
 <p>
-Now <c>printRow</c> takes two parameters: <c>n</c> is the value whose multiples should be displayed, and <c>cols</c> is the number of columns.
-Since we added a parameter to <c>printRow</c>, we also have to change the line in <c>printTable</c> where it is invoked:
+Now <pf>printRow</pf> takes two parameters: <pf>n</pf> is the value whose multiples should be displayed, and <pf>cols</pf> is the number of columns.
+Since we added a parameter to <pf>printRow</pf>, we also have to change the line in <pf>printTable</pf> where it is invoked:
 </p>
 
 <program xml:id="immutable-objects_more-generalization-4">
@@ -54,8 +54,8 @@ Since we added a parameter to <c>printRow</c>, we also have to change the line i
 </program>
 
 <p>
-When this line executes, it evaluates <c>rows</c> and passes the value, which is <c>7</c> in this example, as an argument.
-In <c>printRow</c>, this value is assigned to <c>cols</c>.
+When this line executes, it evaluates <pf>rows</pf> and passes the value, which is <pf>7</pf> in this example, as an argument.
+In <pf>printRow</pf>, this value is assigned to <pf>cols</pf>.
 As a result, the number of columns equals the number of rows, so we get a square \mbox{7 x 7} table, instead of the previous \mbox{7 x 6} table.
 </p>
 
@@ -63,7 +63,7 @@ As a result, the number of columns equals the number of rows, so we get a square
 When you generalize a function appropriately, you often find that it has capabilities you did not plan.
 For example, you might notice that the multiplication table is symmetric.
 Since <m>ab = ba</m>, all the entries in the table appear twice.
-You could save ink by printing half of the table, and you would have to change only <term>one line</term> of <c>printTable</c>:
+You could save ink by printing half of the table, and you would have to change only <term>one line</term> of <pf>printTable</pf>:
 </p>
 
 <program xml:id="immutable-objects_more-generalization-5">

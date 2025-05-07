@@ -43,9 +43,9 @@ Gigi     Guerro     9        3.2    14</pre>
 
   <exercise label="cp_1sdfsd5_1">
     <statement>
-      <p>Write a program that reads the first `skipWords` number of words from <xref ref="datafile-poem.txt"
+      <p>Write a program that reads the first <pf>skipWords</pf> number of words from <xref ref="datafile-poem.txt"
               text="custom">
-        poem.txt</xref> without printing them and prints the next word to `cout`.</p>
+        poem.txt</xref> without printing them and prints the next word to <pf>cout</pf>.</p>
     </statement>
     <program datafile="poem.txt"
              interactive="activecode">
@@ -85,15 +85,15 @@ int main() {
       <p>You might want to start by reading and printing the first word just to make sure your input is working.</p>
     </hint>
     <hint>
-      <p>While debugging, print out something like `WORD skip` for each skipped word. Once you are confident you are skipping the words, you can remove that print statement.</p>
+      <p>While debugging, print out something like <pf>WORD skip</pf> for each skipped word. Once you are confident you are skipping the words, you can remove that print statement.</p>
     </hint>
   </exercise>
 
   <exercise label="cp_1sdfsd5_sdf1">
     <statement>
-      <p>Write a program that reads the first `skipLines` number of lines from <xref ref="datafile-poem.txt"
+      <p>Write a program that reads the first <pf>skipLines</pf> number of lines from <xref ref="datafile-poem.txt"
               text="custom">
-        poem.txt</xref> without printing them and prints the next line to `cout`.</p>
+        poem.txt</xref> without printing them and prints the next line to <pf>cout</pf>.</p>
     </statement>
     <program datafile="poem.txt"
              interactive="activecode">
@@ -130,7 +130,7 @@ int main() {
     </tests>
     </program>
     <hint>
-      <p>`getline` is the easy way to read a whole line.</p>
+      <p><pf>getline</pf> is the easy way to read a whole line.</p>
     </hint>
   </exercise>
 
@@ -141,8 +141,8 @@ int main() {
         like this:</p>
       <pre>First      Last     Grade        GPA    Age</pre>
       <p>Hidden code will open the file and read past some number of the lines (determined by the input). You should add code
-        to continue reading from `inFile` and print the first name from the next line in the
-        file. (It is safe to use `>>` for your input even though the hidden code uses `getline`).</p>
+        to continue reading from <pf>inFile</pf> and print the first name from the next line in the
+        file. (It is safe to use <pf>>></pf> for your input even though the hidden code uses <pf>getline</pf>).</p>
     </statement>
     <program datafile="class.txt"
              interactive="activecode">
@@ -187,7 +187,7 @@ int main() {
     </tests>
     </program>
     <hint>
-      <p>This is much easier using `>>` instead of `getline`</p>
+      <p>This is much easier using <pf>>></pf> instead of <pf>getline</pf></p>
     </hint>
     <hint>
       <p>Remember you have to read all of the tokens in order. If you don't want a piece of data, read it and then do nothing with it.</p>
@@ -201,8 +201,8 @@ int main() {
         like this:</p>
       <pre>First      Last     Grade        GPA    Age</pre>
       <p>Hidden code will open the file and read past some number of the lines (determined by the input). You should add code
-        to continue reading from `inFile` and print the first name and age (with a space between) of the next line in the
-        file. (It is safe to use `>>` for your input even though the hidden code uses `getline`).</p>
+        to continue reading from <pf>inFile</pf> and print the first name and age (with a space between) of the next line in the
+        file. (It is safe to use <pf>>></pf> for your input even though the hidden code uses <pf>getline</pf>).</p>
     </statement>
     <program datafile="class.txt"
              interactive="activecode">
@@ -247,7 +247,7 @@ int main() {
     </tests>
     </program>
     <hint>
-      <p>This is much easier using `>>` instead of `getline`</p>
+      <p>This is much easier using <pf>>></pf> instead of <pf>getline</pf></p>
     </hint>
     <hint>
       <p>Remember you have to read all of the tokens in order. If you don't want a piece of data, read it and then do nothing with it.</p>
@@ -261,7 +261,7 @@ int main() {
         like this:</p>
       <pre>First      Last     Grade        GPA    Age</pre>
       <p>Hidden code will open the file and read past some number of the lines (determined by the input). You should add code
-        to continue reading from `inFile` and print out the next three first names with a space after each. (It is safe to use `>>` for your input even though the hidden code uses `getline`).</p>
+        to continue reading from <pf>inFile</pf> and print out the next three first names with a space after each. (It is safe to use <pf>>></pf> for your input even though the hidden code uses <pf>getline</pf>).</p>
     </statement>
     <program datafile="class.txt"
              interactive="activecode">
@@ -306,10 +306,10 @@ int main() {
     </tests>
     </program>
     <hint>
-      <p>If you use `>>`, remember that you have to read all of the tokens in order. If you don't want a piece of data, read it and then do nothing with it.</p>
+      <p>If you use <pf>>></pf>, remember that you have to read all of the tokens in order. If you don't want a piece of data, read it and then do nothing with it.</p>
     </hint>
     <hint>
-      <p>This is a spot where it might make sense to mix `>>` and `getline`. On each line, consume the first name by reading it into a variable, then use getline to read the rest of the line (and ignore it).</p>
+      <p>This is a spot where it might make sense to mix <pf>>></pf> and <pf>getline</pf>. On each line, consume the first name by reading it into a variable, then use getline to read the rest of the line (and ignore it).</p>
     </hint>
   </exercise>
 
@@ -320,8 +320,8 @@ int main() {
         like this:</p>
       <pre>First      Last     Grade        GPA    Age</pre>
       <p>Hidden code will open the file and read past some number of the lines. You should add code
-        to continue reading from `inFile` and print out the average of the GPA values for all the rest of the lines. (It is safe to use `>>` for your input even though the hidden code uses `getline`).</p>
-      <p>Note that there is a newline after the last piece of data (the line that starts with `Gigi` and ends with `14`). You will likely need to check `infile` for an error after attempting to read in the data for each line before you count the line or do anything with it.</p>
+        to continue reading from <pf>inFile</pf> and print out the average of the GPA values for all the rest of the lines. (It is safe to use <pf>>></pf> for your input even though the hidden code uses <pf>getline</pf>).</p>
+      <p>Note that there is a newline after the last piece of data (the line that starts with <pf>Gigi</pf> and ends with <pf>14</pf>). You will likely need to check <pf>infile</pf> for an error after attempting to read in the data for each line before you count the line or do anything with it.</p>
     </statement>
     <program datafile="class.txt"
              interactive="activecode">

@@ -31,11 +31,11 @@ test.cpp:7:28: error: expected ‘;’ before ‘return’
     </output>
   </console>
 
-  <p>This error message is pretty helpful. It is pointing right at the issue - there is a missing <c>;</c>
+  <p>This error message is pretty helpful. It is pointing right at the issue - there is a missing <pf>;</pf>
     at the end of the statement.</p>
 
-  <p>Each error message starts with a location that looks like <c>test.cpp:7:28</c> that tells you where the
-    issue was identified. That location consists of a file name, then a colon (<c>:</c>), then the
+  <p>Each error message starts with a location that looks like <pf>test.cpp:7:28</pf> that tells you where the
+    issue was identified. That location consists of a file name, then a colon (<pf>:</pf>), then the
     line number, then another colon followed by the column. Here, the error is at line 7, character
     number 28 in the file <q>test.cpp</q>.</p>
 
@@ -63,12 +63,12 @@ test.cpp:7:20: error: ‘World’ was not declared in this scope
   </console>
 
   <p>At least the line number is correct. There is an issue on line 7. But the issue is that there
-    is no <c>"</c> to start the string (before Hello). The compiler thinks you started a string where
-    the first <c>"</c> is after World! and that then you failed to terminate (end) the string. And
+    is no <pf>"</pf> to start the string (before Hello). The compiler thinks you started a string where
+    the first <pf>"</pf> is after World! and that then you failed to terminate (end) the string. And
     because Hello and World were not inside a string, it thought that those were supposed to be code
     and got confused by them, producing more errors.</p>
 
-  <p>Try replicating that issue by deleting the first <c>"</c> in this program:</p>
+  <p>Try replicating that issue by deleting the first <pf>"</pf> in this program:</p>
 
   <program xml:id="computer-programming_debugging-programs-1"
            interactive="activecode">
@@ -114,7 +114,7 @@ test.cpp:7:20: error: ‘World’ was not declared in this scope
     </choices>
   </exercise>
 
-  <p>You may have noticed that the error report for the missing <c>{</c> was particular unhelpful.
+  <p>You may have noticed that the error report for the missing <pf>{</pf> was particular unhelpful.
     The best tip in the errors is that there was a problem detected right at the start of line 7.
     That probably means there was an issue at the end of the previous line of code. Line 6 was a
     comment. So line 5, the last line with actually code, is the likely suspect.</p>

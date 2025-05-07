@@ -1,7 +1,7 @@
 <section xml:id="arrays-arrays_updating-grid" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Updating the Grid</title>
 <p>
-Now we are ready to write <c>update</c>, which gets invoked each time through the simulation loop.
+Now we are ready to write <pf>update</pf>, which gets invoked each time through the simulation loop.
 It uses the GoL rules to compute the state of the grid after the next time step:
 </p>
 
@@ -14,8 +14,8 @@ The rules of GoL specify that you have to update the cells <q>simultaneously</q>
 </p>
 
 <p>
-We do that by traversing the grid twice: first, <c>countNeighbors</c> counts the live neighbors for each cell and puts the results in an array named <c>counts</c>; second, <c>updateGrid</c> updates the cells.
-Here's <c>countNeighbors</c>:
+We do that by traversing the grid twice: first, <pf>countNeighbors</pf> counts the live neighbors for each cell and puts the results in an array named <pf>counts</pf>; second, <pf>updateGrid</pf> updates the cells.
+Here's <pf>countNeighbors</pf>:
 </p>
 
 <program xml:id="arrays-arrays_updating-grid-2">
@@ -23,21 +23,21 @@ Here's <c>countNeighbors</c>:
 </program>
 
 <p>
-<c>countNeighbors</c> traverses the cells in the grid and uses <c>countAlive</c> from the previous section to count the neighbors.
-The return value is a 2D array of integers with the same size as <c>grid</c>.
+<pf>countNeighbors</pf> traverses the cells in the grid and uses <pf>countAlive</pf> from the previous section to count the neighbors.
+The return value is a 2D array of integers with the same size as <pf>grid</pf>.
 <xref ref="fig_countNeigh">Figure</xref> illustrates an example.
 </p>
 <figure xml:id="fig_countNeigh" >
-<caption>The result of <c>countNeighbors</c> for the grid in <xref ref="conwaymain">Section</xref>.</caption>
+<caption>The result of <pf>countNeighbors</pf> for the grid in <xref ref="conwaymain">Section</xref>.</caption>
 <image width="93%" source="images/figure15-6.png" />
 </figure>
 <p>
-In contrast to the <c>draw</c> function of <c>GridCanvas</c>, which uses enhanced <c>for</c> loops, <c>countNeighbors</c> uses standard <c>for</c> loops.
-The reason is that, in this example, we need the indexes <c>r</c> and <c>c</c> to store the neighbor counts.
+In contrast to the <pf>draw</pf> function of <pf>GridCanvas</pf>, which uses enhanced <pf>for</pf> loops, <pf>countNeighbors</pf> uses standard <pf>for</pf> loops.
+The reason is that, in this example, we need the indexes <pf>r</pf> and <pf>c</pf> to store the neighbor counts.
 </p>
 
 <p>
-<c>updateGrid</c> uses <c>getCell</c> to select each <c>Cell</c> in the grid, and <c>updateCell</c> to do the update:
+<pf>updateGrid</pf> uses <pf>getCell</pf> to select each <pf>Cell</pf> in the grid, and <pf>updateCell</pf> to do the update:
 </p>
 
 <program xml:id="arrays-arrays_updating-grid-3">
@@ -45,7 +45,7 @@ The reason is that, in this example, we need the indexes <c>r</c> and <c>c</c> t
 </program>
 
 <p>
-<c>updateCell</c> implements the GoL rules: if the cell is alive, it dies if it has fewer than two or more than three neighbors; if the cell is dead, it comes to life if it has exactly three:
+<pf>updateCell</pf> implements the GoL rules: if the cell is alive, it dies if it has fewer than two or more than three neighbors; if the cell is dead, it comes to life if it has exactly three:
 </p>
 
 <program xml:id="arrays-arrays_updating-grid-4">
@@ -53,8 +53,8 @@ The reason is that, in this example, we need the indexes <c>r</c> and <c>c</c> t
 </program>
 
 <p>
-Notice that <c>updateGrid</c> and <c>updateCell</c> are both <c>private</c>, because they are helper functions not intended to be invoked from outside the class.
-<c>updateCell</c> is also <c>static</c>, because it does not depend on <c>grid</c>.
+Notice that <pf>updateGrid</pf> and <pf>updateCell</pf> are both <pf>private</pf>, because they are helper functions not intended to be invoked from outside the class.
+<pf>updateCell</pf> is also <pf>static</pf>, because it does not depend on <pf>grid</pf>.
 </p>
 
 <p>

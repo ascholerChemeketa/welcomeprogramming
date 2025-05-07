@@ -1,19 +1,19 @@
 <section xml:id="strings_character-cstrings"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <title>`string`s vs C-strings</title>
+  <title><pf>string</pf>s vs C-strings</title>
 
   <note><p>This section explains some of the background on why string literals are different than string variables. Being aware of this information is important. But we will not be intentionally programming with the C-strings that are described here - so there are many complexities to C-strings that are intentionally left out of this coverage.</p></note>
 
-  <p>A string literal like `"Hello"` does not have the `string` data type.</p>
+  <p>A string literal like <pf>"Hello"</pf> does not have the <pf>string</pf> data type.</p>
 
-  <p>Why? For historical reasons and compatibility with the C language. In C++, `string`s are <term>objects</term><mdash/>bundles of data and functions that operate on that data. We will learn more about this in the coming sections. C does not have objects. So in C, strings are just an array (list) of characters. The original version of C++ used C style strings which are often referred to as <q>C strings</q>. Later, the `&lt;string>` library and data type were added.</p>
+  <p>Why? For historical reasons and compatibility with the C language. In C++, <pf>string</pf>s are <term>objects</term><mdash/>bundles of data and functions that operate on that data. We will learn more about this in the coming sections. C does not have objects. So in C, strings are just an array (list) of characters. The original version of C++ used C style strings which are often referred to as <q>C strings</q>. Later, the <pf>&lt;string></pf> library and data type were added.</p>
 
-  <p>Thus it is important to keep in mind that there are multiple types of data that can store characters and the type of storage used changes what we can do with them. This is much like how we can store 2 into either an `int x` or a `double x` and the result of `x / 3` will depend on its type. Here is a list of the types that we use when working with characters:
+  <p>Thus it is important to keep in mind that there are multiple types of data that can store characters and the type of storage used changes what we can do with them. This is much like how we can store 2 into either an <pf>int x</pf> or a <pf>double x</pf> and the result of <pf>x / 3</pf> will depend on its type. Here is a list of the types that we use when working with characters:
   
   <ul>
-    <li><title>`char`</title><p>Stores exactly one character. Stores the character as a numeric value.</p></li>
-    <li><title>`string`</title><p>Stores 0+ characters. Stores them as an <term>object</term>. The object contains a list of characters and functions to work with those characters.</p></li>
+    <li><title><pf>char</pf></title><p>Stores exactly one character. Stores the character as a numeric value.</p></li>
+    <li><title><pf>string</pf></title><p>Stores 0+ characters. Stores them as an <term>object</term>. The object contains a list of characters and functions to work with those characters.</p></li>
     <li><title>string literal (C-string)</title><p>A sequence of characters in quotes. Stored as a list of numeric values.</p></li>
   </ul>
   </p>
@@ -37,7 +37,7 @@ int main() {
 
   <p>The two critical things to remember are:
   <ul>
-    <li>`'` indicates a `char` literal while `"` indicates a `string` literal</li>
+    <li><pf>'</pf> indicates a <pf>char</pf> literal while <pf>"</pf> indicates a <pf>string</pf> literal</li>
     <li>A literal value is different than a variable. In the case of a string, the variable and literal are very different.</li>
   </ul>
   </p>

@@ -3,7 +3,7 @@
 <p>
 Suppose you are going to a movie that starts at 18:50 (that is, 6:50 PM), and the running time is 2 hours, 16 minutes.
 What time does the movie end?
-We'll use <c>Time</c> objects to figure it out:
+We'll use <pf>Time</pf> objects to figure it out:
 </p>
 
 <program xml:id="designing-classes_adding-times-1">
@@ -13,9 +13,9 @@ We'll use <c>Time</c> objects to figure it out:
 <p>
     <idx><h>Time</h><h>addition</h></idx>
     <idx><h>addition</h><h>time</h></idx>
-Here are two ways we could <q>add</q> the <c>Time</c> objects:
+Here are two ways we could <q>add</q> the <pf>Time</pf> objects:
 <ul>
-<li><p>Write a static function that takes two <c>Time</c> objects as parameters.</p></li>
+<li><p>Write a static function that takes two <pf>Time</pf> objects as parameters.</p></li>
 <li><p>Write an instance function that gets invoked on one object and takes the other as a parameter.</p></li>
 </ul>
 </p>
@@ -66,11 +66,11 @@ And here's how we would invoke it:
 <p>
 Notice the differences:
 <ul>
-<li><p>The static function has the keyword <c>static</c>; the instance function does not.</p></li>
-<li><p>The static function has two parameters, <c>t1</c> and <c>t2</c>.
-The instance function has one explicit parameter, <c>t2</c>, and the implicit parameter, <c>this</c>.</p></li>
-<li><p>We invoked the static function with the <c>Time</c> class;
-we invoked the instance function with the <c>startTime</c> object.</p></li>
+<li><p>The static function has the keyword <pf>static</pf>; the instance function does not.</p></li>
+<li><p>The static function has two parameters, <pf>t1</pf> and <pf>t2</pf>.
+The instance function has one explicit parameter, <pf>t2</pf>, and the implicit parameter, <pf>this</pf>.</p></li>
+<li><p>We invoked the static function with the <pf>Time</pf> class;
+we invoked the instance function with the <pf>startTime</pf> object.</p></li>
 </ul>
 </p>
 
@@ -81,15 +81,15 @@ Static functions and instance functions do the same thing, and you can convert f
 
 <p>
 However, there's a problem with both of these functions; they are not correct.
-The result from either function is <c>20:66</c>, which is not a valid time.
+The result from either function is <pf>20:66</pf>, which is not a valid time.
 </p>
 
 <p>
-If <c>second</c> exceeds 59, we have to carry into the minutes column, and if <c>minute</c> exceeds 59, we have to carry into <c>hour</c>.
+If <pf>second</pf> exceeds 59, we have to carry into the minutes column, and if <pf>minute</pf> exceeds 59, we have to carry into <pf>hour</pf>.
 </p>
 
 <p>
-Here is a better version of the instance function, <c>add</c>:
+Here is a better version of the instance function, <pf>add</pf>:
 </p>
 
 <program xml:id="designing-classes_adding-times-6">
@@ -97,7 +97,7 @@ Here is a better version of the instance function, <c>add</c>:
 </program>
 
 <p>
-If <c>hour</c> exceeds 23, we subtract 24 hours, but there's no
-<c>days</c> attribute to carry into.
+If <pf>hour</pf> exceeds 23, we subtract 24 hours, but there's no
+<pf>days</pf> attribute to carry into.
 </p>
 </section>

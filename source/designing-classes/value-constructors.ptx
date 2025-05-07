@@ -17,8 +17,8 @@ It is common to provide both a <q>default constructor</q> that takes no argument
 </program>
 
 <p>
-To invoke this constructor, you have to provide arguments to the <c>new</c> operator.
-The following example creates a <c>Time</c> object that represents a fraction of a second before noon:
+To invoke this constructor, you have to provide arguments to the <pf>new</pf> operator.
+The following example creates a <pf>Time</pf> object that represents a fraction of a second before noon:
 </p>
 
 <program xml:id="designing-classes_value-constructors-2">
@@ -44,19 +44,19 @@ Here is the complete class definition so far:
 </program>
 
 <p>
-Notice how the second constructor declares the parameters <c>hour</c>, <c>minute</c>, and <c>second</c>.
+Notice how the second constructor declares the parameters <pf>hour</pf>, <pf>minute</pf>, and <pf>second</pf>.
 Java allows you to declare parameters (and local variables) with the same names as instance variables.
 They don't have to use the same names, but it's common practice.
 </p>
 
 <p>
     <idx><h>shadowing</h></idx>
-The right side of <c>this.hour = hour;</c> refers to the parameter <c>hour</c>, since it was declared most recently.
+The right side of <pf>this.hour = hour;</pf> refers to the parameter <pf>hour</pf>, since it was declared most recently.
 This situation is called <term>shadowing</term>, because the parameter <q>hides</q> the instance variable with the same name.
 </p>
 
 <p>
-Java provides the keyword <c>this</c> so you can access instance variables, regardless of shadowing.
+Java provides the keyword <pf>this</pf> so you can access instance variables, regardless of shadowing.
 As a result, this constructor copies the values from the parameters to the instance variables.
 </p>
 </section>

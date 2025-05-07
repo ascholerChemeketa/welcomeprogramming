@@ -25,8 +25,8 @@
     a class into a .h/.cpp file pair is similar to doing so for a standard function. The .h file
     contains the class with all the function declarations while the .cpp file contains the
     implementation of the member functions. Typically, we put each class in a separate file and name
-    the files to match the name of the class they contain. So out Point class should go in `Point.h`
-    and `Point.cpp`.</p>
+    the files to match the name of the class they contain. So out Point class should go in <pf>Point.h</pf>
+    and <pf>Point.cpp</pf>.</p>
 
   <listing>
     <caption>Point.h</caption>
@@ -65,7 +65,7 @@
 
   <exercise label="mce_11_7">
     <statement>
-      <p>What statements are true based on the following <c>Stundent.h</c> header file?</p>
+      <p>What statements are true based on the following <pf>Stundent.h</pf> header file?</p>
       <program line-numbers="yes">
         <code>
 class Student {
@@ -86,7 +86,7 @@ private:
     <choices randomize="yes">
       <choice correct="yes">
         <statement>
-          <p>The Student.cpp file will have `void Student::print() {...}`.</p>
+          <p>The Student.cpp file will have <pf>void Student::print() {...}</pf>.</p>
         </statement>
         <feedback>
           This is true!
@@ -102,7 +102,7 @@ private:
       </choice>
       <choice>
         <statement>
-          <p>The Student.cpp file must implement the constructors before the `isJunior` function.</p>
+          <p>The Student.cpp file must implement the constructors before the <pf>isJunior</pf> function.</p>
         </statement>
         <feedback>
           This is not necessary. Because they have all been declared, the order of the function
@@ -111,7 +111,7 @@ private:
       </choice>
       <choice>
         <statement>
-          <p>The .cpp file will need to define `Student::m_age = 0;`</p>
+          <p>The .cpp file will need to define <pf>Student::m_age = 0;</pf></p>
         </statement>
         <feedback>
           The .cpp file will only have function definitions. The instance variables are only listed in the class declaration in the .h.

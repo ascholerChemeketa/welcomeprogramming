@@ -14,19 +14,19 @@
   <p>
     <ul>
       <li>
-        <p>Multiplication and division happen before addition and subtraction. So <c>2 * 3 - 1</c> yields 5,
-          not 4, and <c>2 / 3 - 1</c> yields -1, not 1 (remember that in integer division <c>2/3</c> is 0).</p>
+        <p>Multiplication and division happen before addition and subtraction. So <pf>2 * 3 - 1</pf> yields 5,
+          not 4, and <pf>2 / 3 - 1</pf> yields -1, not 1 (remember that in integer division <pf>2/3</pf> is 0).</p>
       </li>
       <li>
         <p>If the operators have the same precedence they are evaluated from left to right. So in
-          the expression <c>minute * 100 / 60</c>, the multiplication happens first, yielding <c>5900 / 60</c>, which in turn
+          the expression <pf>minute * 100 / 60</pf>, the multiplication happens first, yielding <pf>5900 / 60</pf>, which in turn
           yields 98. If the operations had gone from right to left, the result would be 59 * 1 which
           is 59, which is wrong.</p>
       </li>
       <li>
         <p>Any time you want to override the rules of precedence (or you are not sure what they are)
-          you can use parentheses. Expressions in parentheses are evaluated first, so <c>2 * (3 - 1) is 4</c>. You
-          can also use parentheses to make an expression easier to read, as in <c>(minute * 100) / 60</c>, even though
+          you can use parentheses. Expressions in parentheses are evaluated first, so <pf>2 * (3 - 1) is 4</pf>. You
+          can also use parentheses to make an expression easier to read, as in <pf>(minute * 100) / 60</pf>, even though
           it doesn't change the result.</p>
       </li>
     </ul>
@@ -138,8 +138,8 @@ int main() {
       </exercise>
     <!-- </exercisegroup> -->
   <!-- </exercises> -->
-  <p><c>1 + 5</c> is the only operation remaining. I'm not going to ask you any questions about it.
-    However, it's important that you can wrap you head around the fact that the <c>+</c> operator
+  <p><pf>1 + 5</pf> is the only operation remaining. I'm not going to ask you any questions about it.
+    However, it's important that you can wrap you head around the fact that the <pf>+</pf> operator
     appeared <term>
       first</term> in the calculation, but it was the <term>last</term> operator to be evaluated.
     The order of operations can be kind of confusing at times, but I think you've got a good grasp
@@ -148,7 +148,7 @@ int main() {
     
   <exercise label="VARS_mc3">
     <statement>
-      <p>What is the value of <c>x</c>?</p>
+      <p>What is the value of <pf>x</pf>?</p>
       <program>
 x = 2 + (13 - 5) * 2 + 6 /3;
 </program>
@@ -159,7 +159,7 @@ x = 2 + (13 - 5) * 2 + 6 /3;
           <p>7</p>
         </statement>
         <feedback>
-          <c>13 - 5</c> is computed first because it is in parentheses.
+          <pf>13 - 5</pf> is computed first because it is in parentheses.
         </feedback>
       </choice>
       <choice correct="yes">
@@ -175,7 +175,7 @@ x = 2 + (13 - 5) * 2 + 6 /3;
           <p>23.333</p>
         </statement>
         <feedback>
-          <c>2 + 6</c> is not grouped together like <c>13 - 5</c>.
+          <pf>2 + 6</pf> is not grouped together like <pf>13 - 5</pf>.
         </feedback>
       </choice>
       <choice>
@@ -183,7 +183,7 @@ x = 2 + (13 - 5) * 2 + 6 /3;
           <p>34</p>
         </statement>
         <feedback>
-          <c>2 + 6 / 3</c> is not computed first.
+          <pf>2 + 6 / 3</pf> is not computed first.
         </feedback>
       </choice>
     </choices>

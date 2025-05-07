@@ -30,7 +30,7 @@
 
   <p>The variable type that you declare must match the type of the value
       assigned to it. A type mismatch will generate a compile error. For example, you cannot
-      store a string in an <c>int</c> variable. The following statements
+      store a string in an <pf>int</pf> variable. The following statements
     generate a compile error.</p>
 
   <program>
@@ -38,9 +38,9 @@ int hour;
 hour = "six";       // WRONG !!
 </program>
 
-  <p>The <term>type</term> of <c>hour</c> is <term>int</term>. It can only store whole
-  number values, not <term>strings</term> like <c>"six"</c>. It would also be an error
-  to try to store <c>"6"</c> as that is still a string, not a number.</p>
+  <p>The <term>type</term> of <pf>hour</pf> is <term>int</term>. It can only store whole
+  number values, not <term>strings</term> like <pf>"six"</pf>. It would also be an error
+  to try to store <pf>"6"</pf> as that is still a string, not a number.</p>
 
   <p>This rule is sometimes a source of confusion, because there are many
     ways that you can convert values from one type to another, and C++
@@ -66,7 +66,7 @@ hour = "six";       // WRONG !!
 </program>
 
   <insight><p>
-    Make sure to ALWAYS initialize variables. Always using the <c>type name = value;</c> syntax to declare and initialize a variable all at once is a good way to make sure your variables are always initialized. If you do not have a value to assign yet, use <c>type name = 0;</c> or something similar to assign a reasonable default value.
+    Make sure to ALWAYS initialize variables. Always using the <pf>type name = value;</pf> syntax to declare and initialize a variable all at once is a good way to make sure your variables are always initialized. If you do not have a value to assign yet, use <pf>type name = 0;</pf> or something similar to assign a reasonable default value.
   </p></insight>
 
   <exercise label="assignment_1">

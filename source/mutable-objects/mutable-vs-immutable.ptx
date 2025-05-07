@@ -3,12 +3,12 @@
 <p>
     <idx><h>mutable</h></idx>
     <idx><h>immutable</h></idx>
-<c>Point</c>s and <c>Rectangle</c>s are <term>mutable</term> objects, because their attributes can be modified.
-You can modify their attributes directly, like <c>box.x = 15</c>, or you can invoke functions that modify their attributes, like <c>box.translate(15, 0)</c>.
+<pf>Point</pf>s and <pf>Rectangle</pf>s are <term>mutable</term> objects, because their attributes can be modified.
+You can modify their attributes directly, like <pf>box.x = 15</pf>, or you can invoke functions that modify their attributes, like <pf>box.translate(15, 0)</pf>.
 </p>
 
 <p>
-In contrast, immutable objects like <c>String</c>s and <c>Integer</c>s cannot be modified.
+In contrast, immutable objects like <pf>String</pf>s and <pf>Integer</pf>s cannot be modified.
 They don't allow direct access to their attributes or provide functions that change them.
 </p>
 
@@ -24,7 +24,7 @@ That can reduce the amount of memory the program uses and can speed it up.
 </p>
 
 <p>
-In the following example, <c>s1</c> and <c>s2</c> are created differently, but they refer to equivalent strings; that is, the two strings contain the same characters:
+In the following example, <pf>s1</pf> and <pf>s2</pf> are created differently, but they refer to equivalent strings; that is, the two strings contain the same characters:
 </p>
 
 <p>
@@ -39,11 +39,11 @@ In the following example, <c>s1</c> and <c>s2</c> are created differently, but t
 
 <p>
 Because both strings are specified at compile time, the compiler can tell that they are equivalent.
-And because strings are immutable, there is no need to make two copies; the compiler can create one <c>String</c> and make both variables refer to it.
+And because strings are immutable, there is no need to make two copies; the compiler can create one <pf>String</pf> and make both variables refer to it.
 </p>
 
 <p>
-As a result, the test <c>s1 == s2</c> turns out to be true, which means that <c>s1</c> and <c>s2</c> refer to the same object.
+As a result, the test <pf>s1 == s2</pf> turns out to be true, which means that <pf>s1</pf> and <pf>s2</pf> refer to the same object.
 In other words, they are not just equivalent; they are identical.
 </p>
 

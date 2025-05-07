@@ -1,35 +1,35 @@
 <section xml:id="reusing-classes_uml-diagram" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>UML Diagram</title>
 <p>
-At the beginning of the chapter, we had three classes: <c>Cell</c>, <c>GridCanvas</c>, and <c>Conway</c>.
-We then developed <c>Langton</c>, which had almost the same <c>main</c> and <c>mainloop</c> functions as <c>Conway</c>.
-So we refactored the code and created <c>Automaton</c>.
+At the beginning of the chapter, we had three classes: <pf>Cell</pf>, <pf>GridCanvas</pf>, and <pf>Conway</pf>.
+We then developed <pf>Langton</pf>, which had almost the same <pf>main</pf> and <pf>mainloop</pf> functions as <pf>Conway</pf>.
+So we refactored the code and created <pf>Automaton</pf>.
 <xref ref="fig_uml2">Figure</xref> summarizes the final design.
 </p>
 <figure xml:id="fig_uml2" >
-<caption>UML class diagram of <c>Conway</c> and <c>Langton</c> applications.</caption>
+<caption>UML class diagram of <pf>Conway</pf> and <pf>Langton</pf> applications.</caption>
 <image width="75%" source="images/uml2.png" />
 </figure>
 <p>
     <idx><h>IS-A</h></idx>
     <idx><h>HAS-A</h></idx>
-The diagram shows three examples of inheritance: <c>Conway</c> is an <c>Automaton</c>, <c>Langton</c> is an <c>Automaton</c>, and <c>GridCanvas</c> is a <c>Canvas</c>.
-It also shows two examples of composition: <c>Automaton</c> has a <c>GridCanvas</c>, and <c>GridCanvas</c> has a 2D array of <c>Cell</c>s.
+The diagram shows three examples of inheritance: <pf>Conway</pf> is an <pf>Automaton</pf>, <pf>Langton</pf> is an <pf>Automaton</pf>, and <pf>GridCanvas</pf> is a <pf>Canvas</pf>.
+It also shows two examples of composition: <pf>Automaton</pf> has a <pf>GridCanvas</pf>, and <pf>GridCanvas</pf> has a 2D array of <pf>Cell</pf>s.
 </p>
 
 <p>
-The diagram also shows that <c>Automaton</c> uses <c>JFrame</c>, <c>GridCanvas</c> uses <c>Graphics</c>, and <c>Cell</c> uses <c>Graphics</c> and <c>Color</c>.
+The diagram also shows that <pf>Automaton</pf> uses <pf>JFrame</pf>, <pf>GridCanvas</pf> uses <pf>Graphics</pf>, and <pf>Cell</pf> uses <pf>Graphics</pf> and <pf>Color</pf>.
 </p>
 
 <p>
-<c>Automaton</c> is in italics to indicate that it is an abstract class.
-As it happens, <c>Graphics</c> is an abstract class, too.
+<pf>Automaton</pf> is in italics to indicate that it is an abstract class.
+As it happens, <pf>Graphics</pf> is an abstract class, too.
 </p>
 
 <p>
     <idx><h>concrete class</h></idx>
 Conway and Langton are <term>concrete classes</term>, because they provide an implementation for all of their functions.
-In particular, they implement the <c>update</c> function that was declared <c>abstract</c> in <c>Automaton</c>.
+In particular, they implement the <pf>update</pf> function that was declared <pf>abstract</pf> in <pf>Automaton</pf>.
 </p>
 
 <p>

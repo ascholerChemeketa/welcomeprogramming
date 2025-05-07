@@ -26,7 +26,7 @@
 <xi:include href="../../programs/multidimensional-vectors/traversals-1.cpp" parse="text"/>
   </program>
 
-  <p>Notice the type used for the first loop variable: `const vector&lt;int>&amp; row`. `row` is storing each element of `matrix` one at a time. And what matrix stores are `vector&lt;int>`s. But we don't want to copy those vectors into the variable row. That would be a waste of time. So we make `row` be a const reference to the current element. If we changed like 15 to read `for (vector&lt;int> row : matrix)`, the code would work, but it would be making copies of each row.</p>
+  <p>Notice the type used for the first loop variable: <pf>const vector&lt;int>&amp; row</pf>. <pf>row</pf> is storing each element of <pf>matrix</pf> one at a time. And what matrix stores are <pf>vector&lt;int></pf>s. But we don't want to copy those vectors into the variable row. That would be a waste of time. So we make <pf>row</pf> be a const reference to the current element. If we changed like 15 to read <pf>for (vector&lt;int> row : matrix)</pf>, the code would work, but it would be making copies of each row.</p>
 
   <p>Although this works, the row reference feels a little clumsy. More importantly, there is no way to modify it to traverse in column major order.</p>
   
@@ -61,7 +61,7 @@ matrix.at(2).at(0)  (start of new row)
 <xi:include href="../../programs/multidimensional-vectors/traversals-3.cpp" parse="text"/>
   </program>
 
-  <p>Note that all that is different about this version is that lines 21 and 23 (and the comments above them) have swapped places. We still specify the row first when accessing the matrix using `matrix.at(row).at(col)`. But, since we count through all the possible rows before changing the column, we end up accessing elements in this order:</p>
+  <p>Note that all that is different about this version is that lines 21 and 23 (and the comments above them) have swapped places. We still specify the row first when accessing the matrix using <pf>matrix.at(row).at(col)</pf>. But, since we count through all the possible rows before changing the column, we end up accessing elements in this order:</p>
 
 <pre>matrix.at(0).at(0)  (start of first col)
 matrix.at(1).at(0)
@@ -74,8 +74,8 @@ matrix.at(0).at(2)  (start of new col)
 </pre>
 
   <warning>
-    <p>The row index always goes in the first `.at()` and the column index always goes in the second `.at()`. Even if you are traversing in column major order.</p>
-    <p>These samples intentionally use `row` and `col` as the counters instead of `i` and `j` to make this clear. Although many programmers will use `i` and `j` here, you are encouraged to use meaningful names to help keep track of which counter is for rows and which is for columns.</p>
+    <p>The row index always goes in the first <pf>.at()</pf> and the column index always goes in the second <pf>.at()</pf>. Even if you are traversing in column major order.</p>
+    <p>These samples intentionally use <pf>row</pf> and <pf>col</pf> as the counters instead of <pf>i</pf> and <pf>j</pf> to make this clear. Although many programmers will use <pf>i</pf> and <pf>j</pf> here, you are encouraged to use meaningful names to help keep track of which counter is for rows and which is for columns.</p>
   </warning>
 </subsection>
 

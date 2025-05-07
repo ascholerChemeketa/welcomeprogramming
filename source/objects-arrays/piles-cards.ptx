@@ -14,23 +14,23 @@ The game continues until one player has won the entire deck.
 </p>
 
 <p>
-We could use the <c>Deck</c> class to represent the individual piles.
-However, our implementation of <c>Deck</c> uses a <c>Card</c> array, and the length of an array can't change.
+We could use the <pf>Deck</pf> class to represent the individual piles.
+However, our implementation of <pf>Deck</pf> uses a <pf>Card</pf> array, and the length of an array can't change.
 As the game progresses, we need to be able to add and remove cards from the piles.
 </p>
 
 <p>
     <idx><h>ArrayList</h></idx>
     <idx><h>collection</h></idx>
-We can solve this problem with an <c>ArrayList</c>, which is in the <c>java.util</c> package.
-An <c>ArrayList</c> is a <term>collection</term>, which is an object that contains other objects.
+We can solve this problem with an <pf>ArrayList</pf>, which is in the <pf>java.util</pf> package.
+An <pf>ArrayList</pf> is a <term>collection</term>, which is an object that contains other objects.
 It provides functions to add and remove elements, and it grows and shrinks automatically.
 </p>
 
 <p>
     <idx><h>Pile</h></idx>
-We define a new class named <c>Pile</c> to represent a pile of cards.
-It uses an <c>ArrayList</c> to store <c>Card</c> objects:
+We define a new class named <pf>Pile</pf> to represent a pile of cards.
+It uses an <pf>ArrayList</pf> to store <pf>Card</pf> objects:
 </p>
 
 <program xml:id="objects-arrays_piles-cards-1" interactive="activecode">
@@ -41,9 +41,9 @@ It uses an <c>ArrayList</c> to store <c>Card</c> objects:
     <idx><h>angle brackets</h></idx>
     <idx><h>brackets</h><h>angle</h></idx>
     <idx><h>\textless\textgreater<nbsp/>angle brackets</h></idx>
-When you declare an <c>ArrayList</c>, you specify the type it contains in angle brackets (<c>&lt;&gt;</c>).
-This declaration says that <c>cards</c> is not just an <c>ArrayList</c>; it's an <c>ArrayList</c> of <c>Card</c> objects.
-The constructor initializes <c>this.cards</c> with an empty <c>ArrayList</c>.
+When you declare an <pf>ArrayList</pf>, you specify the type it contains in angle brackets (<pf>&lt;&gt;</pf>).
+This declaration says that <pf>cards</pf> is not just an <pf>ArrayList</pf>; it's an <pf>ArrayList</pf> of <pf>Card</pf> objects.
+The constructor initializes <pf>this.cards</pf> with an empty <pf>ArrayList</pf>.
 </p>
 
 <p>
@@ -57,8 +57,8 @@ So we define a function to do that:
 </program>
 
 <p>
-<c>popCard</c> removes the <c>Card</c> at the beginning of the <c>ArrayList</c>, which we think of as the top of the pile.
-Because we use <c>ArrayList.remove</c>, it automatically shifts the remaining cards to fill the gap.
+<pf>popCard</pf> removes the <pf>Card</pf> at the beginning of the <pf>ArrayList</pf>, which we think of as the top of the pile.
+Because we use <pf>ArrayList.remove</pf>, it automatically shifts the remaining cards to fill the gap.
 </p>
 
 <p>
@@ -71,7 +71,7 @@ So we define a function to do that:
 </program>
 
 <p>
-<c>ArrayList</c> provides a function, <c>add</c>, that adds an element to the end of the collection, which we think of as the bottom of the pile.
+<pf>ArrayList</pf> provides a function, <pf>add</pf>, that adds an element to the end of the collection, which we think of as the bottom of the pile.
 </p>
 
 <p>
@@ -84,13 +84,13 @@ Here's a function to do that:
 </program>
 
 <p>
-So far, these functions don't do very much; they just invoke functions on the instance variable, <c>cards</c>.
+So far, these functions don't do very much; they just invoke functions on the instance variable, <pf>cards</pf>.
 functions like these are called <term>wrapper functions</term> because they wrap one function with another.
 </p>
 
 <p>
 Finally, to start the game, we need to divide the deck into two equal parts.
-We can do that with <c>subdeck</c> from <xref ref="subdeck">Section</xref> and a new function, <c>addDeck</c>:
+We can do that with <pf>subdeck</pf> from <xref ref="subdeck">Section</xref> and a new function, <pf>addDeck</pf>:
 </p>
 
 <program xml:id="objects-arrays_piles-cards-5" interactive="activecode">
@@ -98,8 +98,8 @@ We can do that with <c>subdeck</c> from <xref ref="subdeck">Section</xref> and a
 </program>
 
 <p>
-<c>addDeck</c> takes a <c>Deck</c> object, loops through the cards, and adds them to the <c>Pile</c>.
-Notice that it does not remove the cards from the <c>Deck</c>, so the <c>Deck</c> and the <c>Pile</c> share cards.
+<pf>addDeck</pf> takes a <pf>Deck</pf> object, loops through the cards, and adds them to the <pf>Pile</pf>.
+Notice that it does not remove the cards from the <pf>Deck</pf>, so the <pf>Deck</pf> and the <pf>Pile</pf> share cards.
 But that won't be a problem because cards are immutable.
 </p>
 </section>

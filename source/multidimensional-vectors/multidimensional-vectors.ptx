@@ -24,7 +24,7 @@
   vector&lt;??type??> table(3, ??value??);
   </program>
 
-  <p>But what type does the vector hold? And what value should be used as the starting value for each row? Well, each row holds a list of numbers - a `vector&lt;int>`. And we want to start each of those rows as a vector that contains 5 copies of 0. (We will add the real data later).</p>
+  <p>But what type does the vector hold? And what value should be used as the starting value for each row? Well, each row holds a list of numbers - a <pf>vector&lt;int></pf>. And we want to start each of those rows as a vector that contains 5 copies of 0. (We will add the real data later).</p>
 
   <program>
   // A row of 5 integers, all initialized to 0
@@ -33,10 +33,10 @@
   vector&lt;vector&lt;int>> table(3, row);
   </program>
 
-  <p>`table` itself is a vector with three elements. Each of those elements is a vector. Although we are trying to represent 2-dimensional storage, what we have is really a 1-dimensional list in which each value is a 1-dimensional list.</p>
+  <p><pf>table</pf> itself is a vector with three elements. Each of those elements is a vector. Although we are trying to represent 2-dimensional storage, what we have is really a 1-dimensional list in which each value is a 1-dimensional list.</p>
 
   <figure>
-    <caption>A memory model for `table`</caption>
+    <caption>A memory model for <pf>table</pf></caption>
     <image width="45%"
            source="images/vectors-table-empty.svg"/>
   </figure>
@@ -52,6 +52,6 @@ vector<vector<int>> table = {
   ]]>
   </program>
 
-  <p>This would make the 3 row, 5 column table of data shown at the top of the page. Note that the outer `{...}` surround a list of three things separated by `,`. Each of those three things is a list of 5 items that are in `{...}` and separated by a comma. (The newlines to space out the data more like how we picture it in the table are optional. The initialization could be on one long line.)</p>
+  <p>This would make the 3 row, 5 column table of data shown at the top of the page. Note that the outer <pf>{...}</pf> surround a list of three things separated by <pf>,</pf>. Each of those three things is a list of 5 items that are in <pf>{...}</pf> and separated by a comma. (The newlines to space out the data more like how we picture it in the table are optional. The initialization could be on one long line.)</p>
 
 </section>

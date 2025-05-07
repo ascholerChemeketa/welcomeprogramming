@@ -11,22 +11,22 @@
 <xi:include href="../../programs/references-exceptions/references-functions-1.cpp" parse="text"/>
 </program>
 
-  <p>This is called <term>pass by value</term> because the parameter `x` in `add` gets a copy of the value of `number` from `main`. The memory diagram when we reach line 6 (after calling `add` from `main`) would look like: <idx><h>pass by value</h></idx></p>
+  <p>This is called <term>pass by value</term> because the parameter <pf>x</pf> in <pf>add</pf> gets a copy of the value of <pf>number</pf> from <pf>main</pf>. The memory diagram when we reach line 6 (after calling <pf>add</pf> from <pf>main</pf>) would look like: <idx><h>pass by value</h></idx></p>
   <figure>
-  <caption>Memory diagram for `add` and `main`</caption>
+  <caption>Memory diagram for <pf>add</pf> and <pf>main</pf></caption>
   <image width="40%"
           source="images/references-functions-1.svg"/>
 </figure>
 
-    <p>`x` simply holds a copy of the `number` from `main`. No matter what we do to `x` inside `add`, we can't change what `number` holds. However, if we make `x` a reference, the memory diagram will look like:</p>
+    <p><pf>x</pf> simply holds a copy of the <pf>number</pf> from <pf>main</pf>. No matter what we do to <pf>x</pf> inside <pf>add</pf>, we can't change what <pf>number</pf> holds. However, if we make <pf>x</pf> a reference, the memory diagram will look like:</p>
 
   <figure>
-  <caption>Memory diagram for `add` and `main` where `s` is a reference.</caption>
+  <caption>Memory diagram for <pf>add</pf> and <pf>main</pf> where <pf>s</pf> is a reference.</caption>
   <image width="40%"
           source="images/references-functions-2.svg"/>
 </figure>
 
-  <p>Now `x` is a reference to `number`. This is called <term>pass by reference</term>. It links back to the memory in the `main` stack frame. If we change `x`, we change `number`. Try it out in this sample. The only change we have made is to make chop take a reference to an int: `add(int&amp; x)`.<idx><h>pass by reference</h></idx></p>
+  <p>Now <pf>x</pf> is a reference to <pf>number</pf>. This is called <term>pass by reference</term>. It links back to the memory in the <pf>main</pf> stack frame. If we change <pf>x</pf>, we change <pf>number</pf>. Try it out in this sample. The only change we have made is to make chop take a reference to an int: <pf>add(int&amp; x)</pf>.<idx><h>pass by reference</h></idx></p>
 
   <program xml:id="references-exceptions_references-functions-2" interactive="codelens">
 <xi:include href="../../programs/references-exceptions/references-functions-2.cpp" parse="text"/>
@@ -34,7 +34,7 @@
 
   <exercise label="program_lang_1">
     <statement>
-      <p>Rewrite the prototype `void upperCase(string s)` so it takes its parameter by reference. <fillin mode="string"
+      <p>Rewrite the prototype <pf>void upperCase(string s)</pf> so it takes its parameter by reference. <fillin mode="string"
                 answer="void upperCase(string&amp; s)"/></p>
     </statement>
     <evaluation>

@@ -3,26 +3,26 @@
 
   <title>Exception Types</title>
 
-  <p>`exception` is a broad category that includes many different more specific types of exception. Here are a few examples:
+  <p><pf>exception</pf> is a broad category that includes many different more specific types of exception. Here are a few examples:
   <ul>
-    <li><c>out_of_range</c> A parameter specifies a bad index.</li>
-    <li><c>system_error</c> An error happened with something like reading a file.</li>
-    <li><c>logic_error</c> Some violation of the internal logic of the program.</li>
+    <li><pf>out_of_range</pf> A parameter specifies a bad index.</li>
+    <li><pf>system_error</pf> An error happened with something like reading a file.</li>
+    <li><pf>logic_error</pf> Some violation of the internal logic of the program.</li>
   </ul>
   </p>
 
-  <p>When you catch an `exception`, it includes all of those different types. But it is possible to catch more specific types. It is also possible to catch multiple different types of exception and respond differently to each:</p>
+  <p>When you catch an <pf>exception</pf>, it includes all of those different types. But it is possible to catch more specific types. It is also possible to catch multiple different types of exception and respond differently to each:</p>
 
   <program xml:id="program-design_exceptions-types-1">
 <xi:include href="../../programs/program-design/exceptions-types-1.cpp" parse="text"/>
 </program>
 
-  <p>When there are multiple `catch` blocks attached to a single `try`, they will be checked in order until one matches. Once a `catch` handles the exception, the rest of the catches are ignored. So the most specific `catch` should be first, followed by less specific ones. Thus we have `exception` after the other two more specific exception types.</p>
+  <p>When there are multiple <pf>catch</pf> blocks attached to a single <pf>try</pf>, they will be checked in order until one matches. Once a <pf>catch</pf> handles the exception, the rest of the catches are ignored. So the most specific <pf>catch</pf> should be first, followed by less specific ones. Thus we have <pf>exception</pf> after the other two more specific exception types.</p>
 
-  <p>The final `catch` in this sample specifies `...`. That is a way to catch absolutely anything that was thrown. Instead of throwing one of the standard `exception` types, code can throw its own custom exception types, or some other type of data completely. The `...` will catch any of those things.</p>
+  <p>The final <pf>catch</pf> in this sample specifies <pf>...</pf>. That is a way to catch absolutely anything that was thrown. Instead of throwing one of the standard <pf>exception</pf> types, code can throw its own custom exception types, or some other type of data completely. The <pf>...</pf> will catch any of those things.</p>
 
-  <p>If no `catch` matches what was thrown, then the exception will propagate up to the next function as if there was no `catch`.</p>
+  <p>If no <pf>catch</pf> matches what was thrown, then the exception will propagate up to the next function as if there was no <pf>catch</pf>.</p>
 
-  <note><p>In this book, we will not worry too much about differentiating the various types of exception. Instead, we will generally just catch `exception`.</p></note>
+  <note><p>In this book, we will not worry too much about differentiating the various types of exception. Instead, we will generally just catch <pf>exception</pf>.</p></note>
 
 </section>

@@ -2,7 +2,7 @@
 <title>Decks of Cards</title>
 <p>
     <idx><h>Deck</h></idx>
-Here is the beginning of a <c>Deck</c> class that encapsulates an array of <c>Card</c> objects:
+Here is the beginning of a <pf>Deck</pf> class that encapsulates an array of <pf>Card</pf> objects:
 </p>
 
 <program xml:id="objects-arrays_decks-cards-1" interactive="activecode">
@@ -13,15 +13,15 @@ Here is the beginning of a <c>Deck</c> class that encapsulates an array of <c>Ca
     <idx><h>constructor</h></idx>
     <idx><h>memory diagram</h></idx>
     <idx><h>diagram</h><h>memory</h></idx>
-The constructor initializes the instance variable with an array of <c>n</c> cards, but it doesn't create any <c>Card</c> objects.
-<xref ref="fig_deckobject">Figure</xref> shows what a <c>Deck</c> looks like with no cards.
+The constructor initializes the instance variable with an array of <pf>n</pf> cards, but it doesn't create any <pf>Card</pf> objects.
+<xref ref="fig_deckobject">Figure</xref> shows what a <pf>Deck</pf> looks like with no cards.
 </p>
 <figure xml:id="fig_deckobject" >
-<caption>Memory diagram of an unpopulated <c>Deck</c> object.</caption>
+<caption>Memory diagram of an unpopulated <pf>Deck</pf> object.</caption>
 <image width="73%" source="images/deckobject.png" />
 </figure>
 <p>
-We'll add another constructor that creates a standard 52-card array and populates it with <c>Card</c> objects:
+We'll add another constructor that creates a standard 52-card array and populates it with <pf>Card</pf> objects:
 </p>
 
 <program xml:id="objects-arrays_decks-cards-2" interactive="activecode">
@@ -30,7 +30,7 @@ We'll add another constructor that creates a standard 52-card array and populate
 
 <p>
 This function is similar to the example in <xref ref="cardarray">Section</xref>; we just turned it into a constructor.
-We can use it to create a complete <c>Deck</c> like this:
+We can use it to create a complete <pf>Deck</pf> like this:
 </p>
 
 <program xml:id="objects-arrays_decks-cards-3" interactive="activecode">
@@ -39,9 +39,9 @@ We can use it to create a complete <c>Deck</c> like this:
 
 <p>
     <idx><h>printDeck</h></idx>
-Now that we have a <c>Deck</c> class, we have a logical place to put functions that pertain to decks.
-Looking at the functions we have written so far, one obvious candidate is <c>printDeck</c> from <xref ref="cardarray">Section</xref>.
-Here's how it looks, rewritten as an instance function of <c>Deck</c>:
+Now that we have a <pf>Deck</pf> class, we have a logical place to put functions that pertain to decks.
+Looking at the functions we have written so far, one obvious candidate is <pf>printDeck</pf> from <xref ref="cardarray">Section</xref>.
+Here's how it looks, rewritten as an instance function of <pf>Deck</pf>:
 </p>
 
 <program xml:id="objects-arrays_decks-cards-4" interactive="activecode">

@@ -3,9 +3,9 @@
 
   <title>Implicit Conversions</title>
 
-  <p>As we have seen, the difference between the integer <c>60</c> from the floating-point value <c>60.0</c> can be confusing. They look like the same number. But they belong to different data types, and thus doing math with them can produce different results.</p>
+  <p>As we have seen, the difference between the integer <pf>60</pf> from the floating-point value <pf>60.0</pf> can be confusing. They look like the same number. But they belong to different data types, and thus doing math with them can produce different results.</p>
 
-  <p>Adding to the confusion is the fact that C++ will automatically <q>upgrade</q> an <c>int</c> to a <c>double</c> if you try to store a whole number value into a double variable. This is called <term>implicit conversion</term>. Even worse, if you print a value like 4.0, the unnecessary decimal portion is left off:
+  <p>Adding to the confusion is the fact that C++ will automatically <q>upgrade</q> an <pf>int</pf> to a <pf>double</pf> if you try to store a whole number value into a double variable. This is called <term>implicit conversion</term>. Even worse, if you print a value like 4.0, the unnecessary decimal portion is left off:
   <idx>
     <h>implicit conversion</h>
   </idx></p>
@@ -15,7 +15,7 @@
 <xi:include href="../../programs/floatingpoint-math/floatingpoint-conversions-1.cpp" parse="text"/>
   </program>
 
-  <p>C++ can do the implicit conversions because any integer can be safely represent as a decimal value. The opposite is not true. There is no way to represent <c>3.14159</c> as a whole number without losing information. This code sample demonstrates what happens:</p>
+  <p>C++ can do the implicit conversions because any integer can be safely represent as a decimal value. The opposite is not true. There is no way to represent <pf>3.14159</pf> as a whole number without losing information. This code sample demonstrates what happens:</p>
 
   <program xml:id="floatingpoint-math_floatingpoint-conversions-2"
            interactive="activecode">
@@ -32,7 +32,7 @@
 
   <warning>
     <p>Remember that you should consider warnings to be just as important as errors. (Because they often are!)</p>
-    <p>Losing the decimal part of a number because you stored it into an <c>int</c> variable is likely going to be a <term>logic error</term>.</p>
+    <p>Losing the decimal part of a number because you stored it into an <pf>int</pf> variable is likely going to be a <term>logic error</term>.</p>
   </warning>
 
   <exercise label="floating_point_3">
@@ -45,7 +45,7 @@
 int tempInt = temp;
 double tempDouble = tempInt;
 cout &lt;&lt; tempDouble;</program>
-      <p>What is the value of <c>tempDouble</c> that is printed to the terminal?</p>
+      <p>What is the value of <pf>tempDouble</pf> that is printed to the terminal?</p>
     </statement>
     <choices randomize="yes">
       <choice>

@@ -5,8 +5,8 @@
 
   <introduction>
     <p>Any task you need to be done with strings can be done with the tools we have learned so far:
-      `.length()`, `.find()`, and `.substr()`. But if you check out a <url href="https://en.cppreference.com/w/cpp/string/basic_string">reference
-      for the `&lt;string>` library</url>, you will find many other functions. These other functions
+      <pf>.length()</pf>, <pf>.find()</pf>, and <pf>.substr()</pf>. But if you check out a <url href="https://en.cppreference.com/w/cpp/string/basic_string">reference
+      for the <pf>&lt;string></pf> library</url>, you will find many other functions. These other functions
       can make some jobs easier than trying to do the work with just the three member functions we
       have learned about. This section introduces a few of them but does not cover all of the
       functions.</p>
@@ -14,14 +14,14 @@
 
   <subsection>
     <title>Other finds</title>
-    <p>There are alternatives to `.find()` that can help when you want to find the last copy of some
+    <p>There are alternatives to <pf>.find()</pf> that can help when you want to find the last copy of some
       substring or are looking for one of many items.</p>
 
-    <p>`size_t rfind(string s, size_t pos = npos)` works just like find, but searches in reverse
+    <p><pf>size_t rfind(string s, size_t pos = npos)</pf> works just like find, but searches in reverse
       (from right to left). You can give it a position to start from, otherwise it starts from the
-      end of the string. Say we want to find the last `/` in a string. We could write a loop that
-      looks for `/`, then keeps looking for another `/` after that location until it can't find any
-      more. `rfind()` makes this much easier:</p>
+      end of the string. Say we want to find the last <pf>/</pf> in a string. We could write a loop that
+      looks for <pf>/</pf>, then keeps looking for another <pf>/</pf> after that location until it can't find any
+      more. <pf>rfind()</pf> makes this much easier:</p>
 
     <program><![CDATA[ 
 string path = "http://example.com/home/user/files/file.txt";
@@ -38,7 +38,7 @@ while (nextSlash != string::npos) {
 
   ]]></program>
 
-    <p>`find_first_of` and `find_last_of` let you specify a set of characters to look for. Say we
+    <p><pf>find_first_of</pf> and <pf>find_last_of</pf> let you specify a set of characters to look for. Say we
       want to find the first vowel in a string. One way would be to write our own loop that checks
       letter by letter until it find something that when made lowercase matches a e i o or u.:</p>
 
@@ -56,7 +56,7 @@ for (int i = 0; i < s.length(); ++i) {
 ]]>
 </program>
 
-    <p>But `find_first_of` can handle the loop for us. We just need to tell it what to look for (any
+    <p>But <pf>find_first_of</pf> can handle the loop for us. We just need to tell it what to look for (any
       upper or lower case letter).</p>
 
     <program><![CDATA[
@@ -70,7 +70,7 @@ size_t firstVowelLocation = s.find_first_of("aeiouAEIOU");
   <subsection>
     <title>String modifying functions</title>
 
-    <p>The other class of string member functions it is worth knowing about are string modifying functions. These are ones that change an existing string (instead of making a copy of part of it like `substr` does). The two key ones are `erase` and `replace`.</p>
+    <p>The other class of string member functions it is worth knowing about are string modifying functions. These are ones that change an existing string (instead of making a copy of part of it like <pf>substr</pf> does). The two key ones are <pf>erase</pf> and <pf>replace</pf>.</p>
     
     <p>The prototype for looks like:</p> 
     
@@ -82,7 +82,7 @@ size_t firstVowelLocation = s.find_first_of("aeiouAEIOU");
 <xi:include href="../../programs/strings/other-string-functions-1.cpp" parse="text"/>
     </program>
 
-    <p>Note that we do not need to store the result of calling `erase`. Just calling the member function changes the string that we called it on.</p>
+    <p>Note that we do not need to store the result of calling <pf>erase</pf>. Just calling the member function changes the string that we called it on.</p>
 
     <p>To do the same work without erase, we would need to grab two substrings, concatenate them, and store the result back into a variable. Below is an example of what that looks like (you can test it in the activecode above if you like.)</p>
     
@@ -90,13 +90,13 @@ size_t firstVowelLocation = s.find_first_of("aeiouAEIOU");
 <xi:include href="../../programs/strings/other-string-functions-2.cpp" parse="text"/>
     </program>
 
-    <p>`replace` looks similar to `erase`, but has an additional parameter `str` that is put where the erased text was. Here is what it would look like to erase the word `World` (5 charcters) that starts at index 6, with the string `"you"`:</p>
+    <p><pf>replace</pf> looks similar to <pf>erase</pf>, but has an additional parameter <pf>str</pf> that is put where the erased text was. Here is what it would look like to erase the word <pf>World</pf> (5 charcters) that starts at index 6, with the string <pf>"you"</pf>:</p>
 
   <program interactive="activecode">
 <xi:include href="../../programs/strings/other-string-functions-3.cpp" parse="text"/>
   </program>
 
-  <p>Again, we could do something equivalent without `replace` by grabbing the `substr`s before and after the part we want to replace and then concatenating them with something like: <c>message = part1 + "you" + part2;</c></p>
+  <p>Again, we could do something equivalent without <pf>replace</pf> by grabbing the <pf>substr</pf>s before and after the part we want to replace and then concatenating them with something like: <pf>message = part1 + "you" + part2;</pf></p>
 
   </subsection>
 

@@ -2,7 +2,7 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>End of File and Getline</title>
 
-    <p>What if you do not know how many tokens there are to read? Well, we can simply keep reading until we either encounter the end of the file or produce an error. Trying to read a token once we are at the end of the file will cause the stream to go into a failure state. If we want to try to stop before an input actually fails, we can use the `.eof()` method to ask <q>are you at the End Of File yet?</q>. It returns `true` if the end has been reached. So `!streamName.eof()` checks <q>is there more to read?</q></p>
+    <p>What if you do not know how many tokens there are to read? Well, we can simply keep reading until we either encounter the end of the file or produce an error. Trying to read a token once we are at the end of the file will cause the stream to go into a failure state. If we want to try to stop before an input actually fails, we can use the <pf>.eof()</pf> method to ask <q>are you at the End Of File yet?</q>. It returns <pf>true</pf> if the end has been reached. So <pf>!streamName.eof()</pf> checks <q>is there more to read?</q></p>
 
   <program datafile="Numbers.txt" label="input-output_file-input-eof-1"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-eof-1.cpp" parse="text"/>
@@ -20,17 +20,17 @@ Emily K. Davis</pre></datafile>
 <xi:include href="../../programs/input-output/file-input-eof-2.cpp" parse="text"/>
 </program>
 
-  <p>Notice that when we read into strings, whitespace still breaks up the tokens. Thus we do not get entire names, we get `John`, `Doe`, `Jr.`,...</p>
+  <p>Notice that when we read into strings, whitespace still breaks up the tokens. Thus we do not get entire names, we get <pf>John</pf>, <pf>Doe</pf>, <pf>Jr.</pf>,...</p>
 
-  <p>We can also use the `getline` function to read an entire line of text. This is useful when we want to read a whole line of text into a string variable. The `getline` function takes two parameters: the stream and the string variable to read into. Here is an example:</p>
+  <p>We can also use the <pf>getline</pf> function to read an entire line of text. This is useful when we want to read a whole line of text into a string variable. The <pf>getline</pf> function takes two parameters: the stream and the string variable to read into. Here is an example:</p>
 
   <program datafile="Names.txt" label="input-output_file-input-eof-3"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-eof-3.cpp" parse="text"/>
 </program>
 
-  <note><p>You can use getline to read an entire line from any stream, including `cin`. To use it on `cin` you would do something like `getline(cin, stringVariable)`.</p></note>
+  <note><p>You can use getline to read an entire line from any stream, including <pf>cin</pf>. To use it on <pf>cin</pf> you would do something like <pf>getline(cin, stringVariable)</pf>.</p></note>
 
-  <p>You may notice one extra line of output. That is because the datafile has a newline character after the last name. There is one empty line at the end of the <q>file</q>. The `getline` reads the line for `Emily K. Davis` and then encounters the newline and stops. The end of file marker is just past that. So the loop runs one more time, reading in a blank line. To fix that, we can try checking the `name` after reading it in.</p>
+  <p>You may notice one extra line of output. That is because the datafile has a newline character after the last name. There is one empty line at the end of the <q>file</q>. The <pf>getline</pf> reads the line for <pf>Emily K. Davis</pf> and then encounters the newline and stops. The end of file marker is just past that. So the loop runs one more time, reading in a blank line. To fix that, we can try checking the <pf>name</pf> after reading it in.</p>
 
   <p>Try changing lines 11-12 in the program above to this code:</p>
 
@@ -42,7 +42,7 @@ Emily K. Davis</pre></datafile>
         cout << "The next number in the file is: " << name << endl;
 ]]></program>
 
-  <p>Just because a file has lines does not mean you need to use `getline` to read them. If every line has the same number of pieces of data and those pieces are separated by whitespace, it is likely easier to read in each part directly. For example, given this data:</p>
+  <p>Just because a file has lines does not mean you need to use <pf>getline</pf> to read them. If every line has the same number of pieces of data and those pieces are separated by whitespace, it is likely easier to read in each part directly. For example, given this data:</p>
 
   <datafile label="datafile-cars.txt" filename="Cars.txt"><pre>
 Honda Acura 2005
@@ -50,17 +50,17 @@ Toyota Camry 2010
 Ford Focus 2015
 </pre></datafile>
 
-  <p>The easiest way to read it in would likely be something like what is shown below. If we used `getline` we would have to do our own work to then split the line up into parts.</p>
+  <p>The easiest way to read it in would likely be something like what is shown below. If we used <pf>getline</pf> we would have to do our own work to then split the line up into parts.</p>
 
   <program datafile="Cars.txt" label="input-output_file-input-eof-4"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-eof-4.cpp" parse="text"/>
 </program>
 
-  <warning><p>Mixing `getline` and `>>` can cause confusing issues. `>>` will read the last thing on a line and leave the newline there to be read (or skipped) by the next input instruction. If `getline` is used next, it will read that newline as an empty line. Try to stick to one method or the other when reading a file.</p></warning>
+  <warning><p>Mixing <pf>getline</pf> and <pf>>></pf> can cause confusing issues. <pf>>></pf> will read the last thing on a line and leave the newline there to be read (or skipped) by the next input instruction. If <pf>getline</pf> is used next, it will read that newline as an empty line. Try to stick to one method or the other when reading a file.</p></warning>
 
   <exercise label="question15_3_2b">
     <statement>
-      <p>The <c>ifstream</c> member function <fillin mode="string"
+      <p>The <pf>ifstream</pf> member function <fillin mode="string"
                 case="insensitive"
                 answer="^(\\.)?eof(\\(\\))?"/>
         detects if the end of the file has been reached. </p>
@@ -82,8 +82,8 @@ Ford Focus 2015
     <statement>
       <p>You are given a file but it appears that someone's capslock key was stuck because
         everything is in uppercase. Write a program that takes the input from the file <q>UPPER.txt</q>
-        and converts all the text to lower case. Write the definition of the function <c>toLower</c> first. Put the necessary blocks of code in the correct order.</p>
-        <p>Note that `upperToLower` intentionally uses pass by value to work with a copy of `upper` that it can freely modify.</p>
+        and converts all the text to lower case. Write the definition of the function <pf>toLower</pf> first. Put the necessary blocks of code in the correct order.</p>
+        <p>Note that <pf>upperToLower</pf> intentionally uses pass by value to work with a copy of <pf>upper</pf> that it can freely modify.</p>
     </statement>
     <blocks>
       <block order="4">

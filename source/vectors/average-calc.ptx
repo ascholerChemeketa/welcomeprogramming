@@ -21,7 +21,7 @@
 
     <p>The first part seems easy enough. It will be hard to test as it involves user input. But the
       work itself seems easy enough. We could put that work in a function that reads in the scores
-      and returns a vector of doubles. `vector&lt;double> getData()`</p>
+      and returns a vector of doubles. <pf>vector&lt;double> getData()</pf></p>
 
     <p>Calculating the average involves a few pieces. We need to figure out the average, but we also
       need to remove the lowest score before doing so. We could do that in a few ways: <ul>
@@ -39,8 +39,8 @@
       vector&lt;double>&amp; scores)`</p>
 
     <p>So we need to: <ol>
-        <li>Read in a list of 10 values `vector&lt;double> getData();`</li>
-        <li>Find the lowest value using `double minValue(const vector&lt;double>&amp; scores)`.</li>
+        <li>Read in a list of 10 values <pf>vector&lt;double> getData();</pf></li>
+        <li>Find the lowest value using <pf>double minValue(const vector&lt;double>&amp; scores)</pf>.</li>
         <li>Calculate the average without that value.</li>
       </ol>
     </p>
@@ -55,7 +55,7 @@
     <exercise label="vectors_average-calc-1">
       <statement>
         <p>We have seen a recipe for finding the minimum value in <xref ref="vectors_traversing-recipes-reduction"/>.
-          Use that logic to finish this function (look for the `FIXME`s).</p>
+          Use that logic to finish this function (look for the <pf>FIXME</pf>s).</p>
 
         <p>Note that the function does not assume the data is any particular length. But it does
           assume there is at least one value. Because there is no logical answer for <q>what is the
@@ -91,7 +91,7 @@ TEST_CASE("minValue") {
       <p>When writing a function to find a particular value in a vector (like the minimum or
         maximum), it is more useful in general to return the index of the element rather than the
         value of the element. If I tell you that the smallest element is at index 3, you can use
-        `.at(3)` to find the value. If I tell you that the smallest value is `68.4`, there is no
+        <pf>.at(3)</pf> to find the value. If I tell you that the smallest value is <pf>68.4</pf>, there is no
         easy way to find the index.</p>
       <p>But in this case, we know we only care about the value.</p>
     </note>
@@ -100,23 +100,23 @@ TEST_CASE("minValue") {
   <subsection>
     <title>Average</title>
 
-    <p>We can now worry about finding the average of all but the lowest items. If there are `x`
+    <p>We can now worry about finding the average of all but the lowest items. If there are <pf>x</pf>
       items, we can add them all up, subtract the smallest value (which we have a function to find),
-      and divide by `x - 1`. Since we already have a `sum` function (see <xref ref="vectors_traversing-recipes-reduction"/>)
+      and divide by <pf>x - 1</pf>. Since we already have a <pf>sum</pf> function (see <xref ref="vectors_traversing-recipes-reduction"/>)
       let us use it to help do the job.</p>
 
-    <p>Given our two helper function, finding the average sounds pretty easy. It should just be a few lines of code. But it is worth turning it into a function like `double avgWithoutLow(const vector&lt;double>&amp; scores)`. That will allow us to run some automated tests on it.</p>
+    <p>Given our two helper function, finding the average sounds pretty easy. It should just be a few lines of code. But it is worth turning it into a function like <pf>double avgWithoutLow(const vector&lt;double>&amp; scores)</pf>. That will allow us to run some automated tests on it.</p>
 
     <p>Our updated plan is: <ol>
-        <li>Read in a list of 10 values using `vector&lt;double> getData();`</li>
-        <li>Find the lowest value using `double minValue(const vector&lt;double>&amp; scores)`.</li>
-        <li>Calculate the average without the lowest score in `double avgWithoutLow(const vector&lt;double>&amp; scores)`.</li>
+        <li>Read in a list of 10 values using <pf>vector&lt;double> getData();</pf></li>
+        <li>Find the lowest value using <pf>double minValue(const vector&lt;double>&amp; scores)</pf>.</li>
+        <li>Calculate the average without the lowest score in <pf>double avgWithoutLow(const vector&lt;double>&amp; scores)</pf>.</li>
       </ol>
     </p>
 
     <exercise label="vectors_average-calc-2">
       <statement>
-        <p>Add your `minValue` function from the previous exercise. Then call it and the provided sum function to get the `totalScore` and `minScore`.</p>
+        <p>Add your <pf>minValue</pf> function from the previous exercise. Then call it and the provided sum function to get the <pf>totalScore</pf> and <pf>minScore</pf>.</p>
       </statement>
       <program interactive="activecode">
       <preamble><![CDATA[#include <iostream>
@@ -151,11 +151,11 @@ TEST_CASE("avgWithoutLow") {
 
     <p>How let's loop back to worry about getting our input. Testing user input isn't easy to do with the tools we have. But by testing the rest of the logic without relying on user input, we should only have to worry about whether the input code is working or not. We already have confidence in the rest of the logic.</p>
 
-    <p>Here we will use a simple program to call our `getData` function and then print out the results. The exercise will compare that to the expected output.</p>
+    <p>Here we will use a simple program to call our <pf>getData</pf> function and then print out the results. The exercise will compare that to the expected output.</p>
 
     <exercise label="vectors_average-calc-3">
       <statement>
-        <p>Finish the `getData` function. It already reads in 10 doubles. You need to make a vector to store them in, add each value to the vector, and then return the vector when you are done.</p>
+        <p>Finish the <pf>getData</pf> function. It already reads in 10 doubles. You need to make a vector to store them in, add each value to the vector, and then return the vector when you are done.</p>
       </statement>
       <program interactive="activecode">
       <preamble><![CDATA[#include <iostream>
@@ -189,13 +189,13 @@ int main() {
       </iotest>
       </tests>
       </program>
-      <hint><p>The easiest approach is to start with an empty vector and use `push_back` to add each value. But you also can start with a vector of 10 doubles and then use the loop counter to place each value in the correct location of the vector.</p></hint>
+      <hint><p>The easiest approach is to start with an empty vector and use <pf>push_back</pf> to add each value. But you also can start with a vector of 10 doubles and then use the loop counter to place each value in the correct location of the vector.</p></hint>
     </exercise>
   </subsection>
 
   <subsection>
   <title>Wrapup</title>
-    <p>At this point it would be easy to call the `avgWithoutLow` function on the `scores` vector to make the fully functioning program. All of the various tasks have been built and tested. You are encouraged to combine the functions into a single program and test it out on your own.</p>
+    <p>At this point it would be easy to call the <pf>avgWithoutLow</pf> function on the <pf>scores</pf> vector to make the fully functioning program. All of the various tasks have been built and tested. You are encouraged to combine the functions into a single program and test it out on your own.</p>
   </subsection>
 
 </section>

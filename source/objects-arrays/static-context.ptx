@@ -1,8 +1,8 @@
 <section xml:id="objects-arrays_static-context" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Static Context</title>
 <p>
-<xref ref="fig_deck">Figure</xref> shows a UML class diagram for <c>Deck</c>, including the instance variable, <c>cards</c>, and the functions we have so far.
-In UML diagrams, <c>private</c> attributes and functions begin with a minus sign (<c>-</c>) and <c>static</c> functions are underlined.
+<xref ref="fig_deck">Figure</xref> shows a UML class diagram for <pf>Deck</pf>, including the instance variable, <pf>cards</pf>, and the functions we have so far.
+In UML diagrams, <pf>private</pf> attributes and functions begin with a minus sign (<pf>-</pf>) and <pf>static</pf> functions are underlined.
 </p>
 
 <p>
@@ -11,12 +11,12 @@ In UML diagrams, <c>private</c> attributes and functions begin with a minus sign
     <idx><h>diagram</h><h>class</h></idx>
 </p>
 <figure xml:id="fig_deck" >
-<caption>UML diagram for the <c>Deck</c> class.</caption>
+<caption>UML diagram for the <pf>Deck</pf> class.</caption>
 <image width="73%" source="images/deck.png" />
 </figure>
 <p>
-The helper functions <c>randomInt</c> and <c>merge</c> are <c>static</c>, because they do not read or write any instance variables.
-All other functions are instance functions, because they access the instance variable, <c>cards</c>.
+The helper functions <pf>randomInt</pf> and <pf>merge</pf> are <pf>static</pf>, because they do not read or write any instance variables.
+All other functions are instance functions, because they access the instance variable, <pf>cards</pf>.
 </p>
 
 <p>
@@ -32,11 +32,11 @@ To invoke an instance function, you need an instance:
 </program>
 
 <p>
-<c>Deck</c> with a capital <c>D</c> is a class, and <c>deck</c> with a lowercase <c>d</c> is an object.
+<pf>Deck</pf> with a capital <pf>D</pf> is a class, and <pf>deck</pf> with a lowercase <pf>d</pf> is an object.
 </p>
 
 <p>
-Say you try to invoke <c>print</c> like this:
+Say you try to invoke <pf>print</pf> like this:
 </p>
 
 <program xml:id="objects-arrays_static-context-2" interactive="activecode">
@@ -61,7 +61,7 @@ By <q>static context</q>, the compiler means you are trying to invoke a function
 </p>
 
 <p>
-On the other hand, if you have a <c>Deck</c> object, you can use it to invoke a static function:
+On the other hand, if you have a <pf>Deck</pf> object, you can use it to invoke a static function:
 </p>
 
 <program xml:id="objects-arrays_static-context-3" interactive="activecode">
@@ -69,11 +69,11 @@ On the other hand, if you have a <c>Deck</c> object, you can use it to invoke a 
 </program>
 
 <p>
-This is legal, but it is not considered good style, because someone reading this code would expect <c>randomInt</c> to be an instance function.
+This is legal, but it is not considered good style, because someone reading this code would expect <pf>randomInt</pf> to be an instance function.
 </p>
 
 <p>
-Another common error is to use <c>this</c> in a static function.
+Another common error is to use <pf>this</pf> in a static function.
 For example, say you write something like this:
 </p>
 
@@ -93,8 +93,8 @@ static context.
 </console>
 
 <p>
-The problem is that <c>cards</c> is an instance variable, so it is <term>non-static</term>; therefore, you can't access it from a static function.
-In general, you can't use <c>this</c> in a static function, because a static function is not invoked on an object.
+The problem is that <pf>cards</pf> is an instance variable, so it is <term>non-static</term>; therefore, you can't access it from a static function.
+In general, you can't use <pf>this</pf> in a static function, because a static function is not invoked on an object.
 </p>
 
 <p>

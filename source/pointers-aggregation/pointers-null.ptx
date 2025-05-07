@@ -10,7 +10,7 @@
 
   <program>int* p = nullptr;</program>
 
-  <p>`nullptr` is really just the value 0. 0 is never a valid memory address for a program to try to dereference, so if a pointer has the value 0, we know it isn't pointing at anything. You can't use a null pointer to do any useful work, as it doesn't point at anything. However, it is easy to verify that a pointer that is storing `nullptr` is not valid. The following if statement could be used to guard against a mullptr and only use `p` if it is not null:</p>
+  <p><pf>nullptr</pf> is really just the value 0. 0 is never a valid memory address for a program to try to dereference, so if a pointer has the value 0, we know it isn't pointing at anything. You can't use a null pointer to do any useful work, as it doesn't point at anything. However, it is easy to verify that a pointer that is storing <pf>nullptr</pf> is not valid. The following if statement could be used to guard against a mullptr and only use <pf>p</pf> if it is not null:</p>
 
   <program>
     if (p != nullptr) {
@@ -18,7 +18,7 @@
     }
   </program>
 
-  And, because `nullptr` is just the value 0, which is equivalent to false in a boolean context, and every other value is equivalent to true, we can also write the if statement as:
+  And, because <pf>nullptr</pf> is just the value 0, which is equivalent to false in a boolean context, and every other value is equivalent to true, we can also write the if statement as:
 
   <program>
     if (p) {
@@ -26,7 +26,7 @@
     }
   </program>
 
-  <p>If `p` is null, then the if looks like `if (0)` which is false. If `p` has some other memory address, the if looks like `if (823482340)` which is true no mater what the number is. So `if (p)` checks to see that the pointer is good (well, at least that it isn't null). If you want to check if a pointer is null, you can use either of these forms:</p>
+  <p>If <pf>p</pf> is null, then the if looks like <pf>if (0)</pf> which is false. If <pf>p</pf> has some other memory address, the if looks like <pf>if (823482340)</pf> which is true no mater what the number is. So <pf>if (p)</pf> checks to see that the pointer is good (well, at least that it isn't null). If you want to check if a pointer is null, you can use either of these forms:</p>
 
   <program>
     if (p == nullptr) {
@@ -40,6 +40,6 @@
 
   <p>A null pointer is not the same as an uninitialized pointer. An uninitialized pointer is a pointer that has not been assigned any value at all. It may contain any random value, including a valid memory address. Dereferencing an uninitialized pointer can lead to undefined behavior, which can cause your program to crash or behave unpredictably. A null pointer, on the other hand, is explicitly set to point at nothing, and dereferencing it will always result in an immediate error. It is also easy to check if a pointer is null. But there </p>
 
-  <warning><p>Any pointers you do not initialize immediately should be set to `nullptr`. If you do something that invalidates a pointer (delete the thing it points at), you should set the pointer to null.</p></warning>
+  <warning><p>Any pointers you do not initialize immediately should be set to <pf>nullptr</pf>. If you do something that invalidates a pointer (delete the thing it points at), you should set the pointer to null.</p></warning>
 
 </section>

@@ -4,10 +4,10 @@
 If we were not planning to implement any other zero-person games, we could leave well enough alone.
 But there are a few problems with the current design:
 <ul>
-<li><p>The <c>grid</c> attribute is <c>private</c>, making it inaccessible in <c>Conway</c> and <c>Langton</c>.
-We could make it <c>public</c>, but then other (unrelated) classes would have access to it as well.</p></li>
-<li><p>The <c>Automaton</c> class has no constructors, and even if it did, there would be no reason to create an instance of this class.</p></li>
-<li><p>The <c>Automaton</c> class does not provide an implementation of <c>update</c>.
+<li><p>The <pf>grid</pf> attribute is <pf>private</pf>, making it inaccessible in <pf>Conway</pf> and <pf>Langton</pf>.
+We could make it <pf>public</pf>, but then other (unrelated) classes would have access to it as well.</p></li>
+<li><p>The <pf>Automaton</pf> class has no constructors, and even if it did, there would be no reason to create an instance of this class.</p></li>
+<li><p>The <pf>Automaton</pf> class does not provide an implementation of <pf>update</pf>.
 In order to work properly, subclasses need to provide one.</p></li>
 </ul>
 </p>
@@ -18,16 +18,16 @@ In order to work properly, subclasses need to provide one.</p></li>
     <idx><h>function</h><h>abstract</h></idx>
 Java provides language features to solve these problems:
 <ul>
-<li><p>We can make the <c>grid</c> attribute <c>protected</c>, which means it's accessible to subclasses but not other classes.</p></li>
-<li><p>We can make the class <c>abstract</c>, which means it cannot be instantiated.
+<li><p>We can make the <pf>grid</pf> attribute <pf>protected</pf>, which means it's accessible to subclasses but not other classes.</p></li>
+<li><p>We can make the class <pf>abstract</pf>, which means it cannot be instantiated.
 If you attempt to create an object for an abstract class, you will get a compiler error.</p></li>
-<li><p>We can declare <c>update</c> as an <c>abstract</c> function, meaning that it must be overridden in subclasses.
+<li><p>We can declare <pf>update</pf> as an <pf>abstract</pf> function, meaning that it must be overridden in subclasses.
 If the subclass does not override an abstract function, you will get a compiler error.</p></li>
 </ul>
 </p>
 
 <p>
-Here's what <c>Automaton</c> looks like as an abstract class (using the functions <c>mainloop</c> and <c>run</c> from <xref ref="refactor">Section</xref>):
+Here's what <pf>Automaton</pf> looks like as an abstract class (using the functions <pf>mainloop</pf> and <pf>run</pf> from <xref ref="refactor">Section</xref>):
 </p>
 
 <program xml:id="reusing-classes_abstract-classes-1">
@@ -35,22 +35,22 @@ Here's what <c>Automaton</c> looks like as an abstract class (using the function
 </program>
 
 <p>
-Notice that the <c>update</c> function has no body.
+Notice that the <pf>update</pf> function has no body.
 The declaration specifies the name, arguments, and return type.
 But it does not provide an implementation, because it is an abstract function.
 </p>
 
 <p>
-Notice also the word <c>abstract</c> on the first line, which declares that <c>Automaton</c> is an abstract class.
+Notice also the word <pf>abstract</pf> on the first line, which declares that <pf>Automaton</pf> is an abstract class.
 In order to have any abstract functions, a class must be declared as abstract.
 </p>
 
 <p>
-Any class that extends <c>Automaton</c> must provide an implementation of <c>update</c>; the declaration here allows the compiler to check.
+Any class that extends <pf>Automaton</pf> must provide an implementation of <pf>update</pf>; the declaration here allows the compiler to check.
 </p>
 
 <p>
-Here's what <c>Conway</c> looks like as a subclass of <c>Automaton</c>:
+Here's what <pf>Conway</pf> looks like as a subclass of <pf>Automaton</pf>:
 </p>
 
 <program xml:id="reusing-classes_abstract-classes-2" interactive="activecode">
@@ -58,8 +58,8 @@ Here's what <c>Conway</c> looks like as a subclass of <c>Automaton</c>:
 </program>
 
 <p>
-<c>Conway</c> extends <c>Automaton</c>, so it inherits the <c>protected</c> instance variable <c>grid</c> and the functions <c>mainloop</c> and <c>run</c>.
-But because <c>Automaton</c> is abstract, <c>Conway</c> has to provide <c>update</c> and a constructor (which it has already).
+<pf>Conway</pf> extends <pf>Automaton</pf>, so it inherits the <pf>protected</pf> instance variable <pf>grid</pf> and the functions <pf>mainloop</pf> and <pf>run</pf>.
+But because <pf>Automaton</pf> is abstract, <pf>Conway</pf> has to provide <pf>update</pf> and a constructor (which it has already).
 </p>
 
 <p>

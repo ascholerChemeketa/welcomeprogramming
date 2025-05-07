@@ -1,8 +1,8 @@
 <section xml:id="advanced-topics_initial-drawing" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>An Initial Drawing</title>
 <p>
-Now that we have <c>DrawablePolygon</c> and <c>RegularPolygon</c>, let's take them for a test drive.
-We'll need a <c>Canvas</c> for drawing them, so we define a new class, <c>Drawing</c>, that extends <c>Canvas</c>:
+Now that we have <pf>DrawablePolygon</pf> and <pf>RegularPolygon</pf>, let's take them for a test drive.
+We'll need a <pf>Canvas</pf> for drawing them, so we define a new class, <pf>Drawing</pf>, that extends <pf>Canvas</pf>:
 </p>
 
 <program xml:id="advanced-topics_initial-drawing-1">
@@ -14,18 +14,18 @@ We'll need a <c>Canvas</c> for drawing them, so we define a new class, <c>Drawin
 </program>
 
 <p>
-The <c>Drawing</c> class has an <c>ArrayList</c> of <c>DrawablePolygon</c> objects.
-When we create a <c>Drawing</c> object, the list is initially empty.
-The <c>add</c> function takes a <c>DrawablePolygon</c> and adds it to the list.
+The <pf>Drawing</pf> class has an <pf>ArrayList</pf> of <pf>DrawablePolygon</pf> objects.
+When we create a <pf>Drawing</pf> object, the list is initially empty.
+The <pf>add</pf> function takes a <pf>DrawablePolygon</pf> and adds it to the list.
 </p>
 
 <p>
-<c>Drawing</c> overrides the <c>paint</c> function that it inherits from <c>Canvas</c>.
-<c>paint</c> loops through the list of <c>DrawablePolygon</c> objects and invokes <c>draw</c> on each one.
+<pf>Drawing</pf> overrides the <pf>paint</pf> function that it inherits from <pf>Canvas</pf>.
+<pf>paint</pf> loops through the list of <pf>DrawablePolygon</pf> objects and invokes <pf>draw</pf> on each one.
 </p>
 
 <p>
-Here is an example that creates three <c>RegularPolygon</c> objects and draws them.
+Here is an example that creates three <pf>RegularPolygon</pf> objects and draws them.
 <xref ref="fig_drawing">Figure</xref> shows the result.
 </p>
 
@@ -37,36 +37,36 @@ Here is an example that creates three <c>RegularPolygon</c> objects and draws th
 <xi:include href="../../programs/advanced-topics/initial-drawing-4.cpp" parse="text"/>
 </program>
   <figure xml:id="fig_drawing" >
-<caption>Initial drawing of three <c>RegularPolygon</c> objects.</caption>
+<caption>Initial drawing of three <pf>RegularPolygon</pf> objects.</caption>
 <image width="75%" source="images/drawing.png" />
 </figure>
 <p>
-The first block of code creates <c>RegularPolygon</c> objects with 3, 6, and 360 sides.
+The first block of code creates <pf>RegularPolygon</pf> objects with 3, 6, and 360 sides.
 As you can see, a polygon with 360 sides is a pretty good approximation of a circle.
 </p>
 
 <p>
 The second block of code translates the polygons to different locations.
-The third block of code creates the <c>Drawing</c> and adds the polygons to it.
-And the fourth block of code creates a <c>JFrame</c>, adds the <c>Drawing</c> to it, and displays the result.
+The third block of code creates the <pf>Drawing</pf> and adds the polygons to it.
+And the fourth block of code creates a <pf>JFrame</pf>, adds the <pf>Drawing</pf> to it, and displays the result.
 </p>
 
 <p>
 Most of these pieces should be familiar, but one part of this program might surprise you.
-When we create the <c>RegularPolygon</c> objects, we assign them to <c>DrawablePolygon</c> variables.
+When we create the <pf>RegularPolygon</pf> objects, we assign them to <pf>DrawablePolygon</pf> variables.
 It might not be obvious why that's legal.
 </p>
 
 <p>
     <idx><h>IS-A</h></idx>
-<c>RegularPolygon</c> extends <c>DrawablePolygon</c>, so every <c>RegularPolygon</c> object is also a <c>DrawablePolygon</c>.
-The parameter of <c>Drawing.add</c> has to be a <c>DrawablePolygon</c>, but it can be any type of <c>DrawablePolygon</c>, including <c>RegularPolygon</c> and other subclasses.
+<pf>RegularPolygon</pf> extends <pf>DrawablePolygon</pf>, so every <pf>RegularPolygon</pf> object is also a <pf>DrawablePolygon</pf>.
+The parameter of <pf>Drawing.add</pf> has to be a <pf>DrawablePolygon</pf>, but it can be any type of <pf>DrawablePolygon</pf>, including <pf>RegularPolygon</pf> and other subclasses.
 </p>
 
 <p>
     <idx><h>polymorphism</h></idx>
 This design is an example of <term>polymorphism</term>, a fancy word that means <q>having many forms</q>.
-<c>Drawing.add</c> is a polymorphic function, because the parameter can be one of many types.
-And the <c>ArrayList</c> in <c>Drawing</c> is a polymorphic data structure, because the elements can be different types.
+<pf>Drawing.add</pf> is a polymorphic function, because the parameter can be one of many types.
+And the <pf>ArrayList</pf> in <pf>Drawing</pf> is a polymorphic data structure, because the elements can be different types.
 </p>
 </section>

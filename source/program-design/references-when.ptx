@@ -5,7 +5,7 @@
 
   <p>So when should you pass by value, reference, or constant reference? Here is a comparison of the three methods and when you should use them.<ul>
       <li>
-        <term>Pass by value: <c>func(type name)</c></term>
+        <term>Pass by value: <pf>func(type name)</pf></term>
         <ul>
           <li>Parameter is a copy of passed data.</li>
           <li>Use when passing a small piece of data (int, double, char). Copying these is no more expensive than making a reference.</li>
@@ -13,7 +13,7 @@
         </ul>
       </li>
       <li>
-        <term>Pass by reference: <c>func(type&amp; name)</c></term>
+        <term>Pass by reference: <pf>func(type&amp; name)</pf></term>
         <ul>
           <li>Parameter is an alias for the passed variable.</li>
           <li>Use when passing a large piece of data (string, vector) and you want the function to modify
@@ -21,7 +21,7 @@
         </ul>
       </li>
       <li>
-        <term>Pass by const reference: <c>func(const type&amp; name)</c></term>
+        <term>Pass by const reference: <pf>func(const type&amp; name)</pf></term>
         <ul>
           <li>Parameter is an alias for the passed variable but can't be used to modify it.</li>
           <li>Passing a large piece of data (string, vector) and you do NOT want the function to
@@ -32,14 +32,14 @@
 
   <p>Of course, any set of rules will have its exceptions. But the guidelines above describe the preferred method for most situations.</p>
 
-  <p>A final point is that a literal value can't be passed into a function by reference. The reference needs to point at a storage location, not a value. If there is a function `void foo(string&amp; s)` the following would cause a compiler error:</p>
+  <p>A final point is that a literal value can't be passed into a function by reference. The reference needs to point at a storage location, not a value. If there is a function <pf>void foo(string&amp; s)</pf> the following would cause a compiler error:</p>
 
   <program>
     // error: can't pass a literal by reference
     foo("hello world");
   </program>
 
-  <p>The error message would be something like `cannot bind non-const lvalue`. Storing the string into a variable and passing that variable would work:</p>
+  <p>The error message would be something like <pf>cannot bind non-const lvalue</pf>. Storing the string into a variable and passing that variable would work:</p>
 
   <program>
     string s = "hello world";

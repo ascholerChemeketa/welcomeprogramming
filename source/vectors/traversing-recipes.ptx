@@ -38,10 +38,10 @@
 </program>
 
     <p>We start by assuming the value we are looking for is not present. This is done on line 10
-      where we set the `location` to the size of the array. If the size is 4, the only valid values
-      are 0-3, so we know `size()` represents an impossible value. Then, we traverse the vector to
-      check each element. If we find the target value in the vector, we change the `location` and
-      break out of the loop. When the loop is done, if `location` still matches the `size()`, we
+      where we set the <pf>location</pf> to the size of the array. If the size is 4, the only valid values
+      are 0-3, so we know <pf>size()</pf> represents an impossible value. Then, we traverse the vector to
+      check each element. If we find the target value in the vector, we change the <pf>location</pf> and
+      break out of the loop. When the loop is done, if <pf>location</pf> still matches the <pf>size()</pf>, we
       know the value was not found.</p>
     </subsection>
 
@@ -63,8 +63,8 @@
 </program>
 
     <p>Finding the smallest value in a vector can also be thought of as a reduction. In this case, our accumulator needs to keep track of the <q>smallest
-      value we have seen so far</q> (called `minimum` in the sample below). As we visit each
-      element, we compare it to `minimum`, and if it is lower, we need to change `minimum` to store
+      value we have seen so far</q> (called <pf>minimum</pf> in the sample below). As we visit each
+      element, we compare it to <pf>minimum</pf>, and if it is lower, we need to change <pf>minimum</pf> to store
       the new lowest value that we have just discovered. But for this to work, we can't start with 0
       in our accumulator. If we did, we could go through the entire vector and never find anything smaller, and
       thus end up thinking that 0 was the minimum value. For situations like this it is common to use
@@ -79,7 +79,7 @@
     <subsection>
       <title>Map</title>
 
-      <p>A <term>map</term> operation transforms each element in a vector to a new value. In <xref ref="vectors_vector-functions"></xref> we saw two versions of the `doubleValues` function that performed a map operation. The first
+      <p>A <term>map</term> operation transforms each element in a vector to a new value. In <xref ref="vectors_vector-functions"></xref> we saw two versions of the <pf>doubleValues</pf> function that performed a map operation. The first
       version created a new vector and returned it. The second version modified the original vector
       in place.</p>
 
@@ -103,8 +103,8 @@
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Suppose `vector&lt;string> album` has already been defined and is storing some number of strings representing song titles.
-      Construct a block of code that counts how many songs have an `e` in them.</p>
+      <p>Suppose <pf>vector&lt;string> album</pf> has already been defined and is storing some number of strings representing song titles.
+      Construct a block of code that counts how many songs have an <pf>e</pf> in them.</p>
     </statement>
     <blocks>
       <block order="2">
@@ -143,7 +143,7 @@
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Build a function `onlyPassing` that takes a `vector&lt;char>` that contains a list of characters representing letter grades (A, B, C, D, F) and returns a new vector that has all the grades but the Fs.</p>
+      <p>Build a function <pf>onlyPassing</pf> that takes a <pf>vector&lt;char></pf> that contains a list of characters representing letter grades (A, B, C, D, F) and returns a new vector that has all the grades but the Fs.</p>
     </statement>
     <blocks>
       <block order="4">

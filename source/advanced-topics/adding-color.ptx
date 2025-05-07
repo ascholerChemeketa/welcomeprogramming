@@ -2,7 +2,7 @@
 <title>Adding Color</title>
 <p>
 Specialization is useful for adding new features to an existing class, especially when you can't (or don't want to) change its design.
-For example, we can extend the <c>Polygon</c> class by adding a <c>draw</c> function and a <c>Color</c> attribute:
+For example, we can extend the <pf>Polygon</pf> class by adding a <pf>draw</pf> function and a <pf>Color</pf> attribute:
 </p>
 
 <program xml:id="advanced-topics_adding-color-1">
@@ -15,17 +15,17 @@ If you don't define a constructor, the compiler will generate one that does noth
 </p>
 
 <p>
-The constructor for <c>DrawablePolygon</c> uses <c>super</c> to invoke the constructor for <c>Polygon</c>, which initializes the attributes <c>npoints</c>, <c>xpoints</c>, and <c>ypoints</c>.
-Then <c>DrawablePolygon</c> initializes the <c>color</c> attribute to <c>GRAY</c>.
+The constructor for <pf>DrawablePolygon</pf> uses <pf>super</pf> to invoke the constructor for <pf>Polygon</pf>, which initializes the attributes <pf>npoints</pf>, <pf>xpoints</pf>, and <pf>ypoints</pf>.
+Then <pf>DrawablePolygon</pf> initializes the <pf>color</pf> attribute to <pf>GRAY</pf>.
 </p>
 
 <p>
-<c>DrawablePolygon</c> has the same attributes and functions that <c>Polygon</c> has, so you can use <c>addPoint</c> as before, or you can directly access <c>npoints</c>, <c>xpoints</c>, and <c>ypoints</c> (since they are <c>public</c>).
-You can also use functions like <c>contains</c>, <c>intersects</c>, and <c>translate</c>.
+<pf>DrawablePolygon</pf> has the same attributes and functions that <pf>Polygon</pf> has, so you can use <pf>addPoint</pf> as before, or you can directly access <pf>npoints</pf>, <pf>xpoints</pf>, and <pf>ypoints</pf> (since they are <pf>public</pf>).
+You can also use functions like <pf>contains</pf>, <pf>intersects</pf>, and <pf>translate</pf>.
 </p>
 
 <p>
-The following code creates a <c>DrawablePolygon</c> with the same points as in the previous section and sets its color to <c>GREEN</c>:
+The following code creates a <pf>DrawablePolygon</pf> with the same points as in the previous section and sets its color to <pf>GREEN</pf>:
 </p>
 
 <program xml:id="advanced-topics_adding-color-2">

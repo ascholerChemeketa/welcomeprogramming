@@ -15,7 +15,7 @@
     <term>Looping</term> or <term>iteration</term> is when a program repeatedly runs the same lines of code. A loop is created when the programmer specifies that the program need to jump back to a previous instruction instead of continuing to the next instruction. The name <term>loop</term> comes from the fact that a diagram of the path the program takes through the code makes a loop:</p>
 
   <!-- <figure xml:id="fig_while">
-    <caption>Flow of execution for a <c>while</c> loop.</caption>
+    <caption>Flow of execution for a <pf>while</pf> loop.</caption>
     <image width="92.5%"
            source="images/while.svg"/>
   </figure> -->
@@ -50,25 +50,25 @@ flowchart TD
     <idx>
       <h>statement</h>
       <h>while</h>
-    </idx> The most fundamental loop structure in C++ is a <c>while</c> statement. It says <q>While the condition is true, do the body. Once the condition is false, continue with the code after the body.</q> Here is a simple example to watch in Codelens:</p>
+    </idx> The most fundamental loop structure in C++ is a <pf>while</pf> statement. It says <q>While the condition is true, do the body. Once the condition is false, continue with the code after the body.</q> Here is a simple example to watch in Codelens:</p>
 
   <program xml:id="loops_while-statement-1" interactive="codelens">
 <xi:include href="../../programs/loops/while-statement-1.cpp" parse="text"/>
 </program>
 
-  <p> Reading the code in English sounds like this: <q>Set with <c>n</c> set to 3. While <c>n</c> is
-    greater than 0, print the value of <c>n</c>, and reduce the value of <c>n</c> by 1. After n is 0, print Blastoff!</q>
+  <p> Reading the code in English sounds like this: <q>Set with <pf>n</pf> set to 3. While <pf>n</pf> is
+    greater than 0, print the value of <pf>n</pf>, and reduce the value of <pf>n</pf> by 1. After n is 0, print Blastoff!</q>
   </p>
 
-  <p> The flow of execution for a <c>while</c> statement is as follows: <ol>
+  <p> The flow of execution for a <pf>while</pf> statement is as follows: <ol>
       <li>
-        <p>Evaluate the condition in parentheses, yielding <c>true</c> or <c>false</c>.</p>
+        <p>Evaluate the condition in parentheses, yielding <pf>true</pf> or <pf>false</pf>.</p>
       </li>
       <li>
-        <p>If the condition is <c>false</c>, skip the body (statements in braces).</p>
+        <p>If the condition is <pf>false</pf>, skip the body (statements in braces).</p>
       </li>
       <li>
-        <p>If the condition is <c>true</c>, execute the body and go back to step 1.</p>
+        <p>If the condition is <pf>true</pf>, execute the body and go back to step 1.</p>
       </li>
     </ol>
   </p>
@@ -95,20 +95,20 @@ flowchart TD
       <h>loop</h>
       <h>variable</h>
     </idx> The <term>test</term> of the loop almost always has a variable as part of the expression it tests. Without a variable, there is no way for the loop to terminate once it starts. This variable is referred to as a <term>loop control variable</term>. The
-    <term>body</term> of the loop must change the value of that variable so that, eventually, the condition becomes <c>false</c> and the loop terminates. Otherwise, the loop will repeat forever, which is called an <term>infinite loop</term>: </p>
+    <term>body</term> of the loop must change the value of that variable so that, eventually, the condition becomes <pf>false</pf> and the loop terminates. Otherwise, the loop will repeat forever, which is called an <term>infinite loop</term>: </p>
 
   <program xml:id="loops_while-statement-2" interactive="codelens">
 <xi:include href="../../programs/loops/while-statement-2.cpp" parse="text"/>
 </program>
 
-  <p>This example will print the number <c>3</c> forever, or at least until you get bored of pressing <term>Next</term>.</p>
+  <p>This example will print the number <pf>3</pf> forever, or at least until you get bored of pressing <term>Next</term>.</p>
 
   <warning>
-  <p>When you make an infinite loop on an ActiveCode problem, it will display `Compiling and running your program` for ~10 seconds until the server decides to stop your program. If you run an infinite loop on your own computer, you will need to stop the program manually. You can generally do this by pressing `Ctrl+C` in the terminal window where the program is running. That sends a <q>kill</q> signal to the program, which should stop it.
+  <p>When you make an infinite loop on an ActiveCode problem, it will display <pf>Compiling and running your program</pf> for ~10 seconds until the server decides to stop your program. If you run an infinite loop on your own computer, you will need to stop the program manually. You can generally do this by pressing <pf>Ctrl+C</pf> in the terminal window where the program is running. That sends a <q>kill</q> signal to the program, which should stop it.
   </p>
   </warning>
 
-  <p>It is also possible for the body of a loop to never end up executing. Notice in this sample that the condition is `false` the first time we reach it. That means the body will never get a chance to execute:</p>
+  <p>It is also possible for the body of a loop to never end up executing. Notice in this sample that the condition is <pf>false</pf> the first time we reach it. That means the body will never get a chance to execute:</p>
 
   <program xml:id="loops_while-statement-3"  interactive="codelens">
 <code>
@@ -118,9 +118,9 @@ flowchart TD
 
 <!-- todo remove  colatz example and turn into exercise?? -->
 
-  <p>In the first example, we can prove that the loop terminates when <c>n</c> is positive. But in
+  <p>In the first example, we can prove that the loop terminates when <pf>n</pf> is positive. But in
     general, it is not so easy to tell whether a loop terminates. For example, this loop continues
-    until <c>n</c> is 1 (which makes the condition <c>false</c>): </p>
+    until <pf>n</pf> is 1 (which makes the condition <pf>false</pf>): </p>
 
   <program xml:id="loops_while-statement-4"  interactive="activecode">
 <code>
@@ -129,17 +129,17 @@ flowchart TD
 <stdin>3</stdin>
 </program>
 
-  <p>Each time through the loop, the program displays the value of <c>n</c> and then checks whether
-    it is even or odd. If it is even, the value of <c>n</c> is divided by 2. If it is odd, the value
+  <p>Each time through the loop, the program displays the value of <pf>n</pf> and then checks whether
+    it is even or odd. If it is even, the value of <pf>n</pf> is divided by 2. If it is odd, the value
     is replaced by <m>3n+1</m>. For example, if the starting value is 3, the resulting sequence is
     3, 10, 5, 16, 8, 4, 2, 1. </p>
 
-  <p>Since <c>n</c> sometimes increases and sometimes decreases, there is no obvious proof that <c>n</c>
-    will ever reach 1 and that the program will ever terminate. For some values of <c>n</c>, such as
+  <p>Since <pf>n</pf> sometimes increases and sometimes decreases, there is no obvious proof that <pf>n</pf>
+    will ever reach 1 and that the program will ever terminate. For some values of <pf>n</pf>, such as
     the powers of two, we can prove that it terminates. The previous example ends with such a
-    sequence, starting when <c>n</c> is 16 (or <m>2^4</m>). </p>
+    sequence, starting when <pf>n</pf> is 16 (or <m>2^4</m>). </p>
 
-  <p>The hard question is whether this program terminates for <term>all</term> values of <c>n</c>.
+  <p>The hard question is whether this program terminates for <term>all</term> values of <pf>n</pf>.
     So far, no one has been able to prove it <term>or</term> disprove it! For more information, see <url href="https://en.wikipedia.org/wiki/Collatz_conjecture"/>.
   </p>
   

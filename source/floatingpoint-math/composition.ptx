@@ -31,19 +31,19 @@
 <xi:include href="../../programs/floatingpoint-math/composition-1.cpp" parse="text"/>
 </program>
 
-  <p> This statement divides <c>PI</c> by <c>2.0</c>, adds the result to <c>angle</c>, and computes the cosine
+  <p> This statement divides <pf>PI</pf> by <pf>2.0</pf>, adds the result to <pf>angle</pf>, and computes the cosine
     of the sum. </p>
 
-  <p>Here is another example you may remember from geometry. Given the lengths of legs <c>a</c> and <c>b</c>
-    in a right triangle, you can find the length of the hypotenuse <c>c</c> with <m>\sqrt{a^2 + b^2}</m>.
+  <p>Here is another example you may remember from geometry. Given the lengths of legs <pf>a</pf> and <pf>b</pf>
+    in a right triangle, you can find the length of the hypotenuse <pf>c</pf> with <m>\sqrt{a^2 + b^2}</m>.
     Here is that translated to C++</p>
 
   <program xml:id="floatingpoint-math_composition-2">
 <xi:include href="../../programs/floatingpoint-math/composition-2.cpp" parse="text"/>
 </program>
 
-  <p> Before <c>sqrt</c> can do its job, we need to compute its argument by doing the <c>+</c>. But
-    before that can happen, the two <c>pow</c> calls must run. So, they happen first. Then their
+  <p> Before <pf>sqrt</pf> can do its job, we need to compute its argument by doing the <pf>+</pf>. But
+    before that can happen, the two <pf>pow</pf> calls must run. So, they happen first. Then their
     results are added together. Finally, the square root is taken. </p>
 
   <warning><p>Just because you can use composition to nest a large number of steps into one line of code, does not mean that you should. This is perfectly legal:</p>
@@ -56,12 +56,12 @@
   
   <exercise label="more_ousdfsdtput_2">
     <statement>
-      <p><c>cmath</c> Which expression correctly computes <m>\log_2{(10^8)}</m>? Here is the <url href="https://en.cppreference.com/w/cpp/numeric/math">cmath library</url> for reference.</p>
+      <p><pf>cmath</pf> Which expression correctly computes <m>\log_2{(10^8)}</m>? Here is the <url href="https://en.cppreference.com/w/cpp/numeric/math">cmath library</url> for reference.</p>
     </statement>
     <choices randomize="yes">
       <choice>
         <statement>
-          <p><c>log2(pow(8, 10))</c></p>
+          <p><pf>log2(pow(8, 10))</pf></p>
         </statement>
         <feedback>
           <p>That computes 8 to the 10th power.</p>
@@ -69,20 +69,12 @@
       </choice>
       <choice correct="yes">
         <statement>
-          <p><c>log2(pow(10, 8))</c></p>
+          <p><pf>log2(pow(10, 8))</pf></p>
         </statement>
       </choice>
       <choice>
         <statement>
-          <p><c>log(2, pow(8, 10))</c></p>
-        </statement>
-        <feedback>
-          <p>There is no log function that takes two parameters.</p>
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p><c>log(2, pow(10, 8))</c></p>
+          <p><pf>log(2, pow(8, 10))</pf></p>
         </statement>
         <feedback>
           <p>There is no log function that takes two parameters.</p>
@@ -90,7 +82,15 @@
       </choice>
       <choice>
         <statement>
-          <p><c>pow(log2(10), 8)</c></p>
+          <p><pf>log(2, pow(10, 8))</pf></p>
+        </statement>
+        <feedback>
+          <p>There is no log function that takes two parameters.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf>pow(log2(10), 8)</pf></p>
         </statement>
         <feedback>
           <p>That first does <m>\log{2}{10}</m>. We want to first do the pow.</p>

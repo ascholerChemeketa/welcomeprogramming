@@ -12,7 +12,7 @@
   </note>
 
   <p>All data needs to be stored as bits (as a sequence of 0's and 1's). Those sequences are always
-    a fixed size. For instance, an <c>int</c> is typically 32 bits. This means that an <c>int</c> can
+    a fixed size. For instance, an <pf>int</pf> is typically 32 bits. This means that an <pf>int</pf> can
     store <m>2^{32}</m> different values. That is enough different values to represent the numbers
     -2,147,483,648 to 2,147,483,647. (For more on how this actually works, as well as how floating
     point values are represented in binary, see <url href="https://author.runestone.academy/ns/books/published/welcomecs2/data-representation_data-representation.html?mode=browsing">Welcome
@@ -33,11 +33,11 @@
     </listing>
 
     <p>The program tries to calculate 2 * 2,000,000,000. But that result is larger than the largest
-      possible <c>int</c>, so the number <q>wraps around</q> after reaching the largest possible value
+      possible <pf>int</pf>, so the number <q>wraps around</q> after reaching the largest possible value
       (2,147,483,647) to the lowest possible value (-2,147,483,648). The result is -294,967,296.</p>
 
     <p>So how do you store a value greater than 2,147,483,647? You use a data type that employs more
-      bits to store an integer value. The following data types can be used instead of <c>int</c> to
+      bits to store an integer value. The following data types can be used instead of <pf>int</pf> to
       store integer values: </p>
 
     <table>
@@ -51,28 +51,28 @@
         </row>
         <row>
           <cell>
-            <c>int8_t</c>
+            <pf>int8_t</pf>
           </cell>
           <cell>8</cell>
           <cell>-128 - 127</cell>
         </row>
         <row>
           <cell>
-            <c>int16_t</c>
+            <pf>int16_t</pf>
           </cell>
           <cell>16</cell>
           <cell>-32,768 - 32,767</cell>
         </row>
         <row>
           <cell>
-            <c>int32_t</c>
+            <pf>int32_t</pf>
           </cell>
           <cell>32</cell>
           <cell>-2,147,483,648 - 2,147,483,647</cell>
         </row>
         <row>
           <cell>
-            <c>int64_t</c>
+            <pf>int64_t</pf>
           </cell>
           <cell>64</cell>
           <cell>-9,223,372,036,854,775,808 - 9,223,372,036,854,775,807</cell>
@@ -81,11 +81,11 @@
     </table>
 
     <note>
-      <p>The intXX_t types are relatively new in C++. There are also older types like <c>short</c>, <c>long</c>,
-        and <c>long long</c>. We will avoid these completely as the exact size of each is determined by the
-        compiler - a <c>long</c> can use a different number of bits on different platforms! The same is
-        also true of <c>int</c>, so if you want to guarantee your variables are store with 32 bits, you
-        need to use <c>int32_t</c>.</p>
+      <p>The intXX_t types are relatively new in C++. There are also older types like <pf>short</pf>, <pf>long</pf>,
+        and <pf>long long</pf>. We will avoid these completely as the exact size of each is determined by the
+        compiler - a <pf>long</pf> can use a different number of bits on different platforms! The same is
+        also true of <pf>int</pf>, so if you want to guarantee your variables are store with 32 bits, you
+        need to use <pf>int32_t</pf>.</p>
     </note>
   </subsection>
 
@@ -108,28 +108,28 @@
         </row>
         <row>
           <cell>
-            <c>uint8_t</c>
+            <pf>uint8_t</pf>
           </cell>
           <cell>8</cell>
           <cell>0 - 255</cell>
         </row>
         <row>
           <cell>
-            <c>uint16_t</c>
+            <pf>uint16_t</pf>
           </cell>
           <cell>16</cell>
           <cell>0 - 65,535</cell>
         </row>
         <row>
           <cell>
-            <c>uint32_t</c>
+            <pf>uint32_t</pf>
           </cell>
           <cell>32</cell>
           <cell>0 - 4,294,967,295</cell>
         </row>
         <row>
           <cell>
-            <c>uint64_t</c>
+            <pf>uint64_t</pf>
           </cell>
           <cell>64</cell>
           <cell>0 - 18,446,744,073,709,551,615</cell>
@@ -142,16 +142,16 @@
     <title>Floating point types</title>
 
     <p>For floating point types, the number of bits determines not just the maximum and minimum
-      values we can represent, but the number of digits of accuracy we can count on. A <c>double</c> is
+      values we can represent, but the number of digits of accuracy we can count on. A <pf>double</pf> is
       generally 64 bits, in which case it can store from about <m>1.7 × 10^{-308}</m> to <m>1.7 ×
       10^{308}</m> with about 15 digits of precision.</p>
 
     <p>It should be clear that there is much less risk of <q>running out of room</q> when using a
-      double. But if you need to represent larger values or have more precision, there is the <c>long double</c>
+      double. But if you need to represent larger values or have more precision, there is the <pf>long double</pf>
       which may, depending on the platform use more bits to represent a floating point value.</p>
     <p>Occasionally, if your program is storing large numbers of floating point values (thousands of
-      them) and does not need the full accuracy of a <c>double</c>, you might chose to use <c>single</c>s
-      instead. A <c>single</c> which will generally use 32 bits and provide about 7 digits of accuracy.</p>
+      them) and does not need the full accuracy of a <pf>double</pf>, you might chose to use <pf>single</pf>s
+      instead. A <pf>single</pf> which will generally use 32 bits and provide about 7 digits of accuracy.</p>
 
     <note>
       <p>The C++23 standard introduced standardized floating point types with fixed sizes from 8 to

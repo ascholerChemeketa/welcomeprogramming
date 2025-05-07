@@ -1,14 +1,14 @@
 <section xml:id="strings_find"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <title>`find` in strings </title>
+  <title><pf>find</pf> in strings </title>
   <p>
     <idx>
       <h>string</h>
       <h>find</h>
     </idx> To search for a specific character in a string we could write a counting
     loop and look at each character until we find the one we want. But this kind of fundamental task
-    is the kind of thing library functions are good for. `string` objects provide a `find` function
+    is the kind of thing library functions are good for. <pf>string</pf> objects provide a <pf>find</pf> function
     that finds the first occurrence of a char or string within a string. If you look it up, you will
     find multiple declarations: </p>
 
@@ -18,12 +18,12 @@
 </program>
 
   <p>The first one takes a string as a parameter, and the second one takes a character. Both have an
-    optional second parameter `pos`, which sets a start point for the search. (Recall that the `= 0` is the default value, making that parameter optional. See <xref ref="functions-testing_optional-parameters"/>.). Thus `myString.find('e',
-    10)` says <q>find the first 'e' in myString at or after index 10</q> while `myString.find('e')` means <q>start from 0</q>. Both functions return the
+    optional second parameter <pf>pos</pf>, which sets a start point for the search. (Recall that the <pf>= 0</pf> is the default value, making that parameter optional. See <xref ref="functions-testing_optional-parameters"/>.). Thus `myString.find('e',
+    10)<pf> says <q>find the first 'e' in myString at or after index 10</q> while </pf>myString.find('e')` means <q>start from 0</q>. Both functions return the
     index where they find item being searched from. Because they are returning a location in a
-    string, they return that value as a `size_t` and not as an `int`. </p>
+    string, they return that value as a <pf>size_t</pf> and not as an <pf>int</pf>. </p>
 
-  <p>The example below demonstrates their use on the string `She sells sea shells`. For reference,
+  <p>The example below demonstrates their use on the string <pf>She sells sea shells</pf>. For reference,
     here are the indices for the characters of that string:</p>
 
   <tabular>
@@ -79,41 +79,41 @@
 </program>
 
   <p>Some things to note: <ul>
-      <li>The first `e` is at index 2 (in <q>She</q>)</li>
-      <li>The first `ell` starts at index 5</li>
-      <li>The first `se` starts at index 4. That is the value stored into `seIndex`</li>
-      <li>`myString.find("se", seIndex + 1)` starts from index 5. Starting at that point, the next
+      <li>The first <pf>e</pf> is at index 2 (in <q>She</q>)</li>
+      <li>The first <pf>ell</pf> starts at index 5</li>
+      <li>The first <pf>se</pf> starts at index 4. That is the value stored into <pf>seIndex</pf></li>
+      <li><pf>myString.find("se", seIndex + 1)</pf> starts from index 5. Starting at that point, the next
     occurrence of "se" is at index 10.</li>
     </ul>
   </p>
 
   <warning>
-    <p>A common mistake is to write `myString.find('e', 2)` in an attempt to find the second `e`.
-      That actually says <q>find the first `e` that is at or after index 2.</q> The only way to
-      `find()` the second occurrence of something is to find it once, and then call find again
-      starting at the index 1 past where the first copy was found. As done to find the second `"se"`
+    <p>A common mistake is to write <pf>myString.find('e', 2)</pf> in an attempt to find the second <pf>e</pf>.
+      That actually says <q>find the first <pf>e</pf> that is at or after index 2.</q> The only way to
+      <pf>find()</pf> the second occurrence of something is to find it once, and then call find again
+      starting at the index 1 past where the first copy was found. As done to find the second <pf>"se"</pf>
       in the sample above.</p>
   </warning>
 
-  <p>If you try to `find()` something that is not there, the find function needs to return a value
+  <p>If you try to <pf>find()</pf> something that is not there, the find function needs to return a value
     to you that indicates <q>not found</q>. That value can't be 0, as that is a valid location. So
-    the value it returns is the largest possible `size_t`. This is `find()`'s way of saying <q>I
-    searched until the end and did not find what I was looking for</q>. Rather than try to memorize the value (which can be different on different platforms!), there is a constant that defines this value: `string::npos`. (Think of `string::npos` as meaning <q>npos which is a part of string</q>. `npos` is short for <q>no position</q> or <q>null position</q>.)</p>
+    the value it returns is the largest possible <pf>size_t</pf>. This is <pf>find()</pf>'s way of saying <q>I
+    searched until the end and did not find what I was looking for</q>. Rather than try to memorize the value (which can be different on different platforms!), there is a constant that defines this value: <pf>string::npos</pf>. (Think of <pf>string::npos</pf> as meaning <q>npos which is a part of string</q>. <pf>npos</pf> is short for <q>no position</q> or <q>null position</q>.)</p>
 
-  <p>Here is an example of trying to find `q` in our string:</p>
+  <p>Here is an example of trying to find <pf>q</pf> in our string:</p>
 
   <program xml:id="strings_find-2"
            interactive="activecode">
 <xi:include href="../../programs/strings/string-find-2.cpp" parse="text"/>
 </program>
 
-  <p>You can try changing the `target` to some character to see the behavior when the value is found.</p>
+  <p>You can try changing the <pf>target</pf> to some character to see the behavior when the value is found.</p>
 
-  <insight><p>This is how you check if a string contains some other string. Do a `find()` and see if the value is `!= string::npos`.</p></insight>
+  <insight><p>This is how you check if a string contains some other string. Do a <pf>find()</pf> and see if the value is <pf>!= string::npos</pf>.</p></insight>
 
   <note>
-  <p>If you store attempt to store `string::npos` to an int, it will have the value -1. This is because `string::npos` is the binary value `111111...1`. That value as a signed `int` is `-1`.</p>
-  <p>In many programming languages, a failed `find()` returns -1. And that is sort of true in C++. If you cast the returned value into an `int` it becomes -1. But it isn't accurate to say that it returns -1. If you try to write something like `if (s.find('x') == -1)` the compiler will give a warning about comparing the signed (-1) and unsigned (`string::npos`) values.</p>
+  <p>If you store attempt to store <pf>string::npos</pf> to an int, it will have the value -1. This is because <pf>string::npos</pf> is the binary value <pf>111111...1</pf>. That value as a signed <pf>int</pf> is <pf>-1</pf>.</p>
+  <p>In many programming languages, a failed <pf>find()</pf> returns -1. And that is sort of true in C++. If you cast the returned value into an <pf>int</pf> it becomes -1. But it isn't accurate to say that it returns -1. If you try to write something like <pf>if (s.find('x') == -1)</pf> the compiler will give a warning about comparing the signed (-1) and unsigned (<pf>string::npos</pf>) values.</p>
   </note>
 
 
@@ -146,7 +146,7 @@
         <test>
           <strcmp>npos</strcmp>
           <feedback>
-            You need to include the `string::` part when you use `npos`
+            You need to include the <pf>string::</pf> part when you use <pf>npos</pf>
           </feedback>
         </test>
       </evaluate>
@@ -158,7 +158,7 @@
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Construct a block of code that correctly finds and prints where the third `i` is in
+      <p>Construct a block of code that correctly finds and prints where the third <pf>i</pf> is in
         the string.</p>
     </statement>
     <blocks>

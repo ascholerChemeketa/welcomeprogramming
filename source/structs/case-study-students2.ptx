@@ -27,24 +27,24 @@ double calculateAverage(const vector&lt;double>&amp; scores) {
 
    <exercise label="sdfvc44f3f34f">
     <statement>
-      <p>Given the function above, assuming you have a student variable `s`, complete this code to calculate the student's average and store it as a double called `avg`?</p>
+      <p>Given the function above, assuming you have a student variable <pf>s</pf>, complete this code to calculate the student's average and store it as a double called <pf>avg</pf>?</p>
     </statement>
     <choices randomize="yes">
-        <choice correct="yes"><statement>`double avg = calculateAverage(s.scores);`</statement></choice>
+        <choice correct="yes"><statement><pf>double avg = calculateAverage(s.scores);</pf></statement></choice>
         <choice>
-        <statement>`double avg = s.calculateAverage();`</statement>
+        <statement><pf>double avg = s.calculateAverage();</pf></statement>
         <feedback>calculateAverage is not a member function</feedback>
         </choice>
         <choice>
-        <statement>`calculateAverage(avg, s);`</statement>
+        <statement><pf>calculateAverage(avg, s);</pf></statement>
         <feedback>calculateAverage is a pure function that returns a result</feedback>
         </choice>
         <choice>
-        <statement>`double avg = calculateAverage(s);`</statement>
+        <statement><pf>double avg = calculateAverage(s);</pf></statement>
         <feedback>calculateAverage takes just the student's scores, not the entire student</feedback>
         </choice>
         <choice>
-        <statement>`calculateAverage(s.scores);`</statement>
+        <statement><pf>calculateAverage(s.scores);</pf></statement>
         <feedback>That does nothing with the average that is returned</feedback>
         </choice>
       </choices>
@@ -58,7 +58,7 @@ double calculateAverage(const vector&lt;double>&amp; scores) {
 
     <exercise label="sdf4f331f34f">
       <statement>
-        <p>`main` has code to build multiple students. Add code to loop through the students and print the first name and average score for each. Put each student on a separate line and use a single space between the name and score:</p>
+        <p><pf>main</pf> has code to build multiple students. Add code to loop through the students and print the first name and average score for each. Put each student on a separate line and use a single space between the name and score:</p>
       </statement>
       <program interactive="activecode">
         <preamble><![CDATA[#include <iostream>
@@ -123,7 +123,7 @@ Daniel 87</output>
         </iotest>
         </tests>
       </program>
-      <hint><p>If you are stuck, start by looping through the students vector and just printing each first name. Accessing a first name should look something like `s.name.first`. Once that is working, use the `calculateAverage` function on each student's `scores`.</p></hint>
+      <hint><p>If you are stuck, start by looping through the students vector and just printing each first name. Accessing a first name should look something like <pf>s.name.first</pf>. Once that is working, use the <pf>calculateAverage</pf> function on each student's <pf>scores</pf>.</p></hint>
       </exercise>
   </subsection>
 

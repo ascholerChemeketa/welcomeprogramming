@@ -13,7 +13,7 @@
 
   <p>Recall that scope is a tool for managing complexity. It allows us to use the same variable name in different parts of a program without worrying about conflicts. We already know that each function has its own scope, but so do different blocks in a function.</p>
 
-  <p>If you try running that program, the compiler will tell you that `pay` is not defined at the end of `main`. That is because when a variable is declared inside a block, it is scoped only for that block. Either `pay` gets created in the `if` and goes out of scope (is no longer available) at the end of the `if`, or it gets created in the `else` and is only available there. To fix the program, we need to declare `pay` before the if/else structure:</p>
+  <p>If you try running that program, the compiler will tell you that <pf>pay</pf> is not defined at the end of <pf>main</pf>. That is because when a variable is declared inside a block, it is scoped only for that block. Either <pf>pay</pf> gets created in the <pf>if</pf> and goes out of scope (is no longer available) at the end of the <pf>if</pf>, or it gets created in the <pf>else</pf> and is only available there. To fix the program, we need to declare <pf>pay</pf> before the if/else structure:</p>
 
   <program xml:id="conditionals-logic_scope-2" interactive="activecode">
 <code>
@@ -22,7 +22,7 @@
 <stdin>50</stdin>
 </program>
 
-  <p>Because `pay` was declared in main, and not in the if/else blocks, it is in scope until the end of main. When we enter a block, like the `if` or `else` in this program, all the variables from the outer scope (`main` here) are still available. Changes we make to those variables  will persist when we leave the inner block.</p>
+  <p>Because <pf>pay</pf> was declared in main, and not in the if/else blocks, it is in scope until the end of main. When we enter a block, like the <pf>if</pf> or <pf>else</pf> in this program, all the variables from the outer scope (<pf>main</pf> here) are still available. Changes we make to those variables  will persist when we leave the inner block.</p>
 
   <insight><p>
   Scope generally matches the conventions for indentation. If you have a block of code that is indented, the variables declared in that block are only available within that block and any blocks inside of it.
@@ -43,7 +43,7 @@
 
   <exercise label="keywords_3">
     <statement>
-      <p>Click on all the locations (`location A`, `location B`, etc...) where `x` is available for use.</p>
+      <p>Click on all the locations (<pf>location A</pf>, <pf>location B</pf>, etc...) where <pf>x</pf> is available for use.</p>
     </statement>
     <feedback>
       Try again!
@@ -64,7 +64,7 @@
   
   <exercise label="keywords_31">
     <statement>
-      <p>Click on all the locations (`location A`, `location B`, etc...) where `x` is available for use.</p>
+      <p>Click on all the locations (<pf>location A</pf>, <pf>location B</pf>, etc...) where <pf>x</pf> is available for use.</p>
     </statement>
     <feedback>
       Try again!

@@ -16,11 +16,11 @@
 <stdin>5 10 15 4 0</stdin>
 </program>
 
-  <p>Codelens doesn't handle input, so we are printing out information inside the loop about what is going on. This can be a useful way to debug loops even if you have a debugger that you can use to step through the code. It can be useful to see all the iterations of a loop at once so you can track patterns in what happens from one iteration to the next. Here, each iteration starts by printing `--------------`, and then updates us about what each line did.</p>
+  <p>Codelens doesn't handle input, so we are printing out information inside the loop about what is going on. This can be a useful way to debug loops even if you have a debugger that you can use to step through the code. It can be useful to see all the iterations of a loop at once so you can track patterns in what happens from one iteration to the next. Here, each iteration starts by printing <pf>--------------</pf>, and then updates us about what each line did.</p>
 
-  <p>Notice that the loop variable update - where we read in the next value for `number` - separates the body of the loop into two parts. The part above the update where we are using the current value of the variable, and the part after where we are using the <q>next</q> value.</p>
+  <p>Notice that the loop variable update - where we read in the next value for <pf>number</pf> - separates the body of the loop into two parts. The part above the update where we are using the current value of the variable, and the part after where we are using the <q>next</q> value.</p>
 
-  <p>Later on, we will often see this strategy implemented with a `bool` value or function call that returns a `bool` as the sentinel. Loops like this are very common:</p>
+  <p>Later on, we will often see this strategy implemented with a <pf>bool</pf> value or function call that returns a <pf>bool</pf> as the sentinel. Loops like this are very common:</p>
 
   <program>
 while ( !atEndOfFile() ) {
@@ -28,7 +28,7 @@ while ( !atEndOfFile() ) {
 }
   </program>
 
-  <p>Here, the `atEndOfFile` function returns `true` or `false` and is serving as our sentinel.  As long as there are more lines, `atEndOfFile()` will be `false`. That means `!atEndOfFile()` will be `true` and the loop executes again.</p>
+  <p>Here, the <pf>atEndOfFile</pf> function returns <pf>true</pf> or <pf>false</pf> and is serving as our sentinel.  As long as there are more lines, <pf>atEndOfFile()</pf> will be <pf>false</pf>. That means <pf>!atEndOfFile()</pf> will be <pf>true</pf> and the loop executes again.</p>
 
   <exercise label="mucp_6_8"
             numbered="yes"

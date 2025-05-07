@@ -6,7 +6,7 @@
   <subsection>
     <title>Basics</title>
 
-    <p>Now imagine we have a large number of those students. We would like to be able to loop though the students like a list. To accommodate this, we would want to make a vector of type `Student`</p>
+    <p>Now imagine we have a large number of those students. We would like to be able to loop though the students like a list. To accommodate this, we would want to make a vector of type <pf>Student</pf></p>
 
     <program>
 // Make the students vector
@@ -26,7 +26,7 @@ students.push_back(student2);
     </program>
 
     <figure align="center">
-    <caption>The memory diagram for the ``students`` vector</caption>
+    <caption>The memory diagram for the <pf>students</pf> vector</caption>
       <image source="images/structs-vector-struct.svg"
              width="90%"
              alt="A students vector with two student elements"/>
@@ -34,7 +34,7 @@ students.push_back(student2);
 
     <p>The memory diagram can be helpful to figure out how we reference a particular piece of information.</p>
 
-    <p>`students` is the top level name of the vector. The two elements of the vector are accessed using the `at` method. So to access the first student, we would use `students.at(0)`. At that point, we are talking about the entire `Student` struct. To access the name of that student, we would use `students.at(0).name`. To access the exam scores of that student, we would use `students.at(0).exams`. And to get a particular exam we would use `.at` on that. Thus `students.at(0).exams.at(1)` would get the second score of the first student.</p>
+    <p><pf>students</pf> is the top level name of the vector. The two elements of the vector are accessed using the <pf>at</pf> method. So to access the first student, we would use <pf>students.at(0)</pf>. At that point, we are talking about the entire <pf>Student</pf> struct. To access the name of that student, we would use <pf>students.at(0).name</pf>. To access the exam scores of that student, we would use <pf>students.at(0).exams</pf>. And to get a particular exam we would use <pf>.at</pf> on that. Thus <pf>students.at(0).exams.at(1)</pf> would get the second score of the first student.</p>
   </subsection>
 
   <subsection>
@@ -54,14 +54,14 @@ s1.exams.at(0) = 100.0; // This modifies the copy only
     </program>
     
     <figure align="center">
-    <caption>The memory diagram for the ``students`` vector and s1</caption>
+    <caption>The memory diagram for the <pf>students</pf> vector and s1</caption>
       <image source="images/structs-vector-struct-copy.svg"
              width="90%"
              alt="s1 is a copy of the first student element"/>
     </figure>
 
 
-    <p>`s1` is an exact copy of the first student in the `students` vector. That is great if we wanted to copy the student. But in this case, we were just trying to make it easier to refer to that student. We didn't want to write out `students.at(0).exams.at(0)`, so `s1` was supposed to replace the `students.at(0)` part. But because we made a copy, the 100 score was not stored to the first exam of the first student in the vector as we expected.</p>
+    <p><pf>s1</pf> is an exact copy of the first student in the <pf>students</pf> vector. That is great if we wanted to copy the student. But in this case, we were just trying to make it easier to refer to that student. We didn't want to write out <pf>students.at(0).exams.at(0)</pf>, so <pf>s1</pf> was supposed to replace the <pf>students.at(0)</pf> part. But because we made a copy, the 100 score was not stored to the first exam of the first student in the vector as we expected.</p>
 
     <p>To avoid making a copy, we can use a reference. Remember that a reference is an <term>alias</term> - another name for a thing that already exists. In this situation, that is what I really want. I want a new name for the existing struct. So I should declare a reference variable and use that to refer to the student:</p>
 
@@ -75,13 +75,13 @@ s1.exams.at(0) = 100.0; // This modifies the student in the vector
     </program>
 
     <figure align="center">
-    <caption>The memory diagram for the ``students`` vector and s1 as a reference</caption>
+    <caption>The memory diagram for the <pf>students</pf> vector and s1 as a reference</caption>
       <image source="images/structs-vector-struct-ref.svg"
              width="90%"
              alt="s1 is a reference to the first student element"/>
     </figure>
 
-    <p>Now `s1.exams.at(0) = 100.0` correctly changes the score in the vector.</p>
+    <p>Now <pf>s1.exams.at(0) = 100.0</pf> correctly changes the score in the vector.</p>
 
     <p>A common place to run into this issue is while trying to loop through students. Say I want to clear all of the exams for each student. I can loop through the students using an enhanced for loop or a counting loop. I just need to make sure that I use a reference to store any temporary name for the student:</p>
 
@@ -115,7 +115,7 @@ for (size_t i = 0; i &lt; students.size(); ++i) {
   
   <exercise label="compodund_2sdf">
     <statement>
-      <p>Below is a struct `CarType` and a code snippet that creates a vector of those called `carList`. What could replace the `???` so that the `make` of the third `CarType` in the `carList` is set to `"Ford"`?</p>
+      <p>Below is a struct <pf>CarType</pf> and a code snippet that creates a vector of those called <pf>carList</pf>. What could replace the <pf>???</pf> so that the <pf>make</pf> of the third <pf>CarType</pf> in the <pf>carList</pf> is set to <pf>"Ford"</pf>?</p>
       <p><fillin mode="string" answer="carList.at\\(\\s*2\\s*\\).make"/></p>
           <program>
 struct CarType {
@@ -147,12 +147,12 @@ vector&lt;CarType> carList;
         </test>
       </evaluate>
     </evaluation>
-    <hint><p>Your answer should have three parts separated by dots. You will need to use `at(???)` as one part.</p></hint>
+    <hint><p>Your answer should have three parts separated by dots. You will need to use <pf>at(???)</pf> as one part.</p></hint>
   </exercise>
   
   <exercise label="compodund_2wer">
     <statement>
-      <p>Below is a struct `CarType` and a code snippet that creates a vector of those called `carList`. What could replace the `???` so that the first model of the 3rd element of `carList` is set to `"Escort"`</p>
+      <p>Below is a struct <pf>CarType</pf> and a code snippet that creates a vector of those called <pf>carList</pf>. What could replace the <pf>???</pf> so that the first model of the 3rd element of <pf>carList</pf> is set to <pf>"Escort"</pf></p>
       <p><fillin mode="string" answer="carList.at\\(2\\).model.at\\(\\s*0\\s*\\)"/></p>
           <program>
 struct CarType {
@@ -190,15 +190,15 @@ vector&lt;CarType> carList;
         </test>
       </evaluate>
     </evaluation>
-    <hint><p>Your answer should have four parts separated by dots. You will need to use `at(???)` for two of the parts.</p></hint>
+    <hint><p>Your answer should have four parts separated by dots. You will need to use <pf>at(???)</pf> for two of the parts.</p></hint>
   </exercise>
 
   
   
   <exercise label="com3podund_2f34s7df">
     <statement>
-      <p>Below is a struct `CarType` and a code snippet that creates a vector of those called `carList`. What would you write to make a variable called `temp` that is a reference to the first element of the vector? Fill in the two blanks below that represent the two halves of an assignment statement. (The left should be the data type, the right the value that is assigned).</p>
-      <p><fillin mode="string" answer="CarType\\s*&amp;\\s*temp"/> <c>=</c> <fillin mode="string" answer="carList.at\\(\\s*0\\s*\\);?"/><c>;</c></p>
+      <p>Below is a struct <pf>CarType</pf> and a code snippet that creates a vector of those called <pf>carList</pf>. What would you write to make a variable called <pf>temp</pf> that is a reference to the first element of the vector? Fill in the two blanks below that represent the two halves of an assignment statement. (The left should be the data type, the right the value that is assigned).</p>
+      <p><fillin mode="string" answer="CarType\\s*&amp;\\s*temp"/> <pf>=</pf> <fillin mode="string" answer="carList.at\\(\\s*0\\s*\\);?"/><pf>;</pf></p>
           <program>
 struct CarType {
   string make;

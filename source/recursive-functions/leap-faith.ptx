@@ -9,7 +9,7 @@ when you come to a function invocation, instead of following the flow of executi
 
 <p>
 In fact, you are already practicing this leap of faith when you use functions in the Java library.
-When you invoke <c>Math.cos</c> or <c>System.out.println</c>, you don't think about the implementations of those functions.
+When you invoke <pf>Math.cos</pf> or <pf>System.out.println</pf>, you don't think about the implementations of those functions.
 You just assume that they work properly.
 </p>
 
@@ -35,7 +35,7 @@ Instead, <term>assume</term> that the recursive call produces the desired result
 <p>
 For example, <q>Assuming that I can find the factorial of <m>n-1</m>, can I compute the factorial of <m>n</m>?</q>
 Yes you can, by multiplying by <m>n</m>.
-Here's an implementation of <c>factorial</c> with the temporary variables removed:
+Here's an implementation of <pf>factorial</pf> with the temporary variables removed:
 </p>
 
 <program xml:id="recursive-functions_leap-faith-2">
@@ -71,7 +71,7 @@ Translated into Java, this function is as follows:
 </program>
 
 <p>
-If you try to follow the flow of execution here, even for small values of <c>n</c>, your head will explode.
+If you try to follow the flow of execution here, even for small values of <pf>n</pf>, your head will explode.
 But if we take a leap of faith and assume that the two recursive invocations work correctly, then it is clear, looking at the definition, that our implementation is correct.
 </p>
 </section>

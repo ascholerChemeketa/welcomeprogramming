@@ -1,13 +1,13 @@
 <section xml:id="reusing-classes_refactoring" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Refactoring</title>
 <p>
-Whenever you see repeated code like <c>main</c>, you should think about ways to remove it.
+Whenever you see repeated code like <pf>main</pf>, you should think about ways to remove it.
 In <xref ref="eights">Chapter</xref>, we used inheritance to eliminate repeated code.
-We'll do something similar with <c>Conway</c> and <c>Langton</c>.
+We'll do something similar with <pf>Conway</pf> and <pf>Langton</pf>.
 </p>
 
 <p>
-First, we define a superclass named <c>Automaton</c>, in which we will put the code that <c>Conway</c> and <c>Langton</c> have in common:
+First, we define a superclass named <pf>Automaton</pf>, in which we will put the code that <pf>Conway</pf> and <pf>Langton</pf> have in common:
 </p>
 
 <program xml:id="reusing-classes_refactoring-1">
@@ -15,13 +15,13 @@ First, we define a superclass named <c>Automaton</c>, in which we will put the c
 </program>
 
 <p>
-<c>Automaton</c> declares <c>grid</c> as an instance variable, so every <c>Automaton</c> <q>has<nbsp/>a</q> <c>GridCanvas</c>.
-It also provides <c>run</c>, which contains the code that creates and configures the <c>JFrame</c>.
+<pf>Automaton</pf> declares <pf>grid</pf> as an instance variable, so every <pf>Automaton</pf> <q>has<nbsp/>a</q> <pf>GridCanvas</pf>.
+It also provides <pf>run</pf>, which contains the code that creates and configures the <pf>JFrame</pf>.
 </p>
 
 <p>
-The <c>run</c> function takes two parameters: the window <c>title</c> and the frame <c>rate</c>; that is, the number of time steps to show per second.
-It uses <c>title</c> when creating the <c>JFrame</c>, and it passes <c>rate</c> to <c>mainloop</c>:
+The <pf>run</pf> function takes two parameters: the window <pf>title</pf> and the frame <pf>rate</pf>; that is, the number of time steps to show per second.
+It uses <pf>title</pf> when creating the <pf>JFrame</pf>, and it passes <pf>rate</pf> to <pf>mainloop</pf>:
 </p>
 
 <program xml:id="reusing-classes_refactoring-2">
@@ -29,20 +29,20 @@ It uses <c>title</c> when creating the <c>JFrame</c>, and it passes <c>rate</c> 
 </program>
 
 <p>
-<c>mainloop</c> contains the code you first saw in <xref ref="mainloop">Section</xref>.
-It runs a <c>while</c> loop forever (or until the window closes).
-Each time through the loop, it runs <c>update</c> to update <c>grid</c> and then <c>repaint</c> to redraw the grid.
+<pf>mainloop</pf> contains the code you first saw in <xref ref="mainloop">Section</xref>.
+It runs a <pf>while</pf> loop forever (or until the window closes).
+Each time through the loop, it runs <pf>update</pf> to update <pf>grid</pf> and then <pf>repaint</pf> to redraw the grid.
 </p>
 
 <p>
-Then it calls <c>Thread.sleep</c> with a delay that depends on <c>rate</c>.
-For example, if <c>rate</c> is 2, we should draw two frames per second, so the delay is a half second, or 500 milliseconds.
+Then it calls <pf>Thread.sleep</pf> with a delay that depends on <pf>rate</pf>.
+For example, if <pf>rate</pf> is 2, we should draw two frames per second, so the delay is a half second, or 500 milliseconds.
 </p>
 
 <p>
     <idx><h>refactor</h></idx>
     <idx><h>design process</h></idx>
 This process of reorganizing existing code, without changing its behavior, is known as <term>refactoring</term>.
-We're almost finished; we just need to redesign <c>Conway</c> and <c>Langton</c> to extend <c>Automaton</c>.
+We're almost finished; we just need to redesign <pf>Conway</pf> and <pf>Langton</pf> to extend <pf>Automaton</pf>.
 </p>
 </section>

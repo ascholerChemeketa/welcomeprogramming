@@ -18,18 +18,18 @@
     <idx>
       <h>not operator</h>
     </idx> In addition to the relational operators, C++ also has three <term>logical
-    operators</term>: <c>&amp;&amp;</c>, <c>||</c>, and <c>!</c>, which respectively stand for <term>and</term>, <term>
+    operators</term>: <pf>&amp;&amp;</pf>, <pf>||</pf>, and <pf>!</pf>, which respectively stand for <term>and</term>, <term>
     or</term>, and <term>not</term>. They are called <term>logical operators</term> because they operator on <q>logical</q> (Boolean) values. The results of these operators are similar to their meanings in
     English. For example: <ul>
       <li>
-        <p><c>x &gt; 0 &amp;&amp; x &lt; 10</c> is true when <c>x</c> is greater than 0 <term>and</term> less than 10.</p>
+        <p><pf>x &gt; 0 &amp;&amp; x &lt; 10</pf> is true when <pf>x</pf> is greater than 0 <term>and</term> less than 10.</p>
       </li>
       <li>
-        <p><c>x &lt; 0 || x &gt; 10</c> is true if either condition is true; that is, if <c>x</c> is less than 0 <term>or</term>
+        <p><pf>x &lt; 0 || x &gt; 10</pf> is true if either condition is true; that is, if <pf>x</pf> is less than 0 <term>or</term>
     greater than 10.</p>
       </li>
       <li>
-        <p><c>!(isEven)</c> is true if <c>isEven</c> is <term>not</term> true (if it is false).</p>
+        <p><pf>!(isEven)</pf> is true if <pf>isEven</pf> is <term>not</term> true (if it is false).</p>
       </li>
     </ul>
   </p>
@@ -37,8 +37,8 @@
   <subsection>
     <title>And</title>
 
-    <p> In order for an expression with <c>&amp;&amp;</c> to be true, both sides of the <c>&amp;&amp;</c> operator must
-      be true. The <c>&amp;&amp;</c> operator is equivalent to using nested <c>if</c> statements. For example,
+    <p> In order for an expression with <pf>&amp;&amp;</pf> to be true, both sides of the <pf>&amp;&amp;</pf> operator must
+      be true. The <pf>&amp;&amp;</pf> operator is equivalent to using nested <pf>if</pf> statements. For example,
       the following code:</p>
 
     <program xml:id="conditionals-logic_logical-operators-1">
@@ -52,37 +52,37 @@
 </program>
 
     <p>If our goal is to have the one statement depend on testing both x and y, this version using
-      `&amp;&amp;` is shorter and more clearly communicates our intent.</p>
+      <pf>&amp;&amp;</pf> is shorter and more clearly communicates our intent.</p>
 
     <warning>
-    <p>C++ does not allow compound conditions like you would write in math. In C++, `0 &lt; x &lt; 10` does NOT test to see if if x is between 0 and 10. Instead, it tests if 0 is less than x, and produces a result of 0 or 1 (true or false). It then tests that value to see if it is less than 10, which will always be true. You MUST write this as two conditions combined with `&amp;&amp;: `0 &lt; x &amp;&amp; x &lt; 10`.
+    <p>C++ does not allow compound conditions like you would write in math. In C++, <pf>0 &lt; x &lt; 10</pf> does NOT test to see if if x is between 0 and 10. Instead, it tests if 0 is less than x, and produces a result of 0 or 1 (true or false). It then tests that value to see if it is less than 10, which will always be true. You MUST write this as two conditions combined with <pf>&amp;&amp;: </pf>0 &lt; x &amp;&amp; x &lt; 10`.
     </p></warning>
 
   </subsection>
   <subsection>
     <title>Or</title>
 
-    <p>In order for an expression with <c>||</c> to be false, both sides of the <c>||</c> operator must
+    <p>In order for an expression with <pf>||</pf> to be false, both sides of the <pf>||</pf> operator must
       be false. If either part is true, the entire expression is true.</p>
 
-    <p>The <c>||</c> operator can simplify our logic where multiple different tests all should result
+    <p>The <pf>||</pf> operator can simplify our logic where multiple different tests all should result
       in the same behavior. For example, there are two ways for this code to print the message:</p>
 
     <program xml:id="conditionals-logic_logical-operators-3">
 <xi:include href="../../programs/conditionals-logic/logical-operators-3.cpp" parse="text"/>
 </program>
 
-    <p>But we can combine the two conditions into one using `||`:</p>
+    <p>But we can combine the two conditions into one using <pf>||</pf>:</p>
 
     <program xml:id="conditionals-logic_logical-operators-4">
 <xi:include href="../../programs/conditionals-logic/logical-operators-4.cpp" parse="text"/>
 </program>
 
     <warning>
-    <p>C++ also does not allow us to directly translate <q>x is equal to 3 or 4</q> as `x == 3 || 4`. Instead, you must write `x == 3 || x == 4`. The first expression would be interpreted as `x == 3` or `4`. Since `4` is always true, the expression would always be true.
+    <p>C++ also does not allow us to directly translate <q>x is equal to 3 or 4</q> as <pf>x == 3 || 4</pf>. Instead, you must write <pf>x == 3 || x == 4</pf>. The first expression would be interpreted as <pf>x == 3</pf> or <pf>4</pf>. Since <pf>4</pf> is always true, the expression would always be true.
     </p></warning>
 
-    <insight><p>The expression on each side of `||` or `&amp;&amp;` MUST be a complete boolean expression that will evaluate to `true` or `false`.</p></insight>
+    <insight><p>The expression on each side of <pf>||</pf> or <pf>&amp;&amp;</pf> MUST be a complete boolean expression that will evaluate to <pf>true</pf> or <pf>false</pf>.</p></insight>
 
   </subsection>
 
@@ -90,7 +90,7 @@
   <subsection>
     <title>Not</title>
 
-    <p>The <term>not</term> operator `!` is used to produce the opposite of a boolean value. It can be used directly on boolean variables as shown in this sample:</p>
+    <p>The <term>not</term> operator <pf>!</pf> is used to produce the opposite of a boolean value. It can be used directly on boolean variables as shown in this sample:</p>
 
     <program>
 bool isEven = true;
@@ -98,7 +98,7 @@ if (!isEven) {
     // we know it's odd...
 </program>
 
-  <p>That if statement is equivalent to `if (isEven == false)`, but most programmers prefer the version using `!`. It can also be used to reverse the value calculated by some other logical operation. For example, to test if `health` is not less than 0 we could do: `!(health &lt; 0)`. Notice that we need the parentheses to make it clear that we want to FIRST calculate <q>is health less than 0</q> and then calculate the opposite of that value. Of course we could also write that expression as `(health &gt;= 0)` which more clearly expresses what we are looking for.</p>
+  <p>That if statement is equivalent to <pf>if (isEven == false)</pf>, but most programmers prefer the version using <pf>!</pf>. It can also be used to reverse the value calculated by some other logical operation. For example, to test if <pf>health</pf> is not less than 0 we could do: <pf>!(health &lt; 0)</pf>. Notice that we need the parentheses to make it clear that we want to FIRST calculate <q>is health less than 0</q> and then calculate the opposite of that value. Of course we could also write that expression as <pf>(health &gt;= 0)</pf> which more clearly expresses what we are looking for.</p>
   </subsection>
 
   <subsection>
@@ -107,14 +107,14 @@ if (!isEven) {
       <idx>
         <h>short circuit</h>
       </idx> Logical operators evaluate the second expression <term>only
-      when necessary</term>. For example, <c>true || anything</c> is always true, so C++ does not need to evaluate
-      the expression <c>anything</c>. Likewise, <c>false &amp;&amp; anything</c> is always false. </p>
+      when necessary</term>. For example, <pf>true || anything</pf> is always true, so C++ does not need to evaluate
+      the expression <pf>anything</pf>. Likewise, <pf>false &amp;&amp; anything</pf> is always false. </p>
 
     <p>Ignoring the second operand, when possible, is called <term>short-circuit</term> evaluation,
-      by analogy with an electrical circuit. Short-circuit evaluation can save time, especially if <c>anything</c>
-      takes a long time to evaluate. It can also avoid unnecessary errors, if <c>anything</c> might fail.
+      by analogy with an electrical circuit. Short-circuit evaluation can save time, especially if <pf>anything</pf>
+      takes a long time to evaluate. It can also avoid unnecessary errors, if <pf>anything</pf> might fail.
       For example, dividing an integer by 0 is a runtime error that will stop a program. This code
-      avoids that by testing `b` before dividing `a` by it. If `a` is 0, then the `a != 0` is false
+      avoids that by testing <pf>b</pf> before dividing <pf>a</pf> by it. If <pf>a</pf> is 0, then the <pf>a != 0</pf> is false
       and the second clause which involves division never gets executed:</p>
 
     <program xml:id="conditionals-logic_logical-operators-5"
@@ -132,8 +132,8 @@ if (x &gt; 0 || y++ &gt; 0) {
 }
     </program>
 
-    <p>Here, if `x` is greater than 0, the `y++` is never executed. But if `x` is less than or equal
-      to 0, then `y` is incremented. It would be easy to expect that `y` always increases. A good
+    <p>Here, if <pf>x</pf> is greater than 0, the <pf>y++</pf> is never executed. But if <pf>x</pf> is less than or equal
+      to 0, then <pf>y</pf> is incremented. It would be easy to expect that <pf>y</pf> always increases. A good
       rule of thumb is to avoid doing anything in a complex conditional that has a side effect.</p>
 
   </subsection>
@@ -229,14 +229,14 @@ if (x &gt; 0 || y++ &gt; 0) {
     <statement>
       <p>Add a single logical operator to make the expression check if x is greater than or
         equal to 50</p>
-      <p><fillin mode="string" case="insensitive" answer="[!]"/> <c>( x &lt; 50 )</c></p>
+      <p><fillin mode="string" case="insensitive" answer="[!]"/> <pf>( x &lt; 50 )</pf></p>
     </statement>
     <evaluation>
       <evaluate>
         <test>
           <strcmp use-answer="yes"/>
           <feedback>
-            If the expression checks for the opposite of what you want then just <c>!</c> the
+            If the expression checks for the opposite of what you want then just <pf>!</pf> the
               result
           </feedback>
         </test>

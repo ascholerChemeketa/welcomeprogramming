@@ -2,12 +2,12 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <title>String Variables and Objects</title>
-  <p>Strings are more than a new type of data like `char`. They are an entirely different kind of variable: an <term>object</term>.</p>
+  <p>Strings are more than a new type of data like <pf>char</pf>. They are an entirely different kind of variable: an <term>object</term>.</p>
 
 <subsection>
   <title>String Variables</title>
 
-  <p>Although we have worked with string literals enclosed in quotes like `"Hello world"`, we have yet to store or manipulate those strings. To do so, we need to create a variable of type <c>string</c>. To work with the <c>string</c> data type, you need to include the `&lt;string>` library. Then you can create and assign values to variable with type <c>string</c> in the usual ways: <idx><h>string</h></idx>
+  <p>Although we have worked with string literals enclosed in quotes like <pf>"Hello world"</pf>, we have yet to store or manipulate those strings. To do so, we need to create a variable of type <pf>string</pf>. To work with the <pf>string</pf> data type, you need to include the <pf>&lt;string></pf> library. Then you can create and assign values to variable with type <pf>string</pf> in the usual ways: <idx><h>string</h></idx>
     <idx>
       <h>type</h>
       <h>string</h>
@@ -33,7 +33,7 @@ int main() {
     </program>
   </listing>
 
-  <note><p>The full formal name of string is `std::string`. Like with `std::cout` or `std::endl`, you can either use that full name or add `using namespace std;` to your file, in which case the compiler will assume that `string` really means `std::string`.</p></note>
+  <note><p>The full formal name of string is <pf>std::string</pf>. Like with <pf>std::cout</pf> or <pf>std::endl</pf>, you can either use that full name or add <pf>using namespace std;</pf> to your file, in which case the compiler will assume that <pf>string</pf> really means <pf>std::string</pf>.</p></note>
 
   <p>Strings have a maximum length that depends on the platform (usually billions of characters). And they can be can be just 1 character long, or even 0 characters. Unlike numeric types, if you fail to initialize a string, you can count on it being empty instead of having a random value:</p>
 
@@ -43,16 +43,16 @@ string alsoEmpty;    // we know this string holds ""
 string single = "a";
   </program>
 
-  <note><p>If you are already including <c>iostream</c>, you may get away with not explicitly including <c>string</c>.
-    In some environments, <c>iostream</c> will include <c>string</c> for you. But it is best to explicitly
-    include <c>string</c> if your code relies on it.</p></note>
+  <note><p>If you are already including <pf>iostream</pf>, you may get away with not explicitly including <pf>string</pf>.
+    In some environments, <pf>iostream</pf> will include <pf>string</pf> for you. But it is best to explicitly
+    include <pf>string</pf> if your code relies on it.</p></note>
 
 </subsection>
 
 <subsection>
   <title>Strings are Objects</title>
 
-  <p>The term <term>object</term> in programming refers to a code entity that bundles some data together with functions that operate on that data. `string`s in C++ are objects. And they are one of the first kind of objects we will deal extensively with. (`cout` and `cin` are objects, but we haven't had to know that to use them.)</p>
+  <p>The term <term>object</term> in programming refers to a code entity that bundles some data together with functions that operate on that data. <pf>string</pf>s in C++ are objects. And they are one of the first kind of objects we will deal extensively with. (<pf>cout</pf> and <pf>cin</pf> are objects, but we haven't had to know that to use them.)</p>
 
   <p>We will lean much more about objects in a later chapter <!-- TODO xref -->. For now, the important thing to know is that the way you interact with an object is to call functions <q>on it</q>. Which looks different than calling a function and passing it all of the data. To call a function on an object we use the syntax: </p>
 
@@ -60,11 +60,11 @@ string single = "a";
   objectName.functionName()
   </program>
 
-  <p>This syntax is called <q>dot notation,</q> because the dot (period) separates the name of the object from the name of the function. For example, to find the size (number of characters) of a string called `fruit`, we can use its <c>size</c> function by saying `fruit.size()`:<idx><h>dot notation</h></idx></p>
+  <p>This syntax is called <q>dot notation,</q> because the dot (period) separates the name of the object from the name of the function. For example, to find the size (number of characters) of a string called <pf>fruit</pf>, we can use its <pf>size</pf> function by saying <pf>fruit.size()</pf>:<idx><h>dot notation</h></idx></p>
 
   <listing label="size_AC_1">
     <caption>
-      This active code outputs the size of string <c>fruit</c>.
+      This active code outputs the size of string <pf>fruit</pf>.
     </caption>
     <program xml:id="size_AC_1_ewefweditor"
              interactive="activecode"
@@ -81,10 +81,10 @@ int main() {
     </program>
   </listing>
 
-  <p>Functions that are a part of an object are often referred to as <term>methods</term> or <term>member functions</term>. You should think of `fruit.size()` as saying <q>call the size method of `fruit`</q> or <q>ask fruit to run its `size` method</q>. <idx><h>method</h></idx> <idx><h>member function</h></idx>
+  <p>Functions that are a part of an object are often referred to as <term>methods</term> or <term>member functions</term>. You should think of <pf>fruit.size()</pf> as saying <q>call the size method of <pf>fruit</pf></q> or <q>ask fruit to run its <pf>size</pf> method</q>. <idx><h>method</h></idx> <idx><h>member function</h></idx>
   </p>
 
-  <p>When using methods, we always have to specify which object is going to be running the method using dot notation. Which string exactly are we asking about its size? Trying to use `size()` without `someStringName.` before it would be a syntax error:</p>
+  <p>When using methods, we always have to specify which object is going to be running the method using dot notation. Which string exactly are we asking about its size? Trying to use <pf>size()</pf> without <pf>someStringName.</pf> before it would be a syntax error:</p>
 
     <program xml:id="size_AC_1_ewefewditor"
              interactive="activecode"
@@ -108,9 +108,9 @@ int main() {
         ]]></code>
     </program>
 
-    <note><p>Strings also have a `length()` method. It does the same thing as the `size()` method, so you can use either one.</p></note>
+    <note><p>Strings also have a <pf>length()</pf> method. It does the same thing as the <pf>size()</pf> method, so you can use either one.</p></note>
 
-  <p>It is important to recognize that a string, even with only one character, is different than a `char` variable. A `char` is just a number that represents a character. A string is a list of 0 or more characters and has built in functions. Even if a string currently only has one character, it may later be modified to have more.</p>
+  <p>It is important to recognize that a string, even with only one character, is different than a <pf>char</pf> variable. A <pf>char</pf> is just a number that represents a character. A string is a list of 0 or more characters and has built in functions. Even if a string currently only has one character, it may later be modified to have more.</p>
 
   <exercise label="size_fwef1">
     <statement>
@@ -194,7 +194,7 @@ cout << s.at( s.length() - 5 ) << endl;
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Construct a program that prints out the length of the string `Programming`.</p>
+      <p>Construct a program that prints out the length of the string <pf>Programming</pf>.</p>
     </statement>
     <blocks>
       <block order="6" name="main">

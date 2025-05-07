@@ -2,14 +2,14 @@
 <title>Card toString</title>
 <p>
 When you create a new class, the first step is to declare the instance variables and write constructors.
-A good next step is to write <c>toString</c>, which is useful for debugging and incremental development.
+A good next step is to write <pf>toString</pf>, which is useful for debugging and incremental development.
 </p>
 
 <p>
     <idx><h>string</h><h>array of</h></idx>
     <idx><h>array</h><h>of strings</h></idx>
-To display <c>Card</c> objects in a way that humans can read easily, we need to <q>decode</q> the integer values as words.
-A natural way to do that is with an array of <c>String</c>s.
+To display <pf>Card</pf> objects in a way that humans can read easily, we need to <q>decode</q> the integer values as words.
+A natural way to do that is with an array of <pf>String</pf>s.
 For example, we can create the array like this:
 </p>
 
@@ -39,7 +39,7 @@ Or we can create the array and initialize the elements at the same time, as you 
     <idx><h>reference</h></idx>
     <idx><h>string</h><h>reference to</h></idx>
 The memory diagram in <xref ref="fig_stringarray">Figure</xref> shows the result.
-Each element of the array is a reference to a <c>String</c>.
+Each element of the array is a reference to a <pf>String</pf>.
 </p>
 <figure xml:id="fig_stringarray" >
 <caption>Memory diagram of an array of strings.</caption>
@@ -55,11 +55,11 @@ We also need an array to decode the ranks:
 
 <p>
 The zeroth element should never be used, because the only valid ranks are 1<ndash/>13.
-We set it to <c>null</c> to indicate an unused element.
+We set it to <pf>null</pf> to indicate an unused element.
 </p>
 
 <p>
-Using these arrays, we can create a meaningful <c>String</c> by using <c>suit</c> and <c>rank</c> as indexes.
+Using these arrays, we can create a meaningful <pf>String</pf> by using <pf>suit</pf> and <pf>rank</pf> as indexes.
 </p>
 
 <program xml:id="arrays-objects_card-tostring-5">
@@ -67,12 +67,12 @@ Using these arrays, we can create a meaningful <c>String</c> by using <c>suit</c
 </program>
 
 <p>
-The expression <c>ranks[this.rank]</c> means <q>use the instance variable <c>rank</c> from <c>this</c> object as an index into the array <c>ranks</c>.</q>
-We select the string for <c>this.suit</c> in a similar way.
+The expression <pf>ranks[this.rank]</pf> means <q>use the instance variable <pf>rank</pf> from <pf>this</pf> object as an index into the array <pf>ranks</pf>.</q>
+We select the string for <pf>this.suit</pf> in a similar way.
 </p>
 
 <p>
-Now we can wrap all the previous code in a <c>toString</c> function:
+Now we can wrap all the previous code in a <pf>toString</pf> function:
 </p>
 
 <program xml:id="arrays-objects_card-tostring-6">
@@ -80,8 +80,8 @@ Now we can wrap all the previous code in a <c>toString</c> function:
 </program>
 
 <p>
-When we display a card, <c>println</c> automatically calls <c>toString</c>.
-The output of the following code is <c>Jack of Diamonds</c>:
+When we display a card, <pf>println</pf> automatically calls <pf>toString</pf>.
+The output of the following code is <pf>Jack of Diamonds</pf>:
 </p>
 
 <program xml:id="arrays-objects_card-tostring-7">

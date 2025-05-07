@@ -17,7 +17,7 @@
       <h>if</h>
     </idx>Now that we have boolean values, we need to use them to control what code
     gets executed. <term>Conditional statements</term> give us this ability. The simplest
-    conditional statement in C++ is the <c>if</c> statement: </p>
+    conditional statement in C++ is the <pf>if</pf> statement: </p>
 
   <program xml:id="conditionals-logic_ifelse-statement-1">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-1.cpp" parse="text"/>
@@ -35,7 +35,7 @@
     <p>Try running this sample in Codelens. Notice that only one of the three conditions is true and
       that the bodies of the other two conditionals get skipped.</p>
 
-    <p>The <term>condition</term> can be any value that evaluates to `true` or `false`. Because
+    <p>The <term>condition</term> can be any value that evaluates to <pf>true</pf> or <pf>false</pf>. Because
       numbers can evaluate as true or false (with 0 being false and all other numbers being true),
       that means it is possible, but generally not advisable, to write something like this: </p>
 
@@ -46,8 +46,8 @@
     }
   </program>
 
-    <p>It also means that it is legal to use a variable of type `bool` without a comparison, as it
-      already has a value of `true` or `false`:</p>
+    <p>It also means that it is legal to use a variable of type <pf>bool</pf> without a comparison, as it
+      already has a value of <pf>true</pf> or <pf>false</pf>:</p>
 
     <program>
     int x = 5;
@@ -58,7 +58,7 @@
   </program>
 
     <p>This way of testing a boolean variable is generally preferred to comparing it to true.
-      Writing `if (isEven == true)` would do the same thing, but is redundant.</p>
+      Writing <pf>if (isEven == true)</pf> would do the same thing, but is redundant.</p>
 
   </subsection>
   <subsection>
@@ -80,9 +80,9 @@
         </idx>
     <idx>
           <h>== equals operator</h>
-        </idx>Remember that a single <c>=</c> represents
-        assignment - it says <q>gets the value</q>. A double equals <c>==</c> asks the question <q>is
-        equal to?</q>. A common mistake is to use a single <c>=</c> instead of a double <c>==</c> when
+        </idx>Remember that a single <pf>=</pf> represents
+        assignment - it says <q>gets the value</q>. A double equals <pf>==</pf> asks the question <q>is
+        equal to?</q>. A common mistake is to use a single <pf>=</pf> instead of a double <pf>==</pf> when
         comparing values. If you make this mistake, the compiler will emit a warning like the one
         shown below that tells you you are using an assignment operator in a place where a
         true/false value is expected. </p>
@@ -105,19 +105,19 @@
 </program>
 
     <p>By convention, we indent the code that is inside a condition, whether or not it is inside
-      braces, to clearly show that it is <q>inside</q> the body of the `if`. The compiler does not
+      braces, to clearly show that it is <q>inside</q> the body of the <pf>if</pf>. The compiler does not
       care if you indent or not, but indenting blocks makes code much easier to read.</p>
 
     <p>Because indentation signals <q>this is inside</q> to programers, but it meaningless to the
       compiler, it can be dangerous to skip braces<mdash/>even when they are optional<mdash/>. It
-      makes it easy to accidentally add a statement to a one-line <c>if</c> block.</p>
+      makes it easy to accidentally add a statement to a one-line <pf>if</pf> block.</p>
 
     <program xml:id="conditionals-logic_ifelse-statement-4"
              interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-4.cpp" parse="text"/>
 </program>
 
-    <p>Since there are no braces, only the first <c>cout</c> is part of the <c>if</c> statement. Here is
+    <p>Since there are no braces, only the first <pf>cout</pf> is part of the <pf>if</pf> statement. Here is
       what the compiler actually sees: </p>
 
     <program xml:id="conditionals-logic_ifelse-statement-5"
@@ -134,14 +134,14 @@
       <idx>
         <h>\{\} curly braces</h>
       </idx> In all previous examples, notice that there is no
-      semicolon at the end of the line with <c>if (condition)</c>. That is because the body is technically part of
+      semicolon at the end of the line with <pf>if (condition)</pf>. That is because the body is technically part of
       the same statement. You could correctly write the code like this: </p>
 
     <program xml:id="conditionals-logic_ifelse-statement-1c">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-1c.cpp" parse="text"/>
 </program>
 
-    <p>If you put a semicolon after the condition, the compiler will treat the <c>if</c> statement as
+    <p>If you put a semicolon after the condition, the compiler will treat the <pf>if</pf> statement as
       if there is no body, and the subsequent block will run independently.</p>
 
     <program xml:id="conditionals-logic_ifelse-statement-6"
@@ -149,7 +149,7 @@
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-6.cpp" parse="text"/>
 </program>
 
-    <p> This code will compile, but the program will output <c>"x is even"</c> regardless of the value of <c>x</c>.
+    <p> This code will compile, but the program will output <pf>"x is even"</pf> regardless of the value of <pf>x</pf>.
       Here is what the compiler sees in that sample:</p>
 
     <program xml:id="conditionals-logic_ifelse-statement-7"
@@ -157,7 +157,7 @@
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-7.cpp" parse="text"/>
 </program>
 
-    <p>It sees an `if` statement with no body, followed by a block of code that is not a part of the
+    <p>It sees an <pf>if</pf> statement with no body, followed by a block of code that is not a part of the
       conditional.</p>
 
   </subsection>
@@ -296,7 +296,7 @@ if (low_battery) {
         <statement id="bool_var_4_opt_a">
           <p>nothing will print</p>
         </statement>
-        <feedback> The value of <c>low_battery</c> is true so we enter the first <c>if</c> block. </feedback>
+        <feedback> The value of <pf>low_battery</pf> is true so we enter the first <pf>if</pf> block. </feedback>
       </choice>
       <choice correct="yes">
         <statement id="bool_var_4_opt_b">
@@ -304,7 +304,7 @@ if (low_battery) {
             <q>Charging your phone</q>
           </p>
         </statement>
-        <feedback> correct! <c>low_battery</c> stays true and we set <c>power_outage</c> to false. </feedback>
+        <feedback> correct! <pf>low_battery</pf> stays true and we set <pf>power_outage</pf> to false. </feedback>
       </choice>
       <choice>
         <statement id="bool_var_4_opt_c">
@@ -313,7 +313,7 @@ if (low_battery) {
           </p>
         </statement>
         <feedback>
-          <c>low_battery</c> is true so we don't reach this <c>else</c>. </feedback>
+          <pf>low_battery</pf> is true so we don't reach this <pf>else</pf>. </feedback>
       </choice>
       <choice>
         <statement id="bool_var_4_opt_d">
@@ -321,7 +321,7 @@ if (low_battery) {
             <q>There is no power</q>
           </p>
         </statement>
-        <feedback> We change the value of <c>power_outage</c> to false before hand. </feedback>
+        <feedback> We change the value of <pf>power_outage</pf> to false before hand. </feedback>
       </choice>
     </choices>
   </exercise>

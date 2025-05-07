@@ -11,8 +11,8 @@
 <xi:include href="../../programs/program-design/documentation-1.cpp" parse="text"/>
   </program>
 
-  <p>It clearly has something to do with the highest temperature. But what do <c>start</c> and
-  <c>range</c> do? What kind of temperature is it returning? (Fahrenheit? Celsius?)
+  <p>It clearly has something to do with the highest temperature. But what do <pf>start</pf> and
+  <pf>range</pf> do? What kind of temperature is it returning? (Fahrenheit? Celsius?)
   </p>
 
   <p>To use this function, we need to know more about it. Rather than requiring programmers
@@ -25,18 +25,18 @@
 
   <p>
   Lines 1-8 of the sample are all one big comment. This is a <term>block comment</term>, which
-  is a comment that can span multiple lines. Block comments start with <c>/*</c> (like on line 1) 
-  and end with <c>*/</c> (like on line 8) Everything between those is a comment - the <c>*</c> symbol on each
+  is a comment that can span multiple lines. Block comments start with <pf>/*</pf> (like on line 1) 
+  and end with <pf>*/</pf> (like on line 8) Everything between those is a comment - the <pf>*</pf> symbol on each
   line is not actually necessary, it just helps to clearly show what lines are part of the comment.
   <idx><h>block comment</h></idx>
   <idx><h>comment</h><h>block</h></idx>
   </p>
 
-  <p>This particular comment starts with an extra * - <c>/**</c>. That extra star doesn't mean anything in
+  <p>This particular comment starts with an extra * - <pf>/**</pf>. That extra star doesn't mean anything in
   the C++ language, but it is a convention used to indicate that this comment is a <url href="https://www.doxygen.nl/">Doxygen</url> style comment. Doxygen comments use a structured syntax to provide documentation about functions and other parts
   of a program. Because the information is structured, it can be automatically extracted and used to
   generate documentation in a variety of formats. For example, the comment above could be used to
-  generate a web page that describes the function <c>maxTemperature</c> in detail or by a text editor to
+  generate a web page that describes the function <pf>maxTemperature</pf> in detail or by a text editor to
   provide a popup with information about the function as you are writing code.
   <idx><h>doxygen</h></idx></p>
 
@@ -58,8 +58,8 @@
   </dl>
   </p>
 
-  <p>This is not an exhaustive list of the things that can be documented (there are things like <c>@author</c>, <c>@bug</c>
-  <c>@example</c>, etc...). But these are the most critical items. When working on a programming team or in a class, there will likely be conventions for what items need to be included in your documentation.</p>
+  <p>This is not an exhaustive list of the things that can be documented (there are things like <pf>@author</pf>, <pf>@bug</pf>
+  <pf>@example</pf>, etc...). But these are the most critical items. When working on a programming team or in a class, there will likely be conventions for what items need to be included in your documentation.</p>
 
   <p>In addition to documenting those aspects of the function, you can provide a longer description for the function after the @ items. This example does so to provide extra information about how the function does its job and
   what happens if it cannot:</p>

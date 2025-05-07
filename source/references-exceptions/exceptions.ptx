@@ -7,7 +7,7 @@
 
   <p>When a function generates an exception, we say that it <term>throws</term> that exception. The thrown exception travels back up the call stack one function at a time, giving each higher-level function a chance to <term>catch</term> the exception.<idx><h>throw</h></idx><idx><h>catch</h></idx>. If nothing catches the exception, the program will be stopped.</p>
 
-  <p>To start exploring exceptions, we will use a familiar string function. When `substr` is given a bad index it responds by throwing an exception. Try running this sample that ends up asking for a substring starting at index 50 in a much shorter string:</p>
+  <p>To start exploring exceptions, we will use a familiar string function. When <pf>substr</pf> is given a bad index it responds by throwing an exception. Try running this sample that ends up asking for a substring starting at index 50 in a much shorter string:</p>
 
   <program xml:id="references-exceptions_exceptions-1" interactive="activecode">
 <xi:include href="../../programs/references-exceptions/exceptions-1.cpp" parse="text"/>
@@ -21,9 +21,9 @@
   </output>
   </console>
 
-  <p>An `out_of_range` exception was thrown by the attempt on line 80 to get the substring. Because the exception was not caught, the program was terminated.</p>
+  <p>An <pf>out_of_range</pf> exception was thrown by the attempt on line 80 to get the substring. Because the exception was not caught, the program was terminated.</p>
 
-  <p>Let's try catching the exception in `mediumJob`. To catch an exception, we use this syntax:</p>
+  <p>Let's try catching the exception in <pf>mediumJob</pf>. To catch an exception, we use this syntax:</p>
   
 <program>
   try {
@@ -33,19 +33,19 @@
   }
 </program>
 
-  <p>`exception` is a data type defined in the `&lt;exception>` library. `catch(const exception&amp; e)` says that the variable `e` is going to be a const reference to an `exception` that is coming from somewhere else. Let's add that to our program to catch the exception that is coming from `substr`:</p>
+  <p><pf>exception</pf> is a data type defined in the <pf>&lt;exception></pf> library. <pf>catch(const exception&amp; e)</pf> says that the variable <pf>e</pf> is going to be a const reference to an <pf>exception</pf> that is coming from somewhere else. Let's add that to our program to catch the exception that is coming from <pf>substr</pf>:</p>
 
   <program xml:id="references-exceptions_exceptions-2" interactive="activecode">
 <xi:include href="../../programs/references-exceptions/exceptions-2.cpp" parse="text"/>
 </program>
 
-  <p>This time, we caught the exception. The exception happens on line 10. As soon as it happens, execution jumps to the `catch`. Line 11 never runs. Which is good, as there is no result from line 10 that it can use. Inside the catch, line 14 runs and prints a message. `e.what()` results in a string that describes the exception. The code then recovers from the error by setting the `mediumResult` variable to a default value (`"mediumJob(?)"`).</p>
+  <p>This time, we caught the exception. The exception happens on line 10. As soon as it happens, execution jumps to the <pf>catch</pf>. Line 11 never runs. Which is good, as there is no result from line 10 that it can use. Inside the catch, line 14 runs and prints a message. <pf>e.what()</pf> results in a string that describes the exception. The code then recovers from the error by setting the <pf>mediumResult</pf> variable to a default value (<pf>"mediumJob(?)"</pf>).</p>
 
-  <p>That result is returned to `bigJob` in the normal manner and the program continues on as if nothing bad happened.</p>
+  <p>That result is returned to <pf>bigJob</pf> in the normal manner and the program continues on as if nothing bad happened.</p>
 
   <note>
-    <p>Every `try` MUST have a catch.</p>
-    <p>Execution in a `try` stops if an exception occurs, the rest of the try block will not get a chance to run.</p>
+    <p>Every <pf>try</pf> MUST have a catch.</p>
+    <p>Execution in a <pf>try</pf> stops if an exception occurs, the rest of the try block will not get a chance to run.</p>
   </note>
 
   <exercise label="fwe320d9wef"
@@ -53,7 +53,7 @@
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Construct a try catch that attempts to call `foo()` and catches any errors that result.</p>
+      <p>Construct a try catch that attempts to call <pf>foo()</pf> and catches any errors that result.</p>
     </statement>
     <blocks>
       <block>

@@ -10,8 +10,8 @@ For example, <m>(0,0)</m> indicates the origin, and <m>(x,y)</m> indicates the p
     <idx><h>AWT</h></idx>
     <idx><h>java.awt</h></idx>
     <idx><h>Point</h></idx>
-The <c>java.awt</c> package provides a class named <c>Point</c> that represents a location in a Cartesian plane.
-In order to use the <c>Point</c> class, you have to import it:
+The <pf>java.awt</pf> package provides a class named <pf>Point</pf> that represents a location in a Cartesian plane.
+In order to use the <pf>Point</pf> class, you have to import it:
 </p>
 
 <program xml:id="mutable-objects_point-objects-1" interactive="activecode">
@@ -21,7 +21,7 @@ In order to use the <c>Point</c> class, you have to import it:
 <p>
     <idx><h>new</h></idx>
     <idx><h>operator</h><h>new</h></idx>
-Then, to create a new point, you use the <c>new</c> operator:
+Then, to create a new point, you use the <pf>new</pf> operator:
 </p>
 
 <program xml:id="mutable-objects_point-objects-2" interactive="activecode">
@@ -32,9 +32,9 @@ Then, to create a new point, you use the <c>new</c> operator:
     <idx><h>declaration</h></idx>
     <idx><h>statement</h><h>declaration</h></idx>
     <idx><h>reference</h></idx>
-The first line declares that <c>blank</c> has type <c>Point</c>.
-The second line creates the new <c>Point</c> with the coordinates <m>x=3</m> and <m>y=4</m>.
-The result of the <c>new</c> operator is a <term>reference</term> to the object.
+The first line declares that <pf>blank</pf> has type <pf>Point</pf>.
+The second line creates the new <pf>Point</pf> with the coordinates <m>x=3</m> and <m>y=4</m>.
+The result of the <pf>new</pf> operator is a <term>reference</term> to the object.
 <xref ref="fig_reference">Figure</xref> shows the result.
 </p>
 
@@ -43,13 +43,13 @@ The result of the <c>new</c> operator is a <term>reference</term> to the object.
     <idx><h>diagram</h><h>memory</h></idx>
 </p>
 <figure xml:id="fig_reference" >
-<caption>Memory diagram showing a variable that refers to a <c>Point</c> object.</caption>
+<caption>Memory diagram showing a variable that refers to a <pf>Point</pf> object.</caption>
 <image width="73%" source="images/reference.png" />
 </figure>
 <p>
-As usual, the name of the variable <c>blank</c> appears outside the box, and its value appears inside the box.
+As usual, the name of the variable <pf>blank</pf> appears outside the box, and its value appears inside the box.
 In this case, the value is a reference, which is represented with an arrow.
-The arrow points to the <c>Point</c> object, which contains two variables, <c>x</c> and <c>y</c>. <idx><h>attribute</h></idx>
+The arrow points to the <pf>Point</pf> object, which contains two variables, <pf>x</pf> and <pf>y</pf>. <idx><h>attribute</h></idx>
     <idx><h>dot notation</h></idx>
 Variables that belong to an object are called <term>attributes</term>.
 In some documentation, you also see them called <q>fields</q>.
@@ -62,12 +62,12 @@ For example:
 </program>
 
 <p>
-The expression <c>blank.x</c> means <q>go to the object <c>blank</c> refers to, and get the value of the attribute <c>x</c>.</q>
-In this case, we assign that value to a local variable named <c>x</c>.
+The expression <pf>blank.x</pf> means <q>go to the object <pf>blank</pf> refers to, and get the value of the attribute <pf>x</pf>.</q>
+In this case, we assign that value to a local variable named <pf>x</pf>.
 </p>
 
 <p>
-There is no conflict between the local variable <c>x</c> and the attribute <c>x</c>.
+There is no conflict between the local variable <pf>x</pf> and the attribute <pf>x</pf>.
 The purpose of dot notation is to identify <term>which</term> variable you are referring to unambiguously.
 </p>
 
@@ -81,7 +81,7 @@ For example:
 </program>
 
 <p>
-The first line displays <c>3, 4</c>.
-The second line calculates the value <c>25</c>.
+The first line displays <pf>3, 4</pf>.
+The second line calculates the value <pf>25</pf>.
 </p>
 </section>

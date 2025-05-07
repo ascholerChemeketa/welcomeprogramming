@@ -33,13 +33,13 @@
 <xi:include href="../../programs/input-output/literals-constants-2.cpp" parse="text"/>
 </program>
 
-  <p>Now it is hopefully a little more clear what we are multiplying <c>inches by</c>, but it still has a
+  <p>Now it is hopefully a little more clear what we are multiplying <pf>inches by</pf>, but it still has a
     problem. Variables can vary (hence the term), but the number of centimeters in an inch does not.
-    Once we assign a value to <c>cmPerInch</c>, it should never change.</p>
+    Once we assign a value to <pf>cmPerInch</pf>, it should never change.</p>
 
-  <p>C++ provides the keyword <c>const</c>, a language feature that enforces this rule. When declaring a
-    variable, you can add <c>const </c> before the type. This modifies the data type and declares that its
-    can't be changed after it is created. Trying to change a <c>const</c> value after it is created will
+  <p>C++ provides the keyword <pf>const</pf>, a language feature that enforces this rule. When declaring a
+    variable, you can add <pf>const </pf> before the type. This modifies the data type and declares that its
+    can't be changed after it is created. Trying to change a <pf>const</pf> value after it is created will
     result in a compile error as seen in this program: <idx>
       <h>const</h>
     </idx>
@@ -51,7 +51,7 @@
 </program>
 
   <insight>
-    <p><c>const</c> is not needed to make a program work correctly, but it does help prevent errors. It
+    <p><pf>const</pf> is not needed to make a program work correctly, but it does help prevent errors. It
       clearly communicates to other programmers that the value should not be changed and asks the
       compiler to enforce that rule. </p>
   </insight>

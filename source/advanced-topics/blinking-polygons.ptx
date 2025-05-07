@@ -11,12 +11,12 @@ Here's a loop that runs the animation:
 </program>
 
 <p>
-Each time through the loop, we call <c>step</c> to update the <c>Drawing</c>.
+Each time through the loop, we call <pf>step</pf> to update the <pf>Drawing</pf>.
 Then we sleep with a delay calculated to update about 30 times per second.
 </p>
 
 <p>
-Here's what the <c>step</c> function of <c>Drawing</c> looks like:
+Here's what the <pf>step</pf> function of <pf>Drawing</pf> looks like:
 </p>
 
 <program xml:id="advanced-topics_blinking-polygons-2">
@@ -24,11 +24,11 @@ Here's what the <c>step</c> function of <c>Drawing</c> looks like:
 </program>
 
 <p>
-It invokes <c>step</c> on each <c>DrawablePolygon</c> in the list and then repaints (clears and redraws) the canvas.
+It invokes <pf>step</pf> on each <pf>DrawablePolygon</pf> in the list and then repaints (clears and redraws) the canvas.
 </p>
 
 <p>
-In order for this code to compile, we need <c>DrawablePolygon</c> to provide a <c>step</c> function.
+In order for this code to compile, we need <pf>DrawablePolygon</pf> to provide a <pf>step</pf> function.
 Here's a version that doesn't do anything; we'll override it in subclasses:
 </p>
 
@@ -38,7 +38,7 @@ Here's a version that doesn't do anything; we'll override it in subclasses:
 
 <p>
 Now let's design a new type of polygon that blinks.
-We'll define a class named <c>BlinkingPolygon</c> that extends <c>RegularPolygon</c> and adds two more attributes: <c>visible</c>, which indicates whether the polygon is visible, and <c>count</c>, which counts the number of time steps since the last blink:
+We'll define a class named <pf>BlinkingPolygon</pf> that extends <pf>RegularPolygon</pf> and adds two more attributes: <pf>visible</pf>, which indicates whether the polygon is visible, and <pf>count</pf>, which counts the number of time steps since the last blink:
 </p>
 
 <program xml:id="advanced-topics_blinking-polygons-4">
@@ -46,20 +46,20 @@ We'll define a class named <c>BlinkingPolygon</c> that extends <c>RegularPolygon
 </program>
 
 <p>
-The constructor uses <c>super</c> to call the <c>RegularPolygon</c> constructor.
-Then it initializes <c>visible</c> and <c>count</c>.
-Initially, the <c>BlinkingPolygon</c> is visible.
+The constructor uses <pf>super</pf> to call the <pf>RegularPolygon</pf> constructor.
+Then it initializes <pf>visible</pf> and <pf>count</pf>.
+Initially, the <pf>BlinkingPolygon</pf> is visible.
 </p>
 
 <p>
-The <c>draw</c> function draws the polygon only if it is visible.
-It uses <c>super</c> to call <c>draw</c> in the parent class.
-But the parent class is <c>RegularPolygon</c>, which does not provide a <c>draw</c> function.
-In this case, <c>super</c> invokes <c>draw</c> from the <c>DrawablePolygon</c> class.
+The <pf>draw</pf> function draws the polygon only if it is visible.
+It uses <pf>super</pf> to call <pf>draw</pf> in the parent class.
+But the parent class is <pf>RegularPolygon</pf>, which does not provide a <pf>draw</pf> function.
+In this case, <pf>super</pf> invokes <pf>draw</pf> from the <pf>DrawablePolygon</pf> class.
 </p>
 
 <p>
-The <c>step</c> function increments <c>count</c>.
-Every 10 time steps, it toggles <c>visible</c> and resets <c>count</c> to 0.
+The <pf>step</pf> function increments <pf>count</pf>.
+Every 10 time steps, it toggles <pf>visible</pf> and resets <pf>count</pf> to 0.
 </p>
 </section>

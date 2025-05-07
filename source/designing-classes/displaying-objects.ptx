@@ -1,8 +1,8 @@
 <section xml:id="designing-classes_displaying-objects" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Displaying Objects</title>
 <p>
-To display <c>Time</c> objects, we can write a function to display the hour, minute, and second.
-Using <c>printTime</c> in <xref ref="multparam">Section</xref> as a starting point, we could write the following:
+To display <pf>Time</pf> objects, we can write a function to display the hour, minute, and second.
+Using <pf>printTime</pf> in <xref ref="multparam">Section</xref> as a starting point, we could write the following:
 </p>
 
 <p>
@@ -14,8 +14,8 @@ Using <c>printTime</c> in <xref ref="multparam">Section</xref> as a starting poi
 </program>
 
 <p>
-The output of this function, given the <c>time</c> object from the first example, would be <c>11:59:59.9</c>.
-We can use <c>printf</c> to make the code more concise:
+The output of this function, given the <pf>time</pf> object from the first example, would be <pf>11:59:59.9</pf>.
+We can use <pf>printf</pf> to make the code more concise:
 </p>
 
 <p>
@@ -29,13 +29,13 @@ We can use <c>printf</c> to make the code more concise:
 </program>
 
 <p>
-As a reminder, you need to use <c>%d</c> with integers, and <c>%f</c> with floating-point numbers.
-The <c>02</c> option means <q>total width 2, with leading zeros if necessary</q>, and the <c>04.1</c> option means <q>total width 4, one digit after the decimal point, leading zeros if necessary</q>.
-The output is the same: <c>11:59:59.9</c>.
+As a reminder, you need to use <pf>%d</pf> with integers, and <pf>%f</pf> with floating-point numbers.
+The <pf>02</pf> option means <q>total width 2, with leading zeros if necessary</q>, and the <pf>04.1</pf> option means <q>total width 4, one digit after the decimal point, leading zeros if necessary</q>.
+The output is the same: <pf>11:59:59.9</pf>.
 </p>
 
 <p>
-There's nothing wrong with a function like <c>printTime</c>, but it is not consistent with object-oriented style.
-A more idiomatic solution is to provide a special function called <c>toString</c>.
+There's nothing wrong with a function like <pf>printTime</pf>, but it is not consistent with object-oriented style.
+A more idiomatic solution is to provide a special function called <pf>toString</pf>.
 </p>
 </section>

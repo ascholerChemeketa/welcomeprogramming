@@ -101,9 +101,9 @@
       from the smallest unit to the largest unit, but you could also choose to work in the other
       direction.)</p>
 
-    <p> I know that there are 60 seconds in a minute. So I can divide <c>totalSeconds</c> by 60 to get minutes
+    <p> I know that there are 60 seconds in a minute. So I can divide <pf>totalSeconds</pf> by 60 to get minutes
       But I also need to know how many leftover seconds there are when I do the division. I can use
-      the remainder operator <c>%</c> to do that. Here is my next attempt:</p>
+      the remainder operator <pf>%</pf> to do that. Here is my next attempt:</p>
 
     <listing>
       <program line-numbers="yes"
@@ -117,11 +117,11 @@
       the program is working right, it should tell you that is 145 totalMinutes and 34
       leftoverSeconds</p>
 
-    <p>Notice that I have two different variables that refer to an amount of seconds. <c>totalSeconds</c> refers
-      to the total number of seconds that have elapsed. <c>leftoverSeconds</c> refers to the number of seconds that
+    <p>Notice that I have two different variables that refer to an amount of seconds. <pf>totalSeconds</pf> refers
+      to the total number of seconds that have elapsed. <pf>leftoverSeconds</pf> refers to the number of seconds that
       are left over after I have calculated the number of minutes. It is important to keep track of
       what each variable represents. Picking good names for variables is an important part of
-      keeping this straight! Although it is tempting to use short variable names like <c>seconds</c>, it is
+      keeping this straight! Although it is tempting to use short variable names like <pf>seconds</pf>, it is
       often better to use longer names that are more descriptive to avoid confusion.</p>
   </subsection>
 
@@ -129,7 +129,7 @@
     <title>Calculating hours</title>
 
     <p>Now I need to figure out how to convert the number of minutes to hours and minutes. I know
-      that there are 60 minutes in an hour. So I can divide <c>totalMinutes</c> by 60 to get hours. And I can
+      that there are 60 minutes in an hour. So I can divide <pf>totalMinutes</pf> by 60 to get hours. And I can
       use the remainder operator to get the number of minutes left over. Here is my next attempt:</p>
 
     <listing>
@@ -148,7 +148,7 @@
     <title>Wrapping up</title>
 
     <p>Once we are convinced the coding is working, we can clean it up and get rid of the extra
-      output. It was useful to see the value of <c>totalMinutes</c>, but we don't actually need to print it in
+      output. It was useful to see the value of <pf>totalMinutes</pf>, but we don't actually need to print it in
       the final program. This version of the program keeps all of the </p>
 
     <listing>
@@ -215,7 +215,7 @@
           </program>
         </statement>
         <feedback> The program currently does not have a variable named totalHours. It might be
-          smart to rename <c>hours</c> to that, but assume we are sticking with the current variable
+          smart to rename <pf>hours</pf> to that, but assume we are sticking with the current variable
           names. </feedback>
       </choice>
       <choice>

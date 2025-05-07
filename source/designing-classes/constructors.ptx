@@ -12,12 +12,12 @@ The syntax for constructors is similar to that of other functions, except for th
 <ul>
 <li><p>The name of the constructor is the same as the name of the class.</p></li>
 <li><p>Constructors have no return type (and no return value).</p></li>
-<li><p>The keyword <c>static</c> is omitted.</p></li>
+<li><p>The keyword <pf>static</pf> is omitted.</p></li>
 </ul>
 </p>
 
 <p>
-Here is an example constructor for the <c>Time</c> class:
+Here is an example constructor for the <pf>Time</pf> class:
 </p>
 
 <program xml:id="designing-classes_constructors-1">
@@ -26,25 +26,25 @@ Here is an example constructor for the <c>Time</c> class:
 
 <p>
 This constructor does not take any arguments.
-Each line initializes an instance variable to <c>0</c> (which is midnight for a <c>Time</c> object).
+Each line initializes an instance variable to <pf>0</pf> (which is midnight for a <pf>Time</pf> object).
 </p>
 
 <p>
     <idx><h>this</h></idx>
     <idx><h>keyword</h></idx>
-The name <c>this</c> is a keyword that refers to the object we are creating.
-You can use <c>this</c> the same way you use the name of any other object.
-For example, you can read and write the instance variables of <c>this</c>, and you can pass <c>this</c> as an argument to other functions.
-But you do not declare <c>this</c>, and you can't make an assignment to it.
+The name <pf>this</pf> is a keyword that refers to the object we are creating.
+You can use <pf>this</pf> the same way you use the name of any other object.
+For example, you can read and write the instance variables of <pf>this</pf>, and you can pass <pf>this</pf> as an argument to other functions.
+But you do not declare <pf>this</pf>, and you can't make an assignment to it.
 </p>
 
 <p>
-A common error when writing constructors is to put a <c>return</c> statement at the end.
-Like <c>void</c> functions, constructors do not return values.
+A common error when writing constructors is to put a <pf>return</pf> statement at the end.
+Like <pf>void</pf> functions, constructors do not return values.
 </p>
 
 <p>
-To create a <c>Time</c> object, you must use the <c>new</c> operator:
+To create a <pf>Time</pf> object, you must use the <pf>new</pf> operator:
 </p>
 
 <program xml:id="designing-classes_constructors-2" interactive="activecode">
@@ -54,9 +54,9 @@ To create a <c>Time</c> object, you must use the <c>new</c> operator:
 <p>
     <idx><h>new</h></idx>
     <idx><h>operator</h><h>new</h></idx>
-When you use <c>new</c>, Java creates the object and invokes your constructor to initialize the instance variables.
-When the constructor is done, <c>new</c> returns a reference to the new object.
-In this example, the reference gets assigned to the variable <c>time</c>, which has type <c>Time</c>.
+When you use <pf>new</pf>, Java creates the object and invokes your constructor to initialize the instance variables.
+When the constructor is done, <pf>new</pf> returns a reference to the new object.
+In this example, the reference gets assigned to the variable <pf>time</pf>, which has type <pf>Time</pf>.
 <xref ref="fig_time">Figure</xref> shows the result.
 </p>
 
@@ -65,14 +65,14 @@ In this example, the reference gets assigned to the variable <c>time</c>, which 
     <idx><h>diagram</h><h>memory</h></idx>
 </p>
 <figure xml:id="fig_time" >
-<caption>Memory diagram of a <c>Time</c> object.</caption>
+<caption>Memory diagram of a <pf>Time</pf> object.</caption>
 <image width="73%" source="images/time.png" />
 </figure>
 <p>
     <idx><h>recursion</h><h>infinite</h></idx>
     <idx><h>infinite recursion</h></idx>
     <idx><h>StackOverflowError</h></idx>
-Beginners sometimes make the mistake of using <c>new</c> in the constructor:
+Beginners sometimes make the mistake of using <pf>new</pf> in the constructor:
 </p>
 
 <program xml:id="designing-classes_constructors-3">
@@ -80,6 +80,6 @@ Beginners sometimes make the mistake of using <c>new</c> in the constructor:
 </program>
 
 <p>
-Doing so causes an infinite recursion, since <c>new</c> invokes the <term>same</term> constructor, which uses <c>new</c> again, which invokes the constructor again, and so on.
+Doing so causes an infinite recursion, since <pf>new</pf> invokes the <term>same</term> constructor, which uses <pf>new</pf> again, which invokes the constructor again, and so on.
 </p>
 </section>

@@ -5,16 +5,16 @@
 
   <p>In general, you should not need to care about what numeric values each enum option
     represents.Although you can use a static cast to get or set the value, you would never want to
-    say `static_cast&lt;Suit>(1)` instead of `Suit::DIAMONDS`.</p>
+    say <pf>static_cast&lt;Suit>(1)</pf> instead of <pf>Suit::DIAMONDS</pf>.</p>
 
   <p>However, there are times when the enumerated values naturally map to integers. For example, if
     we are using the enumerated type to represent the rank of playing cards, it might be useful to
-    have `Rank::ACE` have the value 1, `Rank::TWO` have the value 2, `Rank::JACK` have the value 11,
-    etc.... That way we can take any rank and do a `static_cast&lt;int>` to get its value.</p>
+    have <pf>Rank::ACE</pf> have the value 1, <pf>Rank::TWO</pf> have the value 2, <pf>Rank::JACK</pf> have the value 11,
+    etc.... That way we can take any rank and do a <pf>static_cast&lt;int></pf> to get its value.</p>
 
   <p>In this case, we want the lowest value used to be 1, not 0. We can do this by explicitly
     setting the value of the first item in the enum to 1. The rest of the values will be set
-    automatically based on that first value. For example, if we want `ACE` to be 1, we can write:</p>
+    automatically based on that first value. For example, if we want <pf>ACE</pf> to be 1, we can write:</p>
 
   <program>enum class Rank {
     ACE = 1, TWO, THREE, FOUR, FIVE,
@@ -22,7 +22,7 @@
     JACK, QUEEN, KING
 };</program>
 
-  <p>Now `ACE` is 1, `TWO` is 2, and so on. The last value, `KING`, will be 13.</p>
+  <p>Now <pf>ACE</pf> is 1, <pf>TWO</pf> is 2, and so on. The last value, <pf>KING</pf>, will be 13.</p>
 
   <p>We can even assign values to other items in the list. Say we want to represent US coin types.
     We could write:</p>
@@ -40,14 +40,14 @@
 
   <program>int value = static_cast&lt;int&gt;(myCoin);</program>
 
-  <p>And the value of `value` will be 25.</p>
+  <p>And the value of <pf>value</pf> will be 25.</p>
 
   <p>There are some significant limitations to this technique. Every option needs a different value
-    - you could not have `Rank::JACK`, `Rank::QUEEN`, `Rank::KING` all have the value 10 if you were
+    - you could not have <pf>Rank::JACK</pf>, <pf>Rank::QUEEN</pf>, <pf>Rank::KING</pf> all have the value 10 if you were
     programming a game where all of those cards should have the same value.</p>
 
-  <p>Given this limitation, and the fact that `getValue(myCoin)` is much clearer to read than
-    `static_cast&lt;int>(myCoin)`, it is likely better to use a function to turn enumerated options
+  <p>Given this limitation, and the fact that <pf>getValue(myCoin)</pf> is much clearer to read than
+    <pf>static_cast&lt;int>(myCoin)</pf>, it is likely better to use a function to turn enumerated options
     into the value we want them to represent. This function will give the correct value for each
     coin type, regardless of whether or not the enum was defined with specific numeric values:</p>
 
@@ -59,7 +59,7 @@
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Construct a `Class` enum and a Student struct with a string name and Class classStanding.
+      <p>Construct a <pf>Class</pf> enum and a Student struct with a string name and Class classStanding.
         Put the enum before the struct:</p>
     </statement>
     <blocks>

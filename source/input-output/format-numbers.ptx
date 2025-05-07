@@ -7,8 +7,8 @@
     <p>Normally when you print out a floating point number, it will be printed with 6 significant
       digits (xxx.xxx or x.xxxxxx). This is not always what you want. For example, if you are
       printing out a currency value, you probably want to print out 2 digits after the decimal
-      point. `std::format` provides tools to help us handle situations like these.</p>
-    <p>Formatting instructions are placed inside of the `{}` representing an item. The syntax is:</p>
+      point. <pf>std::format</pf> provides tools to help us handle situations like these.</p>
+    <p>Formatting instructions are placed inside of the <pf>{}</pf> representing an item. The syntax is:</p>
 
     <program>{:[[fill]align][sign]["#"][0][width][precision][type]}</program>
 
@@ -21,9 +21,9 @@
   <subsection>
     <title>sign</title>
     <p>By default, the sign of a number is only printed if it is negative. If you want to always
-      print the sign, you can specify a `+` or ` ` in the `[sign]` location. Examine the spacing in
-      this next program. `_` is used around items to make it clear where spaces are being added by
-      `format`:</p>
+      print the sign, you can specify a <pf>+</pf> or <pf> </pf> in the <pf>[sign]</pf> location. Examine the spacing in
+      this next program. <pf>_</pf> is used around items to make it clear where spaces are being added by
+      <pf>format</pf>:</p>
 
     <program label="input-output_format-numbers-1"
              interactive="activecode">
@@ -33,10 +33,10 @@
 
   <subsection>
     <title>precision</title>
-    <p>In the `[precision]` spot, a `.` followed by a number specifies a number of digits to
+    <p>In the <pf>[precision]</pf> spot, a <pf>.</pf> followed by a number specifies a number of digits to
       include. By default, this is a count of significant digits (those to the left and right of the
       decimal place). When formatting 123.456789, an attempt to format to 2 decimal places will
-      force the number to be written in scientific notation using just `1.2`. 3 digits will result
+      force the number to be written in scientific notation using just <pf>1.2</pf>. 3 digits will result
       in no decimal. 4+ will allow for some decimal places:</p>
 
     <program label="input-output_format-numbers-2"
@@ -45,8 +45,8 @@
 </program>
 
     <p>Often times, what we really want to specify is a number of decimal places to print. To do
-      that, we need to add on a `[type]` specifier. In this case, we want the type `f` for <q>fixed
-      point</q>. We can also use `e` to specify that we want to force scientific notation.</p>
+      that, we need to add on a <pf>[type]</pf> specifier. In this case, we want the type <pf>f</pf> for <q>fixed
+      point</q>. We can also use <pf>e</pf> to specify that we want to force scientific notation.</p>
 
     <program label="input-output_format-numbers-3"
              interactive="activecode">
@@ -56,11 +56,11 @@
 
   <subsection>
     <title>type</title>
-    <p>In addition to using `f` and `e` in the `[type]` spot to control the formatting of doubles,
+    <p>In addition to using <pf>f</pf> and <pf>e</pf> in the <pf>[type]</pf> spot to control the formatting of doubles,
       we can use it to force numeric (or potentially numeric) values to output in another format: <ul>
-        <li>`c` Output as a character</li>
-        <li>`b` Output an int as binary</li>
-        <li>`x` Output an hexadecimal</li>
+        <li><pf>c</pf> Output as a character</li>
+        <li><pf>b</pf> Output an int as binary</li>
+        <li><pf>x</pf> Output an hexadecimal</li>
       </ul>
     </p>
 

@@ -12,7 +12,7 @@
     </idx>A second form of conditional execution is  alternative execution, in which there are two possibilities, and the condition determines which
     one gets executed. The possibilities are called <term>branches</term>, and the condition
     determines which branch gets executed. One branch is executed 
-   <c>if</c> the condition is true. Otherwise (<c>else</c>) the alternative branch is executed. This snippet uses this if/else structure to say if a number is odd or even: </p>
+   <pf>if</pf> the condition is true. Otherwise (<pf>else</pf>) the alternative branch is executed. This snippet uses this if/else structure to say if a number is odd or even: </p>
 
   <program xml:id="conditionals-logic_alternative-execution-1">
 <xi:include href="../../programs/conditionals-logic/alternative-execution.cpp" parse="text"/>
@@ -23,7 +23,7 @@
     is false, the second set of statements is executed. Since the condition
     must be true or false, exactly one of the alternatives will be executed.</p>
 
-  <p>Compare that version with an equivalent snippet that uses just `if` statements:</p>
+  <p>Compare that version with an equivalent snippet that uses just <pf>if</pf> statements:</p>
 
   <program xml:id="conditionals-logic_alternative-execution-2">
 <xi:include href="../../programs/conditionals-logic/alternative-execution-2.cpp" parse="text"/>
@@ -32,12 +32,12 @@
   <p>In that version, we have to write the same basic logic<mdash/><q>divide by two and compare the remainder to 0</q>-m-twice. Writing the same code twice means more work for us, more work for the computer, and more chances for a mistake.</p>
 
   <insight><p>
-  DRY - Don't Repeat Yourself. The `if-else` statement is a more concise way to write code that has two branches that handle opposite conditions.
+  DRY - Don't Repeat Yourself. The <pf>if-else</pf> statement is a more concise way to write code that has two branches that handle opposite conditions.
   </p></insight>
 
   <exercise label="alt_execution_1">
     <statement>
-      <p>What will be printed after <c>main</c> is executed?</p>
+      <p>What will be printed after <pf>main</pf> is executed?</p>
       <program>#include &lt;iostream&gt;
 using namespace std;
 

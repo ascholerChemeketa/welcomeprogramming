@@ -44,14 +44,14 @@
   
 
     <p>The diagram format is fairly simple, but there are a few quirks to get used to. The sections are used to store variables and methods, not private versus public members.
-      In UML, the plus sign (<c>+</c>) identifies a <c>public</c> member while a minus sign (<c>-</c>)
-        indicates a <c>private</c> one. Usually, all of the variables (second section) will be private and all of the functions (third sections) will be public. But if there is a private function, it still belongs in the third section.</p>
-    <p>In addition, UML is designed to be language independent. So it does not use the syntax of any particular programming language. Instead, it uses a language-independent syntax. To identify the types of members, parameters, and return types UML places them after the variable or function name. For example, in UML we write <c>x: int</c> rather than C++ syntax, <c>int x</c>.</p>
+      In UML, the plus sign (<pf>+</pf>) identifies a <pf>public</pf> member while a minus sign (<pf>-</pf>)
+        indicates a <pf>private</pf> one. Usually, all of the variables (second section) will be private and all of the functions (third sections) will be public. But if there is a private function, it still belongs in the third section.</p>
+    <p>In addition, UML is designed to be language independent. So it does not use the syntax of any particular programming language. Instead, it uses a language-independent syntax. To identify the types of members, parameters, and return types UML places them after the variable or function name. For example, in UML we write <pf>x: int</pf> rather than C++ syntax, <pf>int x</pf>.</p>
 
     <p>Here is what a class diagram for </p>
 
     <figure>
-      <caption>Point class diagram. Note the private `check` function still belongs in the third section of the diagram with the other methods.</caption>
+      <caption>Point class diagram. Note the private <pf>check</pf> function still belongs in the third section of the diagram with the other methods.</caption>
       <image>
           <mermaid>
       classDiagram
@@ -77,7 +77,7 @@
 <subsection>
   <title>Doxygen for Classes</title>
   <p>When writing documentation for a class, we typically want to document all of the functions. They typically include the entire public portion of the interface to the class. And that is the part that other programmers should be interacting with. In addition, it is a good idea to comment the class itself with a description of what it is intended to represent.</p>
-  <p>We do not necessarily need to document the member variables as they are the hidden information other programmers shouldn't be worried about. But to help anyone who does need to maintain the class, it can be useful to add comments with any key information about them. For instance, if our point class assumed that the units were centimeters, and that was important for anyone working on the code to understand that, we would likely want to document that next to `m_x` and `m_y`.</p>
+  <p>We do not necessarily need to document the member variables as they are the hidden information other programmers shouldn't be worried about. But to help anyone who does need to maintain the class, it can be useful to add comments with any key information about them. For instance, if our point class assumed that the units were centimeters, and that was important for anyone working on the code to understand that, we would likely want to document that next to <pf>m_x</pf> and <pf>m_y</pf>.</p>
   <p>Here is an example of what documentation for a partial version of the Point class might looks like:</p>
   
   <program xml:id="objects_documentation-1">

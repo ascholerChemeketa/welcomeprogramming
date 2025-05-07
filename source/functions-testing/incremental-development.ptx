@@ -17,7 +17,7 @@
     \sqrt{(x_2 - x_1)^2 +(y_2 - y_1)^2} </me>
   </p>
 
-  <p> A `distance` function will need four parameters (the 2 x values and 2 y values) and will
+  <p> A <pf>distance</pf> function will need four parameters (the 2 x values and 2 y values) and will
     return a single value (the distance). So it's prototype will look like this: </p>
 
   <program>
@@ -28,13 +28,13 @@
     <idx>
       <h>stub</h>
     </idx> Given this, we can write an outline for the function, which is sometimes
-    called a <term>stub</term>. The stub includes the function declaration and a <c>return</c> statement: </p>
+    called a <term>stub</term>. The stub includes the function declaration and a <pf>return</pf> statement: </p>
 
   <program xml:id="functions-testing_incremental-development-1">
 <xi:include href="../../programs/functions-testing/incremental-development-1.cpp" parse="text"/>
 </program>
 
-  <p> The function clearly is not returning the correct result, but the <c>return</c> statement allows it
+  <p> The function clearly is not returning the correct result, but the <pf>return</pf> statement allows it
     to compile. Which means that we can test the function without worrying about syntax errors. This
     program has some tests that will call the function and check its answer for various inputs: </p>
 
@@ -63,7 +63,7 @@
 
    <exercise label="program_lang_1">
     <statement>
-      <p>There are three tests and thus three calls to the function. For the call For the call `distance(1.0, 2.0, 4.0, 6.0)`, what value was printed for `dy`? <fillin mode="string"
+      <p>There are three tests and thus three calls to the function. For the call For the call <pf>distance(1.0, 2.0, 4.0, 6.0)</pf>, what value was printed for <pf>dy</pf>? <fillin mode="string"
                 answer="4"/> </p>
     </statement>
     <evaluation>
@@ -76,7 +76,7 @@
   </exercise>
   
 
-  <p> The next step is to square <c>dx</c> and <c>dy</c>. We could use the <c>Math.pow</c> function, but it is
+  <p> The next step is to square <pf>dx</pf> and <pf>dy</pf>. We could use the <pf>Math.pow</pf> function, but it is
     simpler to multiply each term by itself. Then we add the squares and print
     the result so far. This is what the new version might look like with the new scaffolding added and the old removed:</p>
 
@@ -85,7 +85,7 @@
 </program>
 
 
-  <p>Once we tested that version, we could try to finish the function be returning the square root of `dsquared`. That last line would hopefully pass the final tests for the function itself. Once we were sure it did, we could remove the debugging scaffolding to leave something like:</p>
+  <p>Once we tested that version, we could try to finish the function be returning the square root of <pf>dsquared</pf>. That last line would hopefully pass the final tests for the function itself. Once we were sure it did, we could remove the debugging scaffolding to leave something like:</p>
 
   <program xml:id="functions-testing_incremental-development-5">
 <xi:include href="../../programs/functions-testing/incremental-development-5.cpp" parse="text"/>

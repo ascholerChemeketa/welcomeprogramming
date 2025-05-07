@@ -2,8 +2,8 @@
 <title>Testing with JUnit</title>
 <p>
     <idx><h>unit test</h></idx>
-When beginners start writing functions, they usually test them by invoking them from <c>main</c> and checking the results by hand.
-For example, to test <c>fibonacci</c> from <xref ref="fibonacci">Section</xref>, we could write this:
+When beginners start writing functions, they usually test them by invoking them from <pf>main</pf> and checking the results by hand.
+For example, to test <pf>fibonacci</pf> from <xref ref="fibonacci">Section</xref>, we could write this:
 </p>
 
 <program xml:id="tools_testing-with-junit-1" interactive="activecode">
@@ -22,7 +22,7 @@ To use it, you have to create a test class that contains test functions.
 </p>
 
 <p>
-For example, suppose that the <c>fibonacci</c> function belongs to a class named <c>Series</c>.
+For example, suppose that the <pf>fibonacci</pf> function belongs to a class named <pf>Series</pf>.
 Here is a corresponding JUnit<fn>This code is based on JUnit 3, which has been superseded but is the default version supported by DrJava.</fn> test class and test function:
 </p>
 
@@ -31,13 +31,13 @@ Here is a corresponding JUnit<fn>This code is based on JUnit 3, which has been s
 </program>
 
 <p>
-This example uses the keyword <c>extends</c>, which indicates that the new class, <c>SeriesTest</c>, is based on an existing class, <c>TestCase</c>.
-The <c>TestCase</c> class is imported from the package <c>junit.framework</c>.
+This example uses the keyword <pf>extends</pf>, which indicates that the new class, <pf>SeriesTest</pf>, is based on an existing class, <pf>TestCase</pf>.
+The <pf>TestCase</pf> class is imported from the package <pf>junit.framework</pf>.
 </p>
 
 <p>
-The names in this example follow convention: if the name of your class is <c>Something</c>, the name of the test class should be <c>SomethingTest</c>.
-And if there is a function in <c>Something</c> named <c>somefunction</c>, there should be a function in <c>SomethingTest</c> named <c>testSomefunction</c>.
+The names in this example follow convention: if the name of your class is <pf>Something</pf>, the name of the test class should be <pf>SomethingTest</pf>.
+And if there is a function in <pf>Something</pf> named <pf>somefunction</pf>, there should be a function in <pf>SomethingTest</pf> named <pf>testSomefunction</pf>.
 </p>
 
 <p>
@@ -46,7 +46,7 @@ In DrJava, you can select <term>New JUnit Test Case</term> from the <term>File</
 </p>
 
 <p>
-<c>assertEquals</c> is provided by the <c>TestCase</c> class.
+<pf>assertEquals</pf> is provided by the <pf>TestCase</pf> class.
 It takes two arguments and checks whether they are equal.
 If so, it does nothing; otherwise, it displays a detailed error message.
 The first argument is the <term>expected value</term>, which we consider correct, and the second argument is the <term>actual value</term> we want to check.
@@ -55,8 +55,8 @@ If they are not equal, the test fails.
 
 <p>
     <idx><h>System.err</h></idx>
-Using <c>assertEquals</c> is more concise than writing your own <c>if</c> statements and <c>System.err</c> messages.
-JUnit provides additional assert functions, such as <c>assertNull</c>, <c>assertSame</c>, and <c>assertTrue</c>, which can be used to design a variety of tests.
+Using <pf>assertEquals</pf> is more concise than writing your own <pf>if</pf> statements and <pf>System.err</pf> messages.
+JUnit provides additional assert functions, such as <pf>assertNull</pf>, <pf>assertSame</pf>, and <pf>assertTrue</pf>, which can be used to design a variety of tests.
 </p>
 
 <p>

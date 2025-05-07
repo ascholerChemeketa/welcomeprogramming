@@ -15,8 +15,8 @@
 
   <p>The class declaration for Point will need to be available to the Circle class when we define the Point class. Although we could do that by placing both classes in the same file, the standard way to structure our code would be to either:
     <ul>
-      <li>If using modules, `import Point;` into the file where we implement `Circle`.</li>
-      <li>If using traditional .h/.cpp files, `#include "Point.h"` into the file where we implement `Circle`.</li>
+      <li>If using modules, <pf>import Point;</pf> into the file where we implement <pf>Circle</pf>.</li>
+      <li>If using traditional .h/.cpp files, <pf>#include "Point.h"</pf> into the file where we implement <pf>Circle</pf>.</li>
     </ul>
   </p>
 
@@ -32,7 +32,7 @@
     <ul>
       <li>Line 3: We import the Point module so we can use it in our Circle class.</li>
       <li>Line 15-16: The member variables are one double and one Point.</li>
-      <li>Line 11: The constructor takes an x and a y location. But the Circle does not store these directly. Instead, it makes an anonymous Point to store those values and copies that point into `m_center`.</li>
+      <li>Line 11: The constructor takes an x and a y location. But the Circle does not store these directly. Instead, it makes an anonymous Point to store those values and copies that point into <pf>m_center</pf>.</li>
     </ul>
   </p>
 
@@ -45,7 +45,7 @@
           alt="Circle c1 contains a Point object m_center that has m_x and m_y"/>
   </figure>
   
-  <p>In this model, the x and y coordinates are the Point's responsibility. The `m_center` is used to store the values `m_x` and `m_y` and, as we will see soon, any time the Circle needs to work with the coordinates, it will rely on the `m_center` to access them.</p>
+  <p>In this model, the x and y coordinates are the Point's responsibility. The <pf>m_center</pf> is used to store the values <pf>m_x</pf> and <pf>m_y</pf> and, as we will see soon, any time the Circle needs to work with the coordinates, it will rely on the <pf>m_center</pf> to access them.</p>
 
   <exercise label="sdfsdfsdf4sdf">
     <statement>

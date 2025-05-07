@@ -9,11 +9,11 @@
 <xi:include href="../../programs/interacting-objects/circle-construct-1.cpp" parse="text"/>
   </program>
 
-  <p>Before the Circle is constructed, C++ needs to set up the memory it will use. It does this by reserving space for the m_radius and then letting the Point set up its own memory. The way that Point sets up the memory is by running the no-arg constructor. Thus as the code on line 21 starts running, `m_center` already exists with the values (0, 0). Then, inside the body, we call the 2-arg constructor to make a new Point and copy the data over the top of the old one.</p>
+  <p>Before the Circle is constructed, C++ needs to set up the memory it will use. It does this by reserving space for the m_radius and then letting the Point set up its own memory. The way that Point sets up the memory is by running the no-arg constructor. Thus as the code on line 21 starts running, <pf>m_center</pf> already exists with the values (0, 0). Then, inside the body, we call the 2-arg constructor to make a new Point and copy the data over the top of the old one.</p>
 
   <p>It feels wasteful to make two Points - first the (0, 0) and then the one that we really want. How could we fix this?</p>
 
-  <p>We could change lines 22-24 to look like `m_program = Point(x, y);` But that would still create the initial (0, 0) point and then replace its data with that from a new one. All that would be different is that the second point we make would be nameless.</p>
+  <p>We could change lines 22-24 to look like <pf>m_program = Point(x, y);</pf> But that would still create the initial (0, 0) point and then replace its data with that from a new one. All that would be different is that the second point we make would be nameless.</p>
 
   <p>Another approach would be to not create a second point and instead just modify the one that was automatically created. We could do that by changing the constructor to:</p>
 
@@ -25,7 +25,7 @@ Circle(double radius, double x, double y) {
 }
 </program>
 
-  <p>But that method still depends on the default constructor existing. If we remove the `Point()` constructor from the Point class and try to compile the code, we will get this error:</p>
+  <p>But that method still depends on the default constructor existing. If we remove the <pf>Point()</pf> constructor from the Point class and try to compile the code, we will get this error:</p>
 
 <console>
   <output>
@@ -35,9 +35,9 @@ test.cpp:15:47: error: no matching function for call to ‘Point::Point()’
   </output>
 </console>
 
-  <p>That is a confusing one. Right before the start of the Circle constructor, the compiler is complaining about a missing `Point()` constructor. The reason being is that it automatically tried to use that default constructor. If there is no default no-argument constructor, the compiler panics and flags it as an error.</p>
+  <p>That is a confusing one. Right before the start of the Circle constructor, the compiler is complaining about a missing <pf>Point()</pf> constructor. The reason being is that it automatically tried to use that default constructor. If there is no default no-argument constructor, the compiler panics and flags it as an error.</p>
 
-  <p>What we need to do is to tell the compiler that it should set up the `m_center` Point object using our x and y values instead of making a default Point. We can do this with the <term>initializer list</term> for the constructor. <idx><h>initializer list</h></idx>. The initializer list is a list of member variables and how to initialize them. It looks like:</p>
+  <p>What we need to do is to tell the compiler that it should set up the <pf>m_center</pf> Point object using our x and y values instead of making a default Point. We can do this with the <term>initializer list</term> for the constructor. <idx><h>initializer list</h></idx>. The initializer list is a list of member variables and how to initialize them. It looks like:</p>
 
   <program>
     ConstructorName(parameters): member1(data), member2(data), ... {
@@ -45,15 +45,15 @@ test.cpp:15:47: error: no matching function for call to ‘Point::Point()’
     }
   </program>
 
-  <p>The `:` symbol indicates that we are starting the initializer list. The `member1(data)` part tells the compiler to set up `member1` using the data provided. Here is a real version using out Circle class. Try running it step by step. Again, focus on what happens right as the Circle constructor starts up:</p>
+  <p>The <pf>:</pf> symbol indicates that we are starting the initializer list. The <pf>member1(data)</pf> part tells the compiler to set up <pf>member1</pf> using the data provided. Here is a real version using out Circle class. Try running it step by step. Again, focus on what happens right as the Circle constructor starts up:</p>
 
   <program interactive="codelens" label="dsfds3fdg12312">
 <xi:include href="../../programs/interacting-objects/circle-construct-2.cpp" parse="text"/>
   </program>
 
-  <p>Note that before the body of the constructor runs, execution jumps up to the 2-argument Point constructor. This is because `m_center(x, y)` says <q>initialize the m_center variable by calling its constructor with the x and y values I was given</q>. This version skips making the (0, 0) point by setting up the correct Point right off the bat.</p>
+  <p>Note that before the body of the constructor runs, execution jumps up to the 2-argument Point constructor. This is because <pf>m_center(x, y)</pf> says <q>initialize the m_center variable by calling its constructor with the x and y values I was given</q>. This version skips making the (0, 0) point by setting up the correct Point right off the bat.</p>
 
-  <p>This version is slightly more efficient (no extra Point is made) and is also truer to the spirit of composition. Dealing with the x and y values is the Point's job. The Circle constructor should hand them off to `m_center` as fast as possible and only worry about the radius value.</p>
+  <p>This version is slightly more efficient (no extra Point is made) and is also truer to the spirit of composition. Dealing with the x and y values is the Point's job. The Circle constructor should hand them off to <pf>m_center</pf> as fast as possible and only worry about the radius value.</p>
 
   <p>If we really wanted, we could also use the initializer list to set the radius value:</p>
 
@@ -73,7 +73,7 @@ test.cpp:15:47: error: no matching function for call to ‘Point::Point()’
     }
   </program>
 
-  <p>Or we could write a constructor that takes a Point object that we want to copy as the center of the Circle. We take the Point by const reference, and specify it as what to use to set up the Point `m_center`:</p>
+  <p>Or we could write a constructor that takes a Point object that we want to copy as the center of the Circle. We take the Point by const reference, and specify it as what to use to set up the Point <pf>m_center</pf>:</p>
 
   <program>
     Circle(double radius): m_center(p) {
@@ -81,9 +81,9 @@ test.cpp:15:47: error: no matching function for call to ‘Point::Point()’
     }
   </program>
 
-  <note><p>Technically, this is using the <term>copy constructor</term>. We will learn more about those later. But we can always construct an object using an existing object of the same type. If we have `Point p1` already, writing `Point p2(p1)` means the same as writing `Point p2 = p1`. Normally, we use the later syntax when copying an object. When using an initializer list we have to use the `( )` syntax instead.</p></note>
+  <note><p>Technically, this is using the <term>copy constructor</term>. We will learn more about those later. But we can always construct an object using an existing object of the same type. If we have <pf>Point p1</pf> already, writing <pf>Point p2(p1)</pf> means the same as writing <pf>Point p2 = p1</pf>. Normally, we use the later syntax when copying an object. When using an initializer list we have to use the <pf>( )</pf> syntax instead.</p></note>
 
-  <p>Here is a final version with all three constructors. They give a consumer of the Circle class (like the `main` function), a wide range of ways to make a Circle:</p>
+  <p>Here is a final version with all three constructors. They give a consumer of the Circle class (like the <pf>main</pf> function), a wide range of ways to make a Circle:</p>
 
   <program interactive="codelens" label="dsfdsfddg12312">
 <xi:include href="../../programs/interacting-objects/circle-construct-3.cpp" parse="text"/>

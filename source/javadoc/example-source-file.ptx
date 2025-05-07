@@ -9,7 +9,7 @@ See <xref ref="code">page</xref> for instructions on how to download the reposit
 <p>
 Professional-grade source files often begin with a copyright statement.
 This text spans multiple lines, but it is not part of the documentation.
-So we use a multiline comment (<c>/*</c>) rather than a documentation comment (<c>/**</c>).
+So we use a multiline comment (<pf>/*</pf>) rather than a documentation comment (<pf>/**</pf>).
 Our example source file, <term>Convert.java</term>, includes the MIT License (<url href="https://opensource.org/licenses/MIT"/>):
 </p>
 
@@ -28,7 +28,7 @@ Our example source file, <term>Convert.java</term>, includes the MIT License (<u
 
 <p>
 Import statements generally follow the copyright text.
-After that, we can define the class itself and begin writing the documentation (<c>/**</c>):
+After that, we can define the class itself and begin writing the documentation (<pf>/**</pf>):
 </p>
 
 <program xml:id="javadoc_example-source-file-2" interactive="activecode">
@@ -36,9 +36,9 @@ After that, we can define the class itself and begin writing the documentation (
 </program>
 
 <p>
-A common mistake that beginners make is to put <c>import</c> statements between the documentation and the <c>public class</c> line.
+A common mistake that beginners make is to put <pf>import</pf> statements between the documentation and the <pf>public class</pf> line.
 Doing so separates the documentation from the class itself.
-To avoid this issue, always make the end of the comment (the \relax<c>*/</c>) <q>touch</q> the word <c>public</c>.
+To avoid this issue, always make the end of the comment (the \relax<pf>*/</pf>) <q>touch</q> the word <pf>public</pf>.
 </p>
 
 <p>
@@ -52,7 +52,7 @@ The constants are self-explanatory, so there is no need to write documentation f
 
 <p>
 The functions, on the other hand, could use some explanation.
-Each documentation comment includes a description, followed by a blank line, followed by a <c>@param</c> tag for each parameter, followed by a <c>@return</c> tag:
+Each documentation comment includes a description, followed by a blank line, followed by a <pf>@param</pf> tag for each parameter, followed by a <pf>@return</pf> tag:
 </p>
 
 <program xml:id="javadoc_example-source-file-4">
@@ -64,7 +64,7 @@ Each documentation comment includes a description, followed by a blank line, fol
 </program>
 
 <p>
-The <c>main</c> function has a similar documentation comment, except there is no <c>@return</c> tag since the function is <c>void</c>:
+The <pf>main</pf> function has a similar documentation comment, except there is no <pf>@return</pf> tag since the function is <pf>void</pf>:
 </p>
 
 <program xml:id="javadoc_example-source-file-6" interactive="activecode">
@@ -76,7 +76,7 @@ Here are two ways you can run the Javadoc tool on this example program:
 <ul>
     <idx><h>command-line interface</h></idx>
 <li><p>From the command line, go to the location for <term>Convert.java</term>.
-The <c>-d</c> option of <c>javadoc</c> indicates where to generate the HTML files:
+The <pf>-d</pf> option of <pf>javadoc</pf> indicates where to generate the HTML files:
 
 
 <console>

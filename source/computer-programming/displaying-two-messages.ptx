@@ -3,8 +3,8 @@
 
   <title>Displaying Two Messages</title>
 
-  <p>You can put as many statements as you like in the <c>main</c> function. For example, to display
-    more than one line of output we could use two <c>cout</c> statements:</p>
+  <p>You can put as many statements as you like in the <pf>main</pf> function. For example, to display
+    more than one line of output we could use two <pf>cout</pf> statements:</p>
 
   <listing filename="hello2.cpp">
     <program xml:id="computer-programming_displaying-two-messages-1"
@@ -13,17 +13,17 @@
   </program>
   </listing>
 
-  <p>Notice that the first print statement has another <c>&lt;&lt;</c> after the string it is printing to
-    separate the string from the next piece of data to be output. That data is <c>endl</c> which means
+  <p>Notice that the first print statement has another <pf>&lt;&lt;</pf> after the string it is printing to
+    separate the string from the next piece of data to be output. That data is <pf>endl</pf> which means
     "end of line" - it will ensure that anything that whatever comes next in the output will appear
     on the next line (like hitting Enter while typing). Thus we get two lines of output. </p>
     
-  <p>Also notice that the program omits the <c>return 0;</c> at the end of <c>main</c>. In C++, it is optional to include that line - if the programmer does not include it, it is silently added at the end of main. It is also possible to return a value other than 0. When a program returns 0, that indicates to the operating system that the program completed successfully. To indicate an error occurred, the programmer can return any non-zero value. This is a C++ feature we will not be exploring in this book.</p>
+  <p>Also notice that the program omits the <pf>return 0;</pf> at the end of <pf>main</pf>. In C++, it is optional to include that line - if the programmer does not include it, it is silently added at the end of main. It is also possible to return a value other than 0. When a program returns 0, that indicates to the operating system that the program completed successfully. To indicate an error occurred, the programmer can return any non-zero value. This is a C++ feature we will not be exploring in this book.</p>
 
   <p>Lastly, it also demonstrates that you can put comments at the end of a line
-    as well as on lines all by themselves. The code before the <c>//</c> is not part of the comment.</p>
+    as well as on lines all by themselves. The code before the <pf>//</pf> is not part of the comment.</p>
 
-  <p>Now let us look at a similar program that lacks an <c>endl</c> in its print statement:</p>
+  <p>Now let us look at a similar program that lacks an <pf>endl</pf> in its print statement:</p>
 
   <listing filename="goodbye.cpp">
     <program xml:id="computer-programming_displaying-two-messages-2"
@@ -35,7 +35,7 @@
     </idx>
   </listing>
 
-  <p>Without the <c>endl</c> the second print statement will output to the
+  <p>Without the <pf>endl</pf> the second print statement will output to the
     same line as the first one. The output has a space after the comma because there is an extra space inside the quotation marks of the first string. Without that space, the output would say <q>Goodbye,cruel world</q>.</p>
 
 

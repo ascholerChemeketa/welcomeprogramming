@@ -83,7 +83,7 @@ If you are invoking a void function, make sure you are <term>not</term> trying t
 <li><p>If you are invoking an instance function, make sure you are invoking it on an object with the right type.
 If you are invoking a static function from outside the class where it is defined, make sure you specify the class name (using dot notation).</p></li>
 <li><p>Inside an instance function, you can refer to the instance variables without specifying an object.
-If you try that in a static function<mdash/>with or without <c>this</c><mdash/>you get a message like <q>non-static variable x cannot be referenced from a static context.</q></p></li>
+If you try that in a static function<mdash/>with or without <pf>this</pf><mdash/>you get a message like <q>non-static variable x cannot be referenced from a static context.</q></p></li>
 </ol>
 </p>
 
@@ -145,12 +145,12 @@ It works for other programming languages too!
 <p>
 Some error messages come with tidbits of advice, like <q>class Golfer must be declared abstract.
 It does not define int compareTo(java.lang.Object) from interface java.lang.Comparable.</q>
-It sounds like the compiler is telling you to declare <c>Golfer</c> as an <c>abstract</c> class, and if you are reading this book, you probably don't know what that is or how to do it.
+It sounds like the compiler is telling you to declare <pf>Golfer</pf> as an <pf>abstract</pf> class, and if you are reading this book, you probably don't know what that is or how to do it.
 </p>
 
 <p>
 Fortunately, the compiler is wrong.
-The solution in this case is to make sure <c>Golfer</c> has a function called <c>compareTo</c> that takes an <c>Object</c> as a parameter.
+The solution in this case is to make sure <pf>Golfer</pf> has a function called <pf>compareTo</pf> that takes an <pf>Object</pf> as a parameter.
 </p>
 
 <p>

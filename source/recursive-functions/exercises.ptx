@@ -44,7 +44,7 @@ And then the song (finally) ends.
 <p>
 Write a program that displays the entire lyrics of <q>99 Bottles of Beer</q>.
 Your program should include a recursive function that does the hard part, but you might want to write additional functions to separate other parts of the program.
-As you develop your code, test it with a small number of verses, like <c>3</c>.
+As you develop your code, test it with a small number of verses, like <pf>3</pf>.
 </p>
 </statement>
 </exercise>
@@ -52,9 +52,9 @@ As you develop your code, test it with a small number of verses, like <c>3</c>.
 <exercise>
 <statement>
 <p>
-Write a recursive function named <c>oddSum</c> that takes a positive odd integer <c>n</c> and returns the sum of odd integers from 1 to <c>n</c>.
+Write a recursive function named <pf>oddSum</pf> that takes a positive odd integer <pf>n</pf> and returns the sum of odd integers from 1 to <pf>n</pf>.
 Start with a base case, and use temporary variables to debug your solution.
-You might find it helpful to print the value of <c>n</c> each time <c>oddSum</c> is invoked.
+You might find it helpful to print the value of <pf>n</pf> each time <pf>oddSum</pf> is invoked.
 </p>
 </statement>
 </exercise>
@@ -70,12 +70,12 @@ In this exercise, you will use a stack diagram to understand the execution of th
 </program>
 
 <ol>
-<li><p>Draw a stack diagram showing the state of the program just before the last invocation of <c>prod</c> completes.</p></li>
+<li><p>Draw a stack diagram showing the state of the program just before the last invocation of <pf>prod</pf> completes.</p></li>
 <li><p>What is the output of this program?
 (Try to answer this question on paper first; then run the code to check your answer.)</p></li>
-<li><p>Explain in a few words what <c>prod</c> does (without getting into the details of how it works).</p></li>
-<li><p>Rewrite <c>prod</c> without the temporary variables <c>recurse</c> and <c>result</c>.
-<term>Hint:</term> You need only one line for the <c>else</c> branch.</p></li>
+<li><p>Explain in a few words what <pf>prod</pf> does (without getting into the details of how it works).</p></li>
+<li><p>Rewrite <pf>prod</pf> without the temporary variables <pf>recurse</pf> and <pf>result</pf>.
+<term>Hint:</term> You need only one line for the <pf>else</pf> branch.</p></li>
 </ol>
 </statement>
 </exercise>
@@ -94,11 +94,11 @@ A(m-1, A(m, n-1)) \amp  \mbox{if }  m > 0 \mbox{ and }  n > 0
 </p>
 
 <p>
-Write a recursive function called <c>ack</c> that takes two <c>int</c>s as parameters and that computes and returns the value of the Ackermann function.
+Write a recursive function called <pf>ack</pf> that takes two <pf>int</pf>s as parameters and that computes and returns the value of the Ackermann function.
 </p>
 
 <p>
-Test your implementation of Ackermann by invoking it from <c>main</c> and displaying the return value.
+Test your implementation of Ackermann by invoking it from <pf>main</pf> and displaying the return value.
 Note the return value gets very big very quickly.
 You should try it only for small values of <m>m</m> and <m>n</m> (not bigger than 3).
 </p>
@@ -108,7 +108,7 @@ You should try it only for small values of <m>m</m> and <m>n</m> (not bigger tha
 <exercise xml:id="ex_power">
 <statement>
 <p>
-Write a recursive function called <c>power</c> that takes a double <c>x</c> and an integer <c>n</c> and returns <m>x^n</m>.
+Write a recursive function called <pf>power</pf> that takes a double <pf>x</pf> and an integer <pf>n</pf> and returns <m>x^n</m>.
 </p>
 
 <p>
@@ -117,7 +117,7 @@ Also, remember that anything raised to the zeroth power is 1.
 </p>
 
 <p>
-Optional challenge: you can make this function more efficient, when <c>n</c> is even, using <m>x^n = \left( x^{n/2} \right)^2</m>.
+Optional challenge: you can make this function more efficient, when <pf>n</pf> is even, using <m>x^n = \left( x^{n/2} \right)^2</m>.
 </p>
 </statement>
 </exercise>
@@ -128,14 +128,14 @@ Optional challenge: you can make this function more efficient, when <c>n</c> is 
 Many of the patterns you have seen for traversing arrays can also be written recursively.
 It is not common, but it is a useful exercise.
 <ol>
-<li><p>Write a function called <c>maxInRange</c> that takes an array of integers and two indexes, <c>lowIndex</c> and <c>highIndex</c>, and finds the maximum value in the array, but considering only the elements between <c>lowIndex</c> and <c>highIndex</c>, including both.
+<li><p>Write a function called <pf>maxInRange</pf> that takes an array of integers and two indexes, <pf>lowIndex</pf> and <pf>highIndex</pf>, and finds the maximum value in the array, but considering only the elements between <pf>lowIndex</pf> and <pf>highIndex</pf>, including both.
 
 This function should be recursive.
-If the length of the range is 1 (i.e., if <c>lowIndex == highIndex</c>), we know immediately that the sole element in the range must be the maximum.
+If the length of the range is 1 (i.e., if <pf>lowIndex == highIndex</pf>), we know immediately that the sole element in the range must be the maximum.
 So that's the base case.
 
 If there is more than one element in the range, we can break the array into two pieces, find the maximum in each piece, and then find the maximum of the maxima.</p></li>
-<li><p>functions like <c>maxInRange</c> can be awkward to use.
+<li><p>functions like <pf>maxInRange</pf> can be awkward to use.
 To find the largest element in an array, we have to provide the range for the entire array:
 
 
@@ -144,7 +144,7 @@ To find the largest element in an array, we have to provide the range for the en
 </program>
  
 
-Write a function called <c>max</c> that takes an array and uses <c>maxInRange</c> to find and return the largest element.</p></li>
+Write a function called <pf>max</pf> that takes an array and uses <pf>maxInRange</pf> to find and return the largest element.</p></li>
 </ol>
 
 </p>
@@ -174,12 +174,12 @@ Create a program called <term>Recurse.java</term> and type in the following func
 </program>
 
 <ol>
-<li><p>Write some code in <c>main</c> that tests each of these functions.
+<li><p>Write some code in <pf>main</pf> that tests each of these functions.
 Make sure they work, and you understand what they do.</p></li>
-<li><p>Using these functions, and without using any other <c>String</c> functions, write a function called <c>printString</c> that takes a string as a parameter and displays the letters of the string, one on each line.
-It should be a <c>void</c> function.</p></li>
-<li><p>Again using only these functions, write a function called <c>printBackward</c> that does the same thing as <c>printString</c> but displays the string backward (again, one character per line).</p></li>
-<li><p>Now write a function called <c>reverseString</c> that takes a string as a parameter and returns a new string as a return value.
+<li><p>Using these functions, and without using any other <pf>String</pf> functions, write a function called <pf>printString</pf> that takes a string as a parameter and displays the letters of the string, one on each line.
+It should be a <pf>void</pf> function.</p></li>
+<li><p>Again using only these functions, write a function called <pf>printBackward</pf> that does the same thing as <pf>printString</pf> but displays the string backward (again, one character per line).</p></li>
+<li><p>Now write a function called <pf>reverseString</pf> that takes a string as a parameter and returns a new string as a return value.
 The new string should contain the same letters as the parameter, but in reverse order:
 
 
@@ -204,7 +204,7 @@ Here's one way to test whether a string is a palindrome:
 
 A single letter is a palindrome, a two-letter word is a palindrome if the letters are the same, and any other word is a palindrome if the first letter is the same as the last and the middle is a palindrome. 
 
-Write a recursive function named <c>isPalindrome</c> that takes a <c>String</c> and returns a <c>boolean</c> indicating whether the word is a palindrome.</p></li>
+Write a recursive function named <pf>isPalindrome</pf> that takes a <pf>String</pf> and returns a <pf>boolean</pf> indicating whether the word is a palindrome.</p></li>
 </ol>
 </statement>
 </exercise>

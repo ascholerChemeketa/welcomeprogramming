@@ -20,17 +20,17 @@ It's not always clear what causes a run-time error, but you can often figure thi
 If a program stops and seems to be doing nothing, we say it is <q>hanging</q>.
 Often that means it is caught in an infinite loop or an infinite recursion.
 <ul>
-<li><p>If you suspect that a particular loop is the problem, add a print statement immediately before the loop that says <c>"entering the loop"</c> and another immediately after that says <c>"exiting the loop"</c>.
+<li><p>If you suspect that a particular loop is the problem, add a print statement immediately before the loop that says <pf>"entering the loop"</pf> and another immediately after that says <pf>"exiting the loop"</pf>.
 
 Run the program.
 If you get the first message and not the second, you know where the program is getting stuck.
 Go to the section titled <q>Infinite loop</q>.
 
     <idx><h>StackOverflowError</h></idx></p></li>
-<li><p>Most of the time, an infinite recursion will cause the program to run for a while and then produce a <c>StackOverflowError</c>.
+<li><p>Most of the time, an infinite recursion will cause the program to run for a while and then produce a <pf>StackOverflowError</pf>.
 If that happens, go to the section titled <q>Infinite recursion</q>.
 
-If you are not getting a <c>StackOverflowError</c>, but you suspect there is a problem with a recursive function, you can still use the techniques in the infinite recursion section.</p></li>
+If you are not getting a <pf>StackOverflowError</pf>, but you suspect there is a problem with a recursive function, you can still use the techniques in the infinite recursion section.</p></li>
 <li><p>If neither of the previous suggestions helps, you might not understand the flow of execution in your program.
 Go to the section titled <q>Flow of execution</q>.</p></li>
 </ul>
@@ -55,8 +55,8 @@ For example:
 
 <p>
 Now when you run the program, you see three lines of output for each time through the loop.
-The last time through the loop, the condition should be <c>false</c>.
-If the loop keeps going, you will see the values of <c>x</c> and <c>y</c>, and you might figure out why they are not getting updated correctly.
+The last time through the loop, the condition should be <pf>false</pf>.
+If the loop keeps going, you will see the values of <pf>x</pf> and <pf>y</pf>, and you might figure out why they are not getting updated correctly.
 </p>
 </subsubsection>
 
@@ -66,7 +66,7 @@ If the loop keeps going, you will see the values of <c>x</c> and <c>y</c>, and y
 <p>
     <idx><h>recursion</h><h>infinite</h></idx>
     <idx><h>infinite recursion</h></idx>
-Most of the time, an infinite recursion will cause the program to throw a <c>StackOverflowError</c>.
+Most of the time, an infinite recursion will cause the program to throw a <pf>StackOverflowError</pf>.
 But if the program is slow, it may take a long time to fill the stack.
 </p>
 
@@ -92,7 +92,7 @@ If the parameters are not moving toward the base case, you might see why not.
 <p>
     <idx><h>flow of execution</h></idx>
     <idx><h>tracing</h></idx>
-If you are not sure how the flow of execution is moving through your program, add print statements to the beginning of each function with a message like <c>"entering function foo"</c>, where <c>foo</c> is the name of the function.
+If you are not sure how the flow of execution is moving through your program, add print statements to the beginning of each function with a message like <pf>"entering function foo"</pf>, where <pf>foo</pf> is the name of the function.
 Now when you run the program, it displays a trace of each function as it is invoked.
 </p>
 
@@ -122,11 +122,11 @@ The first step is to examine the place in the program where the error occurred a
 <p>
     <idx><h>NullPointerException</h></idx> 
 
-You tried to access an instance variable or invoke a function on an object that is currently <c>null</c>.
-You should figure out which variable is <c>null</c> and then figure out how it got to be that way.
+You tried to access an instance variable or invoke a function on an object that is currently <pf>null</pf>.
+You should figure out which variable is <pf>null</pf> and then figure out how it got to be that way.
 
-Remember that when you declare a variable with an array type, its elements are initially <c>null</c> until you assign a value to them.
-For example, this code causes a <c>NullPointerException</c>:
+Remember that when you declare a variable with an array type, its elements are initially <pf>null</pf> until you assign a value to them.
+For example, this code causes a <pf>NullPointerException</pf>:
 
 
 <program xml:id="debugging_when-i-run-program-i-get-exception-1">
@@ -138,7 +138,7 @@ For example, this code causes a <c>NullPointerException</c>:
 <p>
     <idx><h>ArrayIndexOutOfBoundsException</h></idx> 
 
-The index you are using to access an array is either negative or greater than <c>array.length - 1</c>.
+The index you are using to access an array is either negative or greater than <pf>array.length - 1</pf>.
 If you can find the site where the problem is, add a print statement immediately before it to display the value of the index and the length of the array.
 Is the array the right size?
 Is the index the right value?

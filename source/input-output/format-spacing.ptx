@@ -3,17 +3,17 @@
 
   <title>Format Spacing</title>
 
-  <p>The `[fill]`, `[align]` and `[width]` values allow us to control the spacing of elements. This is especially useful for making well aligned columns of data when the values on different lines have different widths.</p>
+  <p>The <pf>[fill]</pf>, <pf>[align]</pf> and <pf>[width]</pf> values allow us to control the spacing of elements. This is especially useful for making well aligned columns of data when the values on different lines have different widths.</p>
   
 <program>{:[[fill]align][sign]["#"][0][width][precision][type]}</program>
 
-  <p>`[width]` is the starting point for doing this kind of formatting. It specifies a minimum size for the item. If the item being formatted is shorter than that, spaces are added. (Nothing is done to items that are larger than that value). Here are some examples with `_` printed before and after each item to show where spaces were added.</p>
+  <p><pf>[width]</pf> is the starting point for doing this kind of formatting. It specifies a minimum size for the item. If the item being formatted is shorter than that, spaces are added. (Nothing is done to items that are larger than that value). Here are some examples with <pf>_</pf> printed before and after each item to show where spaces were added.</p>
 
   <program label="input-output_format-spacing-1" interactive="activecode">
 <xi:include href="../../programs/input-output/format-spacing-1.cpp" parse="text"/>
 </program>
 
-  <p>Note that spaces were used when we needed padding to fill in space. Those spaces were added before the item (the item is right justified). To change from this default, we can use the `[fill]` and `[align]` values. The `[align]` option can be specified as `&lt;` to left justify the item, `^` to center the item, or `>` to right justify it. If desired, a single character can be provided as the `fill` to use instead of spaces. (You have to specify the alignment if you want to use fill):</p>
+  <p>Note that spaces were used when we needed padding to fill in space. Those spaces were added before the item (the item is right justified). To change from this default, we can use the <pf>[fill]</pf> and <pf>[align]</pf> values. The <pf>[align]</pf> option can be specified as <pf>&lt;</pf> to left justify the item, <pf>^</pf> to center the item, or <pf>></pf> to right justify it. If desired, a single character can be provided as the <pf>fill</pf> to use instead of spaces. (You have to specify the alignment if you want to use fill):</p>
 
   <program label="input-output_format-spacing-2" interactive="activecode">
 <xi:include href="../../programs/input-output/format-spacing-2.cpp" parse="text"/>
@@ -37,7 +37,7 @@
   </p>
   <p>To do this, I might try using the following format string:</p>
   <pre>{:>2}:{:0>2} | {:&lt;16} | ${:>12.2f}</pre>
-  <p>Notice the ` | ` characters where I want bars with spaces around them and the $ before the money placeholder. Here it is in action:</p>
+  <p>Notice the <pf> | </pf> characters where I want bars with spaces around them and the $ before the money placeholder. Here it is in action:</p>
 
   <program label="input-output_format-spacing-3" interactive="activecode">
 <xi:include href="../../programs/input-output/format-spacing-3.cpp" parse="text"/>
@@ -63,7 +63,7 @@
       </match>
       <match>
         <premise>{:0^10}</premise>
-        <response>Center within 10 characters of space, use `0` as the fill</response>
+        <response>Center within 10 characters of space, use <pf>0</pf> as the fill</response>
       </match>
       <match>
         <premise>{:>10}</premise>
@@ -79,7 +79,7 @@
 
   <exercise label="sdfsdfsdfdsf3sd">
     <statement>
-      <p>What should replace the `???` so the code prints `hello===`? </p>
+      <p>What should replace the <pf>???</pf> so the code prints <pf>hello===</pf>? </p>
       <p>
         <fillin mode="string" answer="{:=&lt;8}"/>
       </p>
@@ -100,7 +100,7 @@
         </test>
         <test>
           <strcmp>^[^=]*$</strcmp>
-          <feedback>You need to set the fill char to `=`</feedback>
+          <feedback>You need to set the fill char to <pf>=</pf></feedback>
         </test>
         <test>
         <feedback>Your format should look like {:[[fill]align][width]}</feedback>

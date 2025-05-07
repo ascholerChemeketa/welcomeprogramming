@@ -23,7 +23,7 @@ The first problem is available at <url href="https://codingbat.com/prob/p118230"
 <blockquote>
 <term>Recursion-1 <nbsp/>noX</term>
 
-Given a string, compute recursively a new string where all the <c>'x'</c> chars have been removed.
+Given a string, compute recursively a new string where all the <pf>'x'</pf> chars have been removed.
 
 \ttfamily
 noX("xaxb") <m>\rightarrow</m> "ab" 
@@ -34,8 +34,8 @@ noX("xx") <m>\rightarrow</m> ""
 </blockquote>
 <p>
 When solving recursive problems, it helps to think about the base case first.
-The base case is the easiest version of the problem; for <c>noX</c>, it's the empty string.
-If the argument is an empty string, there are no <c>x</c>'s to be removed:
+The base case is the easiest version of the problem; for <pf>noX</pf>, it's the empty string.
+If the argument is an empty string, there are no <pf>x</pf>'s to be removed:
 </p>
 
 <program xml:id="recursive-functions_codingbat-problems-1">
@@ -45,7 +45,7 @@ If the argument is an empty string, there are no <c>x</c>'s to be removed:
 <p>
 Next comes the more difficult part.
 To solve a problem recursively, you need to think of a simpler instance of the same problem.
-For <c>noX</c>, it's removing all the <c>x</c>'s from a shorter string.
+For <pf>noX</pf>, it's removing all the <pf>x</pf>'s from a shorter string.
 </p>
 
 <p>
@@ -57,7 +57,7 @@ So let's split the string into two parts, the first letter and the rest:
 </program>
 
 <p>
-Now we can make a recursive call to remove the <c>x</c>'s from <c>rest</c>:
+Now we can make a recursive call to remove the <pf>x</pf>'s from <pf>rest</pf>:
 </p>
 
 <program xml:id="recursive-functions_codingbat-problems-3">
@@ -65,9 +65,9 @@ Now we can make a recursive call to remove the <c>x</c>'s from <c>rest</c>:
 </program>
 
 <p>
-If <c>first</c> happens to be an <c>x</c>, we're done; we just have to return <c>recurse</c>.
-Otherwise, we have to concatenate <c>first</c> and <c>recurse</c>.
-Here's the <c>if</c> statement we need:
+If <pf>first</pf> happens to be an <pf>x</pf>, we're done; we just have to return <pf>recurse</pf>.
+Otherwise, we have to concatenate <pf>first</pf> and <pf>recurse</pf>.
+Here's the <pf>if</pf> statement we need:
 </p>
 
 <program xml:id="recursive-functions_codingbat-problems-4">
@@ -96,7 +96,7 @@ array11([1, 2, 3, 4], 0) <m>\rightarrow</m> 0
 <p>
 This problem uses the convention of passing the index as an argument.
 So the base case is when we've reached the end of the array.
-At that point, we know there are no more <c>11</c>s:
+At that point, we know there are no more <pf>11</pf>s:
 </p>
 
 <program xml:id="recursive-functions_codingbat-problems-5">
@@ -104,9 +104,9 @@ At that point, we know there are no more <c>11</c>s:
 </program>
 
 <p>
-Next we look at the current number (based on the given index), and check if it's an <c>11</c>.
+Next we look at the current number (based on the given index), and check if it's an <pf>11</pf>.
 After that, we can recursively check the rest of the array.
-Similar to the <c>noX</c> problem, we look at only one integer per function call:
+Similar to the <pf>noX</pf> problem, we look at only one integer per function call:
 </p>
 
 <program xml:id="recursive-functions_codingbat-problems-6">

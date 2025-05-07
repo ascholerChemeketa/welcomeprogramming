@@ -3,7 +3,7 @@
 
   <title>Floating-Point Division</title>
 
-  <p>Whole number value like 60 can be stored as either an <c>int</c> or a <c>double</c>. But even though they seem like the same number, C++ considers the integer value <c>60</c> different from the floating-point value <c>60.0</c>. They belong to different data types, and thus doing math with them can produce different results. This is most obvious when we do division.</p>
+  <p>Whole number value like 60 can be stored as either an <pf>int</pf> or a <pf>double</pf>. But even though they seem like the same number, C++ considers the integer value <pf>60</pf> different from the floating-point value <pf>60.0</pf>. They belong to different data types, and thus doing math with them can produce different results. This is most obvious when we do division.</p>
 
   <p>
     <idx>
@@ -16,7 +16,7 @@
 <xi:include href="../../programs/floatingpoint-math/floatingpoint-division-1.cpp" parse="text"/>
 </program>
 
-  <p>Recall that if we divided one integer by another, like <c>45 / 60</c>, we would get 0 for our answer. C++ assumes that if you start with two integers, you want an integer answer. But if you ask to do division involving a floating-point value, like <c>45.0 / 60.0</c>, it will assume you want to do floating-point division and produce a decimal answer. It will make the same assumption even if there is just one floating point value involved, like <c>45 / 60.0</c>.</p>
+  <p>Recall that if we divided one integer by another, like <pf>45 / 60</pf>, we would get 0 for our answer. C++ assumes that if you start with two integers, you want an integer answer. But if you ask to do division involving a floating-point value, like <pf>45.0 / 60.0</pf>, it will assume you want to do floating-point division and produce a decimal answer. It will make the same assumption even if there is just one floating point value involved, like <pf>45 / 60.0</pf>.</p>
   
   <p>Identifying whether an operation carries out integer division or floating point division
     can get tricky when we have a mix of integers and doubles in our expression.
@@ -54,7 +54,7 @@ int main() {
   <insight>
   <p>As long as either operand is a floating-point value, the operator will use floating-point math. If both operands are integers, the operator will use integer math.
   </p>
-  <p>Doing integer math when you want to do floating-point math (with something like <c>1 / 3</c>) is a common logic error that can be hard to catch, since your program will compile without warning but produce the wrong kind of answer.</p>
+  <p>Doing integer math when you want to do floating-point math (with something like <pf>1 / 3</pf>) is a common logic error that can be hard to catch, since your program will compile without warning but produce the wrong kind of answer.</p>
   </insight>
 
   <p>This is true for other operations as well. If you add 4 to 2.5, the compiler assumes you want a decimal answer. However, this decision is made at each step of the calculation, without considering what might happen later. So the order of operations can matter. For example, consider the following code:
@@ -65,9 +65,9 @@ int main() {
 <xi:include href="../../programs/floatingpoint-math/floatingpoint-division-2.cpp" parse="text"/>
 </program>
 
-  <p>You might expect <c>value</c> to be set to the result of 0.33333 times 3.14159. But the first step in evaluating the expression
-  <c>1 / 3 * 3.14159</c> is dividing 1 by 3. Those are both integers, so C++ does whole number division and
-  gets the result <c>0</c>. That makes the expresion into <c>0 * 3.14159</c> It does not matter that later the math involves a double, or that the result is
+  <p>You might expect <pf>value</pf> to be set to the result of 0.33333 times 3.14159. But the first step in evaluating the expression
+  <pf>1 / 3 * 3.14159</pf> is dividing 1 by 3. Those are both integers, so C++ does whole number division and
+  gets the result <pf>0</pf>. That makes the expresion into <pf>0 * 3.14159</pf> It does not matter that later the math involves a double, or that the result is
   stored into a double. At the point of the division, the math involves two integers, so the result is an integer.
   When the 0 is multiplied by 3.14159 it is promoted to a double <mdash/> 0.0 <mdash/> but that is too
   late to help produce the result we would expect.</p>
@@ -92,7 +92,7 @@ int main() {
           
           double servingSize = servings / people;</program>
 
-        <p>The program claims <c>servingSize</c> is <fillin mode="string" case="insensitive" answer="2"/> servings.
+        <p>The program claims <pf>servingSize</pf> is <fillin mode="string" case="insensitive" answer="2"/> servings.
           This is <fillin mode="string" case="insensitive" answer="less"/> (more, less, the same) than/as the correct answer.</p>
     </statement>
     <evaluation>

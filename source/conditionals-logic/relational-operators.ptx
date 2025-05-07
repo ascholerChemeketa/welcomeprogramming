@@ -22,20 +22,20 @@
 <xi:include href="../../programs/conditionals-logic/relational-operators-1.cpp" parse="text"/>
 </program>
 
-  <p>Each comparison represents a questions. <c>x == y</c> asks the question <q>does x equal y?</q>. The comparison operator decides if the answer is true or false and evaluates to that result. (Remember that an output of 1 means `true` and 0 means `false`.) In many ways, the `==` in `x == y` is similar to `+` in `x + y`. They both are operators that use two operands (x and y here) and calculate an answer based on them.</p>
+  <p>Each comparison represents a questions. <pf>x == y</pf> asks the question <q>does x equal y?</q>. The comparison operator decides if the answer is true or false and evaluates to that result. (Remember that an output of 1 means <pf>true</pf> and 0 means <pf>false</pf>.) In many ways, the <pf>==</pf> in <pf>x == y</pf> is similar to <pf>+</pf> in <pf>x + y</pf>. They both are operators that use two operands (x and y here) and calculate an answer based on them.</p>
 
   <p>
     <idx>
       <h>automatic conversion</h>
     </idx> The two sides of a relational operator have to be
-    compatible. For example, the expression <c>5 &lt; "6"</c> is invalid because <c>5</c> is an <c>int</c> and <c>"6"</c>
-    is a <c>string</c>. When comparing values of different numeric types, C++ applies the same conversion
+    compatible. For example, the expression <pf>5 &lt; "6"</pf> is invalid because <pf>5</pf> is an <pf>int</pf> and <pf>"6"</pf>
+    is a <pf>string</pf>. When comparing values of different numeric types, C++ applies the same conversion
     rules you saw previously with the assignment operator. For example, when evaluating the
-    expression <c>5 &lt; 6.2</c>, C++ automatically converts the <c>5</c> to <c>5.0</c>.</p>
+    expression <pf>5 &lt; 6.2</pf>, C++ automatically converts the <pf>5</pf> to <pf>5.0</pf>.</p>
 
   <p>
-    Since relational operators evaluate to a <c>boolean</c>
-    value, you can store the result of a comparison into a `bool` variable: </p>
+    Since relational operators evaluate to a <pf>boolean</pf>
+    value, you can store the result of a comparison into a <pf>bool</pf> variable: </p>
 
   <program xml:id="conditionals-logic_boolevariables-2">
 <xi:include href="../../programs/conditionals-logic/boolevariables-2.cpp" parse="text"/>

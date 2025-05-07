@@ -8,14 +8,14 @@ Before you start the exercises, we recommend that you compile and run the exampl
 <exercise>
 <statement>
 <p>
-Design a better strategy for the <c>Player.play</c> function.
+Design a better strategy for the <pf>Player.play</pf> function.
 For example, if there are multiple cards you can play, and one of them is an 8, you might want to play the 8.
 </p>
 
 <p>
     <idx><h>override</h></idx>
 Think of other ways you can minimize penalty points, such as playing the highest-ranking cards first.
-Write a new class that extends <c>Player</c> and overrides <c>play</c> to implement your strategy.
+Write a new class that extends <pf>Player</pf> and overrides <pf>play</pf> to implement your strategy.
 </p>
 </statement>
 </exercise>
@@ -28,7 +28,7 @@ If you implemented multiple strategies in the previous exercise, you can play th
 </p>
 
 <p>
-<term>Hint:</term> Design a <c>Genius</c> class that extends <c>Player</c> and overrides the <c>play</c> function, and then replace one of the players with a <c>Genius</c> object.
+<term>Hint:</term> Design a <pf>Genius</pf> class that extends <pf>Player</pf> and overrides the <pf>play</pf> function, and then replace one of the players with a <pf>Genius</pf> object.
 </p>
 </statement>
 </exercise>
@@ -37,7 +37,7 @@ If you implemented multiple strategies in the previous exercise, you can play th
 <statement>
 <p>
 One limitation of the program we wrote in this chapter is that it handles only two players.
-Modify the <c>Eights</c> class to create an <c>ArrayList</c> of players, and modify <c>nextPlayer</c> to select the next player.
+Modify the <pf>Eights</pf> class to create an <pf>ArrayList</pf> of players, and modify <pf>nextPlayer</pf> to select the next player.
 </p>
 </statement>
 </exercise>
@@ -47,17 +47,17 @@ Modify the <c>Eights</c> class to create an <c>ArrayList</c> of players, and mod
 <p>
 When we designed the program for this chapter, we tried to minimize the number of classes.
 As a result, we ended up with a few awkward functions.
-For example, <c>cardMatches</c> is a static function in <c>Player</c>, but it would be more natural if it were an instance function in <c>Card</c>.
+For example, <pf>cardMatches</pf> is a static function in <pf>Player</pf>, but it would be more natural if it were an instance function in <pf>Card</pf>.
 </p>
 
 <p>
-The problem is that <c>Card</c> is supposed to be useful for any card game, not just Crazy Eights.
-You can solve this problem by adding a new class, <c>EightsCard</c>, that extends <c>Card</c> and provides a function, <c>match</c>, that checks whether two cards match according to the rules of Crazy Eights.
+The problem is that <pf>Card</pf> is supposed to be useful for any card game, not just Crazy Eights.
+You can solve this problem by adding a new class, <pf>EightsCard</pf>, that extends <pf>Card</pf> and provides a function, <pf>match</pf>, that checks whether two cards match according to the rules of Crazy Eights.
 </p>
 
 <p>
-At the same time, you could create a new class, <c>EightsHand</c>, that extends <c>Hand</c> and provides a function, <c>scoreHand</c>, that adds up the scores of the cards in the hand.
-And while you're at it, you could add a function named <c>scoreCard</c> to <c>EightsCard</c>.
+At the same time, you could create a new class, <pf>EightsHand</pf>, that extends <pf>Hand</pf> and provides a function, <pf>scoreHand</pf>, that adds up the scores of the cards in the hand.
+And while you're at it, you could add a function named <pf>scoreCard</pf> to <pf>EightsCard</pf>.
 </p>
 
 <p>

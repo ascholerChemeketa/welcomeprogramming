@@ -1,8 +1,8 @@
 <section xml:id="structs_operators-on-structures"
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Operations on structures</title>
-  <p>Most of the operators we have been using on other types, like mathematical operators ( <c>+</c>, <c>%</c>,
-    etc.) and comparison operators (<c>==</c>, <c>&gt;</c>, etc.), do not work on structures. (It is possible to define custom operators, but we won't worry about that yet.)</p>
+  <p>Most of the operators we have been using on other types, like mathematical operators ( <pf>+</pf>, <pf>%</pf>,
+    etc.) and comparison operators (<pf>==</pf>, <pf>&gt;</pf>, etc.), do not work on structures. (It is possible to define custom operators, but we won't worry about that yet.)</p>
   <p>On the other hand, the assignment operator <em>does</em> work for structures. It can be used in
     two ways: to initialize the instance variables of a structure from a list of values or to copy the instance variables
     from one structure to another. An initialization looks like this:</p>
@@ -10,7 +10,7 @@
 Point blank = { 3.0, 4.0 };
 </program>
   <p>The values in squiggly braces get assigned to the instance variables of the structure one by
-    one, in order. So in this case, <c>x</c> gets the first value and <c>y</c> gets the second.</p>
+    one, in order. So in this case, <pf>x</pf> gets the first value and <pf>y</pf> gets the second.</p>
   <p>This syntax can also be used in an assignment statement. So the following is legal.</p>
   <program>Point blank;
 blank = { 3.0, 4.0 };</program>

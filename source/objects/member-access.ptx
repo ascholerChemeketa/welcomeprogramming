@@ -5,7 +5,7 @@
   <subsection>
 
     <title>Accessing Member Variables in the Class</title>
-    <p>Look closely at the function `getX()`. What looks odd?</p>
+    <p>Look closely at the function <pf>getX()</pf>. What looks odd?</p>
 
     <program>
 class Point {
@@ -19,10 +19,10 @@ public:
 }
   </program>
 
-    <p>Notice that there is no declaration of `m_x` in this function! It is not declared as a
+    <p>Notice that there is no declaration of <pf>m_x</pf> in this function! It is not declared as a
       parameter, nor is it declared as a local variable. So what is it?</p>
 
-    <p>It is the member variable of Point named `m_x`. Inside member functions, we always have
+    <p>It is the member variable of Point named <pf>m_x</pf>. Inside member functions, we always have
       access to the member variables of the object.</p>
 
     <p>To call a member function, we always need to call it on a particular object:</p>
@@ -31,19 +31,19 @@ p1.getX();
 p2.getX();
 </program>
 
-    <p>Trying to use a member function without an object is a syntax error. There is no `getX()`
-      function, there is only the `getX()` function that is a member of the `Point` class.
-      (`Point::getX()` is the full name of this function - <q>the getX that is a part of Point</q>.)</p>
+    <p>Trying to use a member function without an object is a syntax error. There is no <pf>getX()</pf>
+      function, there is only the <pf>getX()</pf> function that is a member of the <pf>Point</pf> class.
+      (<pf>Point::getX()</pf> is the full name of this function - <q>the getX that is a part of Point</q>.)</p>
 
-    <p>So when we say `p1.getX()` we are asking that object to execute the `getX()` code. When that
-      code refers to `return m_x;`, it means <q>the `m_x` value of `p1`</q>. Later on, if we say
-      `p2.getX()`, the line `return m_x;`, it now means <q>the `m_x` value of `p2`</q>.</p>
+    <p>So when we say <pf>p1.getX()</pf> we are asking that object to execute the <pf>getX()</pf> code. When that
+      code refers to <pf>return m_x;</pf>, it means <q>the <pf>m_x</pf> value of <pf>p1</pf></q>. Later on, if we say
+      <pf>p2.getX()</pf>, the line <pf>return m_x;</pf>, it now means <q>the <pf>m_x</pf> value of <pf>p2</pf></q>.</p>
 
-    <p> Run this Codelens sample. Pay special attention each time it enters the `getX` function. You
-      will see a stack frame for `Point::getX()`, and in that stack frame, you will see a variable
-      called `this` that points at the object that is running the code. During the first call to
-      `Point::getX()`, it will point to `p1` since we called `p1.getX()` on line 23. Then, on line
-      26 when we call `p2.getX()`, `this` will be pointing at `p2`.</p>
+    <p> Run this Codelens sample. Pay special attention each time it enters the <pf>getX</pf> function. You
+      will see a stack frame for <pf>Point::getX()</pf>, and in that stack frame, you will see a variable
+      called <pf>this</pf> that points at the object that is running the code. During the first call to
+      <pf>Point::getX()</pf>, it will point to <pf>p1</pf> since we called <pf>p1.getX()</pf> on line 23. Then, on line
+      26 when we call <pf>p2.getX()</pf>, <pf>this</pf> will be pointing at <pf>p2</pf>.</p>
 
     <program xml:id="objects_member-access-1"
              interactive="codelens">
@@ -61,15 +61,15 @@ p2.getX();
 
     <!-- TODO xref to this -->
     <note>
-      <p>We will learn more about exactly what `this` is later. For now, you can think of it as an
-        alias for <q>the object running the code</q>. When we say `m_x` in a member function, it is
-        understood to mean `this->m_x` or <q>the `m_x` variable of the object running this code</q>.</p>
+      <p>We will learn more about exactly what <pf>this</pf> is later. For now, you can think of it as an
+        alias for <q>the object running the code</q>. When we say <pf>m_x</pf> in a member function, it is
+        understood to mean <pf>this->m_x</pf> or <q>the <pf>m_x</pf> variable of the object running this code</q>.</p>
     </note>
 
 
     <exercise label="one_last_example_1">
       <statement>
-        <p>Examine this code. Then decide what best describes the meaning of `m_red` on line 6. </p>
+        <p>Examine this code. Then decide what best describes the meaning of <pf>m_red</pf> on line 6. </p>
         <program line-numbers="yes">
         class Color {
         private:
@@ -90,27 +90,27 @@ p2.getX();
       <choices randomize="yes">
         <choice correct="yes">
           <statement>
-            <p> The `m_red` value of whatever point is currently executing getRed() </p>
+            <p> The <pf>m_red</pf> value of whatever point is currently executing getRed() </p>
           </statement>
         </choice>
         <choice>
           <statement>
-            <p> The `m_red` value of `c1`. </p>
+            <p> The <pf>m_red</pf> value of <pf>c1</pf>. </p>
           </statement>
-          <feedback> Although we only currently use getRed on `c1`, it is possible that we could
-            later call it on `c2`. So `m_red` is not guaranteed to be the value of `c1`. </feedback>
+          <feedback> Although we only currently use getRed on <pf>c1</pf>, it is possible that we could
+            later call it on <pf>c2</pf>. So <pf>m_red</pf> is not guaranteed to be the value of <pf>c1</pf>. </feedback>
         </choice>
         <choice>
           <statement>
-            <p> The `m_red` value of `c2`. </p>
+            <p> The <pf>m_red</pf> value of <pf>c2</pf>. </p>
           </statement>
         </choice>
         <choice>
           <statement>
-            <p> The `m_red` value of the Color class. </p>
+            <p> The <pf>m_red</pf> value of the Color class. </p>
           </statement>
-          <feedback> The class itself does not have a `m_red` value. The class is just a blueprint
-            for creating objects. The `m_red` variable is a member of each instance of the class. </feedback>
+          <feedback> The class itself does not have a <pf>m_red</pf> value. The class is just a blueprint
+            for creating objects. The <pf>m_red</pf> variable is a member of each instance of the class. </feedback>
         </choice>
       </choices>
     </exercise>
@@ -122,18 +122,18 @@ p2.getX();
     <title>Setters and Mutators</title>
     <p>If we want to provide the ability for outside code to modify a member variable, we can add a <term>
       setter</term> function. These are functions that take a value and use that to set a member
-      variable. This version of the Point class adds a setter for `m_x`:</p>
+      variable. This version of the Point class adds a setter for <pf>m_x</pf>:</p>
 
     <program xml:id="objects_member-access-2"
              interactive="codelens">
 <xi:include href="../../programs/objects/member-access-2.cpp" parse="text"/>
 </program>
 
-    <p>When main calls `p1.setX(5.0)`, it passes in the value 5. The `Point::setX()` function stores
-      that value into the `m_x` instance variable of `p1`.</p>
+    <p>When main calls <pf>p1.setX(5.0)</pf>, it passes in the value 5. The <pf>Point::setX()</pf> function stores
+      that value into the <pf>m_x</pf> instance variable of <pf>p1</pf>.</p>
 
     <p>As with getters, setters provide a limited way for outside code to manipulate the object.
-      Outside code can't directly change `m_x`, it has to use the interface to ask a given point to
+      Outside code can't directly change <pf>m_x</pf>, it has to use the interface to ask a given point to
       please make the change to itself. This means that we have loose coupling and also that the
       class can <q>protect itself</q> from unsafe or unwanted changes.</p>
 
@@ -144,13 +144,13 @@ p2.getX();
 <xi:include href="../../programs/objects/member-access-3.cpp" parse="text"/>
 </program>
 
-    <p>When other code tries to set a negative age, the `Person` class ignores that request and
+    <p>When other code tries to set a negative age, the <pf>Person</pf> class ignores that request and
       prints an error message. (It would make even more sense in a real program to throw an
       exception there.)</p>
 
     <insight>
       <p>Remember the <q>two programmers</q> tip for understanding Object Oriented Programming.</p>
-      <p>The person programming `Person` is the expert who knows all the important ins and outs of
+      <p>The person programming <pf>Person</pf> is the expert who knows all the important ins and outs of
         the Person class. They know that a negative value is going to cause problems later. The
         person programming main does not realize that issue even exists. If they could set `p1.m_age
         = -5;` directly, they could end up causing the program to do something horrible later on.</p>
@@ -166,7 +166,7 @@ p2.getX();
         <h>mutator</h>
       </idx></p>
 
-    <p>For instance, a person might have a `void getOlder()` function that looked like:</p>
+    <p>For instance, a person might have a <pf>void getOlder()</pf> function that looked like:</p>
     <program>
 class Person {
 private:
@@ -178,7 +178,7 @@ public:
     ...
     </program>
 
-    <p>`getOlder` mutates (changes) the object. But it doesn't allow other code to change the age to
+    <p><pf>getOlder</pf> mutates (changes) the object. But it doesn't allow other code to change the age to
       an arbitrary value.</p>
 
   </subsection>
@@ -188,7 +188,7 @@ public:
             adaptive="yes"
             indentation="show">
     <statement>
-      <p>In <c>main</c> we want to create a <c>Circle</c>, set the radius to 2.4 and output the radius. Then change
+      <p>In <pf>main</pf> we want to create a <pf>Circle</pf>, set the radius to 2.4 and output the radius. Then change
         the radius to 3.6 and output the new radius. We want to use the public interface of the
         Circle class and not depend on the private details of the class.</p>
       <p>Put the correct blocks of code in the correct order.</p>

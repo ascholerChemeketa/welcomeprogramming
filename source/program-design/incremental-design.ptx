@@ -8,7 +8,7 @@ In this section, we present a <term>design process</term> that allows you to div
 The process is called <q>encapsulation and generalization</q>.
 The essential steps are as follows:
 <ol>
-<li><p>Write a few lines of code in <c>main</c> or another function, and test them.</p></li>
+<li><p>Write a few lines of code in <pf>main</pf> or another function, and test them.</p></li>
 <li><p>When they are working, wrap them in a new function and test again.</p></li>
 <li><p>If it's appropriate, replace literal values with variables and parameters.</p></li>
 </ol>
@@ -26,12 +26,12 @@ Here is a loop that displays the multiples of two, all on one line:
 </program>
 
 <p>
-Each time through the loop, we display the value of <c>2 * i</c>, padded with spaces so it's four characters wide.
-Since we use <c>System.out.printf</c>, the output appears on a single line.
+Each time through the loop, we display the value of <pf>2 * i</pf>, padded with spaces so it's four characters wide.
+Since we use <pf>System.out.printf</pf>, the output appears on a single line.
 </p>
 
 <p>
-After the loop, we call <c>println</c> to print a newline character.
+After the loop, we call <pf>println</pf> to print a newline character.
 Remember that in some environments, none of the output is displayed until the line is complete.
 The output of the code so far is shown here:
 </p>
@@ -53,7 +53,7 @@ The next step is to <term>encapsulate</term> the code; that is, we <q>wrap</q> t
 
 <p>
     <idx><h>generalize</h></idx>
-Finally, we <term>generalize</term> the function to print multiples of other numbers by replacing the constant value <c>2</c> with a parameter <c>n</c>.
+Finally, we <term>generalize</term> the function to print multiples of other numbers by replacing the constant value <pf>2</pf> with a parameter <pf>n</pf>.
 This step is called <q>generalization</q>, because it makes the function more general (less specific):
 </p>
 
@@ -62,8 +62,8 @@ This step is called <q>generalization</q>, because it makes the function more ge
 </program>
 
 <p>
-Invoking this function with the argument <c>2</c> yields the same output as before.
-With the argument <c>3</c>, the output is as follows:
+Invoking this function with the argument <pf>2</pf> yields the same output as before.
+With the argument <pf>3</pf>, the output is as follows:
 </p>
 
 <console>
@@ -73,7 +73,7 @@ With the argument <c>3</c>, the output is as follows:
 </console>
 
 <p>
-By now, you can probably guess how we are going to display a multiplication table: we'll invoke <c>printRow</c> repeatedly with different arguments.
+By now, you can probably guess how we are going to display a multiplication table: we'll invoke <pf>printRow</pf> repeatedly with different arguments.
 In fact, we'll use another loop to iterate through the rows:
 </p>
 

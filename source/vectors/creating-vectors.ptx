@@ -12,9 +12,9 @@
     <idx>
       <h>brackets</h>
       <h>angle</h>
-    </idx>To use vectors, we must first include the `&lt;vector>` library. Then we can declare a variable with the type <c>vector&lt;TYPE></c> where `TYPE` is a data type like
-    `int`, `double`, or `string`. (The <c>&lt;></c> are referred to as <term>angle brackets</term>). For
-    example, the following lines declare that <c>counts</c> is an <q>vector of integers</q> and <c>values</c> is
+    </idx>To use vectors, we must first include the <pf>&lt;vector></pf> library. Then we can declare a variable with the type <pf>vector&lt;TYPE></pf> where <pf>TYPE</pf> is a data type like
+    <pf>int</pf>, <pf>double</pf>, or <pf>string</pf>. (The <pf>&lt;></pf> are referred to as <term>angle brackets</term>). For
+    example, the following lines declare that <pf>counts</pf> is an <q>vector of integers</q> and <pf>values</pf> is
     a <q>vector of doubles</q>:</p>
 
   <program xml:id="vectors_creating-vector-1">
@@ -22,7 +22,7 @@
 </program>
 
   <p>We do not have to initialize vectors. Declaring a vector automatically creates an empty vector.
-    Just like a string, we can ask a vector for its `.size()` which will be a `size_t`. Doing so on
+    Just like a string, we can ask a vector for its <pf>.size()</pf> which will be a <pf>size_t</pf>. Doing so on
     one of those vectors would return 0:</p>
 
   <program xml:id="vectors_creating-vector-2"
@@ -43,7 +43,7 @@
 
   <p>Finally, you can create a vector with a specific size and default value. The syntax to do this
     is a little odd; it looks like a combination of a variable declarations and a function call:
-    `vector&lt;int>(10, 0)`. In fact, that's exactly what it is. The function we are invoking is an <c>vector</c>
+    <pf>vector&lt;int>(10, 0)</pf>. In fact, that's exactly what it is. The function we are invoking is an <pf>vector</pf>
     constructor. A <term>constructor</term> is a special function that creates new objects and
     initializes their instance variables. In this case, the constructor takes two arguments, the
     size of the vector to make and what value to use for all of the elements.</p>
@@ -53,7 +53,7 @@
 </program>
 
   <figure>
-    <caption>The vector `values` created by the previous code sample.</caption>
+    <caption>The vector <pf>values</pf> created by the previous code sample.</caption>
     <image width="40%"
            source="images/vector-3-doubles.svg"/>
   </figure>
@@ -65,8 +65,8 @@
 </program>
 
   <p>This results in two vectors that have identical lists of elements as diagramed below. Despite
-    having the same data, the two vectors are independent - if you modified `numbers` at this point,
-    `copy` would be unaffected.</p>
+    having the same data, the two vectors are independent - if you modified <pf>numbers</pf> at this point,
+    <pf>copy</pf> would be unaffected.</p>
 
   <figure>
     <caption>Assigning a vector to another copies it.</caption>
@@ -75,7 +75,7 @@
   </figure>
 
   <p>You may have noticed that we have not tried to print any of the vectors. That is because you
-    can't use `cout` to print an entire vector. Trying to write something like `cout &lt;&lt;
+    can't use <pf>cout</pf> to print an entire vector. Trying to write something like `cout &lt;&lt;
     values;` will result in an error message that begins with something like:</p>
 
   <console>
@@ -87,14 +87,14 @@ test.cpp:13:10: error: no match for ‘operator<<’ (operand types are ‘std::
   </output>
   </console>
 
-  <p>It is trying to tell us that there is no way to use `&lt;&lt;` to send the vector to the output
-    stream `cout`. If we want to print the vector we have to it by printing the individual elements.
+  <p>It is trying to tell us that there is no way to use <pf>&lt;&lt;</pf> to send the vector to the output
+    stream <pf>cout</pf>. If we want to print the vector we have to it by printing the individual elements.
     In the next section, we will learn how to access the elements so that we can see what is in our
     vector and modify those values.</p>
 
   <exercise label="vector_size_1">
     <statement>
-      <p>Let <term>nums</term> be the vector { 0, 1, 2, 3, 4 }. What is <term> data type</term> <em>of</em> <c>nums.size()</c>
+      <p>Let <term>nums</term> be the vector { 0, 1, 2, 3, 4 }. What is <term> data type</term> <em>of</em> <pf>nums.size()</pf>
         ? <fillin mode="string" answer="size_t"/>
       </p>
     </statement>
@@ -127,7 +127,7 @@ test.cpp:13:10: error: no match for ‘operator<<’ (operand types are ‘std::
       <choice>
         <statement id="vectors_1_opt_a">
           <p>
-            <c><![CDATA[vector<string> words ("", 5);]]></c>
+            <pf><![CDATA[vector<string> words ("", 5);]]></pf>
           </p>
         </statement>
         <feedback>
@@ -137,7 +137,7 @@ test.cpp:13:10: error: no match for ‘operator<<’ (operand types are ‘std::
       <choice correct="yes">
         <statement id="vectors_1_opt_b">
           <p>
-            <c><![CDATA[vector<string> words (5);]]></c>
+            <pf><![CDATA[vector<string> words (5);]]></pf>
           </p>
         </statement>
         <feedback>
@@ -147,7 +147,7 @@ test.cpp:13:10: error: no match for ‘operator<<’ (operand types are ‘std::
       <choice correct="yes">
         <statement id="vectors_1_opt_c">
           <p>
-            <c><![CDATA[vector<string> words (5, "");]]></c>
+            <pf><![CDATA[vector<string> words (5, "");]]></pf>
           </p>
         </statement>
         <feedback>
@@ -157,7 +157,7 @@ test.cpp:13:10: error: no match for ‘operator<<’ (operand types are ‘std::
       <choice>
         <statement id="vectors_1_opt_d">
           <p>
-            <c><![CDATA[vector<char> words (5, '');]]></c>
+            <pf><![CDATA[vector<char> words (5, '');]]></pf>
           </p>
         </statement>
         <feedback>
@@ -216,7 +216,7 @@ test.cpp:13:10: error: no match for ‘operator<<’ (operand types are ‘std::
   </exercise>
   <exercise label="vectors_4">
     <statement>
-      <p>What are the values of <c>number</c>'s elements after this declaration?</p>
+      <p>What are the values of <pf>number</pf>'s elements after this declaration?</p>
       <program>
 vector&lt;int&gt; numbers(6);
 </program>
@@ -252,7 +252,7 @@ vector&lt;int&gt; numbers(6);
 
   <exercise label="program_lanfsdfsdfg_1">
     <statement>
-      <p>What can go in the blank to make a vector that has 8 copies of the value `true`;? <c>vector&lt;bool&gt; options(_____)</c>
+      <p>What can go in the blank to make a vector that has 8 copies of the value <pf>true</pf>;? <pf>vector&lt;bool&gt; options(_____)</pf>
         <fillin mode="string"
                 case="insensitive"
                 answer="6\\s*,\\s*true"/></p>

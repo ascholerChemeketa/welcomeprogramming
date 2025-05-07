@@ -10,14 +10,14 @@
 <xi:include href="../../programs/references-exceptions/error-handling-1.cpp" parse="text"/>
 </program>
 
-  <p>If the function is called with either `"true"` or `"false"`, all is good. But what should the function do if it is called with `"cat"`?</p>
+  <p>If the function is called with either <pf>"true"</pf> or <pf>"false"</pf>, all is good. But what should the function do if it is called with <pf>"cat"</pf>?</p>
 
   <p>The best way to handle the bad value will depend on what the program overall is doing: Is the data user input and we should ask for a new value? Is there a log file that we should print errors to? Is the failure to determine true/false an unrecoverable error?</p>
 
   <p>Whoever is writing this particular <q>low-level</q> function might have no idea of what the <q>higher level code</q> is doing and thus how to best handle the issue. Furthermore, it is possible the function is being used by many different programs. In that case, there is no single best way to handle the issue.</p>
   
   <figure>
-    <caption>A function like `stringToBool` that calls no other functions and does a small task is <q>low-level</q>. A function like `main` that is responsible for everything is <q>high-level</q>.</caption>
+    <caption>A function like <pf>stringToBool</pf> that calls no other functions and does a small task is <q>low-level</q>. A function like <pf>main</pf> that is responsible for everything is <q>high-level</q>.</caption>
     <image width="25%"
             source="images/exceptions.svg"/>
   </figure>
@@ -36,7 +36,7 @@
   </introduction>
   <subsection>
     <title>Assertions</title>
-    <p>The first solution is not much of a solution. It is just giving up completely. An <term>assertion</term> is a check that if failed will cause the whole program to end. In C++ we can use include the `&lt;cassert>` library and then make an assertion using `assert`. An `assert` takes a condition to check. If that condition is true, the program continues. If the condition is false, the entire program stops:</p>
+    <p>The first solution is not much of a solution. It is just giving up completely. An <term>assertion</term> is a check that if failed will cause the whole program to end. In C++ we can use include the <pf>&lt;cassert></pf> library and then make an assertion using <pf>assert</pf>. An <pf>assert</pf> takes a condition to check. If that condition is true, the program continues. If the condition is false, the entire program stops:</p>
   <program xml:id="references-exceptions_error-handling-2" interactive="activecode">
 <xi:include href="../../programs/references-exceptions/error-handling-2.cpp" parse="text"/>
 </program>
@@ -45,16 +45,16 @@
 
   <subsection>
     <title>Special Values</title>
-    <p>The next strategy is to return a special value that indicates an error. This is the strategy used by `size_t string::find(string value)`. It returns the special `string::npos` value when the value is not found.</p>
+    <p>The next strategy is to return a special value that indicates an error. This is the strategy used by <pf>size_t string::find(string value)</pf>. It returns the special <pf>string::npos</pf> value when the value is not found.</p>
 
     <p>However, this is only possible if there is a special value that can't possibly be a real answer. 
-    `string::npos` is a valid `size_t`. But it can never be a valid index into a string. So the caller can check for that special value and know that the search failed.</p>
+    <pf>string::npos</pf> is a valid <pf>size_t</pf>. But it can never be a valid index into a string. So the caller can check for that special value and know that the search failed.</p>
 
-    <p>In the case of our `stringToBool` function, there are only two legal values to return - true or false. And each is a possible real result. So there is no possible special value that can be used to indicate <q>error - I don't know what to do.</q></p>
+    <p>In the case of our <pf>stringToBool</pf> function, there are only two legal values to return - true or false. And each is a possible real result. So there is no possible special value that can be used to indicate <q>error - I don't know what to do.</q></p>
 
     <p>In addition to not always being possible, there is a more subtle issue with returning a special value. What if the caller doesn't know how to handle the error?</p>
 
-    <p>For example, imagine a `main()` that has called `bigJob()` that has called `mediumJob()` and that has called `stringToBool()`. `stringToBool()` passes a special value back to `mediumJob()`. `mediumJob()` needs to look for that special value and decide what to do. If it doesn't know how to respond to the issue, it would need its own special value to return to `bigJob()`, which might need to pass a message back to `main()`. Passing error values through multiple levels until we reach a level of code that knows what to do can be painful.</p>
+    <p>For example, imagine a <pf>main()</pf> that has called <pf>bigJob()</pf> that has called <pf>mediumJob()</pf> and that has called <pf>stringToBool()</pf>. <pf>stringToBool()</pf> passes a special value back to <pf>mediumJob()</pf>. <pf>mediumJob()</pf> needs to look for that special value and decide what to do. If it doesn't know how to respond to the issue, it would need its own special value to return to <pf>bigJob()</pf>, which might need to pass a message back to <pf>main()</pf>. Passing error values through multiple levels until we reach a level of code that knows what to do can be painful.</p>
   </subsection>
 
   <subsection>
@@ -65,14 +65,14 @@
 <xi:include href="../../programs/references-exceptions/error-handling-3.cpp" parse="text"/>
 </program>
 
-  <p>Now to call the function, the caller needs to pass in a `bool` variable:</p>
+  <p>Now to call the function, the caller needs to pass in a <pf>bool</pf> variable:</p>
 
   <program>
   bool wasError = false;
   bool result = stringToBool("cat", wasError);
   </program>
 
-    <p>After `stringToBool` executes, the caller can check `wasError`. If it has changed to `true`, we know not to trust value that was returned by the function.</p>
+    <p>After <pf>stringToBool</pf> executes, the caller can check <pf>wasError</pf>. If it has changed to <pf>true</pf>, we know not to trust value that was returned by the function.</p>
 
     <p>This method works. But it requires the extra parameter and suffers from the same issue as returning a special value. Sometimes, the caller won't know what to do about the error. So it would need to set an error flag for its caller, who might need to set an error flag for its caller... We have to modify the entire chain of functions so that the high-level code can get an error back from low-level code.</p>
   </subsection>

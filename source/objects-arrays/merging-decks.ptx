@@ -2,8 +2,8 @@
 <title>Merging Decks</title>
 <p>
     <idx><h>merge</h></idx>
-The next helper function we need is <c>merge</c>, which takes two sorted subdecks and returns a new deck containing all cards from both decks, in order.
-Here's what the algorithm looks like in pseudocode, assuming the subdecks are named <c>d1</c> and <c>d2</c>:
+The next helper function we need is <pf>merge</pf>, which takes two sorted subdecks and returns a new deck containing all cards from both decks, in order.
+Here's what the algorithm looks like in pseudocode, assuming the subdecks are named <pf>d1</pf> and <pf>d2</pf>:
 </p>
 
 <program xml:id="objects-arrays_merging-decks-1" interactive="activecode">
@@ -11,9 +11,9 @@ Here's what the algorithm looks like in pseudocode, assuming the subdecks are na
 </program>
 
 <p>
-An exercise at the end of the chapter asks you to implement <c>merge</c>.
+An exercise at the end of the chapter asks you to implement <pf>merge</pf>.
 It's a little tricky, so be sure to test it with different subdecks.
-Once your <c>merge</c> function is working, you can use it to write a simplified version of merge sort:
+Once your <pf>merge</pf> function is working, you can use it to write a simplified version of merge sort:
 </p>
 
 <program xml:id="objects-arrays_merging-decks-2" interactive="activecode">
@@ -21,8 +21,8 @@ Once your <c>merge</c> function is working, you can use it to write a simplified
 </program>
 
 <p>
-If you have working versions of <c>subdeck</c>, <c>selectionSort</c>, and <c>merge</c>, you should have no trouble getting this function working.
-But it is still not very efficient, because it uses <c>selectionSort</c> to sort the subdecks.
-We can make it more efficient if we use <c>mergeSort</c> instead, but that means we have to make it recursive!
+If you have working versions of <pf>subdeck</pf>, <pf>selectionSort</pf>, and <pf>merge</pf>, you should have no trouble getting this function working.
+But it is still not very efficient, because it uses <pf>selectionSort</pf> to sort the subdecks.
+We can make it more efficient if we use <pf>mergeSort</pf> instead, but that means we have to make it recursive!
 </p>
 </section>

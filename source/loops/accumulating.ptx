@@ -11,8 +11,8 @@
 
   <p>This successfully adds up the numbers that 1-5 and gets 15. Key parts of the recipe:
     <ul>
-      <li>The <term>accumulator</term> variable `total` is declared before the loop starts. If we put total inside the loop, it would be recreated with each iteration and never grow. (It would also be unavailable on line 11 once we left the loop.)</li>
-      <li>Where we change the accumulator, the variable we are adding, `i` has the correct value (1, then 2, then 3,...)</li>
+      <li>The <term>accumulator</term> variable <pf>total</pf> is declared before the loop starts. If we put total inside the loop, it would be recreated with each iteration and never grow. (It would also be unavailable on line 11 once we left the loop.)</li>
+      <li>Where we change the accumulator, the variable we are adding, <pf>i</pf> has the correct value (1, then 2, then 3,...)</li>
     </ul>
     If we change the order of the statements in The loop body we will violate this second rule and get the wrong answer:
   </p>
@@ -21,7 +21,7 @@
 <xi:include href="../../programs/loops/accumulating-1.cpp" parse="text"/>
 </program>
 
-  <p>Now, because we are Updating the loop counter first, by the time we change the accumulator we are using the wrong value. We could fix that by changing the loop itself to count from zero up to but not including five, but It is easier to just have `++i` be the last statement.</p>
+  <p>Now, because we are Updating the loop counter first, by the time we change the accumulator we are using the wrong value. We could fix that by changing the loop itself to count from zero up to but not including five, but It is easier to just have <pf>++i</pf> be the last statement.</p>
 
   <insight>
       <p>The structure for loops that generally keeps things as simple as possible is:</p>

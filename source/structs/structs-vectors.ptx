@@ -11,11 +11,11 @@
     </ul>
     </p>
     <p>
-    There are times where we could use either a vector or a struct to store a collection of data. We could store a mathematical point as a struct with two members, `x` and `y`, or we could store it as a vector with two elements. But usually, one of the two is a better choice. Here are some guidelines to help you decide which to use:
+    There are times where we could use either a vector or a struct to store a collection of data. We could store a mathematical point as a struct with two members, <pf>x</pf> and <pf>y</pf>, or we could store it as a vector with two elements. But usually, one of the two is a better choice. Here are some guidelines to help you decide which to use:
       <ul>
         <li>If all the items are a different type, you need a struct.</li>
         <li>If the number of items can vary, a vector is the better tool.</li>
-        <li>If it is natural to refer to items by name, a struct might be preferred. For a point, it might be more natural to use `p1.x` instead of `p1.at(0)`.</li>
+        <li>If it is natural to refer to items by name, a struct might be preferred. For a point, it might be more natural to use <pf>p1.x</pf> instead of <pf>p1.at(0)</pf>.</li>
         <li>If you want to loop through items or pick them via a value stored in a variable, a vector is more appropriate.</li>
       </ul>
     </p>
@@ -24,7 +24,7 @@
 
     <title>Structs with Vectors</title>
 
-    <p>Say we want to store students who have names and a list of exam scores. We would like to be able to loop through their scores to do things like calculate an average. We also need to be able to add scores. We could represent those scores as a vector of doubles within a `Student` struct:</p>
+    <p>Say we want to store students who have names and a list of exam scores. We would like to be able to loop through their scores to do things like calculate an average. We also need to be able to add scores. We could represent those scores as a vector of doubles within a <pf>Student</pf> struct:</p>
 
     <program xml:id="structs_vectors-1">
 struct Student {
@@ -148,7 +148,7 @@ student1.exams.push_back(100.0);
 
   <exercise label="compodund_2">
     <statement>
-      <p>Below is a struct `CarType` and a code snippet that creates a variable `type1`. What could replace the `???` to print the second model of `type1`? (The value `"Camry"`)</p>
+      <p>Below is a struct <pf>CarType</pf> and a code snippet that creates a variable <pf>type1</pf>. What could replace the <pf>???</pf> to print the second model of <pf>type1</pf>? (The value <pf>"Camry"</pf>)</p>
       <p><fillin mode="string" answer="type1.models.size\\(\\s\\);?"/> </p>
       
           <program>
@@ -178,7 +178,7 @@ cout &lt;&lt; ???;
         </test>
       </evaluate>
     </evaluation>
-    <hint><p>Your answer should have three parts separated by dots. You should use the `size()` member of the vector that is inside `type1`</p></hint>
+    <hint><p>Your answer should have three parts separated by dots. You should use the <pf>size()</pf> member of the vector that is inside <pf>type1</pf></p></hint>
   </exercise>
 
 

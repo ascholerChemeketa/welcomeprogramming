@@ -3,7 +3,7 @@
 
   <title>Compound Structures</title>
 
-  <p>Once we have defined a structures, we can use it to define other structures. For example, given this `date` structure:</p>
+  <p>Once we have defined a structures, we can use it to define other structures. For example, given this <pf>date</pf> structure:</p>
   <program>struct Date {
   int month;
   int day;
@@ -16,7 +16,7 @@
   Date enrollmentDate;
 };</program>
 
-  <p>This says that <q>a `Student` as a `name` and `email` that are `string`s and an `enrollmentDate` which is a `Date`.</q> To diagram what a `Student` variable named `s1` might look like, we would draw something like this:</p>
+  <p>This says that <q>a <pf>Student</pf> as a <pf>name</pf> and <pf>email</pf> that are <pf>string</pf>s and an <pf>enrollmentDate</pf> which is a <pf>Date</pf>.</q> To diagram what a <pf>Student</pf> variable named <pf>s1</pf> might look like, we would draw something like this:</p>
 
   <figure align="center">
     <image source="images/structs-compound-1.svg"
@@ -24,7 +24,7 @@
            alt="A student struct that contains a date struct"/>
   </figure>
 
-  <p>In this diagram, the `Student` struct is shown as a box with three parts. Two parts are the `name` and `email` strings. The third part is a `Date` struct, which is itself a box with three parts. When we say `s1.enrollmentDate` we are talking about the entire date struct that is a part of that student. To talk about the members of that struct, we need to use the dot operator again. For example, to access the month of a `student`'s enrollment date, we would write `s1.enrollmentDate.month`.</p>
+  <p>In this diagram, the <pf>Student</pf> struct is shown as a box with three parts. Two parts are the <pf>name</pf> and <pf>email</pf> strings. The third part is a <pf>Date</pf> struct, which is itself a box with three parts. When we say <pf>s1.enrollmentDate</pf> we are talking about the entire date struct that is a part of that student. To talk about the members of that struct, we need to use the dot operator again. For example, to access the month of a <pf>student</pf>'s enrollment date, we would write <pf>s1.enrollmentDate.month</pf>.</p>
 
   <p>This program demonstrates creating and using our compound data type:</p>
 
@@ -34,14 +34,14 @@
 
   <p>Some things to note:
     <ul>
-      <li>Student `s1`'s `enrollmentDate` is initialized using Date `d1`. It gets a copy of that date - 9/14/2023.</li>
-      <li>Lines 41-45 print student s1's members one by one. Note that printing the date requires accessing each part individually. We can't just say `cout &lt;&lt; s1.enrollmentDate` as the compiler doesn't know how to print a Date. We need use `s1.enrollmentDate.month` which specifies a single int. That the compiler knows what to do with.</li>
-      <li>Student `s2`'s `enrollmentDate` is initialized using an initializer list (lines 48-52). So we have a list for the date inside the list for the student.</li>
-      <li>We print `s2` using the `printStudent` function. It uses `s.enrollmentDate` to access the entire `Date` struct for that student and pass it to `printDate`.</li>
+      <li>Student <pf>s1</pf>'s <pf>enrollmentDate</pf> is initialized using Date <pf>d1</pf>. It gets a copy of that date - 9/14/2023.</li>
+      <li>Lines 41-45 print student s1's members one by one. Note that printing the date requires accessing each part individually. We can't just say <pf>cout &lt;&lt; s1.enrollmentDate</pf> as the compiler doesn't know how to print a Date. We need use <pf>s1.enrollmentDate.month</pf> which specifies a single int. That the compiler knows what to do with.</li>
+      <li>Student <pf>s2</pf>'s <pf>enrollmentDate</pf> is initialized using an initializer list (lines 48-52). So we have a list for the date inside the list for the student.</li>
+      <li>We print <pf>s2</pf> using the <pf>printStudent</pf> function. It uses <pf>s.enrollmentDate</pf> to access the entire <pf>Date</pf> struct for that student and pass it to <pf>printDate</pf>.</li>
     </ul>
   </p>
 
-  <p>The memory diagram for the state at the end of `main` would look something like this:</p>
+  <p>The memory diagram for the state at the end of <pf>main</pf> would look something like this:</p>
 
 
   <figure align="center">
@@ -52,7 +52,7 @@
   
   <exercise label="compound_1">
     <statement>
-      <p>How would you reference the year student `s2` was enrolled in? <fillin mode="string" answer="s2.enrollmentDate.year"/> </p>
+      <p>How would you reference the year student <pf>s2</pf> was enrolled in? <fillin mode="string" answer="s2.enrollmentDate.year"/> </p>
     </statement>
     <evaluation>
       <evaluate>
@@ -71,7 +71,7 @@
 
   <exercise label="compound_2">
     <statement>
-      <p>Write a single statement that sets `s1`'s enrollment date to be 10/3/2020.</p>
+      <p>Write a single statement that sets <pf>s1</pf>'s enrollment date to be 10/3/2020.</p>
       <p><fillin mode="string" answer="s1.enrollmentDate\\s*=\\s*{\\s*10\\s*,\\s*3\\s*,\\s*2020\\s*};?"/> </p>
     </statement>
     <evaluation>
@@ -88,7 +88,7 @@
         <test>
           <strcmp>.*enrollmentDate\..*</strcmp>
           <feedback>
-            You should not have a dot operator after `enrollmentDate`.
+            You should not have a dot operator after <pf>enrollmentDate</pf>.
           </feedback>
         </test>
         <test>
@@ -105,7 +105,7 @@
         </test>
       </evaluate>
     </evaluation>
-    <hint><p>You should use the list syntax - `{ }` - to specify the date.</p></hint>
+    <hint><p>You should use the list syntax - <pf>{ }</pf> - to specify the date.</p></hint>
   </exercise>
 
 

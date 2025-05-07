@@ -5,7 +5,7 @@
 
   <exercise label="g2rgre1fddwedv23">
     <statement>
-      <p>Define an `enum` called ``Direction`` Examine the `TEST_CASE` to figure out the members it should have and the order they should be defined in.</p>
+      <p>Define an <pf>enum</pf> called <pf>Direction</pf> Examine the <pf>TEST_CASE</pf> to figure out the members it should have and the order they should be defined in.</p>
       </statement>
       <program interactive="activecode">
         <preamble visible="yes"><![CDATA[
@@ -39,7 +39,7 @@ TEST_CASE("dirName") {
   
   <exercise label="fwwet354fwe">
     <statement>
-      <p>Write the functions `colorToString`. It should take a value of the provided `Color` struct and return a string.</p>
+      <p>Write the functions <pf>colorToString</pf>. It should take a value of the provided <pf>Color</pf> struct and return a string.</p>
     </statement>
       <program interactive="activecode">
         <preamble visible="yes"><![CDATA[
@@ -75,7 +75,7 @@ TEST_CASE("colorToString") {
   
   <exercise label="gr2gref4gfddwedv23">
     <statement>
-      <p>Use the given enumerations to write a function `Result getResult(Choice player1, Choice player2)` . It should determine the winner of a round of Rock, Paper, Scissors between two players (Rock beats Scissors, Scissors beats Paper and Paper beats Rock). Return WIN if player1 wins, LOSE if player1 loses or DRAW if there is no winner.</p>
+      <p>Use the given enumerations to write a function <pf>Result getResult(Choice player1, Choice player2)</pf> . It should determine the winner of a round of Rock, Paper, Scissors between two players (Rock beats Scissors, Scissors beats Paper and Paper beats Rock). Return WIN if player1 wins, LOSE if player1 loses or DRAW if there is no winner.</p>
     </statement>
       <program interactive="activecode">
         <preamble visible="yes"><![CDATA[
@@ -112,7 +112,7 @@ TEST_CASE("getResult") {
 ]]>
 </tests>
     </program>
-    <hint><p>There are various ways to try to be clever, but the most straightforward approach is to use nested ifs. Use the order of the `CHECKS` as a guide.</p></hint>
+    <hint><p>There are various ways to try to be clever, but the most straightforward approach is to use nested ifs. Use the order of the <pf>CHECKS</pf> as a guide.</p></hint>
   </exercise>
 
 
@@ -155,7 +155,7 @@ int main() {
 
   <exercise label="gxr2gref49dwedv23">
     <statement>
-      <p>Write the function `bool before(const Date&amp; d1, const Date&amp; d2)`. It should return true if `d1` is before `d2`. Return false if they are the same or `d2` comes first.</p>
+      <p>Write the function <pf>bool before(const Date&amp; d1, const Date&amp; d2)</pf>. It should return true if <pf>d1</pf> is before <pf>d2</pf>. Return false if they are the same or <pf>d2</pf> comes first.</p>
     </statement>
       <program interactive="activecode">
         <preamble visible="yes"><![CDATA[
@@ -203,7 +203,7 @@ TEST_CASE("before") {
 
   <exercise label="gxrynedv23">
     <statement>
-      <p>Write the function `midPoint`. It should take two `Point`s and return a new `Point` that is halfway between them.</p>
+      <p>Write the function <pf>midPoint</pf>. It should take two <pf>Point</pf>s and return a new <pf>Point</pf> that is halfway between them.</p>
     </statement>
       <program interactive="activecode">
         <preamble visible="yes"><![CDATA[
@@ -247,7 +247,7 @@ TEST_CASE("midPoint") {
 
   <exercise label="gx2435rynedv23">
     <statement>
-      <p>Write the <term>modifying</term> function `flip`. It should take a Point and modify it be swapping its x and y values.</p>
+      <p>Write the <term>modifying</term> function <pf>flip</pf>. It should take a Point and modify it be swapping its x and y values.</p>
     </statement>
       <program interactive="activecode">
         <preamble visible="yes"><![CDATA[
@@ -291,7 +291,7 @@ TEST_CASE("swap") {
 
   <exercise label="gx6blkgf438v23">
     <statement>
-      <p>Complete the function `maxY`. It should return the largest `y` value of any of the points in the vector it is given.</p>
+      <p>Complete the function <pf>maxY</pf>. It should return the largest <pf>y</pf> value of any of the points in the vector it is given.</p>
     </statement>
       <program interactive="activecode">
         <preamble visible="yes"><![CDATA[
@@ -336,7 +336,7 @@ TEST_CASE("maxY") {
 
   <exercise label="gx6bl546m23">
     <statement>
-      <p>A player in a word game has a set of tiles. Each tile has a value and a letter. Complete the function `bool hasTile(const Player&amp; p, char c)` that returns true if the given player has at least one tile with the same letter as `c`. Otherwise return false.</p>
+      <p>A player in a word game has a set of tiles. Each tile has a value and a letter. Complete the function <pf>bool hasTile(const Player&amp; p, char c)</pf> that returns true if the given player has at least one tile with the same letter as <pf>c</pf>. Otherwise return false.</p>
     </statement>
       <program interactive="activecode">
         <preamble visible="yes"><![CDATA[
@@ -385,6 +385,6 @@ TEST_CASE("hasTile") {
 ]]>
 </tests>
     </program>
-    <hint><p>If you are stuck, start by just writing a loop to print out the letter of each tile the player has. Once you have that working, then worry about checking each one to see if it is a match for `c`.</p></hint>
+    <hint><p>If you are stuck, start by just writing a loop to print out the letter of each tile the player has. Once you have that working, then worry about checking each one to see if it is a match for <pf>c</pf>.</p></hint>
   </exercise>
 </exercises>

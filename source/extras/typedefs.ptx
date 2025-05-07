@@ -5,24 +5,24 @@
 
   <p>C++ data types can sometimes become a bit much to efficiently read or type:
     <ul>
-    <li><p>`vector&lt; vector&lt;int> >` - a two dimensional vector of integers</p></li>
-    <li><p>`vector&lt; vector&lt;int> >::iterator` - an iterator over a two dimensional vector of integers</p></li>
-    <li><p>`map&lt; char, vector&lt;string> >` - a map of characters to vectors of strings</p></li>
+    <li><p><pf>vector&lt; vector&lt;int> ></pf> - a two dimensional vector of integers</p></li>
+    <li><p><pf>vector&lt; vector&lt;int> >::iterator</pf> - an iterator over a two dimensional vector of integers</p></li>
+    <li><p><pf>map&lt; char, vector&lt;string> ></pf> - a map of characters to vectors of strings</p></li>
     </ul>
   </p>
 
-  <p>To make it easier to read and write, we can use a <term>typedef</term>. A `typedef` is a way to give a new name to an existing type. The new name can be shorter or more descriptive. The basic syntax is:</p>
+  <p>To make it easier to read and write, we can use a <term>typedef</term>. A <pf>typedef</pf> is a way to give a new name to an existing type. The new name can be shorter or more descriptive. The basic syntax is:</p>
 
   <program>typedef EXISTING_TYPE NEW_NAME;</program>
 
-  <p>For example, we could  give the name `Matrix` to the type `vector&lt; vector&lt;int> >` like this:</p>
+  <p>For example, we could  give the name <pf>Matrix</pf> to the type <pf>vector&lt; vector&lt;int> ></pf> like this:</p>
   <program>typedef vector&lt; vector&lt;int> > Matrix;</program>
 
-  <note><p>It is a common convention to capitalize new data types or names for data types. That way, when you see `Matrix` you can guess it is the name of a type of data, not the name of a piece of data.</p></note>
+  <note><p>It is a common convention to capitalize new data types or names for data types. That way, when you see <pf>Matrix</pf> you can guess it is the name of a type of data, not the name of a piece of data.</p></note>
 
   <p>A typedef like this would normally go outside of any particular function near the top of a code file so that it is available everywhere in that file. If we are building a program with multiple files and want to use the same typedef across many of them, we would write it in a .h file or module that gets included in all the places it is needed.</p>
 
-  <p>Once we have made the `typedef` we can use `Matrix` instead of `vector&lt; vector&lt;int> >` in our code. So the function that takes a two dimensional vector of integers could be written as:</p>
+  <p>Once we have made the <pf>typedef</pf> we can use <pf>Matrix</pf> instead of <pf>vector&lt; vector&lt;int> ></pf> in our code. So the function that takes a two dimensional vector of integers could be written as:</p>
 
   <program>void foo(const Matrix&amp; m);</program>
 
@@ -37,6 +37,6 @@
   IntTable& table2 = table;
   ]]></program>
 
-  <p>It should be noted that overusing typedef can make code less readable. Especially if it is used to assign new names to simple types. Don't use typedef to make `Decimal` mean `double`!</p>
+  <p>It should be noted that overusing typedef can make code less readable. Especially if it is used to assign new names to simple types. Don't use typedef to make <pf>Decimal</pf> mean <pf>double</pf>!</p>
 
 </section>

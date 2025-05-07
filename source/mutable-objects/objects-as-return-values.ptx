@@ -2,7 +2,7 @@
 <title>Objects as Return Values</title>
 <p>
     <idx><h>Rectangle</h></idx>
-The <c>java.awt</c> package also provides a class named <c>Rectangle</c>.
+The <pf>java.awt</pf> package also provides a class named <pf>Rectangle</pf>.
 To use it, you have to import it:
 </p>
 
@@ -11,8 +11,8 @@ To use it, you have to import it:
 </program>
 
 <p>
-<c>Rectangle</c> objects are similar to points, but they have four attributes: <c>x</c>, <c>y</c>, <c>width</c>, and <c>height</c>.
-The following example creates a <c>Rectangle</c> object and makes the variable <c>box</c> refer to it:
+<pf>Rectangle</pf> objects are similar to points, but they have four attributes: <pf>x</pf>, <pf>y</pf>, <pf>width</pf>, and <pf>height</pf>.
+The following example creates a <pf>Rectangle</pf> object and makes the variable <pf>box</pf> refer to it:
 </p>
 
 <program xml:id="mutable-objects_objects-as-return-values-2" interactive="activecode">
@@ -23,11 +23,11 @@ The following example creates a <c>Rectangle</c> object and makes the variable <
 <xref ref="fig_rectangle">Figure</xref> shows the effect of this assignment.
 </p>
 <figure xml:id="fig_rectangle" >
-<caption>Memory diagram showing a <c>Rectangle</c> object.</caption>
+<caption>Memory diagram showing a <pf>Rectangle</pf> object.</caption>
 <image width="73%" source="images/rectangle.png" />
 </figure>
 <p>
-If you run <c>System.out.println(box)</c>, you get this:
+If you run <pf>System.out.println(box)</pf>, you get this:
 </p>
 
 <console>
@@ -37,14 +37,14 @@ java.awt.Rectangle[x=0,y=0,width=100,height=200]
 </console>
 
 <p>
-Again, <c>println</c> uses the <c>toString</c> function provided by <c>Rectangle</c>, which knows how to represent <c>Rectangle</c> objects as strings.
+Again, <pf>println</pf> uses the <pf>toString</pf> function provided by <pf>Rectangle</pf>, which knows how to represent <pf>Rectangle</pf> objects as strings.
 </p>
 
 <p>
     <idx><h>return</h></idx>
     <idx><h>statement</h><h>return</h></idx>
 You can also write functions that return new objects.
-For example, <c>findCenter</c> takes a <c>Rectangle</c> as an argument and returns a <c>Point</c> with the coordinates of the center of the rectangle:
+For example, <pf>findCenter</pf> takes a <pf>Rectangle</pf> as an argument and returns a <pf>Point</pf> with the coordinates of the center of the rectangle:
 </p>
 
 <program xml:id="mutable-objects_objects-as-return-values-3">
@@ -52,7 +52,7 @@ For example, <c>findCenter</c> takes a <c>Rectangle</c> as an argument and retur
 </program>
 
 <p>
-The return type of this function is <c>Point</c>.
-The last line creates a new <c>Point</c> object and returns a reference to it.
+The return type of this function is <pf>Point</pf>.
+The last line creates a new <pf>Point</pf> object and returns a reference to it.
 </p>
 </section>

@@ -27,19 +27,19 @@ WHILE CONDITION IS TRUE
 <xi:include href="../../programs/loops/counting-2.cpp" parse="text"/>
 </program>
 
-  <p>Note that the program repeats the body 5 times, but the output is now 0, 1, 2, 3, 4. If we care about the numbers being printed, that would be a problem. But often, we aren't doing much with the loop control variable other than tracking the progress of the loop. Say I want to print out `"Hello"` 5 times. It doesn't matter what my counter is doing, as long as it causes the loop to repeat 5 times:</p>
+  <p>Note that the program repeats the body 5 times, but the output is now 0, 1, 2, 3, 4. If we care about the numbers being printed, that would be a problem. But often, we aren't doing much with the loop control variable other than tracking the progress of the loop. Say I want to print out <pf>"Hello"</pf> 5 times. It doesn't matter what my counter is doing, as long as it causes the loop to repeat 5 times:</p>
 
   <program interactive="activecode" label="cl-3">
 <xi:include href="../../programs/loops/counting-3.cpp" parse="text"/>
 </program>
 
-  <p>That sample could initialize `line` to 1 and count up to 5. It could initialize line to 5 and count down (`--line`) while line was greater than 0. It could even start from 0, count by 10s (`line += 10`) and stop at 50. (That would probably be confusing however... <q>wait, why is this loop counting by 10s? Is that important?</q>)</p>
+  <p>That sample could initialize <pf>line</pf> to 1 and count up to 5. It could initialize line to 5 and count down (<pf>--line</pf>) while line was greater than 0. It could even start from 0, count by 10s (<pf>line += 10</pf>) and stop at 50. (That would probably be confusing however... <q>wait, why is this loop counting by 10s? Is that important?</q>)</p>
 
-  <p>Because the loop control variable has no meaning other than <q>the variable that is controlling the loop</q>, programmers have developed the convention of naming an otherwise meaningless loop counter `i`. If we need a second loop counter somewhere that `i` is already in use, we use `j`, then `k`, etc...</p>
+  <p>Because the loop control variable has no meaning other than <q>the variable that is controlling the loop</q>, programmers have developed the convention of naming an otherwise meaningless loop counter <pf>i</pf>. If we need a second loop counter somewhere that <pf>i</pf> is already in use, we use <pf>j</pf>, then <pf>k</pf>, etc...</p>
 
-  <p>You should get used to seeing `i` used in this way, but don't interpret that as meaning it is now OK to name variables using single letters. Variables should still have meaningful names. It is just that for programmers who are used to thinking of `i` as always being <q>loop counter</q>, it is a meaningful name.</p>
+  <p>You should get used to seeing <pf>i</pf> used in this way, but don't interpret that as meaning it is now OK to name variables using single letters. Variables should still have meaningful names. It is just that for programmers who are used to thinking of <pf>i</pf> as always being <q>loop counter</q>, it is a meaningful name.</p>
 
-  <p>Also, if the loop counter has a meaning beyond <q>loop counter</q>, you should consider giving it a real name, not just `i`. Say you are counting off the months of the year 1-12. When written like this, even if you only see the tail end of the loop on your screen, it is clear that we are printing out the month:</p>
+  <p>Also, if the loop counter has a meaning beyond <q>loop counter</q>, you should consider giving it a real name, not just <pf>i</pf>. Say you are counting off the months of the year 1-12. When written like this, even if you only see the tail end of the loop on your screen, it is clear that we are printing out the month:</p>
 
   <program><![CDATA[
 int month = 1;
@@ -52,9 +52,9 @@ while (month <= 12) {
 }]]>
   </program>
 
-  <p>If we used `i` it would be easier to lose sight of the fact that `i` really means <q>month number</q> in this loop.</p>
+  <p>If we used <pf>i</pf> it would be easier to lose sight of the fact that <pf>i</pf> really means <q>month number</q> in this loop.</p>
 
-  <warning><p><term>Off by one</term> errors are one of the most common types of errors in programs. An off by one error occurs when a loop goes one step too far, or stops one step too early, or counts from 1-5 when it should count from 0-4. Pay close attention to whether you should use `&lt;` or `&lt;=` in loops.</p></warning>
+  <warning><p><term>Off by one</term> errors are one of the most common types of errors in programs. An off by one error occurs when a loop goes one step too far, or stops one step too early, or counts from 1-5 when it should count from 0-4. Pay close attention to whether you should use <pf>&lt;</pf> or <pf>&lt;=</pf> in loops.</p></warning>
 
   <exercise label="mucp_6_1"
             numbered="yes"

@@ -8,7 +8,7 @@
     <idx>
       <h>function</h>
       <h>boolean</h>
-    </idx> Functions can return <c>boolean</c> values, just like any other type, which
+    </idx> Functions can return <pf>boolean</pf> values, just like any other type, which
     is often convenient for hiding tests inside functions. If you think you might want to check the parity (evenness or oddness) of numbers often, you
     might want to <q>wrap</q> this code up in a function, as follows:</p>
 
@@ -16,7 +16,7 @@
 <xi:include href="../../programs/conditionals-logic/boolefunctions-5.cpp" parse="text"/>
 </program>
 
-  <p> The name of this function is <c>isOdd</c>. It is common to give <c>boolean</c> functions names that sound
+  <p> The name of this function is <pf>isOdd</pf>. It is common to give <pf>boolean</pf> functions names that sound
     like yes/no questions. The code itself is straightforward, although it is longer than it needs to be. There are multiple ways to write the code for that function. We could return the answer as soon
     as it is identified:</p>
 
@@ -24,18 +24,18 @@
 <xi:include href="../../programs/conditionals-logic/boolefunctions-6a.cpp" parse="text"/>
 </program>
 
-  <p>As soon as the code hits a `return`, it leaves the function and returns the value. So in that
+  <p>As soon as the code hits a <pf>return</pf>, it leaves the function and returns the value. So in that
     version the function will never reach the line where the comment is. Returning from many places
     in a function can get confusing, so many programmers prefer to try to stick to one return
     statement at the very end. Even if we restrict ourselves to that structure, we can simplify
-    things by recognizing there is no need to change the variable to `false` if the number is not
+    things by recognizing there is no need to change the variable to <pf>false</pf> if the number is not
     odd:</p>
 
   <program xml:id="conditionals-logic_boolefunctions-6b">
 <xi:include href="../../programs/conditionals-logic/boolefunctions-6b.cpp" parse="text"/>
 </program>
 
-  <p>Finally, we could recognize that the expression `number % 2 == 1` has a boolean value that matches what we want to return. That means we could write the function as just:</p>
+  <p>Finally, we could recognize that the expression <pf>number % 2 == 1</pf> has a boolean value that matches what we want to return. That means we could write the function as just:</p>
 
   <program xml:id="conditionals-logic_boolefunctions-6c">
 <xi:include href="../../programs/conditionals-logic/boolefunctions-6c.cpp" parse="text"/>

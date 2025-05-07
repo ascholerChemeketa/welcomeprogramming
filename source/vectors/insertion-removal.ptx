@@ -3,47 +3,47 @@
 
   <title>Inserting and Removing Elements</title>
 
-  <p>We can add and remove elements to or from a vector using the <c>void vector&lt;T>::push_back(T value)</c> and
-    <c>void vector&lt;T>::pop_back()</c> functions. The syntax `vector&lt;T>` is used to indicate <q>a vector of the type T</q>
-    where `T` could be anything - `string`, `int`, etc... So <c>vector&lt;T>::push_back</c> says something like <q>the push_back function for a vector of type any type 'T'</q>
-    `push_back(T value)` takes a value of the type the vector can contain (type `T`) and
-    adds it to the end of the vector. `pop_back()` simply removes the last element.</p>
+  <p>We can add and remove elements to or from a vector using the <pf>void vector&lt;T>::push_back(T value)</pf> and
+    <pf>void vector&lt;T>::pop_back()</pf> functions. The syntax <pf>vector&lt;T></pf> is used to indicate <q>a vector of the type T</q>
+    where <pf>T</pf> could be anything - <pf>string</pf>, <pf>int</pf>, etc... So <pf>vector&lt;T>::push_back</pf> says something like <q>the push_back function for a vector of type any type 'T'</q>
+    <pf>push_back(T value)</pf> takes a value of the type the vector can contain (type <pf>T</pf>) and
+    adds it to the end of the vector. <pf>pop_back()</pf> simply removes the last element.</p>
 
   <program xml:id="vectors_insertion-removal-1">
 <xi:include href="../../programs/vectors/insertion-removal-1.cpp" parse="text"/>
 </program>
 
-  <p>The end of a vector is the <q>normal</q> location to add or remove elements due to the way the data is stored. All of the elements of a vector are stored in one contiguous block of memory. So if we want to remove something from the middle, everything after the removed item needs to shift over to fill in the hole that was made. Similarly, to insert something in the middle, we first need to move all of the elements after that point over to make a place for the new element. When using a vector we do not have to worry about doing this work ourselves - it is done by the vector for us - but it does explain why there is a `push_back()` and not a `push_front()` or `push_middle()`.</p>
+  <p>The end of a vector is the <q>normal</q> location to add or remove elements due to the way the data is stored. All of the elements of a vector are stored in one contiguous block of memory. So if we want to remove something from the middle, everything after the removed item needs to shift over to fill in the hole that was made. Similarly, to insert something in the middle, we first need to move all of the elements after that point over to make a place for the new element. When using a vector we do not have to worry about doing this work ourselves - it is done by the vector for us - but it does explain why there is a <pf>push_back()</pf> and not a <pf>push_front()</pf> or <pf>push_middle()</pf>.</p>
 
-  <p>If we do want to remove an element at another location, there is an `.erase(iterator)` member function. It requires an <term>iterator</term> be passed as the parameter. Iterators are objects that store (and manipulate) a location in a collection of data. For now, all we need to know about iterators is how to make one. To make an iterator that points to index `X` of a vector named `vectorName`, you can specify `vectorName.begin() + X`. And if you want to point at index 0, you can just say `vectorName.begin()`. For example:</p>
+  <p>If we do want to remove an element at another location, there is an <pf>.erase(iterator)</pf> member function. It requires an <term>iterator</term> be passed as the parameter. Iterators are objects that store (and manipulate) a location in a collection of data. For now, all we need to know about iterators is how to make one. To make an iterator that points to index <pf>X</pf> of a vector named <pf>vectorName</pf>, you can specify <pf>vectorName.begin() + X</pf>. And if you want to point at index 0, you can just say <pf>vectorName.begin()</pf>. For example:</p>
 
   <program xml:id="vectors_insertion-removal-2">
 <xi:include href="../../programs/vectors/insertion-removal-2.cpp" parse="text"/>
 </program>
 
-  <p>It is possible to remove a whole range of elements by specifying a start and end location. All the items from start, up to but not including the end location, will be removed. This means that to specify removing up to and including the last element, we want to pass in the location that is AFTER the last element. In a vector with 3 items, the last element is at index 2. So we would use `vectorName.begin() + 3` to specify <q>until the end of the vector</q>. Fortunately, rather than do this, we can also just say `vectorName.end()`:</p>
+  <p>It is possible to remove a whole range of elements by specifying a start and end location. All the items from start, up to but not including the end location, will be removed. This means that to specify removing up to and including the last element, we want to pass in the location that is AFTER the last element. In a vector with 3 items, the last element is at index 2. So we would use <pf>vectorName.begin() + 3</pf> to specify <q>until the end of the vector</q>. Fortunately, rather than do this, we can also just say <pf>vectorName.end()</pf>:</p>
 
   <program xml:id="vectors_insertion-removal-3">
 <xi:include href="../../programs/vectors/insertion-removal-3.cpp" parse="text"/>
 </program>
 
-  <p>To clear out all the elements in a vector, we can either say to erase from the beginning to the end, or use the `.clear()` method of the vector:</p>
+  <p>To clear out all the elements in a vector, we can either say to erase from the beginning to the end, or use the <pf>.clear()</pf> method of the vector:</p>
 
   <program xml:id="vectors_insertion-removal-clear">
 <xi:include href="../../programs/vectors/insertion-removal-clear.cpp" parse="text"/>
 </program>
 
-  <p>The `.insert(iterator, value)` function works by the same logic to specify where you wish to insert a value. Whatever value is currently at that location and anything after it are <q>pushed over</q> one location so that the new value can be placed in the specified location. This program uses `insert` to add some items to a vector:</p>
+  <p>The <pf>.insert(iterator, value)</pf> function works by the same logic to specify where you wish to insert a value. Whatever value is currently at that location and anything after it are <q>pushed over</q> one location so that the new value can be placed in the specified location. This program uses <pf>insert</pf> to add some items to a vector:</p>
 
   <program xml:id="vectors_insertion-removal-4" interactive="activecode">
 <xi:include href="../../programs/vectors/insertion-removal-4.cpp" parse="text"/>
 </program>
 
-  <p>Specifying an invalid location for either `.insert()` or `.erase()` will result in a run time error.</p>
+  <p>Specifying an invalid location for either <pf>.insert()</pf> or <pf>.erase()</pf> will result in a run time error.</p>
 
   <exercise label="insert-remove-1">
     <statement>
-      <p>Given this sequence of operations, what would `nums` contain?</p>
+      <p>Given this sequence of operations, what would <pf>nums</pf> contain?</p>
       <program><![CDATA[ 
 vector<int> nums;
 nums.push_back(8);
@@ -59,22 +59,22 @@ nums.push_back(9);
     <choices randomize="yes">
       <choice correct="yes">
         <statement>
-          <c>8 5 9</c>
+          <pf>8 5 9</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>9 5 8</c>
+          <pf>9 5 8</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>3 5 9</c>
+          <pf>3 5 9</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>9 3 5</c>
+          <pf>9 3 5</pf>
         </statement>
       </choice>
     </choices>
@@ -82,7 +82,7 @@ nums.push_back(9);
 
     <exercise label="insert-remove-2">
     <statement>
-      <p>Given this sequence of operations, what would `nums` contain?</p>
+      <p>Given this sequence of operations, what would <pf>nums</pf> contain?</p>
       <program><![CDATA[ 
 vector<int> nums;
 nums.push_back(2);
@@ -97,22 +97,22 @@ nums.push_back(1);
     <choices randomize="yes">
       <choice correct="yes">
         <statement>
-          <c>2 1</c>
+          <pf>2 1</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>1 2</c>
+          <pf>1 2</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>3 1</c>
+          <pf>3 1</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>1 3</c>
+          <pf>1 3</pf>
         </statement>
       </choice>
     </choices>
@@ -121,7 +121,7 @@ nums.push_back(1);
 
     <exercise label="insert-remove-3">
     <statement>
-      <p>Given this sequence of operations, what would `nums` contain?</p>
+      <p>Given this sequence of operations, what would <pf>nums</pf> contain?</p>
       <program><![CDATA[ 
 vector<int> nums = {10, 12, 15, 18, 24};
 nums.erase(nums.begin() + 2);
@@ -131,22 +131,22 @@ nums.erase(nums.begin() + 2);
     <choices randomize="yes">
       <choice correct="yes">
         <statement>
-          <c>10 12 18 24</c>
+          <pf>10 12 18 24</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>10 15 18 24</c>
+          <pf>10 15 18 24</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>10 15</c>
+          <pf>10 15</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>10 12</c>
+          <pf>10 12</pf>
         </statement>
       </choice>
     </choices>
@@ -154,7 +154,7 @@ nums.erase(nums.begin() + 2);
 
     <exercise label="insert-remove-4">
     <statement>
-      <p>Given this sequence of operations, what would `nums` contain?</p>
+      <p>Given this sequence of operations, what would <pf>nums</pf> contain?</p>
       <program><![CDATA[ 
 vector<int> nums = {10, 12, 15, 18, 24};
 nums.insert(nums.begin() + 1, 8);
@@ -164,22 +164,22 @@ nums.insert(nums.begin() + 1, 8);
     <choices randomize="yes">
       <choice correct="yes">
         <statement>
-          <c>10 8 12 15 18 24</c>
+          <pf>10 8 12 15 18 24</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>8 10 12 15 18 24</c>
+          <pf>8 10 12 15 18 24</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>8 12 15 18 24</c>
+          <pf>8 12 15 18 24</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>10 8 15 18 24</c>
+          <pf>10 8 15 18 24</pf>
         </statement>
       </choice>
     </choices>
@@ -187,7 +187,7 @@ nums.insert(nums.begin() + 1, 8);
 
     <exercise label="insert-remove-5">
     <statement>
-      <p>Given this sequence of operations, what would `nums` contain?</p>
+      <p>Given this sequence of operations, what would <pf>nums</pf> contain?</p>
       <program><![CDATA[ 
 vector<int> nums = {10, 12, 15, 18, 24};
 nums.erase(nums.begin() + 1, nums.begin() + 3);
@@ -197,22 +197,22 @@ nums.erase(nums.begin() + 1, nums.begin() + 3);
     <choices randomize="yes">
       <choice correct="yes">
         <statement>
-          <c>10 18 24</c>
+          <pf>10 18 24</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>10 24</c>
+          <pf>10 24</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>18 24</c>
+          <pf>18 24</pf>
         </statement>
       </choice>
       <choice>
         <statement>
-          <c>15 18 24</c>
+          <pf>15 18 24</pf>
         </statement>
       </choice>
     </choices>

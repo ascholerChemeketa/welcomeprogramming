@@ -10,9 +10,9 @@
   <subsection>
     <title>Reading the File</title>
 
-    <p>The previous exercise had a function `getTestStudents()` that created a few students from hard coded data. We can design a function to replace that which gets real data from the file and returns a vector with the students. It might be useful for the function to take the filename to read from as its parameter. That would make it possible to have a smaller test file that gets used by test code and a larger real file that gets used by the final program.</p>
+    <p>The previous exercise had a function <pf>getTestStudents()</pf> that created a few students from hard coded data. We can design a function to replace that which gets real data from the file and returns a vector with the students. It might be useful for the function to take the filename to read from as its parameter. That would make it possible to have a smaller test file that gets used by test code and a larger real file that gets used by the final program.</p>
 
-    <p>We already have functions that will take an entire line of text and create a `Name` or a `Status` or a vector of doubles. So all this function has to do is to use getline 3 times for each student. We will assume that we don't know how many students there are in the file, so we will read until `eof`.</p>
+    <p>We already have functions that will take an entire line of text and create a <pf>Name</pf> or a <pf>Status</pf> or a vector of doubles. So all this function has to do is to use getline 3 times for each student. We will assume that we don't know how many students there are in the file, so we will read until <pf>eof</pf>.</p>
 
     
   <exercise label="mucpsd_1ascase3dssc5_2"
@@ -20,7 +20,7 @@
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Construct the algorithm for `getStudentData`. Make sure to check for failure after trying to read in the next three lines before using them to make a student.</p>
+      <p>Construct the algorithm for <pf>getStudentData</pf>. Make sure to check for failure after trying to read in the next three lines before using them to make a student.</p>
     </statement>
     <blocks>
   <block name="start" depends="">

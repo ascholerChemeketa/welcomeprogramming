@@ -1,7 +1,7 @@
 <section xml:id="objects-arrays_adding-recursion" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Adding Recursion</title>
 <p>
-To make <c>mergeSort</c> work recursively, you have to add a base case; otherwise, it repeats forever.
+To make <pf>mergeSort</pf> work recursively, you have to add a base case; otherwise, it repeats forever.
 The simplest base case is a subdeck with one card.
 If there is only one card, it can't be out of order, so we consider it sorted.
 And if it is already sorted, we can just return it.
@@ -14,7 +14,7 @@ So we consider an empty deck to be sorted, and return it.
 </p>
 
 <p>
-With these base cases, a recursive version of <c>mergeSort</c> looks like this:
+With these base cases, a recursive version of <pf>mergeSort</pf> looks like this:
 </p>
 
 <program xml:id="objects-arrays_adding-recursion-1" interactive="activecode">
@@ -28,9 +28,9 @@ This example should encourage you to make the leap of faith.
 </p>
 
 <p>
-When you use <c>selectionSort</c> to sort the subdecks, you don't feel compelled to follow the flow of execution.
+When you use <pf>selectionSort</pf> to sort the subdecks, you don't feel compelled to follow the flow of execution.
 You assume it works because you already debugged it.
-When you make <c>mergeSort</c> recursive, you just replace one sorting algorithm with another.
+When you make <pf>mergeSort</pf> recursive, you just replace one sorting algorithm with another.
 There is no reason to read the program differently.
 </p>
 

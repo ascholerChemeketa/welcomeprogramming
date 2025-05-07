@@ -10,12 +10,12 @@ It provides functionality common to decks of cards, piles of cards, hands of car
     <idx><h>subclass</h></idx>
     <idx><h>extends</h></idx>
 However, each kind of collection will be slightly different.
-Rather than add every possible feature to <c>CardCollection</c>, we can use <term>inheritance</term> to define subclasses.
+Rather than add every possible feature to <pf>CardCollection</pf>, we can use <term>inheritance</term> to define subclasses.
 A <term>subclass</term> is a class that <q>extends</q> an existing class; that is, it has the attributes and functions of the existing class, plus more.
 </p>
 
 <p>
-Here is the complete definition of our new and improved <c>Deck</c> class:
+Here is the complete definition of our new and improved <pf>Deck</pf> class:
 </p>
 
 <program xml:id="extending-classes_inheritance-1">
@@ -25,24 +25,24 @@ Here is the complete definition of our new and improved <c>Deck</c> class:
 <p>
     <idx><h>extends</h></idx>
     <idx><h>superclass</h></idx>
-The first line uses the keyword <c>extends</c> to indicate that <c>Deck</c> extends the class <c>CardCollection</c>.
-That means a <c>Deck</c> object has the same instance variables and functions as a <c>CardCollection</c>.
-Another way to say the same thing is that <c>Deck</c> <q>inherits from</q> <c>CardCollection</c>.
-We could also say that <c>CardCollection</c> is a <term>superclass</term>, and <c>Deck</c> is one of its subclasses.
+The first line uses the keyword <pf>extends</pf> to indicate that <pf>Deck</pf> extends the class <pf>CardCollection</pf>.
+That means a <pf>Deck</pf> object has the same instance variables and functions as a <pf>CardCollection</pf>.
+Another way to say the same thing is that <pf>Deck</pf> <q>inherits from</q> <pf>CardCollection</pf>.
+We could also say that <pf>CardCollection</pf> is a <term>superclass</term>, and <pf>Deck</pf> is one of its subclasses.
 </p>
 
 <p>
     <idx><h>Object class</h></idx>
 In Java, classes may extend only one superclass.
-Classes that do not specify a superclass with <c>extends</c> automatically inherit from <c>java.lang.Object</c>.
-So in this example, <c>Deck</c> extends <c>CardCollection</c>, which in turn extends <c>Object</c>.
-The <c>Object</c> class provides the default <c>equals</c> and <c>toString</c> functions, among other things.
+Classes that do not specify a superclass with <pf>extends</pf> automatically inherit from <pf>java.lang.Object</pf>.
+So in this example, <pf>Deck</pf> extends <pf>CardCollection</pf>, which in turn extends <pf>Object</pf>.
+The <pf>Object</pf> class provides the default <pf>equals</pf> and <pf>toString</pf> functions, among other things.
 </p>
 
 <p>
-Constructors are <term>not</term> inherited, but all other <c>public</c> attributes and functions are.
-The only additional function in <c>Deck</c>, at least for now, is a constructor.
-So you can create a <c>Deck</c> object like this:
+Constructors are <term>not</term> inherited, but all other <pf>public</pf> attributes and functions are.
+The only additional function in <pf>Deck</pf>, at least for now, is a constructor.
+So you can create a <pf>Deck</pf> object like this:
 </p>
 
 <program xml:id="extending-classes_inheritance-2">
@@ -50,20 +50,20 @@ So you can create a <c>Deck</c> object like this:
 </program>
 
 <p>
-The first line of the constructor uses <c>super</c>, which is a keyword that refers to the superclass of the current class.
-When <c>super</c> is used as a function, as in this example, it invokes the constructor of the superclass.
+The first line of the constructor uses <pf>super</pf>, which is a keyword that refers to the superclass of the current class.
+When <pf>super</pf> is used as a function, as in this example, it invokes the constructor of the superclass.
 </p>
 
 <p>
-So in this case, <c>super</c> invokes the <c>CardCollection</c> constructor, which initializes the attributes <c>label</c> and <c>cards</c>.
-When it returns, the <c>Deck</c> constructor resumes and populates the (empty) <c>ArrayList</c> with <c>Card</c> objects.
+So in this case, <pf>super</pf> invokes the <pf>CardCollection</pf> constructor, which initializes the attributes <pf>label</pf> and <pf>cards</pf>.
+When it returns, the <pf>Deck</pf> constructor resumes and populates the (empty) <pf>ArrayList</pf> with <pf>Card</pf> objects.
 </p>
 
 <p>
-That's it for the <c>Deck</c> class.
+That's it for the <pf>Deck</pf> class.
 Next we need a way to represent a hand, which is the collection of cards held by a player, and a pile, which is a collection of cards on the table.
 We could define two classes, one for hands and one for piles, but there is not much difference between them.
-So we'll use one class, called <c>Hand</c>, for both hands and piles.
+So we'll use one class, called <pf>Hand</pf>, for both hands and piles.
 Here's what the definition looks like:
 </p>
 
@@ -76,13 +76,13 @@ Here's what the definition looks like:
 </program>
 
 <p>
-Like <c>Deck</c>, the <c>Hand</c> class extends <c>CardCollection</c>.
-So it inherits functions like <c>getLabel</c>, <c>size</c>, and <c>getCard</c>, which are used in <c>display</c>.
-<c>Hand</c> also provides a constructor, which invokes the constructor of <c>CardCollection</c>.
+Like <pf>Deck</pf>, the <pf>Hand</pf> class extends <pf>CardCollection</pf>.
+So it inherits functions like <pf>getLabel</pf>, <pf>size</pf>, and <pf>getCard</pf>, which are used in <pf>display</pf>.
+<pf>Hand</pf> also provides a constructor, which invokes the constructor of <pf>CardCollection</pf>.
 </p>
 
 <p>
-In summary, a <c>Deck</c> is just like a <c>CardCollection</c>, but it provides a different constructor.
-And a <c>Hand</c> is just like a <c>CardCollection</c>, but it provides an additional function, <c>display</c>.
+In summary, a <pf>Deck</pf> is just like a <pf>CardCollection</pf>, but it provides a different constructor.
+And a <pf>Hand</pf> is just like a <pf>CardCollection</pf>, but it provides an additional function, <pf>display</pf>.
 </p>
 </section>

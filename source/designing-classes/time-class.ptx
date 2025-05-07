@@ -3,14 +3,14 @@
 <p>
 A common reason to define a new class is to encapsulate related data in an object that can be treated as a single unit.
 That way, we can use objects as parameters and return values, rather than passing and returning multiple values.
-You have already seen two types that encapsulate data in this way: <c>Point</c> and <c>Rectangle</c>.
+You have already seen two types that encapsulate data in this way: <pf>Point</pf> and <pf>Rectangle</pf>.
 </p>
 
 <p>
     <idx><h>Time</h></idx>
-Another example, which we will implement ourselves, is <c>Time</c>, which represents a time of day.
-The data encapsulated in a <c>Time</c> object includes an hour, a minute, and a number of seconds.
-Because every <c>Time</c> object contains these values, we define attributes to hold them.
+Another example, which we will implement ourselves, is <pf>Time</pf>, which represents a time of day.
+The data encapsulated in a <pf>Time</pf> object includes an hour, a minute, and a number of seconds.
+Because every <pf>Time</pf> object contains these values, we define attributes to hold them.
 </p>
 
 <p>
@@ -21,8 +21,8 @@ Attributes are also called <term>instance variables</term>, because each instanc
 
 <p>
 The first step is to decide what type each variable should be.
-It seems clear that <c>hour</c> and <c>minute</c> should be integers.
-Just to keep things interesting, let's make <c>second</c> a double.
+It seems clear that <pf>hour</pf> and <pf>minute</pf> should be integers.
+Just to keep things interesting, let's make <pf>second</pf> a double.
 </p>
 
 <p>
@@ -37,8 +37,8 @@ By itself, this code fragment is a legal class definition:
 <p>
     <idx><h>private</h></idx>
     <idx><h>variable</h><h>private</h></idx>
-The <c>Time</c> class is <c>public</c>, which means that it can be used in other classes.
-But the instance variables are <c>private</c>, which means they can be accessed only from inside the <c>Time</c> class.
+The <pf>Time</pf> class is <pf>public</pf>, which means that it can be used in other classes.
+But the instance variables are <pf>private</pf>, which means they can be accessed only from inside the <pf>Time</pf> class.
 If you try to read or write them from another class, you will get a compiler error.
 </p>
 

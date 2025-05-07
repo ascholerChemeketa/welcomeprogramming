@@ -1,7 +1,7 @@
 <section xml:id="arrays-arrays_gridcanvas-class" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>The GridCanvas Class</title>
 <p>
-Now that we have a <c>Cell</c> class and a way to represent a 2D array of cells, we can write a class to represent a grid of cells.
+Now that we have a <pf>Cell</pf> class and a way to represent a 2D array of cells, we can write a class to represent a grid of cells.
 We encapsulate the code from the previous section and generalize it to construct a grid with any number of rows and columns:
 </p>
 
@@ -13,15 +13,15 @@ We encapsulate the code from the previous section and generalize it to construct
     <idx><h>IS-A</h></idx>
     <idx><h>HAS-A</h></idx>
     <idx><h>Graphics</h></idx>
-Using vocabulary from the previous chapter, <c>GridCanvas</c> <q>is<nbsp/>a</q> <c>Canvas</c> that <q>has<nbsp/>a</q> 2D array of cells.
-By extending the <c>Canvas</c> class from <c>java.awt</c>, we inherit functions for drawing graphics on the screen.
+Using vocabulary from the previous chapter, <pf>GridCanvas</pf> <q>is<nbsp/>a</q> <pf>Canvas</pf> that <q>has<nbsp/>a</q> 2D array of cells.
+By extending the <pf>Canvas</pf> class from <pf>java.awt</pf>, we inherit functions for drawing graphics on the screen.
 </p>
 
 <p>
     <idx><h>nested</h><h>arrays</h></idx>
     <idx><h>traversal</h></idx>
 In fact, the code is surprisingly straightforward: to draw the grid, we simply draw each cell.
-We use nested <c>for</c> loops to traverse the 2D array:
+We use nested <pf>for</pf> loops to traverse the 2D array:
 </p>
 
 <program xml:id="arrays-arrays_gridcanvas-class-2">
@@ -30,18 +30,18 @@ We use nested <c>for</c> loops to traverse the 2D array:
 
 <p>
 The outer loop traverses the rows; the inner loop traverses the cells in each row.
-You can almost read this function in English: <q>For each <c>row</c> in the <c>array</c>, and for each <c>cell</c> in the <c>row</c>, draw the <c>cell</c> in the graphics context.</q>
+You can almost read this function in English: <q>For each <pf>row</pf> in the <pf>array</pf>, and for each <pf>cell</pf> in the <pf>row</pf>, draw the <pf>cell</pf> in the graphics context.</q>
 Each cell contains its coordinates and size, so it knows how to draw itself.
 </p>
 
 <p>
-Classes that extend <c>Canvas</c> are supposed to provide a function called <c>paint</c> that <q>paints</q> the contents of the <c>Canvas</c>.
-It gets invoked when the <c>Canvas</c> is created and anytime it needs to be redrawn; for example, when its window is moved or resized.
+Classes that extend <pf>Canvas</pf> are supposed to provide a function called <pf>paint</pf> that <q>paints</q> the contents of the <pf>Canvas</pf>.
+It gets invoked when the <pf>Canvas</pf> is created and anytime it needs to be redrawn; for example, when its window is moved or resized.
 </p>
 
 <p>
-Here's the <c>paint</c> function for <c>GridCanvas</c>.
-When the window management system calls <c>paint</c>, <c>paint</c> calls <c>draw</c>, which draws the cells:
+Here's the <pf>paint</pf> function for <pf>GridCanvas</pf>.
+When the window management system calls <pf>paint</pf>, <pf>paint</pf> calls <pf>draw</pf>, which draws the cells:
 </p>
 
 <program xml:id="arrays-arrays_gridcanvas-class-3">

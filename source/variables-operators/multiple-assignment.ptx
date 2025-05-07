@@ -6,7 +6,7 @@
     they are called <q>variables</q><mdash/>they can vary!)</p>
 
   <listing label="multiple_assignment_AC_1">
-    <caption> This active code reassigns <c>fred</c> from 5 to 7 and prints both values out. </caption>
+    <caption> This active code reassigns <pf>fred</pf> from 5 to 7 and prints both values out. </caption>
     <program xml:id="multiple_assignment_AC_1_editor"
              interactive="activecode"
              line-numbers="yes">
@@ -23,10 +23,10 @@ int main() {
         ]]></code>
     </program>
   </listing>
-  <p>The output of this program is <c>57</c>, because the first time we print <c>fred</c> his value is 5,
+  <p>The output of this program is <pf>57</pf>, because the first time we print <pf>fred</pf> his value is 5,
     and the second time his value is 7.</p>
   <listing label="multiple_assignment_AC_2">
-    <caption> This active code reassigns <c>fred</c> from 5 to 7 without printing out the initial value. </caption>
+    <caption> This active code reassigns <pf>fred</pf> from 5 to 7 without printing out the initial value. </caption>
     <program xml:id="multiple_assignment_AC_2_editor"
              interactive="activecode"
              line-numbers="yes">
@@ -43,7 +43,7 @@ int main() {
     </program>
   </listing>
 
-  <p>However, if we do not print <c>fred</c> the first time, the output is only 7 because the value of <c>fred</c>
+  <p>However, if we do not print <pf>fred</pf> the first time, the output is only 7 because the value of <pf>fred</pf>
     is just 7 when it is printed.</p>
 
   <p>To picture this kind of <term>multiple assignment</term> you can think of a variable as the name of a <em>
@@ -55,12 +55,12 @@ int main() {
            alt="An assignment of 'fred = 7' changing the existing value of 'fred'."/>
   </figure>
 
-  <p>Because C++ uses the <c>=</c> symbol
-    for assignment, it is tempting to interpret a statement like <c>a = b</c> as a statement of equality.
+  <p>Because C++ uses the <pf>=</pf> symbol
+    for assignment, it is tempting to interpret a statement like <pf>a = b</pf> as a statement of equality.
     It is not, and multiple assignment helps make that clear.</p>
 
   <p>First of all, equality is commutative, and assignment is not. For example, in mathematics if <m>a
-    = 7</m> then <m>7 = a</m>. But in C++ the statement <c>a = 7;</c> is legal<mdash/>it says <q>set a to store the value 7</q>. While <c>7 = a;</c> is not. It would say <q>set 7 to store the value of a</q>. It would not make much sense to give 7 a new value!</p>
+    = 7</m> then <m>7 = a</m>. But in C++ the statement <pf>a = 7;</pf> is legal<mdash/>it says <q>set a to store the value 7</q>. While <pf>7 = a;</pf> is not. It would say <q>set 7 to store the value of a</q>. It would not make much sense to give 7 a new value!</p>
 
   <p>Furthermore, in mathematics, a statement of equality is true for all time. If <m>a = b</m> now,
     then <m>a</m> will always equal <m>b</m>. In C++, an assignment statement can make two variables
@@ -70,15 +70,15 @@ int b = a;   // b gets the value that a has (5)
 // a and b are now equal
 a = 3;       // a gets the value 3
 // a and b are no longer equal. b is still 5</program>
-  <p>The second line <em>copies</em> the value that `a` has into `b`. It does NOT link the two variables in any permanent way. The third line changes the value of <c>a</c> but it does not change the value of <c>b</c>, and so
+  <p>The second line <em>copies</em> the value that <pf>a</pf> has into <pf>b</pf>. It does NOT link the two variables in any permanent way. The third line changes the value of <pf>a</pf> but it does not change the value of <pf>b</pf>, and so
     they are no longer equal.</p>
 
     <note><p>In many programming languages an alternate symbol is used for
-    assignment, such as <c>&lt;-</c> or <c>:=</c>, in order to avoid confusion. But in many programming languages, like C++, `=` is used to indicate assignment and you must learn to mentally translate it as <q>gets assigned the value</q> as opposed to <q>is equal to</q></p></note>
+    assignment, such as <pf>&lt;-</pf> or <pf>:=</pf>, in order to avoid confusion. But in many programming languages, like C++, <pf>=</pf> is used to indicate assignment and you must learn to mentally translate it as <q>gets assigned the value</q> as opposed to <q>is equal to</q></p></note>
 
   <p>Although multiple assignment is frequently useful, you should use it with caution. If the
     values of variables are changing constantly in different parts of the program, it can make the
-    code difficult to read and debug. You generally should only use it when the same conceptual value changes. If you are programming a game, using multiple assignment to change the `score` variable every time the player scores points would make sense. But using multiple assignment to reuse variables for different purposes is generally a bad idea. Having a variable `length` that initially stores a value in inches and later is changed to store a value in centimeters would cause confusion for anyone trying to read the code.</p>
+    code difficult to read and debug. You generally should only use it when the same conceptual value changes. If you are programming a game, using multiple assignment to change the <pf>score</pf> variable every time the player scores points would make sense. But using multiple assignment to reuse variables for different purposes is generally a bad idea. Having a variable <pf>length</pf> that initially stores a value in inches and later is changed to store a value in centimeters would cause confusion for anyone trying to read the code.</p>
 
   <exercise label="multiple_assignment_2">
     <statement>

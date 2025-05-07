@@ -3,7 +3,7 @@
 
   <title>Strings and Numbers</title>
 
-  <p>We already know that `123` is different than `"123"`. The former is a number, the later a string. The type of data we are working with determines what operators we can use on it and what those operators do. Applied to integers, `+` adds them and `*` multiplies them. For strings, there is no definition for what `*` means. That means it is a syntax error to try to write something like:</p>
+  <p>We already know that <pf>123</pf> is different than <pf>"123"</pf>. The former is a number, the later a string. The type of data we are working with determines what operators we can use on it and what those operators do. Applied to integers, <pf>+</pf> adds them and <pf>*</pf> multiplies them. For strings, there is no definition for what <pf>*</pf> means. That means it is a syntax error to try to write something like:</p>
 
   <program>
     string message = "Hello";
@@ -11,15 +11,15 @@
     string x = message * message2;  // syntax error. What does * mean here???
   </program>
 
-  <p>For `+` applied to strings, there is a definition - it does concatenation. So what happens if you try to mix data types? What happens if you `+` an `int` and a `string`?</p>
+  <p>For <pf>+</pf> applied to strings, there is a definition - it does concatenation. So what happens if you try to mix data types? What happens if you <pf>+</pf> an <pf>int</pf> and a <pf>string</pf>?</p>
 
-  <p>It turns out that in C++ that operation is not defined. And there is no easy way to modify the data so the operation makes sense. We can do `+` with an `int` and a `double` because the compiler knows that it is safe to turn any int into a double. But that is not true of strings. `"hello"` is clearly not a number. Although it seems like `"123"` could safely be converted to a number, what should happens with `"42f"` or `"7534759743912749237492"` (which is too large to store as an int). Because there is no guarantee that we can convert back and forth, the compiler will never try to do that for us.</p>
+  <p>It turns out that in C++ that operation is not defined. And there is no easy way to modify the data so the operation makes sense. We can do <pf>+</pf> with an <pf>int</pf> and a <pf>double</pf> because the compiler knows that it is safe to turn any int into a double. But that is not true of strings. <pf>"hello"</pf> is clearly not a number. Although it seems like <pf>"123"</pf> could safely be converted to a number, what should happens with <pf>"42f"</pf> or <pf>"7534759743912749237492"</pf> (which is too large to store as an int). Because there is no guarantee that we can convert back and forth, the compiler will never try to do that for us.</p>
 
-  <p>Normally, if we want to tell the compiler to make a copy of something as a new type of data, we use `static_cast`. But a `static_cast` assumes the compiler has a rule to do the conversion and is just reluctant to do so. The static cast is our way of saying <q>I know you think this is dangerous, I am sure I want to do it anyway.</q> But the compiler does not even have a general rule for converting back and forth from numbers to strings. So we can't use `static_cast` to do so.</p>
+  <p>Normally, if we want to tell the compiler to make a copy of something as a new type of data, we use <pf>static_cast</pf>. But a <pf>static_cast</pf> assumes the compiler has a rule to do the conversion and is just reluctant to do so. The static cast is our way of saying <q>I know you think this is dangerous, I am sure I want to do it anyway.</q> But the compiler does not even have a general rule for converting back and forth from numbers to strings. So we can't use <pf>static_cast</pf> to do so.</p>
 
-  <p>Instead, we use `to_string`, `stoi`, and `stod`. `to_string` takes any numeric value and returns a string representation of it. `stoi` (string to integer) takes a string and tries to produce the integer value it represents. `stod` (string to double) does the same thing with a double value.</p>
+  <p>Instead, we use <pf>to_string</pf>, <pf>stoi</pf>, and <pf>stod</pf>. <pf>to_string</pf> takes any numeric value and returns a string representation of it. <pf>stoi</pf> (string to integer) takes a string and tries to produce the integer value it represents. <pf>stod</pf> (string to double) does the same thing with a double value.</p>
 
-  <p>`to_string` is useful if you want to build up a string that contains a numeric value:</p>
+  <p><pf>to_string</pf> is useful if you want to build up a string that contains a numeric value:</p>
 
   <program line-numbers="yes" highlight-lines="5">
   double width = 10;
@@ -30,9 +30,9 @@
   message += " square units.";
   </program>
 
-  <p>Without `to_string` there would be a compiler error when we tried to add the numeric value `area` to the string `message`.</p>
+  <p>Without <pf>to_string</pf> there would be a compiler error when we tried to add the numeric value <pf>area</pf> to the string <pf>message</pf>.</p>
 
-  <p>`stoi` and `stod` are useful if we need to do with math on numbers that were part of a string. This example takes a string in the format `WIDTHxHEIGHT` and calculates the area:</p>
+  <p><pf>stoi</pf> and <pf>stod</pf> are useful if we need to do with math on numbers that were part of a string. This example takes a string in the format <pf>WIDTHxHEIGHT</pf> and calculates the area:</p>
 
   <program interactive="activecode">
 <xi:include href="../../programs/strings/string-conversions-1.cpp" parse="text"/>

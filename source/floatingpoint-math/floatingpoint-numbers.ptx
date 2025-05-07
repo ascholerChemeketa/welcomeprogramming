@@ -13,22 +13,22 @@
       <h>type</h>
       <h>double</h>
     </idx>So what do you do if you want to divide 45 by 60 and get 0.75? Or if you want to store 3.14159? In C++, the answer is to use <term>floating-point</term> numbers,
-    which represent values with decimal places. In C++, the default floating-point type is called <c>double</c>,
-    which is short for <q>double-precision</q>. You can create <c>double</c> variables and assign values
-    to them the same way we did for <c>int</c>s:</p>
+    which represent values with decimal places. In C++, the default floating-point type is called <pf>double</pf>,
+    which is short for <q>double-precision</q>. You can create <pf>double</pf> variables and assign values
+    to them the same way we did for <pf>int</pf>s:</p>
 
   <program xml:id="floatingpoint-math_floatingpoint-numbers-1">
 <xi:include href="../../programs/floatingpoint-math/floatingpoint-numbers-1.cpp" parse="text"/>
 </program>
 
-  <p>Once we have a <c>double</c> variable, we can do math with it. All of the operations work as you would expect:</p>
+  <p>Once we have a <pf>double</pf> variable, we can do math with it. All of the operations work as you would expect:</p>
 
   <program xml:id="floatingpoint-math_floatingpoint-numbers-2"
            interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/floatingpoint-numbers-2.cpp" parse="text"/>
 </program>
 
-  <p>When printed, floating point values will be printed rounded to six significant digits. If the value is very large or small, it will be printed in scientific notation like <c>3.12345E12</c> indicating <m>3.12345 \times {10}^{12}</m>. (We will learn how to change that formatting later.)</p>
+  <p>When printed, floating point values will be printed rounded to six significant digits. If the value is very large or small, it will be printed in scientific notation like <pf>3.12345E12</pf> indicating <m>3.12345 \times {10}^{12}</m>. (We will learn how to change that formatting later.)</p>
 
   <note>
   <p>All the operations we have seen&#x2014;addition, subtraction, multiplication,
@@ -36,6 +36,6 @@
     interested to know that the underlying mechanism is completely
     different. In fact, most processors have special hardware just for
     performing floating-point operations. It generally takes longer to perform a given calculation
-    using floating point hardware <mdash/> <c>1/3</c> is quicker to compute than <c>1.0/3.0</c>. That is one of the reasons why we have two different basic numeric types.</p>
+    using floating point hardware <mdash/> <pf>1/3</pf> is quicker to compute than <pf>1.0/3.0</pf>. That is one of the reasons why we have two different basic numeric types.</p>
   </note>
 </section>

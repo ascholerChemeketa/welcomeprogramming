@@ -26,7 +26,7 @@ while (i < 5) {         //test
       <h>statement</h>
       <h>for</h>
     </idx> 
-    The <c>for</c> loop, is a way to expresses those three parts more
+    The <pf>for</pf> loop, is a way to expresses those three parts more
     concisely. The <term>for</term> loop has three components in parentheses, separated by semicolons: the initializer,
     the condition, and the update:</p>
     
@@ -39,10 +39,10 @@ for (initializer; test; update) {
     <p><ol>
       <li>
         <p>The <term>initializer</term> runs once at the very beginning of the loop. It is
-    equivalent to the line before the <c>while</c> statement.</p>
+    equivalent to the line before the <pf>while</pf> statement.</p>
       </li>
       <li>
-        <p>The <term>condition</term> is checked each time through the loop. If it is <c>false</c>, the
+        <p>The <term>condition</term> is checked each time through the loop. If it is <pf>false</pf>, the
     loop ends. Otherwise, the body of the loop is executed (again).</p>
       </li>
       <li>
@@ -58,9 +58,9 @@ for (initializer; test; update) {
 <xi:include href="../../programs/loops/for-statement-0.cpp" parse="text"/>
 </program>
 
-  <p>The `for` loop is often easier to read because it puts all the loop-related statements at the top of the loop. Looking at the statement in that loop, I can tell that it start from 1, goes up to 5, and counts by 1. In the equivalent while loop, the update might be separated from the test by quite a bit of code, making it harder to see at a glance see what the loop is doing.</p>
+  <p>The <pf>for</pf> loop is often easier to read because it puts all the loop-related statements at the top of the loop. Looking at the statement in that loop, I can tell that it start from 1, goes up to 5, and counts by 1. In the equivalent while loop, the update might be separated from the test by quite a bit of code, making it harder to see at a glance see what the loop is doing.</p>
 
-  <p>Here is the 2, 4, 6, 8 loop written as a `while` and as a `for` side by side for comparison:</p>
+  <p>Here is the 2, 4, 6, 8 loop written as a <pf>while</pf> and as a <pf>for</pf> side by side for comparison:</p>
 
   <sidebyside widths="45% 45%">
   <program xml:id="loops_for-statement-11">
@@ -71,16 +71,16 @@ for (initializer; test; update) {
 </program>
   </sidebyside>
 
-  <p>There is another difference between <c>for</c> loops and <c>while</c> loops: if you declare a variable
-    in the initializer, it exists only <term>inside</term> the <c>for</c> loop. For example, this program has a syntax error - `i` no longer is in scope once we leave the loop:</p>
+  <p>There is another difference between <pf>for</pf> loops and <pf>while</pf> loops: if you declare a variable
+    in the initializer, it exists only <term>inside</term> the <pf>for</pf> loop. For example, this program has a syntax error - <pf>i</pf> no longer is in scope once we leave the loop:</p>
 
   <program xml:id="loops_for-statement-2" interactive="activecode">
 <xi:include href="../../programs/loops/for-statement-2.cpp" parse="text"/>
 </program>
 
-  <p>This can actually be an advantage. If you want to keep reusing the same name for your loop counters, you can do so with a `for` loop. Each time a loop ends, the variables created in the initializer are no longer in scope.</p>
+  <p>This can actually be an advantage. If you want to keep reusing the same name for your loop counters, you can do so with a <pf>for</pf> loop. Each time a loop ends, the variables created in the initializer are no longer in scope.</p>
 
-  <p>For loops and while loops are interchangeable. There is no loop you can write with one that you can't write with the other. So you should pick the one that makes your code easiest to read. For a counting loop, a `for` loop is often the correct choice. For other kinds of loops (like the sentinel loop we are about to learn about), a while loop may allow for a clearer expression of your intent.</p>
+  <p>For loops and while loops are interchangeable. There is no loop you can write with one that you can't write with the other. So you should pick the one that makes your code easiest to read. For a counting loop, a <pf>for</pf> loop is often the correct choice. For other kinds of loops (like the sentinel loop we are about to learn about), a while loop may allow for a clearer expression of your intent.</p>
 
   <p>A final note about for loops: It is possible for the initialize or update to be empty:</p>
 
@@ -92,7 +92,7 @@ for ( ; i &lt; 5; i++) { ...
 for (int i = 0; i &lt; 5;  ) { ...
 </program>
 
-  <p>In the first one, `i` would already have to exist. In the second example, we would need to update `i` inside the loop body to avoid an infinite loop. Although these structures are legal, they are usually a sign that you are using a `for` loop when a `while` loop would be the better way to express what you want to do.</p>
+  <p>In the first one, <pf>i</pf> would already have to exist. In the second example, we would need to update <pf>i</pf> inside the loop body to avoid an infinite loop. Although these structures are legal, they are usually a sign that you are using a <pf>for</pf> loop when a <pf>while</pf> loop would be the better way to express what you want to do.</p>
 
   <exercise label="mucp_6_7"
             numbered="yes"
@@ -100,7 +100,7 @@ for (int i = 0; i &lt; 5;  ) { ...
             indentation="hide">
     <statement>
       <p>On the last day of every year, we count down the seconds before the new year arrives. Write
-        the function <c>newYearCountdown</c>, which prints out a countdown from 10 and then prints out <q>Happy
+        the function <pf>newYearCountdown</pf>, which prints out a countdown from 10 and then prints out <q>Happy
           New Year!</q>.</p>
     </statement>
     <blocks>

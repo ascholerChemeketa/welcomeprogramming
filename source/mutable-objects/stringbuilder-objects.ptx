@@ -6,7 +6,7 @@ Here's an example in which mutable objects are efficient and arguably more natur
 
 <p>
 Strings are particularly inefficient for this operation.
-For example, consider the following program, which reads 10 lines from <c>System.in</c> and concatenates them into a single <c>String</c>:
+For example, consider the following program, which reads 10 lines from <pf>System.in</pf> and concatenates them into a single <pf>String</pf>:
 </p>
 
 <program xml:id="mutable-objects_stringbuilder-objects-1" interactive="activecode">
@@ -14,25 +14,25 @@ For example, consider the following program, which reads 10 lines from <c>System
 </program>
 
 <p>
-Inside the <c>for</c> loop, <c>in.nextLine()</c> returns a new string each time it is invoked.
-The next line of code concatenates <c>text</c> and <c>line</c>, which creates another string, and then appends the newline character, which creates yet another string.
+Inside the <pf>for</pf> loop, <pf>in.nextLine()</pf> returns a new string each time it is invoked.
+The next line of code concatenates <pf>text</pf> and <pf>line</pf>, which creates another string, and then appends the newline character, which creates yet another string.
 </p>
 
 <p>
-As a result, this loop creates 30 <c>String</c> objects!
-At the end, <c>text</c> refers to the most recent <c>String</c>.
+As a result, this loop creates 30 <pf>String</pf> objects!
+At the end, <pf>text</pf> refers to the most recent <pf>String</pf>.
 Garbage collection deletes the rest, but that's a lot of garbage for a seemingly simple program.
 </p>
 
 <p>
     <idx><h>StringBuilder</h></idx>
-The Java library provides the <c>StringBuilder</c> class for just this reason.
-It's part of the <c>java.lang</c> package, so you don't need to import it.
-Because <c>StringBuilder</c> objects are mutable, they can implement concatenation more efficiently.
+The Java library provides the <pf>StringBuilder</pf> class for just this reason.
+It's part of the <pf>java.lang</pf> package, so you don't need to import it.
+Because <pf>StringBuilder</pf> objects are mutable, they can implement concatenation more efficiently.
 </p>
 
 <p>
-Here's a version of the program that uses <c>StringBuilder</c>:
+Here's a version of the program that uses <pf>StringBuilder</pf>:
 </p>
 
 <program xml:id="mutable-objects_stringbuilder-objects-2" interactive="activecode">
@@ -40,12 +40,12 @@ Here's a version of the program that uses <c>StringBuilder</c>:
 </program>
 
 <p>
-The <c>append</c> function takes a <c>String</c> as a parameter and appends it to the end of the <c>StringBuilder</c>.
-Each time it is invoked, it modifies the <c>StringBuilder</c>; it doesn't create any new objects.
+The <pf>append</pf> function takes a <pf>String</pf> as a parameter and appends it to the end of the <pf>StringBuilder</pf>.
+Each time it is invoked, it modifies the <pf>StringBuilder</pf>; it doesn't create any new objects.
 </p>
 
 <p>
-If needed, you can return the <c>StringBuilder</c>'s contents as a string by calling the <c>toString</c> function:
+If needed, you can return the <pf>StringBuilder</pf>'s contents as a string by calling the <pf>toString</pf> function:
 </p>
 
 <program xml:id="mutable-objects_stringbuilder-objects-3" interactive="activecode">
@@ -53,7 +53,7 @@ If needed, you can return the <c>StringBuilder</c>'s contents as a string by cal
 </program>
 
 <p>
-The <c>StringBuilder</c> class also provides functions for inserting and deleting parts of strings efficiently.
-Programs that manipulate large amounts of text run much faster if you use <c>StringBuilder</c> instead of <c>String</c>.
+The <pf>StringBuilder</pf> class also provides functions for inserting and deleting parts of strings efficiently.
+Programs that manipulate large amounts of text run much faster if you use <pf>StringBuilder</pf> instead of <pf>String</pf>.
 </p>
 </section>

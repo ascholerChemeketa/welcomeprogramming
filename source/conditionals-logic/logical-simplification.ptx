@@ -2,14 +2,14 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Simplifying Logical Expressions</title>
 
-  <p>Many times, you can express the same logic in multiple ways. We have seen examples of this already. If `isEven` is a `bool` variable, these two expressions are equivalent:</p>
+  <p>Many times, you can express the same logic in multiple ways. We have seen examples of this already. If <pf>isEven</pf> is a <pf>bool</pf> variable, these two expressions are equivalent:</p>
 
   <program>
 if (isEven)
 if (isEven == true)
   </program>
 
-  <p>From mathematics, we know that `&gt;` is the opposite of `&lt;=`. So these two expressions are also equivalent:</p>
+  <p>From mathematics, we know that <pf>&gt;</pf> is the opposite of <pf>&lt;=</pf>. So these two expressions are also equivalent:</p>
 
   <program>
 if (x &gt; 5)
@@ -20,7 +20,7 @@ if (!(x &lt;= 5))
 
   <exercise label="asdfasfwefwe">
   <statement>
-    <p>An easier way to write `!(x != 10)` is <fillin answer="x\\s*==\\s*10" mode="string"/>?</p>
+    <p>An easier way to write <pf>!(x != 10)</pf> is <fillin answer="x\\s*==\\s*10" mode="string"/>?</p>
     </statement>
     <evaluation>
       <evaluate>
@@ -44,7 +44,7 @@ if (!(x &lt;= 5))
   </exercise>
 
   <p> Sometimes you need to negate an expression containing a mix of relational and logical
-    operators. For example, to test if <c>x</c> and <c>y</c> are both nonzero, you could write the
+    operators. For example, to test if <pf>x</pf> and <pf>y</pf> are both nonzero, you could write the
     following: </p>
 
   <program xml:id="conditionals-logic_logical-simplification-1">
@@ -54,30 +54,30 @@ if (!(x &lt;= 5))
   <p>
     <idx>
       <h>De Morgan's laws</h>
-    </idx> This condition is difficult to read because of the <c>!</c>
+    </idx> This condition is difficult to read because of the <pf>!</pf>
     and parentheses. A better way to negate logic expressions is to apply <term>De Morgan's laws</term>
     :
 <ul>
       <li>
-        <p><c>!(A &amp;&amp; B)</c> <nbsp/>is the same as<nbsp/> <c>!A || !B</c></p>
+        <p><pf>!(A &amp;&amp; B)</pf> <nbsp/>is the same as<nbsp/> <pf>!A || !B</pf></p>
       </li>
       <li>
-        <p><c>!(A || B)</c> <nbsp/>is the same as<nbsp/> <c>!A &amp;&amp; !B</c></p>
+        <p><pf>!(A || B)</pf> <nbsp/>is the same as<nbsp/> <pf>!A &amp;&amp; !B</pf></p>
       </li>
     </ul>
   </p>
 
   <p> In words, negating a logical expression is the same as negating each term and changing the
-    operator. The <c>!</c> operator takes precedence over <c>&amp;&amp;</c> and <c>||</c>, so you don't have to
-    put parentheses around the individual terms <c>!A</c> and <c>!B</c>. </p>
+    operator. The <pf>!</pf> operator takes precedence over <pf>&amp;&amp;</pf> and <pf>||</pf>, so you don't have to
+    put parentheses around the individual terms <pf>!A</pf> and <pf>!B</pf>. </p>
 
   <p> De Morgan's laws also apply to the relational operators. In this case, negating each term
     means using the <q>opposite</q> relational operator: <ul>
       <li>
-        <p><c>!(x &lt; 5 &amp;&amp; y == 3)</c> <nbsp/>is the same as<nbsp/> <c>x &gt;= 5 || y != 3</c></p>
+        <p><pf>!(x &lt; 5 &amp;&amp; y == 3)</pf> <nbsp/>is the same as<nbsp/> <pf>x &gt;= 5 || y != 3</pf></p>
       </li>
       <li>
-        <p><c>!(x &gt;= 1 || y != 7)</c> <nbsp/>is the same as<nbsp/> <c>x &lt; 1 &amp;&amp; y == 7</c></p>
+        <p><pf>!(x &gt;= 1 || y != 7)</pf> <nbsp/>is the same as<nbsp/> <pf>x &lt; 1 &amp;&amp; y == 7</pf></p>
       </li>
     </ul>
   </p>

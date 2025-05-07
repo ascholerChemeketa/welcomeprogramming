@@ -9,11 +9,11 @@
 <xi:include href="../../programs/interacting-objects/circle-2.cpp" parse="text"/>
   </program>
 
-  <p>The `getRadius` is straightforward. It just returns the `m_radius` that the Circle stores. But `getX()` is more complicated. The Circle does not have an `x` or a `m_x` that it can return. What it does have is a Point `m_center`. It needs to rely on that Point to access the x location.</p>
+  <p>The <pf>getRadius</pf> is straightforward. It just returns the <pf>m_radius</pf> that the Circle stores. But <pf>getX()</pf> is more complicated. The Circle does not have an <pf>x</pf> or a <pf>m_x</pf> that it can return. What it does have is a Point <pf>m_center</pf>. It needs to rely on that Point to access the x location.</p>
 
-  <p>Any time there is something related to the center, or working with Point logic, the Circle will hand that work off to the Point. Here that means that on line 34, when we ask the Circle for its x value, it in turn asks the Point `m_center` for its x value (line 19) and returns that answer to us.</p>
+  <p>Any time there is something related to the center, or working with Point logic, the Circle will hand that work off to the Point. Here that means that on line 34, when we ask the Circle for its x value, it in turn asks the Point <pf>m_center</pf> for its x value (line 19) and returns that answer to us.</p>
 
-  <insight><p>`private` is enforced at the class level. Even though a Circle <q>owns</q> a Point, it can't directly access the Point's private data. It would be an error to write `m_center.m_x` on line 19 in an attempt to directly access the member variable of the Point.</p></insight>
+  <insight><p><pf>private</pf> is enforced at the class level. Even though a Circle <q>owns</q> a Point, it can't directly access the Point's private data. It would be an error to write <pf>m_center.m_x</pf> on line 19 in an attempt to directly access the member variable of the Point.</p></insight>
 
   <p>Let's add another function that uses existing Point logic to help Circle do a job. We want to add a method that tells us if a Point is inside a Circle. We can do that by comparing the radius of the Circle and the distance from the Point to the center of the Circle. If that distance is less than the radius, then the Point is inside the Circle.</p>
 
@@ -21,11 +21,11 @@
 <xi:include href="../../programs/interacting-objects/circle-contains.cpp" parse="text"/>
   </program>
 
-  <p>Finding the distance between two points is a job for a Point, not the Circle. So when we ask `c1.contains(Point(3.2, 2.0))`, the circle starts by asking its center Point to calculate the distance to that point (`m_center.distanceTo(p)`). It then uses that value to compute the final answer.</p>
+  <p>Finding the distance between two points is a job for a Point, not the Circle. So when we ask <pf>c1.contains(Point(3.2, 2.0))</pf>, the circle starts by asking its center Point to calculate the distance to that point (<pf>m_center.distanceTo(p)</pf>). It then uses that value to compute the final answer.</p>
   
   <exercise label="program_flang_1">
     <statement>
-      <p>Assume the `Address` class has a `getZip()` function. How could we call that function on the composed `Address` within the `Contact` class defuned below? (You do not have to do anything with the zip, just make the function call).</p>
+      <p>Assume the <pf>Address</pf> class has a <pf>getZip()</pf> function. How could we call that function on the composed <pf>Address</pf> within the <pf>Contact</pf> class defuned below? (You do not have to do anything with the zip, just make the function call).</p>
         <p><fillin mode="string"
           answer="m_address.getZip()"/></p>
         <program>
@@ -47,7 +47,7 @@
         </test>
         <test>
           <strcmp>^getZip.*</strcmp>
-          <feedback>We need to call the function on the `m_address` object, not just call the function.</feedback>
+          <feedback>We need to call the function on the <pf>m_address</pf> object, not just call the function.</feedback>
         </test>
       </evaluate>
     </evaluation>
@@ -57,48 +57,48 @@
   
   <exercise label="sdf4ssddddf" randomize="yes">
     <statement>
-      <p>Imagine a Circle member function `intersects(const Circle&amp; other)`. What variables can be directly accessed inside the function.</p>
+      <p>Imagine a Circle member function <pf>intersects(const Circle&amp; other)</pf>. What variables can be directly accessed inside the function.</p>
     </statement>
     <choices multiple-correct="yes" randomize="yes">
       <choice  correct="yes">
         <statement>
-          <p>`m_radius` of the current object</p>
+          <p><pf>m_radius</pf> of the current object</p>
         </statement>
       </choice>
       
       <choice  correct="yes">
         <statement>
-          <p>`m_center` of the current object</p>
+          <p><pf>m_center</pf> of the current object</p>
         </statement>
       </choice>
 
       <choice  correct="yes">
         <statement>
-          <p>`other.m_radius`</p>
+          <p><pf>other.m_radius</pf></p>
         </statement>
       </choice>
       
       <choice  correct="yes">
         <statement>
-          <p>`other.m_center`</p>
+          <p><pf>other.m_center</pf></p>
         </statement>
       </choice>
 
       <choice>
         <statement>
-          <p>`m_center.m_x`</p>
+          <p><pf>m_center.m_x</pf></p>
         </statement>
         <feedback>
-          No, `m_x` is private to the Point class. You can only access it indirectly through a public function of the Point class.
+          No, <pf>m_x</pf> is private to the Point class. You can only access it indirectly through a public function of the Point class.
         </feedback>
       </choice>
 
       <choice>
         <statement>
-          <p>`other.m_center.m_x`</p>
+          <p><pf>other.m_center.m_x</pf></p>
         </statement>
         <feedback>
-          No, `m_x` is private to the Point class. You can only access it indirectly through a public function of the Point class.
+          No, <pf>m_x</pf> is private to the Point class. You can only access it indirectly through a public function of the Point class.
         </feedback>
       </choice>
 

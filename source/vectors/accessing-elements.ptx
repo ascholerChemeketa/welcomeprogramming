@@ -7,21 +7,21 @@
     containing a list of values. For example, you should imagine that the code `vector&lt;int>
     counts = {12, 6, 3, 14}` creates something like this: </p>
   <figure xml:id="fig_vector">
-    <caption>Memory diagram of vector `counts` containing 12, 6, 3, and 14.</caption>
+    <caption>Memory diagram of vector <pf>counts</pf> containing 12, 6, 3, and 14.</caption>
     <image width="40%"
            source="images/vectors-count-full.svg"/>
   </figure>
 
   <p>There are times when we will just use the name of the vector to refer to the whole package. But
     most of the time, we want to access one of the elements of the vector. To do so we use the same
-    syntax that we do with strings. We use the `.at(index)` function to specify the element we wish
+    syntax that we do with strings. We use the <pf>.at(index)</pf> function to specify the element we wish
     to work with:</p>
 
   <program xml:id="vectors_accessing-elements-1">
 <xi:include href="../../programs/vectors/accessing-elements-1.cpp" parse="text"/>
 </program>
 
-  <p> You can use the element retrieved by <c>.at(index)</c> as if it was a variable that contains that one
+  <p> You can use the element retrieved by <pf>.at(index)</pf> as if it was a variable that contains that one
     element. You can assign it new values and use any appropriate operators on the result: </p>
 
   <program xml:id="vectors_accessing-elements-2">
@@ -37,41 +37,41 @@
     not the item at index 1. When using C++ numbering (0 based), we will refer to <q>the element at
     index X</q> or <q>element index x</q>.</p>
 
-  <p>If you use `.at(index)` to ask for an index that is not valid (less than 0 or >= `.size()`),
+  <p>If you use <pf>.at(index)</pf> to ask for an index that is not valid (less than 0 or >= <pf>.size()</pf>),
     there will be a runtime error when that statement executes. This program runs fine until we try
-    to access `counts.at(4)`:</p>
+    to access <pf>counts.at(4)</pf>:</p>
 
   <program xml:id="vectors_accessing-elements-3"
            interactive="activecode">
 <xi:include href="../../programs/vectors/accessing-elements-3.cpp" parse="text"/>
 </program>
 
-  <p>As usual, the error message is a little cryptic. The important part is the `out_of_range`
+  <p>As usual, the error message is a little cryptic. The important part is the <pf>out_of_range</pf>
     message. This means that the index you provided was not valid. After that, there is
-    `vector::_M_range_check: __n (which is 4) >= this->size() (which is 4)`. This tells us that the
+    <pf>vector::_M_range_check: __n (which is 4) >= this->size() (which is 4)</pf>. This tells us that the
     problem comes from a vector and we asked for index 4 in a vector with size of 4. Unfortunately,
     we do not get a line number, so we have to use print statements or a debugger to help track down
     the exact location.</p>
 
   <warning>
-    <p>As with strings, vectors support bracket notation (`vectorName[index]`) notation for
+    <p>As with strings, vectors support bracket notation (<pf>vectorName[index]</pf>) notation for
       accessing elements. However, when using that syntax, there is no bounds checking. You can ask
       for element 100 in a 4 element vector and will be given some piece of memory that is unrelated
       to the vector (it will be whatever is in memory where element 100 would be if it existed).</p>
     <p>This kind of unchecked access is one of the most important sources of bugs in code (do a web
       search for <q>buffer overflow</q>). The very minimal overhead required by the safe syntax
-      (`.at(index)`) is worth it to avoid these kinds of bugs in the vast majority of situations.</p>
+      (<pf>.at(index)</pf>) is worth it to avoid these kinds of bugs in the vast majority of situations.</p>
   </warning>
   
   <exercise label="accessing_elements_1">
     <statement>
-      <p>How could you increment the third element of <c>vector&lt;int&gt; vec</c> by one?</p>
+      <p>How could you increment the third element of <pf>vector&lt;int&gt; vec</pf> by one?</p>
     </statement>
     <choices randomize="yes">
       <choice>
         <statement id="accessing_elements_1_opt_a">
           <p>
-            <c>vec.at(3) = vec.at(3)++;</c>
+            <pf>vec.at(3) = vec.at(3)++;</pf>
           </p>
         </statement>
         <feedback> Incorrect! This is actually incrementing the 4th element of <term>vec</term>,
@@ -80,7 +80,7 @@
       <choice>
         <statement id="accessing_elements_1_opt_b">
           <p>
-            <c>vec(3) = vec(3) + 1;</c>
+            <pf>vec(3) = vec(3) + 1;</pf>
           </p>
         </statement>
         <feedback>
@@ -90,16 +90,16 @@
       <choice correct="yes">
         <statement id="accessing_elements_1_opt_c">
           <p>
-            <c>vec.at(2)++;</c>
+            <pf>vec.at(2)++;</pf>
           </p>
         </statement>
         <feedback>
-          <c>vec.at(2)</c> is the third element and we increment it by using the <c>++</c> operator. </feedback>
+          <pf>vec.at(2)</pf> is the third element and we increment it by using the <pf>++</pf> operator. </feedback>
       </choice>
       <choice>
         <statement id="accessing_elements_1_opt_d">
           <p>
-            <c>vec(2) = vec(2)++;</c>
+            <pf>vec(2) = vec(2)++;</pf>
           </p>
         </statement>
         <feedback>
@@ -109,11 +109,11 @@
       <choice correct="yes">
         <statement id="accessing_elements_1_opt_e">
           <p>
-            <c>vec.at(2) = vec.at(2) + 1</c>
+            <pf>vec.at(2) = vec.at(2) + 1</pf>
           </p>
         </statement>
         <feedback>
-          <c>vec.at(2)</c> is the third element and we increment it by adding 1. </feedback>
+          <pf>vec.at(2)</pf> is the third element and we increment it by adding 1. </feedback>
       </choice>
     </choices>
   </exercise>
@@ -123,9 +123,9 @@
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Construct a block of code that changes the first element of <c>vec</c> to a 6, multiplies the
-        third element of <c>vec</c> by 2, and increments the last element of <c>vec</c> by 1 (in that
-        order). This should work no matter what <c>vec</c> is.</p>
+      <p>Construct a block of code that changes the first element of <pf>vec</pf> to a 6, multiplies the
+        third element of <pf>vec</pf> by 2, and increments the last element of <pf>vec</pf> by 1 (in that
+        order). This should work no matter what <pf>vec</pf> is.</p>
     </statement>
     <blocks>
       <block order="4">

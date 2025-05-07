@@ -1,22 +1,22 @@
 <section xml:id="immutable-objects_strings-are-immutable" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Strings Are Immutable</title>
 <p>
-If the Java library didn't have a <c>String</c> class, we would have to use character arrays to store and manipulate text.
-Operations like concatenation<nbsp/>(<c>+</c>), <c>indexOf</c>, and <c>substring</c> would be difficult and inconvenient.
-Fortunately, Java does have a <c>String</c> class that provides these and other functions.
+If the Java library didn't have a <pf>String</pf> class, we would have to use character arrays to store and manipulate text.
+Operations like concatenation<nbsp/>(<pf>+</pf>), <pf>indexOf</pf>, and <pf>substring</pf> would be difficult and inconvenient.
+Fortunately, Java does have a <pf>String</pf> class that provides these and other functions.
 </p>
 
 <p>
     <idx><h>toUpperCase</h></idx>
     <idx><h>toLowerCase</h></idx>
     <idx><h>immutable</h></idx>
-For example, the functions <c>toLowerCase</c> and <c>toUpperCase</c> convert uppercase letters to lowercase, and vice versa.
+For example, the functions <pf>toLowerCase</pf> and <pf>toUpperCase</pf> convert uppercase letters to lowercase, and vice versa.
 These functions are often a source of confusion, because it sounds like they modify strings.
 But neither these functions nor any others can change a string, because strings are <term>immutable</term>.
 </p>
 
 <p>
-When you invoke <c>toUpperCase</c> on a string, you get a new <c>String</c> object as a result.
+When you invoke <pf>toUpperCase</pf> on a string, you get a new <pf>String</pf> object as a result.
 For example:
 </p>
 
@@ -25,9 +25,9 @@ For example:
 </program>
 
 <p>
-After these statements run, <c>upperName</c> refers to the string <c>"ALAN TURING"</c>.
-But <c>name</c> still refers to <c>"Alan Turing"</c>.
-A common mistake is to assume that <c>toUpperCase</c> somehow affects the original string:
+After these statements run, <pf>upperName</pf> refers to the string <pf>"ALAN TURING"</pf>.
+But <pf>name</pf> still refers to <pf>"Alan Turing"</pf>.
+A common mistake is to assume that <pf>toUpperCase</pf> somehow affects the original string:
 </p>
 
 <program xml:id="immutable-objects_strings-are-immutable-2">
@@ -35,8 +35,8 @@ A common mistake is to assume that <c>toUpperCase</c> somehow affects the origin
 </program>
 
 <p>
-The previous code displays <c>"Alan Turing"</c>, because the value of <c>name</c>, which refers to the original <c>String</c> object, never changes.
-If you want to change <c>name</c> to be uppercase, then you need to assign the return value:
+The previous code displays <pf>"Alan Turing"</pf>, because the value of <pf>name</pf>, which refers to the original <pf>String</pf> object, never changes.
+If you want to change <pf>name</pf> to be uppercase, then you need to assign the return value:
 </p>
 
 <program xml:id="immutable-objects_strings-are-immutable-3">
@@ -45,8 +45,8 @@ If you want to change <c>name</c> to be uppercase, then you need to assign the r
 
 <p>
     <idx><h>replace</h></idx>
-A similar function is <c>replace</c>, which finds and replaces instances of one string within another.
-This example replaces <c>"Computer Science"</c> with <c>"CS"</c>:
+A similar function is <pf>replace</pf>, which finds and replaces instances of one string within another.
+This example replaces <pf>"Computer Science"</pf> with <pf>"CS"</pf>:
 </p>
 
 <program xml:id="immutable-objects_strings-are-immutable-4">
@@ -54,8 +54,8 @@ This example replaces <c>"Computer Science"</c> with <c>"CS"</c>:
 </program>
 
 <p>
-As with <c>toUpperCase</c>, assigning the return value (to <c>text</c>) is important.
-If you don't assign the return value, invoking <c>text.replace</c> has no effect.
+As with <pf>toUpperCase</pf>, assigning the return value (to <pf>text</pf>) is important.
+If you don't assign the return value, invoking <pf>text.replace</pf> has no effect.
 </p>
 
 <p>

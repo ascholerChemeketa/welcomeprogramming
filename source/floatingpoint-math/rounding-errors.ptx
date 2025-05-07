@@ -24,7 +24,7 @@
 <xi:include href="../../programs/floatingpoint-math/rounding-errors-1.cpp" parse="text"/>
   </program>
 
-  <p>The problem is that <c>0.1</c> is a repeating fraction when converted into binary. So its
+  <p>The problem is that <pf>0.1</pf> is a repeating fraction when converted into binary. So its
     floating-point representation stored in memory is only approximate. When we add up the
     approximations, the rounding errors accumulate.</p>
   
@@ -33,7 +33,7 @@
   
   <p>Why is this the case? Well, doubles have a fixed number of bits to store their answer.
   Imagine trying to store <m>\pi</m> as a decimal but only getting to use at most 6 digits. The
-  closest you could come to the value of <m>\pi</m> would be <c>3.14159</c>. The same thing happens
+  closest you could come to the value of <m>\pi</m> would be <pf>3.14159</pf>. The same thing happens
   with doubles, only the values that are difficult to represent accurately are not always what we
   expect (0.1 is easy to represent in our base-10 number system, but difficult to represent in
   the base-2 system used by doubles).</p>

@@ -3,21 +3,21 @@
 
   <title>String Streams</title>
 
-  <p>One final kind of stream is worth discussion: the `stringstream`. This is a stream that reads from or writes to a string. It can be used as an alternative to `std::format` for building up a string with data from variables. It also can be used to imitate writing to a file. If we want to test out code that is supposed to write to a file, we can instead have it write to a `stringstream` and then print out the string that was produced. If the output looks good, we know that if we successfully open a file and write to that instead of the `stringstream`, our program should work correctly.</p>
+  <p>One final kind of stream is worth discussion: the <pf>stringstream</pf>. This is a stream that reads from or writes to a string. It can be used as an alternative to <pf>std::format</pf> for building up a string with data from variables. It also can be used to imitate writing to a file. If we want to test out code that is supposed to write to a file, we can instead have it write to a <pf>stringstream</pf> and then print out the string that was produced. If the output looks good, we know that if we successfully open a file and write to that instead of the <pf>stringstream</pf>, our program should work correctly.</p>
 
-  <p>The `stringstream` data type is defined in the `&lt;sstream>` library. Once we create a variable of type `stringstream` we can then immediately write to it using `&lt;&lt;` (there is no file to open). Once we are done writing, we can use the `.str()` method to ask the string stream for the string that was built up:</p>
+  <p>The <pf>stringstream</pf> data type is defined in the <pf>&lt;sstream></pf> library. Once we create a variable of type <pf>stringstream</pf> we can then immediately write to it using <pf>&lt;&lt;</pf> (there is no file to open). Once we are done writing, we can use the <pf>.str()</pf> method to ask the string stream for the string that was built up:</p>
 
   <program label="input-output_string-streams-1"  interactive="activecode">
 <xi:include href="../../programs/input-output/string-streams-1.cpp" parse="text"/>
 </program>
 
-  <p>It is also possible to read from a string stream. This is done by using the `.str()` method to set the string that we want to read from. Once we have set the string, we can use `>>` to read from it just like we would from a file or the console:</p>
+  <p>It is also possible to read from a string stream. This is done by using the <pf>.str()</pf> method to set the string that we want to read from. Once we have set the string, we can use <pf>>></pf> to read from it just like we would from a file or the console:</p>
 
   <program label="input-output_string-streams-2"  interactive="activecode">
 <xi:include href="../../programs/input-output/string-streams-2.cpp" parse="text"/>
 </program>
 
-  <p>Notice that everything after setting up the stringstream looks just like reading from a file. We even still use `eof()` even though there isn't really a file that we are reading from - when working with a `stringstream`, `eof()` means <q>end of the stringstream</q>.</p>
+  <p>Notice that everything after setting up the stringstream looks just like reading from a file. We even still use <pf>eof()</pf> even though there isn't really a file that we are reading from - when working with a <pf>stringstream</pf>, <pf>eof()</pf> means <q>end of the stringstream</q>.</p>
 
   
   <exercise label="mucp_1ascasc5_2"
@@ -25,7 +25,7 @@
             adaptive="yes"
             indentation="show">
     <statement>
-      <p>Construct a block of code that uses a string stream to break `"April 22 2025"` into the string `"April"` and the integers `25` and `2025`.</p>
+      <p>Construct a block of code that uses a string stream to break <pf>"April 22 2025"</pf> into the string <pf>"April"</pf> and the integers <pf>25</pf> and <pf>2025</pf>.</p>
     </statement>
     <blocks>
       <block name="date">

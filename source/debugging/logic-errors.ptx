@@ -46,14 +46,14 @@ Here are some common logic errors to check for:
     <idx><h>error</h><h>logic</h></idx>
 <ul>
 <li><p>Remember that integer division always rounds toward zero.
-If you want fractions, use <c>double</c>.
+If you want fractions, use <pf>double</pf>.
 More generally, use integers for countable things and floating-point numbers for measurable things.</p></li>
 <li><p>Floating-point numbers are only approximate, so don't rely on them to be perfectly accurate.
-You should probably never use the <c>==</c> operator with <c>double</c>s.
-Instead of writing <c>if (d == 1.23)</c>, do something like <c>if (Math.abs(d - 1.23) &lt; .000001)</c>.</p></li>
-<li><p>When you apply the equality operator (<c>==</c>) to objects, it checks whether they are identical.
-If you meant to check equivalence, you should use the <c>equals</c> function instead.</p></li>
-<li><p>By default for user-defined types, <c>equals</c> checks identity.
+You should probably never use the <pf>==</pf> operator with <pf>double</pf>s.
+Instead of writing <pf>if (d == 1.23)</pf>, do something like <pf>if (Math.abs(d - 1.23) &lt; .000001)</pf>.</p></li>
+<li><p>When you apply the equality operator (<pf>==</pf>) to objects, it checks whether they are identical.
+If you meant to check equivalence, you should use the <pf>equals</pf> function instead.</p></li>
+<li><p>By default for user-defined types, <pf>equals</pf> checks identity.
 If you want a different notion of equivalence, you have to override it.</p></li>
 <li><p>Inheritance can lead to subtle logic errors, because you can run inherited code without realizing it.
 See <q>Flow of execution</q> on <xref ref="flowexec">page</xref>.</p></li>
@@ -142,7 +142,7 @@ Instead of writing everything in one statement, use temporary variables:
 
 <p>
 Now you have the opportunity to display any of the intermediate variables before returning.
-And by reusing <c>x1</c> and <c>y1</c>, you made the code smaller too.
+And by reusing <pf>x1</pf> and <pf>y1</pf>, you made the code smaller too.
 </p>
 </subsection>
 
@@ -152,9 +152,9 @@ And by reusing <c>x1</c> and <c>y1</c>, you made the code smaller too.
 <p>
     <idx><h>print statement</h></idx>
     <idx><h>statement</h><h>print</h></idx>
-If you use the <c>println</c> function, the output is displayed immediately, but if you use <c>print</c> (at least in some environments), the output gets stored without being displayed until the next newline.
+If you use the <pf>println</pf> function, the output is displayed immediately, but if you use <pf>print</pf> (at least in some environments), the output gets stored without being displayed until the next newline.
 If the program terminates without displaying a newline, you may never see the stored output.
-If you suspect that this is happening, change some or all of the <c>print</c> statements to <c>println</c>.
+If you suspect that this is happening, change some or all of the <pf>print</pf> statements to <pf>println</pf>.
 </p>
 </subsection>
 

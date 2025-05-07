@@ -18,20 +18,20 @@
 
     <p>In this book we will focus on text files. They are much easier to work with and are perfectly good for learning the basics of reading and writing data. There are some general tricks for working with binary data, but most of the challenges when working with binary files relate to understanding how a particular file is structured rather than how to read/write the data.</p>
 
-   <p>We will refer to the files in this book that your programs can work with as <term>datafiles</term>. Here is a datafile named `Numbers.txt`:</p>
+   <p>We will refer to the files in this book that your programs can work with as <term>datafiles</term>. Here is a datafile named <pf>Numbers.txt</pf>:</p>
 
   <datafile label="input-output_numbers.txt" filename="Numbers.txt" rows="2" cols="20"><pre>10 20 30
 40 50 60</pre>
   </datafile>
 
-  <p>In a program we can refer to `"Numbers.txt"` to specify that file.</p>
+  <p>In a program we can refer to <pf>"Numbers.txt"</pf> to specify that file.</p>
 
   <warning>
   <p>You will only be able to use datafiles in programs that are set up to include them. Make sure to check the instructions for any exercises as to what datafiles are available for use in that program.</p></warning>
 
   <note>
   <title>The working directory</title>
-    <p>The <term>working directory</term> refers to the directory on your computer's filesystem where a program is doing its work. Often times for the program we write, the working directory is simply the same directory as the program is located (something like `C:\Programs\HelloWorld` or `\home\astudent\HelloWorld`). But it is possible to be currently working in one directory and launch a program that is somewhere else.</p>
+    <p>The <term>working directory</term> refers to the directory on your computer's filesystem where a program is doing its work. Often times for the program we write, the working directory is simply the same directory as the program is located (something like <pf>C:\Programs\HelloWorld</pf> or <pf>\home\astudent\HelloWorld</pf>). But it is possible to be currently working in one directory and launch a program that is somewhere else.</p>
 
     <p>In this book, datafiles that you are to read will automatically be placed in the working directory. If you are running a program on your own computer, you will have to make sure that you know where your working directory is and you place any files you want to work with in it.</p>
   </note>
@@ -66,9 +66,9 @@
 </subsection>
 <subsection>
 <title>Streams</title>
-    <p>The tools we will use to work with files in C++ are called `ofstream` and `ifstream`. The <term>stream</term> part of the name refers to a general idea - a <q>stream</q> of data that is produced by one thing and consumed by another.</p>
+    <p>The tools we will use to work with files in C++ are called <pf>ofstream</pf> and <pf>ifstream</pf>. The <term>stream</term> part of the name refers to a general idea - a <q>stream</q> of data that is produced by one thing and consumed by another.</p>
 
-    <p>We have already encountered some streams. `cin` and `cout` are streams that send data between the console and a program. `cin` is an input stream, it bring information from the console to the program. `cout` on the other hand is an output stream that sends data from the program to the console. Each time we use `>>` or `&lt;&lt;` we are either removing some data from a stream or inserting some data into it.</p>
+    <p>We have already encountered some streams. <pf>cin</pf> and <pf>cout</pf> are streams that send data between the console and a program. <pf>cin</pf> is an input stream, it bring information from the console to the program. <pf>cout</pf> on the other hand is an output stream that sends data from the program to the console. Each time we use <pf>>></pf> or <pf>&lt;&lt;</pf> we are either removing some data from a stream or inserting some data into it.</p>
 
     <p>As you will see, working with files is not that different than working with the console. That is the power of an abstraction. By thinking of both working with files and the console as examples of <q>sending information to/from the program</q>, we can develop and use one set of techniques that lets us solve both problems.</p>
   <exercise label="question15_2_2">

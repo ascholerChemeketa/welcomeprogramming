@@ -3,22 +3,22 @@
 
   <title>Character Functions</title>
 
-  <p>The C++ standard library provides a set of functions for working with characters in the `cctype` library. Most of these functions are for identifying if a character is an alphabetical character, if it is upper case, if it is lower case, or a digit (numeric), or a whitespace (like a space or tab). They have names like `isalpha` or `islower` and you can find a full list at <url href="https://en.cppreference.com/w/cpp/header/cctype">CPPReference.com's cctype page</url>.</p>
+  <p>The C++ standard library provides a set of functions for working with characters in the <pf>cctype</pf> library. Most of these functions are for identifying if a character is an alphabetical character, if it is upper case, if it is lower case, or a digit (numeric), or a whitespace (like a space or tab). They have names like <pf>isalpha</pf> or <pf>islower</pf> and you can find a full list at <url href="https://en.cppreference.com/w/cpp/header/cctype">CPPReference.com's cctype page</url>.</p>
 
-  <p>If you look up the function prototypes, you will see they all take and return an integer: `int isdigit(int c);`. It would make more sense if that function looked like `bool isdigit(char c)`. So what gives? Well, for historical reasons related to the fact that the `cctype` library is a C++ version of a C library and early versions of C did not have a `bool` type.</p>
+  <p>If you look up the function prototypes, you will see they all take and return an integer: <pf>int isdigit(int c);</pf>. It would make more sense if that function looked like <pf>bool isdigit(char c)</pf>. So what gives? Well, for historical reasons related to the fact that the <pf>cctype</pf> library is a C++ version of a C library and early versions of C did not have a <pf>bool</pf> type.</p>
 
-  <p>Fortunately, the functions return 0 to indicate false and a non-zero value for true. And those values work as false and true in C++. So if you call `isdigit('q')` it will return `0`, but that counts as false. So you can store it into a bool or use it directly in a test:</p>
+  <p>Fortunately, the functions return 0 to indicate false and a non-zero value for true. And those values work as false and true in C++. So if you call <pf>isdigit('q')</pf> it will return <pf>0</pf>, but that counts as false. So you can store it into a bool or use it directly in a test:</p>
 
   <program xml:id="strings_character-functions-1" interactive="activecode">
 <xi:include href="../../programs/strings/character-functions-1.cpp" parse="text"/>
     </program>
 
-  <p>The other two functions in the `cctype` library are `toupper` and `tolower`. They take an `int` parameter (that is expected to be an ASCII code). If that ASCII code corresponds to a letter, `toupper` returns the ASCII code of the upper case version of that letter and `tolower` returns the lower case code. If the input is not a letter, you just get the same value back. Once again, for historical reasons, the value they return is an int. So to avoid a compiler warning, you must cast the returned value to store it as a `char`. (Recall from <xref ref="floatingpoint-math_type-cast-operators"></xref> that casting is how we tell the compiler <q>I know there might be a problem with doing this conversion, but I am confident it will work. Just do it</q>.)</p>
+  <p>The other two functions in the <pf>cctype</pf> library are <pf>toupper</pf> and <pf>tolower</pf>. They take an <pf>int</pf> parameter (that is expected to be an ASCII code). If that ASCII code corresponds to a letter, <pf>toupper</pf> returns the ASCII code of the upper case version of that letter and <pf>tolower</pf> returns the lower case code. If the input is not a letter, you just get the same value back. Once again, for historical reasons, the value they return is an int. So to avoid a compiler warning, you must cast the returned value to store it as a <pf>char</pf>. (Recall from <xref ref="floatingpoint-math_type-cast-operators"></xref> that casting is how we tell the compiler <q>I know there might be a problem with doing this conversion, but I am confident it will work. Just do it</q>.)</p>
 
   <program xml:id="strings_character-functions-2" interactive="activecode">
 <xi:include href="../../programs/strings/character-functions-2.cpp" parse="text"/>
 </program>
 
-  <note><p>The `cctype` library works with regular `char`s and returns results that make sense for English. If using wide characters (`wchar_t`) and/or programming fo a language that uses another alphabet, there is a `cwctype` that works with wide characters and allows you to specify what <q>locale</q> to use for functions like `isalpha`. See <url href="https://en.cppreference.com/w/cpp/header/cwctype">CPPReference.com's csctype docs</url> if you are interested in details.</p></note>
+  <note><p>The <pf>cctype</pf> library works with regular <pf>char</pf>s and returns results that make sense for English. If using wide characters (<pf>wchar_t</pf>) and/or programming fo a language that uses another alphabet, there is a <pf>cwctype</pf> that works with wide characters and allows you to specify what <q>locale</q> to use for functions like <pf>isalpha</pf>. See <url href="https://en.cppreference.com/w/cpp/header/cwctype">CPPReference.com's csctype docs</url> if you are interested in details.</p></note>
 
 </section>

@@ -3,13 +3,13 @@
 <p>
     <idx><h>args</h></idx>
     <idx><h>command-line interface</h></idx>
-Now that you know about strings, arrays, and wrapper classes, we can <term>finally</term> explain the <c>args</c> parameter of the <c>main</c> function, which we have been ignoring since <xref ref="theway">Chapter</xref>.
+Now that you know about strings, arrays, and wrapper classes, we can <term>finally</term> explain the <pf>args</pf> parameter of the <pf>main</pf> function, which we have been ignoring since <xref ref="theway">Chapter</xref>.
 If you are unfamiliar with the command-line interface, please read <xref ref="commandline">Appendix</xref>.
 </p>
 
 <p>
 Let's write a program to find the maximum value in a sequence of numbers.
-Rather than read the numbers from <c>System.in</c> by using a <c>Scanner</c>, we'll pass them as command-line arguments.
+Rather than read the numbers from <pf>System.in</pf> by using a <pf>Scanner</pf>, we'll pass them as command-line arguments.
 Here is a starting point:
 </p>
 
@@ -29,11 +29,11 @@ java Max
 
 <p>
     <idx><h>empty array</h></idx>
-The output indicates that <c>args</c> is an <term>empty array</term>; that is, it has no elements:
+The output indicates that <pf>args</pf> is an <term>empty array</term>; that is, it has no elements:
 </p>
 
 <p>
-If you provide additional values on the command line, they are passed as arguments to <c>main</c>.
+If you provide additional values on the command line, they are passed as arguments to <pf>main</pf>.
 For example, say you run the program like this:
 </p>
 
@@ -48,13 +48,13 @@ The output is shown here:
 </p>
 
 <p>
-It's not clear from the output, but the elements of <c>args</c> are strings.
-So <c>args</c> is the array <c>\{"10", "-3", "55", "0", "14"\}</c>.
+It's not clear from the output, but the elements of <pf>args</pf> are strings.
+So <pf>args</pf> is the array <pf>\{"10", "-3", "55", "0", "14"\}</pf>.
 To find the maximum number, we have to convert the arguments to integers.
 </p>
 
 <p>
-The following code uses an enhanced <c>for</c> loop (see <xref ref="enhanced">Section</xref>) to parse the arguments and find the largest value:
+The following code uses an enhanced <pf>for</pf> loop (see <xref ref="enhanced">Section</xref>) to parse the arguments and find the largest value:
 </p>
 
 <program xml:id="immutable-objects_commandline-arguments-2">
@@ -62,14 +62,14 @@ The following code uses an enhanced <c>for</c> loop (see <xref ref="enhanced">Se
 </program>
 
 <p>
-We begin by initializing <c>max</c> to the smallest (most negative) number an <c>int</c> can represent.
-That way, the first value we parse will replace <c>max</c>.
-As we find larger values, they will replace <c>max</c> as well.
+We begin by initializing <pf>max</pf> to the smallest (most negative) number an <pf>int</pf> can represent.
+That way, the first value we parse will replace <pf>max</pf>.
+As we find larger values, they will replace <pf>max</pf> as well.
 </p>
 
 <p>
-If <c>args</c> is empty, the result will be <c>MIN_VALUE</c>.
-We can prevent this situation from happening by checking <c>args</c> at the beginning of the program:
+If <pf>args</pf> is empty, the result will be <pf>MIN_VALUE</pf>.
+We can prevent this situation from happening by checking <pf>args</pf> at the beginning of the program:
 </p>
 
 <program xml:id="immutable-objects_commandline-arguments-3">
@@ -79,6 +79,6 @@ We can prevent this situation from happening by checking <c>args</c> at the begi
 <p>
     <idx><h>javac</h></idx>
 It's customary for programs that require command-line arguments to display a <q>usage</q> message if the arguments are not valid.
-For example, if you run <c>javac</c> or <c>java</c> from the command line without any arguments, you will get a very long message.
+For example, if you run <pf>javac</pf> or <pf>java</pf> from the command line without any arguments, you will get a very long message.
 </p>
 </section>

@@ -2,7 +2,7 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Indexes in strings</title>
 
-  <p>Recall that we said that a string is an object that combines some methods (functions) like `size()` with data. Well, the data a string needs to store is a list of characters. The characters in a string are <term>indexed</term>, or numbered, starting from 0:<idx><h>index</h></idx></p>
+  <p>Recall that we said that a string is an object that combines some methods (functions) like <pf>size()</pf> with data. Well, the data a string needs to store is a list of characters. The characters in a string are <term>indexed</term>, or numbered, starting from 0:<idx><h>index</h></idx></p>
 
   <tabular>
     <row bottom="minor">
@@ -35,9 +35,9 @@
 
   <p>Note that:
     <ul>
-    <li>The first character, `'H'`, is at index 0. Index 1 refers to the second character. This may be a little confusing at first, but it is a common way of numbering things in programming. (A good way to remember this that also hints at the reason for the convention<mdash/>the first character is 0 bytes from the start of the string.)</li>
-    <li>The string `Hello World` is 11 characters long. That is the answer `size()` would give you.</li>
-    <li>Because we start counting from 0, the last character is at index 10. The last character in a string is always at position `size() - 1`.</li>
+    <li>The first character, <pf>'H'</pf>, is at index 0. Index 1 refers to the second character. This may be a little confusing at first, but it is a common way of numbering things in programming. (A good way to remember this that also hints at the reason for the convention<mdash/>the first character is 0 bytes from the start of the string.)</li>
+    <li>The string <pf>Hello World</pf> is 11 characters long. That is the answer <pf>size()</pf> would give you.</li>
+    <li>Because we start counting from 0, the last character is at index 10. The last character in a string is always at position <pf>size() - 1</pf>.</li>
     </ul>
   </p>
 
@@ -45,12 +45,12 @@
     <idx>
       <h>string</h>
       <h>at</h>
-    </idx> To access characters in a string, string objects provide a function <c>char at(size_t index)</c>. Given a location in the string, it returns the <c>char</c> at that index:
+    </idx> To access characters in a string, string objects provide a function <pf>char at(size_t index)</pf>. Given a location in the string, it returns the <pf>char</pf> at that index:
   </p>
 
   <listing label="size_AC_2">
     <caption>
-      This active code outputs various characters from the string <c>myString</c>.
+      This active code outputs various characters from the string <pf>myString</pf>.
     </caption>
     <program xml:id="size_AC_2_editor"
              interactive="activecode">
@@ -64,24 +64,24 @@
 <xi:include href="../../programs/strings/string-indicies-2.cpp" parse="text"/>
 </program>
 
-  <p>If we read carefully, we can see the error message tells us there was an `out_of_range` problem using the value 100 in a string with `size() (which is 11)`. Notice however that it does not tell us the line number the error occurred on. If it was not obvious we would need to use a debugger or print statements to identify the location. Here, we can tell that the error happened before the line that prints `"Well, that didn't work."` as we do not see it in the output.</p>
+  <p>If we read carefully, we can see the error message tells us there was an <pf>out_of_range</pf> problem using the value 100 in a string with <pf>size() (which is 11)</pf>. Notice however that it does not tell us the line number the error occurred on. If it was not obvious we would need to use a debugger or print statements to identify the location. Here, we can tell that the error happened before the line that prints <pf>"Well, that didn't work."</pf> as we do not see it in the output.</p>
 
   <warning>
     <p>A common source of error involving strings and other arrays is indexing out of bounds. This
-      is usually the result of forgetting to subtract 1 from <c>size</c>. Asking for index 11 in this string would cause an error.</p>
+      is usually the result of forgetting to subtract 1 from <pf>size</pf>. Asking for index 11 in this string would cause an error.</p>
   </warning>
 
-  <p>You can also use the `at()` function to change the value of a character in a string by assigning a new character to the location:</p>
+  <p>You can also use the <pf>at()</pf> function to change the value of a character in a string by assigning a new character to the location:</p>
   <program xml:id="string-indicies-3" interactive="activecode">
 <xi:include href="../../programs/strings/string-indicies-3.cpp" parse="text"/>
 </program>
 
   <warning>
-    <title>The `[ ]` syntax and its dangers</title>
-    <p>There is another way to work with the characters in strings. Instead of `myString.at(index)` we can say `myString[index]`. The <q>bracket notation</q> (the `[ ]`) works the same as `.at()`, except for one critical difference. When you use a bad index with the brackets, no error is generated. Instead, your code reads from or writes to whatever is in memory either before or after the string's characters. This can cause your code to modify some other variable, or some other important part of the code of your program!</p>
-    <p>`.at()` is <q>safe</q> because it prevents you from accidentally doing bad things without knowing about it. `[ ]` is dangerous because it does whatever you ask it to, even if that makes no sense.</p>
+    <title>The <pf>[ ]</pf> syntax and its dangers</title>
+    <p>There is another way to work with the characters in strings. Instead of <pf>myString.at(index)</pf> we can say <pf>myString[index]</pf>. The <q>bracket notation</q> (the <pf>[ ]</pf>) works the same as <pf>.at()</pf>, except for one critical difference. When you use a bad index with the brackets, no error is generated. Instead, your code reads from or writes to whatever is in memory either before or after the string's characters. This can cause your code to modify some other variable, or some other important part of the code of your program!</p>
+    <p><pf>.at()</pf> is <q>safe</q> because it prevents you from accidentally doing bad things without knowing about it. <pf>[ ]</pf> is dangerous because it does whatever you ask it to, even if that makes no sense.</p>
     <p>Why is there an unsafe version? It can be slightly faster to not stop and check if the index makes sense before using it. But only VERY slightly faster. You would have to be doing many thousands of string operations before the speed difference became noticeable to a person. And compilers can often detect from what your other code is doing that the safety check isn't needed and skip it.</p>
-    <p>C++ has a reputation for being a <q>dangerous language</q> because it doesn't always protect programmers from their own mistakes. One way to make the language safer is to avoid the <q>dangerous</q> way of doing things unless we have a very good reason not to. For this reason, we will only use `.at()` notation in this book.</p>
+    <p>C++ has a reputation for being a <q>dangerous language</q> because it doesn't always protect programmers from their own mistakes. One way to make the language safer is to avoid the <q>dangerous</q> way of doing things unless we have a very good reason not to. For this reason, we will only use <pf>.at()</pf> notation in this book.</p>
   </warning>
 
   <exercise label="extracting_characters_1">
@@ -125,7 +125,7 @@
 
   <exercise label="extracting_characters_2">
     <statement>
-      <p>What value does `lunch` end up with?</p>
+      <p>What value does <pf>lunch</pf> end up with?</p>
       <program line-numbers="yes">
         <code><![CDATA[
   string lunch = "hello";

@@ -6,13 +6,13 @@ Regular polygons are a special case of polygons, so we will use specialization t
 </p>
 
 <p>
-We could extend the <c>Polygon</c> class, as we did in the previous section.
-But then we would not have the <c>Color</c> functionality we just added.
-So we will make <c>RegularPolygon</c> extend <c>DrawablePolygon</c>.
+We could extend the <pf>Polygon</pf> class, as we did in the previous section.
+But then we would not have the <pf>Color</pf> functionality we just added.
+So we will make <pf>RegularPolygon</pf> extend <pf>DrawablePolygon</pf>.
 </p>
 
 <p>
-To construct a <c>RegularPolygon</c>, we specify the number of sides, the radius (distance from the center to a vertex), and the color.
+To construct a <pf>RegularPolygon</pf>, we specify the number of sides, the radius (distance from the center to a vertex), and the color.
 For example:
 </p>
 
@@ -40,7 +40,7 @@ Therefore, <m>x = r \cos(\theta)</m> and <m>y = r \sin(\theta)</m>.</p></li>
 </p>
 
 <p>
-Here is the constructor for <c>RegularPolygon</c>:
+Here is the constructor for <pf>RegularPolygon</pf>:
 </p>
 
 <program xml:id="advanced-topics_regular-polygons-2">
@@ -48,18 +48,18 @@ Here is the constructor for <c>RegularPolygon</c>:
 </program>
 
 <p>
-This constructor initializes all four <c>DrawablePolygon</c> attributes, so it doesn't have to invoke <c>super()</c>.
+This constructor initializes all four <pf>DrawablePolygon</pf> attributes, so it doesn't have to invoke <pf>super()</pf>.
 </p>
 
 <p>
-It initializes <c>xpoints</c> and <c>ypoints</c> by creating arrays of integer coordinates.
-Inside the <c>for</c> loop, it uses <c>Math.sin</c> and <c>Math.cos</c> (see <xref ref="mathmeth">Section</xref>) to compute the coordinates of the vertices as floating-point numbers.
+It initializes <pf>xpoints</pf> and <pf>ypoints</pf> by creating arrays of integer coordinates.
+Inside the <pf>for</pf> loop, it uses <pf>Math.sin</pf> and <pf>Math.cos</pf> (see <xref ref="mathmeth">Section</xref>) to compute the coordinates of the vertices as floating-point numbers.
 Then it rounds them off to integers and stores them in the arrays.
 </p>
 
 <p>
-When we construct a <c>RegularPolygon</c>, the vertices are centered at the point <m>(0, 0)</m>.
-If we want the center of the polygon to be somewhere else, we can use <c>translate</c>, which we inherit from <c>Polygon</c>:
+When we construct a <pf>RegularPolygon</pf>, the vertices are centered at the point <m>(0, 0)</m>.
+If we want the center of the polygon to be somewhere else, we can use <pf>translate</pf>, which we inherit from <pf>Polygon</pf>:
 </p>
 
 <program xml:id="advanced-topics_regular-polygons-3">

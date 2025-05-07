@@ -9,7 +9,7 @@
   <term>Operators</term> are special symbols that are used to represent simple computations like
     addition and multiplication. Most of the operators in C++ do exactly what you would expect them
     to do, because they are common mathematical symbols. For example, the operator for adding two
-    integers is <c>+</c> and multiplication is <c>*</c>.</p>
+    integers is <pf>+</pf> and multiplication is <pf>*</pf>.</p>
   <p>The following are all legal C++ expressions whose meaning is more or
     less obvious:     </p>
   <program>
@@ -30,22 +30,22 @@
     </idx>
     <idx>
       <h>operand</h>
-    </idx> In this program, <c>hour * 60 + minute</c> is an <term>expression</term>, which
-    represents a single value to be computed (<c>719</c>). When the program runs, each variable is
+    </idx> In this program, <pf>hour * 60 + minute</pf> is an <term>expression</term>, which
+    represents a single value to be computed (<pf>719</pf>). When the program runs, each variable is
     replaced by its current value, and then the operators are applied. The values that operators
     work with are called <term>operands</term>. </p>
 
-  <p>Expressions are generally a combination of numbers, variables, and operators. When evaluated, they become a single value. For example, the expression <c>1 + 1</c> has the value <c>2</c>.
-    In the expression <c>hour - 1</c>, C++ replaces the variable with its value, yielding <c>11 - 1</c>, which
-    has the value <c>10</c>. </p>
+  <p>Expressions are generally a combination of numbers, variables, and operators. When evaluated, they become a single value. For example, the expression <pf>1 + 1</pf> has the value <pf>2</pf>.
+    In the expression <pf>hour - 1</pf>, C++ replaces the variable with its value, yielding <pf>11 - 1</pf>, which
+    has the value <pf>10</pf>. </p>
 
-  <p>In the expression <c>hour * 60 + minute</c>, both variables get replaced, yielding <c>11 * 60 + 59</c>. The multiplication
-    happens first, yielding <c>660 + 59</c>. Then the addition yields <c>719</c>.</p>
-  <p>The value of an expression is temporary - if we don't do something with it, it will simply be discarded. That is why the sample above stores the value of <c>hour * 60 + minute</c> into the variable <c>totalMinutes</c>. We can also immediately print the result of an expression by doing something like:
-<c>cout &lt;&lt; 2 * x &lt;&lt; endl;</c> which would print out the result of multiplying x by 2.</p>
+  <p>In the expression <pf>hour * 60 + minute</pf>, both variables get replaced, yielding <pf>11 * 60 + 59</pf>. The multiplication
+    happens first, yielding <pf>660 + 59</pf>. Then the addition yields <pf>719</pf>.</p>
+  <p>The value of an expression is temporary - if we don't do something with it, it will simply be discarded. That is why the sample above stores the value of <pf>hour * 60 + minute</pf> into the variable <pf>totalMinutes</pf>. We can also immediately print the result of an expression by doing something like:
+<pf>cout &lt;&lt; 2 * x &lt;&lt; endl;</pf> which would print out the result of multiplying x by 2.</p>
 
   <insight><p>
-    A variable on the left hand side of <c>=</c> is being written to. A variable on the right hand side of <c>=</c>
+    A variable on the left hand side of <pf>=</pf> is being written to. A variable on the right hand side of <pf>=</pf>
     or in any other expression is being read from. The entire right hand side of an assignment statement
     is evaluated to find a single value, which is then stored in the variable on the left hand side.
   </p></insight>
@@ -59,12 +59,12 @@
 
     <p>You may think of the <q>^</q> symbol as meaning <q>power</q>. It does not mean that in C++.
       It means <q>binary exclusive or</q>, an operation we will not cover. If you try to do
-      something like <c>5 ^ 2</c> you will get an answer that has nothing to do with <q>5 to the second
+      something like <pf>5 ^ 2</pf> you will get an answer that has nothing to do with <q>5 to the second
       power</q>. We will learn soon how to calculate exponents.</p>
 
-      <warning><p><c>^</c> does NOT mean <q>raise to the power</q></p></warning>
+      <warning><p><pf>^</pf> does NOT mean <q>raise to the power</q></p></warning>
 
-    <p>Another common mistake is to try to use <q>implicit multiplication</q>. In math, we often write <m>2x</m> to mean <q>2 times x</q>. In C++ you always have to write out the <c>*</c>. Here are some samples:
+    <p>Another common mistake is to try to use <q>implicit multiplication</q>. In math, we often write <m>2x</m> to mean <q>2 times x</q>. In C++ you always have to write out the <pf>*</pf>. Here are some samples:
       <tabular>
         <row header="yes">
           <cell>Wrong</cell>

@@ -59,7 +59,7 @@ TEST_CASE("Time constructor") {
   <subsection>
     <title>Handling Invalid Times</title>
 
-    <p>This seems to work well for correct times, but what about incorrect ones? What should we do if someone asks to make `Time t1(11, 95)`? Should we turn that into 12:35? Or should we treat that as an error and throw an exception? This is a design choice. Assuming that we should try to fix the issue can make the class a little more forgiving to use. Maybe it will be helpful for other code to assume that `Time` classes will handle issues like that. But it could also lead to bugs. What if other code didn't realize it was asking for the minutes value to be something that does not really make sense? If our code attempts to <q>fix</q> the issue, that could hide the fact there is a bug elsewhere.</p>
+    <p>This seems to work well for correct times, but what about incorrect ones? What should we do if someone asks to make <pf>Time t1(11, 95)</pf>? Should we turn that into 12:35? Or should we treat that as an error and throw an exception? This is a design choice. Assuming that we should try to fix the issue can make the class a little more forgiving to use. Maybe it will be helpful for other code to assume that <pf>Time</pf> classes will handle issues like that. But it could also lead to bugs. What if other code didn't realize it was asking for the minutes value to be something that does not really make sense? If our code attempts to <q>fix</q> the issue, that could hide the fact there is a bug elsewhere.</p>
 
     <p>So let's do some basic sanity checking. We might start by writing something like this in our constructor:</p>
 

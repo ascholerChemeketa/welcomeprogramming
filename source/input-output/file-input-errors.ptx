@@ -2,29 +2,29 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Input Tokens and Errors</title>
 
-  <p>The term <term>token</term> means <q>the smallest meaningful unit</q>. What exactly is meaningful depends on the context. If we were looking at `12 34` and thinking of integers, it would make sense to call the tokens `12` and `34`. But if we were looking at that same piece of text as some characters, we would think of it as the tokens `1`, `2`, ` `, `3`, and `4`.</p>
+  <p>The term <term>token</term> means <q>the smallest meaningful unit</q>. What exactly is meaningful depends on the context. If we were looking at <pf>12 34</pf> and thinking of integers, it would make sense to call the tokens <pf>12</pf> and <pf>34</pf>. But if we were looking at that same piece of text as some characters, we would think of it as the tokens <pf>1</pf>, <pf>2</pf>, <pf> </pf>, <pf>3</pf>, and <pf>4</pf>.</p>
 
-  <p>In C++, the `>>` operator says <q>skip past any whitespace, read one token, then stop</q>. If it is trying to read into an integer, and encounters `10 20` it will read the number as 10` and then stop. The ` 20` is left for the next `>>`. If we use `>>` again at that point, it will read over the space at the start and then read the 20.</p>
+  <p>In C++, the <pf>>></pf> operator says <q>skip past any whitespace, read one token, then stop</q>. If it is trying to read into an integer, and encounters <pf>10 20</pf> it will read the number as 10<pf> and then stop. The </pf> 20<pf> is left for the next </pf>>><pf>. If we use </pf>>>` again at that point, it will read over the space at the start and then read the 20.</p>
 
-  <p>If we start with the same data - `10 20` - but read into a `char` with `>>`, we would only get `1`. The `0 20` would be left for future reads.</p>
+  <p>If we start with the same data - <pf>10 20</pf> - but read into a <pf>char</pf> with <pf>>></pf>, we would only get <pf>1</pf>. The <pf>0 20</pf> would be left for future reads.</p>
 
-  <p>This means that if our data is separated by whitespace (spaces, tabs, newlines) and we read it using the right data type, we can not think about the spacing or how to break up the input. Here is a datafile `Numbers2.txt`:</p>
+  <p>This means that if our data is separated by whitespace (spaces, tabs, newlines) and we read it using the right data type, we can not think about the spacing or how to break up the input. Here is a datafile <pf>Numbers2.txt</pf>:</p>
 
   <datafile label="input-output_numbers2.txt" filename="Numbers2.txt" rows="2" cols="20" editable="yes"><pre>10 20 30
 40 50 60</pre>
   </datafile>
 
-  <p>Right now it is the same as `Numbers.txt`, but we will edit in just a minute. Because it has size integers separated by whitespace, we can simply `>>` into an integer variable 6 times to consume all the numbers. All of the spaces and even the newlines are automatically skipped over:</p>
+  <p>Right now it is the same as <pf>Numbers.txt</pf>, but we will edit in just a minute. Because it has size integers separated by whitespace, we can simply <pf>>></pf> into an integer variable 6 times to consume all the numbers. All of the spaces and even the newlines are automatically skipped over:</p>
 
   <program datafile="Numbers2.txt" label="input-output_file-input-errors-1"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-errors-1.cpp" parse="text"/>
 </program>
 
-  <p>But what if we try to read a word into an `int` variable?</p>
+  <p>But what if we try to read a word into an <pf>int</pf> variable?</p>
   
   
   <exercise label="wfesaf434f">
-    <statement><p>Try changing the `30` to `oops`. What happens?</p></statement>
+    <statement><p>Try changing the <pf>30</pf> to <pf>oops</pf>. What happens?</p></statement>
 
     <choices randomize="yes">
       <choice>
@@ -45,9 +45,9 @@
     </choices>
   </exercise>
 
-  <insight><p>Once a stream has a failure, it goes into a failure state and refuses to read (or write) any more data. Calling `>>` on a stream that is in a failure state will not do anything - the variable being read into will get no new data and there will be no visible errors.</p></insight>
+  <insight><p>Once a stream has a failure, it goes into a failure state and refuses to read (or write) any more data. Calling <pf>>></pf> on a stream that is in a failure state will not do anything - the variable being read into will get no new data and there will be no visible errors.</p></insight>
 
-  <p>To safeguard against that behavior, we can check after each use of `>>` to see if there was an error and if so stop before trying to use that data:</p>
+  <p>To safeguard against that behavior, we can check after each use of <pf>>></pf> to see if there was an error and if so stop before trying to use that data:</p>
 
   <program datafile="Numbers2.txt" label="input-output_file-input-errors-2"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-errors-2.cpp" parse="text"/>
@@ -55,13 +55,13 @@
 
   <p>It is up to us to detect failures and decide what to do about them. Here we just print an error message and let the user decide what to do. That will be our usual approach. We often will even omit checking after each input for the sake of readability as new ideas are explained.</p>
 
-  <p>Having the program recovering from errors parsing a file can be quite challenging - it is not always clear what should be done. Should you skip that token and try to read the rest? Is a whole line or section of the file now invalid? Do we need to discard other data we have read? What if we were trying to read an int and the next chunk of the file was `x12`? Do we read the 12? Skip it? There are almost an infinite number of things that could be wrong that we could try to worry about and fix once we started down that path.</p>
+  <p>Having the program recovering from errors parsing a file can be quite challenging - it is not always clear what should be done. Should you skip that token and try to read the rest? Is a whole line or section of the file now invalid? Do we need to discard other data we have read? What if we were trying to read an int and the next chunk of the file was <pf>x12</pf>? Do we read the 12? Skip it? There are almost an infinite number of things that could be wrong that we could try to worry about and fix once we started down that path.</p>
 
-  <aside><p>If you do want to experiment with fixing errors while parsing, you will need to use the the `.clear()` method to reset any error flags on the stream and</p></aside>
+  <aside><p>If you do want to experiment with fixing errors while parsing, you will need to use the the <pf>.clear()</pf> method to reset any error flags on the stream and</p></aside>
 
   
   <exercise label="wfefwersaf434f">
-    <statement><p>We are reading a file with the data `abc 123`. We try to read in an integer. What do we get?</p></statement>
+    <statement><p>We are reading a file with the data <pf>abc 123</pf>. We try to read in an integer. What do we get?</p></statement>
 
     <choices randomize="yes">
       <choice>
@@ -91,7 +91,7 @@
   </exercise>
 
   <exercise label="wfefwersaf434f2">
-    <statement><p>We are reading a file with the data `abc 123`. We try to read in a string. What do we get?</p></statement>
+    <statement><p>We are reading a file with the data <pf>abc 123</pf>. We try to read in a string. What do we get?</p></statement>
 
     <choices randomize="yes">
       <choice>
@@ -121,7 +121,7 @@
   </exercise>
 
   <exercise label="wfefwersaf434f2">
-    <statement><p>We are reading a file with the data `abc 123`. We try to read in a char. What do we get?</p></statement>
+    <statement><p>We are reading a file with the data <pf>abc 123</pf>. We try to read in a char. What do we get?</p></statement>
 
     <choices randomize="yes">
       <choice>

@@ -3,7 +3,7 @@
 
   <title>Composition of Classes</title>
 
-  <p>We already have built a class `Point` that represents a point in 2D space. Now we would like to build a class to represent a Circle. A circle is defined by its center and its radius - given those two pieces of information, we can calculate anything else we might need like its area or diameter.</p>
+  <p>We already have built a class <pf>Point</pf> that represents a point in 2D space. Now we would like to build a class to represent a Circle. A circle is defined by its center and its radius - given those two pieces of information, we can calculate anything else we might need like its area or diameter.</p>
 
   <p>One way we could approach Circle, would be to build it from primitive data:</p>
 
@@ -23,7 +23,7 @@
     </image>
   </figure>
 
-  <p>This could work just fine. But, as the circle gets more complex, it is likely going to have to implement some of the same logic as our existing `Point` class. For example, if I want to know if two circles overlap, I could see if the distance between their centers is less than the sum of their radii. To do that, I would need to use the distance formula. Point already has a method to do the distance formula - copy/pasting that code into Circle sounds like the wrong approach.</p>
+  <p>This could work just fine. But, as the circle gets more complex, it is likely going to have to implement some of the same logic as our existing <pf>Point</pf> class. For example, if I want to know if two circles overlap, I could see if the distance between their centers is less than the sum of their radii. To do that, I would need to use the distance formula. Point already has a method to do the distance formula - copy/pasting that code into Circle sounds like the wrong approach.</p>
 
   <insight><p>Remember: copy/paste is a design flaw. We want to avoid repeating significant pieces of program logic.</p></insight>
 

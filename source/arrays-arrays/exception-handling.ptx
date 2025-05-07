@@ -6,8 +6,8 @@ When one of these exceptions occurs, Java displays a message and ends the progra
 </p>
 
 <p>
-If you don't want the program to end, you can handle exceptions with a <c>try</c>-<c>catch</c> statement.
-The syntax is similar to an <c>if</c>-<c>else</c> statement, and the logic is, too.
+If you don't want the program to end, you can handle exceptions with a <pf>try</pf>-<pf>catch</pf> statement.
+The syntax is similar to an <pf>if</pf>-<pf>else</pf> statement, and the logic is, too.
 Here's what it looks like:
 </p>
 
@@ -23,8 +23,8 @@ Here's what it looks like:
 </program>
 
 <p>
-First, Java runs the code in the try block, which calls <c>Thread.sleep</c> in this example.
-If an <c>InterruptedException</c> occurs during the try block, Java executes the catch block.
+First, Java runs the code in the try block, which calls <pf>Thread.sleep</pf> in this example.
+If an <pf>InterruptedException</pf> occurs during the try block, Java executes the catch block.
 In this example, the catch block contains a comment, so it doesn't do anything.
 </p>
 
@@ -34,7 +34,7 @@ If no exceptions occur during the try block, the catch block doesn't run and the
 </p>
 
 <p>
-In this example, the effect of the <c>try</c>-<c>catch</c> statement is to ignore an <q>interrupted</q> exception if it occurs.
+In this example, the effect of the <pf>try</pf>-<pf>catch</pf> statement is to ignore an <q>interrupted</q> exception if it occurs.
 As an alternative, we could use the catch block to display a customized message, end the program, or handle the exception in whatever way is appropriate.
 For example, if user input causes an exception, we could catch the exception and prompt the user to try again later.
 </p>

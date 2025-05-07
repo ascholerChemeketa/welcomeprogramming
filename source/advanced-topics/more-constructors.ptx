@@ -2,8 +2,8 @@
 <title>More Constructors</title>
 <p>
 Classes in the Java library often have more than one constructor for convenience.
-We can do the same with <c>RegularPolygon</c>.
-For example, we can make the <c>color</c> parameter optional by defining a second constructor:
+We can do the same with <pf>RegularPolygon</pf>.
+For example, we can make the <pf>color</pf> parameter optional by defining a second constructor:
 </p>
 
 <program xml:id="advanced-topics_more-constructors-1">
@@ -11,12 +11,12 @@ For example, we can make the <c>color</c> parameter optional by defining a secon
 </program>
 
 <p>
-The keyword <c>this</c>, when used in a constructor, invokes another constructor in the same class.
-It has a similar syntax as the keyword <c>super</c>, which invokes a constructor in the superclass.
+The keyword <pf>this</pf>, when used in a constructor, invokes another constructor in the same class.
+It has a similar syntax as the keyword <pf>super</pf>, which invokes a constructor in the superclass.
 </p>
 
 <p>
-Similarly, we could make the <c>radius</c> parameter optional too:
+Similarly, we could make the <pf>radius</pf> parameter optional too:
 </p>
 
 <program xml:id="advanced-topics_more-constructors-2">
@@ -24,7 +24,7 @@ Similarly, we could make the <c>radius</c> parameter optional too:
 </program>
 
 <p>
-Now, suppose we invoke the <c>RegularPolygon</c> constructor like this:
+Now, suppose we invoke the <pf>RegularPolygon</pf> constructor like this:
 </p>
 
 <program xml:id="advanced-topics_more-constructors-3">
@@ -33,7 +33,7 @@ Now, suppose we invoke the <c>RegularPolygon</c> constructor like this:
 
 <p>
 Because we provide only one integer argument, Java calls the third constructor, which calls the second one, which calls the first one.
-The result is a <c>RegularPolygon</c> with the specified value of <c>nsides</c>, <c>6</c>, the default value of <c>radius</c>, <c>50</c>, and the default color, <c>GRAY</c>.
+The result is a <pf>RegularPolygon</pf> with the specified value of <pf>nsides</pf>, <pf>6</pf>, the default value of <pf>radius</pf>, <pf>50</pf>, and the default color, <pf>GRAY</pf>.
 </p>
 
 <p>
@@ -42,7 +42,7 @@ Doing so prevents run-time errors later in the program, which makes the code eas
 </p>
 
 <p>
-For <c>RegularPolygon</c>, the number of sides should be at least three, the radius should be greater than zero, and the color should not be <c>null</c>.
+For <pf>RegularPolygon</pf>, the number of sides should be at least three, the radius should be greater than zero, and the color should not be <pf>null</pf>.
 We can add the following lines to the first constructor:
 </p>
 
@@ -53,7 +53,7 @@ We can add the following lines to the first constructor:
 <p>
     <idx><h>throw</h></idx>
     <idx><h>statement</h><h>throw</h></idx>
-In this example, we <c>throw</c> an exception to indicate that one of the arguments is invalid.
+In this example, we <pf>throw</pf> an exception to indicate that one of the arguments is invalid.
 By default, these exceptions terminate the program and display an error message along with the stack trace.
 </p>
 

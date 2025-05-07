@@ -38,10 +38,10 @@ int main() {
         ]]></code>
     </program>
   </listing>
-  <p>The sequence <c>\t</c> represents a <term>tab</term> character. A tab character causes the cursor
+  <p>The sequence <pf>\t</pf> represents a <term>tab</term> character. A tab character causes the cursor
     to shift to the right until it reaches one of the <term>tab stops</term>, which are normally
     every eight characters. This helps the second column stay lined up even when the length of the
-    number in the first column goes from 1 to 2 digits. If we used the string `" "` to space out the
+    number in the first column goes from 1 to 2 digits. If we used the string <pf>" "</pf> to space out the
     columns, the second column would jump over when the first column changed length.</p>
 
   <p>When making a table, or doing any work with a loop, it is important to think about what
@@ -82,16 +82,16 @@ int main() {
   </program>
 
   <p>Key things to note: <ul>
-      <li>`balance` is the loop control variable. It is serving as an accumulator to store the
+      <li><pf>balance</pf> is the loop control variable. It is serving as an accumulator to store the
     interest earned each year.</li>
-      <li>`years` is a counter variable we increase by one each time through the loop, but the loop
+      <li><pf>years</pf> is a counter variable we increase by one each time through the loop, but the loop
     logic does not depend on its value.</li>
-      <li>There are multiple updates that need to happen each year. We need to increment `years`,
+      <li>There are multiple updates that need to happen each year. We need to increment <pf>years</pf>,
     calculate the interest based on the current balance, and then update the balance.</li>
       <li>The loop does not print the last row of the table. After the updates are done, if we have
-    hit the `TARGET`, the loop stops without printing the final value. So we do one last print
+    hit the <pf>TARGET</pf>, the loop stops without printing the final value. So we do one last print
     statement after the loop to handle that row.</li>
-      <li>Instead of magic numbers for `START_VALUE`, `GROWTH_RATE`,and `TARGET`, we have constants.
+      <li>Instead of magic numbers for <pf>START_VALUE</pf>, <pf>GROWTH_RATE</pf>,and <pf>TARGET</pf>, we have constants.
     When values in a program should be reconfigurable, but do not come from input, it is a good idea
     to make them constants and declare them together in one place.</li>
     </ul>
@@ -100,7 +100,7 @@ int main() {
   <insight>
     <p>It is often necessary (or at least easier) to handle the first or last item in a sequence
       before or after the loop that handles the other items.</p>
-    <p>Doing this is better than putting an `if` inside the loop to do something special only in the
+    <p>Doing this is better than putting an <pf>if</pf> inside the loop to do something special only in the
       first or last iteration. We could move the final output inside the loop above by doing:</p>
     <program><![CDATA[
         ...
@@ -188,26 +188,26 @@ int main() {
     <choices randomize="yes">
       <choice>
         <statement id="tables_4_opt_a">
-          <p>Change <c>pow(x,2)</c> to <c>pow(3,x)</c> and change <c>x = x + 1</c> to <c>x = x + 2</c>.</p>
+          <p>Change <pf>pow(x,2)</pf> to <pf>pow(3,x)</pf> and change <pf>x = x + 1</pf> to <pf>x = x + 2</pf>.</p>
         </statement>
-        <feedback> Check the order of the <c>pow</c> function! </feedback>
+        <feedback> Check the order of the <pf>pow</pf> function! </feedback>
       </choice>
       <choice>
         <statement id="tables_4_opt_b">
-          <p>Change <c>pow(x,2)</c> to <c>pow(x,3)</c>.</p>
+          <p>Change <pf>pow(x,2)</pf> to <pf>pow(x,3)</pf>.</p>
         </statement>
         <feedback> This will print out the first ten perfect cubes. </feedback>
       </choice>
       <choice correct="yes">
         <statement id="tables_4_opt_c">
-          <p>Change <c>pow(x,2)</c> to <c>pow(x,3)</c> and change <c>x = x + 1</c> to <c>x = x + 2</c>.</p>
+          <p>Change <pf>pow(x,2)</pf> to <pf>pow(x,3)</pf> and change <pf>x = x + 1</pf> to <pf>x = x + 2</pf>.</p>
         </statement>
-        <feedback> Changing both the <c>pow</c> function and the increment in this way gives us the
+        <feedback> Changing both the <pf>pow</pf> function and the increment in this way gives us the
           right answer. </feedback>
       </choice>
       <choice>
         <statement id="tables_4_opt_d">
-          <p>Change <c>x &lt; 11</c> to <c>x &lt; 6</c> and change <c>pow(x,2)</c> to <c>pow(x,3)</c>.</p>
+          <p>Change <pf>x &lt; 11</pf> to <pf>x &lt; 6</pf> and change <pf>pow(x,2)</pf> to <pf>pow(x,3)</pf>.</p>
         </statement>
         <feedback> This will print out the first five perfect cubes, but not the first five odd
           perfect cubes.</feedback>

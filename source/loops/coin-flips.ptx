@@ -12,9 +12,9 @@
 
   <p>To simulate flipping a coin, we need to map the possibilities to different numbers. Let's call
     tails 0 and heads 1. Flipping a coin is then the same as picking either 0 or 1, which we can do
-    with `randRange(0, 1)`. Any time we want to pick something at random, we can apply the same
+    with <pf>randRange(0, 1)</pf>. Any time we want to pick something at random, we can apply the same
     basic strategy. Say we want to pick a random day of the week. There are seven days, so we could
-    use `randRange(0, 6)` or `randRange(1, 7)` and then map each possible number to a different day
+    use <pf>randRange(0, 6)</pf> or <pf>randRange(1, 7)</pf> and then map each possible number to a different day
     of the week (i.e. 0 means "Sunday", 1 means "Monday", etc...)</p>
 
   <p>Let's start with a simple test of this idea. We will make a loop that counts until 10. In the
@@ -34,7 +34,7 @@
 
   <exercise label="coin-flips-2">
     <statement>
-      <p>Fix the missing parts of the code below. They are marked with `???`. To make sure we see
+      <p>Fix the missing parts of the code below. They are marked with <pf>???</pf>. To make sure we see
         some longer streaks, we are now flipping 100 coins - you will need to scroll the output area
         to see all of it.</p>
     </statement>
@@ -59,7 +59,7 @@ if (headStreak == 4) {
     count to 1000, but it is still possible (although very unlikely) we wouldn't see 4 heads.</p>
 
   <p>The real problem here is that our problem involves counting, but the loop we need is not a <term>counting
-    loop</term> We need a <term>sentinel value loop</term> - one that stops when `headStreak` is 4.
+    loop</term> We need a <term>sentinel value loop</term> - one that stops when <pf>headStreak</pf> is 4.
     Our counter is something extra we are doing, not what drives the loop logic.</p>
 
   <exercise label="tablsdfsdfes_1"

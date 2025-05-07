@@ -2,25 +2,25 @@
 <title>Returning</title>
 
   <p>
-  Now we are ready to worry about how a function like <c>doubleValue</c> does its work. The <term>body</term> of a function Is the statements that are in curly braces after the functions prototype. They are the code that runs when the function is called. As a reminder, here is the body of the <c>doubleValue</c> function with its body highlighted:</p>
+  Now we are ready to worry about how a function like <pf>doubleValue</pf> does its work. The <term>body</term> of a function Is the statements that are in curly braces after the functions prototype. They are the code that runs when the function is called. As a reminder, here is the body of the <pf>doubleValue</pf> function with its body highlighted:</p>
 
 <program xml:id="functions-testing_returning-1" line-numbers="yes" highlight-lines="2-3">
 <xi:include href="../../programs/functions-testing/defining-new-functions-1.cpp" parse="text"/>
 </program>
 
   <p>
-  On the first line of the body (line 2), the function takes the parameter <c>num</c> and multiplies it by 2. From inside the function, the parameters work just like variables that have been already set before the function body starts running. The values any parameters are set to are determined by what was passed in by the caller.
+  On the first line of the body (line 2), the function takes the parameter <pf>num</pf> and multiplies it by 2. From inside the function, the parameters work just like variables that have been already set before the function body starts running. The values any parameters are set to are determined by what was passed in by the caller.
   </p>
 
   <p>
-  The last line of the function is a <term>return statement</term>. The <c>return</c> keyword essentially says:
+  The last line of the function is a <term>return statement</term>. The <pf>return</pf> keyword essentially says:
   <q>return immediately from this function. Give this value back to the code that called the function.</q> Following the return is the value to be returned. It can be a single variable, or an expression that will be evaluated before it is returned.
   <idx><h>return statement</h></idx>
   <idx><h>return</h></idx>
   </p>
 
-  <warning><p>Returning a value is how a function fulfills the promise made by its return type. This function promises it returns an <c>int</c>, so it must end by retuning a value that is an integer. If a function fails to return the right kind of data it will be a compile error or a warning.</p>
-    <p>Once a <c>return</c> is hit, execution leaves the function. Nothing that comes after the <c>return</c> will get to run!</p></warning>
+  <warning><p>Returning a value is how a function fulfills the promise made by its return type. This function promises it returns an <pf>int</pf>, so it must end by retuning a value that is an integer. If a function fails to return the right kind of data it will be a compile error or a warning.</p>
+    <p>Once a <pf>return</pf> is hit, execution leaves the function. Nothing that comes after the <pf>return</pf> will get to run!</p></warning>
 
   <p>Watching functions run in the Codelens can help you see how information moves into and out of the function:</p>
   
@@ -28,7 +28,7 @@
 <xi:include href="../../programs/functions-testing/defining-new-functions-2.cpp" parse="text"/>
 </program>
 
-  <p>Step The code line by line. Notice that as you reach the <c>doubleValue</c> in main the next line that executes is the double value function. As that function starts running, the parameter <c>num</c> is automatically set to the value that was passed in from main (the value x has, which is 5). When we reach the return execution jumps back to where the function call was and the returned result is stored into the variable y.</p>
+  <p>Step The code line by line. Notice that as you reach the <pf>doubleValue</pf> in main the next line that executes is the double value function. As that function starts running, the parameter <pf>num</pf> is automatically set to the value that was passed in from main (the value x has, which is 5). When we reach the return execution jumps back to where the function call was and the returned result is stored into the variable y.</p>
 
   <p>Here is a program that uses the function 
   twice. Again, try running it in Codelens:</p>
@@ -38,13 +38,13 @@
 </program>
 
   <p>
-    Notice that both times we reach a call to <c>doubleValue</c> in main, we jump up to the function. The <c>num</c> parameter is set to a different value in each call. When the function finishes and returns, the returned value goes back to the place where the function was most recently called from and execution resumes from there.
+    Notice that both times we reach a call to <pf>doubleValue</pf> in main, we jump up to the function. The <pf>num</pf> parameter is set to a different value in each call. When the function finishes and returns, the returned value goes back to the place where the function was most recently called from and execution resumes from there.
   </p>
 
   
   <exercise label="operators_3.3">
     <statement>
-    <p>Imagine the function below is passed the value 12 as <c>x</c>. What value will be returned?</p>
+    <p>Imagine the function below is passed the value 12 as <pf>x</pf>. What value will be returned?</p>
       <program>
       int doStuff(int x) {
         int y = 10;

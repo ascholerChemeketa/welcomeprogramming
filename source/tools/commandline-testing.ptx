@@ -58,9 +58,9 @@ java Convert &lt; test.in > test.out
     <idx><h>operator</h><h>redirection</h></idx>
     <idx><h>System.in</h></idx>
     <idx><h>System.out</h></idx>
-On the command line, <c>&lt;</c> and <c>&gt;</c> are <term>redirection operators</term>.
-The first one redirects the contents of <term>test.in</term> to <c>System.in</c>, as if it were entered from the keyboard.
-The second one redirects the contents of <c>System.out</c> to a new file <term>test.out</term>, much like a screen capture.
+On the command line, <pf>&lt;</pf> and <pf>&gt;</pf> are <term>redirection operators</term>.
+The first one redirects the contents of <term>test.in</term> to <pf>System.in</pf>, as if it were entered from the keyboard.
+The second one redirects the contents of <pf>System.out</pf> to a new file <term>test.out</term>, much like a screen capture.
 In other words, the <term>test.out</term> file contains the output of your program.
 </p>
 
@@ -69,11 +69,11 @@ By the way, it's perfectly okay to compile your programs in DrJava (or another e
 Knowing both techniques allows you to use the right tool for the job.
 </p>
 <figure xml:id="fig_meld" >
-<caption>Using <c>meld</c> to compare expected output with the actual output.</caption>
+<caption>Using <pf>meld</pf> to compare expected output with the actual output.</caption>
 <image width="95%" source="images/meld.png" />
 </figure>
 <p>
-At this point, we just need to compare the contents <c>test.out</c> with <c>test.exp</c>.
+At this point, we just need to compare the contents <pf>test.out</pf> with <pf>test.exp</pf>.
 If the files are the same, then the program outputted what we expected it to output.
 If not, then we found a bug, and we can use the output to begin debugging our program.
 Fortunately, there's a simple way to compare files on the command line:
@@ -86,16 +86,16 @@ diff test.exp test.out
 </console>
 
 <p>
-The <c>diff</c> utility summarizes the differences between two files.
+The <pf>diff</pf> utility summarizes the differences between two files.
 If there are no differences, it displays nothing, which in our case is what we want.
 If the expected output differs from the actual output, we need to continue debugging.
-Usually, the program is at fault, and <c>diff</c> provides some insight about what is broken.
+Usually, the program is at fault, and <pf>diff</pf> provides some insight about what is broken.
 But there's also a chance that we have a correct program and the expected output is wrong.
 </p>
 
 <p>
-Interpreting the results from <c>diff</c> can be confusing, but fortunately many graphical tools can show the differences between two files.
-For example, on Windows you can install <c>WinMerge</c>, on macOS you can use <c>opendiff</c> (which comes with Xcode), and on Linux there's <c>meld</c>, shown in <xref ref="fig_meld">Figure</xref>.
+Interpreting the results from <pf>diff</pf> can be confusing, but fortunately many graphical tools can show the differences between two files.
+For example, on Windows you can install <pf>WinMerge</pf>, on macOS you can use <pf>opendiff</pf> (which comes with Xcode), and on Linux there's <pf>meld</pf>, shown in <xref ref="fig_meld">Figure</xref>.
 </p>
 
 <p>

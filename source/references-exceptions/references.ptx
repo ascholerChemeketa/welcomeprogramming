@@ -21,16 +21,16 @@
 <xi:include href="../../programs/references-exceptions/references-1.cpp" parse="text"/>
 </program>
 
-    <p>There are two storage locations, each with its own name. The second line of main make a new storage area with the name `b` and copies the value `a` has to it. When reading that code, you should picture a memory diagram that looks like this:</p>
+    <p>There are two storage locations, each with its own name. The second line of main make a new storage area with the name <pf>b</pf> and copies the value <pf>a</pf> has to it. When reading that code, you should picture a memory diagram that looks like this:</p>
 
     <figure>
-    <caption>Memory diagram of `a` and `b` that each hold 5.</caption>
+    <caption>Memory diagram of <pf>a</pf> and <pf>b</pf> that each hold 5.</caption>
     <image width="25%"
            source="images/references-1.svg"/>
   </figure>
 
-  <p>Changing the value in the storage named by `b` does not change the value stored in `a`. This is how things usually work in C++.</p>
-  <p>A <term>reference</term> changes this. A reference does not name its own storage, instead a reference always <q>points</q> to some other storage. We declare a variable to be a reference by adding `&amp;` to the data type, like `int&amp; b;`. The `&amp;` change the type of `b <mdash/>it no longer is an <q>int</q>, it is a <q>reference to an int</q>.
+  <p>Changing the value in the storage named by <pf>b</pf> does not change the value stored in <pf>a</pf>. This is how things usually work in C++.</p>
+  <p>A <term>reference</term> changes this. A reference does not name its own storage, instead a reference always <q>points</q> to some other storage. We declare a variable to be a reference by adding <pf>&amp;</pf> to the data type, like <pf>int&amp; b;</pf>. The <pf>&amp;</pf> change the type of `b <mdash/>it no longer is an <q>int</q>, it is a <q>reference to an int</q>.
     <idx>
       <h>reference</h>
     </idx> 
@@ -38,24 +38,24 @@
       <h>&amp; (reference)</h>
     </idx></p>
 
-  <insight><p>When trying to pronounce complex looking data types in C++ it sometimes helps to read the backwards. `int&amp; b;` can be read as <q>b is a reference to an integer</q>.</p></insight>
+  <insight><p>When trying to pronounce complex looking data types in C++ it sometimes helps to read the backwards. <pf>int&amp; b;</pf> can be read as <q>b is a reference to an integer</q>.</p></insight>
 
-  <p>A memory diagram for `int&amp; b = a;` should look like:</p>
+  <p>A memory diagram for <pf>int&amp; b = a;</pf> should look like:</p>
 
     <figure>
-    <caption>Memory diagram of `a` that holds 5 and `b` that is a reference to `a`.</caption>
+    <caption>Memory diagram of <pf>a</pf> that holds 5 and <pf>b</pf> that is a reference to <pf>a</pf>.</caption>
     <image width="25%"
            source="images/references-2.svg"/>
   </figure>
 
-  <p>`b` is an <term>alias</term> for `a` - it is another way to name the exact same storage that `a` names. If we change `b`, we change that value. Run this Codelens sample to see its animation of the situation:</p>
+  <p><pf>b</pf> is an <term>alias</term> for <pf>a</pf> - it is another way to name the exact same storage that <pf>a</pf> names. If we change <pf>b</pf>, we change that value. Run this Codelens sample to see its animation of the situation:</p>
 
   <program xml:id="references-exceptions_references-2" interactive="codelens">
 <xi:include href="../../programs/references-exceptions/references-2.cpp" parse="text"/>
 </program>
 
-  <p>You can change either `a` or `b` and both variables <q>see</q> the new value.</p>
+  <p>You can change either <pf>a</pf> or <pf>b</pf> and both variables <q>see</q> the new value.</p>
 
-  <note><p>The formal name in C++ for variables that name their own storage is an <term>lvalue</term> (location). A reference is an <term>rvalue</term> (reference). It is also possible to have an <term>rvalue reference</term> using the symbol `&amp;&amp;`.</p>
+  <note><p>The formal name in C++ for variables that name their own storage is an <term>lvalue</term> (location). A reference is an <term>rvalue</term> (reference). It is also possible to have an <term>rvalue reference</term> using the symbol <pf>&amp;&amp;</pf>.</p>
   <p>Those terms and the concept of an rvalue reference are beyond the scope of this book.</p></note>
 </section>

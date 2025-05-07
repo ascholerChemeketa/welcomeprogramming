@@ -2,12 +2,12 @@
 <title>Card Objects</title>
 <p>
     <idx><h>Card</h></idx>
-If we want to define a class to represent a playing card, it is pretty clear what the instance variables should be: <c>rank</c> and <c>suit</c>.
+If we want to define a class to represent a playing card, it is pretty clear what the instance variables should be: <pf>rank</pf> and <pf>suit</pf>.
 It is not as obvious what types they should be.
 </p>
 
 <p>
-One possibility is a <c>String</c> containing things like <c>"Spade"</c> for suits and <c>"Queen"</c> for ranks.
+One possibility is a <pf>String</pf> containing things like <pf>"Spade"</pf> for suits and <pf>"Queen"</pf> for ranks.
 A problem with this choice is that it would not be easy to compare cards to see which had a higher rank or suit.
 </p>
 
@@ -44,7 +44,7 @@ For the face cards, we can use the following:
 <row><cell>King</cell><cell><m>\mapsto</m></cell><cell>13</cell></row>
 </tabular>
 <p>
-With this encoding, the class definition for the <c>Card</c> type looks like this:
+With this encoding, the class definition for the <pf>Card</pf> type looks like this:
 </p>
 
 <program xml:id="arrays-objects_card-objects-1">
@@ -53,12 +53,12 @@ With this encoding, the class definition for the <c>Card</c> type looks like thi
 
 <p>
     <idx><h>constructor</h></idx>
-The instance variables are <c>private</c>: we can access them from inside this class, but not from other classes.
+The instance variables are <pf>private</pf>: we can access them from inside this class, but not from other classes.
 </p>
 
 <p>
 The constructor takes a parameter for each instance variable.
-To create a <c>Card</c> object, we use the <c>new</c> operator:
+To create a <pf>Card</pf> object, we use the <pf>new</pf> operator:
 </p>
 
 <program xml:id="arrays-objects_card-objects-2">
@@ -66,6 +66,6 @@ To create a <c>Card</c> object, we use the <c>new</c> operator:
 </program>
 
 <p>
-The result is a reference to a <c>Card</c> that represents the 3 of Clubs.
+The result is a reference to a <pf>Card</pf> that represents the 3 of Clubs.
 </p>
 </section>

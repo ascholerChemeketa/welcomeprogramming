@@ -20,7 +20,7 @@ java -jar checkstyle-*-all.jar -c /google_checks.xml *.java
 
 <p>
     <idx><h>wildcard</h></idx>
-The <c>*</c> characters are <term>wildcards</term> that match whatever version of Checkstyle you have and whatever Java source files are present.
+The <pf>*</pf> characters are <term>wildcards</term> that match whatever version of Checkstyle you have and whatever Java source files are present.
 The output indicates the file and line number of each problem.
 This example refers to a function beginning on line 93, column 5 of <term>Hello.java</term>:
 </p>
@@ -32,8 +32,8 @@ Hello.java:93:5: Missing a Javadoc comment
 </console>
 
 <p>
-The file <c>/google_checks.xml</c> is inside the JAR file and represents most of Google's style rules.
-You can alternatively use <c>/sun_checks.xml</c> or provide your own configuration file.
+The file <pf>/google_checks.xml</pf> is inside the JAR file and represents most of Google's style rules.
+You can alternatively use <pf>/sun_checks.xml</pf> or provide your own configuration file.
 See Checkstyle's website for more information.
 </p>
 

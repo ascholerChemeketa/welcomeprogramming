@@ -8,7 +8,7 @@
     </idx> The name a variable is given is formally called an <term>
     identifier</term>.
     An identifier can be any sequence of letters and digits, but it must begin with a letter. It is
-    also allowed to use the underscore character (<c>_</c>) in an identifier. Below are some examples
+    also allowed to use the underscore character (<pf>_</pf>) in an identifier. Below are some examples
     of legal variable names and illegal ones: </p>
 
   <table>
@@ -22,49 +22,49 @@
       </row>
       <row>
         <cell>
-          <c>age</c>
+          <pf>age</pf>
         </cell>
         <cell>Legal</cell>
         <cell></cell>
       </row>
       <row>
         <cell>
-          <c>firstName</c>
+          <pf>firstName</pf>
         </cell>
         <cell>Legal</cell>
         <cell></cell>
       </row>
       <row>
         <cell>
-          <c>x2</c>
+          <pf>x2</pf>
         </cell>
         <cell>Legal</cell>
         <cell></cell>
       </row>
       <row>
         <cell>
-          <c>first_name</c>
+          <pf>first_name</pf>
         </cell>
         <cell>Legal</cell>
         <cell></cell>
       </row>
       <row>
         <cell>
-          <c>2ndPlace</c>
+          <pf>2ndPlace</pf>
         </cell>
         <cell>Illegal</cell>
         <cell>Can't start with a digit</cell>
       </row>
       <row>
         <cell>
-          <c>first name</c>
+          <pf>first name</pf>
         </cell>
         <cell>Illegal</cell>
         <cell>Can't use spaces</cell>
       </row>
       <row>
         <cell>
-          <c>l%$*</c>
+          <pf>l%$*</pf>
         </cell>
         <cell>Illegal</cell>
         <cell>Can only use letters, digits, underscore</cell>
@@ -76,7 +76,7 @@
     <idx>
       <h>keyword</h>
     </idx>There are some words that are reserved in C++ and cannot be used as
-    identifiers. These words include ones you have already encountered like <c>int</c> and <c>using</c>, you
+    identifiers. These words include ones you have already encountered like <pf>int</pf> and <pf>using</pf>, you
     will encounter more as you learn more about the language. These reserved words are known as <term>
     keywords</term>. You can find a full list of keywords at <url href="https://en.cppreference.com/w/cpp/keyword">
     cppreference</url>, but you don't
@@ -88,24 +88,24 @@
     <idx>
       <h>case-sensitive</h>
     </idx> Variable names usually begin with a lowercase letter. 
-    When a variable name contains more than one word (like <c>firstName</c>), it is conventional to capitalize the first letter of
-    each subsequent word. Variable names are case-sensitive, so <c>firstName</c> is not the same as <c>firstname</c>
-    or <c>FirstName</c>.</p>
+    When a variable name contains more than one word (like <pf>firstName</pf>), it is conventional to capitalize the first letter of
+    each subsequent word. Variable names are case-sensitive, so <pf>firstName</pf> is not the same as <pf>firstname</pf>
+    or <pf>FirstName</pf>.</p>
 
 
   <p>Beyond the syntax requirements, there are also conventions for naming variables. For example,
     it is common to use lowercase letters for variable names, and to capitalize the first letter of
-    each subsequent word in a multi-word name. For example, <c>firstName</c> is a common way to name a
+    each subsequent word in a multi-word name. For example, <pf>firstName</pf> is a common way to name a
     variable that stores a person's first name. This style of naming is called <term>camelCase</term>
     (the uppercase letters look a little like the humps on a camel). That is the style used in this
     book. Another common style is <term>snake_case</term>, where words are separated by underscores,
-    like <c>first_name</c>. Like other formatting choices, there is not a single <q>right</q> way to name
+    like <pf>first_name</pf>. Like other formatting choices, there is not a single <q>right</q> way to name
     variables, but it is important to be consistent. </p>
 
   <note>
     <p>Case matters! If you get an error that looks like:</p>
     <console><output>error: ‘myname’ was not declared in this scope</output></console>
-    <p>Double check that your identifier isn't actually <c>myName</c></p>
+    <p>Double check that your identifier isn't actually <pf>myName</pf></p>
   </note>
   
   <exercise label="values21">

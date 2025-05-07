@@ -12,9 +12,9 @@
 
   <p>When representing 2 dimensions, rows and columns is a natural way to picture the data, even if what we are storing is really a list of lists.</p>
 
-  <p>With the structure shown for `oceanTemperatures`, what we really have is a list, where each item is a list. And each item of those lists is another list. But we can also visualize the data as something like rows, columns, and layers.</p>
+  <p>With the structure shown for <pf>oceanTemperatures</pf>, what we really have is a list, where each item is a list. And each item of those lists is another list. But we can also visualize the data as something like rows, columns, and layers.</p>
 
-  <p>But the exact order of the dimensions is up to us. In the case of ocean temperatures, we might choose to have depth (or layer) be the first dimension. If the structure below is named `oceanTemps`, then `oceanTemps.at(0)` would refer to the top layer. `oceanTemps.at(0).at(0)` would refer to the uppermost latitude (row) in the top layer. And `oceanTemps.at(0).at(0).at(2)` would refer to the rightmost (largest latitude) location at that latitude.</p>
+  <p>But the exact order of the dimensions is up to us. In the case of ocean temperatures, we might choose to have depth (or layer) be the first dimension. If the structure below is named <pf>oceanTemps</pf>, then <pf>oceanTemps.at(0)</pf> would refer to the top layer. <pf>oceanTemps.at(0).at(0)</pf> would refer to the uppermost latitude (row) in the top layer. And <pf>oceanTemps.at(0).at(0).at(2)</pf> would refer to the rightmost (largest latitude) location at that latitude.</p>
 
   <figure>
     <caption>A three dimensional arrangement where depth is the first dimension, latitude is the secondary dimension, and longitude the third.</caption>

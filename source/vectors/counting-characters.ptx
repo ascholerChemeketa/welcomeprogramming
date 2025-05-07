@@ -16,8 +16,8 @@
       case, we need to store 26 integers (one for each letter). Rather than create 26 variables, we
       can create a single vector of integers with 26 elements, one for each letter of the alphabet.
       The only missing ingredient is how to map the letters of the alphabet to the indexes of our
-      vector. When we see `'a'` we need to know that it belongs in element index 0. When we see
-      `'b'` we need to know that it belongs in element index 1.</p>
+      vector. When we see <pf>'a'</pf> we need to know that it belongs in element index 0. When we see
+      <pf>'b'</pf> we need to know that it belongs in element index 1.</p>
 
     <figure>
       <caption>A vector to store letter counts.</caption>
@@ -26,9 +26,9 @@
     </figure>
 
     <p>We could use a large if/else chain (or a switch statement) to determine the right index for
-      each character. But since chars are inherently numeric, we can instead do some math. `'a'` has
-      the value 97. `'b'` has the value 98, `'c'` the value 99, and so on. So `'a' - 'a'` equals 0.
-      `'b' - 'a'` equals 1. `'c' - 'a'` equals 2. If we subtract `'a'` from a character we are
+      each character. But since chars are inherently numeric, we can instead do some math. <pf>'a'</pf> has
+      the value 97. <pf>'b'</pf> has the value 98, <pf>'c'</pf> the value 99, and so on. So <pf>'a' - 'a'</pf> equals 0.
+      <pf>'b' - 'a'</pf> equals 1. <pf>'c' - 'a'</pf> equals 2. If we subtract <pf>'a'</pf> from a character we are
       essentially calculating <q>how far is this letter from 'a?'</q>. And that value tells exactly
       what index the character belongs to!</p>
 
@@ -49,7 +49,7 @@
 </program>
 
     <p>Testing out that code, it seems like there are a few problems: <ul>
-        <li>Upper case ``T`` gets a different index than ``t``</li>
+        <li>Upper case <pf>T</pf> gets a different index than <pf>t</pf></li>
         <li>We are getting spaces, newlines, and punctuation</li>
       </ul>
     </p>
@@ -94,9 +94,9 @@
 </program>
 
   <p>This
-    is looking good. But it is a little tricky to read the output. To figure out how many `'t'`s
+    is looking good. But it is a little tricky to read the output. To figure out how many <pf>'t'</pf>s
     there are, we need to do some mental math. Let's make it easier to read by printing out the
-    letter instead of the index. We can do this by adding `'a'` to the index and casting it to a
+    letter instead of the index. We can do this by adding <pf>'a'</pf> to the index and casting it to a
     char. Try modifying the code in the final loop to look like this:</p>
 
   <program xml:id="vectors_counting-characters-5">
@@ -107,7 +107,7 @@
   
   <exercise label="program_lang_1">
     <statement>
-      <p>Replace the value of `testString` in the program with the text from the box below. How many `e`'s are counted when you run the program on that text?
+      <p>Replace the value of <pf>testString</pf> in the program with the text from the box below. How many <pf>e</pf>'s are counted when you run the program on that text?
       <fillin mode="number"
                 answer="38"/> </p>
       <pre>

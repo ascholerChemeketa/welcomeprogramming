@@ -78,7 +78,7 @@
   <subsection>
     <title>Checking Our Tools</title>
 
-    <p>If we haven't used a function like <c>sin</c> before, it makes sense to test it out and ensure
+    <p>If we haven't used a function like <pf>sin</pf> before, it makes sense to test it out and ensure
       that we know that it works correctly. So I am going to start with that. I will not worry about
       reading input yet, I will just hard code in a test value. Here is my first attempt:</p>
 
@@ -89,15 +89,15 @@
       </program>
     </listing>
 
-    <p>Although 45 could be stored into an int, there is no reason <c>theta</c> needs to be a whole
+    <p>Although 45 could be stored into an int, there is no reason <pf>theta</pf> needs to be a whole
       number. So it makes sense to use a <term>double</term> as its type. And I can't use the
       symbol, so I have spelled out its name.</p>
 
-    <p>When I run this program, I get <c>sinValue: 0.850904</c>. That does not look right. I expected to get something
+    <p>When I run this program, I get <pf>sinValue: 0.850904</pf>. That does not look right. I expected to get something
       like 0.707.</p>
 
-    <p>The <c>sin</c> function in C++ expects the angle to be in radians, not degrees. So I need to
-      convert the degrees to radians before I can use the <c>sin</c> function. I can do that by
+    <p>The <pf>sin</pf> function in C++ expects the angle to be in radians, not degrees. So I need to
+      convert the degrees to radians before I can use the <pf>sin</pf> function. I can do that by
       multiplying the degrees by <m>π/180</m>. Here is my next attempt:</p>
 
     <listing>
@@ -107,9 +107,9 @@
       </program>
     </listing>
 
-    <p>Note that since π should never change, I have made it a <c>const double</c>. And, as is convention for
-      constants, I have named it using all uppercase. I have also renamed what used to be <c>theta</c> to <c>thetaDegrees</c>
-      to clearly indicate what it stores and differentiate it from <c>thetaRadians</c>.</p>
+    <p>Note that since π should never change, I have made it a <pf>const double</pf>. And, as is convention for
+      constants, I have named it using all uppercase. I have also renamed what used to be <pf>theta</pf> to <pf>thetaDegrees</pf>
+      to clearly indicate what it stores and differentiate it from <pf>thetaRadians</pf>.</p>
 
     <p>This version seems to work better. Now I feel confident about trying to solve the actual
       problem.</p>
@@ -120,7 +120,7 @@
 
     <p>Now let's try to calculate the new location of x. In the formula, it is written as <m>x'</m>
       (pronounced <q>x prime</q>) but we can't use that symbol in a variable name, so we will call
-      it <c>x2</c>. I also need to set some values for the original x and y.</p>
+      it <pf>x2</pf>. I also need to set some values for the original x and y.</p>
 
     <listing>
       <program line-numbers="yes"
@@ -156,7 +156,7 @@
     <title>Calculating y2</title>
 
     <p>Now let's add code to calculate y2. Add the following two lines to the program above (right
-      after the lines that calculate <c>x2</c>) and then run it.</p>
+      after the lines that calculate <pf>x2</pf>) and then run it.</p>
 
     <listing>
       <program>
@@ -202,8 +202,8 @@
     </listing>
   </subsection>
 
-  <p>We might also choose to condense the code a bit. We could avoid storing the variables <c>sinValue</c>
-    and <c>cosValue</c> by calculating sin and cos of theta where they are needed like this:</p>
+  <p>We might also choose to condense the code a bit. We could avoid storing the variables <pf>sinValue</pf>
+    and <pf>cosValue</pf> by calculating sin and cos of theta where they are needed like this:</p>
   <program interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/case-study-point-rotation-6.cpp" parse="text"/>
       </program>

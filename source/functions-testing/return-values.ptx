@@ -8,13 +8,13 @@
   <subsection>
     <title>Returning Variables</title>
 
-    <p>As we have already mentioned, The type of the expression in the <c>return</c> statement must match
-      the return type of the function itself. When you declare that the return type is <c>double</c>, you
-      are making a promise that this function will eventually produce a <c>double</c> value. If you try to <c>return</c>
-      with no expression, or <c>return</c> an expression with the wrong type, the compiler will give an
+    <p>As we have already mentioned, The type of the expression in the <pf>return</pf> statement must match
+      the return type of the function itself. When you declare that the return type is <pf>double</pf>, you
+      are making a promise that this function will eventually produce a <pf>double</pf> value. If you try to <pf>return</pf>
+      with no expression, or <pf>return</pf> an expression with the wrong type, the compiler will give an
       error.</p>
 
-    <p>Although it is possible to return a literal value with something like <c>return 42;</c>, it is much
+    <p>Although it is possible to return a literal value with something like <pf>return 42;</pf>, it is much
       more common to want to return the result of a computation. We can either do so by returning an
       expression: </p>
 
@@ -34,7 +34,7 @@
 
     <p>Much like when we pass a variable to a function, when we return a variable, the value of the
       variable is copied as it is returned. So although we might say of the function above <q>it
-      returns <c>area</c></q>, it is more accurate to say <q>it returns the value stored in <c>area</c></q>.</p>
+      returns <pf>area</pf></q>, it is more accurate to say <q>it returns the value stored in <pf>area</pf></q>.</p>
 
     <p>The two approaches will produce the same result, but the second is often easier to read and
       debug. Especially when you are stepping through code, first calculating an answer and storing
@@ -52,7 +52,7 @@
     </note>
     <exercise label="mce_5_1">
       <statement>
-        <p>What should be the return type of the function <c>convertToCelsius</c>?</p>
+        <p>What should be the return type of the function <pf>convertToCelsius</pf>?</p>
         <program line-numbers="yes">
         <code>
 ______ convertToCelsius(double fahrenheit) {
@@ -67,7 +67,7 @@ ______ convertToCelsius(double fahrenheit) {
         <choice>
           <statement id="mce_5_1_opt_a">
             <p>
-              <c>int</c>
+              <pf>int</pf>
             </p>
           </statement>
           <feedback> What variable are we returning in the function, and what is the variable's
@@ -76,15 +76,15 @@ ______ convertToCelsius(double fahrenheit) {
         <choice correct="yes">
           <statement id="mce_5_1_opt_b">
             <p>
-              <c>double</c>
+              <pf>double</pf>
             </p>
           </statement>
-          <feedback> The function returns <c>celsius</c>, which is a <c>double</c>. </feedback>
+          <feedback> The function returns <pf>celsius</pf>, which is a <pf>double</pf>. </feedback>
         </choice>
         <choice>
           <statement id="mce_5_1_opt_c">
             <p>
-              <c>string</c>
+              <pf>string</pf>
             </p>
           </statement>
           <feedback> What variable are we returning in the function, and what is the variable's
@@ -93,10 +93,10 @@ ______ convertToCelsius(double fahrenheit) {
         <choice>
           <statement id="mce_5_1_opt_d">
             <p>
-              <c>void</c>
+              <pf>void</pf>
             </p>
           </statement>
-          <feedback> Since we are returning something in the function, the function is not <c>void</c>. </feedback>
+          <feedback> Since we are returning something in the function, the function is not <pf>void</pf>. </feedback>
         </choice>
       </choices>
     </exercise>
@@ -108,10 +108,10 @@ ______ convertToCelsius(double fahrenheit) {
       <idx>
         <h>void</h>
       </idx> Every function must specify a return type in its prototype. But not
-      every function needs to return a value. Some functions are used for their <c>side effects</c> - they do
+      every function needs to return a value. Some functions are used for their <pf>side effects</pf> - they do
       something, but they don't produce a value. A function might print something to the screen, or
       play a sound or send a message over the network.</p>
-    <p> These functions have a return type of <c>void</c> (<q>void</q> as in nothing) and don't need a <c>return</c>
+    <p> These functions have a return type of <pf>void</pf> (<q>void</q> as in nothing) and don't need a <pf>return</pf>
       statement: </p>
 
     <program xml:id="functions-testing_return-values-1">
@@ -119,11 +119,11 @@ ______ convertToCelsius(double fahrenheit) {
   </program>
 
     <p>If you want to provide a return statement, you can simply return nothing when the function is
-      done with <c>return;</c></p>
+      done with <pf>return;</pf></p>
 
-    <p>Because <c>void</c> functions do not return anything, there is no need to try to store their
-      result. In fact, any attempt to use their result would be an error. If we wrote <c>double result = printAsMoney(12.432345);</c>, we
-      are essentially saying <c>double result =   ;</c> because <c>printAsMoney(12.432345)</c> evaluates to nothing.</p>
+    <p>Because <pf>void</pf> functions do not return anything, there is no need to try to store their
+      result. In fact, any attempt to use their result would be an error. If we wrote <pf>double result = printAsMoney(12.432345);</pf>, we
+      are essentially saying <pf>double result =   ;</pf> because <pf>printAsMoney(12.432345)</pf> evaluates to nothing.</p>
 
     <p>Here is a full program that uses the void function:</p>
 

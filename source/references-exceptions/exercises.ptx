@@ -4,7 +4,7 @@
 
   <exercise label="VARS_2derveregver">
     <statement>
-      <p>Write the function `chop`. It should be a `void` function that takes a string by reference and removes all but the first three characters of the string. For example, if the string passed in is `"function"` it should be changed to `"fun"`. You do not need to worry about parameters with less than three characters.</p>
+      <p>Write the function <pf>chop</pf>. It should be a <pf>void</pf> function that takes a string by reference and removes all but the first three characters of the string. For example, if the string passed in is <pf>"function"</pf> it should be changed to <pf>"fun"</pf>. You do not need to worry about parameters with less than three characters.</p>
       <p>Design note: Returning a new string and not modifying the parameter would likely be a better function design. We are writing it this way just to practice using references.</p>
       <program interactive="activecode">
         <preamble><![CDATA[
@@ -40,7 +40,7 @@ TEST_CASE("chop") {
 
   <exercise label="V3ARS_2derveregver">
     <statement>
-      <p>Write the function `sign`. It should take an int parameter and return a `bool`. It returns true if the number is greater than 0, and false if the number is less than zero. If the number is exactly 0, you should throw a `logic_error` with any message you like.</p>
+      <p>Write the function <pf>sign</pf>. It should take an int parameter and return a <pf>bool</pf>. It returns true if the number is greater than 0, and false if the number is less than zero. If the number is exactly 0, you should throw a <pf>logic_error</pf> with any message you like.</p>
 
       <program interactive="activecode">
         <preamble><![CDATA[
@@ -74,8 +74,8 @@ TEST_CASE("sign") {
 
   <exercise label="VARS_2fwebrth">
     <statement>
-      <p>Write the function `middleJob`. It should call `onlyPositive` and pass it `number`. If `onlyPositive` returns a result, `middleJob` should return that answer. If `onlyPositive` throws an exception, `middleJob` should catch the exception and return -1.</p>
-      <p>Note: It is possible to just recreate the logic of onlyPositive and use an if/else to make middleJob return the right value. You should avoid solving it this way. Use `try...catch`</p>
+      <p>Write the function <pf>middleJob</pf>. It should call <pf>onlyPositive</pf> and pass it <pf>number</pf>. If <pf>onlyPositive</pf> returns a result, <pf>middleJob</pf> should return that answer. If <pf>onlyPositive</pf> throws an exception, <pf>middleJob</pf> should catch the exception and return -1.</p>
+      <p>Note: It is possible to just recreate the logic of onlyPositive and use an if/else to make middleJob return the right value. You should avoid solving it this way. Use <pf>try...catch</pf></p>
       <program interactive="activecode">
         <preamble><![CDATA[
 #include <iostream>

@@ -2,8 +2,8 @@
 <title>The indexOf function</title>
 <p>
     <idx><h>indexOf</h></idx>
-To search for a specific character in a string, you could write a <c>for</c> loop and use <c>charAt</c> as in the previous section.
-However, the <c>String</c> class already provides a function for doing just that:
+To search for a specific character in a string, you could write a <pf>for</pf> loop and use <pf>charAt</pf> as in the previous section.
+However, the <pf>String</pf> class already provides a function for doing just that:
 </p>
 
 <program xml:id="loops_indexfunction-1">
@@ -11,13 +11,13 @@ However, the <c>String</c> class already provides a function for doing just that
 </program>
 
 <p>
-This example finds the index of <c>'a'</c> in the string.
-But the letter appears three times, so it's not obvious what <c>indexOf</c> might do.
+This example finds the index of <pf>'a'</pf> in the string.
+But the letter appears three times, so it's not obvious what <pf>indexOf</pf> might do.
 According to the documentation, it returns the index of the <term>first</term> appearance.
 </p>
 
 <p>
-To find subsequent appearances, you can use another version of <c>indexOf</c>, which takes a second argument that indicates where in the string to start looking:
+To find subsequent appearances, you can use another version of <pf>indexOf</pf>, which takes a second argument that indicates where in the string to start looking:
 </p>
 
 <program xml:id="loops_indexfunction-2">
@@ -25,8 +25,8 @@ To find subsequent appearances, you can use another version of <c>indexOf</c>, w
 </program>
 
 <p>
-To visualize how <c>indexOf</c> and other <c>String</c> functions work, it helps to draw a picture like <xref ref="fig_banana">Figure</xref>.
-The previous code starts at index 2 (the first <c>'n'</c>) and finds the next <c>'a'</c>, which is at index 3.
+To visualize how <pf>indexOf</pf> and other <pf>String</pf> functions work, it helps to draw a picture like <xref ref="fig_banana">Figure</xref>.
+The previous code starts at index 2 (the first <pf>'n'</pf>) and finds the next <pf>'a'</pf>, which is at index 3.
 </p>
 
 <p>
@@ -34,18 +34,18 @@ The previous code starts at index 2 (the first <c>'n'</c>) and finds the next <c
     <idx><h>diagram</h><h>memory</h></idx>
 </p>
 <figure xml:id="fig_banana" >
-<caption>Memory diagram for a <c>String</c> of six characters.</caption>
+<caption>Memory diagram for a <pf>String</pf> of six characters.</caption>
 <image width="73%" source="images/banana.png" />
 </figure>
 <p>
 If the character happens to appear at the starting index, the starting index is the answer.
-So <c>fruit.indexOf('a', 5)</c> returns <c>5</c>.
-If the character does not appear in the string, <c>indexOf</c> returns <c>-1</c>.
+So <pf>fruit.indexOf('a', 5)</pf> returns <pf>5</pf>.
+If the character does not appear in the string, <pf>indexOf</pf> returns <pf>-1</pf>.
 Since indexes cannot be negative, this value indicates the character was not found.
 </p>
 
 <p>
-You can also use <c>indexOf</c> to search for an entire string, not just a single character.
-For example, the expression <c>fruit.indexOf("nan")</c> returns <c>2</c>.
+You can also use <pf>indexOf</pf> to search for an entire string, not just a single character.
+For example, the expression <pf>fruit.indexOf("nan")</pf> returns <pf>2</pf>.
 </p>
 </section>

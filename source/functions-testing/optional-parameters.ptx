@@ -24,25 +24,25 @@
         <h>overload</h>
       </idx>
     </p>
-    <p>Here is an example of three different versions of a <c>toInches</c> function:</p>
+    <p>Here is an example of three different versions of a <pf>toInches</pf> function:</p>
     <program xml:id="functions-testing_optional-parameters-1">
 <xi:include href="../../programs/functions-testing/optional-parameters-1.cpp" parse="text"/>
 </program>
-    <p>You could call this function like <c>toInches(5)</c>, in which case the compiler would use the version
-      that just takes feet. You could call it like <c>toInches(2, 5)</c> and the compiler would use the version
-      that accepts two integers - yards and feet. Or you could call it with <c>toInches(1, 2, 5)</c> to use the
+    <p>You could call this function like <pf>toInches(5)</pf>, in which case the compiler would use the version
+      that just takes feet. You could call it like <pf>toInches(2, 5)</pf> and the compiler would use the version
+      that accepts two integers - yards and feet. Or you could call it with <pf>toInches(1, 2, 5)</pf> to use the
       version that takes three parameters.</p>
 
     <p>Why is this trick useful? It allows someone writing a code library to make it more flexible.
-      We have seen how the <c>cmath</c> library uses it to provide multiple versions of functions like <c>pow</c>
-      and <c>sqrt</c>. There are versions that take doubles, but there are also versions that take
+      We have seen how the <pf>cmath</pf> library uses it to provide multiple versions of functions like <pf>pow</pf>
+      and <pf>sqrt</pf>. There are versions that take doubles, but there are also versions that take
       floats and other sized data types. If overloading didn't exist, the library would have to give
-      each function a different name, like <c>powDouble</c>, <c>powFloat</c>, etc... That would be a mess!</p>
+      each function a different name, like <pf>powDouble</pf>, <pf>powFloat</pf>, etc... That would be a mess!</p>
 
     <p>If you are going to use this trick, you do have to make sure all the functions have different
       lists of parameters. All that matters is the types and number of parameters, not the names of
-      the parameters. So you can't write both <c>void doThing(int inches)</c> and <c>void doThing(int cm)</c>. Those both have the same
-      parameter list - <c>(int)</c>. If you made the call <c>doThing(10)</c>, there would be no way to tell which
+      the parameters. So you can't write both <pf>void doThing(int inches)</pf> and <pf>void doThing(int cm)</pf>. Those both have the same
+      parameter list - <pf>(int)</pf>. If you made the call <pf>doThing(10)</pf>, there would be no way to tell which
       version of the function you were trying to use.</p>
 
 
@@ -60,7 +60,7 @@ int func(double x, int y);
         <choice>
           <statement id="mce_5_4_opt_a">
             <p>
-              <c>int func(double a, int b);</c>
+              <pf>int func(double a, int b);</pf>
             </p>
           </statement>
           <feedback> Since this function has the same name and parameter types as the given
@@ -69,7 +69,7 @@ int func(double x, int y);
         <choice correct="yes">
           <statement id="mce_5_4_opt_b">
             <p>
-              <c>int foo(double x, int y);</c>
+              <pf>int foo(double x, int y);</pf>
             </p>
           </statement>
           <feedback> This function has a different name from the given function, so it is allowed. </feedback>
@@ -77,7 +77,7 @@ int func(double x, int y);
         <choice correct="yes">
           <statement id="mce_5_4_opt_c">
             <p>
-              <c>int func(double x);</c>
+              <pf>int func(double x);</pf>
             </p>
           </statement>
           <feedback> Although this function has the same name as the given function, it has a
@@ -86,7 +86,7 @@ int func(double x, int y);
         <choice>
           <statement id="mce_5_4_opt_d">
             <p>
-              <c>void func(double x, int y);</c>
+              <pf>void func(double x, int y);</pf>
             </p>
           </statement>
           <feedback> Although this function has a different return type, its parameter list is the
@@ -95,7 +95,7 @@ int func(double x, int y);
         <choice correct="yes">
           <statement id="mce_5_4_opt_e">
             <p>
-              <c>int func(int y, double x);</c>
+              <pf>int func(int y, double x);</pf>
             </p>
           </statement>
           <feedback> Although this function has the same name as the given function, its parameter
@@ -123,9 +123,9 @@ int func(double x, int y);
 <xi:include href="../../programs/functions-testing/default-parameters-1.cpp" parse="text"/>
 </program>
 
-    <p>Notice the <c> = 0</c> after <c>yards</c> and <c>miles</c>. Those are the default values - they will be
+    <p>Notice the <pf> = 0</pf> after <pf>yards</pf> and <pf>miles</pf>. Those are the default values - they will be
       used if the caller leaves out the miles and or yards. To call the function, you can specify
-      either one <c>int</c> (feet), two <c>int</c>s (feet and yards), or three <c>int</c>s (feet, yards,
+      either one <pf>int</pf> (feet), two <pf>int</pf>s (feet and yards), or three <pf>int</pf>s (feet, yards,
       miles) as shown in this program. Note that </p>
 
     <program xml:id="functions-testing_default-parameters-2"
@@ -133,18 +133,18 @@ int func(double x, int y);
 <xi:include href="../../programs/functions-testing/default-parameters-2.cpp" parse="text"/>
 </program>
 
-    <p>Although when calling the function we can skip providing values for either <c>miles</c> or <c>yards</c>
-      and <c>miles</c>, we cannot skip over <c>yards</c> and provide a value for <c>miles</c>. If skipping were
-      allowed, something like <c>toFeet(5, 2)</c> would be ambiguous - the compiler would not know if the 2 was
-      for <c>yards</c> or <c>miles</c>. </p>
+    <p>Although when calling the function we can skip providing values for either <pf>miles</pf> or <pf>yards</pf>
+      and <pf>miles</pf>, we cannot skip over <pf>yards</pf> and provide a value for <pf>miles</pf>. If skipping were
+      allowed, something like <pf>toFeet(5, 2)</pf> would be ambiguous - the compiler would not know if the 2 was
+      for <pf>yards</pf> or <pf>miles</pf>. </p>
 
     <p>To prevent this kind of confusion, default parameters have to follow these rules: <ul>
         <li>In the function definition, parameters with default values must come after ones that do
-      not have defaults. We could NOT write the function above as <c>int toInches(int miles = 0, int yards = 0, int feet)</c>.</li>
+      not have defaults. We could NOT write the function above as <pf>int toInches(int miles = 0, int yards = 0, int feet)</pf>.</li>
         <li>When calling the function, you can stop providing values at any point you like and rely
       on default values for the remaining parameters. But you can not skip some parameters and then
-      start providing values for later ones. If I want to call the function above with 5 <c>feet</c> and
-      1 <c>miles</c>, you would have to use <c>toInches(5, 0, 1)</c>. Since we are specifying a <c>miles</c> value, we also
+      start providing values for later ones. If I want to call the function above with 5 <pf>feet</pf> and
+      1 <pf>miles</pf>, you would have to use <pf>toInches(5, 0, 1)</pf>. Since we are specifying a <pf>miles</pf> value, we also
       must specify the yards.</li>
       </ul>
     </p>
@@ -154,10 +154,10 @@ int func(double x, int y);
       basic function, while overloading allows for more flexibility in how different kinds of
       parameters are handled. </p>
 
-    <p>In the case of <c>toInches</c>, default value trick allows the writer of the function to provide
+    <p>In the case of <pf>toInches</pf>, default value trick allows the writer of the function to provide
       multiple ways to call the function without having to write multiple overloaded versions. Which
       is nice. But, default values are less flexible. You can write overloaded functions that take
-      completely different lists of parameters like <c>writeToLog(int num)</c> and <c>writeToLog(double num, int numDigit)</c>, but you could not
+      completely different lists of parameters like <pf>writeToLog(int num)</pf> and <pf>writeToLog(double num, int numDigit)</pf>, but you could not
       reasonably combine those completely different functions into one version using default
       parameters.</p>
   </subsection>

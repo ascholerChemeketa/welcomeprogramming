@@ -1,8 +1,8 @@
 <section xml:id="arrays-objects_cards-are-immutable" xmlns:xi="http://www.w3.org/2001/XInclude">
 <title>Cards Are Immutable</title>
 <p>
-The instance variables of <c>Card</c> are <c>private</c>, so they can't be accessed from other classes.
-We can provide getters to allow other classes to read the <c>rank</c> and <c>suit</c> values:
+The instance variables of <pf>Card</pf> are <pf>private</pf>, so they can't be accessed from other classes.
+We can provide getters to allow other classes to read the <pf>rank</pf> and <pf>suit</pf> values:
 </p>
 
 <program xml:id="arrays-objects_cards-are-immutable-1">
@@ -21,7 +21,7 @@ To do that, all we have to do is <term>not</term> provide any modifier functions
 <p>
     <idx><h>final</h></idx>
 That's easy enough, but it is not foolproof, because a fool might come along later and add a modifier.
-We can prevent that possibility by declaring the instance variables <c>final</c>:
+We can prevent that possibility by declaring the instance variables <pf>final</pf>:
 </p>
 
 <program xml:id="arrays-objects_cards-are-immutable-2">

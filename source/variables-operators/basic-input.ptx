@@ -10,22 +10,22 @@
     as well as more exotic mechanisms like voice control and retinal scanning. In this text we will
     consider only keyboard input.</p>
 
-  <p>In the header file <c>iostream</c>, C++ defines an object named <c>cin</c> (short for <q>console input</q>
-    that handles input in much the same way that <c>cout</c> handles output. To get an integer value
+  <p>In the header file <pf>iostream</pf>, C++ defines an object named <pf>cin</pf> (short for <q>console input</q>
+    that handles input in much the same way that <pf>cout</pf> handles output. To get an integer value
     from the user we can write:</p>
 
   <program>
 cin &gt;&gt; x;
   </program>
 
-  <p>The <c>&gt;&gt;</c> operator causes the program to stop executing and wait for the user to type
+  <p>The <pf>&gt;&gt;</pf> operator causes the program to stop executing and wait for the user to type
     something. If the user types a valid integer, the program converts it into an integer value and
-    stores it in <c>x</c>.</p>
+    stores it in <pf>x</pf>.</p>
 
   <note>
-    <p>Make sure to use <c>&lt;&lt;</c> for output and <c>&gt;&gt;</c> for input.. It can be useful to remember that
-      the symbols point in the direction data is going. In <c>cout &lt;&lt; x</c> the value of x is going <em>to</em>
-      the console. In <c>cin &gt;&gt; x</c> a value is going from <em>x</em> to the console.</p>
+    <p>Make sure to use <pf>&lt;&lt;</pf> for output and <pf>&gt;&gt;</pf> for input.. It can be useful to remember that
+      the symbols point in the direction data is going. In <pf>cout &lt;&lt; x</pf> the value of x is going <em>to</em>
+      the console. In <pf>cin &gt;&gt; x</pf> a value is going from <em>x</em> to the console.</p>
   </note>
 
   <p>Here is a simple program that tells a person their age in <q>dog years</q> (it is often said
@@ -48,11 +48,11 @@ cin &gt;&gt; x;
 
   <p>If you run the program on your own computer, the importance of the prompt will be more obvious.
     First you will see the prompt message, then the program will pause and let you type whatever you
-    like. It will not resume running until you press <c>Enter</c>. </p>
+    like. It will not resume running until you press <pf>Enter</pf>. </p>
 
-  <p>The <c>&gt;&gt;</c> operator stops reading when it hits a space or input that does not make sense
-  given the type of data being read. The program above is trying to read an integer. That means only the characters 0-9 make sense to read. If you type <c>21 15</c> and then press <c>Enter</c>, only the 21 is read (it stops at the space). If you type <c>21.5</c>,
-  the program will stop reading at the <c>.</c> (which does not make sense as part of an integer) and only the 21 will be read. Bad input will not be skipped to reach good input. If you enter something like <c>twenty 8</c>, the <c>&gt;&gt;</c> operator will see the <c>t</c> and immediately give up.</p>
+  <p>The <pf>&gt;&gt;</pf> operator stops reading when it hits a space or input that does not make sense
+  given the type of data being read. The program above is trying to read an integer. That means only the characters 0-9 make sense to read. If you type <pf>21 15</pf> and then press <pf>Enter</pf>, only the 21 is read (it stops at the space). If you type <pf>21.5</pf>,
+  the program will stop reading at the <pf>.</pf> (which does not make sense as part of an integer) and only the 21 will be read. Bad input will not be skipped to reach good input. If you enter something like <pf>twenty 8</pf>, the <pf>&gt;&gt;</pf> operator will see the <pf>t</pf> and immediately give up.</p>
 
   <p>The program above expects you to enter a single integer. What happens if you enter other data?
     Try the following inputs in the program above. See if you can predict what will be output.
@@ -77,23 +77,23 @@ cin &gt;&gt; x;
       <row>
         <cell>28 54</cell>
         <cell>4</cell>
-        <cell>The <c>cin &gt;&gt; x;</c> stopped reading at the space. Only 28 was read.</cell>
+        <cell>The <pf>cin &gt;&gt; x;</pf> stopped reading at the space. Only 28 was read.</cell>
       </row>
       <row>
         <cell>14.123</cell>
         <cell>2</cell>
-        <cell>The <c>cin &gt;&gt; x;</c> stopped reading at the <c>.</c>. Only 14 was read.</cell>
+        <cell>The <pf>cin &gt;&gt; x;</pf> stopped reading at the <pf>.</pf>. Only 14 was read.</cell>
       </row>
       <row>
         <cell>28e</cell>
         <cell>4</cell>
-        <cell>The <c>cin &gt;&gt; x;</c> stopped reading at the <c>e</c>. Only 28 was read.</cell>
+        <cell>The <pf>cin &gt;&gt; x;</pf> stopped reading at the <pf>e</pf>. Only 28 was read.</cell>
       </row>
       <row valign="top">
         <cell>hello 28</cell>
         <cell>???</cell>
         <cell>
-          <p>This one is tricky. The <c>cin &gt;&gt; x;</c> stopped reading at the <c>h</c>. Nothing was read into
+          <p>This one is tricky. The <pf>cin &gt;&gt; x;</pf> stopped reading at the <pf>h</pf>. Nothing was read into
             the variable.</p>
         </cell>
       </row>
@@ -101,7 +101,7 @@ cin &gt;&gt; x;
   </answer>
 
   <warning>
-    <p>Input with <c>cin</c> is very brittle. A program designed for long-term use or use by
+    <p>Input with <pf>cin</pf> is very brittle. A program designed for long-term use or use by
       non-programmers should be robust. If there is an issue with the input, the program should try
       to catch the problem, alert the user, and allow them to correct it. We will learn about tools
       to do that later. For now, we will assume (dangerously) the user never makes a mistake or

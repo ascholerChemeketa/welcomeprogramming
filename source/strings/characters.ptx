@@ -4,7 +4,7 @@
   <title>Characters</title>
 
   <subsection>
-    <title>`char` data type</title>
+    <title><pf>char</pf> data type</title>
       <p>C++ has two different data types that are used to store text. The first is the <term>char</term> data type, which stores a single character. The second is the <term>string</term> data type, which stores a sequence of characters. In this chapter we will start with the <term>char</term> data type before learning about <term>strings</term>.
         <idx>
           <h>char</h>
@@ -16,13 +16,13 @@
       </p>
 
       <p>A <term>character</term> value is a single letter or digit or other symbol enclosed in single
-        quotes, like `'a'` or `'5'` or `'%'`. To store a character value, we need to use the data type `char`:</p>
+        quotes, like <pf>'a'</pf> or <pf>'5'</pf> or <pf>'%'</pf>. To store a character value, we need to use the data type <pf>char</pf>:</p>
 
       <program xml:id="strings_characters-1" interactive="activecode">
 <xi:include href="../../programs/strings/characters-1.cpp" parse="text"/>
       </program>
 
-      <p>Exactly one character muse be written in the single quotes for a char. An empty char `''` is illegal. As is trying to place multiple characters in the char like `'hello'`. (We need to use <term>string</term>s for 0 or 2+ characters.)</p>
+      <p>Exactly one character muse be written in the single quotes for a char. An empty char <pf>''</pf> is illegal. As is trying to place multiple characters in the char like <pf>'hello'</pf>. (We need to use <term>string</term>s for 0 or 2+ characters.)</p>
   </subsection>
 
   <subsection>
@@ -30,20 +30,20 @@
 
     <p>The processor in your computer does not really work with characters. At a hardware level, everything is just a number (or to be more precise, a sequence of 1's and 0's). So to store and work with something like a character, it needs to be converted to a number.</p>
 
-    <p>Each character in C++ has a corresponding number, which is called its <term>ASCII</term> value. For example, the ASCII value for the letter 'A' is 65, and the ASCII value for the letter 'a' is 97. You can see the ASCII values for all characters at the <url href="http://www.asciitable.com/">ASCII Table</url>. The ASCII table has 256 entries (<m>2^8</m>) so it requires 8 bits to store a value large enough to represent any ASCII value. So, in C++, a `char` occupies 1 byte (8 bits) in memory. That means it can store the values -128 to 127.</p>
+    <p>Each character in C++ has a corresponding number, which is called its <term>ASCII</term> value. For example, the ASCII value for the letter 'A' is 65, and the ASCII value for the letter 'a' is 97. You can see the ASCII values for all characters at the <url href="http://www.asciitable.com/">ASCII Table</url>. The ASCII table has 256 entries (<m>2^8</m>) so it requires 8 bits to store a value large enough to represent any ASCII value. So, in C++, a <pf>char</pf> occupies 1 byte (8 bits) in memory. That means it can store the values -128 to 127.</p>
 
     <note><p>For more on ASCII values and representing data in binary, you can refer to <url href="https://author.runestone.academy/ns/books/published/welcomecs2/data-representation_data-representation.html?mode=browsing">the Data Representation chapter from the book Welcome to CS</url>.</p></note>
 
-    <p>Because `char`s are stored as numbers, it is possible to do math with them. The ASCII value for `'A'` is 65. If you add one to that you get 66, which is the ASCII value for `'B'`. It is even possible to assign `char` variables numeric values:</p>
+    <p>Because <pf>char</pf>s are stored as numbers, it is possible to do math with them. The ASCII value for <pf>'A'</pf> is 65. If you add one to that you get 66, which is the ASCII value for <pf>'B'</pf>. It is even possible to assign <pf>char</pf> variables numeric values:</p>
 
   <program xml:id="strings_characters-3" interactive="activecode">
 <xi:include href="../../programs/strings/characters-3.cpp" parse="text"/>
 </program>
 
-    <warning><p>Just because you can do something does not mean you should. Using numeric values like `67` instead of char literals like `'C'` is bad practice. No one reading your code should have to remember what character has the ASCII code 94.</p></warning>
+    <warning><p>Just because you can do something does not mean you should. Using numeric values like <pf>67</pf> instead of char literals like <pf>'C'</pf> is bad practice. No one reading your code should have to remember what character has the ASCII code 94.</p></warning>
 
-    <p>The numeric aspect of `char`s explains one confusing aspect of working with them. Although you can compare `char`s using relational
-    operators, the results are not always what you might expect. Examine the following. (Remember `1` is true and `0` is false.)</p>
+    <p>The numeric aspect of <pf>char</pf>s explains one confusing aspect of working with them. Although you can compare <pf>char</pf>s using relational
+    operators, the results are not always what you might expect. Examine the following. (Remember <pf>1</pf> is true and <pf>0</pf> is false.)</p>
     <program xml:id="strings_characters-2" interactive="activecode">
 <xi:include href="../../programs/strings/characters-2.cpp" parse="text"/>
 </program>
@@ -52,12 +52,12 @@
     <ul>
     <li>The first two make sense. 'A' is the same as 'A' and it is not the same as 'C'.</li>
     <li>The next one also makes sense. Capital 'A' is not the same as lower-case 'a'.</li>
-    <li>`'B' &lt; 'A'` being false makes sense. `B` is not less than `A` in alphabetical order - it is greater.</li>
-    <li>The last one is the tricky one. Why is `'B' &lt; 'a'` true????</li>
+    <li><pf>'B' &lt; 'A'</pf> being false makes sense. <pf>B</pf> is not less than <pf>A</pf> in alphabetical order - it is greater.</li>
+    <li>The last one is the tricky one. Why is <pf>'B' &lt; 'a'</pf> true????</li>
     </ul>
-    When you compare `char`s, you are really comparing their ASCII values. So `'B'` is less than `'a'` because 66 (ASCII for `B`) is less than 97 (ASCII for `a`).</p>
+    When you compare <pf>char</pf>s, you are really comparing their ASCII values. So <pf>'B'</pf> is less than <pf>'a'</pf> because 66 (ASCII for <pf>B</pf>) is less than 97 (ASCII for <pf>a</pf>).</p>
 
-    <p>As long as you are comparing two upper-case letters or two lower-case letters, it is safe to assume that `&lt;` or `&gt;` will do a logical alphabetical order comparison. But you can't rely on those operators to do anything that makes sense outside of the ASCII table when applied to two different kinds of character.</p>
+    <p>As long as you are comparing two upper-case letters or two lower-case letters, it is safe to assume that <pf>&lt;</pf> or <pf>&gt;</pf> will do a logical alphabetical order comparison. But you can't rely on those operators to do anything that makes sense outside of the ASCII table when applied to two different kinds of character.</p>
 
     </subsection>
     <note>
@@ -69,19 +69,19 @@
         representing in alphabets like Cyrillic and Greek, non-alphabetic languages like
         Chinese, and various symbols. You can read more about it at the Unicode website (<url href="https://unicode.org/"/>). </p>
 
-      <p>C++ provides a data type `wchar_t` (wide character type) for storing Unicode values. We will not cover it in this book, but pretty
-      much anything you can do with a `char` you can do with a `wchar_t`. Do a search for <q>C++ wide character</q> to learn more if you are interested.</p>
+      <p>C++ provides a data type <pf>wchar_t</pf> (wide character type) for storing Unicode values. We will not cover it in this book, but pretty
+      much anything you can do with a <pf>char</pf> you can do with a <pf>wchar_t</pf>. Do a search for <q>C++ wide character</q> to learn more if you are interested.</p>
     </note>
 
 
   <exercise label="sdfsdf">
     <statement>
-      <p>Which statements are correct about the <c>char</c> data type.</p>
+      <p>Which statements are correct about the <pf>char</pf> data type.</p>
     </statement>
     <choices multiple-correct="yes">
       <choice>
         <statement>
-          <p>They can store any value an `int` can</p>
+          <p>They can store any value an <pf>int</pf> can</p>
         </statement>
         <feedback>
           A char is stored as an integer, but can only store values from -128 to 127.
@@ -99,10 +99,10 @@
 
       <choice>
         <statement>
-          <p>You can write a char literal using either `'` or `"`</p>
+          <p>You can write a char literal using either <pf>'</pf> or <pf>"</pf></p>
         </statement>
         <feedback>
-          You must use `'` for a char literal.
+          You must use <pf>'</pf> for a char literal.
         </feedback>
       </choice>
 

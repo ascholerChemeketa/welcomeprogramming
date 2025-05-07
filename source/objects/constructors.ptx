@@ -4,7 +4,7 @@
 
   <subsection>
     <title>What is a Constructor?</title>
-    <p>We have yet to clearly describe this member of the `Point` class:</p>
+    <p>We have yet to clearly describe this member of the <pf>Point</pf> class:</p>
     <program>
 Point(double x, double y) {
     m_x = x;
@@ -14,10 +14,10 @@ Point(double x, double y) {
 
     <p>This is a special type of member function called a <term>constructor</term>. A constructor
       for a class is responsible for initializing the member variables of new objects of that type.
-      Any time we make a Point, the constructor will make sure `m_x` and `m_y` are set.</p>
+      Any time we make a Point, the constructor will make sure <pf>m_x</pf> and <pf>m_y</pf> are set.</p>
 
     <p>A constructor always has the same name as the class and it lacks a return type - the return
-      type is implied to be the class type. When you use a `Point` constructor, a new Point is
+      type is implied to be the class type. When you use a <pf>Point</pf> constructor, a new Point is
       always created and it is what gets automatically returned: <idx>
         <h>constructor</h>
       </idx></p>
@@ -47,7 +47,7 @@ Point p1(3, 4);
       Copy that point into p1.</q> The second says <q>Create Point p1 with 3 and 4.</q> and thus
       skips making an anonymous (nameless) Point that then gets copied into p1 and then throws away
       the anonymous Point. Either syntax will produce the same results, but you should recognize
-      that `Point(3, 4)` creates an anonymous point.</p>
+      that <pf>Point(3, 4)</pf> creates an anonymous point.</p>
 
     <program xml:id="objects_constructors-1"
              interactive="codelens">
@@ -58,10 +58,10 @@ Point p1(3, 4);
   <subsection>
     <title>Multiple Constructors</title>
     <p>We can overload the constructor of a class in the same way we can overload other functions.
-      Say we want to be able to easily create points at (0, 0) without saying `Point p1(0, 0);`. We
-      could write a no argument constructor `Point()` that automatically set x and y to 0. Or if we
+      Say we want to be able to easily create points at (0, 0) without saying <pf>Point p1(0, 0);</pf>. We
+      could write a no argument constructor <pf>Point()</pf> that automatically set x and y to 0. Or if we
       wanted (for some unknown reason) to be able to easily make points with the same x and y value
-      we might write `Point(double sharedCoordinate);`:</p>
+      we might write <pf>Point(double sharedCoordinate);</pf>:</p>
     <program>
     // A two-argument constructor
     Point(double x, double y) {
@@ -88,14 +88,14 @@ Point p3(5); // Point at (5, 5)
     <p>In this case, the compiler will automatically pick the constructor that best matches the
       arguments we give it. If we give it two arguments, it will use the two-argument constructor.
       If we give it one argument, it will use the one-argument constructor.</p>
-    <p>The no-argument constructor is a special case. To call it we could say `Point p2 = Point();`.
-      But to write the short version, we have to leave off the parentheses: `Point p2;`. This
-      somewhat annoying special case is a quirk of the syntax of C++. `Point p2();` looks like it
+    <p>The no-argument constructor is a special case. To call it we could say <pf>Point p2 = Point();</pf>.
+      But to write the short version, we have to leave off the parentheses: <pf>Point p2;</pf>. This
+      somewhat annoying special case is a quirk of the syntax of C++. <pf>Point p2();</pf> looks like it
       defines a function called p2 that returns a Point.</p>
     <note>
       <p>Remember that declaring a variable of a class automatically calls the no argument
-        constructor unless we use `(...)` after the variable name to call a different constructor.
-        Because it is called automatically when we don't use `(...)`, it is also known as the <term>default
+        constructor unless we use <pf>(...)</pf> after the variable name to call a different constructor.
+        Because it is called automatically when we don't use <pf>(...)</pf>, it is also known as the <term>default
         constructor</term>.</p>
       <p>If you fail to define any constructors, a default one is automatically provided by the
         compiler, but it doesn't actually initialize any data - you should always define
@@ -121,7 +121,7 @@ Point(double x = 0, double y = 0) {...
   </program>
 
     <p>Assigning default values at the class level can prevent having to do so in multiple
-      constructors. Say we want to provide many different constructors for a `Time` class. We could
+      constructors. Say we want to provide many different constructors for a <pf>Time</pf> class. We could
       either write this:</p>
 
     <program xml:id="objects_constructors-3">
@@ -143,7 +143,7 @@ Point(double x = 0, double y = 0) {...
   <subsection>
     <title>Making Copies</title>
 
-    <p>As with structs, we can copy one object into another using the assignment operator `=`. Doing
+    <p>As with structs, we can copy one object into another using the assignment operator <pf>=</pf>. Doing
       so results in two distinct objects that happen to have the same data:</p>
 
     <program xml:id="objects_constructors-5">
@@ -225,13 +225,13 @@ Point p2 = p1; // copy p1 into p2
     <choices radomize="yes">
       <choice correct="yes">
         <statement>
-          <p>`Dog d;`</p>
+          <p><pf>Dog d;</pf></p>
         </statement>
       </choice>
 
       <choice correct="yes">
         <statement>
-          <p>`Dog d = Dog();`</p>
+          <p><pf>Dog d = Dog();</pf></p>
         </statement>
         <feedback> This is not a preferred method, but it does work. This calls the no-argument
           constructor and copies the result into d </feedback>
@@ -239,7 +239,7 @@ Point p2 = p1; // copy p1 into p2
 
       <choice>
         <statement>
-          <p>`Dog d();`</p>
+          <p><pf>Dog d();</pf></p>
         </statement>
         <feedback> Incorrect! You do not use the parentheses after the variable name when using the
           no-arg constructor. </feedback>
@@ -260,13 +260,13 @@ Point p2 = p1; // copy p1 into p2
     <choices radomize="yes">
       <choice correct="yes">
         <statement>
-          <p>`Dog d;`</p>
+          <p><pf>Dog d;</pf></p>
         </statement>
       </choice>
 
       <choice correct="yes">
         <statement>
-          <p>`Dog d = Dog("Spot");`</p>
+          <p><pf>Dog d = Dog("Spot");</pf></p>
         </statement>
         <feedback> This is not a preferred method, but it does work. This calls the no-argument
           constructor and copies the result into d. </feedback>
@@ -274,7 +274,7 @@ Point p2 = p1; // copy p1 into p2
 
       <choice correct="yes">
         <statement>
-          <p>`Dog d("Spot");`</p>
+          <p><pf>Dog d("Spot");</pf></p>
         </statement>
         <feedback> This works, but is not preferred.This calls the no-argument constructor and
           copies the result into d. </feedback>
@@ -282,7 +282,7 @@ Point p2 = p1; // copy p1 into p2
 
       <choice>
         <statement>
-          <p>`Dog d(3, "Rover");`</p>
+          <p><pf>Dog d(3, "Rover");</pf></p>
         </statement>
         <feedback> Incorrect! The order of the parameters is wrong. </feedback>
       </choice>

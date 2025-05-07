@@ -7,7 +7,7 @@ The scope of a variable is the part of a program where a variable can be used.
 </p>
 
 <p>
-Consider the first few lines of the <c>Rectangle.translate</c> function from the Java library source code:
+Consider the first few lines of the <pf>Rectangle.translate</pf> function from the Java library source code:
 </p>
 
 <program xml:id="mutable-objects_scope-revisited-1">
@@ -17,11 +17,11 @@ Consider the first few lines of the <c>Rectangle.translate</c> function from the
 <p>
 This example uses three kinds of variables:
 <ul>
-<li><p>Parameters (<c>dx</c> and <c>dy</c>)</p></li>
-<li><p>Local variables (<c>oldv</c> and <c>newv</c>)
+<li><p>Parameters (<pf>dx</pf> and <pf>dy</pf>)</p></li>
+<li><p>Local variables (<pf>oldv</pf> and <pf>newv</pf>)
 
     <idx><h>this</h></idx></p></li>
-<li><p>Attributes (<c>this.x</c>)</p></li>
+<li><p>Attributes (<pf>this.x</pf>)</p></li>
 </ul>
 </p>
 
@@ -32,8 +32,8 @@ They can be used anywhere inside the function, but not in other functions and no
 
 <p>
 Attributes are created when an object is created, and they disappear when the object is destroyed.
-They can be used in any of the object's functions, using the keyword <c>this</c>.
-And if they are public, they can be used in other classes via references to the object, <c>box1.x</c>.
+They can be used in any of the object's functions, using the keyword <pf>this</pf>.
+And if they are public, they can be used in other classes via references to the object, <pf>box1.x</pf>.
 </p>
 
 <p>

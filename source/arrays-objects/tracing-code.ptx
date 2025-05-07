@@ -19,7 +19,7 @@ Using a sorted deck of cards, we can search for the Jack of Clubs like this:
 
 <p>
 We expect to find this card at position 10 (since the Ace of Clubs is at position 0).
-Here is the output of <c>binarySearch</c>:
+Here is the output of <pf>binarySearch</pf>:
 </p>
 
 <console>
@@ -34,8 +34,8 @@ Here is the output of <c>binarySearch</c>:
 </console>
 
 <p>
-You can see the range of cards shrinking as the <c>while</c> loop runs, until eventually index 10 is found.
-If we search for a card that's not in the array<mdash/>like <c>new Card(15, 1)</c>, or the 15 of Diamonds<mdash/>we get the following:
+You can see the range of cards shrinking as the <pf>while</pf> loop runs, until eventually index 10 is found.
+If we search for a card that's not in the array<mdash/>like <pf>new Card(15, 1)</pf>, or the 15 of Diamonds<mdash/>we get the following:
 </p>
 
 <console>
@@ -50,7 +50,7 @@ If we search for a card that's not in the array<mdash/>like <c>new Card(15, 1)</
 </console>
 
 <p>
-Each time through the loop, we cut the distance between <c>low</c> and <c>high</c> in half.
+Each time through the loop, we cut the distance between <pf>low</pf> and <pf>high</pf> in half.
 After <m>k</m> iterations, the number of remaining cards is <m>52 / 2^k</m>.
 To find the number of iterations it takes to complete, we set <m>52 / 2^k = 1</m> and solve for <m>k</m>.
 The result is <m>\log_2 52</m>, which is about 5.7.

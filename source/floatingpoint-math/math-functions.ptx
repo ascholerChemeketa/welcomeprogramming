@@ -29,8 +29,8 @@
     </idx>The notion of a function as a black box is an important one. Functions provide an <term>abstraction</term> that hides the details of how a job is done. I don't have to know the details of how to calculate a square root, I just have to know that there is a function I can feed my number into and it will produce the value as its output. Someone had to figure out how to do that calculation and write code for it. But that code is hidden from me, the programmer who is using the function.</p>
 
   <p>Part of what <q>comes</q> with C++ is a set of
-  function libraries that provide functions to accomplish basic tasks. The <c>cmath</c> library provides
-  a number of functions that perform common mathematical operations. One function it provides is the <c>sqrt</c>
+  function libraries that provide functions to accomplish basic tasks. The <pf>cmath</pf> library provides
+  a number of functions that perform common mathematical operations. One function it provides is the <pf>sqrt</pf>
   function, which calculates the square root of a number. To use this function, we need to include the library that contains it (cmath) and then call the function with the number we want to take the square root of. Here is an example that calculates the square root
   of 17:</p>
 
@@ -51,33 +51,33 @@
   <idx>
       <h>return value</h>
     </idx> A few important things to notice about this sample: <ul>
-      <li>We have to <c>#include &lt;cmath&gt;</c> to use <c>sqrt</c>. That is the C++ math library that contains the <c>sqrt</c>
+      <li>We have to <pf>#include &lt;cmath&gt;</pf> to use <pf>sqrt</pf>. That is the C++ math library that contains the <pf>sqrt</pf>
   function.</li>
-      <li>We pass the input to a function by putting values into parentheses after the function name. Here, <c>x</c> is the value we are <term>passing</term>
-  to the <c>sqrt</c> function to tell it what value to take the square root of. This value that we <term>
+      <li>We pass the input to a function by putting values into parentheses after the function name. Here, <pf>x</pf> is the value we are <term>passing</term>
+  to the <pf>sqrt</pf> function to tell it what value to take the square root of. This value that we <term>
   pass</term> is known as a <term>parameter</term> for the function.</li>
       <li>Many (but not all) functions
   produce an output, which is known as the <term>return</term> value. We have to do
   something with that value, like store it in a variable or print it or use it as part of a larger
-  calculation. Here, we assign the result of the function to the variable <c>root</c>.</li>
-      <li>A subtle point: note that <c>x</c> still has the value 17. In general
-  functions do not change their parameter(s). Taking the square root of x with <c>sqrt(x)</c> does not
+  calculation. Here, we assign the result of the function to the variable <pf>root</pf>.</li>
+      <li>A subtle point: note that <pf>x</pf> still has the value 17. In general
+  functions do not change their parameter(s). Taking the square root of x with <pf>sqrt(x)</pf> does not
   change x, if just produces a new value.</li>
     </ul>
   </p>
   
   <note>
-    <p>The <q>c</q> in <c>cmath</c> refers to the C programming language that C++ was based on (and is
-  still closely related to). In C, there is a similar library called <c>math.h</c>. The <c>cmath</c> library is
-  a version of <c>math.h</c> that has been <q>upgraded</q> to use C++ features. Although it is possible to
-  use <c>math.h</c> in C++ code, you should always use <c>cmath</c> instead.</p>
+    <p>The <q>c</q> in <pf>cmath</pf> refers to the C programming language that C++ was based on (and is
+  still closely related to). In C, there is a similar library called <pf>math.h</pf>. The <pf>cmath</pf> library is
+  a version of <pf>math.h</pf> that has been <q>upgraded</q> to use C++ features. Although it is possible to
+  use <pf>math.h</pf> in C++ code, you should always use <pf>cmath</pf> instead.</p>
   </note>
 
   <exercise label="floating_point_2">
     <statement>
-      <p>Complete this line of code to passes the variable <c>b</c>'s value to <c>sqrt</c> and stores the result into <c>a</c>:</p>
+      <p>Complete this line of code to passes the variable <pf>b</pf>'s value to <pf>sqrt</pf> and stores the result into <pf>a</pf>:</p>
 
-      <p><c>double</c> <fillin mode="string" case="insensitive" answer="a"/><c> = </c><fillin mode="string" case="insensitive" answer="sqrt\s*\(\s*b\s*\)"/><c>;</c></p>
+      <p><pf>double</pf> <fillin mode="string" case="insensitive" answer="a"/><pf> = </pf><fillin mode="string" case="insensitive" answer="sqrt\s*\(\s*b\s*\)"/><pf>;</pf></p>
     </statement>
     <evaluation>
       <evaluate>

@@ -2,9 +2,9 @@
 <title>Event Listeners</title>
 <p>
     <idx><h>sprite</h></idx>
-Now that our <c>Drawing</c> is based on <c>Actor</c> instead of <c>DrawablePolygon</c>, we can draw other types of graphics.
+Now that our <pf>Drawing</pf> is based on <pf>Actor</pf> instead of <pf>DrawablePolygon</pf>, we can draw other types of graphics.
 Here is the beginning of a class that reads an image from a file and shows the image moving across the canvas.
-The class is called <c>Sprite</c> because a moving image is sometimes called a <term>sprite</term>, in the context of computer graphics:
+The class is called <pf>Sprite</pf> because a moving image is sometimes called a <term>sprite</term>, in the context of computer graphics:
 </p>
 
 <program xml:id="advanced-topics_event-listeners-1">
@@ -12,21 +12,21 @@ The class is called <c>Sprite</c> because a moving image is sometimes called a <
 </program>
 
 <p>
-The instance variables <c>xpos</c> and <c>ypos</c> represent the location of the sprite.
-<c>dx</c> and <c>dy</c> represent the velocity of the sprite in the <m>x</m> and <m>y</m> directions.
+The instance variables <pf>xpos</pf> and <pf>ypos</pf> represent the location of the sprite.
+<pf>dx</pf> and <pf>dy</pf> represent the velocity of the sprite in the <m>x</m> and <m>y</m> directions.
 </p>
 
 <p>
     <idx><h>ImageIO</h></idx>
     <idx><h>javax.imageio</h></idx>
 The constructor takes as parameters the name of a file and the initial position.
-It uses <c>ImageIO</c>, from the <c>javax.imageio</c> package, to read the file.
-If an error occurs during reading, an <c>IOException</c> is caught, and the program displays the stack trace for debugging.
+It uses <pf>ImageIO</pf>, from the <pf>javax.imageio</pf> package, to read the file.
+If an error occurs during reading, an <pf>IOException</pf> is caught, and the program displays the stack trace for debugging.
 </p>
 
 <p>
-<c>Sprite</c> implements two interfaces: <c>Actor</c> and <c>KeyListener</c>.
-<c>Actor</c> requires that we provide <c>draw</c> and <c>step</c> functions:
+<pf>Sprite</pf> implements two interfaces: <pf>Actor</pf> and <pf>KeyListener</pf>.
+<pf>Actor</pf> requires that we provide <pf>draw</pf> and <pf>step</pf> functions:
 </p>
 
 <program xml:id="advanced-topics_event-listeners-2">
@@ -34,22 +34,22 @@ If an error occurs during reading, an <c>IOException</c> is caught, and the prog
 </program>
 
 <p>
-The <c>draw</c> function draws the image at the sprite's current position.
-The <c>step</c> function changes the position based on <c>dx</c> and <c>dy</c>, which are initially zero.
+The <pf>draw</pf> function draws the image at the sprite's current position.
+The <pf>step</pf> function changes the position based on <pf>dx</pf> and <pf>dy</pf>, which are initially zero.
 </p>
 
 <p>
-<c>KeyListener</c> is an interface for receiving keyboard events, which means we can detect and respond to key presses.
-A class that implements <c>KeyListener</c> has to provide the following functions:
+<pf>KeyListener</pf> is an interface for receiving keyboard events, which means we can detect and respond to key presses.
+A class that implements <pf>KeyListener</pf> has to provide the following functions:
 <ul>
-<li><p><c>void keyPressed(KeyEvent e)</c>
+<li><p><pf>void keyPressed(KeyEvent e)</pf>
 
 Invoked when a key has been <q>pressed</q>.
 This function is invoked repeatedly while a key is being held down.</p></li>
-<li><p><c>void keyReleased(KeyEvent e)</c>
+<li><p><pf>void keyReleased(KeyEvent e)</pf>
 
 Invoked when a key has been <q>released</q>, meaning it is no longer down.</p></li>
-<li><p><c>void keyTyped(KeyEvent e)</c>
+<li><p><pf>void keyTyped(KeyEvent e)</pf>
 
 Invoked when a key has been <q>typed</q>, which generally means it has been both pressed and released.</p></li>
 </ul>
@@ -57,7 +57,7 @@ Invoked when a key has been <q>typed</q>, which generally means it has been both
 
 <p>
 These functions get invoked when the user presses and releases <term>any</term> key.
-They take a <c>KeyEvent</c> object as a parameter, which specifies which key was pressed, released, or typed.
+They take a <pf>KeyEvent</pf> object as a parameter, which specifies which key was pressed, released, or typed.
 </p>
 
 <p>
@@ -67,8 +67,8 @@ When the user presses left or right, the sprite will move left or right.
 </p>
 
 <p>
-Here's an implementation of <c>keyPressed</c> that uses a <c>switch</c> statement to test which arrow key was pressed and sets <c>dx</c> or <c>dy</c> accordingly.
-(There is no <c>default</c> branch, so we ignore all other keys.)
+Here's an implementation of <pf>keyPressed</pf> that uses a <pf>switch</pf> statement to test which arrow key was pressed and sets <pf>dx</pf> or <pf>dy</pf> accordingly.
+(There is no <pf>default</pf> branch, so we ignore all other keys.)
 </p>
 
 <program xml:id="advanced-topics_event-listeners-3">
@@ -76,12 +76,12 @@ Here's an implementation of <c>keyPressed</c> that uses a <c>switch</c> statemen
 </program>
 
 <p>
-The values of <c>dx</c> and <c>dy</c> determine how much the sprite moves each time <c>step</c> is invoked.
+The values of <pf>dx</pf> and <pf>dy</pf> determine how much the sprite moves each time <pf>step</pf> is invoked.
 While the user holds down an arrow key, the sprite will move at a constant speed.
 </p>
 
 <p>
-Here's an implementation of <c>keyReleased</c> that runs when the user releases the key:
+Here's an implementation of <pf>keyReleased</pf> that runs when the user releases the key:
 </p>
 
 <program xml:id="advanced-topics_event-listeners-4">
@@ -89,11 +89,11 @@ Here's an implementation of <c>keyReleased</c> that runs when the user releases 
 </program>
 
 <p>
-When the user releases the key, <c>keyReleased</c> sets <c>dx</c> or <c>dy</c> to 0, so the sprite stops moving in that direction.
+When the user releases the key, <pf>keyReleased</pf> sets <pf>dx</pf> or <pf>dy</pf> to 0, so the sprite stops moving in that direction.
 </p>
 
 <p>
-We don't need the <c>keyTyped</c> function for this example, but it's required by the interface; if we don't provide one, the compiler will complain.
+We don't need the <pf>keyTyped</pf> function for this example, but it's required by the interface; if we don't provide one, the compiler will complain.
 So we provide an implementation that does nothing:
 </p>
 
@@ -102,7 +102,7 @@ So we provide an implementation that does nothing:
 </program>
 
 <p>
-Now, here's the code we need to create a <c>Sprite</c>, add it to a <c>Drawing</c>, and configure it as a <c>KeyListener</c>:
+Now, here's the code we need to create a <pf>Sprite</pf>, add it to a <pf>Drawing</pf>, and configure it as a <pf>KeyListener</pf>:
 </p>
 
 <program xml:id="advanced-topics_event-listeners-6">
@@ -110,17 +110,17 @@ Now, here's the code we need to create a <c>Sprite</c>, add it to a <c>Drawing</
 </program>
 
 <p>
-Recall that the <c>add</c> function is one that we wrote in <xref ref="sec_drawing">Section</xref>.
-It adds an <c>Actor</c> to the list of objects to be drawn.
+Recall that the <pf>add</pf> function is one that we wrote in <xref ref="sec_drawing">Section</xref>.
+It adds an <pf>Actor</pf> to the list of objects to be drawn.
 </p>
 
 <p>
-The <c>addKeyListener</c> function is inherited from <c>Canvas</c>.
-It adds a <c>KeyListener</c> to the list of objects that will receive key events.
+The <pf>addKeyListener</pf> function is inherited from <pf>Canvas</pf>.
+It adds a <pf>KeyListener</pf> to the list of objects that will receive key events.
 </p>
 
 <p>
 In graphical applications, key events are sent to components only when they have the keyboard focus.
-The <c>setFocusable</c> function ensures that <c>drawing</c> will have the focus initially, without the user having to click it first.
+The <pf>setFocusable</pf> function ensures that <pf>drawing</pf> will have the focus initially, without the user having to click it first.
 </p>
 </section>

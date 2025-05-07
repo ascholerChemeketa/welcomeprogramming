@@ -2,7 +2,7 @@
 <title>String Formatting</title>
 <p>
     <idx><h>printf</h></idx>
-In <xref ref="printf">Section</xref>, we learned how to use <c>System.out.printf</c> to display formatted output.
+In <xref ref="printf">Section</xref>, we learned how to use <pf>System.out.printf</pf> to display formatted output.
 Sometimes programs need to create strings that are formatted a certain way, but not display them immediately (or ever).
 For example, the following function returns a time string in 12-hour format:
 </p>
@@ -12,18 +12,18 @@ For example, the following function returns a time string in 12-hour format:
 </program>
 
 <p><idx><h>string</h><h>format</h></idx>
-<c>String.format</c> takes the same arguments as <c>System.out.printf</c>: a format specifier followed by a sequence of values.
-The main difference is that <c>System.out.printf</c> <term>displays</term> the result on the screen.
-<c>String.format</c> creates a new string but does not display anything.
+<pf>String.format</pf> takes the same arguments as <pf>System.out.printf</pf>: a format specifier followed by a sequence of values.
+The main difference is that <pf>System.out.printf</pf> <term>displays</term> the result on the screen.
+<pf>String.format</pf> creates a new string but does not display anything.
 </p>
 
 <p>
-In this example, the format specifier <c>%02d</c> means <q>two-digit integer padded with zeros</q>, so <c>timeString(19, 5)</c> returns the string <c>"07:05 PM"</c>.
-As an exercise, try writing two nested <c>for</c> loops (in <c>main</c>) that invoke <c>timeString</c> and display all possible times over a 24-hour period.
+In this example, the format specifier <pf>%02d</pf> means <q>two-digit integer padded with zeros</q>, so <pf>timeString(19, 5)</pf> returns the string <pf>"07:05 PM"</pf>.
+As an exercise, try writing two nested <pf>for</pf> loops (in <pf>main</pf>) that invoke <pf>timeString</pf> and display all possible times over a 24-hour period.
 </p>
 
 <p>
-Be sure to skim through the documentation for <c>String</c>.
+Be sure to skim through the documentation for <pf>String</pf>.
 Knowing what other functions are there will help you avoid reinventing the wheel.
 The easiest way to find documentation for Java classes is to do a web search for <q>Java</q> and the name of the class.
 </p>

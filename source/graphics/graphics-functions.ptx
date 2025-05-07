@@ -17,12 +17,12 @@ Graphical coordinates are measured in <term>pixels</term>; each pixel correspond
 </p>
 
 <p>
-To draw on the canvas, you invoke functions on a <c>Graphics</c> object.
-You don't have to create the <c>Graphics</c> object; it gets created when you create the <c>Canvas</c>, and it gets passed as an argument to <c>paint</c>.
+To draw on the canvas, you invoke functions on a <pf>Graphics</pf> object.
+You don't have to create the <pf>Graphics</pf> object; it gets created when you create the <pf>Canvas</pf>, and it gets passed as an argument to <pf>paint</pf>.
 </p>
 
 <p>
-The previous example used <c>fillOval</c>, which has the following signature:
+The previous example used <pf>fillOval</pf>, which has the following signature:
 </p>
 
 <program xml:id="graphics_graphics-functions-1">
@@ -32,7 +32,7 @@ The previous example used <c>fillOval</c>, which has the following signature:
 <p>
     <idx><h>bounding box</h></idx>
 The four parameters specify a <term>bounding box</term>, which is the rectangle in which the oval is drawn.
-<c>x</c> and <c>y</c> specify the location of the upper-left corner of the bounding box.
+<pf>x</pf> and <pf>y</pf> specify the location of the upper-left corner of the bounding box.
 The bounding box itself is not drawn (see <xref ref="fig_circle">Figure</xref>).
 </p>
 <figure xml:id="fig_circle" >
@@ -41,7 +41,7 @@ The bounding box itself is not drawn (see <xref ref="fig_circle">Figure</xref>).
 </figure>
 <p>
     <idx><h>Color</h></idx>
-To choose the color of a shape, invoke <c>setColor</c> on the <c>Graphics</c> object:
+To choose the color of a shape, invoke <pf>setColor</pf> on the <pf>Graphics</pf> object:
 </p>
 
 <program xml:id="graphics_graphics-functions-2">
@@ -49,8 +49,8 @@ To choose the color of a shape, invoke <c>setColor</c> on the <c>Graphics</c> ob
 </program>
 
 <p>
-The <c>setColor</c> function determines the color of everything that gets drawn afterward.
-<c>Color.red</c> is a constant provided by the <c>Color</c> class; to use it, you have to <c>import java.awt.Color</c>.
+The <pf>setColor</pf> function determines the color of everything that gets drawn afterward.
+<pf>Color.red</pf> is a constant provided by the <pf>Color</pf> class; to use it, you have to <pf>import java.awt.Color</pf>.
 Other colors include the following:
 </p>
 
@@ -73,11 +73,11 @@ For example:
 
 <p>
 Each value is an integer in the range 0 (darkest) to 255 (lightest).
-The color <c>(0, 0, 0)</c> is black, and <c>(255, 255, 255)</c> is white.
+The color <pf>(0, 0, 0)</pf> is black, and <pf>(255, 255, 255)</pf> is white.
 </p>
 
 <p>
-You can set the background color of the <c>Canvas</c> by invoking <c>setBackground</c>:
+You can set the background color of the <pf>Canvas</pf> by invoking <pf>setBackground</pf>:
 </p>
 
 <program xml:id="graphics_graphics-functions-4">

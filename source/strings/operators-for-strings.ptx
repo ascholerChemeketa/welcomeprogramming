@@ -16,9 +16,9 @@
 <xi:include href="../../programs/strings/operators-for-strings-1.cpp" parse="text"/>
 </program>
 
-    <p>The equality tests are straightforward. `"apple"` is the same as itself, but not the same as `"Banana"`. Looking at the comparison between `"apple"` and `"Apple"`, it is clear that comparisons are <term>case sensitive</term><mdash/>they care about the difference between `a` and `A`.</p>
+    <p>The equality tests are straightforward. <pf>"apple"</pf> is the same as itself, but not the same as <pf>"Banana"</pf>. Looking at the comparison between <pf>"apple"</pf> and <pf>"Apple"</pf>, it is clear that comparisons are <term>case sensitive</term><mdash/>they care about the difference between <pf>a</pf> and <pf>A</pf>.</p>
     
-    <p>The <q>less than</q> tests are a little less obvious. But they make sense when you recall that characters have numeric values based on their position in the ASCII table (or Unicode table for wide characters). Why is `"Apple"` less than `"Banana"`? Because `A` comes before `B` on the ASCII table. Why is `"Banana" less than `"apple"`? Because `B` comes before `a` on the ASCII table. If the first <m>n</m> characters of two strings match, the <m>n + 1</m> characters will determine their order `"pear" &lt; "peer"` is true because both start with `pe` and the third character in pear - `a` - is <q>less than</q> the 3rd character in peer - `e`.</p>
+    <p>The <q>less than</q> tests are a little less obvious. But they make sense when you recall that characters have numeric values based on their position in the ASCII table (or Unicode table for wide characters). Why is <pf>"Apple"</pf> less than <pf>"Banana"</pf>? Because <pf>A</pf> comes before <pf>B</pf> on the ASCII table. Why is <pf>"Banana" less than </pf>"apple"<pf>? Because </pf>B<pf> comes before </pf>a<pf> on the ASCII table. If the first <m>n</m> characters of two strings match, the <m>n + 1</m> characters will determine their order </pf>"pear" &lt; "peer"<pf> is true because both start with </pf>pe<pf> and the third character in pear - </pf>a<pf> - is <q>less than</q> the 3rd character in peer - </pf>e`.</p>
 
     <insight><p>Because string comparisons depend on case, it is common to convert strings to all lower or all upper case before comparing them.</p></insight>
 
@@ -26,7 +26,7 @@
     <subsection>
       <title>Concatenation</title>
       
-      <p>Strings also support the `+` operator. But for strings `+` does not mean <q>plus</q>. It means <term>concatenate</term>, which is a fancy way of saying <q>join end-to-end</q>. So `"Hello, " + "World!"` yields the string `"Hello, World!"`.
+      <p>Strings also support the <pf>+</pf> operator. But for strings <pf>+</pf> does not mean <q>plus</q>. It means <term>concatenate</term>, which is a fancy way of saying <q>join end-to-end</q>. So <pf>"Hello, " + "World!"</pf> yields the string <pf>"Hello, World!"</pf>.
     <idx>
       <h>concatenate</h>
     </idx>
@@ -34,7 +34,7 @@
       <h>addition</h>
     </idx></p>
 
-    <p>`+` and the `+=` shortcut  is useful if you want to build up a string piece by piece.</p>
+    <p><pf>+</pf> and the <pf>+=</pf> shortcut  is useful if you want to build up a string piece by piece.</p>
 
   <program>
 string name = "Ada";
@@ -50,8 +50,8 @@ name2 += " Turing";        // name2 is now "Alan Turing"
     reverse a string, we can concatenate one character at a time to the front of a new string.
     <idx>
       <h>empty string</h>
-    </idx> The initial value of <c>reversed</c> is <c>""</c>, which is an <term>empty
-    string</term>. As we iterate through each character, we set `reversed` to be that character concatenated with the other characters we have seen. Since the loop goes from beginning to end, adding each character to the front of `reversed` means that the last character of `myString` ends up being the first character of `reversed`:</p>
+    </idx> The initial value of <pf>reversed</pf> is <pf>""</pf>, which is an <term>empty
+    string</term>. As we iterate through each character, we set <pf>reversed</pf> to be that character concatenated with the other characters we have seen. Since the loop goes from beginning to end, adding each character to the front of <pf>reversed</pf> means that the last character of <pf>myString</pf> ends up being the first character of <pf>reversed</pf>:</p>
 
   <program xml:id="strings_string-reverse" interactive="activecode">
 <xi:include href="../../programs/strings/string-reverse.cpp" parse="text"/>
@@ -59,7 +59,7 @@ name2 += " Turing";        // name2 is now "Alan Turing"
 
   <exercise label="strings_comparable_4">
     <statement>
-      <p>What would the result of the following comparison be? Where <c>1</c> means true and <c>0</c>
+      <p>What would the result of the following comparison be? Where <pf>1</pf> means true and <pf>0</pf>
         means false.</p>
       <program line-numbers="yes">
         <code><![CDATA[
@@ -90,7 +90,7 @@ name2 += " Turing";        // name2 is now "Alan Turing"
   
   <exercise label="strings_comparable_4">
     <statement>
-      <p>What would the result of the following comparison be? Where <c>1</c> means true and <c>0</c>
+      <p>What would the result of the following comparison be? Where <pf>1</pf> means true and <pf>0</pf>
         means false.</p>
       <program line-numbers="yes">
         <code><![CDATA[
@@ -121,7 +121,7 @@ name2 += " Turing";        // name2 is now "Alan Turing"
 
   <exercise label="strings_comparable_1">
     <statement>
-      <p>What would the result of the following comparison be? Where <c>1</c> means true and <c>0</c>
+      <p>What would the result of the following comparison be? Where <pf>1</pf> means true and <pf>0</pf>
         means false.</p>
       <program line-numbers="yes">
         <code><![CDATA[
@@ -151,7 +151,7 @@ name2 += " Turing";        // name2 is now "Alan Turing"
   </exercise>
   <exercise label="strings_comparable_2">
     <statement>
-      <p>What would the result of the following comparison be? Where <c>1</c> means true and <c>0</c>
+      <p>What would the result of the following comparison be? Where <pf>1</pf> means true and <pf>0</pf>
         means false.</p>
       <program line-numbers="yes">
         <code>
@@ -191,15 +191,15 @@ name2 += " Turing";        // name2 is now "Alan Turing"
 
   </subsection>
 
-  <warning><p>The `+` operator is defined for a char and a C-string, but it does not do what you expect. Avoid trying to write something like `"hell" + 'o'`. Make sure when you are using `+` you are using a variable of type `string` and not a string literal.</p></warning>
+  <warning><p>The <pf>+</pf> operator is defined for a char and a C-string, but it does not do what you expect. Avoid trying to write something like <pf>"hell" + 'o'</pf>. Make sure when you are using <pf>+</pf> you are using a variable of type <pf>string</pf> and not a string literal.</p></warning>
 
   <exercise label="string_concatenation_3"
             numbered="yes"
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Put together the code below to create a function <c>greeter</c> that adds <q>Hello</q> before a message and <q>. goodbye.</q> after it behind and then prints the new message.
-        Example: <c>greeter("Bob")</c> will print <q>Hello Bob. goodbye.</q></p>
+      <p>Put together the code below to create a function <pf>greeter</pf> that adds <q>Hello</q> before a message and <q>. goodbye.</q> after it behind and then prints the new message.
+        Example: <pf>greeter("Bob")</pf> will print <q>Hello Bob. goodbye.</q></p>
     </statement>
     <blocks>
       <block order="8">

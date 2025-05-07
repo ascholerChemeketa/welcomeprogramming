@@ -15,7 +15,7 @@
     </idx>
     <idx>
       <h>integer division</h>
-    </idx> This result often confuses people. The value of <c>minute</c> is <c>45</c>,
+    </idx> This result often confuses people. The value of <pf>minute</pf> is <pf>45</pf>,
     and 45 divided by 60 should be 0.75, not 0. The problem is that C++ performs <term>integer
     division</term> when both operands are integers. By design, integer division always rounds toward
     zero, even in cases like this one.</p>
@@ -23,7 +23,7 @@
     <p>Integer division produces an integer answer by <term>truncating</term> the answer. <term>Truncating</term> a value means dropping the decimal portion. This is different than rounding the value - notive that 0.75 becomes 0, not 1.</p>
 
   <insight>
-    <p>When dividing integers, C++ does whole number division. Something like <c>7 / 3</c> asks <q>how
+    <p>When dividing integers, C++ does whole number division. Something like <pf>7 / 3</pf> asks <q>how
       many whole times does 3 divide into 7?</q>. The answer is 2. </p>
   </insight>
 
@@ -35,7 +35,7 @@
 </program>
 
 
-  <p>Because the multiplication happens first, we get <c>4500 / 60</c>, which is <c>75</c>. (The multiplication
+  <p>Because the multiplication happens first, we get <pf>4500 / 60</pf>, which is <pf>75</pf>. (The multiplication
     would happen first here no matter what, but the parentheses help make the intended order of
     operations clear.)</p>
 
@@ -48,7 +48,7 @@
   </note>
 
   <p>The order of operations is critical here. If we change the logic to do the division first, as
-    shown below, we are back to 0 for our result. The first thing evaluated is <c>minute / 60</c>, which is 0.
+    shown below, we are back to 0 for our result. The first thing evaluated is <pf>minute / 60</pf>, which is 0.
     Multiplying that by 100 results in 0.</p>
 
   <program xml:id="variables-operators_int-division-3"
@@ -143,7 +143,7 @@ cout &lt;&lt; num2 / num1;</program>
       <program>int num1 = 7;
 int num2 = 8;
 cout &lt;&lt; "Decimal:" &lt;&lt; num1 / num2;</program>
-      <p>What is printed after <c>Decimal:</c>?</p>
+      <p>What is printed after <pf>Decimal:</pf>?</p>
       <p>
         <fillin mode="number" case="insensitive" answer="0"/>
       </p>

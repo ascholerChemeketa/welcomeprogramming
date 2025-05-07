@@ -1,8 +1,8 @@
 <section xml:id="structs_functions"
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Structures with Functions</title>
-  <p>You can pass structures as parameters just like any built in data type. For example, <c>printPoint</c> below takes a point as an argument and outputs it in the standard format. If you call <c>printPoint (blank)</c>,
-    it will output <c>(3, 4)</c>.</p>
+  <p>You can pass structures as parameters just like any built in data type. For example, <pf>printPoint</pf> below takes a point as an argument and outputs it in the standard format. If you call <pf>printPoint (blank)</pf>,
+    it will output <pf>(3, 4)</pf>.</p>
   <program>void printPoint(Point p) {
   cout &lt;&lt; "(" &lt;&lt; p.x &lt;&lt; ", " &lt;&lt; p.y &lt;&lt; ")" &lt;&lt; endl;
 }</program>
@@ -10,8 +10,8 @@
   <program>void printPoint(const Point&amp; p) {
   cout &lt;&lt; "(" &lt;&lt; p.x &lt;&lt; ", " &lt;&lt; p.y &lt;&lt; ")" &lt;&lt; endl;
 }</program>
-  <p>As a second example, here is a <c>distance</c> that takes
-    two <c>Point</c>s as parameters:</p>
+  <p>As a second example, here is a <pf>distance</pf> that takes
+    two <pf>Point</pf>s as parameters:</p>
 
   <program xml:id="structs_functions-1" interactive="activecode">
 <xi:include href="../../programs/structs/structs_functions-1.cpp" parse="text"/>
@@ -47,7 +47,7 @@ int main() {
       <choice>
         <statement id="structures_parameters_1_opt_a">
           <p>
-            <c>(-2, -7)</c>
+            <pf>(-2, -7)</pf>
           </p>
         </statement>
         <feedback>
@@ -57,7 +57,7 @@ int main() {
       <choice>
         <statement id="structures_parameters_1_opt_b">
           <p>
-            <c>(2.0, 7.0)</c>
+            <pf>(2.0, 7.0)</pf>
           </p>
         </statement>
         <feedback>
@@ -67,7 +67,7 @@ int main() {
       <choice correct="yes">
         <statement id="structures_parameters_1_opt_c">
           <p>
-            <c>(-7, -2)</c>
+            <pf>(-7, -2)</pf>
           </p>
         </statement>
         <feedback>
@@ -77,7 +77,7 @@ int main() {
       <choice>
         <statement id="structures_parameters_1_opt_d">
           <p>
-            <c>(-7.0, -2.0)</c>
+            <pf>(-7.0, -2.0)</pf>
           </p>
         </statement>
         <feedback>
