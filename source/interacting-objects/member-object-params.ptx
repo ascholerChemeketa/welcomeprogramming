@@ -1,0 +1,108 @@
+<section xml:id="interacting-objects_member-object-params"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Objects as Parameters to Methods</title>
+  
+  <p>
+    The `distanceBetween` function we just wrote uses a procedural programming approach. In that approach, we solve problems by writing new functions. When we want to know how far apart `p1` and `p2` are, we write a function and then <q>ask</q> the function <q>how far is it between p1 and p2?</q></p>
+    
+  <p>However, in an object-oriented design, we would like to encapsulate this functionality within the <c>Point</c> class itself. Other parts of the program shouldn't be trying to implement basic functionality of a Point like calculating the distance between two of them. That is logic that the `Point` class programmer is best equipped to implement.</p>
+
+  <p>So the object-oriented approach is to have the <c>Point</c> class provide methods to do this work. For the distance example, we would add a method to the <c>Point</c> class that allows us to <q>ask</q> a point `p1` <q>how far is it to point p2?</q>. We are still going to end up doing the same math to get the answer, but we are now thinking of that math as a job that a `Point` object does for us instead of a job that we have to do ourselves.</p>
+
+  <p>Here is what the code for a Point member function `distanceTo` might look like (defined outside of the class):</p>
+
+  <program line-numbers="yes">
+<xi:include href="../../programs/interacting-objects/disatance-to.cpp" parse="text"/>
+  </program>
+  
+  <p>Key things to note:
+
+  <ul>
+      <li>There is only one parameter to the function, <c>other</c>. This is the other <c>Point</c> object that we want to calculate the distance to. The other point is `this` - the one that is running the code.</li>
+      <li>We use `m_x` and `m_y` to refer to the member variables of the current <c>Point</c> object. This is the <q>this</q> object. We also could use `getX()` and `getY()`.</li>
+      <li>We use `other.m_x` and `other.m_y` to refer to the member variables of the <c>other</c> <c>Point</c> object. We also could use `other.getX()` and `other.getY()`.</li>
+      <li>We say `const` twice. `const Point&amp; other` promises not to modify the Point that is passed in as a parameter. The `const` at the end promises that the object which is executing the code will not be modified.</li>
+  </ul>
+
+   Something like `other.m_x - m_x` says <q>subtract my x value from the other point's x value.</q>
+  </p>
+
+  <p>To use this function we could write:</p>
+
+  <program line-numbers="yes">
+<xi:include href="../../programs/interacting-objects/disatance-to-user.cpp" parse="text"/>
+  </program>
+  <p>When the `distanceTo` function is executing, we could diagram the memory like this:</p>
+
+  <figure align="center">
+    <caption>A memory diagram of p1 executing getX</caption>
+    <image source="images/objects-param-of-member.svg"
+          width="50%"
+          alt="When distanceTo is called on p1 and p2 is the parameter, this refers to p1 and other refers to p2"/>
+  </figure>
+
+  <p>As before, `m_x` implicitly means <q>this object's `m_x`</q>. To specify the other object's `m_x`, we need to explicitly specify that we are talking about the other object via `other.`.</p>
+
+  <p>You might be surprised to see that `p1` can access the private data of `p2`. This is allowed because they are the same class. Member code of any `Point` object can access not just its own private data, but also the private data of any other `Point`. However that would not be the case if a function in a `Circle` class took a `Point` as a parameter.</p>
+
+<program>
+bool Circle::contains(const Point&amp; p) const;
+</program>
+
+  <p>The `contains` function shown above would not be able to access private data of `p`. It would need to use public functions `getX()` and `getY()` to access `p`'s coordinates. The function belongs to the `Circle` class - thus it can only access private data of `Circle` objects, not `Point` objects.</p>
+
+  <insight><p>Access modifiers are designed to protect parts of the code (the Circle class) from other parts of the code (non-Circle code), not to protect individual objects from other objects. That is why they apply to classes of data.</p></insight>
+
+  <exercise label="program_l3angd_1">
+    <statement>
+      <p>Imagine there are Circles `c1` and `c2`. They have a member function ``bool sameAs(const Circle&amp; c) const;``. How would you call that method to ask `c2` if it is the same as `c1`?</p>
+        <p><fillin mode="string"
+          answer="c2.sameAs(c1)"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>c2\.sameAs\s*\(\s*c1\s*\);?</strcmp>
+        </test>
+        <test>
+          <strcmp>^c1\..*</strcmp>
+          <feedback>We want to call the method on `c2`, not `c1`</feedback>
+        </test>
+        <test>
+          <strcmp>^sameAs\(.*</strcmp>
+          <feedback>`sameAs` is a member function. It must be called on a particular object.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+  
+
+  <exercise label="keyworferds_3">
+    <statement>
+      <p>Click on the use of `const` which promises that the object running the code of `sameAs` will not be modified.</p>
+    </statement>
+    <feedback>
+      Try again!
+    </feedback>
+    <areas>
+      <cline>bool sameAs(<area correct="no">const</area> Circle&amp; c) <area correct="yes">const</area>;</cline>
+    </areas>
+  </exercise>
+  
+
+  <exercise label="keyworfdfderds_3">
+    <statement>
+      <p>Click on the use of `const` which promises that the object passed as a parameter to `sameAs` will not be modified.</p>
+    </statement>
+    <feedback>
+      Try again!
+    </feedback>
+    <areas>
+      <cline>bool sameAs(<area correct="yes">const</area> Circle&amp; c) <area correct="no">const</area>;</cline>
+    </areas>
+  </exercise>
+  
+
+
+</section>

@@ -1,0 +1,46 @@
+<section xml:id="interacting-objects_vocabulary"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Vocabulary</title>
+  <p>
+    <dl>
+      <li>
+        <title>composition:</title>
+        <p>
+          <idx>
+            <h>composition</h>
+          </idx> An object that can be modified at any time. Points and
+          rectangles are mutable by design.</p>
+      </li>
+      <li>
+        <title>has a:</title>
+        <p>
+          <idx>
+            <h>has a</h>
+          </idx> A relationship between objects where one object has a member that is another object. Composition is a form of a has-a relationship.</p>
+      </li>
+      <li>
+        <title>initializer list:</title>
+        <p>
+          <idx>
+            <h>initializer list</h>
+          </idx> Instructions that proceed constructor's body that control how object memory is initialized. It can be used to prevent default constructor calls being used to initialize composed members.</p>
+      </li>
+      <li>
+        <title>copy constructor:</title>
+        <p>
+          <idx>
+            <h>copy constructor</h>
+          </idx> A special constructor used to copy an object when we write something like `Point p2(p1)` (where `p1` is an existing point). Every class automatically has a copy constructor that copies all of the data from the source object to the new one.</p>
+      </li>
+      <li>
+        <title>static members:</title>
+        <p>
+          <idx>
+            <h>static</h>
+          </idx> Static members of a class are <q>shared</q>. All instances of a class share one copy of any static member variables. Static member functions can only access static member variables and can be called directly on the class using `ClassName::function()` syntax.</p>
+      </li>
+    </dl>
+  </p>
+  
+</section>

@@ -1,0 +1,59 @@
+<section xml:id="interacting-objects_composition-modifying-contained"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Modifying the Contained Members</title>
+
+  <p>The same logic applies if want to add functions to change the location of a Circle - it does directly control the data (x and y) that needs to be changed. So any function that needs to modify those values will need to rely on calling methods on `m_center`.</p>
+
+  <p>This is demonstrated in the sample below. Note that `setRadius` can directly do the needed work as the `m_radius` variable is <q>owned</q> directly by the Circle. However `setX()` and `setY()` need to ask `m_center` to make the needed changes:</p>
+
+  <program interactive="activecode" label="dsddfds12312" highlight-lines="16, 21, 26">
+<xi:include href="../../programs/interacting-objects/circle-modify-1.cpp" parse="text"/>
+  </program>
+
+
+  <exercise label="sdfsdfsdfd4sdf">
+    <statement>
+      <p>Class `Address` has a `m_streetAddress`, `m_city`, and `m_zip`. Class `Contact` is shown below. If a `Contact` is asked to do the following tasks, which ones sound like they should be handed off to the `m_address` to do?</p>
+      <program>
+        class Contact {
+          public:
+              ...
+          
+          private:
+              string m_name;
+              string m_email;
+              Address m_address;
+          };
+      </program>
+    </statement>
+    <choices randomize="yes" multiple-correct="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Check if the contact is in a particular city.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Update the contact's street address.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Get the address of the contact in the format <q>123 Main, Town 12345</q>.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Get the contact's name</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Update the contact's email</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

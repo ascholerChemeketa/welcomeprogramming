@@ -1,0 +1,79 @@
+<section xml:id="interacting-objects_composition-implementation"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Implementing Composition</title>
+
+  <p>To build our Circle using composition, we need to have a full implementation of Point. We will rely on the version of the Point code shown below. Don't worry about trying to memorize it all, most of the code should already be familiar to you. And if you ever need to double check how some part of it works, you can double check the details here.</p>
+
+  <listing xml:id="point-final-cxx-listing">
+    <title>Point.cxx</title>
+    <caption>Our final Point class implemented as a module</caption>
+  <program label="composition-implementation-1" xml-id="point-final-cxx">
+<xi:include href="../../programs/interacting-objects/point-final.cxx" parse="text"/>
+  </program>
+  </listing>
+
+  <p>The class declaration for Point will need to be available to the Circle class when we define the Point class. Although we could do that by placing both classes in the same file, the standard way to structure our code would be to either:
+    <ul>
+      <li>If using modules, `import Point;` into the file where we implement `Circle`.</li>
+      <li>If using traditional .h/.cpp files, `#include "Point.h"` into the file where we implement `Circle`.</li>
+    </ul>
+  </p>
+
+  <p>We will be using the module approach in this chapter, although a .h/.cpp version is available at the end of the chapter. We will start by implementing Circle in the same file as our main function and separate it out later.</p>
+
+  <p>Here is a very first pass at the Circle class. For now, we will just provide a constructor:</p>
+
+  <program interactive="activecode" label="f32ff434f34" highlight-lines="3, 11, 15-16">
+<xi:include href="../../programs/interacting-objects/circle-1.cpp" parse="text"/>
+  </program>
+
+  <p>Some key ideas to note:
+    <ul>
+      <li>Line 3: We import the Point module so we can use it in our Circle class.</li>
+      <li>Line 15-16: The member variables are one double and one Point.</li>
+      <li>Line 11: The constructor takes an x and a y location. But the Circle does not store these directly. Instead, it makes an anonymous Point to store those values and copies that point into `m_center`.</li>
+    </ul>
+  </p>
+
+  <p>We don't have any getters or other functions we can use to see if the code works. But a memory diagram at the end of main would look like the image below.</p>
+
+  <figure align="center">
+    <caption>A memory diagram of Circle c1.</caption>
+    <image source="images/composition-circle-c1.svg"
+          width="100%"
+          alt="Circle c1 contains a Point object m_center that has m_x and m_y"/>
+  </figure>
+  
+  <p>In this model, the x and y coordinates are the Point's responsibility. The `m_center` is used to store the values `m_x` and `m_y` and, as we will see soon, any time the Circle needs to work with the coordinates, it will rely on the `m_center` to access them.</p>
+
+  <exercise label="sdfsdfsdf4sdf">
+    <statement>
+      <p>In the code shown below, what best describes the relationship between Contact and Address?</p>
+      <program>
+        class Contact {
+          public:
+              ...
+          
+          private:
+              string m_name;
+              string m_email;
+              Address m_address;
+          };
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Contact has-a Address</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Address has-a Contact</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

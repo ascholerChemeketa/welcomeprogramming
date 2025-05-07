@@ -1,0 +1,110 @@
+<section xml:id="interacting-objects_final-circle"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>A Final Version of Circle</title>
+
+  <p>As a reference, here is the final version of Circle implemented as a module. You have already seen most of the code for it, with the exception of the `toString()` function. So don't worry about reading the code line by line. Just check out the new function and then answer the questions at the bottom of the page.</p>
+
+  <listing xml:id="circle-final-cxx-listing">
+    <title>Our final Circle class implemented as a module</title>
+  <program label="circle-final">
+<xi:include href="../../programs/interacting-objects/circle-final.cxx" parse="text"/>
+  </program>
+  </listing>
+
+
+  <exercise label="VARsdfsdfS_p1"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Construct a version of the Circle shift function we might write if Point did not have a shift function.</p>
+    </statement>
+    <blocks>
+      <block name="a" depends="">
+        <cline><![CDATA[void Circle::shift(double dx, double dy) {]]></cline>
+      </block>
+      <block name="b" depends="a">
+        <choice>
+          <cline correct="yes"><![CDATA[    int oldX = m_center.getX();]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    int oldX = getX();]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    int oldX = m_x;]]></cline>
+        </choice>
+      </block>
+      <block name="c" depends="a">
+        <choice>
+          <cline correct="yes"><![CDATA[    int oldY = m_center.getY();]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    int oldY = getY();]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    int oldY = m_y;]]></cline>
+        </choice>
+      </block>
+      <block name="d" depends="b">
+        <cline><![CDATA[    m_center.setX(oldX + dx);]]></cline>
+      </block>
+      <block name="e" depends="c">
+        <cline><![CDATA[    m_center.setY(oldY + dy);]]></cline>
+      </block>
+      <block name="f" depends="d e">
+        <cline><![CDATA[}]]></cline>
+      </block>
+    </blocks>
+  </exercise>
+
+  <exercise label="VARsdfsdsdfS_p1"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Construct an `interscts` function that checks if one Circle overlaps with another:</p>
+    </statement>
+    <blocks>
+      <block>
+        <cline><![CDATA[void Circle::intersects(const Circle& other) {]]></cline>
+      </block>
+      <block>
+        <choice correct="yes">
+            <cline><![CDATA[    double distance = m_center.distanceTo(other.m_center);]]></cline>
+        </choice>
+        <choice>
+            <cline><![CDATA[    double distance = m_center.distanceTo(other);]]></cline>
+        </choice>
+        <choice>
+            <cline><![CDATA[    double distance = distanceTo(other.m_center);]]></cline>
+        </choice>
+        <choice>
+            <cline><![CDATA[    double distance = distanceTo(other);]]></cline>
+        </choice>
+      </block>
+      <block>
+        <choice correct="yes">
+            <cline><![CDATA[    if (distance <= m_radius + other.m_radius) {]]></cline>
+        </choice>
+        <choice>
+            <cline><![CDATA[    if (distance >= m_radius + other.m_radius) {]]></cline>
+        </choice>
+      </block>
+      <block>
+        <cline><![CDATA[        return true;]]></cline>
+      </block>
+      <block>
+        <cline><![CDATA[    } else {]]></cline>
+      </block>
+      <block>
+        <cline><![CDATA[        return false;]]></cline>
+      </block>
+      <block>
+        <cline><![CDATA[    }]]></cline>
+        <cline><![CDATA[}]]></cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

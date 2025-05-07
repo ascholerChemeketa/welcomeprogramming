@@ -1,0 +1,274 @@
+<exercises xml:id="interacting-objects_exercises"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Exercises</title>
+
+  <p>The exercises on this page make use of the point class that we used throughout the chapter.</p>
+
+  <exercise label="fdsf345sdfsdft43">
+    <statement>
+      <p>The code given below does not compile due to const issues. Modify the existing class code and add const in the appropriate locations to make it compile with the existing main and printNumber functions.</p>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<![CDATA[
+#include <iostream>
+using namespace std;
+ ]]>
+        </preamble>
+        <code>
+class EvenNumber {
+private:
+    int value;
+  
+public:
+    EvenNumber(int startValue) {
+      // use our function to do the work...
+      setValue(startValue);
+    }
+  
+    int getValue() {
+      return value;
+    }
+  
+    void setValue(int newValue) {
+      // if given odd number, increase by 1
+      if(newValue % 2 == 0)
+        value = newValue;
+      else
+        value = newValue + 1;
+    }
+  
+    void increment() {
+      value += 2;
+    }
+  
+    void decrement() {
+      value -= 2;
+    }
+};
+        </code>
+        <postamble> <![CDATA[
+
+
+void printNumber(const EvenNumber& n) {
+    cout << n.getValue() << endl;
+}
+
+int main() {
+    EvenNumber e1(4);
+    e1.increment();
+    printNumber(e1);
+}
+]]>
+        </postamble>
+        <tests visible="no">
+          <iotest>
+            <input></input>
+            <output>6</output>
+          </iotest>
+        </tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="fdsferg5dft43">
+    <statement>
+      <p>The code below has a class representing members of a family who all share a last name. (An idea that almost certainly wouldn't make sense to use in a real program.) It is missing an initialization for the last name. Add the initialization statement for the last name so that the family members have the last name "Jones".</p>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<![CDATA[
+#include <iostream>
+
+using namespace std;
+
+class FamilyMember {
+private:
+    string firstName;
+    static string lastName;
+public:
+    FamilyMember(string name) {
+        firstName = name;
+    }
+    void print() const {
+        cout << lastName << ", " << firstName << endl;
+    }
+};
+ ]]>
+        </preamble>
+        <code>
+// Your code here
+        </code>
+        <postamble> <![CDATA[
+int main() {
+    FamilyMember person1("Indiana");
+    FamilyMember person2("Sophie");
+
+    person1.print();
+    person2.print();
+}
+]]>
+        </postamble>
+        <tests visible="no">
+          <iotest>
+            <input></input>
+            <output>Jones, Indiana
+Jones, Sophie</output>
+          </iotest>
+        </tests>
+    </program>
+  </exercise>
+
+  
+  <exercise label="fdsf565gdd">
+    <statement>
+      <p>The code below has a class representing members of a family who all share a last name. (An idea that almost certainly wouldn't make sense to use in a real program.) It is missing the `lastName` variable. Declare it and add the initialization statement so that the family members have the last name "Jones".</p>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<![CDATA[
+#include <iostream>
+
+using namespace std;
+
+class FamilyMember {
+public:
+    FamilyMember(string name) {
+        firstName = name;
+    }
+    void print() const {
+        cout << lastName << ", " << firstName << endl;
+    }
+private:
+    string firstName;
+ ]]>
+        </preamble>
+        <code>
+    // Declare the static variable here
+}; // end of class
+
+// Initialize the static variable here
+        </code>
+        <postamble> <![CDATA[
+
+int main() {
+    FamilyMember person1("Indiana");
+    FamilyMember person2("Sophie");
+
+    person1.print();
+    person2.print();
+}
+]]>
+        </postamble>
+        <tests visible="no">
+          <iotest>
+            <input></input>
+            <output>Jones, Indiana
+Jones, Sophie</output>
+          </iotest>
+        </tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="ffd43sfdret4f3">
+    <statement>
+      <p>Add a `getEnd` function that returns the end point of the segment. It is assumed you will return a Point value. But you may also return a reference or a const reference if you prefer.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/interacting-objects/exercises-segment-1.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+    //write your code here
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/interacting-objects/exercises-segment-1-test.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="ffd5sfdrdet4f3">
+    <statement>
+      <p>Add a Segment constructor that takes four doubles. The x and y of one end point followed by the x and y of the other point.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/interacting-objects/exercises-segment-2.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+    //write your code here
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/interacting-objects/exercises-segment-2-test.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="ffd5sfdr4det4f3">
+    <statement>
+      <p>The Segment has a function `minX()` declared. Implement that function after the class declaration. (Don't forget to use `Segment::` when naming the function.). It should return the lowest x value from the two Points.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/interacting-objects/exercises-segment-3.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+//write your code here
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/interacting-objects/exercises-segment-3-test.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="f2445d3">
+    <statement>
+      <p>Write a `moveBy(double dx, double dy)` function that shifts a segment by the amount `dy` in the x dimension and `dy` in the y dimension. (To shift the segment, you will need to shift both endpoints.)</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/interacting-objects/exercises-segment-4.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+    //write your code here
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/interacting-objects/exercises-segment-4-test.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="f24f4swedrfd3">
+    <statement>
+      <p>This code uses a simplified Point class that lacks a no-arg (default) constructor. Thus while constructing a Segment, we must use the initializer list to set up `m_start` and `m_end`. Add a 2-Point constructor that uses the initializer list.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/interacting-objects/exercises-segment-5.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+//write your code here
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/interacting-objects/exercises-segment-5-test.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+</exercises>

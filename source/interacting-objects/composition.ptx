@@ -1,0 +1,94 @@
+<section xml:id="interacting-objects_composition"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Composition of Classes</title>
+
+  <p>We already have built a class `Point` that represents a point in 2D space. Now we would like to build a class to represent a Circle. A circle is defined by its center and its radius - given those two pieces of information, we can calculate anything else we might need like its area or diameter.</p>
+
+  <p>One way we could approach Circle, would be to build it from primitive data:</p>
+
+  <figure>
+    <caption>A Circle class that stores all its data as doubles</caption>
+    <image>
+      <mermaid>
+      classDiagram
+          class PrimitiveCircle{
+            -m_radius : double
+            -m_centerX : double
+            -m_centerY : double
+            +getRadius() double
+            ...otherFunctions()
+          }
+      </mermaid>
+    </image>
+  </figure>
+
+  <p>This could work just fine. But, as the circle gets more complex, it is likely going to have to implement some of the same logic as our existing `Point` class. For example, if I want to know if two circles overlap, I could see if the distance between their centers is less than the sum of their radii. To do that, I would need to use the distance formula. Point already has a method to do the distance formula - copy/pasting that code into Circle sounds like the wrong approach.</p>
+
+  <insight><p>Remember: copy/paste is a design flaw. We want to avoid repeating significant pieces of program logic.</p></insight>
+
+  <p>A better way to make use of our existing Point code is to define our Circle class in terms of a Point. We can define a Circle as something that has a Point and a radius:</p>
+
+  <figure>
+    <caption>A Circle class that stores a Point and a double</caption>
+    <image>
+      <mermaid>
+      classDiagram
+          class Circle{
+            -m_radius : double
+            -m_center : Point
+            +getRadius() double
+            ...otherFunctions()
+          }
+      </mermaid>
+    </image>
+  </figure>
+
+  <p>Defining one class in terms of another is known as <term>composition</term>. Composition is one of the key ways object-oriented programming allows us to reuse code in new ways. Composition implies a <term>has-a</term> relationship with a strong sense of ownership. A Circle <idx>has-a</idx> Point that is its center. That Point belongs to the Circle - if the Circle goes away, we would expect the Point to disappear with it.
+  <idx>
+    <h>composition</h>
+  </idx>
+  </p>
+
+  <p>A complete UML diagram of our data types would show both Point and Circle. We represent the relationship between them using a line that connects the two class diagrams. Finally, we place a filled diamond where the line meats the <q>owning</q> class. Since Circle <q>has a</q> Point, we place the diamond next to the Circle box:</p>
+
+  <figure>
+    <caption>A Circle class that has-a Point as a member</caption>
+    <image>
+      <mermaid>
+      classDiagram
+
+          class Circle{
+            -m_radius : double
+            -m_center : Point
+            +getRadius() double
+            ...otherFunctions()
+          }
+          class Point{
+            -m_x : double
+            -m_y : double
+            +getX() double
+            +getY() double
+            ...otherFunctions()
+          }
+          Circle *-- Point
+      </mermaid>
+    </image>
+  </figure>
+
+
+  <exercise label="progsdfdffram_flang_1">
+    <statement>
+      <p>Composition represents a <fillin mode="string"
+          answer="has-a"/> relationship between two data types</p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>has[- ]\s*a?</strcmp>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>

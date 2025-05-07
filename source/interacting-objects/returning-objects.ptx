@@ -1,0 +1,88 @@
+<section xml:id="interacting-objects_returning-objects"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Returning Composed Objects</title>
+
+  <p>As we start implementing getters for our Circle, we might decide we want a `getCenter()` in addition to `getX()` and `getY()`. If a client of the class wants to know where a circle is, asking for the center Point is easier than asking for the x and y values separately. But this raises an important question: what should the `getCenter()` return?</p>
+
+  <p>We could return a copy of the Point from the Circle's `getCenter()` method:</p>
+
+  <program>
+Point Circle::getCenter() const {
+    return m_center;
+}
+</program>
+
+  <p>Any time we return an object type like that, we are returning a copy of the center point. This means that doing `Point p2 = c1.getCenter()` would produce a brand new Point that just copied the data from c1's center:</p>
+
+  <figure align="center" xml:id="returning-objects-1-figure">
+    <caption>A memory diagram of Circle c1 and Point p2.</caption>
+    <image source="images/composition-center-return-1.svg"
+          width="100%"
+          alt="Point p2 is a copy of the Point m_center that is part of Circle c1"/>
+  </figure>
+  
+
+  <p>This is the easiest thing to do. And, in many ways the safest. By giving the client a copy of its center, the Circle does not need to worry about what happens to the Point.</p>
+
+  <exercise label="sdfsdf45sdf4sdf">
+    <statement>
+      <p>What normally happens if we return an object?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>A copy of the returned object is passed back to the calling code.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>A reference to the object being returned is passed back to the calling code.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The object's data is removed from its current variable and passed back to the calling code.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <note><p>We will generally use that easy approach. The rest of this section focuses on improvements that would only be worth making in a program that worked with lots of data or to solve complex design problems. Mastering these concepts should be a lower priority than mastering the rest of the chapter.</p></note>
+
+  <p>However, the easy approach is not always the best approach. Firstly, it involves copying the Point. This is not a big deal for a small class like Point that we only copy a few (or even a few hundred) times. But if we were to copy a large object, or make millions of copies of small ones, the expense would become something to be concerned about. Secondly, we might want to allow the client to use the Point we give them to change the center of the circle.</p>
+
+  <p>To avoid the copy, we can return a reference to the Point. This would look like:</p>
+
+  <program>
+    Point&amp; Circle::getCenter() {
+        return m_center;
+    }
+  </program>
+
+  <p>Now, we are returning a reference to the actual `m_center` object. If the client stores the returned value as a reference (`Point&amp; p3 = c1.getCenter();`) it has a link to the Point object that is actually the center of c1:</p>
+
+  <figure align="center" xml:id="returning-objects-2-figure">
+    <caption>A memory diagram of Circle c1 and Point&amp; p3.</caption>
+    <image source="images/composition-center-return-2.svg"
+          width="100%"
+          alt="Point p3 is a reference to the Point m_center that is part of Circle c1"/>
+  </figure>
+
+  <p>In this case, `p3.setY(10)` would actually change the `m_y` of the `m_center` of `c1` as `p3` is just another name for `c1.m_center`. Because the reference can be used to modify the Point (and thus the Circle's data), this version of `getCenter` is not (and can not be) const.</p>
+
+  <p>If the client wants, it could store the value into a plain Point variable with `Point p4 = c1.getCenter();`. In this case, we are taking the reference, and copying it into the new p4. The reference is then discarded. So we end up with a memory diagram that looks just like <xref ref="returning-objects-1-figure"/>.</p>
+
+  What if we want to return a reference to a Point but we don't want the client to be able to modify it? We could do this by returning a `const` reference. This would look like:
+
+  <program>
+    const Point&amp; Point::getCenter() const {
+        return m_center;
+    }
+  </program>
+
+  <p>What a mouthful. `Circle::getCenter() const` is a const function (it will not allow changes to the Circle or its data). It returns (`const Point &amp;`) a reference to a Point that is constant.</p>
+
+  <p>The const on the return type says that the reference we return can not be used to make changes to the Point. To honor that requirement, client code would need to store the returned value into a const reference: `const Point&amp; p5 = c1.getCenter();`. The memory diagram would look just like the normal reference version (<xref ref="returning-objects-2-figure"/>), but p5 could only be used to access const members of the Point class like `getX()`. We could not use it to do anything that would change the Point.</p>
+
+</section>

@@ -1,0 +1,91 @@
+<section xml:id="interacting-objects_in-vectors"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Objects in Vectors</title>
+
+  <p>
+    There are not too many differences between using a vector of objects and a vector of structs. But there are a few interactions between vectors and the constructors and `const` members of classes worth noting.
+  </p>
+
+  <p>On this page, we will make use of this `SimplePoint1` AND `SimplePoint2` classes. They are identical except for the fact that `SimplePoint2` has a no-argument constructor:</p>
+
+  <program xml:id="simple-points" label="simple-points" filename="SimplePoint.cxx" line-numbers="yes" highlight-lines="3, 18, 20-23">
+<xi:include href="../../programs/interacting-objects/in-vectors-1.cpp" parse="text"/>
+  </program>
+
+
+  <p>First let's try to create a vector of 5 `SimplePoint1`s:</p>
+
+  <program label="in-vectors-2" add-files="simple-points" compile-with="simple-points" interactive="activecode" highlight-lines="10">
+<xi:include href="../../programs/interacting-objects/in-vectors-2.cpp" parse="text"/>
+  </program>
+
+  <p>We immediate get an error:</p>
+
+  <console>
+    <output>error: no matching function for call to 'SimplePoint1::SimplePoint1()</output>
+  </console>
+
+  <p>When the code tries to set up the memory for `SimplePoint1`, it tries to initialize each object in the vestor. There is no instruction how to do so, so it is assumed we want to use the no-arg constructor for each of the Points. But `SimplePoint1` does not have a no-arg constructor. To solve the problem, we have to either:
+    <ul>
+      <li>Provide a no-argument constructor for `SimplePoint1`. (We may not be able to do this if we are using someone else's class.</li>
+      <li>Specify how to construct the Points in the vector.</li>
+      <li>Provide an explicit list of Points.</li>
+    </ul>. This sample demonstrates the approaches:</p>
+  
+  <program label="in-vectors-3" add-files="simple-points" compile-with="simple-points" interactive="activecode" highlight-lines="10, 13, 16">
+<xi:include href="../../programs/interacting-objects/in-vectors-3.cpp" parse="text"/>
+  </program>
+
+  <p>As shown on lines 23 and 24, once we have created the vector, we can access individual elements using the `.at()` function. Doing so names a particular `Point` that then we can call member functions on. So `points1.at(0).getX()` starts with the vector named `points1`, then gets the first element, which is a point, and then calls `getX()` on that point.</p>
+
+  <p>We can also loop through the elements by using a range based for loop. The loop on line 27 uses `const SimplePoint1&amp;` as the type of each element. This way, we are using the actual objects from the vector and not making copies of them. We use `const` to promise that the vector elements will not change. But for that to work, we have to make sure that the `getX()` function is marked `const`. (Remember that const tends to be infectious!).</p>
+
+  <exercise label="profgram_l3angd_1">
+    <statement>
+      <p>How would we call `setX(5)` on the second element in the vector `points3`?</p>
+        <p><fillin mode="string"
+          answer="points3.at(1).setX(5)"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>points3\.at\(\s*1\s*\)\.setX\(\s*5\s*\);?</strcmp>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+
+  <exercise label="more_ofdfgutput_2">
+    <statement>
+      <p>Which best describes what happens if we write `vector&lt;Circle> circleList(10);`?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>The code will attempt to call `Circle(10)` to initialize the memory of each Circle.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>The code will attempt to call `Circle()` to initialize the memory of each Circle.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It will be a compiler error.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The code will create space for 10 Circles, but leave the memory uninitialized. (There will be random data.)</p>
+        </statement>
+        <feedback>
+          <p>When we create a vector with a given size, the memory inside it is always initialized.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

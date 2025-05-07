@@ -1,0 +1,24 @@
+<section xml:id="interacting-objects_composition-implementation-alt"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Point.h and Point.cpp</title>
+
+  <p>This is the `Point` class implemented as a .h/.cpp file pair. Note that the .h file only includes what is necessary to define the names used in the class definition (`&lt;string>`). We avoid using `using namespace std` so that files that include this .h do not have to deal with possible name conflicts that might cause.</p>
+
+  <listing>
+    <title>Point.h for final Point class implemented as .h/.cpp pair.</title>
+  <program label="composition-implementation-alt-1">
+<xi:include href="../../programs/interacting-objects/point-final-alt.h" parse="text"/>
+  </program>
+  </listing>
+
+  <p>In the .cpp file, we include the .h file (and thus get `&lt;string>` indirectly). We also include any other files required to define items we are going to use in the function bodies (`&lt;format>` and `&lt;cmath>`).</p>
+
+  <listing>
+    <title>Point.cpp for final Point class implemented as .h/.cpp pair.</title>
+  <program label="composition-implementation-alt-2">
+<xi:include href="../../programs/interacting-objects/point-final-alt.cpp" parse="text"/>
+  </program>
+  </listing>
+
+</section>

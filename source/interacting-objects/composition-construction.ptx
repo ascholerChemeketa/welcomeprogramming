@@ -1,0 +1,144 @@
+<section xml:id="interacting-objects_composition-construction"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Constructing Composed Objects</title>
+
+  <p>Lets use Codelens to take a closer look at the process by which a Circle is constructed. Run the code line by line. Pay close attention to what happens as it starts the Circle constructor on line 20:</p>
+
+  <program interactive="codelens" label="dsfdsfdg12312">
+<xi:include href="../../programs/interacting-objects/circle-construct-1.cpp" parse="text"/>
+  </program>
+
+  <p>Before the Circle is constructed, C++ needs to set up the memory it will use. It does this by reserving space for the m_radius and then letting the Point set up its own memory. The way that Point sets up the memory is by running the no-arg constructor. Thus as the code on line 21 starts running, `m_center` already exists with the values (0, 0). Then, inside the body, we call the 2-arg constructor to make a new Point and copy the data over the top of the old one.</p>
+
+  <p>It feels wasteful to make two Points - first the (0, 0) and then the one that we really want. How could we fix this?</p>
+
+  <p>We could change lines 22-24 to look like `m_program = Point(x, y);` But that would still create the initial (0, 0) point and then replace its data with that from a new one. All that would be different is that the second point we make would be nameless.</p>
+
+  <p>Another approach would be to not create a second point and instead just modify the one that was automatically created. We could do that by changing the constructor to:</p>
+
+<program>
+Circle(double radius, double x, double y) {
+    m_radius = radius;
+    m_center.setX(x);
+    m_center.setY(y);
+}
+</program>
+
+  <p>But that method still depends on the default constructor existing. If we remove the `Point()` constructor from the Point class and try to compile the code, we will get this error:</p>
+
+<console>
+  <output>
+test.cpp:15:47: error: no matching function for call to ‘Point::Point()’
+    15 |     Circle(double radius, double x, double y) {
+       |                                               ^
+  </output>
+</console>
+
+  <p>That is a confusing one. Right before the start of the Circle constructor, the compiler is complaining about a missing `Point()` constructor. The reason being is that it automatically tried to use that default constructor. If there is no default no-argument constructor, the compiler panics and flags it as an error.</p>
+
+  <p>What we need to do is to tell the compiler that it should set up the `m_center` Point object using our x and y values instead of making a default Point. We can do this with the <term>initializer list</term> for the constructor. <idx><h>initializer list</h></idx>. The initializer list is a list of member variables and how to initialize them. It looks like:</p>
+
+  <program>
+    ConstructorName(parameters): member1(data), member2(data), ... {
+        // body of constructor
+    }
+  </program>
+
+  <p>The `:` symbol indicates that we are starting the initializer list. The `member1(data)` part tells the compiler to set up `member1` using the data provided. Here is a real version using out Circle class. Try running it step by step. Again, focus on what happens right as the Circle constructor starts up:</p>
+
+  <program interactive="codelens" label="dsfds3fdg12312">
+<xi:include href="../../programs/interacting-objects/circle-construct-2.cpp" parse="text"/>
+  </program>
+
+  <p>Note that before the body of the constructor runs, execution jumps up to the 2-argument Point constructor. This is because `m_center(x, y)` says <q>initialize the m_center variable by calling its constructor with the x and y values I was given</q>. This version skips making the (0, 0) point by setting up the correct Point right off the bat.</p>
+
+  <p>This version is slightly more efficient (no extra Point is made) and is also truer to the spirit of composition. Dealing with the x and y values is the Point's job. The Circle constructor should hand them off to `m_center` as fast as possible and only worry about the radius value.</p>
+
+  <p>If we really wanted, we could also use the initializer list to set the radius value:</p>
+
+  <program>
+    Circle(double radius, double x, double y): m_center(x, y), m_radius(radius) {
+        // nothing left to do!
+    }
+  </program>
+
+  <p>But we will refrain from doing that. Instead we will just use the initializer list to set up contained objects. And, as long as a default constructor is available in the contained class, we can always just do all the work in the constructor.</p>
+
+  <p>With this trick in hand, we can down implement other constructors. Maybe we want to provide a Circle constructor that just takes a radius and makes the Circle's center (0, 0). We could hard code the values passed to the Point constructor like this:</p>
+
+  <program>
+    Circle(double radius): m_center(0, 0) {
+        m_radius = radius;
+    }
+  </program>
+
+  <p>Or we could write a constructor that takes a Point object that we want to copy as the center of the Circle. We take the Point by const reference, and specify it as what to use to set up the Point `m_center`:</p>
+
+  <program>
+    Circle(double radius): m_center(p) {
+        m_radius = radius;
+    }
+  </program>
+
+  <note><p>Technically, this is using the <term>copy constructor</term>. We will learn more about those later. But we can always construct an object using an existing object of the same type. If we have `Point p1` already, writing `Point p2(p1)` means the same as writing `Point p2 = p1`. Normally, we use the later syntax when copying an object. When using an initializer list we have to use the `( )` syntax instead.</p></note>
+
+  <p>Here is a final version with all three constructors. They give a consumer of the Circle class (like the `main` function), a wide range of ways to make a Circle:</p>
+
+  <program interactive="codelens" label="dsfdsfddg12312">
+<xi:include href="../../programs/interacting-objects/circle-construct-3.cpp" parse="text"/>
+  </program>
+
+
+
+  <exercise label="progs4dfsdfwdffram_flang_1">
+    <statement>
+      <p>We have the following Contact class:</p>
+        <program>
+          class Contact {
+          public:
+              Contact(string name, string email, string street, string city, string zip)
+                  : _________________________ 
+              {
+                  // constructor body code here for other members
+              }
+          
+          private:
+              string m_name;
+              string m_email;
+              Address m_address;
+          };
+        </program>
+        <p>What can go in the blank shown to properly construct the composed Address using the initialization list? Assume that the Address class has a constructor that takes in the appropriate parameters in the order shown in the Contact constructor.</p>
+        
+        <fillin mode="string"
+              answer="m_address(street, city, zip)"/>
+    
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>m_address\(\s*street,\s*city,\s*zip\)</strcmp>
+        </test>
+        <test>
+          <strcmp>.*;.*</strcmp>
+          <feedback>There should not be a semicolon.</feedback>
+        </test>
+        <test>
+          <strcmp>.*Address.*</strcmp>
+          <feedback>You should not use the name of the class.</feedback>
+        </test>
+        <test>
+          <strcmp>.*name.*</strcmp>
+          <feedback>You should not be trying to hand off the Contact's name to the Address.</feedback>
+        </test>
+        <test>
+          <strcmp>.*email.*</strcmp>
+          <feedback>You should not be trying to hand off the Contact's email to the Address.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+
+</section>

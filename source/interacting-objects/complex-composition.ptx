@@ -1,0 +1,187 @@
+<section xml:id="interacting-objects_complex-composition"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>More Complex Composition</title>
+
+  <p>So far, we have considered just a simple case - a class that uses a single instance of another class. That model is sufficient to understand all of the concepts related to composition, but it is important to realize that designs can get much more complex.</p>
+
+  <p>One possible complexity is a class that makes use of multiple instances of another class. For example, a mathematical segment is defined by two endpoints. So a Segment class could be defined using two Point members:</p>
+
+  <figure>
+    <caption>A Segment class that stores two Points</caption>
+    <image>
+      <mermaid>
+      classDiagram
+          class Segment {
+            -m_start : Point
+            -m_end : Point
+            ...functions()
+          }
+          class Point{
+            ...details_omitted...
+          }
+          Segment *-- Point
+      </mermaid>
+    </image>
+  </figure>
+
+  <p>This definition of Segment <q>owns</q> two Point objects, but does not control any other data directly. Every function in the class would need to rely on `m_start`, `m_end`, or both to do its work. Here are what some functions might look like:</p>
+
+<program>
+double Segment::getStartX() const {
+    return m_start.getX();
+}
+
+double Segment::length() const {
+    return m_start.distanceTo(m_end);
+}
+</program>
+
+  <p>Of course we could add more data to it. Perhaps we want a Segment to have a label associated with it:</p>
+
+  <figure>
+    <caption>A Segment class that stores two Points and a string</caption>
+    <image>
+      <mermaid>
+      classDiagram
+          class Segment {
+            -m_start : Point
+            -m_end : Point
+            -m_label : string
+            ...functions()
+          }
+          class Point{
+            ...details_omitted...
+          }
+          Segment *-- Point
+          Segment *-- string
+      </mermaid>
+    </image>
+  </figure>
+
+  <p>Now a Segment is composed from three other objects - the two points and a string (don't forget that strings are objects!). Note in the UML diagram, each class is only represented one time. So even though a Segment uses two instances of the Point class, there is just one Point box. However, in a memory diagram of a Segment `s1` at run time, there would be two contained points:</p>
+
+  <figure>
+    <caption>A memory diagram of Segment s1.</caption>
+    <image source="images/composition-segment-s1.svg"
+           width="60%"
+           alt="Segment s1 contains two Point objects m_start and m_end that each have m_x and m_y"/>
+  </figure>
+
+  <p>There is no reason we have to stop with two Points. We could have a Path that represents a series of Points. It might be represented as a vector of Points:</p>
+
+  <figure>
+    <caption>A Segment class that stores two Points</caption>
+    <image>
+      <mermaid><![CDATA[
+      classDiagram
+          class Path {
+            -m_points : vector&lt;Point>
+            ...functions()
+          }
+      ]]></mermaid>
+    </image>
+  </figure>
+
+  <!--todo parsons path length function-->
+
+  <p>We can also use composition to construct objects that are composed of other objects. This would be a nice way to build a Cylinder object. A Cylinder is defined by a Circle that is its base and a height (as well as an angle if we want to represent oblique or <q>leaning</q> cylinders). So we could define a Cylinder class that has a Circle and a double:</p>
+
+  <figure>
+    <caption>A Segment class that stores two Points</caption>
+    <image>
+      <mermaid><![CDATA[
+      classDiagram
+          class Cylinder {
+            -m_base : Circle
+            -m_height : double
+            ...functions()
+          }
+          class Circle{
+            ...details_omitted...
+          }
+          class Point{
+            ...details_omitted...
+          }
+          Cylinder *-- Circle
+          Circle *-- Point
+      ]]></mermaid>
+    </image>
+  </figure>
+
+  <p>This Cylinder could do some work directly. Other work it would have to hand off to the Circle. Which might in turn hand off the job to the Point object it contains:</p>
+
+  <program>
+double Cylinder::getHeight() const {
+    // height is the Cylinder's direct responsibility
+    return m_height;
+}
+
+double Cylinder::getCircumference() const {
+    // The base is in charge of the radius and data
+    // calculated from it. So ask the base for the answer
+    return m_base.getCircumference();
+}
+
+double Cylinder::getX() const {
+    // Cylinder does not have an x, or even a direct link to the center point
+    // Ask the base to get the x value for us. It will in turn ask the Point
+    // it contains.
+    return m_base.getX();
+
+    // Or, ask the base for its center and then ask that Point for its x
+    //Point center = m_base.getCenter();
+    //return center.getX();
+}
+
+Circle Cylinder::getBase() const {
+    return m_base;
+}
+  </program>
+
+  <p>Given this Cylinder class, we can even compose function calls. A common looking construct in object-oriented code is something like: ``cylinder1.getBase().getCenter().getY()``. We first get the base of the Cylinder, which is a Circle. Then we ask that Circle to do `getY`. This is a place where returning a const reference from `Cylinder::getBase()` and `Circle::getRadius` could avoid needless work. The versions we have return copies of the objects. So even though we do not store those copies into variables, it still involves making some new, nameless objects that then get discarded.</p>
+
+  <exercise label="hosdfsdfe" language="cpp">
+    <statement>
+        <p>Form a statement to get the area of cylinder1's base. You will not need all the blocks.</p>
+    </statement>
+    <blocks layout="horizontal" randomize="yes">
+        <block><c>cylinder1</c></block>
+        <block><c>.getBase()</c></block>
+        <block correct="no"><c>.getCenter()</c></block>
+        <block><c>.getArea()</c></block>
+        <block correct="no"><c>.getArea(getBase())</c></block>
+    </blocks>
+</exercise>
+
+<exercise label="hosdfssddfsdfdfe" language="cpp">
+  <statement>
+      <p>Form a statement to check if the x location (as defined by the center of its base) of cylinder1 is 5.</p>
+  </statement>
+  <blocks layout="horizontal" randomize="yes">
+      <block><c>cylinder1</c></block>
+      <block><c>.getBase()</c></block>
+      <block><c>.getCenter()</c></block>
+      <block><c>.getX()</c></block>
+      <block><c>==</c></block>
+      <block><c>5</c></block>
+  </blocks>
+</exercise>
+
+<exercise label="hosdfssds3ddfsdfdfe" language="cpp">
+  <statement>
+      <p>Form a statement to get the distance between the centers of cylinder1 and cylinder2. You will have to use some blocks more than once.</p>
+  </statement>
+  <blocks layout="horizontal" randomize="yes">
+      <block><c>cylinder1</c></block>
+      <block xml:id="cylinder-hparson-distance-base"><c>.getBase()</c></block>
+      <block xml:id="cylinder-hparson-distance-center"><c>.getCenter()</c></block>
+      <block><c>.distanceTo(</c></block>
+      <block><c>cylinder2</c></block>
+      <block ref="cylinder-hparson-distance-base"/>
+      <block ref="cylinder-hparson-distance-center"/>
+      <block><c>)</c></block>
+  </blocks>
+</exercise>
+
+</section>

@@ -1,0 +1,133 @@
+<section xml:id="interacting-objects_static"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Class Level Data and Functions</title>
+
+  <introduction>
+    <p>Sometimes, we want to interact with classes without involving any particular objects.</p>
+
+    <p>For example, we might want to keep track of how many objects of a particular class have been created. Or we might want to have a function that is not associated with any particular object, but is still part of the class.</p>
+    
+    <p>The <term>static</term> keyword allows us to define data and functions that are associated with a class instead of particular objects.</p>
+  </introduction>
+
+  <subsection>
+    <title>Static Data</title>
+
+    <p>
+      Whenever you see the keyword `static` in front of a member variable or function, think <q>shared</q> or <q>class level</q>. A static variable is shared by all objects of a class. Only one copy of the variable exists, and if you change it in one object, it changes for all objects of that class. In this sample, we have a static variable `numStudents` that keeps track of how many objects of the `Student` class have been created. The constructor increases this value by one each time it is called. Initially, it is set to 0. After the first student is created, it changes to 1. The second student changes it to 2. And so on. When any student accesses the variable, they see the current value of that counter:</p>
+
+    <program line-numbers="yes" interactive="activecode" highlight-lines="9, 14, 18, 21-22">
+<xi:include href="../../programs/interacting-objects/static-1.cpp" parse="text"/>
+    </program>
+
+    <p>Notice that the final two calls are made to `s1` and `s2`. Both give us the same answer, as they both access the one `numStudents` variable.</p>
+
+    <figure align="center">
+      <caption>Students s1 and s2 <q>share</q> one variable numStudents</caption>
+      <image source="images/objects-static.svg"
+            width="80%"
+            alt="Students s1 and s2 share one variable numStudents"/>
+    </figure>
+
+
+    <p>Although each constructor changes the value of `numStudents`, we only want to initialize it one time. So we can't set it to 0 in the constructor. (Or each Square would reset the count to 0!). So instead, we initialize it outside the class (line 22) where we refer to it as `Student::numStudents`.</p>
+
+    <p>One important use of `static` variables is to declare class level constants. Say in a class Square we want to have a constant for the number of sides. We could write:</p>
+
+    <program line-numbers="yes" interactive="activecode" highlight-lines="8, 23, 27">
+<xi:include href="../../programs/interacting-objects/static-2.cpp" parse="text"/>
+    </program>
+
+    <p>`numSides` is safe to make public because it is a constant - there is no danger of other code changing it in unexpected ways. And because it is public, we can access it from anywhere.</p>
+
+    <p>Making the constant static means that each object does not have to store a copy of the value. But it also means we don't even need a particular Square object to name the value. Because `numStudents` belongs to the class, we are able to name it with `Square::numSides` or <q>the numSides variable that is a part of the Square class</q>. That trick can not be used with normal member variables<mdash/>it would not make sense to talk about `Square::m_sideLength` as there is no `m_sideLength` that is shared by all Squares; each square has its own value for that variable.</p>
+
+
+    <insight><p>`static` member variables should be rare. Other than class level constants, think carefully before making a variable constant. Will it ALWAYS be the case that every object should have the same value?</p></insight>
+  
+    <exercise label="reprogsdfram_flang_1">
+      <statement>
+        <p>The `Circle` class has a static variable `PI`. How would we refer to that value outside of the class without using a particular Circle instance?</p>
+          <p><fillin mode="string"
+            answer="Circle::PI"/></p>
+      </statement>
+      <evaluation>
+        <evaluate>
+          <test correct="yes">
+            <strcmp>Circle::PI</strcmp>
+          </test>
+          <test>
+            <strcmp>Circle.PI</strcmp>
+            <feedback>
+              <p>The dot operator is used to access the members of a particular object like `c1`. We are trying to name the variable without using a particular Circle.</p>
+            </feedback>
+          </test>
+        </evaluate>
+      </evaluation>
+    </exercise>
+
+  </subsection>
+
+  <subsection>
+    <title>Static Functions</title>
+
+    <p>Static functions are similar to static variables. They are associated with the class, not with any particular object. So we can call them without having a particular object. For example, we could write a function that returns the number of students in the class:</p>
+  
+  <program>
+static int getNumStudents() {
+    return numStudents;
+}  
+</program>
+
+  <p>Because `getNumStudents()` is static, or <q>shared</q>, we should be able to ask any student for `getNumStudents()` and we should get the same answer. And because it does not matter who we ask, we are allowed to just ask the class itself for the answer. We can just say `Student::getNumStudents()` to get the value. Calling the function through the class like this instead of a particular object is only allowed when the function is static.</p>
+
+  <p>Since the `static` function does not depend on any particular object, it makes no sense to try to access normal, non-static, instance variables. Imagine if we tried to write a static function `Student::getName()`. What name should it return? Every student has a different name! Therefore, a static function can only access static variables and not instance variables..</p>
+
+  <warning><p>`static` functions can only access `static` data or local variables. This means that any function that relies on instance variables can not be made `static`.</p></warning>
+
+  <p>Static functions can be useful for utility functions that are related to the class but do not need to access any particular object. One example is our `getNumStudents` function. Another common use is to make a <term>factory function</term> that is used instead of a constructor to build an object. (This is only preferable when solving complex object-oriented design problems).</p>
+
+  <p>Imagine there is some fancy work that needs to happen every time we make a square. We might hide the normal constructor by making it private. Instead, we would provide a factory function `create`. Outside code must call it and let it call the constructor, giving the Square class a chance to do extra work before or after the constructor runs.</p>
+
+  <program line-numbers="yes" highlight-lines="7-8, 16-17, 29">
+<xi:include href="../../programs/interacting-objects/static-3.cpp" parse="text"/>
+  </program>
+
+  <p><ul>
+    <li>Line 7 defines the factory function.</li>
+    <li>Line 17 is the private constructor. Because it is private, we can call it from the Square class factory function, but not from main.</li>
+    <li>Line 28 use the factory function to make a square.</li>
+  </ul></p>
+
+  <exercise label="more_ofdsutput_2">
+    <statement>
+      <p>Which statements are true of `static` methods?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>They can be called on a particular object.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>They can be called using the classname instead of a particular object.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>They can access static member variables.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>They can non-static member variables.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  </subsection>
+
+</section>
