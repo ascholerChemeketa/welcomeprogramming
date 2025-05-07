@@ -26,8 +26,10 @@ void shiftPoint(Point& p,
 
 // Get a string representation of the point
 string toString(const Point& p) {
-    return format("({}, {})", p.x, p.y);
+    return format("({}, {})",
+                  p.x, p.y);
 }
+
 
 int main() {
     // Example usage

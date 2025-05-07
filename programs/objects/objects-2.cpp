@@ -15,6 +15,8 @@ public:
         m_y = y;
     }
 
+
+
     // Method to shift the point
     void shift(double dx, double dy) {
         m_x += dx;
@@ -27,7 +29,7 @@ public:
         return format("({}, {})",
                       m_x, m_y);
     }
-};
+};  //end of class
 
 int main() {
     // Example usage

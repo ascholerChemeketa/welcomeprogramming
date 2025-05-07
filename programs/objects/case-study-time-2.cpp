@@ -9,13 +9,14 @@ public:
         m_minutes = minutes;
     }
 
-    int getHours() {
-        return m_hours;
+
+    // Assume minutes is 0
+    Time(int hours) {
+        m_hours = hours;
     }
 
-    int getMinutes() {
-        return m_minutes;
-    }
+    // Default constructor
+    Time() {}
 
 private:
     int m_hours = 0;
