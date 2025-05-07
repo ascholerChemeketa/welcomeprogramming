@@ -1,0 +1,56 @@
+<section xml:id="pointers-aggregation_self-aggregation"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Self Aggregation</title>
+
+  <p>In C++, you cannot use composition to define a relationship between two items of the same class. If we try to compile this:</p>
+
+  <program label="asdfsd32df3" highlight-lines="5, 9" line-numbers="yes">
+<xi:include href="../../programs/pointers-aggregation/self-aggregation-1.cpp" parse="text"/>
+  </program>
+
+  <p>The compiler will tell us that we are trying to use an incomplete type for `m_spouse`:</p>
+
+  <console><output>test.cpp:9:12: error: field ‘m_spouse’ has incomplete type ‘Person’
+    9 |     Person m_spouse;
+      |            ^~~~~~~~
+test.cpp:5:7: note: definition of ‘class Person’ is not complete until the closing brace
+    5 | class Person {
+      |       ^~~~~~</output></console>
+
+  <p>Until we have finished defining Person, it is not OK to use Person to name a variable. Even if this was allowed, we would have problems trying to construct a Person. To construct a Person, you would have to set up memory for their `m_spouse`, which is a Person. That Person object would need to allocate some space for its `m_spouse`, which in turn would need memory for another `m_spouse`, and so on forever.</p>
+
+  <p>This is not a problem if we use aggregation instead of composition. In the aggregation version of this code, we are not trying to store a Person inside of a Person. We are simply storing a memory address inside each Person. So this code will compile and run just fine:</p>
+
+  <program label="asdf23sd32df3" interactive="activecode" highlight-lines="9, 13, 14, 19-20" line-numbers="yes">
+<xi:include href="../../programs/pointers-aggregation/self-aggregation-2.cpp" parse="text"/>
+  </program>
+
+  <p>Here are a few of the interesting uses of the pointer:
+    <ul>
+      <li>When we construct a Person, their `m_spouse` is set to `nullptr` as we assume everyone starts unmarried.</li>
+      <li>The `print()` function checks to see if there is a spouse (remember that `if (m_spouse)` will be false if the spouse is a nullptr) to determine what to print. Only if there is a spouse do we use `->` to access the name of that spouse.</li>
+      <li>The `marry(Person* spouse)` function takes the address of a Person object. It first sets the current object's spouse to be that address. It then sets the spouse's spouse `spouse->m_spouse` to be the current object's address (`this`). Thus when we say `anna.marry(&amp;brian);`, the `anna` object first stores the `brian` object's address. It then sets the `brian` object's `m_spouse` to be `anna`.</li>
+    </ul>
+  </p>
+
+  <p>When the `anna.marry(&amp;brian)` function is called, the memory for the call stack looks like the diagram below. The Anna and Brian objects in main still do not have spouses set. In the marry function, the `this` pointer has `anna`'s address, while the `spouse` parameter holds `brian`'s address:</p>
+  
+  <figure>
+    <caption>Memory diagram at the start of `anna.marry(&amp;brian)`.</caption>
+    <image source="images/aggregation-self-1.svg"
+           width="60%"
+           alt="In marry, this has the address 0x400 (that of the anna object in main) and spouse has the address 0x6f0 (that of the brian object in main)."/>
+  </figure>
+
+  <p>The first line of the `marry` function - `m_spouse = spouse;` - changes `anna`'s `m_spouse` to be 0x6f0. So Anna's spouse now points at the Brian object. The second line - `spouse->m_spouse = this;` - starts from `spouse`, follows the pointer (`->`) to access `m_spouse`. Thus it reaches the `brian` object's `m_spouse`. It sets that to the value of `this`, which is 0x400. So Brian's spouse is now Anna.</p>
+
+  <figure>
+    <caption>Memory diagram at the end of `anna.marry(&amp;brian)`.</caption>
+    <image source="images/aggregation-self-2.svg"
+           width="60%"
+           alt="anna's m_spouse now has brian's address (0x6f0). brian's m_spouse now has anna's address (0x400)"/>
+  </figure>
+
+
+</section>

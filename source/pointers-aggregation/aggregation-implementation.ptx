@@ -1,0 +1,63 @@
+<section xml:id="pointers-aggregation_aggregation-implementation"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Implementing Aggregation</title>
+
+  <p>To implement aggregation in C++, we need to have a variable that gives us access to some memory without owning it. That means we can't use a regular variable, like a `Point m_center`, as regular variables <q>own</q> a chunk of memory. When a regular variable goes out of scope, the variable it names goes away. Pointers (and references) are different. A pointer just names a place in memory where we store a memory address (hopefully the address of some useful piece of data). When the pointer goes away, all that is lost is that copy of the address. The data at that address is not lost.</p>
+
+  <insight>
+    <p>
+      Different types of variables have different ownership semantics (meaning).
+      <ul>
+        <li>A <q>regular</q> variable (like `x` in `int x = 10;`) owns the memory it is using.</li>
+        <li>A <q>reference</q> variable (like `r` in `int&amp; r = x;`) does NOT own the memory it is using. It is an alias for another variable.</li>
+        <li>A <q>pointer</q> variable (like `p` in `int* p = &amp;x;`) may or may not own the memory it points at. Until we learn about dynamic allocation, we will assume pointers do NOT own the memory they point at.</li>
+      </ul>
+    </p>
+  </insight>
+
+  <p>
+    So to implement aggregation, we need to use pointers or references. There are some limitation that come with references: you can't have a null reference; you have to initialize references when they are created and can't change them. So if we chose reference variables, we could not have a Person with no spouse (a null value for a spouse). And we could not change the center of a Circle once it was created to be a different Point object. So we will use pointers to implement aggregation.
+  </p>
+
+  <p>
+    A simplified version of our Circle class using aggregation might look like:
+  </p>
+
+  <program label="asdfa4ddes3dfdsdf3" interactive="activecode" highlight-lines="8, 14, 18, 27, 34, 37, 42" line-numbers="yes" compile-also="point-final-cxx">
+<xi:include href="../../programs/pointers-aggregation/aggregation-circle.cpp" parse="text"/>
+  </program>
+
+  <p>Key things to note about this implementation:
+    <ul>
+      <li>The `m_center` is now a `Point*` (line 24).</li>
+      <li>The constructor takes a `Point *` (line 5).</li>
+      <li>To use `m_center`'s functions, we need to use the `->` operator (lines 14, 18).</li>
+      <li>When we construct a Circle, we pass it the address of an already existing Point (lines 34 and 37).</li>
+    </ul>
+    We have to pass an existing Point object to the Circle constructor because the Circle will not have its own storage for a Point. Instead, it will just store the address of a Point, which means that Point must already exist elsewhere in memory.
+  </p>
+
+  <p>A memory diagram for the main function after all of the Circles are constructed would look lime the image below. `c1` and `c2` don't hold their own Point objects, they hold the memory address of `p1`.</p>
+
+  <figure>
+    <caption>Memory diagram of p1, c1, and c2 using aggregation.</caption>
+    <image source="images/aggregation-circles.svg"
+           width="80%"
+           alt="In Circles c1 and c2, the m_center holds the memory address of Point p1"/>
+  </figure>
+
+  <p>This means, that any change to `p1` will be <q>seen</q> by the two Circle objects. We can see this in the last few lines of the program above. Shifting Point `p1` affects the center of both `c1` and `c2` because they both use the actual Point `p1` as their center.</p>
+
+  <note>
+    <p>This is a critical distinction between aggregation and composition. If we made two circles from a Point `p1` with the composition version of Circle, each Circle would make its own copy of the data from `p1` and store that data.</p>
+    <figure>
+      <caption>Memory diagram of p1, c1, and c2 using composition.</caption>
+      <image source="images/composition-circles.svg"
+             width="80%"
+             alt="In Circles c1 and c2, the m_center hold copies of the data from p1"/>
+    </figure>
+    <p>Given this structure in memory, future changes to `p1` would not affect either Circle's center point as those are different objects in memory.</p>
+  </note>
+
+</section>

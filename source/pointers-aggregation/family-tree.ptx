@@ -1,0 +1,80 @@
+<section xml:id="pointers-aggregation_family-tree"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>A Family Tree</title>
+
+  
+  <exercise label="wefwef">
+    <statement>
+      <p>Match each term to an example of it.</p>
+    </statement>
+    <feedback>
+      <p>Try again!</p>
+    </feedback>
+    <matches>
+      <match order="1">
+        <premise>input</premise>
+        <response>the program user enters a few ordered pairs when prompted in the terminal</response>
+      </match>
+      <match order="2">
+        <premise>output</premise>
+        <response>the calculated distances are saved to a file</response>
+      </match>
+      <match order="3">
+        <premise>math</premise>
+        <response>the program calculates the distance between two ordered pairs</response>
+      </match>
+      <match order="4">
+        <premise>selection</premise>
+        <response>the program checks that the calculated distance is non-negative</response>
+      </match>
+      <match order="5">
+        <premise>repetition</premise>
+        <response>the program continues executing as long as there are more data points to compute
+          distance</response>
+      </match>
+    </matches>
+  </exercise>
+
+  <p>As a more in depth example of using aggregation, let us model a family tree. The basis of our program will be a Person class. Every Person has a name. They may have a mother that we know about and they may also have a number of children we need to represent. (For brevity, we will skip representing fathers... the logic would be the same as for mothers.) A Person will thus need a `Person*` to store the mother, it will start out as a `nullptr`. It will also need a `vector&lt;Person*>` to store any children. An empty vector will indicate no children, so we don't need to explicitly add any `nullptr`s to it.</p>
+
+  <p>The implementation for this is shown below. Much of this code is similar to the Person class we used on the previous page, below the code we will discuss some of the differences.</p>
+
+  <listing>
+    <title>Person.cxx</title>
+    <caption>Person.cxx - A module implementation of Person</caption>
+    <program label="person-family-cxx" xml:id="person-family-cxx" filename="Person.cxx">
+  <xi:include href="../../programs/pointers-aggregation/person-family.cxx" parse="text"/>
+    </program>
+  </listing>
+
+  <p>The `setMother` function is similar to the `marry` function from our spouse sample. We want setting someone's mother to also make sure that the mother object has the Person in their list of children. We need to tell the mother object to add the current Person (`this`) to their vector named `m_children`. Thus `mother->m_children.push_back(this)`.</p>
+
+  <p>`getMother` and `getChild` both return `Person*`s as we want to return the memory address to the appropriate object instead of a copy of the object. If `getMother` looked like `Person getMother() const` it would return a copy of the object that `m_mother` points at.</p>
+
+  <p>`getChild` takes a parameter to specify which child to retrieve. It does a sanity check of the index given before trying to access the vector.</p>
+
+  <p>Finally, `print` checks the Person being printed to see if they have a mother and/or children. If so, it prints out the names of those objects.</p>
+
+  <p>Now let's look at a sample program that uses this code to set up a simple family tree:</p>
+
+  <program label="wefwefwefxx" compile-also="person-family-cxx">
+<xi:include href="../../programs/pointers-aggregation/person-family-user-1.cpp" parse="text"/>
+  </program>
+
+  <p>Notice that because we are using aggregation, when we change Fay's name to Fiona, the `henry` object's mother is changed. Henry's `m_mother` is the memory address of the `fay` object and not a copy of the data.</p>
+
+  <p>Now let's get trickier. We are going to try to navigating all the way from Henry up to the top of the family tree (a person with no known mother). To do this, we need a way to track <q>the current person</q>. However, once we have created the family, we want to avoid making any new Person objects that are copies of the people - there should only ever be one <q>Henry</q> in the program. So we need `currentPerson` to be an alias for one of the existing Person objects, and not a new Person. Thus we will make `Person* currentPerson`. Were we to use `Person currentPerson`, we would be making a copy of a Person instead of linking to an already existing one. We will start simple by printing a few generations starting from Henry:</p>
+
+  <program label="wefweffd4wefxx" compile-also="person-family-cxx" interactive="activecode">
+<xi:include href="../../programs/pointers-aggregation/person-family-user-2.cpp" parse="text"/>
+  </program>
+
+  <p>This program starts with a pointer to Henry, uses that to get a pointer to his mother, and then uses that new pointer to get a pointer to Henry's grandmother. We can continue this chain for as long as it takes to reach the top of the tree by adding a loop. We will reuse the `currentPerson` pointer to always store the person we are currently at. Once the `currentPerson` is null, we know we have run out of family members!</p>
+
+  <program label="wefwe4ffd4wefxx" compile-also="person-family-cxx" interactive="activecode">
+<xi:include href="../../programs/pointers-aggregation/person-family-user-3.cpp" parse="text"/>
+  </program>
+
+  <p>In the program we print out the memory addresses stored in the pointers as we go, just to help see what is going on. The tricky bit is the last line. We change the memory address stored in `currentPerson` to be a copy of the address stored in `currentMother`. This updates the `currentPerson` pointer to point at the mother of the old `currentPerson`. Then, we bounce up to the start of the loop to check if we have reached an unknown mother (nullptr) - that will be our sign that we have reached the top of the tree and it is time to stop.</p>
+</section>

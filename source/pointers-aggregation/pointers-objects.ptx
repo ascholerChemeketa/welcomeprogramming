@@ -1,0 +1,39 @@
+<section xml:id="pointers-aggregation_pointers-objects"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Object Member Access with Pointers</title>
+
+  <p>
+    When using pointers with objects, we are likely to encounter a syntax annoyance. Say we have a Pointer called `myPointer` that points at a `Point` object and we want to call the `getX()` function of that Point. We know that the pointer is just a memory address. To use it we need to dereference it - `*myPointer` will give us <q>the object that myPointer points at</q>. So we write the following to access the `getX()` of that object (using our <xref ref="point-final-cxx-listing" text="title"/>):
+  </p>
+
+  <program interactive="activecode" label="pointers-objects-example" compile-also="point-final-cxx">
+<xi:include href="../../programs/pointers-aggregation/pointers-objects-1.cpp" parse="text"/>
+  </program>
+
+  <p>
+    The compiler spits out an error message that looks something like this:
+  </p>
+
+  <console>
+    <output>request for member ‘getX’ in ‘myPointer’, which is of pointer type ‘Point*’ (maybe you meant to use ‘->’ ?)</output>
+  </console>
+
+  <p>The issue is one of precedence <fn><url href="https://en.cppreference.com/w/cpp/language/operator_precedence">List of operator precedence at cppreference.com</url></fn>. We intended to say, <q>first dereference the pointer, then use the getX member of that object</q>. However, `.` is interpreted before `*`. So what we said was <q>use the getX member of the pointer (`.`), then dereference the result (`*`).</q>. It is as if we had written `*(myPointer.getX())`, which does not make sense because `myPointer` is just a memory address, not an object, and thus has no `getX()`. One way to fix this is to use parentheses to make the order of operations clear:
+  </p>
+
+  <program>
+    (*myPointer).getX();
+  </program>
+
+  <p>
+    That will work as intended (you can try it in the program above). However, it is a bit clunky. And it can get really clunky if we have a series of pointers to dereference. Something like (`(*(*(*cylinderPointer).getBasePointer()).getCenterPointer()).getX();` is quite hard to quickly read and verify. C++ provides a shorthand for this situation. Instead of using `*` and `.` together, we can use the <term>pointer member access operator</term> `->` (also sometimes called the <term>arrow operator</term>. This operator is used to access members of an object through a pointer. You can think of `myPointer->getX()` as saying <q>go to the thing myPointer points at and then use the getX() member of that object</q>. No parentheses needed!
+  </p>
+
+  <p>So the final correct version of our simple program using the <term>pointer member access operator</term> would look like:</p>
+
+  <program interactive="activecode" label="pointers-objects-example2" compile-also="point-final-cxx">
+<xi:include href="../../programs/pointers-aggregation/pointers-objects-2.cpp" parse="text"/>
+  </program>
+
+</section>

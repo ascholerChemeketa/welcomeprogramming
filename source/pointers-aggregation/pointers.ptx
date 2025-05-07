@@ -1,0 +1,46 @@
+<section xml:id="pointers-aggregation_pointers"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Pointers</title>
+
+  <p>
+    Now that we know how to access the memory address of a variable, we need a way to store that address. We can do this using a <term>pointer</term>. A pointer is simply a variable that stores the memory address of another variable. We declare a pointer by using an asterisk `*` between the data type and name of a variable. For example, if we want to create a pointer to an integer, we would write `int* p;`. (This use of `*` is just like how we use `&amp;` to indicate a reference.)<idx><h>pointer</h></idx>
+  </p>
+
+  <p>Remember that it can help to read declarations backwards. A good way to pronounce `int* p;` is <q>p is a pointer to an integer</q> or <q>p holds the address of an integer</q>. We would pronounce `Circle* c1;` as <q>c1 is a pointer to a Circle</q>. Note that the `*` is part of the data type. `p` does not have the type integer, it has the type `int*`.</p>
+
+  <note><p>The `*` can have spaces on either side of it. Some programmers prefer to write `int *p;` to make it clear that p is a pointer. In this book, we will always place the `*` next to the data type to focus on the idea <q>the type of p is pointer to an integer</q> rather than thinking <q>the type of *p is integer</q>.</p></note>
+
+  <p>To initialize a pointer type, we use the `&amp;` to get the address of the variable we want ot <q>point</q> at. This sample sets `p` to point at `x`:</p>
+
+  <program label="asdfadesdf" interactive="activecode" highlight-lines="11" line-numbers="yes" codelens="yes">
+<xi:include href="../../programs/pointers-aggregation/pointers-1.cpp" parse="text"/>
+  </program>
+
+  <p>Note that printing out `p` produces the same value as printing `&amp;x`. This should not be surprising, as we initialized `p` to `&amp;x`. A memory diagram of this example is shown below.</p>
+
+  <figure>
+    <caption>Memory diagram of p storing x's address.</caption>
+    <image source="images/pointers-p-points-x.svg"
+           width="60%"
+           alt="p holds the same value as x's address"/>
+  </figure>
+
+  <p>
+    Now try running the program using Codelens. It shows `p` as an arrow pointing to `x`. This is a common way to represent pointers in memory diagrams and a useful way to think about them abstractly. (That is why they are called <q>pointers</q> - they point to things!) This kind of arrow should look familiar from working with references. It is not a coincidence - both references and pointers are ways to link to other memory.
+  </p>
+
+  <insight>
+    <p>Although we like to draw abstract diagrams and think of pointers as magical arrows that point to other memory, it is important to remember that a pointer is really just a memory address. Any code that works with a pointer is just working with that address.</p>
+  </insight>
+
+  <p>
+    It is possible to reassign pointers and to copy pointers. Try running this sample both in the ActiveCode and in Codelens. It changes the address that `p` is storing to make it <q>point</q> to `y` instead of `x`. It then copies that address to another `int*` named `q`, which means that `q` is also <q>pointing</q> at `y`:</p>
+  
+  <program label="asdfadesdf2" interactive="activecode" highlight-lines="13, 16" line-numbers="yes" codelens="yes">
+<xi:include href="../../programs/pointers-aggregation/pointers-2.cpp" parse="text"/>
+  </program>
+
+  
+
+</section>

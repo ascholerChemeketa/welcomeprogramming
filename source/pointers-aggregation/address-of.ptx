@@ -1,0 +1,66 @@
+<section xml:id="pointers-aggregation_address-of"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Memory Addresses of Variables</title>
+
+  <p>
+    One of the benefits of programming in a high-level language like C++ is that we usually do not have to worry about the details of how the computer stores our data. We can just declare ``int x = 10;`` and the compiler will do the work of deciding where to place that data into memory and keeping track of the location so when we next say `x` the code accesses that same location. However, there are times when it is useful to work directly with the memory address of a variable - to be able to say <q>work with the data stored at location X</q>.
+  </p>
+
+  <p>In C++, to access the memory address of a variable, we can use the <term>address-of</term> operator `&amp;`. To do so, we place it to the left of a variable name. For example, if we have a variable `x`, we can get its memory address using `&amp;x`. The example below will print the memory address of `x` and `y`:<idx><h>address-of</h></idx><idx><h>&amp; (address-of)</h></idx></p>
+
+  <program label="asdfasdf" interactive="activecode" highlight-lines="8, 9" line-numbers="yes">
+<xi:include href="../../programs/pointers-aggregation/address-of.cpp" parse="text"/>
+  </program>
+
+  <p>Running the program should produce something like:</p>
+
+  <console>
+    <output>
+      Address of x: 0x7ffc622069c0
+      Address of y: 0x7ffc622069c4
+    </output>
+  </console>
+
+  <p>The `0x` indicates that these are <url href="https://runestone.academy/ns/books/published/welcomecs2/data-representation_hexadecimal.html?mode=browsing">hexadecimal values</url>. The rest of the digits are the actual address. Note that the two values, although quite large, are only 4 apart. Since we declared `x` and `y` one after another, and in this code, an int takes 4 bytes, the address of y is 4 more than the address of x. If we diagrammed the memory at a very low level, it might look like this:</p>
+
+  <figure>
+    <caption>Low Level Memory Diagram for x and y</caption>
+    <image source="images/pointers-memory-low.svg"
+           width="80%"
+           alt="x occupies 4 bytes starting at 0x7ffc622069c0. It stores the binary value for 10. y occupies 4 bytes starting at 0x7ffc622069c4. It stores the binary for 14."/>
+  </figure>
+
+  <p>
+    In the diagram, we can see that what we call `x` are the 4 bytes starting at `0x7ffc622069c0` (`0x7ffc622069c0`-`0x7ffc622069c3`). It stores the binary value for 10. What we call `y` are the 4 bytes starting at `0x7ffc622069c4`. It stores the binary for 14. Even when we are dealing with memory addresses directly, that diagram is more detailed than we actually need. Here is a higher level view of the same memory:</p>
+
+    <figure> 
+      <caption>Mid Level Memory Diagram for x and y</caption>
+      <image source="images/pointers-memory-high.svg"
+             width="60%"
+             alt="x is at 0x7ffc622069c0 and has the value 10. y is at 0x7ffc622069c4 and stores 14."/>
+    </figure>
+
+  <p>
+    This version focuses on what we actually need to know. It shows us that `x` is at `0x7ffc622069c0` and has the value 10. It also shows us that `y` is at `0x7ffc622069c4` and stores 14. We are describing it as a mid-level diagram because it includes some of the low level details - the memory addresses - but not all of them. A true high-level memory diagram, like we have used in the past, would not show us the addresses at all. It would just show us that `x` is 10 and `y` is 14.
+  </p>
+
+
+  <note>
+    <p>
+      Unfortunately the `&amp;` symbol can mean multiple things in C++. It can mean:
+      <ul>
+        <li>
+          <p>That a variable is a reference. It means this when the `&amp;` is placed to the right of a type. For example, in the function header `void foo(int &amp;x)`, the `&amp;` means that `x` is a reference to an integer. The `&amp;` is modifying the type of `x`.</p>
+        </li>
+        <li>
+          <p>The address-of operator, which gives the memory address of a variable. It means this when it is to the left of a variable name and there is no type specification. In other words, when we are using a variable, not declaring one, like `cout &lt;&lt; &amp;x;`</p>
+        </li>
+        <li>
+          <p>Logical or bitwise AND. It means this when it is placed between two variables. For example, in the expression `x &amp;&amp; y`, the `&amp;` means to do a bitwise AND operation on the values of `x` and `y`. `x amp; y` means to combine the two values bit by bit to create a new value (not covered in this book).</p>
+        </li>
+      </ul>
+    </p>
+  </note>
+
+</section>

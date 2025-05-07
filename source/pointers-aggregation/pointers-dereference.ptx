@@ -1,0 +1,38 @@
+<section xml:id="pointers-aggregation_pointers-dereference"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Dereferencing Pointers</title>
+
+  <p>
+    So how do we use a pointer? We know that the pointer stores a memory address. But how do we use that address to access the data at that address?</p>
+
+  <p>The answer is to <term>dereference</term> the pointer. Dereferencing a pointer means using the memory address to access the data at the address it points to. The dereference operator is the asterisk (`*`). For example, if `p` is a pointer to an int, then `*p` is the int that `p` points to. If `p` holds the address of an int variable, then `*p` gives us access to the memory at that address. A good way to pronounce `*p` is <q>the thing p points at</q>.
+  <idx>
+    <h>dereference</h>
+  </idx> 
+  </p>
+
+  <note>
+    <p>This is another time where C++ reuses the same symbol to mean different things. `*` can be used to specify that a data type is a pointer. It can also be used to dereference a pointer. Or it can mean multiplication.
+      <ul>
+        <li><p>When a data type is to its left, as in `int*` or `double*`, it modifies that type to say <q>pointer to a ....</q>. (There may or may not be a variable name to the right.)</p></li>
+        <li><p>When there is no data type to its left and there is a value that is a pointer to its right, as in `*p`, it says to dereference p.</p></li>
+        <li><p>When used between two numeric values, like `x * y`, it means multiply.</p></li>
+      </ul>
+    </p>
+  </note>
+
+  <p>To see dereferencing in action, try this sample in both ActiveCode and with CodeLens:</p>
+
+  <program label="asdfades3dfdsdf3" interactive="activecode" highlight-lines="13" line-numbers="yes" codelens="yes">
+<xi:include href="../../programs/pointers-aggregation/pointers-dereference-1.cpp" parse="text"/>
+  </program>
+
+
+  <p>In that example, we use `*p` to read the <q>int that p points to</q>. We can also use it to modify that value. If I have a pointer `p` and I want to modify the value that it is pointing at, I can do something like `*p = 20;`. We could pronounce `*p = 12;` as <q>the thing that p points at gets assigned 20</q>. Here is a sample of using a pointer to modify a value it points at:</p>
+
+  <program label="asd5fades3dfddsdf3" interactive="activecode" highlight-lines="13" line-numbers="yes" codelens="yes">
+<xi:include href="../../programs/pointers-aggregation/pointers-dereference-2.cpp" parse="text"/>
+  </program>
+
+</section>

@@ -1,0 +1,59 @@
+<section xml:id="pointers-aggregation_aggregation"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Introducing Aggregation</title>
+
+  <p>
+    Pointers enable a new form of <q>has-a</q> relationship between objects known as <term>aggregation</term>. Aggregation is similar to composition, but does not imply ownership. In other words, aggregation means that one object contains another object, but does not own it. This means that:
+    <ul>
+      <li>One object can be contained via aggregation in multiple other objects.</li>
+      <li>The lifespan of the contained object is not tied to the container.</li>
+      <li>The contained object may be optional. A Person object might have a spouse that is another Person, but not all Persons will.</li>
+    </ul>
+    Neither of those things are true for composition. In composition, the contained object is owned by the container and its lifespan is tied to the container.
+  </p>
+
+  <p>Distinguishing between aggregation and composition can be tricky. A good rule of thumb is to ask whether the contained object is exclusively owned by the container. Should the contained object go away if the aggregating object does away? If so, then composition is the right choice. If it is not, then aggregation is the right choice.</p>
+
+  <p>Sometimes, it is clear there should not be ownership. If we are representing friendship between Persons, and Anna is a friend of Nancy, should Anna disappear if Nancy goes away? No, so we would use aggregation. Other times, the appropriateness of ownership is going to be determined more by the use the program makes of the objects. We might represent the relationship between a Point and a Circle as either composition or aggregation. In a drawing program, we might only use the Point to store information about the Circle and would not want the center to stay around if we deleted the Circle. That would be composition. However, in a geometry program, we might want to define multiple Circles that all are centered on the same Point. None of those Circles own the Point and the Point should persist even if we delete all the Circles. That would be aggregation.</p>
+
+  <p>In UML, we represent aggregation with a line that ends in an open diamond on the side that is the aggregator (the one that contains the other). This looks almost the same as composition other than the diamond being open instead of filled.</p>
+
+  <figure>
+    <caption>A Circle class that has-a Point as a member via aggregation</caption>
+    <image>
+      <mermaid>
+      classDiagram
+          class Circle{
+            -m_radius : double
+            -m_center : Point#42;
+            +getRadius() double
+            ...otherFunctions()
+          }
+          class Point{
+            -m_x : double
+            -m_y : double
+            +getX() double
+            +getY() double
+            ...otherFunctions()
+          }
+          Circle o-- Point
+      </mermaid>
+    </image>
+  </figure>
+
+  <figure>
+    <caption>A Person class that has-a spouse via aggregation</caption>
+    <image>
+      <mermaid>
+      classDiagram
+          class Person{
+            -m_spouse : Person#42;
+            ...otherFunctions()
+          }
+          Person o-- Person
+      </mermaid>
+    </image>
+  </figure>
+
+</section>

@@ -1,0 +1,35 @@
+<section xml:id="pointers-aggregation_pointers-using"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Sharing Memory</title>
+
+  <p>
+    Much like with reference, we would normally not make a pointer to a variable in the same scope as the variable itself. Given `int x`, making `int* p = &amp;x;` so that we have another way to name the memory that x names would be silly. Instead, we generally use pointers to refer to data that is not in the same scope as the pointer - to share memory from one location in the code with another.
+  </p>
+
+  <p>For example, we might write a function that takes an `int*` parameter. We can then give it the memory address of a variable we want it to modify. Try running this sample in both ActiveCode and Codelens:</p>
+
+  <program label="asd3fades3dfdsdf3" interactive="activecode" highlight-lines="4" line-numbers="yes" codelens="yes">
+<xi:include href="../../programs/pointers-aggregation/pointers-using-1.cpp" parse="text"/>
+  </program>
+
+  <p>
+    The `increment` function is called twice from `main`. The first time it is given the address of `x` and the second time it is passed the address of `y`. When `increment` function uses `*p` to dereference the pointer `p`, it accesses the corresponding memory from the `main` function, allowing it to modify the variables that belong to `main`.
+  </p>
+
+  <p>We intentionally wrote out the change to the memory that `p` points at in multiple steps. If we wanted to write it all on one line, it could look like `*p = *p + 1;` - <q>the thing that p points at gets assigned the value of the thing that p points at +  1</q>. If we wanted to simplify things even more, we could write `(*p)++`. The parentheses are needed to specify the order. First, we want to go to the thing `p` points at (`*p`), then, we want to increment that value. This is necessary because the precedence of `++` is higher than `*`. So without the parentheses, it means the same as `*(p++)` - first <q>increment p</q> (the memory address!), then go to the thing it pointed at.</p>
+
+  <warning>
+    <p>
+      The precedence of different operators is easy to forget or get confused about. If you are not sure what the precedence is, it is best to use parentheses to make it clear what you mean. We could write the `increment` function as shown below to make sure that we dereference `p` before we do `+` or `=` with it:
+    </p>
+    <program>
+    void increment(int* p) {
+        int temp = (*p) + 1;
+        (*p) = temp;
+    }
+    </program>
+    <p>Better safe than sorry! When in doubt (or even if you think you don't have any doubts), using parentheses can prevent you from saying something other than what you mean.</p>
+  </warning>
+
+</section>
