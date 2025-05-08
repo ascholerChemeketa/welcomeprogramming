@@ -13,7 +13,7 @@
     <li>average annual rainfall</li>
     </ul></p>
 
-    <datafile label="datafile-temps.txt" filename="Temps.txt">
+    <datafile label="datafile-temps" xml:id="datafile-temps" filename="Temps.txt">
     <pre>Albany	NY	22.2	71.1	38.6
 Albuquerque	NM	35.7	78.5	9.47
 Anchorage	AK	15.8	58.4	16.08
@@ -51,7 +51,7 @@ Portland	OR	39.9	68.1	37.07
 
     <p>Rather than trying to read all the data at once, let's just try to read the first line. There isn't an easy way to <q>skip</q> tokens in a text file. We have to read all the data in the file, even if we don't care about what is there. So on each line, we need to read all five pieces of data. Here is an attempt to do that for just the first line:</p>
 
-  <program label="input-output_case-study-temperatures-program-1" datafile="Temps.txt"  interactive="activecode">
+  <program label="input-output_case-study-temperatures-program-1" add-files="datafile-temps"  interactive="activecode">
 <xi:include href="../../programs/input-output/case-study-temperature-1.cpp" parse="text"/>
 </program>
 
@@ -63,7 +63,7 @@ Portland	OR	39.9	68.1	37.07
 
     <p>Now let's calculate the temperature range for each city. We can do this by subtracting the average January temperature from the average July temperature. For now, we will just print out those values, along with the two temperatures.</p>
 
-  <program label="input-output_case-study-temperatures-program-2" datafile="Temps.txt"  interactive="activecode">
+  <program label="input-output_case-study-temperatures-program-2" add-files="datafile-temps"  interactive="activecode">
 <xi:include href="../../programs/input-output/case-study-temperature-2.cpp" parse="text"/>
 </program>
   </subsection>
@@ -128,7 +128,7 @@ int main() {
     inFile.open("Temps.txt");
     
     ]]></program-preamble>
-    <program datafile="Temps.txt">
+    <program add-files="datafile-temps">
     </program>
     <program-postamble>}</program-postamble>
   </exercise>

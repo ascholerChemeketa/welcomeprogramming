@@ -13,7 +13,7 @@
       We want to read in this data and then calculate each student's average. We may also want to calculate the class average and the highest average.
     </p>
 
-    <datafile label="datafile-students.txt" filename="Students.txt">
+    <datafile label="datafile-students" xml:id="datafile-students" filename="Students.txt">
     <pre>Maxine Q. Craft
 Active
 80,93,64,68,87,70,84,83,97,71
@@ -66,7 +66,7 @@ Active
 
     <p>In main, we will store the entire roster as a vector of type Student:</p>
 
-  <program datafile="Students.txt">
+  <program add-files="datafile-students">
 <xi:include href="../../programs/structs/case-study-students-1.cpp" parse="text"/>
 </program>
 

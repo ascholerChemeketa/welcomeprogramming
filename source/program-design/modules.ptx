@@ -21,7 +21,7 @@
   <p>Here is a module file <pf>library.cxx</pf> that would work just like our <pf>library.h</pf>/<pf>library.cpp</pf> pair:</p>
 
   <listing>
-    <caption><pf>library.h</pf></caption>
+    <caption><pf>library.cxx</pf></caption>
     <program
              line-numbers="yes"
              highlight-lines="2, 8, 18">
@@ -47,13 +47,14 @@
 
   <listing>
     <caption><pf>main.cpp</pf> (with import)</caption>
-    <program label="program-design_modules-program-1" interactive="activecode" datafile="library.cxx">
+    <program label="program-design_modules-program-1" interactive="activecode" add-files="library-cxx">
 <xi:include href="../../programs/program-design/modules-main.cpp" parse="text"/>
   </program>
   </listing>
 
 
-  <datafile label="library.cxx"
+  <datafile label="library-cxx"
+            xml:id="library-cxx"
             filename="library.cxx"
             language="cpp">
     <pre>

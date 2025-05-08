@@ -3,8 +3,9 @@
   <title>Exercises</title>
   <introduction>
     <p>The exercises in this chapter make use of the following datafiles.</p>
-    <datafile label="datafile-poem.txt"
-              xml:id="datafile-poem.txt"
+    <listing xml:id="datafile-poem-listing">
+    <datafile label="datafile-poem"
+              xml:id="datafile-poem"
               filename="poem.txt">
       <pre>Two roads diverged in a yellow wood,
 And sorry I could not travel both
@@ -27,9 +28,11 @@ Two roads diverged in a wood, and I,
 I took the one less traveled by,
 And that has made all the difference.</pre>
     </datafile>
+  </listing>
 
-    <datafile label="datafile-class.txt"
-              xml:id="datafile-class.txt"
+  <listing xml:id="datafile-class-listing">
+    <datafile label="datafile-class"
+              xml:id="datafile-class"
               filename="class.txt">
       <pre>Alex     Jones      9        3.4    14
 Beth     Hamilton   12       3.7    18
@@ -39,15 +42,16 @@ Ethan    Brooks     11       3.9    17
 Faith    Flemmings  10       3.0    15
 Gigi     Guerro     9        3.2    14</pre>
     </datafile>
+    </listing>
   </introduction>
 
   <exercise label="input-output_exercises-ex-1">
     <statement>
-      <p>Write a program that reads the first <pf>skipWords</pf> number of words from <xref ref="datafile-poem.txt"
+      <p>Write a program that reads the first <pf>skipWords</pf> number of words from <xref ref="datafile-poem-listing"
               text="custom">
         poem.txt</xref> without printing them and prints the next word to <pf>cout</pf>.</p>
     </statement>
-    <program datafile="poem.txt"
+    <program add-files="datafile-poem"
              interactive="activecode">
         <preamble><![CDATA[#include <iostream>
 #include <fstream>
@@ -91,11 +95,11 @@ int main() {
 
   <exercise label="input-output_exercises-ex-2">
     <statement>
-      <p>Write a program that reads the first <pf>skipLines</pf> number of lines from <xref ref="datafile-poem.txt"
+      <p>Write a program that reads the first <pf>skipLines</pf> number of lines from <xref ref="datafile-poem-listing"
               text="custom">
         poem.txt</xref> without printing them and prints the next line to <pf>cout</pf>.</p>
     </statement>
-    <program datafile="poem.txt"
+    <program add-files="datafile-poem"
              interactive="activecode">
         <preamble><![CDATA[#include <iostream>
 #include <fstream>
@@ -136,7 +140,7 @@ int main() {
 
   <exercise label="input-output_exercises-ex-3">
     <statement>
-      <p>The file <xref ref="datafile-class.txt"
+      <p>The file <xref ref="datafile-class-listing"
               text="custom">class.txt</xref> has lines that look
         like this:</p>
       <pre>First      Last     Grade        GPA    Age</pre>
@@ -144,7 +148,7 @@ int main() {
         to continue reading from <pf>inFile</pf> and print the first name from the next line in the
         file. (It is safe to use <pf>>></pf> for your input even though the hidden code uses <pf>getline</pf>).</p>
     </statement>
-    <program datafile="class.txt"
+    <program add-files="datafile-class"
              interactive="activecode">
         <preamble visible="no"><![CDATA[#include <iostream>
 #include <fstream>
@@ -196,7 +200,7 @@ int main() {
 
   <exercise label="input-output_exercises-ex-4">
     <statement>
-      <p>The file <xref ref="datafile-class.txt"
+      <p>The file <xref ref="datafile-class-listing"
               text="custom">class.txt</xref> has lines that look
         like this:</p>
       <pre>First      Last     Grade        GPA    Age</pre>
@@ -204,7 +208,7 @@ int main() {
         to continue reading from <pf>inFile</pf> and print the first name and age (with a space between) of the next line in the
         file. (It is safe to use <pf>>></pf> for your input even though the hidden code uses <pf>getline</pf>).</p>
     </statement>
-    <program datafile="class.txt"
+    <program add-files="datafile-class"
              interactive="activecode">
         <preamble visible="no"><![CDATA[#include <iostream>
 #include <fstream>
@@ -256,14 +260,14 @@ int main() {
   
   <exercise label="input-output_exercises-ex-5">
     <statement>
-      <p>The file <xref ref="datafile-class.txt"
+      <p>The file <xref ref="datafile-class-listing"
               text="custom">class.txt</xref> has lines that look
         like this:</p>
       <pre>First      Last     Grade        GPA    Age</pre>
       <p>Hidden code will open the file and read past some number of the lines (determined by the input). You should add code
         to continue reading from <pf>inFile</pf> and print out the next three first names with a space after each. (It is safe to use <pf>>></pf> for your input even though the hidden code uses <pf>getline</pf>).</p>
     </statement>
-    <program datafile="class.txt"
+    <program add-files="datafile-class"
              interactive="activecode">
         <preamble visible="no"><![CDATA[#include <iostream>
 #include <fstream>
@@ -315,7 +319,7 @@ int main() {
 
   <exercise label="input-output_exercises-ex-6">
     <statement>
-      <p>The file <xref ref="datafile-class.txt"
+      <p>The file <xref ref="datafile-class-listing"
               text="custom">class.txt</xref> has lines that look
         like this:</p>
       <pre>First      Last     Grade        GPA    Age</pre>
@@ -323,7 +327,7 @@ int main() {
         to continue reading from <pf>inFile</pf> and print out the average of the GPA values for all the rest of the lines. (It is safe to use <pf>>></pf> for your input even though the hidden code uses <pf>getline</pf>).</p>
       <p>Note that there is a newline after the last piece of data (the line that starts with <pf>Gigi</pf> and ends with <pf>14</pf>). You will likely need to check <pf>infile</pf> for an error after attempting to read in the data for each line before you count the line or do anything with it.</p>
     </statement>
-    <program datafile="class.txt"
+    <program add-files="datafile-class"
              interactive="activecode">
         <preamble visible="no"><![CDATA[#include <iostream>
 #include <fstream>
