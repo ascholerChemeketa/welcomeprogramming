@@ -2,21 +2,23 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Other Size Types</title>
 
-  <note>
-    <p>This section includes some of <q>fiddly bits</q> related to integer and floating point data
-      types. Most of the time you will not need to worry about them. But, they do help explain some
-      possible errors you will run into as well as material you will encounter later.</p>
-    <p>Unless you are reading this book as part of a class that instructs you otherwise, you likely
-      just want to skim this section for understanding of the basic concepts without worrying about
-      trying to memorize all the different types.</p>
-  </note>
+  <introduction>
+    <note>
+      <p>This section includes some of <q>fiddly bits</q> related to integer and floating point data
+        types. Most of the time you will not need to worry about them. But, they do help explain
+        some possible errors you will run into as well as material you will encounter later.</p>
+      <p>Unless you are reading this book as part of a class that instructs you otherwise, you
+        likely just want to skim this section for understanding of the basic concepts without
+        worrying about trying to memorize all the different types.</p>
+    </note>
 
-  <p>All data needs to be stored as bits (as a sequence of 0's and 1's). Those sequences are always
-    a fixed size. For instance, an <pf>int</pf> is typically 32 bits. This means that an <pf>int</pf> can
-    store <m>2^{32}</m> different values. That is enough different values to represent the numbers
-    -2,147,483,648 to 2,147,483,647. (For more on how this actually works, as well as how floating
-    point values are represented in binary, see <url href="https://author.runestone.academy/ns/books/published/welcomecs2/data-representation_data-representation.html?mode=browsing">Welcome
-    to CS</url> Data Representation chapter)</p>
+    <p>All data needs to be stored as bits (as a sequence of 0's and 1's). Those sequences are
+      always a fixed size. For instance, an <pf>int</pf> is typically 32 bits. This means that an <pf>int</pf>
+      can store <m>2^{32}</m> different values. That is enough different values to represent the
+      numbers -2,147,483,648 to 2,147,483,647. (For more on how this actually works, as well as how
+      floating point values are represented in binary, see <url href="https://author.runestone.academy/ns/books/published/welcomecs2/data-representation_data-representation.html?mode=browsing">Welcome
+      to CS</url> Data Representation chapter)</p>
+  </introduction>
 
   <subsection>
     <title>Integer types</title>
@@ -33,8 +35,9 @@
     </listing>
 
     <p>The program tries to calculate 2 * 2,000,000,000. But that result is larger than the largest
-      possible <pf>int</pf>, so the number <q>wraps around</q> after reaching the largest possible value
-      (2,147,483,647) to the lowest possible value (-2,147,483,648). The result is -294,967,296.</p>
+      possible <pf>int</pf>, so the number <q>wraps around</q> after reaching the largest possible
+      value (2,147,483,647) to the lowest possible value (-2,147,483,648). The result is
+      -294,967,296.</p>
 
     <p>So how do you store a value greater than 2,147,483,647? You use a data type that employs more
       bits to store an integer value. The following data types can be used instead of <pf>int</pf> to
@@ -83,9 +86,9 @@
     <note>
       <p>The intXX_t types are relatively new in C++. There are also older types like <pf>short</pf>, <pf>long</pf>,
         and <pf>long long</pf>. We will avoid these completely as the exact size of each is determined by the
-        compiler - a <pf>long</pf> can use a different number of bits on different platforms! The same is
-        also true of <pf>int</pf>, so if you want to guarantee your variables are store with 32 bits, you
-        need to use <pf>int32_t</pf>.</p>
+        compiler - a <pf>long</pf> can use a different number of bits on different platforms! The same
+        is also true of <pf>int</pf>, so if you want to guarantee your variables are store with 32
+        bits, you need to use <pf>int32_t</pf>.</p>
     </note>
   </subsection>
 

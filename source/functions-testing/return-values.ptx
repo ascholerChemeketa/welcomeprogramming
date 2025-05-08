@@ -2,39 +2,40 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>More on Returning</title>
 
-  <p>We have already learned the basics of returning from functions. But there are a few important
-    details we still need to cover.</p>
+  <introduction>
+    <p>We have already learned the basics of returning from functions. But there are a few important
+      details we still need to cover.</p>
+  </introduction>
 
   <subsection>
     <title>Returning Variables</title>
 
-    <p>As we have already mentioned, The type of the expression in the <pf>return</pf> statement must match
-      the return type of the function itself. When you declare that the return type is <pf>double</pf>, you
-      are making a promise that this function will eventually produce a <pf>double</pf> value. If you try to <pf>return</pf>
-      with no expression, or <pf>return</pf> an expression with the wrong type, the compiler will give an
-      error.</p>
+    <p>As we have already mentioned, The type of the expression in the <pf>return</pf> statement must
+      match the return type of the function itself. When you declare that the return type is <pf>double</pf>,
+      you are making a promise that this function will eventually produce a <pf>double</pf> value. If you
+      try to <pf>return</pf> with no expression, or <pf>return</pf> an expression with the wrong type, the
+      compiler will give an error.</p>
 
     <p>Although it is possible to return a literal value with something like <pf>return 42;</pf>, it is much
       more common to want to return the result of a computation. We can either do so by returning an
       expression: </p>
 
-    <program
-             highlight-lines="2"
+    <program highlight-lines="2"
              line-numbers="yes">
 <xi:include href="../../programs/functions-testing/return-values-3.cpp" parse="text"/>
 </program>
 
     <p>Or by returning a local variable:</p>
 
-    <program
-             highlight-lines="2-3"
+    <program highlight-lines="2-3"
              line-numbers="yes">
 <xi:include href="../../programs/functions-testing/return-values-4.cpp" parse="text"/>
 </program>
 
     <p>Much like when we pass a variable to a function, when we return a variable, the value of the
       variable is copied as it is returned. So although we might say of the function above <q>it
-      returns <pf>area</pf></q>, it is more accurate to say <q>it returns the value stored in <pf>area</pf></q>.</p>
+      returns <pf>area</pf></q>, it is more accurate to say <q>it returns the value stored in <pf>area</pf></q>
+      .</p>
 
     <p>The two approaches will produce the same result, but the second is often easier to read and
       debug. Especially when you are stepping through code, first calculating an answer and storing
@@ -96,7 +97,8 @@ ______ convertToCelsius(double fahrenheit) {
               <pf>void</pf>
             </p>
           </statement>
-          <feedback> Since we are returning something in the function, the function is not <pf>void</pf>. </feedback>
+          <feedback> Since we are returning something in the function, the function is not <pf>void</pf>
+            . </feedback>
         </choice>
       </choices>
     </exercise>

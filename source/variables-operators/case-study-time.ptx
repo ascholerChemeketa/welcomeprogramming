@@ -2,11 +2,13 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Case Study: Time</title>
 
-  <p>Most examples in this book are short and focus on just enough code to demonstrate an idea. But
-    most programs are larger than that. Seeing how a larger program is constructed, and learning to
-    write them yourself, is an important part of learning to program. Periodically, we will examine
-    a <em>Case Study</em> <mdash/> a full fledged program. Our first such Case Study is a program to
-    calculate elapsed time.</p>
+  <introduction>
+    <p>Most examples in this book are short and focus on just enough code to demonstrate an idea.
+      But most programs are larger than that. Seeing how a larger program is constructed, and
+      learning to write them yourself, is an important part of learning to program. Periodically, we
+      will examine a <em>Case Study</em> <mdash/> a full fledged program. Our first such Case Study
+      is a program to calculate elapsed time.</p>
+  </introduction>
 
   <subsection>
     <title>A problem and a plan</title>
@@ -34,44 +36,43 @@
     </insight>
 
     <p>To answer the questions above for this problem: <dl>
-      <li>
-        <title>
-          <q>
-            <em>What data you will start with?</em>
-          </q>
-        </title>
-        <p>a number of seconds</p>
-      </li>
+        <li>
+          <title>
+            <q>
+              <em>What data you will start with?</em>
+            </q>
+          </title>
+          <p>a number of seconds</p>
+        </li>
 
         <li>
-        <title>
-          <q>
-            <em>What values you want to calculate?</em>
-          </q>
-        </title>
-        <p>a number of hours, minutes, and seconds</p>
-      </li>
+          <title>
+            <q>
+              <em>What values you want to calculate?</em>
+            </q>
+          </title>
+          <p>a number of hours, minutes, and seconds</p>
+        </li>
 
         <li>
-      <title>
-        <q>
-          <em>How will you calculate those values?</em>
-        </q>
-      </title>
-          <p>the division and
-      remainder operators should allow me to convert something like 83 seconds to 1 minute by
-      dividing by 60. Taking the remainder will tell be 23 seconds are left over. Similarly, I can
-      convert minutes to hours and by dividing by 60 and then taking the remainder to find the left
-      over minutes. </p>
-    </li>
-    </dl>
+          <title>
+            <q>
+              <em>How will you calculate those values?</em>
+            </q>
+          </title>
+          <p>the division and remainder operators should allow me to convert something like 83
+      seconds to 1 minute by dividing by 60. Taking the remainder will tell be 23 seconds are left
+      over. Similarly, I can convert minutes to hours and by dividing by 60 and then taking the
+      remainder to find the left over minutes. </p>
+        </li>
+      </dl>
 
     <ul>
-      <li>What data you will start with? <em>a number of seconds</em></li>
-      <li>What values you want to calculate? <em>a number of hours, minutes, and seconds</em></li>
-      <li>How will you calculate those values? <em>the division and remainder operators should allow
-        me to convert something like 83 seconds to 1 minute and 23 seconds by dividing by 60</em></li>
-    </ul>
+        <li>What data you will start with? <em>a number of seconds</em></li>
+        <li>What values you want to calculate? <em>a number of hours, minutes, and seconds</em></li>
+        <li>How will you calculate those values? <em>the division and remainder operators should
+      allow me to convert something like 83 seconds to 1 minute and 23 seconds by dividing by 60</em></li>
+      </ul>
     </p>
   </subsection>
 
@@ -82,7 +83,8 @@
       will hard code in the value 1312 seconds for now. Here is my first attempt:</p>
 
     <listing>
-      <program label="variables-operators_case-study-time-program-1" line-numbers="yes"
+      <program label="variables-operators_case-study-time-program-1"
+               line-numbers="yes"
                interactive="activecode">
 <xi:include href="../../programs/variables-operators/case-study-time-1.cpp" parse="text"/>
       </program>
@@ -106,7 +108,8 @@
       the remainder operator <pf>%</pf> to do that. Here is my next attempt:</p>
 
     <listing>
-      <program label="variables-operators_case-study-time-program-2" line-numbers="yes"
+      <program label="variables-operators_case-study-time-program-2"
+               line-numbers="yes"
                interactive="activecode">
 <xi:include href="../../programs/variables-operators/case-study-time-2.cpp" parse="text"/>
       </program>
@@ -117,12 +120,12 @@
       the program is working right, it should tell you that is 145 totalMinutes and 34
       leftoverSeconds</p>
 
-    <p>Notice that I have two different variables that refer to an amount of seconds. <pf>totalSeconds</pf> refers
-      to the total number of seconds that have elapsed. <pf>leftoverSeconds</pf> refers to the number of seconds that
-      are left over after I have calculated the number of minutes. It is important to keep track of
-      what each variable represents. Picking good names for variables is an important part of
-      keeping this straight! Although it is tempting to use short variable names like <pf>seconds</pf>, it is
-      often better to use longer names that are more descriptive to avoid confusion.</p>
+    <p>Notice that I have two different variables that refer to an amount of seconds. <pf>totalSeconds</pf>
+      refers to the total number of seconds that have elapsed. <pf>leftoverSeconds</pf> refers to the number of
+      seconds that are left over after I have calculated the number of minutes. It is important to
+      keep track of what each variable represents. Picking good names for variables is an important
+      part of keeping this straight! Although it is tempting to use short variable names like <pf>seconds</pf>,
+      it is often better to use longer names that are more descriptive to avoid confusion.</p>
   </subsection>
 
   <subsection>
@@ -133,7 +136,8 @@
       use the remainder operator to get the number of minutes left over. Here is my next attempt:</p>
 
     <listing>
-      <program label="variables-operators_case-study-time-program-3" line-numbers="yes"
+      <program label="variables-operators_case-study-time-program-3"
+               line-numbers="yes"
                interactive="activecode">
 <xi:include href="../../programs/variables-operators/case-study-time-3.cpp" parse="text"/>
       </program>
@@ -152,35 +156,40 @@
       the final program. This version of the program keeps all of the </p>
 
     <listing>
-      <program label="variables-operators_case-study-time-program-4" line-numbers="yes"
+      <program label="variables-operators_case-study-time-program-4"
+               line-numbers="yes"
                interactive="activecode">
 <xi:include href="../../programs/variables-operators/case-study-time-4.cpp" parse="text"/>
       </program>
     </listing>
+
+    <p>The process we used to develop this program is known as <term>incremental development</term>
+      - building a program in small steps instead of all at once. The key ideas are: <ul>
+        <li>
+          <p>Start with a working program and make small changes or additions one at a time.</p>
+        </li>
+        <li>
+          <p>Testing each change and fixing any errors before building new code on top of the buggy
+      code.</p>
+        </li>
+      </ul> The goal is to have confidence in all of of the code other
+      than your most recent changes. That way you know exactly what to blame if the program stops
+      working as expected. If you do get stuck along the way, you can always go back to the last
+      working version of the code and start over from there.<idx>
+        <h>incremental development</h>
+      </idx>
+    </p>
+
+    <insight>
+      <p>Breaking large problems into a series of smaller, simpler problems is a powerful general
+        problem solving technique and a critical habit in programming.</p>
+      <p>Early on as a developer, you should not write more than a few lines of code without
+        stopping to test that they are working as you intended. If there is an error in something
+        you have written, focus on fixing what you have (or back tracking and trying something
+        else). Trying to add more logic to code that isn't working will just make finding and fixing
+        the issue harder.</p>
+    </insight>
   </subsection>
-
-  <p>The process we used to develop this program is known as <term>incremental development</term> -  building a program in small steps instead of all
-    at once. The key ideas are: <ul>
-      <li>
-        <p>Start with a working program and make small changes or additions one at a time.</p>
-      </li>
-      <li>
-        <p>Testing each change and fixing any errors before building new code on top of the buggy
-    code.</p>
-      </li>
-    </ul> The goal is to have confidence in all of of the code other than
-    your most recent changes. That way you know exactly what to blame if the program stops working
-    as expected. If you do get stuck along the way, you can always go back to the last working
-    version of the code and start over from there.<idx>
-      <h>incremental development</h>
-    </idx>
-  </p>
-
-  <insight>
-    <p>Breaking large problems into a series of smaller, simpler problems is a powerful general
-      problem solving technique and a critical habit in programming.</p>
-    <p>Early on as a developer, you should not write more than a few lines of code without stopping to test that they are working as you intended. If there is an error in something you have written, focus on fixing what you have (or back tracking and trying something else). Trying to add more logic to code that isn't working will just make finding and fixing the issue harder.</p>
-  </insight>
 
 
   <exercise label="variables-operators_case-study-time-ex-1">

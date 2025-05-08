@@ -1,27 +1,31 @@
 <section xml:id="conditionals-logic_if-statement"
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>The if Statement</title>
-  <p>
-    <idx>
-      <h>conditional statement</h>
-    </idx>
-    <idx>
-      <h>statement</h>
-      <h>conditional</h>
-    </idx>
-    <idx>
-      <h>if statement</h>
-    </idx>
-    <idx>
-      <h>statement</h>
-      <h>if</h>
-    </idx>Now that we have boolean values, we need to use them to control what code
-    gets executed. <term>Conditional statements</term> give us this ability. The simplest
-    conditional statement in C++ is the <pf>if</pf> statement: </p>
 
-  <program>
+  <introduction>
+    <p>
+      <idx>
+        <h>conditional statement</h>
+      </idx>
+    <idx>
+        <h>statement</h>
+        <h>conditional</h>
+      </idx>
+    <idx>
+        <h>if statement</h>
+      </idx>
+    <idx>
+        <h>statement</h>
+        <h>if</h>
+      </idx>Now that we have boolean values, we need to use them to control what
+      code gets executed. <term>Conditional statements</term> give us this ability. The simplest
+      conditional statement in C++ is the <pf>if</pf> statement: </p>
+
+    <program>
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-1.cpp" parse="text"/>
 </program>
+  </introduction>
+
   <subsection>
     <title>The condition</title>
     <p>
@@ -46,8 +50,8 @@
     }
   </program>
 
-    <p>It also means that it is legal to use a variable of type <pf>bool</pf> without a comparison, as it
-      already has a value of <pf>true</pf> or <pf>false</pf>:</p>
+    <p>It also means that it is legal to use a variable of type <pf>bool</pf> without a comparison, as
+      it already has a value of <pf>true</pf> or <pf>false</pf>:</p>
 
     <program>
     int x = 5;
@@ -82,9 +86,9 @@
           <h>== equals operator</h>
         </idx>Remember that a single <pf>=</pf> represents
         assignment - it says <q>gets the value</q>. A double equals <pf>==</pf> asks the question <q>is
-        equal to?</q>. A common mistake is to use a single <pf>=</pf> instead of a double <pf>==</pf> when
-        comparing values. If you make this mistake, the compiler will emit a warning like the one
-        shown below that tells you you are using an assignment operator in a place where a
+        equal to?</q>. A common mistake is to use a single <pf>=</pf> instead of a double <pf>==</pf>
+        when comparing values. If you make this mistake, the compiler will emit a warning like the
+        one shown below that tells you you are using an assignment operator in a place where a
         true/false value is expected. </p>
       <console>
         <output>test.cpp:7:10: error: suggest parentheses around assignment used as truth value [-Werror=parentheses]
@@ -105,8 +109,8 @@
 </program>
 
     <p>By convention, we indent the code that is inside a condition, whether or not it is inside
-      braces, to clearly show that it is <q>inside</q> the body of the <pf>if</pf>. The compiler does not
-      care if you indent or not, but indenting blocks makes code much easier to read.</p>
+      braces, to clearly show that it is <q>inside</q> the body of the <pf>if</pf>. The compiler does
+      not care if you indent or not, but indenting blocks makes code much easier to read.</p>
 
     <p>Because indentation signals <q>this is inside</q> to programers, but it meaningless to the
       compiler, it can be dangerous to skip braces<mdash/>even when they are optional<mdash/>. It
@@ -117,8 +121,8 @@
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-4.cpp" parse="text"/>
 </program>
 
-    <p>Since there are no braces, only the first <pf>cout</pf> is part of the <pf>if</pf> statement. Here is
-      what the compiler actually sees: </p>
+    <p>Since there are no braces, only the first <pf>cout</pf> is part of the <pf>if</pf> statement. Here
+      is what the compiler actually sees: </p>
 
     <program label="conditionals-logic_if-statement-program-3"
              interactive="activecode">
@@ -134,15 +138,15 @@
       <idx>
         <h>\{\} curly braces</h>
       </idx> In all previous examples, notice that there is no
-      semicolon at the end of the line with <pf>if (condition)</pf>. That is because the body is technically part of
-      the same statement. You could correctly write the code like this: </p>
+      semicolon at the end of the line with <pf>if (condition)</pf>. That is because the body is technically part
+      of the same statement. You could correctly write the code like this: </p>
 
     <program>
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-1c.cpp" parse="text"/>
 </program>
 
-    <p>If you put a semicolon after the condition, the compiler will treat the <pf>if</pf> statement as
-      if there is no body, and the subsequent block will run independently.</p>
+    <p>If you put a semicolon after the condition, the compiler will treat the <pf>if</pf> statement
+      as if there is no body, and the subsequent block will run independently.</p>
 
     <program label="conditionals-logic_if-statement-program-4"
              interactive="activecode">
@@ -157,8 +161,8 @@
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-7.cpp" parse="text"/>
 </program>
 
-    <p>It sees an <pf>if</pf> statement with no body, followed by a block of code that is not a part of the
-      conditional.</p>
+    <p>It sees an <pf>if</pf> statement with no body, followed by a block of code that is not a part
+      of the conditional.</p>
 
   </subsection>
 

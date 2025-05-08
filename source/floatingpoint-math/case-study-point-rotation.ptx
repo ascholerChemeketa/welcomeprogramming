@@ -83,7 +83,8 @@
       reading input yet, I will just hard code in a test value. Here is my first attempt:</p>
 
     <listing>
-      <program label="floatingpoint-math_case-study-point-rotation-program-1" line-numbers="yes"
+      <program label="floatingpoint-math_case-study-point-rotation-program-1"
+               line-numbers="yes"
                interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/case-study-point-rotation-1.cpp" parse="text"/>
       </program>
@@ -93,23 +94,24 @@
       number. So it makes sense to use a <term>double</term> as its type. And I can't use the
       symbol, so I have spelled out its name.</p>
 
-    <p>When I run this program, I get <pf>sinValue: 0.850904</pf>. That does not look right. I expected to get something
-      like 0.707.</p>
+    <p>When I run this program, I get <pf>sinValue: 0.850904</pf>. That does not look right. I expected to get
+      something like 0.707.</p>
 
     <p>The <pf>sin</pf> function in C++ expects the angle to be in radians, not degrees. So I need to
       convert the degrees to radians before I can use the <pf>sin</pf> function. I can do that by
       multiplying the degrees by <m>π/180</m>. Here is my next attempt:</p>
 
     <listing>
-      <program label="floatingpoint-math_case-study-point-rotation-program-2" line-numbers="yes"
+      <program label="floatingpoint-math_case-study-point-rotation-program-2"
+               line-numbers="yes"
                interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/case-study-point-rotation-2.cpp" parse="text"/>
       </program>
     </listing>
 
     <p>Note that since π should never change, I have made it a <pf>const double</pf>. And, as is convention for
-      constants, I have named it using all uppercase. I have also renamed what used to be <pf>theta</pf> to <pf>thetaDegrees</pf>
-      to clearly indicate what it stores and differentiate it from <pf>thetaRadians</pf>.</p>
+      constants, I have named it using all uppercase. I have also renamed what used to be <pf>theta</pf>
+      to <pf>thetaDegrees</pf> to clearly indicate what it stores and differentiate it from <pf>thetaRadians</pf>.</p>
 
     <p>This version seems to work better. Now I feel confident about trying to solve the actual
       problem.</p>
@@ -123,7 +125,8 @@
       it <pf>x2</pf>. I also need to set some values for the original x and y.</p>
 
     <listing>
-      <program label="floatingpoint-math_case-study-point-rotation-program-3" line-numbers="yes"
+      <program label="floatingpoint-math_case-study-point-rotation-program-3"
+               line-numbers="yes"
                interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/case-study-point-rotation-3.cpp" parse="text"/>
       </program>
@@ -192,7 +195,8 @@
       user. Here is the final version of the program:</p>
 
     <listing>
-      <program label="floatingpoint-math_case-study-point-rotation-program-4" line-numbers="yes"
+      <program label="floatingpoint-math_case-study-point-rotation-program-4"
+               line-numbers="yes"
                interactive="activecode">
 <code>
 <xi:include href="../../programs/floatingpoint-math/case-study-point-rotation-5.cpp" parse="text"/>
@@ -200,23 +204,24 @@
 <stdin>45.0</stdin>
       </program>
     </listing>
-  </subsection>
 
-  <p>We might also choose to condense the code a bit. We could avoid storing the variables <pf>sinValue</pf>
-    and <pf>cosValue</pf> by calculating sin and cos of theta where they are needed like this:</p>
-  <program label="floatingpoint-math_case-study-point-rotation-program-5" interactive="activecode">
+    <p>We might also choose to condense the code a bit. We could avoid storing the variables <pf>sinValue</pf>
+      and <pf>cosValue</pf> by calculating sin and cos of theta where they are needed like this:</p>
+    <program label="floatingpoint-math_case-study-point-rotation-program-5"
+             interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/case-study-point-rotation-6.cpp" parse="text"/>
       </program>
 
-  <p>However, I am choosing to leave them in place. Using the variables makes it easier to go back
-    and check the values of those calculations if I realize there is a bug. It also avoids redoing
-    the work of calculating sin and cos of theta.</p>
+    <p>However, I am choosing to leave them in place. Using the variables makes it easier to go back
+      and check the values of those calculations if I realize there is a bug. It also avoids redoing
+      the work of calculating sin and cos of theta.</p>
 
-  <note>
-    <p>Again, we have worked on this program one piece at a time. This is the most effective way to
-      write code. Write a bit, test what you have, and do not continue building on that until you
-      are sure it is working.</p>
-  </note>
+    <note>
+      <p>Again, we have worked on this program one piece at a time. This is the most effective way
+        to write code. Write a bit, test what you have, and do not continue building on that until
+        you are sure it is working.</p>
+    </note>
+  </subsection>
 
   <exercise label="floatingpoint-math_case-study-point-rotation-ex-3">
     <statement>
