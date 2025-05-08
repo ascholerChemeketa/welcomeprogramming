@@ -199,27 +199,27 @@ if (x &gt; 0 || y++ &gt; 0) {
       Try again!
     </feedback>
     <matches>
-      <match order="1">
+      <match>
         <premise>(n * 2 &gt; 10 &amp;&amp; n &gt;= 7)</premise>
         <response>true, "and"</response>
       </match>
-      <match order="2">
+      <match>
         <premise>(n * 2 &gt; 10 &amp;&amp; n &lt; 7)</premise>
         <response>false, "and"</response>
       </match>
-      <match order="3">
+      <match>
         <premise>(n%2 == 1 || n == 8)</premise>
         <response>true, "or"</response>
       </match>
-      <match order="4">
+      <match>
         <premise>(n%2 == 0 || n == 8)</premise>
         <response>false, "or"</response>
       </match>
-      <match order="5">
+      <match>
         <premise>!(n == 7)</premise>
         <response>false, "not"</response>
       </match>
-      <match order="6">
+      <match>
         <premise>!(n &gt;= 10)</premise>
         <response>true, "not"</response>
       </match>
