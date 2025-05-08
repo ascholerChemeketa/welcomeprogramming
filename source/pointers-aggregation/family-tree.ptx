@@ -11,7 +11,7 @@
     <feedback>
       <p>Try again!</p>
     </feedback>
-    <matches>
+    <cardsort>
       <match>
         <premise>input</premise>
         <response>the program user enters a few ordered pairs when prompted in the terminal</response>
@@ -33,7 +33,7 @@
         <response>the program continues executing as long as there are more data points to compute
           distance</response>
       </match>
-    </matches>
+    </cardsort>
   </exercise>
 
   <p>As a more in depth example of using aggregation, let us model a family tree. The basis of our program will be a Person class. Every Person has a name. They may have a mother that we know about and they may also have a number of children we need to represent. (For brevity, we will skip representing fathers... the logic would be the same as for mothers.) A Person will thus need a <pf>Person*</pf> to store the mother, it will start out as a <pf>nullptr</pf>. It will also need a <pf>vector&lt;Person*></pf> to store any children. An empty vector will indicate no children, so we don't need to explicitly add any <pf>nullptr</pf>s to it.</p>
