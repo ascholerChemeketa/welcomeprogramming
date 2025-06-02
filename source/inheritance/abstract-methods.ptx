@@ -1,0 +1,188 @@
+<section xml:id="inheritance_abstract-methods"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Abstract Methods</title>
+
+  <p>Sometimes, it is useful to list a function in a base class even if there is no way to implement
+    it there. Consider a set of classes representing different geometric objects<mdash/>Circle,
+    Rectangle, etc<elipses/>. We would like to unite them under a single base class so that we can
+    define common behaviors and write code that works with any possible GeometricObject.</p>
+
+  <figure>
+    <caption>UML for GeometricObjects</caption>
+    <image alt="Circle and Rectangle both inherit from GeometricObject">
+      <mermaid><![CDATA[
+---
+config:
+  layout: elk
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
+  class Circle {
+  }
+  class Rectangle {
+  }
+  class GeometricObject {
+  }
+  GeometricObject <|-- Circle
+  GeometricObject <|-- Rectangle
+        ]]>
+      </mermaid>
+    </image>
+  </figure>
+
+  <p>One thing we know every GeometricObject should be able to do is <pf>.getArea()</pf>. For <pf>mysteryObject.getArea()</pf> to
+    work, we need to declare <pf>getArea()</pf> in <pf>GeometricObject</pf> and then override it in the derived classes. But
+    what should the base version do? How can we compute the area of a geometric object with no other
+    information? We could throw an exception or return a default value, indicating that the area
+    cannot be computed without specific details about the shape. But another approach is to make the
+    function <term>abstract</term> <idx>
+      <h>abstract method</h>
+    </idx>.</p>
+
+  <p>An <term>abstract</term> method (also known as a <term>pure virtual function</term> in C++) is
+    a method that is declared without an implementation. It is essentially a promise that every
+    GeometricObject subclass will provide its own implementation of the method, even though
+    GeometricObject itself does not. In UML, we typically indicate abstract methods with italics: <idx>
+      <h>pure virtual function</h>
+    </idx></p>
+
+  <figure>
+    <caption>UML for GeometricObjects</caption>
+    <image alt="Circle and Rectangle both inherit from GeometricObject">
+      <mermaid><![CDATA[
+classDiagram
+  class Circle {
+    +getArea() double
+  }
+  class Rectangle {
+    +getArea() double
+
+  }
+  class GeometricObject {
+    +getArea()* double
+  }
+  GeometricObject <|-- Circle
+  GeometricObject <|-- Rectangle
+        ]]>
+      </mermaid>
+    </image>
+  </figure>
+
+  <p>In C++, we declare a method as abstract by using the <pf>virtual</pf> keyword followed by <pf>0</pf> in
+    the method declaration. Something like: <pf>virtual void getArea() const = 0;</pf> Think of the <pf>= 0;</pf> as saying <q>there is
+    no implementation at this level</q>. Child classes will provide implementations instead of
+    saying <pf>= 0;</pf>. In the <pf>GeometricObject class</pf>, this will look like:</p>
+
+  <listing xml:id="abstract-go-cxx-listing">
+    <caption>GeometricObject.cxx</caption>
+    <program xml:id="abstract-go-cxx"
+             label="abstract-go-cxx"
+             line-numbers="yes"
+             filename="GeometricObject.cxx"
+             highlight-lines="20, 38">
+<xi:include href="../../programs/inheritance/abstract-methods-go-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>Note that <pf>getColor</pf> and <pf>toString</pf> are regular virtual functions. We can do those jobs in the
+    base class, so there is no need to make the abstract.</p>
+
+  <p>Now, when we go to implement the derived classes, we will need to provide specific
+    implementations for the <pf>getArea</pf> method, ensuring that each geometric shape calculates its area
+    correctly. Here is what Rectangle will look like:</p>
+
+  <listing>
+    <caption>Rectangle.cxx</caption>
+    <program xml:id="abstract-rectangle-cxx"
+             label="abstract-rectangle-cxx"
+             line-numbers="yes"
+             filename="Rectangle.cxx"
+             highlight-lines="22, 34">
+<xi:include href="../../programs/inheritance/abstract-methods-rect-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>Circle will look just like Rectangle, only it will do different math in <pf>getArea()</pf> and print a
+    different message in <pf>toString()</pf>. So we will omit a full listing here and leave that for the end
+    of the page (<xref ref="abstract-circle-cxx-listing"/>). Now we can use these classes:</p>
+
+  <program label="abstract-main"
+           line-numbers="yes"
+           interactive="activecode"
+           compile-also="abstract-go-cxx abstract-rectangle-cxx abstract-circle-cxx"
+           highlight-lines="13">
+<xi:include href="../../programs/inheritance/abstract-methods-1.cpp" parse="text"/>
+  </program>
+
+  <insight>
+    <p>The <q>win</q> here is code that can ask any geometric object for its area, even though we
+      don't know how that possibly works in a general way.</p>
+    <p>If there was no <pf>getArea()</pf> in <pf>GeometricObject</pf>, we would not be able to call <pf>g.getArea()</pf> in <pf>checkObject</pf>.</p>
+    <p>An abstract (pure virtual) function promises <q>We don't know how to do that job here, but we
+      guarantee that derived classes will implement this.</q></p>
+  </insight>
+  
+  <exercise label="xxx4">
+    <statement>
+      <p>Which are the true statements about abstract methods?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>You declare them with an empty body. <pf>{ }</pf></p>
+        </statement>
+        <feedback>
+          <p>Incorrect. They should not have a body.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>You declare them with <pf>= 0;</pf>.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Abstract methods are a promise that derived classes will provide implementations.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>You declare them with <pf>= 0;</pf>.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Abstract methods allow other code to assume that the method will exist in any object that has an is-a relationship with the class that defines them.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Abstract methods must also be virtual in C++.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Abstract methods can not be overriden.</p>
+        </statement>
+        <feedback>
+          <p>Incorrect. Child classes MUST override abstract methods to provide implementations.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <p>Here is the full listing for the Circle class:</p>
+
+  <listing xml:id="abstract-circle-cxx-listing">
+    <caption>Circle.cxx</caption>
+    <program xml:id="abstract-circle-cxx"
+             label="abstract-circle-cxx"
+             line-numbers="yes"
+             filename="Circle.cxx">
+<xi:include href="../../programs/inheritance/abstract-methods-circ-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+</section>

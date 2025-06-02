@@ -1,0 +1,74 @@
+<section xml:id="inheritance_upcasting"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Upcasting</title>
+
+  <p>Inheriting members and calling code from a base class are one major way inheritance allows us to reuse existing code. The other major way is by allowing us to treat a derived object as if it was a member of a base class.</p>
+
+  <p>Consider line 8 in the sample below. It creates <pf>personRef2</pf>, which is a reference to a <pf>Person</pf>, but then assigns it to reference a <pf>Student</pf>:</p>
+
+  <program interactive="activecode" highlight-lines="8">
+    <preamble visible="no">
+<xi:include href="../../programs/inheritance/upcasting-prefix-1.cpp" parse="text"/>
+    </preamble>
+    <code>
+<xi:include href="../../programs/inheritance/upcasting-1.cpp" parse="text"/>
+    </code>
+  </program>
+
+  <p>This works because according to the concept of inheritance, the <pf>Student</pf> is-a <pf>Person</pf>. A Person reference (or pointer) can refer (point) to a Student because a Student is just a specialized version of Person. Anytime we are working with a Student, it must also be true we are working with a Person.</p>
+
+  <p>The opposite is not true. Although a Person may happen to be a Student, there is a distinction between the two. A Person does not necessarily have the properties or behaviors of a Student. This version of the code tries to make a <pf>Student&amp;</pf> that refers to a Person. But doing so is a compile error because it makes no sense::</p>
+
+  <program interactive="activecode" highlight-lines="7" autorun="yes">
+    <preamble visible="no">
+<xi:include href="../../programs/inheritance/upcasting-prefix-1.cpp" parse="text"/>
+    </preamble>
+    <code>
+<xi:include href="../../programs/inheritance/upcasting-2.cpp" parse="text"/>
+    </code>
+  </program>
+
+  <p>This ability to <term>upcast</term> and treat a derived class object as if it were a base class object enables us to write a function that can work on any type of <pf>Person</pf>. In this sample, we call <pf>makeIntroduction</pf> twice. Once with a plain Person and then with a Person that happens to be a Student:</p>
+
+  <program interactive="activecode" highlight-lines="3, 12-13">
+    <preamble visible="no">
+<xi:include href="../../programs/inheritance/upcasting-prefix-1.cpp" parse="text"/>
+    </preamble>
+    <code>
+<xi:include href="../../programs/inheritance/upcasting-3.cpp" parse="text"/>
+    </code>
+  </program>
+
+  <p>Without inheritance, we would need to write separate functions for each of the data types. However, there is an issue with the resulting output. Notice how the Alex object introduces itself. It uses the basic Person version of <pf>introduce()</pf>, not the customized Student version that includes the Student's major.</p>
+
+  <p>This is because while compiling the <pf>makeIntroduction</pf> function, the compiler needs to decide what <pf>introduce()</pf> to call. And it needs to generate one version of the code that will work for all possible types of <pf>Person</pf>. The only reasonable thing to do in that case is for the compiler to treat <pf>makeIntroduction</pf> as if it was written:</p>
+
+  <program line-numbers="yes" highlight-lines="3"><![CDATA[
+    void makeIntroduction(const Person& person) {
+        cout << "Let's meet: " << person.getName() << endl;
+        person.Person::introduce(); // call Person version of introduce
+    }
+  ]]></program>
+
+  <p>We probably would prefer <pf>makeIntroductions</pf> to not treat <pf>Student</pf> objects exactly the same as <pf>Person</pf> objects by using the customized version of <pf>.introduce()</pf>. But to do that, we need to tell C++ to wait until runtime to decide which version of <pf>introduce()</pf> to call. Which we will learn to do next.</p>
+
+<exercise label="xxx1">
+  <statement>
+    <p>Which is the correct statement about upcasting?</p>
+  </statement>
+  <choices randomize="yes">
+    <choice correct="yes">
+      <statement>
+        <p>Upcasting allows a derived class object to be treated as a base class object.</p>
+      </statement>
+    </choice>
+    <choice>
+      <statement>
+        <p>Upcasting allows a base class object to be treated as a derived class object.</p>
+      </statement>
+    </choice>
+  </choices>
+  </exercise>
+
+</section>

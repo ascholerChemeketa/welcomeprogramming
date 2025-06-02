@@ -1,0 +1,215 @@
+<section xml:id="inheritance_designing"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Designing with Inheritance</title>
+
+  <p>Designing in terms of inheritance can take a little more creativity than designing with composition or aggregation. Often times, we have to invent new classes to make an inheritance hierarchy work.</p>
+
+  <p>A good process looks like this:
+    <ol>
+      <li>First identify any existing classes that have an is-a relationship. One indication that an is-a relationship might exist is if all of the members of one class A also appear in class B, which has more members. Then A might be a B.</li>
+      <li>Then look for any other duplicated information. If class A and B have some common members perhaps there is some class C that they both should inherit from. This new <q>discovered</q> class is likely to be an abstract class.</li>
+    </ol>
+  </p>
+
+  <p>As an example, say we have the following classes representing different kinds of employees and we would like to use inheritance to reuse code. (We will only focus on the member variables and a single method. You can imagine that each class also has getters, setters, and other appropriate methods.)</p>
+
+  <figure>
+    <caption>UML for Salaried, Hourly, and Salesperson</caption>
+    <image alt="UML for Salaried, Hourly, and Salesperson classes.">
+      <mermaid><![CDATA[
+          classDiagram
+          class SalariedEmployee {
+            -m_name: string
+            -m_title: string
+            -m_salary: double
+            +calculatePay(): double
+          }
+          class HourlyEmployee {
+            -m_name: string
+            -m_title: string
+            -m_hoursWorked: double
+            -m_hourlyRate: double
+            +calculatePay(): double
+          }
+          class Salesperson {
+            -m_name: string
+            -m_title: string
+            -m_salary: double
+            -m_sales: double
+            +calculatePay(): double
+          }
+        ]]>
+      </mermaid>
+    </image>
+  </figure>
+
+  <p>Looking at that diagram, we can see that Salesperson has everything that SalariedEmployee has, which indicates a potential for inheritance. Does it make sense to say that <q>Salesperson is-a SalariedEmployee</q>? After considering it, we decide yes. In our system, Salespeople are salaried employees who get a bonus based on their sales. So we could use inheritance to refactor the design into this:</p>
+
+  <figure>
+    <caption>UML for Salesperson inherits from Salaried</caption>
+    <image alt="UML for Salesperson inherits from Salaried.">
+      <mermaid><![CDATA[
+          classDiagram
+          class SalariedEmployee {
+            -m_name: string
+            -m_title: string
+            -m_salary: double
+            +calculatePay(): double
+          }
+          class HourlyEmployee {
+            -m_name: string
+            -m_title: string
+            -m_hoursWorked: double
+            -m_hourlyRate: double
+            +calculatePay(): double
+          }
+          class Salesperson {
+            -m_sales: double
+            +calculatePay(): double
+          }
+          SalariedEmployee <|-- Salesperson
+        ]]>
+      </mermaid>
+    </image>
+  </figure>
+
+  <p>We in Salesperson, we only need to write the new members, or the member functions that will be overridden. A Salesperson will need a <pf>m_sales</pf> variable and a new way to <pf>calculatePay()</pf>. Everything else can be inherited from SalariedEmployee.</p>
+
+  <p>There do not appear to be any easy cases of existing is-a relations. Salaried and Hourly employees have data in common, but it is not accurate to say that either one is-a the other. What is there in common? A <pf>m_name</pf>, <pf>m_title</pf>, and the ability to <pf>calculatePay()</pf>. So we could factor those out into some new common parent class. What describes both classes? How about <q>Employee</q>?</p>
+
+  <p>Although we want a class <pf>Employee</pf> to represent common attributes and behaviors, we should never have someone who is just an Employee. They either need to be hourly or salaried. Without knowing which they are, we have no way to calculate their pay. So <pf>calculatePay()</pf> will be a pure virtual function in Employee, which will be an abstract class:</p>
+
+  <figure>
+    <caption>UML for SalariedEmployee and HourlyEmployee inheriting from Employee</caption>
+    <image alt="UML for SalariedEmployee and HourlyEmployee inheriting from Employee.">
+      <mermaid><![CDATA[
+          classDiagram
+          class SalariedEmployee {
+            -m_salary : double
+            +calculatePay() double
+          }
+          class HourlyEmployee {
+            -m_hoursWorked : double
+            -m_hourlyRate : double
+            +calculatePay() double
+          }
+          class `*Employee*` {
+            <<Abstract>>
+            -m_name : string
+            -m_title : string
+            +calculatePay()* double
+          }
+          class Salesperson {
+            -m_sales : double
+            +calculatePay() double
+          }
+          SalariedEmployee <|-- Salesperson
+          `*Employee*` <|-- SalariedEmployee
+          `*Employee*` <|-- HourlyEmployee
+        ]]>
+      </mermaid>
+    </image>
+  </figure>
+
+  <exercise label="FIsdfsdXME"
+  numbered="yes"
+  indentation="show">
+  <statement>
+  <p>We have the UML shown below for Teacher and Student. We would like to make a new abstract class Person that they can both inherit from. Arrange the attributes into the class they most logically belong to.</p>
+  <image alt="UML for Student and Teacher classes. Student has m_major, m_name, m_age, and m_credits. Teacher has m_name, m_yearsExperience, and m_age.">
+    <mermaid><![CDATA[
+        classDiagram
+          class Student {
+            -m_major : string
+            -m_name : string
+            -m_age : int
+            -m_credits : int
+          }
+          class Teacher {
+            -m_name : string
+            -m_yearsExperience: int
+            -m_age : int
+          }
+      ]]>
+    </mermaid>
+  </image>
+  <p>In your answer, place Person class first, then Teacher, then Student.</p>
+  </statement>
+  <blocks>
+    <block name="p" depends="">
+        <cline>class Person</cline>
+    </block>
+    <block name="p1" depends="p">
+        <cline>-m_name : string</cline>
+    </block>
+    <block name="p2" depends="p">
+        <cline>-m_age: int</cline>
+    </block>
+    <block name="t" depends="p1 p2">
+        <cline>class Teacher</cline>
+    </block>
+    <block name="t1" depends="t">
+        <cline>-m_yearsExperience: int</cline>
+    </block>
+    <block name="s" depends="t1">
+        <cline>class Student</cline>
+    </block>
+    <block name="" depends="s">
+        <cline>-m_credits: int</cline>
+    </block>
+    <block name="" depends="s">
+        <cline>-m_major: string</cline>
+    </block>
+  </blocks>
+</exercise>
+
+
+<exercise label="xxx4">
+  <statement>
+    <p>Based on the UML below. What is-a relationship seems likely?</p>
+    <image alt="UML for Foo and Bar classes. Foo has m_color, m_size, and m_label. Bar has m_size and m_label.">
+      <mermaid><![CDATA[
+          classDiagram
+            class Foo {
+              -m_color: string
+              -m_size : int
+              -m_label : string
+            }
+            class Bar {
+              -m_size : int
+              -m_label : string
+            }
+        ]]>
+      </mermaid>
+    </image>
+  </statement>
+  <choices randomize="yes">
+    <choice correct="yes">
+      <statement>
+        <p>Bar is-a Foo.</p>
+      </statement>
+      <feedback>
+        <p>Correct. Foo has all the properties of Bar (and an additional one).</p>
+      </feedback>
+    </choice>
+    <choice>
+      <statement>
+        <p>Foo is-a Bar.</p>
+      </statement>
+      <feedback>
+        <p>Incorrect. Foo has properties that Bar does not.</p>
+      </feedback>
+    </choice>
+    <choice>
+      <statement>
+        <p>There is no reasonable is-a to infer.</p>
+      </statement>
+      <feedback>
+        <p>One of these looks like an extended version of the other...</p>
+      </feedback>
+    </choice>
+  </choices>
+</exercise>
+
+</section>

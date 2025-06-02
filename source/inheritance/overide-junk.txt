@@ -1,0 +1,5 @@
+
+
+  <note>
+    <p>The <pf>override</pf> keyword is not required. But it is a nice reminder of what is going on. And, it tells the compiler to make sure that the function is actually overriding a base class function. This can prevent bugs such as declaring <pf>void intorduce()</pf> in the child class and then wondering why it is never used. A call to <pf>s.introduce()</pf> would use the <pf>Person</pf> version and ignore the extra new (misspelled) <pf>intorduce()</pf> in the <pf>Student</pf> class. With the <pf>override</pf> keyword, the compiler would mark <pf>inroduce()</pf> as an error because it does not match a version from the base class.</p>
+  </note>

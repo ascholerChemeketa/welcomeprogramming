@@ -1,0 +1,77 @@
+<section xml:id="inheritance_protected"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Protected Access</title>
+
+  <p>Another way we can allow <pf>Student</pf> to work with the <pf>Person</pf> it has inherited from is to use the <pf>protected</pf> access modifier. <pf>protected</pf> members are accessible within the class itself and by any derived classes. They are treated as <pf>private</pf> elsewhere.<idx><h>protected</h></idx></p>
+
+  <p>To use <pf>protected</pf> in our code, we would change the member variables of Person to be protected instead of private. That would allow <pf>Student</pf> to access <pf>m_name</pf> and <pf>m_age</pf> directly.</p>
+
+  <program interactive="activecode" autorun="yes" highlight-lines="6, 27-28, 33, 42">
+<xi:include href="../../programs/inheritance/protected-1.cpp" parse="text"/>
+  </program>
+
+  <p>
+    Try uncommenting the last line to verify that <pf>main</pf> does not have access to the private members of <pf>Person</pf>. <pf>protected</pf> only allows access within other classes that derive from <pf>Person</pf>. The assumption here is that anyone extending <pf>Person</pf> likely needs to understand the internals of <pf>Person</pf> and so should be trusted to access the members directly.
+  </p>
+
+  <table>
+    <title>Access Modifiers<idx><h>access modifiers</h></idx></title>
+    <tabular>
+      <row header="yes"
+           bottom="major">
+        <cell>Modifier</cell>
+        <cell>Meaning</cell>
+      </row>
+      <row>
+        <cell>
+          <pf>private</pf>
+        </cell>
+        <cell><p>Only accessible within this class (not just the same object).</p></cell>
+      </row>
+      <row>
+        <cell>
+          <pf>protected</pf>
+        </cell>
+        <cell><p>Accessible within this class and any derived classes.</p></cell>
+      </row>
+      <row>
+        <cell>
+          <pf>public</pf>
+        </cell>
+        <cell><p>Accessible from anywhere.</p></cell>
+      </row>
+    </tabular>
+  </table>
+
+  <p>
+    There is some merit to continuing to use <pf>private</pf> for member variables. Doing so will prevent derived classes from being tightly coupled with the implementation of the base class. Maintaining separation between the two can make it easier to change base class code without breaking derived classes. However, it can also lead to more boilerplate code, as you have to provide public getter and setter functions for derived classes to access the member variables.
+  </p>
+
+  <p>You also can have private variables and protected getters/setters if you want to allow derived classes to have special access to some of the base class data but do not want other code to be able to use even the getters or setters.</p>
+
+  <insight>
+    <p>
+      Deciding whether to use <pf>protected</pf> or <pf>private</pf> for member variables is a design decision. If you are designing a class that you expect to be extended, and you want to allow derived classes to access certain members, then <pf>protected</pf> is appropriate. If you want to keep the implementation details hidden from derived classes, then <pf>private</pf> is the way to go.
+    </p>
+    <p>In this book, we will use <pf>protected</pf> for member variables in base classes that we expect to be extended to avoid cluttering things up with getters and setters for those variables. In a large codebase shared by many different programmers we might make a different design decision.</p>
+  </insight>
+
+  <exercise label="xxx">
+    <statement>
+        <p>Click and drag to link each access modifier to the places it can be used.</p>
+    </statement>
+    <feedback>
+        <p>Tip: Some modifiers will need to link to multiple places.</p>
+    </feedback>
+    <matching>
+        <premise ref="access-mod-matching-local">private</premise>
+        <premise ref="access-mod-matching-local access-mod-matching-derived">protected</premise>
+        <premise ref="access-mod-matching-local access-mod-matching-derived access-mod-matching-other">public</premise>
+        <response xml:id="access-mod-matching-local">Accessible within the same class.</response>
+        <response xml:id="access-mod-matching-derived">Accessible within derived classes.</response>
+        <response xml:id="access-mod-matching-other">Accessible outside of the class.</response>
+    </matching>
+</exercise>
+
+</section>

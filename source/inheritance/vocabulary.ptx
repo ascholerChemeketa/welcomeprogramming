@@ -1,0 +1,96 @@
+<section xml:id="inheritance_vocabulary"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Vocabulary</title>
+  <p>
+    <dl>
+      <li>
+        <title>inheritance:</title>
+        <p>
+          <idx>
+            <h>inheritance</h>
+          </idx> The mechanism by which one class can inherit the properties and behaviors (methods) of another class.</p>
+      </li>
+      <li>
+        <title>base class</title>
+        <p>
+          <idx>
+            <h>base class</h>
+            <h>parent class</h>
+          </idx> Also known as a parent class. A class that is inherited from. It provides properties and methods that can be used by derived classes.</p>
+      </li>
+      <li>
+        <title>derived class</title>
+        <p>
+          <idx>
+            <h>derived class</h>
+            <h>child class</h>
+          </idx> Also known as a child class. A class that inherits from one or more base classes, gaining their properties and methods.</p>
+      </li>
+      <li>
+        <title>virtual function</title>
+        <p>
+          <idx>
+            <h>virtual function</h>
+          </idx> A function for which the code will determine the behavior at runtime.</p>
+      </li>
+      <li>
+        <title>polymorphism</title>
+        <p>
+          <idx>
+            <h>polymorphism</h>
+          </idx> The ability of different classes to be treated as instances of the same class and produce different behaviors. We can pass a <pf>Student</pf> or a <pf>Teacher</pf> to a function that takes a <pf>Person&amp;</pf>. When that function calls <pf>introduce()</pf> on the person, we will get the appropriate behavior for the actual type of object.</p>
+      </li>
+      <li>
+        <title>abstract method</title>
+        <p>
+          <idx>
+            <h>abstract method</h>
+            <h>pure virtual function</h>
+          </idx> Also known as a pure virtual function. A method that is declared without an implementation and must be implemented by subclasses.</p>
+      </li>
+      <li>
+        <title>abstract class</title>
+        <p>
+          <idx>
+            <h>abstract class</h>
+          </idx> A class that cannot be instantiated and is designed to be subclassed, often containing abstract methods that must be implemented by derived classes.</p>
+      </li>
+      <li>
+        <title>interface</title>
+        <p>
+          <idx>
+            <h>interface</h>
+          </idx> A contract that defines a set of methods that a class must implement, but does not provide any implementation itself.</p>
+      </li>
+      <li>
+        <title>object slicing</title>
+        <p>
+          <idx>
+            <h>slicing</h>
+          </idx> The phenomenon that occurs when an object of a derived class is copied into an object of a base class, causing the derived class-specific data to be lost.</p>
+      </li>
+      <li>
+        <title>is-a relationship</title>
+        <p>
+          <idx>
+            <h>is-a relationship</h>
+          </idx> A relationship between classes where one class is a specialized version of another class. For example, a <pf>Dog</pf> is-an <pf>Animal</pf>.</p>
+      </li>
+      <li>
+        <title>dynamic</title>
+        <p>
+          <idx>
+            <h>dynamic</h>
+          </idx> Refers to the ability of a program to adapt its behavior at runtime, often associated with dynamic binding and polymorphism.</p>
+      </li>
+      <li>
+        <title>multiple inheritance</title>
+        <p>
+          <idx>
+            <h>multiple inheritance</h>
+          </idx> A feature of some object-oriented programming languages in which a class can inherit from more than one parent class.</p>
+      </li>
+    </dl>
+  </p>
+</section>

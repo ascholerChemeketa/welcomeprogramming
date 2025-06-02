@@ -1,0 +1,173 @@
+<section xml:id="inheritance_inheritance-access"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Access Modifiers and Inheritance</title>
+
+  <p>Our previous example of inheritance ignored one of the big ideas of OOP (encapsulation<!--todo
+    link-->) by
+    making all of the members public.</p>
+
+  <p>Now lets try to fix that by making the member variables private and adding public constructors.
+    Here is a first attempt. Scroll down to see the error message and the explanation of what is
+    going wrong.</p>
+
+  <program interactive="activecode"
+           autorun="yes"
+           highlight-lines="25-26, 30">
+<xi:include href="../../programs/inheritance/inheritance-access-1.cpp" parse="text"/>
+  </program>
+
+  <p>Trying to run that code produces a cascading mess of errors. But the key ones to pay attention
+    to are the ones that look like this:</p>
+
+  <console>
+    <output>test.cpp:25:9: error: ‘std::string Person::m_name’ is private within this context
+      25 |         m_name = name;
+         |         ^~~~~~
+    </output>
+  </console>
+
+  <p>That error is happening in the constructor of <pf>Student</pf> (highlighted in the code). Even though
+    the <pf>Student</pf> class inherits from <pf>Person</pf> it cannot access the private members of <pf>Person</pf>.
+    Recall that <pf>private</pf> is enforced at the class level, not for individual objects. One Person can
+    access the private members of another Person, but a Student cannot access the private members of
+    a Person (even though Student is-a Person). </p>
+
+  <p>This means that although the Student has an <pf>m_name</pf>, it can't access it! We can only directly access public members of <pf>Person</pf>.</p>
+
+  <insight>
+    <p> Think back to the memory diagram on the previous page (<xref ref="figure-inheritance-structure"/>).
+      Inheritance means there is a <pf>Person</pf> inside of the <pf>Student</pf> object. That is different than
+      a <pf>Student</pf> getting its own copy of all the members of a <pf>Person</pf><mdash/>a <pf>Student</pf> does not
+      have a <pf>m_name</pf>. </p>
+  </insight>
+
+  <p>One way to fix this is to do what we would with composition - to rely on public functions to
+    access Person variables from Student. TIf we add a public <pf>Person::getName()</pf> function, we can call it in Student to access the name.</p>
+  
+    <p>The other error messages above were focused on the constructor itself:</p>
+  
+<console>
+  <output>
+test.cpp: In constructor ‘Student::Student(std::string, int, std::string)’:
+test.cpp:24:49: error: no matching function for call to ‘Person::Person()’
+   24 |     Student(string name, int age, string major) {
+      |                                                 ^
+  </output>
+</console>
+
+    <p>This is the same issue we had with composition. The constructor for Student needs to set up the
+    Person part of the object. Since we have not said how to do that, the compiler tries to
+    automatically call the no-argument constructor for Person. But we don't have a no-argument
+    constructor for Person. So we get an error.</p>
+
+  <p>To fix this, we need to add a constructor to Person that takes the name and age as arguments.
+    Then we can call that constructor from the Student constructor's initialization list.</p>
+
+    <p>This version of the code has both of those fixes:</p>
+
+  <program interactive="activecode"
+           high-lines="30, 35">
+<xi:include href="../../programs/inheritance/inheritance-access-2.cpp" parse="text"/>
+  </program>
+
+  <p> The <pf>: Person(name, age)</pf> on line 30 says <q>call the constructor of the base class Person with the
+    arguments name and age</q>.  That means the code will not try to call the no-arg <pf>Person()</pf> constructor since
+  we have specified how to initialize the base class. And it means that we don't have to try to set the inherited private variables from inside Student.</p>
+
+    <p>Then, on line 35, we can use a public getter to access the name
+    from the Person object.</p>
+
+
+    <exercise label="xxx3">
+      <statement>
+      <p>Which is the true statement?</p>
+    </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>
+            <p>Derived classes inherit public members and can access them.</p>
+          </statement>
+        </choice> 
+        <choice>
+          <statement>
+            <p>Derived classes inherit public members but cannot access them.</p>
+          </statement>
+        </choice> 
+        <choice>
+          <statement>
+            <p>Derived classes do not inherit public members.</p>
+          </statement>
+        </choice> 
+      </choices>
+    </exercise>
+
+    <exercise label="xxx4">
+      <statement>
+      <p>Which is the true statement?</p>
+    </statement>
+      <choices randomize="yes">
+        <choice>
+          <statement>
+            <p>Derived classes inherit private members and can access them.</p>
+          </statement>
+        </choice> 
+        <choice correct="yes">
+          <statement>
+            <p>Derived classes inherit private members but cannot access them.</p>
+          </statement>
+        </choice> 
+        <choice>
+          <statement>
+            <p>Derived classes do not inherit private members.</p>
+          </statement>
+        </choice> 
+      </choices>
+    </exercise>
+    
+  <exercise label="computer-programming_exercises-ex-2"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>We are writing a class <pf>Button</pf> that inherits from <pf>Input</pf>. The <pf>Input</pf> class has a
+        private member variable <pf>string m_id</pf> and a constructor <pf>Input(string id)</pf>. A <pf>Button</pf> will add a <pf>string m_text</pf> and a <pf>string m_color</pf>. Build the code for <pf>Button</pf>.</p>
+    </statement>
+    <blocks>
+      <block>
+        <choice correct="yes">
+          <cline><![CDATA[class Button : public Input {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[class Input : public Button {]]></cline>
+        </choice>
+      </block>
+      <block>
+        <choice correct="yes">
+          <cline><![CDATA[private:]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[ cout << "Tigers &" << endl; ]]></cline>
+        </choice>
+      </block>
+      <block>
+        <choice correct="yes">
+          <cline><![CDATA[ cout << " Bears!" << endl;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[ cout << "Bears!" << endl; ]]></cline>
+        </choice>
+      </block>
+      <block>
+        <cline> cout &lt;&lt; endl;</cline>
+      </block>
+      <block>
+        <cline> cout &lt;&lt; "Oh my!";</cline>
+      </block>
+      <block>
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

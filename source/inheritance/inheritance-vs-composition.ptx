@@ -1,0 +1,134 @@
+<section xml:id="inheritance_inheritance-vs-composition"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Inheritance vs Composition</title>
+
+  <p>When designing C++ classes, we now have two tools for code reuse:
+<dl>
+  <li><title>Inheritance</title><p><em>is-a</em> : A class is derived from a base class.</p></li>
+  <li><title>Composition or Aggregation</title><p><em>has-a</em> : A class has other classes as members. (We will refer to both of these as just <q>Composition</q> in this section.)</p></li>
+</dl>
+<p></p>
+    Choosing the right tool for any particular context is important for writing clean, maintainable code. The language we use to describe the relationships should guide when you use each technique. Inheritance should only be used to model <q>is-a</q> relationships. In situations where <q>has-a</q> is the better description, composition should be preferred.</p>
+
+  <p>Say there is an existing class Person and we are making a BankAccount. The BankAccount belongs to a particular person, and we would like to represent this with an explicit relationship. Does it make sense to say a BankAccount is-a Person? Not in the least. This is clearly a spot where inheritance should not be used, even if it would accomplish the technical goal of letting us use existing Person code inside of BankAccount.</p>
+
+  <p>Even in situations where inheritance might seem appropriate, composition may still provide a better design. Consider representing various sales transactions. Some are Phone, some are Online, and others are InStore. Each transaction involves payment that is either Cash, Account, or Credit.</p>
+
+  <p>Trying to model this with inheritance might lead us to something like:</p>
+  
+  <figure>
+    <caption>UML for Orders using Inheritance</caption>
+    <image alt="We need 13 classes to represent the possible orders.">
+      <mermaid><![CDATA[
+---
+config:
+  layout: elk
+---
+classDiagram
+    Order <|-- Phone
+    Order <|-- Online
+    Order <|-- InStore
+    Phone <|-- CashPhone
+    Phone <|-- AccountPhone
+    Phone <|-- CreditPhone
+    Online <|-- CashOnline
+    Online <|-- AccountOnline
+    Online <|-- CreditOnline
+    InStore <|-- CashInStore
+    InStore <|-- AccountInStore
+    InStore <|-- CreditInStore
+        ]]>
+      </mermaid>
+    </image>
+  </figure>
+
+  <p>This is awful. We have 13 classes to represent the different types. And <pf>CreditPhone</pf> and <pf>CreditOnline</pf> will probably have code in common. But there is no good place to put that common code. The only parent they have in common is <pf>Order</pf> and that is not the right place for credit card payment logic.</p>
+
+  <p>Multiple inheritance might sound like a solution to that issue. It would let us put common payment logic in a shared parent class for all Credit orders by having a Credit class that they all inherit from. But the class explosion from this design only gets worse. Not only do we have more intermediate classes, we still need classes like CreditPhone to unite the two different aspects (order method and payment method).</p>
+
+  <figure>
+    <caption>UML for Orders using Multiple Inheritance</caption>
+    <image alt="We need 17 classes to represent the possible orders.">
+      <mermaid><![CDATA[
+---
+config:
+  layout: elk
+---
+classDiagram
+    OrderMethod <|-- Phone
+    OrderMethod <|-- Online
+    OrderMethod <|-- InStore
+    PaymentMethod <|-- Cash
+    PaymentMethod <|-- Account
+    PaymentMethod <|-- Credit
+    Phone <|-- CashPhone
+    Phone <|-- AccountPhone
+    Phone <|-- CreditPhone
+    Online <|-- CashOnline
+    Online <|-- AccountOnline
+    Online <|-- CreditOnline
+    InStore <|-- CashInStore
+    InStore <|-- AccountInStore
+    InStore <|-- CreditInStore
+    Cash <|-- CashPhone
+    Account <|-- AccountPhone
+    Credit <|-- CreditPhone
+    Cash <|-- CashOnline
+    Account <|-- AccountOnline
+    Credit <|-- CreditOnline
+    Cash <|-- CashInStore
+    Account <|-- AccountInStore
+    Credit <|-- CreditInStore
+        ]]>
+      </mermaid>
+    </image>
+  </figure>
+
+  <p>Now let's consider how we might build this with composition. We can have one class Order that has-a instance of PaymentMethod and OrderMethod as members. This way, we can represent all the possible transaction types without an explicit class for each. To make a Order that represent an in store, cash order we would first construct a Cash payment method object and an InStore order method object. We would then use them to construct an Order that had the two other objects as members.</p>
+  
+  <figure>
+    <caption>UML for Orders using Composition</caption>
+    <image alt="We only need 9 classes to represent any possible order.">
+      <mermaid><![CDATA[
+---
+config:
+  layout: elk
+---
+classDiagram
+    OrderMethod <|-- Phone
+    OrderMethod <|-- Online
+    OrderMethod <|-- InStore
+    PaymentMethod <|-- Cash
+    PaymentMethod <|-- Account
+    PaymentMethod <|-- Credit
+    Order o-- OrderMethod
+    Order o-- PaymentMethod 
+        ]]>
+      </mermaid>
+    </image>
+  </figure>
+
+  <insight><p>A common piece of advice is <q>favor composition over inheritance</q>. Composition tends to allow more flexible relationships and it avoids the class explosion problem. Just because you could think of a design problem in terms of is-a does not mean you have to use inheritance.</p></insight>
+
+  <exercise label="xxxdd">
+    <statement>
+        <p>Click and drag to match each situation to the preferred approach for code reuse in each situation.</p>
+    </statement>
+    <feedback>
+        <p>Tip: Some modifiers will need to link to multiple places.</p>
+    </feedback>
+    <matching>
+        <premise ref="inheritance-matching-q1-in"><line>Two classes A and B where it</line><line>makes sense to say A is-a B.</line></premise>
+        <premise ref="inheritance-matching-q1-comp">Two classes A and B where it makes sense to say A has-a B.</premise>
+        <premise ref="inheritance-matching-q1-comp">Class A should have access to aspects of both class B and C.</premise>
+        <response xml:id="inheritance-matching-q1-in">Inheritance.</response>
+        <response xml:id="inheritance-matching-q1-comp">Composition.</response>
+        <response>
+          <line><m>\text{some text leading to some math }45x^2+3x\text{ more text}</m></line>
+          <line><m>\text{some additional text that didn't fit on the previous line</m></line>
+        </response>
+    </matching>
+  </exercise>
+
+</section>

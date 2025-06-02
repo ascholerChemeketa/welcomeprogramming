@@ -1,0 +1,181 @@
+<section xml:id="inheritance_virtual"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Virtual Functions</title>
+
+  <subsection>
+    <title>Virtual Functions - How</title>
+
+    <p>In the last section, we encountered an issue with <pf>makeIntroduction(const Person&amp; p)</pf>. When it called <pf>p.introduce()</pf>,
+      it will always use <pf>Person::introduce()</pf>, even if <pf>p</pf> is actually a Student. We would like
+      <pf>makeIntroduction</pf> to always use the most appropriate version of <pf>introduce</pf>. If we pass it a
+      Student, we would hope that it would call <pf>Student::introduce()</pf> instead of the Person version.</p>
+
+    <p>This behavior, where the same code treats upcasted objects differently according to their
+      actual type is known as <term>polymorphism</term>. The word <term>Polymorphism</term>
+      literally means <q>many forms</q> (<q>poly-</q> for many, <q>morph</q> for form). In
+      object-oriented programming, it refers to the idea of having a common interface (like <pf>introduce()</pf>)
+      result in many different behaviors.</p>
+
+    <p>In C++, <term>virtual functions</term> are used to achieve polymorphism. They do so by
+      modifying the code the compiler generates for the function. For <pf>virtual</pf> functions, the
+      compiler generates code for the function call to examine the object at runtime in order to
+      decide which function version to use. </p>
+
+    <aside>
+      <p>This process of looking up of the best version of the function at run time is known as `<term>dynamic
+        dispatch</term>. In programming, <q>dynamic</q> generally means <q>done at run time</q>
+        while <q>static</q> means <q>done at compile time</q>.</p>
+    </aside>
+
+    <p>To make a function virtual, we add the <pf>virtual</pf> keyword before the function's declaration.
+      Something like:</p>
+
+    <program>
+    virtual void introduce() const { ... }
+  </program>
+
+    <p>Technically, this only needs to be added to the base class version. Doing so automatically
+      makes the function virtual in any derived classes. But it can be helpful to also use <pf>virtual</pf>
+      in the derived classes just to clearly indicate that the function is virtual.</p>
+
+    <p>This version of our program adds the <pf>virtual</pf> keyword to the two versions of the <pf>introduce()</pf>
+      functions Other than that, nothing has been changed. However, after that simple change, the <pf>makeIntroduction</pf>
+      function now behaves in a polymorphic fashion. Try it out and pay attention the the version of <pf>.introduce()</pf>
+      used for Alex.</p>
+
+    <program interactive="activecode"
+             highlight-lines="20,34">
+    <code>
+<xi:include href="../../programs/inheritance/virtual-1.cpp" parse="text"/>
+    </code>
+  </program>
+
+    <insight>
+      <p>Think of <pf>virtual</pf> as meaning <q>a function we will wait to pick the best available version
+        of at runtime</q>.</p>
+    </insight>
+  </subsection>
+
+  <subsection>
+    <title>Virtual Functions - When</title>
+
+    <p>So what is the downside? Why is this not always done?</p>
+
+    <p>The main downside is a very slight performance hit. Code to look up the right object at
+      runtime involves more steps that assumes we always will just run one version of the code. This
+      performance difference is tiny. But a tiny cost paid thousands of times can add up. And if you
+      are writing code that needs to be as fast as possible, you may not want to pay that cost.</p>
+
+    <p>One of the design goals of C++ is to let the programmer make decisions about when they care
+      more about performance. So C++ requires us to say <q>yes please make this function virtual</q>.
+      Other programming languages (Python, Javascript, etc...) often make every function virtual and
+      do not require the programmer to specify they want polymorphic behavior (or allow them to opt
+      out of it).</p>
+
+    <p>So when should you use virtual? It is generally advisable to use virtual functions when you
+      expect that your class will be subclassed and you want to allow derived classes to provide
+      specific implementations of a function.</p>
+
+    <p>Here, <pf>.getName()</pf> is not virtual as we don't expect subclasses to want to provide a <q>better</q>
+      version of how to get the name of a Person. And the constructor can't be made virtual -
+      Student will never provide a better way to make a plain Person (it will provide a way to make
+      a Student that happens to be a Person).</p>
+
+    <p>However, we could make <pf>.getName()</pf> virtual. Try adding <pf>virtual</pf> before <pf>getName</pf> in Person.
+      Nothing will happen other than the code will run an infinitesimal bit slower.</p>
+
+    <insight>
+      <p>Better safe and slightly expensive than wrong and <q>fast</q> (code isn't really fast if it
+        does the wrong thing). Feel free to add <pf>virtual</pf> to every function in a class that will be
+        inherited. And if you don't know if a class will be inherited from, assume it will be.</p>
+    </insight>
+
+
+    <exercise label="xxx1">
+      <statement>
+        <p>Which are the correct statement about <pf>virtual</pf>?</p>
+      </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>
+            <p>It says to decide what version of the function to call at runtime.</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement correct="yes">
+            <p>It slightly impacts performance of the function.</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>It says to decide what version of the function to call at compile time.</p>
+          </statement>
+          <feedback>
+            <p>Incorrect. That is the behavior for non virtual functions.</p>
+          </feedback>
+        </choice>
+        <choice>
+          <statement>
+            <p>Any child class that overrides a <pf>virtual</pf> function must also use the <pf>virtual</pf>
+              keyword on it.</p>
+          </statement>
+          <feedback>
+            <p>Incorrect. It can be useful to do so as a reminder, but it is not required.</p>
+          </feedback>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p>If you expect a class will be inherited from and child classes might need to override
+              a particular function, you should probably make it <pf>virtual</pf>.</p>
+          </statement>
+        </choice>
+      </choices>
+    </exercise>
+  </subsection>
+
+  <subsection>
+    <title>Virtual Functions - Syntax Notes</title>
+
+    <p>When you separate the declaration of a <pf>virtual</pf> function from its definition, you only add <pf>virtual</pf>
+      to the declaration inside the class. The implementation outside can not have the <pf>virtual</pf>
+      keyword. </p>
+
+    <p>For example:</p>
+    <program line-numbers="yes"
+             highlight-lines="2, 5"> 
+    <code>
+      class Person {
+          virtual void introduce() const; // In class declaration gets virtual
+      };
+      
+      void Person::introduce() const { 
+          // Outside of class definition of introduce does not get virtual
+      }
+    </code>
+  </program>
+
+    <p>A little confusing. But don't worry too much, if you by accident add <pf>virtual</pf> to the
+      definition the compiler will produce an error to let you know. You just need to know that the
+      message <c>error: ‘virtual’ outside class declaration</c> is trying to tell you that you made that mistake.</p>
+
+    <p>You also can add the <pf>override</pf> keyword at the end of the declaration of a virtual function in
+      a derived class:</p>
+
+    <program>
+      class Student : public Person {
+          virtual void introduce() const override {...} // Example of using override
+      };
+  </program>
+
+    <p>Doing so will not change how the code works and is not required. But it is a nice reminder of
+      what is going on. It also tells the compiler to make sure that the function is actually
+      overriding a base class function. This can prevent bugs such as declaring <pf>void intorduce()</pf> (spelling
+      error!) in the child class and then wondering why it is never used. Doing so would make a new
+      function in the child class instead of overriding a function from the parent class. With the <pf>override</pf>
+      keyword, the compiler would mark <pf>inroduce()</pf> as an error because it does not successfully
+      override any existing functions.</p>
+
+  </subsection>
+
+</section>

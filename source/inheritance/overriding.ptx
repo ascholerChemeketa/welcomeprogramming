@@ -1,0 +1,191 @@
+<section xml:id="inheritance_overriding"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Overriding Members</title>
+
+  <p>Sometimes, it is useful for a derived class to modify the behavior of a function that it has
+    inherited. For example, our student class might want to include a message about their major when
+    they <pf>introduce()</pf> themselves.</p>
+
+  <p>To do this, we can <term>override</term> the base class function. To override a function, we
+    simply define a new version of the function in the derived class:<idx>
+      <h>override</h>
+    </idx></p>
+
+  <program interactive="activecode"
+           line-numbers="yes"
+           highlight-lines="34">
+<xi:include href="../../programs/inheritance/overriding-1.cpp" parse="text"/>
+  </program>
+
+  <p>Now, when we call <pf>introduce()</pf> on a student object, that version will be used instead of the
+    inherited one.</p>
+
+  <p>In the UML, we would show that <pf>introduce()</pf> is overridden in the <pf>Student</pf> class. <pf>getName</pf>, which
+    is not overridden, is only shown in the base class.</p>
+
+  <figure>
+    <caption>UML for Person and Student</caption>
+    <image alt="Person and Student classes">
+      <mermaid><![CDATA[
+          classDiagram
+          class Person {
+            -m_name: string
+            -m_age: int
+            +introduce()
+            +getName()
+          }
+          class Student {
+            -m_major: string
+            +introduce()
+          }
+          Person <|-- Student
+        ]]>
+      </mermaid>
+    </image>
+  </figure>
+
+  <p>You may have noticed that there is some annoying code duplication in our two <pf>introduce()</pf>
+    functions. To add on to what the Person class does, the Student class repeats the code from
+    Person and then adds some more code. How can we avoid that?(Remember: Copy and paste is a design
+    failure!</p>
+
+  <p>What we can do is to have the <pf>Student</pf> version of <pf>introduce</pf> call the <pf>Person</pf> version. To do
+    that, we call <pf>Person::introduce()</pf> from within the <pf>Student</pf> version:</p>
+
+  <program><![CDATA[
+  void introduce() const {
+      Person::introduce();
+      cout << "My major is " << m_major << "." << endl;
+  }
+  ]]></program>
+
+  <p>The order is not important - the call to the parent version can happen anywhere. Perhaps we
+    want to print out the Student's major first:</p>
+
+  <program><![CDATA[
+  void introduce() const {
+      cout << "My major is " << m_major << "." << endl;
+      Person::introduce();
+  }
+  ]]></program>
+
+  <p>If the function returns some data, we could store that and make use of it. Say the introduce
+    function returned a string. We might write the Student version like:</p>
+
+  <program><![CDATA[
+    string introduce() const {
+        string intro = Person::introduce();
+        return "My major is " + m_major + ".\n" + intro;
+    }
+  ]]></program>
+
+  <note>
+    <p>You can also use this naming trick to call the inherited version of a function from outside
+      the class. <pf>main</pf> could call <pf>s.Person::introduce()</pf> to get the Person version of the function instead of
+      the Student version (assuming <pf>s</pf> is a Student). However, this is not a trick you should
+      usually need very often.</p>
+  </note>
+
+
+  <exercise label="xxx">
+    <statement>
+      <p>Given the UML below and <pf>Teacher t</pf>, match each function call with the (one) version that
+        will be used.</p>
+      <image alt="Teacher inherits from Employee. Employee has toString and calculatePay. Teacher has toString and getSchedule.">
+        <mermaid><![CDATA[
+              classDiagram
+              class Employee {
+                +toString() string
+                +calculatePay() double
+              }
+              class Teacher {
+                +toString() string
+                +getSchedule() string
+              }
+              Employee <|-- Teacher
+            ]]>
+          </mermaid>
+      </image>
+    </statement>
+    <matching>
+      <premise ref="override-matching-1-e"><pf>t.calculatePay()</pf></premise>
+      <premise ref="override-matching-1-t"><pf>t.toString()</pf></premise>
+      <premise ref="override-matching-1-t"><pf>t.getSchedule()</pf></premise>
+      <response xml:id="override-matching-1-t">Teacher's</response>
+      <response xml:id="override-matching-1-e">Employee's</response>
+      <response xml:id="override-matching-1-i">Illegal</response>
+    </matching>
+  </exercise>
+
+
+  <exercise label="xxx2">
+    <statement>
+      <p>Given the UML below and <pf>Employee e</pf>, match each function call with the (one) version that
+        will be used.</p>
+      <image alt="Teacher inherits from Employee. Employee has toString and calculatePay. Teacher has toString and getSchedule.">
+        <mermaid><![CDATA[
+            classDiagram
+            class Employee {
+              +toString() string
+              +calculatePay() double
+            }
+            class Teacher {
+              +toString() string
+              +getSchedule() string
+            }
+            Employee <|-- Teacher
+          ]]>
+        </mermaid>
+      </image>
+    </statement>
+    <matching>
+      <premise ref="override-matching-2-e"><pf>e.calculatePay()</pf></premise>
+      <premise ref="override-matching-2-e"><pf>e.toString()</pf></premise>
+      <premise ref="override-matching-2-i"><pf>e.getSchedule()</pf></premise>
+      <response xml:id="override-matching-2-t">Teacher's</response>
+      <response xml:id="override-matching-2-e">Employee's</response>
+      <response xml:id="override-matching-2-i">Illegal</response>
+    </matching>
+  </exercise>
+
+  <exercise label="FIXME"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p><pf>Manager</pf> inherits from <pf>Employee</pf> which has a <pf>double calculatePay() const</pf>. Manager wants
+        to override it to calculate the pay including a performance bonus. Build the function as it
+        would look in Manager.</p>
+    </statement>
+    <blocks>
+      <block>
+        <choice correct="yes">
+          <cline><![CDATA[double calculatePay() const {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[double calculatePay() {]]></cline>
+        </choice>
+      </block>
+      <block>
+        <choice correct="yes">
+          <cline><![CDATA[  double basePay = Employee::calculatePay();]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[  double basePay = calculatePay();]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[  double basePay = Parent::calculatePay();]]></cline>
+        </choice>
+      </block>
+      <block>
+        <cline><![CDATA[  return basePay + m_bonus;]]></cline>
+      </block>
+      <block>
+        <cline><![CDATA[}]]></cline>
+      </block>
+    </blocks>
+  </exercise>
+
+
+</section>

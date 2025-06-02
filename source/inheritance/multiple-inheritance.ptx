@@ -1,0 +1,65 @@
+<section xml:id="inheritance_multiple-inheritance"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Multiple Inheritance</title>
+
+  <p>In C++, a class can inherit from multiple classes. This is called <term>multiple inheritance</term>.
+    For example, if we had a class <pf>Student</pf> and a class <pf>Employee</pf>, we could make a class
+    <pf>TeachingAssistant</pf> that inherited from both of them:</p>
+
+  <program>
+    class TeachingAssistant : public Student, public Employee {
+      //...
+    };
+  </program>
+
+  <p>In this case, a <pf>TeachingAssistant</pf> is both a <pf>Student</pf> and an <pf>Employee</pf>. It would inherit all
+    of the code from both classes and could be treated as either a <pf>Student</pf> or an <pf>Employee</pf> by
+    other code.</p>
+
+  <p>Although this can provide enormous flexibility, it can also lead to complexity and ambiguity,
+    especially if the base classes have members with the same name or descend from a common parent
+    class. Consider what happens if both <pf>Student</pf> and <pf>Employee</pf> inherit from a class <pf>Person</pf> that
+    has a <pf>m_name</pf>:</p>
+
+  <figure>
+    <caption>UML for TeachingAssistant</caption>
+    <image alt="TeachingAssistant inherits from Student and Employee. They both inherit from Person.">
+      <mermaid><![CDATA[
+          classDiagram
+              class Person {
+              +m_name: string
+              }
+              class Student {
+              +m_major: string
+              }
+              class Employee {
+              +m_salary: double
+              }
+              class TeachingAssistant {
+              +m_subject: string
+              }
+              Person <|-- Student
+              Person <|-- Employee
+              Student <|-- TeachingAssistant
+              Employee <|-- TeachingAssistant
+        ]]>
+      </mermaid>
+    </image>
+  </figure>
+
+  <p>This is known as a <q>diamond problem</q> due to the shape of the inheritance diagram. The
+    problem is that a <pf>TeachingAssistant</pf> inherits two copies of <pf>m_name</pf>. If we use <pf>m_name</pf> inside
+    <pf>TeachingAssistant</pf>, it is not clear if we mean <pf>Student::m_name</pf> or <pf>Employee::m_name</pf>. We can
+    work around this by using the scope resolution operator (<pf>::</pf>), but there are still two
+    different <pf>m_names</pf> that could be set to completely different values! There are all kinds of
+    potential for confusion and bugs here.</p>
+
+  <p>For this reason, many programming languages do not support multiple inheritance, or they
+    provide alternative mechanisms to achieve similar functionality without the associated risks
+    (you can do a web search for <q>virtual inheritance</q> to learn about what C++ offers to make
+    multiple inheritance safer). Even when using a language that does support multiple inheritance,
+    many organizations will choose not to make use of it, deeming the added complexity and risk of
+    bugs not worth the flexibility it provides.</p>
+
+</section>

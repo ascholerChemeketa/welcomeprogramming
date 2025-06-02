@@ -1,0 +1,155 @@
+<section xml:id="inheritance_declaring-inheritance"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Declaring Inheritance</title>
+
+  <p>To declare inheritance in C++, we add <pf>: access-modifier BaseClassName</pf> after the derived class name. To say that <pf>Student</pf> inherits from `Person, we would write:</p>
+
+  <program>
+class Person {
+    // base class members
+};
+
+class Student : public Person {
+    // derived class members
+};
+  </program>
+
+  <p>In this example, <pf>Student</pf> is the derived class and <pf>Person</pf> is the base class. The <pf>public</pf> keyword indicates that the inheritance is public. This means that all the public members of the base class are accessible in the derived class. To see what this means, consider the example below. (All of the members are <pf>public</pf> to simplify this first demonstration. We will fix that soon.)</p>
+
+  <program interactive="activecode" highlight-lines="15, 20, 26-27, 30">
+<xi:include href="../../programs/inheritance/declaring-inheritance-1.cpp" parse="text"/>
+  </program>
+
+  <p>
+    All of the lines using inheritance are highlighted.<ul>
+      <li>Line 15 shows the inheritance declaration. The <pf>Student</pf> class inherits from the <pf>Person</pf> class.</li>
+      <li>Because it inherits from <pf>Person</pf>, <pf>Student</pf> has access to all of the public members of <pf>Person</pf>. That is why the <pf>Student::study</pf> function can access the <pf>m_name</pf> variable on line 20.</li>
+      <li>In <pf>main</pf>, we set the <pf>m_major</pf> which belongs to <pf>Student</pf> directly, but we also set the <pf>m_name</pf>, <pf>m_age</pf> variables that are inherited from <pf>Person</pf>. (lines 20 and 26-27)</li>
+      <li>The student inherits the <pf>introduce</pf> function from <pf>Person</pf> which we see called on line 30.</li>
+    </ul> 
+  </p>
+
+  <p>
+    The best way to picture this relationship is to imagine that every <pf>Student</pf> object has a <pf>Person</pf> object inside it. If we access <pf>s.m_age</pf> or <pf>s.m_major</pf>, we are actually accessing the <pf>m_age</pf> and <pf>m_major</pf> members of the <pf>Person</pf> object inside <pf>s</pf>:
+  </p>
+
+  <figure xml-id="figure-inheritance-structure">
+    <caption>How inheritance works in C++.</caption>
+    <image source="images/inheritance-structure.svg" width="50%" alt="Student object s has an anonymous Person object inside it."/>
+  </figure>
+
+  <p>
+    What we have diagramed is very similar to what happens at a low level in memory. There is memory reserved for the <pf>Person</pf> object inside the chunk of memory used for the <pf>Student</pf>. (Codelens will not show this, but a debugger in an IDE should indicate that <pf>m_name</pf> and <pf>m_age</pf> are in a nested object.).</p>
+    <p>This low-level nested structure is not that different than how composition stores nested objects. However, the way we access the data in that nested object is different. In composition, the nested object has a name, and we access it using that name. In inheritance, the nested object does not have its own name. Instead, we access its members as if they were members of the derived class.
+  </p>
+
+  <p>When making a UML diagram, we only list the members that are defined directly in each class. So even though a <pf>Student</pf> has <pf>m_name</pf>, <pf>m_age</pf>, and <pf>introduce()</pf> that are available via inheritance, they are not shown in the <pf>Student</pf> class.
+  </p>
+
+
+  <figure>
+    <caption>UML for Person and Student</caption>
+    <image alt="Person and Student classes">
+      <mermaid><![CDATA[
+          classDiagram
+          class Person {
+            +m_name: string
+            +m_age: int
+            +introduce()
+          }
+          class Student {
+            +m_major: string
+            +study()
+          }
+          Person <|-- Student
+        ]]>
+      </mermaid>
+    </image>
+  </figure>
+
+
+  <note>
+    <p>
+    We will only consider <pf>public</pf> inheritance in this book (<pf>: public BaseClassName</pf>). However, there are also non-public forms of inheritance (<pf>protected</pf> and <pf>private</pf>). These forms restrict access to the base class members. For example, if a class inherits from another class using <pf>private</pf> inheritance, all the <pf>public</pf> members of the base class become <pf>private</pf> members of the derived class.
+  </p>
+
+  <p>If you forget to write <pf>public</pf> while declaring inheritance and just write <pf>: BaseClassName</pf>, the inheritance will default to <pf>private</pf> and not behave as described here.</p>
+  </note>
+
+  
+<exercise label="xxx" language="cpp">
+  <statement>
+      <p>Form a statement to indicate that the class Staff inherits from Person. You will not need all of the blocks.</p>
+  </statement>
+  <blocks layout="horizontal" randomize="yes">
+      <block><c>class</c></block>
+      <block><c>Staff</c></block>
+      <block correct="no"><c>Student</c></block>
+      <block><c>:</c></block>
+      <block><c>public</c></block>
+      <block correct="no"><c>private</c></block>
+      <block><c>Person</c></block>
+      <block><c>{</c></block>
+  </blocks>
+</exercise>
+
+
+<exercise label="xxx2">
+  <statement>
+  <p>We use the following body for the Staff class that inherits from Person:</p>
+  <program>
+{
+public:
+    double m_salary;
+    string m_title;
+    void teach() const {...}
+}
+  </program>
+  <p>What member variables and functions are available in Staff?</p>
+</statement>
+  <choices randomize="yes">
+    <choice correct="yes">
+      <statement>
+        <p>m_salary</p>
+      </statement>
+    </choice> 
+    <choice correct="yes">
+      <statement>
+        <p>m_title</p>
+      </statement>
+    </choice>
+    <choice correct="yes">
+      <statement>
+        <p>teach()</p>
+      </statement>
+    </choice>
+    <choice correct="yes">
+      <statement>
+        <p>m_name</p>
+      </statement>
+    </choice>
+    <choice correct="yes">
+      <statement>
+        <p>introduce()</p>
+      </statement>
+    </choice>
+    <choice correct="yes">
+      <statement>
+        <p>m_age</p>
+      </statement>
+    </choice>
+    <choice correct="no">
+      <statement>
+        <p>study()</p>
+      </statement>
+    </choice>
+    <choice correct="no">
+      <statement>
+        <p>m_major</p>
+      </statement>
+    </choice>
+  </choices>
+</exercise>
+
+</section>

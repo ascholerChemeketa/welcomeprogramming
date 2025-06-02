@@ -1,0 +1,198 @@
+<section xml:id="inheritance_what-is-inheritance"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>What is Inheritance?</title>
+
+  <p>From a purely technical point of view, <term>inheritance</term> is a mechanism for code reuse.
+    It allows us to make a new class that automatically gets the properties and behaviors of an existing class without us having to write them in the new class. For example, we can
+    define a class <pf>Dog</pf> and say it should have all the member variables and methods of the class
+    <pf>Animal</pf>.<idx>
+      <h>inheritance</h>
+    </idx></p>
+
+    <p>It also allows for writing code that works on any
+    object of related classes. If both <pf>Dog</pf>s and <pf>Cat</pf>s inherit from <pf>Animal</pf>, we can write one function that works with any type of <pf>Animal</pf> and it will work with both
+    <pf>Dog</pf>s and <pf>Cat</pf>s.</p>
+
+  <p>Conceptually, inheritance represents an "is-a" relationship between a more general class (the <term>
+    superclass</term> or <term>parent class</term>) and a more specific class (the <term>subclass</term>
+    or <term>child class</term>). A <pf>Dog</pf> is-an <pf>Animal</pf> and so is <pf>Cat</pf>, so we could describe both of them as subclasses
+    of <pf>Animal</pf>.<idx>
+      <h>superclass</h>
+    </idx><idx>
+      <h>subclass</h>
+    </idx><idx>
+      <h>parent class</h>
+    </idx><idx>
+      <h>child class</h>
+    </idx> The fact that <pf>Dog</pf> is-an <pf>Animal</pf> explains why Dog 
+  </p>
+
+  <p>In UML, we represent this relationship with arrows that point from the child class to the parent class:</p>
+
+  <figure>
+    <caption>Cat and Dog are subclasses of Animal</caption>
+    <image alt="Dog and Cat are subclasses of Animal">
+      <mermaid><![CDATA[
+          classDiagram
+          class Animal {
+            ...details omitted...
+          }
+          class Dog {
+            ...details omitted...
+          }
+          class Cat {
+            ...details omitted...
+          }
+          Animal <|-- Dog
+          Animal <|-- Cat
+        ]]>
+      </mermaid>
+    </image>
+  </figure>
+
+  <p>Inheritance can extend to multiple levels and create complex hierarchies of relationships. For example, we might categorize different kinds of Shapes using this set of inheritance relationships:</p>
+
+  <figure>
+    <caption>A hierarchy of shapes</caption>
+    <image alt="Circle, Quadrilateral, and Triangle are subclasses of Shape. Rectangle and Trapezoid are subclasses of Quadrilateral. Square is a subclass of Rectangle. EquilateralTriangle is a subclass of Triangle.">
+      <mermaid><![CDATA[
+          classDiagram
+            class Shape {
+              ...details omitted...
+            }
+            class Circle {
+              ...details omitted...
+            }
+            class Quadrilateral {
+              ...details omitted...
+            }
+            class Trapezoid {
+              ...details omitted...
+            }
+            class Rectangle {
+              ...details omitted...
+            }
+            class Square {
+              ...details omitted...
+            }
+            class Triangle {
+              ...details omitted...
+            }
+            class EquilateralTriangle {
+              ...details omitted...
+            }
+            Shape <|-- Circle
+            Shape <|-- Quadrilateral
+            Shape <|-- Triangle
+            Triangle <|-- EquilateralTriangle
+            Quadrilateral <|-- Rectangle
+            Quadrilateral <|-- Trapezoid
+            Rectangle <|-- Square
+            ]]>
+      </mermaid>
+    </image>
+  </figure>
+
+  <p>The <pf>is-a</pf> relationship extends to the subclasses of a subclass. So, in the diagram above, we would say that <pf>Square</pf> is-a <pf>Shape</pf>. Even though there is no direct line from square to shape, <pf>Square</pf> is a <pf>Rectangle</pf>, <pf>Rectangle</pf> is a <pf>Quadrilateral</pf>, and <pf>Quadrilateral</pf> is a <pf>Shape</pf>, so therefore <pf>Square</pf> is-a <pf>Shape</pf>.</p>
+
+  <exercise label="inheritance-1">
+    <statement>
+    <figure>
+      <caption>A hierarchy of shapes</caption>
+      <image alt="F is a subclass of B. F and D are subclasses of A. A and C are subclasses of E. G is a subclass of C.">
+        <mermaid><![CDATA[
+            classDiagram
+              class A {
+                ...details omitted...
+              }
+              class B {
+                ...details omitted...
+              }
+              class C {
+                ...details omitted...
+              }
+              class D {
+                ...details omitted...
+              }
+              class E {
+                ...details omitted...
+              }
+              class F {
+                ...details omitted...
+              }
+              class G {
+                ...details omitted...
+              }
+              B <|-- F
+              A <|-- B
+              A <|-- D
+              E <|-- A
+              E <|-- C
+              C <|-- G
+              ]]>
+        </mermaid>
+      </image>
+    </figure>
+    <p>In the diagram above, which is-a relationships exist?</p>
+  </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>F is-a B</p>
+        </statement>
+        <feedback>
+          <p>Correct! F is a subclass of B.</p>
+        </feedback>
+      </choice> 
+      <choice correct="yes">
+        <statement>
+          <p>F is-a A</p>
+        </statement>
+        <feedback>
+          <p>Correct! F is a subclass of A.</p>
+        </feedback>
+      </choice> 
+      <choice correct="yes">
+        <statement>
+          <p>D is-a E</p>
+        </statement>
+        <feedback>
+          <p>Correct! D is a subclass of E.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>F is-a E</p>
+        </statement>
+        <feedback>
+          <p>Correct! F is a subclass of E.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>E is-a G</p>
+        </statement>
+        <feedback>
+          <p>Incorrect! E is a superclass of G.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>F is-a C</p>
+        </statement>
+        <feedback>
+          <p>Incorrect! There is no direct relationship between F and C.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>A is-a D</p>
+        </statement>
+        <feedback>
+          <p>Incorrect! A is a superclass of D.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+</section>

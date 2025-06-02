@@ -1,0 +1,153 @@
+<exercises xml:id="inheritance_exercises"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Exercises</title>
+  
+  <exercise label="xxx">
+    <statement>
+      <p>You are given the code for the Animal class. Declare a class Dog that is a subclass of Animal.
+        The Doc class should override the <pf>getTypeString</pf> function so that it returns "Canine" instead of "Animal".
+      </p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/inheritance/ex-animal-1-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+Your class here
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/inheritance/ex-animal-1-end.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+  <exercise label="xxx2">
+    <statement>
+      <p>You are given the code for the Animal class. Declare a class Dog that is a subclass of Animal. It does not need any new member variables. Make a constructor for Dog that takes no parameters, but sets <pf>numLegs</pf> to 4 by calling the Animal constructor in its initialization list.
+      </p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/inheritance/ex-animal-2-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+Your class here
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/inheritance/ex-animal-2-end.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+  <exercise label="xxx3" xml:id="inheritance-ex-point-1">
+    <statement>
+      <p>Write a class ThreeDPoint that inherits from TwoDPoint and adds a z coordinate. You should not use composition or create your own x and y variables. ThreeDPoint should only need to store a z value.
+      </p>
+      <p>You will need to implement a constructor that takes three <pf>int</pf>s (x, y, z). Do not worry about overriding print.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/inheritance/ex-point-1-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+Your class here
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/inheritance/ex-point-1-end.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+  <exercise label="xxx4">
+    <statement>
+      <p>Copy your code from <xref ref="inheritance-ex-point-1"/> - you will need it for this problem.
+      </p>
+      <p>Then add code to override <pf>toString</pf> in ThreeDPoint. Printing a ThreeDPoint should print the x, y, z coordinates of the point.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/inheritance/ex-point-1-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+Your class here
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/inheritance/ex-point-2-end.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>ThreeDPoint can't directly access the members of TwoDPoint, you have to call it's <pf>toString</pf> and then add on to the result of that.</hint>
+  </exercise>
+
+  <exercise label="xxx5">
+    <statement>
+      <p>Write a class VerySilly that extends Silly. It should store a double value in addition to the information stored by Silly. It should have:
+        <ul>
+          <li>a constructor: <pf>VerySilly(int, string, double)</pf> that sets x and s from Silly to be the int and string and stores the double itself.</li>
+          <li>a function <pf>toString</pf> that gets the result of Silly::toString() and then adds on a space and the the string representation of the stored double.</li>
+        </ul>
+      </p>
+      <p>Examine Silly closely. You have protected access to one of its variables. The other you will have to set via the parent constructor.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/inheritance/ex-protected-1-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+Your class here
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/inheritance/ex-protected-1-end.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>You have access to set one variable from the parent class. The other you will have to set via the parent constructor.</hint>
+  </exercise>
+
+
+  <exercise label="xxx6"  xml:id="inheritance-ex-number-1">
+    <statement>
+      <p>Make an abstract class <pf>Number</pf> that declares an abstract function <pf>getValue()</pf> that allows the rest of the code to work correctly. (You won't need to implement any variables or functions in Number, so technically it will be an interface.)
+      </p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/inheritance/ex-number-1-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+Your class here
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/inheritance/ex-number-1-end.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint><pf>const</pf> matters for correctly overriding a function</hint>
+  </exercise>
+
+
+  <exercise label="xxx7">
+    <statement>
+      <p>Copy your code from  <xref ref="inheritance-ex-number-1"/> - you will need it for this problem.</p>
+      <p>Then add a global function (not a member function of your class) <pf>double getDoubled</pf> that accepts a Number reference and returns double the value of the Number. The function should work for any class that extends Number, such as Integer or Double.</p>
+
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/inheritance/ex-number-1-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+Your class here
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/inheritance/ex-number-2-end.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>You need to have a reference parameter to avoid slicing.</hint>
+  </exercise>
+
+
+
+
+
+
+
+</exercises>

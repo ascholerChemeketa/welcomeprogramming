@@ -1,0 +1,238 @@
+<section xml:id="inheritance_abstract-classes-interfaces"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Abstract Classes and Interfaces</title>
+
+  <subsection>
+    <title>Abstract Classes</title>
+
+  <p>If we try to instantiate the <pf>GeometricObject</pf> class from the previous section, by doing
+    something like <pf>GeometricObject g("black");</pf>, we will get an error that says:</p>
+
+  <console>
+    <output>error: cannot declare variable ‘g’ to be of abstract type ‘GeometricObject@GeometricObject’</output>
+  </console>
+
+  <p>What does it mean to be an <q>abstract type?</q> In C++, a class is considered abstract if it
+    has at least one pure virtual function. <pf>GeometricObject</pf> promises that each <pf>GeometricObject</pf>
+    should have a <pf>getArea()</pf> method, but does not actually provide one. Thus there is no way to
+    make a <pf>GeometricObject</pf><mdash/>it is lacking a needed function.</p>
+
+  <p>We call classes like this one <term>abstract class</term>es. An <term>abstract class</term> is
+    a class that cannot be instantiated directly because it is missing features. It can only be
+    instantiated through derived classes that provide the missing features. (We might consider making the <pf>GeometricObject</pf> constructor <pf>protected</pf> to indicate that it should only be used from subclasses.)
+    <idx><h>abstract class</h></idx></p>
+
+  <aside>
+    <p>In some languages, like Java, you explicitly declare a class as abstract using the <pf>abstract</pf> keyword. In C++ any class with a pure virtual function is automatically abstract.</p>
+  </aside>
+
+  <p>Although we can not directly make a <pf>GeometricObject</pf>, it still serves an important role in our design.
+    It can provide concrete code, like <pf>GeometricObject</pf> does for <pf>getColor()</pf> and <pf>toString()</pf>, that subclasses will inherit. It also allows us to write code like <pf>checkObject</pf> that can work with <pf>Rectangle</pf>s, <pf>Circle</pf>s, and any other
+    <pf>GeometricObject</pf> subclasses.
+  </p>
+
+  <insight><p>You need to understand that if a class
+    is abstract, you can not directly make an object of that type. Other than that, there is nothing special you need to do while using them. </p></insight>
+
+  <p>In UML, we typically indicate abstract classes in the same way we indicate abstract
+    methods—with italics. We also might annotate it with <pf>&lt;&lt;Abstract>></pf>. 
+    So <pf>GeometricObject</pf> should be shown like this in a UML diagram to indicate that it is an abstract class:</p>
+
+  <figure>
+    <caption>UML for GeometricObjects</caption>
+    <image alt="GeometricObject is abstract, so we write it in italics and possibly add &lt;&lt;Abstract>>">
+      <mermaid><![CDATA[
+classDiagram
+    class Circle {
+    +getArea() double
+    }
+    class Rectangle {
+    +getArea() double
+
+    }
+    class `*GeometricObject*` {
+    <<Abstract>>
+    +getArea()* double
+    }
+    `*GeometricObject*` <|-- Circle
+    `*GeometricObject*` <|-- Rectangle
+        ]]>
+      </mermaid>
+    </image>
+  </figure>
+  
+  <exercise label="xxx4">
+    <statement>
+      <p>Which are the true statements about abstract classes?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>They do not need constructors.</p>
+        </statement>
+        <feedback>
+          <p>Incorrect. They still need constructors for child classes to make use of. (See <xref ref="abstract-go-cxx-listing"/>)</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>They can't be directly instantiated. (You can't make an object that is of the abstract type only, you must make objects that are of derived types.)</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Abstract classes in C++ are those that have one or more abstract methods.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Abstract classes can't have implementation for any methods.</p>
+        </statement>
+        <feedback>
+          <p>Incorrect. Abstract classes can provide implementation for methods. They should do so if there is a logical way to do the job at that level (<pf>print</pf> in <xref ref="abstract-go-cxx-listing"/>).</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>You can have a reference or pointer to an abstract type (e.g. <pf>GeometricObject&amp;</pf>).</p>
+        </statement>
+        <feedback>
+          <p>Incorrect. Although you can't make an instance of an abstract type, you can make a reference to one. It can then be used to refer to any object of a type derived from the abstract one.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  
+</subsection>
+  <subsection>
+    <title>Interfaces</title>
+
+    <p>
+      In programming, the term <term>interface</term> describes a class that is purely abstract<mdash/>one that provides only abstract functions. An interface declares no member variables and provides no concrete methods (i.e. no function bodies). For example, we might define a <pf>Printable</pf> interface that declares a pure virtual <pf>print</pf> function:
+    <idx><h>interface</h></idx>
+    </p>
+
+    <program>
+    class Printable {
+    public:
+        virtual void print() const = 0;
+    }
+    </program>
+
+    <p>Any class that inherits from <pf>Printable</pf> <em>must</em> provide a definition for the <pf>print</pf> function. We often call this <q>implementing an interface</q>.</p>
+`
+    <p>An interface provides no code to inherit, but it still allows for code reuse via polymorphism. We can write a function <pf>printObject</pf> that is able to print any object that has implemented the <pf>Printable</pf> interface. That object could be a <pf>GeometricObject</pf>, a <pf>Person</pf>, or anything else that inherits <pf>Printable</pf>:</p>
+
+    <program line-numbers="yes" highlight-lines="1">
+      <![CDATA[
+    class Printable {
+    public:
+        virtual void print() const = 0;
+    }
+
+    class GeometricObject : public Printable {
+    ...other code...
+    public:
+        virtual void print() const {
+            cout << "GeometricObject: " << getColor() << endl;
+        }
+    };
+
+    class Person : public Printable {
+    ...other code...
+    public:
+        virtual void print() const {
+            cout << "Person: " << getName() << endl;
+        }
+    };
+    
+    void printObject(const Printable& obj) {
+        obj.print();
+    }
+    ]]>
+    </program>
+
+    <p>
+      Note that the <pf>printObject</pf> accepts a <pf>Printable</pf> object. It knows that is-a <pf>Printable</pf> must have a <pf>print</pf> function that can be called, so <pf>obj.print()</pf> is must be allowed. It does not need to know anything else about the specific type of object it is printing.
+    </p>
+
+    <insight>
+      <p>An interface is used to define a contract that implementing classes must follow. In return for agreeing to follow this contract, you enable existing code that understands this contract to interact with your class without any additional modifications.</p>
+   </insight>
+
+   <p>When diagramming interfaces in UML, we show implementing an interface as a dashed line (instead of the solid line shown for extending a regular or abstract class). We also may want to decorate the class name with <pf>&lt;&lt;Interface>></pf>.</p>
+   
+    <figure>
+      <caption>UML for the Interface Printable and its implementations</caption>
+      <image alt="Printable is an interface that Geometric Object and Person inherit from.">
+        <mermaid><![CDATA[
+            classDiagram
+                class Circle {
+                +getArea() double
+                }
+                class Rectangle {
+                +getArea() double
+                }
+                class `*GeometricObject*` {
+                <<Abstract>>
+                +getArea()* double
+                +print() void
+                }
+                class Person {
+                +getName() string
+                +print() void
+                }
+                class Student {
+                +getMajor() string
+                +print() void
+                }
+                class `*Printable*` {
+                <<Interface>>
+                +print()* void
+                }
+                `*GeometricObject*` <|-- Circle
+                `*GeometricObject*` <|-- Rectangle
+                `*Printable*` <|.. `*GeometricObject*`
+                `*Printable*` <|.. Person
+                Person <|-- Student
+          ]]>
+        </mermaid>
+      </image>
+    </figure>
+
+
+    <exercise label="xxx5">
+      <statement>
+        <p>What is the difference between an abstract class and an interface?</p>
+      </statement>
+      <choices randomize="yes">
+        <choice>
+          <statement>
+            <p>Interfaces are not abstract.</p>
+          </statement>
+          <feedback>
+            <p>Incorrect. Interfaces are a abstract classes. (And ONLY have abstract methods).</p>
+          </feedback>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p>Interfaces have no member variables or non-abstract methods. Abstract classes can have those.</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>Class declarations do not specify interfaces the class inherits from.</p>
+          </statement>
+          <feedback>
+            <p>Incorrect. Interfaces are listed just like any other base class a class is derived from.</p>
+          </feedback>
+        </choice>
+      </choices>
+    </exercise>
+
+
+  </subsection>
+
+</section>

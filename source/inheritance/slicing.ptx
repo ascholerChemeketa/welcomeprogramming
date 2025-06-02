@@ -1,0 +1,263 @@
+<section xml:id="inheritance_slicing"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Object Slicing and Dynamic Casting</title>
+
+  <subsection>
+    <title>Object Slicing</title>
+
+  <p>The <pf>makeIntroduction</pf> function that we used to demonstrate polymorphism took a <pf>const Person&amp;</pf> parameter. As discussed earlier, it is always a good idea to take complex objects by reference to avoid making temporary copies of them. However, when trying to get polymorphic behavior, working with references or pointers is essential.</p>
+
+  <p>To understand why, let's consider what happens if this code runs:</p>
+
+  <program>
+    Student s("Alex", 20, "Computer Science");
+    Person p = s;
+  </program>
+
+  <p>The second line says <q>Make a new Person object called p and make it be a copy of the Student object s.</q> The resulting object <pf>p</pf> will just be a Person. That means there will only be storage for the things we need for a plain Person. There is no room to store anything extra provided by Student. So that data from <pf>s</pf> will be <q>sliced</q> off as the copy is made. This is known as <term>object slicing</term>.<idx><h>slicing</h></idx></p>
+  
+  <figure>
+    <caption>Student s <q>sliced</q> as it is copied into p.</caption>
+    <image source="images/inheritance-slice-1.svg" width="50%" alt="Person p has no space to store a m_major variable even though it is a copy of Student s that has one."/>
+  </figure>
+
+  <p>Thus if we rewrote the <pf>makeIntroduction</pf> function to use pass by value, it would no longer be able to produce polymorphic behavior. The object we are working with is just a <pf>Person</pf> and will never have extra information.</p>
+
+  <program>
+    void makeIntroduction(Person person) {
+        // Person is a COPY of the object passed in - any extra data was sliced off
+        person.introduce();  // Can only do Person::introduce()
+        // Consider using a reference to avoid slicing
+    }
+  </program>
+  
+  <p>The original <pf>makeIntroduction</pf> uses pass by const reference, so the <pf>person</pf> parameter is not a copy of what is passed in, it is a reference to the original. Nothing needed to be sliced. That means at run time we can check <q>What kind of object is this? Which version of <pf>introduce</pf> should we use?</q></p>
+
+  <figure>
+    <caption>When <pf>person</pf> parameter is a reference, it retains access to all the data from the original object.</caption>
+    <image source="images/inheritance-slice-2.svg" width="50%" alt="person is a reference to the Student s. It thus has access to all the student information."/>
+  </figure>
+
+  <p>The same basic idea applies to pointers. If we had a pointer <pf>p</pf> to a Person object, and the object it points to happens to be a Student, using <pf>p->introduce()</pf> will dynamically find the version of <pf>introduce()</pf> that is most appropriate for the actual object type.</p>
+
+  <insight>
+    <p>Object slicing is one of those things you need to understand not so you can do it, but so that you know to avoid doing it.</p>
+    <p>You will not normally want to slice objects. Make sure to take object parameters by reference to avoid slicing.</p>
+  </insight>
+
+  
+  
+<exercise label="xxx1">
+  <statement>
+    <p><pf>Manager</pf> inherits from <pf>Employee</pf>. <pf>m</pf> is a <pf>Manager</pf> object. What is the result of <pf>Employee e = m;</pf></p>
+  </statement>
+  <choices randomize="yes">
+    <choice correct="yes">
+      <statement>
+        <p>A new Employee object that copies just the Employee part of the Manager.</p>
+      </statement>
+    </choice>
+    <choice>
+      <statement>
+        <p>A new Employee object that copies the entire Manager object.</p>
+      </statement>
+      <feedback>
+        <p>Incorrect. The Employee part of a Manager is not the entire Manager.</p>
+      </feedback>
+    </choice>
+    <choice>
+      <statement>
+        <p>A compile error because you can't copy a Manager into an Employee.</p>
+      </statement>
+      <feedback>
+        <p>Incorrect. You can copy a Manager into an Employee, but it will slice off the extra data.</p>
+      </feedback>
+    </choice>
+    <choice>
+      <statement>
+        <p>A new Manager object that is stored in <pf>e</pf>.</p>
+      </statement>
+      <feedback>
+        <p>Incorrect. <pf>e</pf> only has space to store an Employee.</p>
+      </feedback>
+    </choice>
+  </choices>
+  </exercise>
+
+<exercise label="xxx2">
+  <statement>
+    <p><pf>Manager</pf> inherits from <pf>Employee</pf>. <pf>m</pf> is a <pf>Manager</pf> object. What is the result of <pf>Employee&amp; e = m;</pf></p>
+  </statement>
+  <choices randomize="yes">
+    <choice>
+      <statement>
+        <p>A reference to the Manager object. The full object is still there.</p>
+      </statement>
+    </choice>
+    <choice>
+      <statement>
+        <p>A reference to the Manager object. Everything but the Employee part is removed from the object.</p>
+      </statement>
+      <feedback>
+        <p>Incorrect. The reference does not change the object it refers to.</p>
+      </feedback>
+    </choice>
+    <choice>
+      <statement>
+        <p>A compile error because an Employee reference can't refer to a Manager.</p>
+      </statement>
+      <feedback>
+        <p>Incorrect. Manager is-a Employee. So an Employee reference can refer to a Manager.</p>
+      </feedback>
+    </choice>
+  </choices>
+  </exercise>
+
+  <exercise label="xxx3">
+    <statement>
+      <p><pf>Manager</pf> inherits from <pf>Employee</pf>. <pf>e</pf> is an <pf>Employee</pf> object. What is the result of <pf>Manager m = e;</pf></p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>A new Manager object that copies just the Manager part of the Employee.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>A new Manager object that copies just the Manager part of the Employee.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>A compile error because you can't copy an Employee into a Manager.</p>
+        </statement>
+        <feedback>
+          <p>Correct. An Employee doesn't have all the data needed to make a Manager.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>A new Employee object that is stored in <pf>m</pf>.</p>
+        </statement>
+        <feedback>
+          <p>Incorrect. <pf>m</pf> must store a full Manager. Employee is not a Manager.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</subsection>
+
+<subsection>
+  <title>Dynamic Casting</title>
+
+  <p>We can always take a derived class and refer to it as if it were an instance of the base class because it has an is-a relationship.</p>
+
+  <program>
+    Student s("Alex", 20, "Computer Science");
+    Person&amp; pref = s;  // pref is a reference to a Person that happens to be a Student
+    Person* pPtr = &amp;s;  // pPtr is a pointer to a Person that happens to be a Student
+    Person p = s;  // p is a copy of the Student object, but only the Person part
+  </program>
+
+  <p>In contrast, we are not allowed to take a more general base class and treat it as a derived class. For plain objects, this is entirely logical. We can't treat a plain Person as a Student<mdash/>a plain Person does not have a <pf>m_major</pf> and thus can't do anything specific to a Student.</p>
+
+  <program>
+    Person p("Wendy", 30);
+    Student&amp; sRef = p;  // Error! A Student &amp; can't refer to a plain Person
+    Student* sPtr = &amp;p;  // Error! A Student* can't point to a plain Person
+    Student s = p;  // Error! Can't copy a Person into a Student
+  </program>
+
+  <p>However, if we have a pointer to a base class, it might point to a derived object. And we might need to access the extra information of that class. Imagine that Student has a method <pf>getMajor</pf>. And our code has been given <pf>p</pf> which is a <pf>Person*</pf>. We would like to check if that <pf>Person*</pf> actually points at a <pf>Student</pf> and, if so, call <pf>getMajor()</pf> on it. We can't just write:</p>
+
+  <program>p->getMajor()</program>
+
+  <p>All the compiler knows for sure is that <pf>p</pf> has the memory address of some <pf>Person</pf>. It doesn't know if it actually points to a <pf>Student</pf>. If it points to a plain <pf>Person</pf> object, there is no <pf>getMajor()</pf> function to make use of. So it refuses to compile that code.</p>
+
+  <p>But we can use a <term>dynamic cast</term> (remember that <q>dynamic</q> means <q>at runtime</q>) to attempt to create a new pointer of type <pf>Student*</pf>. The syntax for doing so is:</p>
+
+  <program>
+    Student* sPtr = dynamic_cast&lt;Student*>(p);
+  </program>
+
+  <p>We are asking the compiler to take the <pf>Person*</pf> <pf>p</pf> and examine it. If it does point to a Student object, we will store the memory address into the new variable <pf>sPtr</pf>. <pf>p</pf> and <pf>sPtr</pf> will store the same memory address and point at the same object. But because <pf>sPtr</pf> is a pointer to a Student the compiler can be confident that it points to a Student and it is safe to do things like call <pf>getMajor()</pf> on it.</p>
+  
+  <figure>
+    <caption><pf>p</pf> and <pf>sPtr</pf> both point at the same Student. <pf>sPtr</pf> is known to be pointing at a Student. We don't know what type of object <pf>p</pf> is pointing to.</caption>
+    <image source="images/inheritance-dynamic-cast.svg" width="80%" alt="Both p and sPtr hold the memory address of the same Student."/>
+  </figure>
+
+  
+  <p>If the check fails because <pf>p</pf> is not in fact pointing at a Student, the <pf>dynamic_cast</pf> will result in a <pf>nullptr</pf>. So, before we use the pointer produced by <pf>dynamic_cast</pf>, we should check to see if it is null or not:</p>
+  
+  <program>
+    Student* sPtr = dynamic_cast&lt;Student*>(p);
+    if (sPtr) {  // or if (sPtr != nullptr)
+        // dynamic_cast worked - sPtr is known to point to a Student
+        sPtr->getMajor();  
+    } else {
+        // dynamic_cast failed - p was not a Student
+        cout &lt;&lt; "p is not a Student" &lt;&lt; endl;
+    }
+  </program>
+
+  <p>Usually, polymorphism is a better way to make a derived class behave differently than its parent. When we used the <pf>introduce()</pf> function, we did not need to check if the object was a Student or not. We just called <pf>introduce()</pf> and the right version was used. But there are times when you absolutely need to know <q>Is this pointer pointing at a derived class?</q>. <pf>dynamic_cast&lt;DerivedClass*>(pointer)</pf> is the way to check.</p>
+
+
+  <exercise label="xxx4">
+    <statement>
+      <p>What best describes a dynamic cast?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>A way to attempt making a pointer to a derived class from a pointer to a base class.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>A way to attempt making a pointer to a base class from a pointer to a derived class.</p>
+        </statement>
+        <feedback>
+          <p>Incorrect. Going from derived to base class is upcasting - that happens automatically because it is always safe.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>A way to change a pointer to a new type.</p>
+        </statement>
+        <feedback>
+          <p><pf>dynamic_cast</pf> can only be used with inherited classes.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="xxxx"
+            language="cpp">
+    <statement>
+      <p>We have a pointer <pf>ep</pf> that points to an object of type <pf>Employee</pf>. Construct a line to try making a <pf>Manager</pf> pointer <pf>mp</pf> from <pf>ep</pf>.</p>
+    </statement>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>Manager</c></block>
+      <block><c>* </c></block>
+      <block><c>mp</c></block>
+      <block><c>=</c></block>
+      <block><c>dynamic_cast</c></block>
+      <block><c>&lt;Manager*&gt;</c></block>
+      <block><c>(ep);</c></block>
+      <block correct="no"><c>&amp;</c></block>
+      <block correct="no"><c>&lt;Employee*&gt;</c></block>
+      <block correct="no"><c>static_cast</c></block>
+      <block correct="no"><c>(mp);</c></block>
+      <block correct="no"><c>ep</c></block>
+    </blocks>
+  </exercise>
+
+</subsection>
+
+</section>
