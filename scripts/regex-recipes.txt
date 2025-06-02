@@ -1,0 +1,10 @@
+
+Program Fragments:
+`([^`]+)`
+<pf>$1</pf>
+But watch for Mermaid `*  *` - first convert those
+`\*([^*]+)\*`
+!!*$1*!!
+Then back
+!!\*([^*]+)\*!!
+`*$1*`

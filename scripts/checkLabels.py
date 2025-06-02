@@ -52,16 +52,18 @@ def verifyExerciseLabels(write=False):
                         has_ex = re.search(f'<{ex_type}[ >]', line)
                         if has_ex:
                             element_content, end_line = extractElement(lines, i)
-                            print(element_content)
+                            # print(element_content)
                             cur_idx = re.search(r'xml:id=\"([^"]+)\"', line)
+                            cur_label = re.search(r'label=\"([^"]+)\"', line)
+                            new_label = f"{curSection}-{shorten(ex_type)}-{curCounter}"
                             if cur_idx:
                                 print(" Has xml:id{} {} {} {}".format(ex_type, file, curSection, curCounter))
-                            cur_id = re.search(r'label=\"([^"]+)\"', line)
-                            new_id = f"{curSection}-{shorten(ex_type)}-{curCounter}"
-                            if cur_id:
-                                element_content = re.sub(r'label=\"[^"]+\"', f'label="{new_id}"', element_content)
+                                print(" label is {}".format(cur_label.group(1) if cur_label else "None"))
+                                print(" new label is {}".format(new_label))
+                            if cur_label:
+                                element_content = re.sub(r'label=\"[^"]+\"', f'label="{new_label}"', element_content)
                             else:
-                                element_content = element_content.replace(f'<{ex_type}', f'<{ex_type} label="{new_id}"')
+                                element_content = element_content.replace(f'<{ex_type}', f'<{ex_type} label="{new_label}"')
                             i = end_line - 1
                             line = element_content
                             curCounter += 1
@@ -154,6 +156,8 @@ def verifyProgramIds(write=False):
     return result
 
 
+verifyExerciseLabels(write=True)
+verifyProgramIds(write=False)
 
-#verifyExerciseLabels(write=True)
-verifyProgramIds(write=True)
+# verifyExerciseLabels(write=True)
+# verifyProgramIds(write=True)
