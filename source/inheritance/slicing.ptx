@@ -48,7 +48,7 @@
 
   
   
-<exercise label="xxx1">
+<exercise label="inheritance_slicing-ex-1">
   <statement>
     <p><pf>Manager</pf> inherits from <pf>Employee</pf>. <pf>m</pf> is a <pf>Manager</pf> object. What is the result of <pf>Employee e = m;</pf></p>
   </statement>
@@ -85,7 +85,7 @@
   </choices>
   </exercise>
 
-<exercise label="xxx2">
+<exercise label="inheritance_slicing-ex-2">
   <statement>
     <p><pf>Manager</pf> inherits from <pf>Employee</pf>. <pf>m</pf> is a <pf>Manager</pf> object. What is the result of <pf>Employee&amp; e = m;</pf></p>
   </statement>
@@ -114,7 +114,7 @@
   </choices>
   </exercise>
 
-  <exercise label="xxx3">
+  <exercise label="inheritance_slicing-ex-3">
     <statement>
       <p><pf>Manager</pf> inherits from <pf>Employee</pf>. <pf>e</pf> is an <pf>Employee</pf> object. What is the result of <pf>Manager m = e;</pf></p>
     </statement>
@@ -207,7 +207,7 @@
   <p>Usually, polymorphism is a better way to make a derived class behave differently than its parent. When we used the <pf>introduce()</pf> function, we did not need to check if the object was a Student or not. We just called <pf>introduce()</pf> and the right version was used. But there are times when you absolutely need to know <q>Is this pointer pointing at a derived class?</q>. <pf>dynamic_cast&lt;DerivedClass*>(pointer)</pf> is the way to check.</p>
 
 
-  <exercise label="xxx4">
+  <exercise label="inheritance_slicing-ex-4">
     <statement>
       <p>What best describes a dynamic cast?</p>
     </statement>
@@ -236,7 +236,7 @@
     </choices>
   </exercise>
 
-  <exercise label="xxxx"
+  <exercise label="inheritance_slicing-ex-5"
             language="cpp">
     <statement>
       <p>We have a pointer <pf>ep</pf> that points to an object of type <pf>Employee</pf>. Construct a line to try making a <pf>Manager</pf> pointer <pf>mp</pf> from <pf>ep</pf>.</p>
