@@ -3,43 +3,142 @@
 
   <title>Why Pointers? And Why Not Pointers?</title>
 
-  <p>
-    At this point (no pun intended), some fair questions would be <q>Why do we need pointers? Aren't they just the same as references but with trickier syntax?</q>
+  <p> At this point (no pun intended), some fair questions would be <q>Why do we need pointers?
+    Aren't they just the same as references but with trickier syntax?</q>
   </p>
 
-  <p>
-    The answer to those questions is that yes, pointers do allow us to do the same things as references, but they also allow us to do things that references cannot. Some of these things are very useful, but they also allow us to get ourselves and our code into all kinds of trouble. Pointers are a powerful tool, but they can also be a source of bugs and security vulnerabilities if not used carefully.
-  </p>
+  <p> The answer to those questions is that yes, pointers do allow us to do the same things as
+    references, but they also allow us to do things that references cannot. Some of these things are
+    very useful, but they also allow us to get ourselves and our code into all kinds of trouble.
+    Pointers are a powerful tool, but they can also be a source of bugs and security vulnerabilities
+    if not used carefully. </p>
 
-  <p>
-    On thing we can do with a pointer but not a reference is to change what a pointer points at. We can write <pf>int* p = &amp;x;</pf> to make <pf>p</pf> point at <pf>x</pf> and then later write <pf>p = &amp;y;</pf> to make it point at y by changing the address that it holds. This is not possible with references. Once a reference is assigned, it cannot be changed to refer to something else.
-  </p>
+  <p> On thing we can do with a pointer but not a reference is to change what a pointer points at.
+    We can write <pf>int* p = &amp;x;</pf> to make <pf>p</pf> point at <pf>x</pf> and then later write <pf>p = &amp;y;</pf> to
+    make it point at y by changing the address that it holds. This is not possible with references.
+    Once a reference is assigned, it cannot be changed to refer to something else. </p>
 
-  <p>
-    Another thing we can do with a pointer is to leave it uninitialized. A reference must always be initialized when you declare it. It is an error to write <pf>int&amp; r;</pf> without assigning it to something. A pointer, on the other hand, can be declared without being initialized - <pf>int* p;</pf> This is useful if we want to create a pointer but we don't know what it will point to yet.
-  </p>
+  <p> Another thing we can do with a pointer is to leave it uninitialized. A reference must always
+    be initialized when you declare it. It is an error to write <pf>int&amp; r;</pf> without assigning it to
+    something. A pointer, on the other hand, can be declared without being initialized - <pf>int* p;</pf>
+    This is useful if we want to create a pointer but we don't know what it will point to yet. </p>
 
   <insight>
-    <p>References were designed as a safer and easier version of a pointer. A reference automatically gets an address when it is assigned. <pf>int&amp; r = x;</pf> automatically takes the address of <pf>x</pf>. And they automatically dereference themselves when used. <pf>r = 10;</pf> automatically dereferences the pointer to change the thing that <pf>r</pf> references to be 10. And you never have to worry about a reference being <pf>null</pf> as you cannot make a reference variable that does not actually refer to something.</p>
+    <p>References were designed as a safer and easier version of a pointer. A reference
+      automatically gets an address when it is assigned. <pf>int&amp; r = x;</pf> automatically takes the address
+      of <pf>x</pf>. And they automatically dereference themselves when used. <pf>r = 10;</pf> automatically
+      dereferences the pointer to change the thing that <pf>r</pf> references to be 10. And you never
+      have to worry about a reference being <pf>null</pf> as you cannot make a reference variable that
+      does not actually refer to something.</p>
   </insight>
 
-  <p>The flexibility of pointers introduces some risks. It is easy to end up with a pointer that holds an address that does not make sense. If we declare a pointer, but do not initialize it, it will be pointing to an unpredictable location in memory (whatever bits were in memory where the pointer was placed will be interpreted as an address). That is the case below:</p>
+  <p>The flexibility of pointers introduces some risks. It is easy to end up with a pointer that
+    holds an address that does not make sense. If we declare a pointer, but do not initialize it, it
+    will be pointing to an unpredictable location in memory (whatever bits were in memory where the
+    pointer was placed will be interpreted as an address). That is the case below:</p>
 
-  <program label="pointers-aggregation_why-program-1" interactive="activecode" highlight-lines="4" line-numbers="yes" codelens="yes" compiler-args="-std=c++20 -fsanitize=address">
+  <program label="pointers-aggregation_why-program-1"
+           interactive="activecode"
+           highlight-lines="7"
+           line-numbers="yes"
+           codelens="yes"
+           compiler-args="-std=c++20">
 <xi:include href="../../programs/pointers-aggregation/pointers-bugs-1.cpp" parse="text"/>
   </program>
 
-  <p>In that program, line 7 declares a pointer <pf>p</pf> but does not initialize it. That reserves some space in memory for <pf>p</pf>, but does not assign anything. So the address that <pf>p</pf> holds is whatever happened to already be in memory there! When we dereference the pointer, one of two things may happen:
-    <ol>
-      <li>A <term>segmentation fault</term>. The memory of a program is divided into segments. The operating system keeps track of these segments - what memory a program should use and what it should use each segment for. If your program tries to read memory it hasn't been allocated, or if it tries to write to memory it should only read, the operating system stops the program. This is a <term>segmentation fault</term>.</li>
-      <li>The address is legal for the program to make use of. In which case the program happily reads or modifies some memory that does not actually make sense to change. In this case, changing <pf>*p</pf> could change another variable or something even more important - like what location to return to after the current function is done.</li>
-    </ol>
+  <p>In that program, line 7 declares a pointer <pf>p</pf> but does not initialize it. That reserves
+    some space in memory for <pf>p</pf>, but does not assign anything. So the address that <pf>p</pf>
+    holds is whatever happened to already be in memory there! When we dereference the pointer, one
+    of two things may happen: <ol>
+      <li>A <term>segmentation fault</term>. The memory of a program is divided into segments. The
+    operating system keeps track of these segments - what memory a program should use and what it
+    should use each segment for. If your program tries to read memory it hasn't been allocated, or
+    if it tries to write to memory it should only read, the operating system stops the program. This
+    is a <term>segmentation fault</term>.</li>
+      <li>The address is legal for the program to make use of. In which case the program happily
+    reads or modifies some memory that does not actually make sense to change. In this case,
+    changing <pf>*p</pf> could change another variable or something even more important - like what
+    location to return to after the current function is done.</li>
+    </ol> Believe it or not, the
+    first case is the better one! It is much easier to debug a program that crashes than one that
+    runs but does not do what you expect. The second case could silently change some memory. The
+    effects of that change may not be seen until much later in the program. </p>
 
-    Believe it or not, the first case is the better one! It is much easier to debug a program that crashes than one that runs but does not do what you expect. The second case could silently change some memory. The effects of that change may not be seen until much later in the program.
-  </p>
+  <p>C and C++ have a reputation for allowing programmers to write unsafe code. The use of raw
+    memory addresses are at the root of many of the problems that these languages allow for. C++
+    provides higher level constructs (like references) that allow us to sometimes avoid working
+    directly with pointers, and to manage them when we do have to work with them. So wise
+    programmers use those features whenever possible.</p>
 
-  <p>C and C++ have a reputation for allowing programmers to write unsafe code. The use of raw memory addresses are at the root of many of the problems that these languages allow for. C++ provides higher level constructs (like references) that allow us to sometimes avoid working directly with pointers, and to manage them when we do have to work with them. So wise programmers use those features whenever possible.</p>
+  <p>There are tools to help catch memory related issues. In the case of accessing an uninitialized
+    value, like in the program above, the compiler warning flag <pf>-Wall</pf> will normally identify the
+    problem. In most of the book it is enabled, it was intentionally disabled in the ActiveCode
+    above so we could cause problems. (You can try copying the code from this page to another page -
+    it should generate a warning there.) We will learn about tools for detecting more complex issues
+    later on.</p>
 
-  <p>There are tools to help catch memory related issues. In the case of accessing an uninitialized value, like in the program above, the compiler warning flag <pf>-Wall</pf> will normally identify the problem. In most of the book it is enabled, it was intentionally disabled in the ActiveCode above so we could cause problems. (You can try copying the code from this page to another page - it should generate a warning there.) We will learn about tools for detecting more complex issues later on.</p>
+  <exercise label="pointers-aggregation_why-ex-1">
+    <statement>
+      <p>What are things that a pointer can do that a reference can not?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Change what it points at.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Be uninitialized.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Be used as an alias for another variable.</p>
+        </statement>
+        <feedback>
+          <p>Both can do this.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Automatically dereference itself.</p>
+        </statement>
+        <feedback>
+          <p>That is what references do.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="pointers-aggregation_why-ex-2">
+    <statement>
+      <p>Which of the following describe what might happen if you dereference a pointer
+        that points to a bad address?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>The program may crash. Or it may continue running but not do what you expect.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The program will always crash.</p>
+        </statement>
+        <feedback>
+          <p>Not always.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>The program will always continue running, but will not do what you expect.</p>
+        </statement>
+        <feedback>
+          <p>Not always.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

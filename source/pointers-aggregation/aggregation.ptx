@@ -3,21 +3,70 @@
 
   <title>Introducing Aggregation</title>
 
-  <p>
-    Pointers enable a new form of <q>has-a</q> relationship between objects known as <term>aggregation</term>. Aggregation is similar to composition, but does not imply ownership. In other words, aggregation means that one object contains another object, but does not own it. This means that:
-    <ul>
-      <li>One object can be contained via aggregation in multiple other objects.</li>
-      <li>The lifespan of the contained object is not tied to the container.</li>
-      <li>The contained object may be optional. A Person object might have a spouse that is another Person, but not all Persons will.</li>
-    </ul>
-    Neither of those things are true for composition. In composition, the contained object is owned by the container and its lifespan is tied to the container.
-  </p>
+  <p>Pointers enable a new form of relationship between objects known as <term> aggregation</term>.
+    Both <term>composition</term> and <term>aggregation</term> are <q>has-a</q> relations. But they
+    differ in terms of whether or not the containing object owns the related object.<idx>
+      <h>aggregation</h>
+    </idx></p>
 
-  <p>Distinguishing between aggregation and composition can be tricky. A good rule of thumb is to ask whether the contained object is exclusively owned by the container. Should the contained object go away if the aggregating object does away? If so, then composition is the right choice. If it is not, then aggregation is the right choice.</p>
+  <p>Composition implies <q>exclusive ownership</q>. The contained object is a part of the one that
+    is composed from it. If two Circles made with composition, each have a center Point at (2, 1),
+    that would mean they both have their own Point object with those coordinates.</p>
 
-  <p>Sometimes, it is clear there should not be ownership. If we are representing friendship between Persons, and Anna is a friend of Nancy, should Anna disappear if Nancy goes away? No, so we would use aggregation. Other times, the appropriateness of ownership is going to be determined more by the use the program makes of the objects. We might represent the relationship between a Point and a Circle as either composition or aggregation. In a drawing program, we might only use the Point to store information about the Circle and would not want the center to stay around if we deleted the Circle. That would be composition. However, in a geometry program, we might want to define multiple Circles that all are centered on the same Point. None of those Circles own the Point and the Point should persist even if we delete all the Circles. That would be aggregation.</p>
+  <p>Aggregation implies that the contained object exists independently of any object(s) that
+    aggregate it. If Circle is designed to have a center Point via aggregation, two Circles could
+    share the exact same Point as their center. And that Point could persist even if the Circles
+    went away.</p>
 
-  <p>In UML, we represent aggregation with a line that ends in an open diamond on the side that is the aggregator (the one that contains the other). This looks almost the same as composition other than the diamond being open instead of filled.</p>
+  <sidebyside columns="2"
+              widths="45% 45%">
+    <figure>
+      <caption>Two Circles that are related to a center Point via composition each have their own
+        Point.</caption>
+      <image source="images/aggregation-circles-basic-comp.svg"/>
+    </figure>
+
+    <figure>
+      <caption>Two Circles that are related to a center Point via aggregation share a single Point
+        object.</caption>
+      <image source="images/aggregation-circles-basic-agg.svg"/>
+    </figure>
+  </sidebyside>
+
+  <p> Some implications of this <q>related by not owned</q> nature of aggregation: <ul>
+      <li>One object can be related via aggregation to multiple other objects. One Person can be the
+    friend of multiple other Persons.</li>
+      <li>The lifespan of the related object is not tied to the object that contains it. If a Person
+    disappears, we don't expect that means their friend will as well.</li>
+      <li>The contained object may be optional. A Person object might have a spouse that is another
+    Person, but not all Persons will.</li>
+    </ul> None of those things are true for composition.
+    In composition, the contained object is owned by the container and its lifespan is tied to the
+    container.</p>
+
+  <p>Sometimes, it is clear that exclusive ownership does not apply and we should think in terms of
+    aggregation instead of composition. If we are representing friendship between Persons, and Anna
+    is a friend of Nancy, does that mean that Jeff can't also be a friend of Nancy? No, we don't
+    normally think of friendship that way.</p>
+
+  <p>Other times, we have to consider more deeply how the program makes of the objects. We might
+    represent the relationship between a Point and a Circle as either composition or aggregation. <ul>
+      <li>
+        <p>In a drawing program, we might use a Point to store information about the center of a Circle.
+    But the Circle <q>owns</q> the point. If a Circle goes away, so does its center Point. And two
+    different Circle's can't share the same Point object as their center. (They might have the same
+    coordinates, but they would each own a point with those coordinates.) That would be composition.</p>
+      </li>
+      <li>
+        <p>In a geometry program, we might want to define multiple Circles that all are centered on
+    the same Point. None of those Circles own the Point and the Point should persist even if we
+    delete all the Circles. That would be aggregation.</p>
+      </li>
+    </ul></p>
+
+  <p>In UML, we represent aggregation with a line that ends in an open diamond on the side that is
+    the aggregator (the one that contains the other). This looks almost the same as composition
+    other than the diamond being open instead of filled.</p>
 
   <figure>
     <caption>A Circle class that has-a Point as a member via aggregation</caption>
@@ -55,5 +104,61 @@
       </mermaid>
     </image>
   </figure>
+
+  <exercise label="pointers-aggregation_aggregation-ex-1">
+    <statement>
+      <p>What is the difference between aggregation and composition?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Aggregation implies ownership, while composition does not.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Composition implies ownership, while aggregation does not.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="pointers-aggregation_aggregation-ex-2">
+    <statement>
+      <p>Identify the following as either aggregation or composition: We have a class that
+        represents a Person and a class that represents Address. Each Person has an Address. The
+        address is a separate class. Two people might live at the same location, but each would have its own Address record. When a Person goes away, so does the associated Address.</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Composition</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Aggregation</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="pointers-aggregation_aggregation-ex-3">
+    <statement>
+      <p>Identify the following as either aggregation or composition: Two Players each have access to a Deck of cards. Both players have access to the same exact Deck. If there are 10 cards in the Deck and one Player draws a card, there are only 9 cards left for both Players.</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>Composition</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Aggregation</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

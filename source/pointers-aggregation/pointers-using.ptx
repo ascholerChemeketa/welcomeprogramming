@@ -3,33 +3,101 @@
 
   <title>Sharing Memory</title>
 
-  <p>
-    Much like with reference, we would normally not make a pointer to a variable in the same scope as the variable itself. Given <pf>int x</pf>, making <pf>int* p = &amp;x;</pf> so that we have another way to name the memory that x names would be silly. Instead, we generally use pointers to refer to data that is not in the same scope as the pointer - to share memory from one location in the code with another.
-  </p>
+  <p> Much like with reference, we would normally not make a pointer to a variable in the same scope
+    as the variable itself. Given <pf>int x</pf>, making <pf>int* p = &amp;x;</pf> so that we have another way to name
+    the memory that x names would be silly. Instead, we generally use pointers to refer to data that
+    is not in the same scope as the pointer - to share memory from one location in the code with
+    another. </p>
 
-  <p>For example, we might write a function that takes an <pf>int*</pf> parameter. We can then give it the memory address of a variable we want it to modify. Try running this sample in both ActiveCode and Codelens:</p>
+  <p>For example, we might write a function that takes an <pf>int*</pf> parameter. We can then give it
+    the memory address of a variable we want it to modify. Try running this sample in both
+    ActiveCode and Codelens:</p>
 
-  <program label="pointers-aggregation_pointers-using-program-1" interactive="activecode" highlight-lines="4" line-numbers="yes" codelens="yes">
+  <program label="pointers-aggregation_pointers-using-program-1"
+           interactive="activecode"
+           highlight-lines="5,21,24"
+           line-numbers="yes"
+           codelens="yes">
 <xi:include href="../../programs/pointers-aggregation/pointers-using-1.cpp" parse="text"/>
   </program>
 
-  <p>
-    The <pf>increment</pf> function is called twice from <pf>main</pf>. The first time it is given the address of <pf>x</pf> and the second time it is passed the address of <pf>y</pf>. When <pf>increment</pf> function uses <pf>*p</pf> to dereference the pointer <pf>p</pf>, it accesses the corresponding memory from the <pf>main</pf> function, allowing it to modify the variables that belong to <pf>main</pf>.
-  </p>
+  <p> The <pf>increment</pf> function is called twice from <pf>main</pf>. The first time it is given the address
+    of <pf>x</pf> and the second time it is passed the address of <pf>y</pf>. When <pf>increment</pf> function
+    uses <pf>*p</pf> to dereference the pointer <pf>p</pf>, it accesses the corresponding memory from
+    the <pf>main</pf> function, allowing it to modify the variables that belong to <pf>main</pf>. </p>
 
-  <p>We intentionally wrote out the change to the memory that <pf>p</pf> points at in multiple steps. If we wanted to write it all on one line, it could look like <pf>*p = *p + 1;</pf> - <q>the thing that p points at gets assigned the value of the thing that p points at +  1</q>. If we wanted to simplify things even more, we could write <pf>(*p)++</pf>. The parentheses are needed to specify the order. First, we want to go to the thing <pf>p</pf> points at (<pf>*p</pf>), then, we want to increment that value. This is necessary because the precedence of <pf>++</pf> is higher than <pf>*</pf>. So without the parentheses, it means the same as <pf>*(p++)</pf> - first <q>increment p</q> (the memory address!), then go to the thing it pointed at.</p>
+  <p>We intentionally wrote out the change to the memory that <pf>p</pf> points at in multiple steps.
+    If we wanted to write it all on one line, it could look like <pf>*p = *p + 1;</pf> - <q>the thing that p
+    points at gets assigned the value of the thing that p points at + 1</q>. If we wanted to
+    simplify things even more, we could write <pf>(*p)++</pf>. The parentheses are needed to specify the
+    order. First, we want to go to the thing <pf>p</pf> points at (<pf>*p</pf>), then, we want to
+    increment that value. This is necessary because the precedence of <pf>++</pf> is higher than <pf>*</pf>.
+    So without the parentheses, it means the same as <pf>*(p++)</pf> - first <q>increment p</q> (the
+    memory address!), then go to the thing it pointed at.</p>
 
   <warning>
-    <p>
-      The precedence of different operators is easy to forget or get confused about. If you are not sure what the precedence is, it is best to use parentheses to make it clear what you mean. We could write the <pf>increment</pf> function as shown below to make sure that we dereference <pf>p</pf> before we do <pf>+</pf> or <pf>=</pf> with it:
-    </p>
+    <p> The precedence of different operators is easy to forget or get confused about. If you are
+      not sure what the precedence is, it is best to use parentheses to make it clear what you mean.
+      We could write the <pf>increment</pf> function as shown below to make sure that we dereference <pf>p</pf>
+      before we do <pf>+</pf> or <pf>=</pf> with it: </p>
     <program>
     void increment(int* p) {
         int temp = (*p) + 1;
         (*p) = temp;
     }
     </program>
-    <p>Better safe than sorry! When in doubt (or even if you think you don't have any doubts), using parentheses can prevent you from saying something other than what you mean.</p>
+    <p>Better safe than sorry! When in doubt (or even if you think you don't have any doubts), using
+      parentheses can prevent you from saying something other than what you mean.</p>
   </warning>
+
+  <exercise label="pointers-aggregation_pointers-using-ex-1">
+    <statement>
+      <p>What is an important use for pointers?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>To allow one function to access memory that <q>belongs</q> to another function.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>To provide a way to make multiple aliases for a variable inside a single function.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>To manually specify memory addresses.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="pointers-aggregation_pointers-using-ex-2">
+    <statement>
+      <p>There is a function <pf>foo(double* x)</pf> and you want to pass the variable <pf>double money;</pf> to
+        the function. What syntax do you use?</p>
+      <fillin answer="foo(&amp;money);"/>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>foo\s*\(\s*&amp;\s*money\s*\);?</strcmp>
+        </test>
+        <test>
+          <strcmp>.*\*.*</strcmp>
+          <feedback>There should not be a <pf>*</pf>.</feedback>
+        </test>
+        <test>
+          <strcmp>.*double.*</strcmp>
+          <feedback>You do not need to specify the type to pass the variable.</feedback>
+        </test>
+        <test>
+          <strcmp>^[^&amp;]+$</strcmp>
+          <feedback>There should be a <pf>&amp;</pf>.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
 
 </section>

@@ -3,19 +3,26 @@
 
   <title>Memory Addresses of Variables</title>
 
-  <p>
-    One of the benefits of programming in a high-level language like C++ is that we usually do not have to worry about the details of how the computer stores our data. We can just declare <pf>int x = 10;</pf> and the compiler will do the work of deciding where to place that data into memory and keeping track of the location so when we next say <pf>x</pf> the code accesses that same location. However, there are times when it is useful to work directly with the memory address of a variable - to be able to say <q>work with the data stored at location X</q>.
-  </p>
+  <p> One of the benefits of programming in a high-level language like C++ is that we usually do not
+    have to worry about the details of how the computer stores our data. We can just declare <pf>int x = 10;</pf>
+    and the compiler will do the work of deciding where to place that data into memory and keeping
+    track of the location so when we next say <pf>x</pf> the code accesses that same location.
+    However, there are times when it is useful to work directly with the memory address of a
+    variable - to be able to say <q>work with the data stored at location X</q>. </p>
 
-  <p>In C++, to access the memory address of a variable, we can use the <term>address-of</term> operator <pf>&amp;</pf>. To do so, we place it to the left of a variable name. For example, if we have a variable <pf>x</pf>, we can get its memory address using <pf>&amp;x</pf>. The example below will print the memory address of <pf>x</pf> and <pf>y</pf>:<idx><h>address-of</h></idx><idx><h>&amp; (address-of)</h></idx></p>
+  <p>In C++, to access the memory address of a variable, we can use the <term>address-of</term>
+    operator <pf>&amp;</pf>. To do so, we place it to the left of a variable name. For example, if we
+    have a variable <pf>x</pf>, we can get its memory address using <pf>&amp;x</pf>. The example below will
+    print the memory address of <pf>x</pf> and <pf>y</pf>:<idx>
+      <h>address-of</h>
+    </idx><idx>
+      <h>&amp; (address-of)</h>
+    </idx></p>
 
-
-  <p>In C++, to access the memory address of a variable, we can use the <term>address-of</term> operator <pf>&amp;</pf>. To do so, we place it to the left of a variable name. For example, if we have a variable <pf>x</pf>, we can get its memory address using <pf>&amp;x</pf>. The example below will print the memory address of <pf>x</pf> and <pf>y</pf>:<idx><h>address-of</h></idx><idx><h>&amp; (address-of)</h></idx></p>
-
-
-  <p>In C++, to access the memory address of a variable, we can use the <term>address-of</term> operator <pf>&amp;</pf>. To do so, we place it to the left of a variable name. For example, if we have a variable <pf>x</pf>, we can get its memory address using <pf>&amp;x</pf>. The example below will print the memory address of <pf>x</pf> and <pf>y</pf>:<idx><h>address-of</h></idx><idx><h>&amp; (address-of)</h></idx></p>
-
-  <program label="pointers-aggregation_address-of-program-1" interactive="activecode" highlight-lines="8, 9" line-numbers="yes">
+  <program label="pointers-aggregation_address-of-program-1"
+           interactive="activecode"
+           highlight-lines="8, 9"
+           line-numbers="yes">
 <xi:include href="../../programs/pointers-aggregation/address-of.cpp" parse="text"/>
   </program>
 
@@ -28,7 +35,11 @@
     </output>
   </console>
 
-  <p>The <pf>0x</pf> indicates that these are <url href="https://runestone.academy/ns/books/published/welcomecs2/data-representation_hexadecimal.html?mode=browsing">hexadecimal values</url>. The rest of the digits are the actual address. Note that the two values, although quite large, are only 4 apart. Since we declared <pf>x</pf> and <pf>y</pf> one after another, and in this code, an int takes 4 bytes, the address of y is 4 more than the address of x. If we diagrammed the memory at a very low level, it might look like this:</p>
+  <p>The <pf>0x</pf> indicates that these are <url href="https://runestone.academy/ns/books/published/welcomecs2/data-representation_hexadecimal.html?mode=browsing">hexadecimal
+    values</url>. The rest of the digits are the actual address. Note that the two values, although
+    quite large, are only 4 apart. Since we declared <pf>x</pf> and <pf>y</pf> one after another, and
+    in this code, an int takes 4 bytes, the address of y is 4 more than the address of x. If we
+    diagrammed the memory at a very low level, it might look like this:</p>
 
   <figure>
     <caption>Low Level Memory Diagram for x and y</caption>
@@ -37,36 +48,137 @@
            alt="x occupies 4 bytes starting at 0x7ffc622069c0. It stores the binary value for 10. y occupies 4 bytes starting at 0x7ffc622069c4. It stores the binary for 14."/>
   </figure>
 
-  <p>
-    In the diagram, we can see that what we call <pf>x</pf> <pf>x</pf> <pf>x</pf>are the 4 bytes starting at <pf>0x7ffc622069c0</pf> <pf>0x7ffc622069c0</pf> <pf>0x7ffc622069c0</pf>(<pf>0x7ffc622069c0</pf>-<pf>0x7ffc622069c3</pf>). It stores the binary value for 10. What we call <pf>y</pf> are the 4 bytes starting at <pf>0x7ffc622069c4</pf>. It stores the binary for 14. Even when we are dealing with memory addresses directly, that diagram is more detailed than we actually need. Here is a higher level view of the same memory:</p>
+  <p> In the diagram, we can see that what we call <pf>x</pf>are the 4 bytes starting at <pf>0x7ffc622069c0</pf>(<pf>0x7ffc622069c0-0x7ffc622069c3</pf>).
+    It stores the binary value for 10. What we call <pf>y</pf> are the 4 bytes starting at <pf>0x7ffc622069c4</pf>.
+    It stores the binary for 14. Even when we are dealing with memory addresses directly, that
+    diagram is more detailed than we actually need. Here is a higher level view of the same memory:</p>
 
-    <figure> 
-      <caption>Mid Level Memory Diagram for x and y</caption>
-      <image source="images/pointers-memory-high.svg"
-             width="60%"
-             alt="x is at 0x7ffc622069c0 and has the value 10. y is at 0x7ffc622069c4 and stores 14."/>
-    </figure>
+  <figure>
+    <caption>Mid Level Memory Diagram for x and y</caption>
+    <image source="images/pointers-memory-high.svg"
+           width="60%"
+           alt="x is at 0x7ffc622069c0 and has the value 10. y is at 0x7ffc622069c4 and stores 14."/>
+  </figure>
 
-  <p>
-    This version focuses on what we actually need to know. It shows us that <pf>x</pf> is at <pf>0x7ffc622069c0</pf> and has the value 10. It also shows us that <pf>y</pf> is at <pf>0x7ffc622069c4</pf> and stores 14. We are describing it as a mid-level diagram because it includes some of the low level details - the memory addresses - but not all of them. A true high-level memory diagram, like we have used in the past, would not show us the addresses at all. It would just show us that <pf>x</pf> is 10 and <pf>y</pf> is 14.
-  </p>
-
+  <p> This version focuses on what we actually need to know. It shows us that <pf>x</pf> is at <pf>0x7ffc622069c0</pf>
+    and has the value 10. It also shows us that <pf>y</pf> is at <pf>0x7ffc622069c4</pf> and stores 14. We are
+    describing it as a mid-level diagram because it includes some of the low level details - the
+    memory addresses - but not all of them. A true high-level memory diagram, like we have used in
+    the past, would not show us the addresses at all. It would just show us that <pf>x</pf> is 10 and <pf>y</pf>
+    is 14. </p>
 
   <note>
-    <p>
-      Unfortunately the <pf>&amp;</pf> symbol can mean multiple things in C++. It can mean:
-      <ul>
+    <p> Unfortunately the <pf>&amp;</pf> symbol can mean multiple things in C++. It can mean: <ul>
         <li>
-          <p>That a variable is a reference. It means this when the <pf>&amp;</pf> is placed to the right of a type. For example, in the function header <pf>void foo(int &amp;x)</pf>, the <pf>&amp;</pf> means that <pf>x</pf> is a reference to an integer. The <pf>&amp;</pf> is modifying the type of <pf>x</pf>.</p>
+          <p>That a variable is a reference. It means this when the <pf>&amp;</pf> is placed to the right
+      of a type. For example, in the function header <pf>void foo(int &amp;x)</pf>, the <pf>&amp;</pf> means that <pf>x</pf>
+      is a reference to an integer. The <pf>&amp;</pf> is modifying the type of <pf>x</pf>.</p>
         </li>
         <li>
-          <p>The address-of operator, which gives the memory address of a variable. It means this when it is to the left of a variable name and there is no type specification. In other words, when we are using a variable, not declaring one, like <pf>cout &lt;&lt; &amp;x;</pf></p>
+          <p>The address-of operator, which gives the memory address of a variable. It means this
+      when it is to the left of a variable name and there is no type specification. In other words,
+      when we are using a variable, not declaring one, like <pf>cout &lt;&lt; &amp;x;</pf></p>
         </li>
         <li>
-          <p>Logical or bitwise AND. It means this when it is placed between two variables. For example, in the expression <pf>x &amp;&amp; y</pf>, the <pf>&amp;</pf> means to do a bitwise AND operation on the values of <pf>x</pf> and <pf>y</pf>. <pf>x amp; y</pf> means to combine the two values bit by bit to create a new value (not covered in this book).</p>
+          <p>Logical or bitwise AND. It means this when it is placed between two variables. For
+      example, in the expression <pf>x &amp;&amp; y</pf>, the <pf>&amp;</pf> means to do a bitwise AND operation on the
+      values of <pf>x</pf> and <pf>y</pf>. <pf>x amp; y</pf> means to combine the two values bit by bit to
+      create a new value (not covered in this book).</p>
         </li>
       </ul>
     </p>
   </note>
+
+  <exercise label="pointers-aggregation_address-of-ex-1">
+    <statement>
+      <p>In the statement <pf>cout &lt;&lt; &amp;x</pf> what is the <pf>&amp;</pf> doing?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>It gives the memory address of x.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It indicates that the x variable is a reference.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It is doing bitwise AND.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="pointers-aggregation_address-of-ex-2">
+    <statement>
+      <p>In the statement <pf>double &amp;x;</pf> what is the <pf>&amp;</pf> doing?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>It gives the memory address of x.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement correct="yes">
+          <p>It indicates that the x variable is a reference.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It is doing bitwise AND.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="pointers-aggregation_address-of-ex-3">
+    <statement>
+      <p>In the statement <pf>void mutate(int &amp;x;);</pf> what is the <pf>&amp;</pf> doing?</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>It gives the memory address of x.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement correct="yes">
+          <p>It indicates that the x variable is a reference.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It is doing bitwise AND.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="pointers-aggregation_address-of-ex-4">
+    <statement>
+      <p>In the statement <pf>mutate(&amp;x);</pf> what is the <pf>&amp;</pf> doing?</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement correct="yes">
+          <p>It gives the memory address of x.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It indicates that the x variable is a reference.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It is doing bitwise AND.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

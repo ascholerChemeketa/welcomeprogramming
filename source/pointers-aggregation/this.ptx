@@ -3,38 +3,49 @@
 
   <title>Objects and <pf>this</pf></title>
 
-  <p>In <xref ref="objects_member-access"/> we learned that within a member function of a class, <pf>this</pf> means the object executing the member function.
-     But at that point, we did not delve into what <pf>this</pf> actually is. Now that we have covered pointers, we are ready to do so. <pf>this</pf> is a pointer that is automatically initialized with the memory address of the current object.
-  </p>
+  <p>In <xref ref="objects_member-access"/> we learned that within a member function of a class, <pf>this</pf>
+    means the object executing the member function. But at that point, we did not delve into what <pf>this</pf>
+    actually is. Now that we have covered pointers, we are ready to do so. <pf>this</pf> is a pointer
+    that is automatically initialized with the memory address of the current object. </p>
 
   <figure align="center">
     <caption>A memory diagram of p1 executing getX</caption>
     <image source="images/objects-this-details.svg"
-          width="80%"
-          alt="When getX is called on p1, this holds the memory address of p1"/>
+           width="80%"
+           alt="When getX is called on p1, this holds the memory address of p1"/>
   </figure>
 
-  <p>This program demonstrates using <pf>this</pf> inside a member function like <pf>Point::getX()</pf> to get the address of the current object:</p>
-  
-  <program label="pointers-aggregation_this-program-1" interactive="activecode">
+  <p>This program demonstrates using <pf>this</pf> inside a member function like <pf>Point::getX()</pf> to get the
+    address of the current object:</p>
+
+  <program label="pointers-aggregation_this-program-1"
+           interactive="activecode">
 <xi:include href="../../programs/pointers-aggregation/this-1.cpp" parse="text"/>
   </program>
 
-  <p>
-    One way we can use <pf>this</pf> is to explicitly access member variables or functions of the current object.</p>
-    
-  <p>As an example of that, consider <pf>getX()</pf>. It currently has <pf>return m_x</pf>. The <pf>m_x</pf> in it is understood to mean <q>the m_x of the current object</q>. Writing <pf>this->m_x</pf> explicitly says that is what we want to do:
-  </p>
+  <p> One way we can use <pf>this</pf> is to explicitly access member variables or functions of the
+    current object.</p>
 
-  <program line-numbers="yes" highlight-lines="2">
+  <p>As an example of that, consider <pf>getX()</pf>. It currently has <pf>return m_x</pf>. The <pf>m_x</pf> in it is
+    understood to mean <q>the m_x of the current object</q>. Writing <pf>this->m_x</pf> explicitly says that
+    is what we want to do: </p>
+
+  <program line-numbers="yes"
+           highlight-lines="2">
 double Point::getX() {
     return this->m_x;
 }
   </program>
 
-  <p>If you prefer, you can always use <pf>this-></pf> within member functions to make accessing members explicit. (Though we are already using the <pf>m_</pf> naming convention to clarify which variables are members.) However, keep in mind that <pf>this-></pf> can only be used to access member variables or functions. You can not use it to access local variables or parameters that are not a part of the object. For example, in <pf>setX</pf>, you can use it on <pf>m_x</pf>, but not on the parameter <pf>x</pf>:</p>
+  <p>If you prefer, you can always use <pf>this-></pf> within member functions to make accessing members
+    explicit. (Though we are already using the <pf>m_</pf> naming convention to clarify which
+    variables are members.) However, keep in mind that <pf>this-></pf> can only be used to access member
+    variables or functions. You can not use it to access local variables or parameters that are not
+    a part of the object. For example, in <pf>setX</pf>, you can use it on <pf>m_x</pf>, but not on the
+    parameter <pf>x</pf>:</p>
 
-  <program line-numbers="yes" highlight-lines="4">
+  <program line-numbers="yes"
+           highlight-lines="4">
 Point::setX(double x) {
     this->m_x = x;          // correct, explicit use of this-> to access member
     m_x = x;                // also correct, m_x is implicitly this->m_x
@@ -42,11 +53,16 @@ Point::setX(double x) {
 }
   </program>
 
-  <note><p>In some other programming languages, like javascript, <pf>this</pf> is required and every access of a member variable needs to use <pf>this</pf>.</p></note>
+  <note>
+    <p>In some other programming languages, like javascript, <pf>this</pf> is required and every access
+      of a member variable needs to use <pf>this</pf>.</p>
+  </note>
 
-  <p>Another use of <pf>this</pf> is to allow an object to return either its address or a reference to itself.</p>
+  <p>Another use of <pf>this</pf> is to allow an object to return either its address or a reference to
+    itself.</p>
 
-  <program line-numbers="yes" highlight-lines="2">
+  <program line-numbers="yes"
+           highlight-lines="2">
 double* Point::getAddress() {
     return this;  // this is the memory address of the current object
 }
@@ -56,14 +72,17 @@ Point&amp; Point::getReference() {
 }
   </program>
 
-  <p>
-    The second function is the tricky one. We start with the current object's memory address. We then dereference it with <pf>*this</pf> to get the object itself. The <pf>&amp;</pf> in the return type indicates that we are returning a reference to the object, not a copy of it.</p>
+  <p> The second function is the tricky one. We start with the current object's memory address. We
+    then dereference it with <pf>*this</pf> to get the object itself. The <pf>&amp;</pf> in the return type
+    indicates that we are returning a reference to the object, not a copy of it.</p>
 
-  <p>
-    There is a fun (but not essential) trick that is enabled by returning a reference to the current object in a function that otherwise would be void. It can allow method chaining where we write something like <pf>p1.setX(3.0).setY(4.0)</pf>. For example, we could rewrite <pf>setX</pf> and <pf>setY</pf> to return references:
-  </p>
+  <p> There is a neat trick made possible by returning a reference to the
+    current object in a function that otherwise would be void. It can allow method chaining where we
+    write something like <pf>p1.setX(3.0).setY(4.0)</pf>. For example, we could rewrite <pf>setX</pf> and <pf>setY</pf> to return
+    references: </p>
 
-  <program line-numbers="yes" highlight-lines="1, 3, 6, 8">
+  <program line-numbers="yes"
+           highlight-lines="1, 3, 6, 8">
   Point&amp; Point::setX(double x) {
       m_x = x;
       return *this;
@@ -75,5 +94,121 @@ Point&amp; Point::getReference() {
   }
   </program>
 
-  <p>Now, after the call to <pf>setX</pf> does its work, it returns the object that was executing it. So <pf>p1.setX(3.0)</pf> turns into <pf>p1</pf>, which is then used to execute <pf>setY(4.0)</pf>.</p>
+  <p>Now, after the call to <pf>setX</pf> does its work, it returns the object that was executing it. So <pf>p1.setX(3.0)</pf>
+    turns into <pf>p1</pf>, which is then used to execute <pf>setY(4.0)</pf>.</p>
+
+  <exercise label="pointers-aggregation_this-ex-1">
+    <statement>
+      <p>The program below is missing the single statement that should be its body. What code
+        belongs there to return the <pf>m_radius</pf> of the Circle, using <pf>this</pf> to specify the variable?</p>
+      <p>
+        <fillin answer="return this->m_radius;"/>
+      </p>
+      <program>
+        Circle::getRadius() const {
+            ???
+        }
+      </program>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>return\s+this\s*->\s*m_radius;?</strcmp>
+        </test>
+        <test>
+          <strcmp>.*\*.*</strcmp>
+          <feedback>There should not be a <pf>*</pf>.</feedback>
+        </test>
+        <test>
+          <strcmp>.*&amp;.*</strcmp>
+          <feedback>There should not be a <pf>&amp;</pf>.</feedback>
+        </test>
+        <test>
+          <strcmp>.*\..*</strcmp>
+          <feedback>There should not be a <pf>.</pf>.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+
+  <exercise label="pointers-aggregation_this-ex-2">
+    <statement>
+      <p>The program below is missing the single statement that should be its body. What code
+        belongs there to return the <pf>m_radius</pf> of the Circle, using <pf>this</pf> to specify the variable?</p>
+      <p>
+        <fillin answer="return this->m_radius;"/>
+      </p>
+      <program>
+        Circle::getRadius() const {
+            ???
+        }
+      </program>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>return\s+this\s*->\s*m_radius;?</strcmp>
+        </test>
+        <test>
+          <strcmp>.*\*.*</strcmp>
+          <feedback>There should not be a <pf>*</pf>.</feedback>
+        </test>
+        <test>
+          <strcmp>.*&amp;.*</strcmp>
+          <feedback>There should not be a <pf>&amp;</pf>.</feedback>
+        </test>
+        <test>
+          <strcmp>.*\..*</strcmp>
+          <feedback>There should not be a <pf>.</pf>.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <exercise label="pointers-aggregation_this-ex-3"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Construct a <pf>Point</pf> function <pf>isSelf</pf> that takes a pointer to a <pf>Point</pf> as its parameter and returns true if that memory address is its own address.</p>
+    </statement>
+    <blocks>
+      <block>
+        <choice correct="yes">
+          <cline><![CDATA[bool Point::isSelf(Point* address) const {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[bool Point::isSelf(Point& address) const {]]></cline>
+        </choice>
+      </block>
+      <block>
+        <choice correct="yes">
+          <cline><![CDATA[ if (address == this) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[ if (address == &this) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[ if (&address == this) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[ if (address == *this) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[ if (*address == this) {]]></cline>
+        </choice>
+      </block>
+      <block>
+        <cline><![CDATA[  return true;]]></cline>
+        <cline><![CDATA[ }]]></cline>
+      </block>
+      <block>
+        <cline><![CDATA[ return false;]]></cline>
+        <cline><![CDATA[}]]></cline>
+      </block>
+    </blocks>
+    <hint><p>Remember that <pf>this</pf> is a pointer. It stores a memory address.</p></hint>
+  </exercise>
+
 </section>

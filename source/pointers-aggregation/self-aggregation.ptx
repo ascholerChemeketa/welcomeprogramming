@@ -3,39 +3,60 @@
 
   <title>Self Aggregation</title>
 
-  <p>In C++, you cannot use composition to define a relationship between two items of the same class. If we try to compile this:</p>
+  <p>In C++, you cannot use composition to define a relationship between two items of the same
+    class. If we try to compile this:</p>
 
-  <program highlight-lines="5, 9" line-numbers="yes">
+  <program highlight-lines="5, 9"
+           line-numbers="yes">
 <xi:include href="../../programs/pointers-aggregation/self-aggregation-1.cpp" parse="text"/>
   </program>
 
   <p>The compiler will tell us that we are trying to use an incomplete type for <pf>m_spouse</pf>:</p>
 
-  <console><output>test.cpp:9:12: error: field ‘m_spouse’ has incomplete type ‘Person’
+  <console>
+    <output>test.cpp:9:12: error: field ‘m_spouse’ has incomplete type ‘Person’
     9 |     Person m_spouse;
       |            ^~~~~~~~
 test.cpp:5:7: note: definition of ‘class Person’ is not complete until the closing brace
     5 | class Person {
-      |       ^~~~~~</output></console>
+      |       ^~~~~~</output>
+  </console>
 
-  <p>Until we have finished defining Person, it is not OK to use Person to name a variable. Even if this was allowed, we would have problems trying to construct a Person. To construct a Person, you would have to set up memory for their <pf>m_spouse</pf>, which is a Person. That Person object would need to allocate some space for its <pf>m_spouse</pf>, which in turn would need memory for another <pf>m_spouse</pf>, and so on forever.</p>
+  <p>Until we have finished defining Person, it is not OK to use Person to name a variable. Even if
+    this was allowed, we would have problems trying to construct a Person. To construct a Person,
+    you would have to set up memory for their <pf>m_spouse</pf>, which is a Person. That Person object would
+    need to allocate some space for its <pf>m_spouse</pf>, which in turn would need memory for another <pf>m_spouse</pf>,
+    and so on forever.</p>
 
-  <p>This is not a problem if we use aggregation instead of composition. In the aggregation version of this code, we are not trying to store a Person inside of a Person. We are simply storing a memory address inside each Person. So this code will compile and run just fine:</p>
+  <p>This is not a problem if we use aggregation instead of composition. In the aggregation version
+    of this code, we are not trying to store a Person inside of a Person. We are simply storing a
+    memory address inside each Person. So this code will compile and run just fine:</p>
 
-  <program label="pointers-aggregation_self-aggregation-program-1" interactive="activecode" highlight-lines="9, 13, 14, 19-20" line-numbers="yes">
+  <program label="pointers-aggregation_self-aggregation-program-1"
+           interactive="activecode"
+           highlight-lines="9, 13, 14, 19-20"
+           line-numbers="yes">
 <xi:include href="../../programs/pointers-aggregation/self-aggregation-2.cpp" parse="text"/>
   </program>
 
-  <p>Here are a few of the interesting uses of the pointer:
-    <ul>
-      <li>When we construct a Person, their <pf>m_spouse</pf> is set to <pf>nullptr</pf> as we assume everyone starts unmarried.</li>
-      <li>The <pf>print()</pf> function checks to see if there is a spouse (remember that <pf>if (m_spouse)</pf> will be false if the spouse is a nullptr) to determine what to print. Only if there is a spouse do we use <pf>-></pf> to access the name of that spouse.</li>
-      <li>The <pf>marry(Person* spouse)</pf> function takes the address of a Person object. It first sets the current object's spouse to be that address. It then sets the spouse's spouse <pf>spouse->m_spouse</pf> to be the current object's address (<pf>this</pf>). Thus when we say <pf>anna.marry(&amp;brian);</pf>, the <pf>anna</pf> object first stores the <pf>brian</pf> object's address. It then sets the <pf>brian</pf> object's <pf>m_spouse</pf> to be <pf>anna</pf>.</li>
+  <p>Here are a few of the interesting uses of the pointer: <ul>
+      <li>When we construct a Person, their <pf>m_spouse</pf> is set to <pf>nullptr</pf> as we assume everyone
+    starts unmarried.</li>
+      <li>The <pf>print()</pf> function checks to see if there is a spouse (remember that <pf>if (m_spouse)</pf> will be
+    false if the spouse is a nullptr) to determine what to print. Only if there is a spouse do we
+    use <pf>-></pf> to access the name of that spouse.</li>
+      <li>The <pf>marry(Person* spouse)</pf> function takes the address of a Person object. It first sets the current
+    object's spouse to be that address. It then sets the spouse's spouse <pf>spouse->m_spouse</pf> to be the current
+    object's address (<pf>this</pf>). Thus when we say <pf>anna.marry(&amp;brian);</pf>, the <pf>anna</pf> object first stores the <pf>brian</pf>
+    object's address. It then sets the <pf>brian</pf> object's <pf>m_spouse</pf> to be <pf>anna</pf>.</li>
     </ul>
   </p>
 
-  <p>When the <pf>anna.marry(&amp;brian)</pf> function is called, the memory for the call stack looks like the diagram below. The Anna and Brian objects in main still do not have spouses set. In the marry function, the <pf>this</pf> pointer has <pf>anna</pf>'s address, while the <pf>spouse</pf> parameter holds <pf>brian</pf>'s address:</p>
-  
+  <p>When the <pf>anna.marry(&amp;brian)</pf> function is called, the memory for the call stack looks like the diagram
+    below. The Anna and Brian objects in main still do not have spouses set. In the marry function,
+    the <pf>this</pf> pointer has <pf>anna</pf>'s address, while the <pf>spouse</pf> parameter holds <pf>brian</pf>'s
+    address:</p>
+
   <figure>
     <caption>Memory diagram at the start of <pf>anna.marry(&amp;brian)</pf>.</caption>
     <image source="images/aggregation-self-1.svg"
@@ -43,14 +64,90 @@ test.cpp:5:7: note: definition of ‘class Person’ is not complete until the c
            alt="In marry, this has the address 0x400 (that of the anna object in main) and spouse has the address 0x6f0 (that of the brian object in main)."/>
   </figure>
 
-  <p>The first line of the <pf>marry</pf> function - <pf>m_spouse = spouse;</pf> - changes <pf>anna</pf>'s <pf>m_spouse</pf> to be 0x6f0. So Anna's spouse now points at the Brian object. The second line - <pf>spouse->m_spouse = this;</pf> - starts from <pf>spouse</pf>, follows the pointer (<pf>-></pf>) to access <pf>m_spouse</pf>. Thus it reaches the <pf>brian</pf> object's <pf>m_spouse</pf>. It sets that to the value of <pf>this</pf>, which is 0x400. So Brian's spouse is now Anna.</p>
+  <p>The first line of the <pf>marry</pf> function - <pf>m_spouse = spouse;</pf> - changes <pf>anna</pf>'s <pf>m_spouse</pf> to be
+    0x6f0. So Anna's spouse now points at the Brian object. The second line - <pf>spouse->m_spouse = this;</pf> - starts
+    from <pf>spouse</pf>, follows the pointer (<pf>-></pf>) to access <pf>m_spouse</pf>. Thus it reaches the <pf>brian</pf>
+    object's <pf>m_spouse</pf>. It sets that to the value of <pf>this</pf>, which is 0x400. So Brian's spouse is
+    now Anna.</p>
 
-  <figure>
+  <figure xml:id="self-aggregation-anna-marry-brian">
     <caption>Memory diagram at the end of <pf>anna.marry(&amp;brian)</pf>.</caption>
     <image source="images/aggregation-self-2.svg"
            width="60%"
            alt="anna's m_spouse now has brian's address (0x6f0). brian's m_spouse now has anna's address (0x400)"/>
   </figure>
 
+  <exercise label="pointers-aggregation_self-aggregation-ex-1"
+           language="cpp">
+    <statement>
+      <p>Examine <xref ref="self-aggregation-anna-marry-brian"/>. Assume that the statements below were executed in <pf>main</pf> after <pf>marry()</pf> has executed (and assume all <pf>Person</pf>s variables are public and we can access them from main.) Match each statement with its output.</p>
+    </statement>
+    
+    <feedback>
+      <p>Try again!</p>
+    </feedback>
+    <cardsort>
+      <match>
+        <premise><pf>cout &lt;&lt; anna->m_spouse;</pf></premise>
+        <response>0x...400</response>
+      </match>
+      <match>
+        <premise><pf>cout &lt;&lt; anna->m_spouse->m_spouse;</pf></premise>
+        <response>0x...6f0</response>
+      </match>
+      <match>
+        <premise><pf>cout &lt;&lt; anna->m_spouse->m_name;</pf></premise>
+        <response>Brian</response>
+      </match>
+      <match>
+        <premise><pf>cout &lt;&lt; anna->m_spouse->m_spouse->m_name;</pf></premise>
+        <response>Anna</response>
+      </match>
+    </cardsort>
+  </exercise>
+
+  <exercise label="pointers-aggregation_self-aggregation-ex-2"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Construct a <pf>Person</pf> function <pf>getDivorce()</pf>. If the Person executing the function has a spouse, it should clear the spouse variable of both the spouse and current Person by setting them to <pf>nullptr</pf>. You will not need all of the blocks.</p>
+    </statement>
+    <blocks>
+      <block>
+        <choice correct="yes">
+          <cline><![CDATA[void Person::getDivorce() {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[void Person::getDivorce() const {]]></cline>
+        </choice>
+      </block>
+      <block>
+        <choice correct="yes">
+          <cline><![CDATA[ if (m_spouse) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[ if (m_spouse == nullptr) {]]></cline>
+        </choice>
+      </block>
+      <block>
+        <cline><![CDATA[  m_spouse->m_spouse = nullptr;]]></cline>
+      </block>
+      <block>
+        <cline><![CDATA[  m_spouse = nullptr;]]></cline>
+      </block>
+      <block correct="no">
+        <cline><![CDATA[  m_spouse->m_spouse->m_spouse = nullptr;]]></cline>
+      </block>
+      <block correct="no">
+        <cline><![CDATA[  this = nullptr;]]></cline>
+      </block>
+      <block>
+        <cline><![CDATA[ }]]></cline>
+        <cline><![CDATA[}]]></cline>
+      </block>
+    </blocks>
+    <hint><p>We can't clear out the current object's <pf>m_spouse</pf> before we use it to access the spouse and clear that object's <pf>m_spouse</pf>!</p></hint>
+  </exercise>
 
 </section>

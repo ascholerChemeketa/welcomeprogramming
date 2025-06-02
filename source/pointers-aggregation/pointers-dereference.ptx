@@ -3,36 +3,163 @@
 
   <title>Dereferencing Pointers</title>
 
-  <p>
-    So how do we use a pointer? We know that the pointer stores a memory address. But how do we use that address to access the data at that address?</p>
+  <p> So how do we use a pointer? We know that the pointer stores a memory address. But how do we
+    use that address to access the data at that address?</p>
 
-  <p>The answer is to <term>dereference</term> the pointer. Dereferencing a pointer means using the memory address to access the data at the address it points to. The dereference operator is the asterisk (<pf>*</pf>). For example, if <pf>p</pf> is a pointer to an int, then <pf>*p</pf> is the int that <pf>p</pf> points to. If <pf>p</pf> holds the address of an int variable, then <pf>*p</pf> gives us access to the memory at that address. A good way to pronounce <pf>*p</pf> is <q>the thing p points at</q>.
-  <idx>
-    <h>dereference</h>
-  </idx> 
+  <p>The answer is to <term>dereference</term> the pointer. Dereferencing a pointer means using the
+    memory address to access the data at the address it points to. The dereference operator is the
+    asterisk (<pf>*</pf>). For example, if <pf>p</pf> is a pointer to an int, then <pf>*p</pf> is the
+    int that <pf>p</pf> points to. If <pf>p</pf> holds the address of an int variable, then <pf>*p</pf>
+    gives us access to the memory at that address. A good way to pronounce <pf>*p</pf> is <q>the thing
+    p points at</q>. <idx>
+      <h>dereference</h>
+    </idx>
   </p>
 
   <note>
-    <p>This is another time where C++ reuses the same symbol to mean different things. <pf>*</pf> can be used to specify that a data type is a pointer. It can also be used to dereference a pointer. Or it can mean multiplication.
-      <ul>
-        <li><p>When a data type is to its left, as in <pf>int*</pf> or <pf>double*</pf>, it modifies that type to say <q>pointer to a ....</q>. (There may or may not be a variable name to the right.)</p></li>
-        <li><p>When there is no data type to its left and there is a value that is a pointer to its right, as in <pf>*p</pf>, it says to dereference p.</p></li>
-        <li><p>When used between two numeric values, like <pf>x * y</pf>, it means multiply.</p></li>
+    <p>This is another time where C++ reuses the same symbol to mean different things. <pf>*</pf> can
+      be used to specify that a data type is a pointer. It can also be used to dereference a
+      pointer. Or it can mean multiplication. <ul>
+        <li>
+          <p>When a data type is to its left, as in <pf>int*</pf> or <pf>double*</pf>, it modifies that type to
+      say <q>pointer to a ....</q>. (There may or may not be a variable name to the right.)</p>
+        </li>
+        <li>
+          <p>When there is no data type to its left and there is a value that is a pointer to its
+      right, as in <pf>*p</pf>, it says to dereference p.</p>
+        </li>
+        <li>
+          <p>When used between two numeric values, like <pf>x * y</pf>, it means multiply.</p>
+        </li>
       </ul>
     </p>
   </note>
 
   <p>To see dereferencing in action, try this sample in both ActiveCode and with CodeLens:</p>
 
-  <program label="pointers-aggregation_pointers-dereference-program-1" interactive="activecode" highlight-lines="13" line-numbers="yes" codelens="yes">
+  <program label="pointers-aggregation_pointers-dereference-program-1"
+           interactive="activecode"
+           highlight-lines="13"
+           line-numbers="yes"
+           codelens="yes">
 <xi:include href="../../programs/pointers-aggregation/pointers-dereference-1.cpp" parse="text"/>
   </program>
 
 
-  <p>In that example, we use <pf>*p</pf> to read the <q>int that p points to</q>. We can also use it to modify that value. If I have a pointer <pf>p</pf> and I want to modify the value that it is pointing at, I can do something like <pf>*p = 20;</pf>. We could pronounce <pf>*p = 12;</pf> as <q>the thing that p points at gets assigned 20</q>. Here is a sample of using a pointer to modify a value it points at:</p>
+  <p>In that example, we use <pf>*p</pf> to read the <q>int that p points to</q>. We can also use it
+    to modify that value. If I have a pointer <pf>p</pf> and I want to modify the value that it is
+    pointing at, I can do something like <pf>*p = 20;</pf>. We could pronounce <pf>*p = 12;</pf> as <q>the thing
+    that p points at gets assigned 20</q>. Here is a sample of using a pointer to modify a value it
+    points at:</p>
 
-  <program label="pointers-aggregation_pointers-dereference-program-2" interactive="activecode" highlight-lines="13" line-numbers="yes" codelens="yes">
+  <program label="pointers-aggregation_pointers-dereference-program-2"
+           interactive="activecode"
+           highlight-lines="13"
+           line-numbers="yes"
+           codelens="yes">
 <xi:include href="../../programs/pointers-aggregation/pointers-dereference-2.cpp" parse="text"/>
   </program>
+
+  <exercise label="pointers-aggregation_pointers-dereference-ex-1">
+    <statement>
+      <p>In the statement <pf>int y = *n;</pf> what is the <pf>*</pf> doing?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>It gives the memory address of n.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>It dereferences n to get the value it points at.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It declares that n is a pointer.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It is doing multiplication.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="pointers-aggregation_pointers-dereference-ex-2">
+    <statement>
+      <p>In the statement <pf>int* n = m;</pf> what is the <pf>*</pf> doing?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>It gives the memory address of n.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It dereferences n to get the value it points at.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>It declares that n is a pointer.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It is doing multiplication.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="pointers-aggregation_pointers-dereference-ex-3"
+            language="cpp">
+    <statement>
+      <p>Print the memory address stored in <pf>myPointer</pf>.</p>
+    </statement>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>cout</c></block>
+      <block><c> &lt;&lt; </c></block>
+      <block><c>myPointer;</c></block>
+      <block correct="no"><c>&amp;</c></block>
+      <block correct="no"><c>*</c></block>
+    </blocks>
+  </exercise>
+
+  <exercise label="pointers-aggregation_pointers-dereference-ex-4"
+            language="cpp">
+    <statement>
+      <p>Print the value in the variable <pf>myPointer</pf> points at.</p>
+    </statement>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>cout</c></block>
+      <block><c> &lt;&lt; </c></block>
+      <block><c>*</c></block>
+      <block><c>myPointer;</c></block>
+      <block correct="no"><c>&amp;</c></block>
+    </blocks>
+  </exercise>
+
+  <exercise label="pointers-aggregation_pointers-dereference-ex-5"
+            language="cpp">
+    <statement>
+      <p>Modify the value of the variable <pf>myPointer</pf> points at to be 42.</p>
+    </statement>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>*</c></block>
+      <block><c>myPointer</c></block>
+      <block><c> = </c></block>
+      <block><c>42;</c></block>
+      <block correct="no"><c>&amp;</c></block>
+    </blocks>
+  </exercise>
+
 
 </section>

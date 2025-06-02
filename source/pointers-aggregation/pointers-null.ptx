@@ -3,14 +3,24 @@
 
   <title>Null Pointers</title>
 
-  <p>
-    Pointers generally <q>point</q> at a piece of memory by storing its memory address. However, there are times when we will want to have a pointer point at nothing. Perhaps we want to declare a pointer, but not immediately assign it a value. Or we know that the memory a pointer points at is now gone and we want to stop pointing at that memory. We can set a pointer to point at nothing by assigning it the value <code>nullptr</code>. This is known as a <term>null pointer</term>.
-    <tdx><h>null pointer</h></tdx>
+  <p> Pointers generally <q>point</q> at a piece of memory by storing its memory address. However,
+    there are times when we will want to have a pointer point at nothing. Perhaps we want to declare
+    a pointer, but not immediately assign it a value. Or we know that the memory a pointer points at
+    is now gone and we want to stop pointing at that memory. We can set a pointer to point at
+    nothing by assigning it the value <code>nullptr</code>. This is known as a <term>null pointer</term>
+    .
+    <tdx>
+      <h>null pointer</h>
+    </tdx>
   </p>
 
   <program>int* p = nullptr;</program>
 
-  <p><pf>nullptr</pf> is really just the value 0. 0 is never a valid memory address for a program to try to dereference, so if a pointer has the value 0, we know it isn't pointing at anything. You can't use a null pointer to do any useful work, as it doesn't point at anything. However, it is easy to verify that a pointer that is storing <pf>nullptr</pf> is not valid. The following if statement could be used to guard against a mullptr and only use <pf>p</pf> if it is not null:</p>
+  <p><pf>nullptr</pf> is really just the value 0. 0 is never a valid memory address for a program to try to
+    dereference, so if a pointer has the value 0, we know it isn't pointing at anything. You can't
+    use a null pointer to do any useful work, as it doesn't point at anything. However, it is easy
+    to verify that a pointer that is storing <pf>nullptr</pf> is not valid. The following if statement
+    could be used to guard against a mullptr and only use <pf>p</pf> if it is not null:</p>
 
   <program>
     if (p != nullptr) {
@@ -18,7 +28,8 @@
     }
   </program>
 
-  And, because <pf>nullptr</pf> is just the value 0, which is equivalent to false in a boolean context, and every other value is equivalent to true, we can also write the if statement as:
+  <p>And, because <pf>nullptr</pf> is just the value 0, which is equivalent to false in a boolean context,
+    and every other value is equivalent to true, we can also write the if statement as:</p>
 
   <program>
     if (p) {
@@ -26,7 +37,10 @@
     }
   </program>
 
-  <p>If <pf>p</pf> is null, then the if looks like <pf>if (0)</pf> which is false. If <pf>p</pf> has some other memory address, the if looks like <pf>if (823482340)</pf> which is true no mater what the number is. So <pf>if (p)</pf> checks to see that the pointer is good (well, at least that it isn't null). If you want to check if a pointer is null, you can use either of these forms:</p>
+  <p>If <pf>p</pf> is null, then the if looks like <pf>if (0)</pf> which is false. If <pf>p</pf> has some
+    other memory address, the if looks like <pf>if (823482340)</pf> which is true no mater what the number is. So <pf>if (p)</pf>
+    checks to see that the pointer is not null. (That doesn't mean it actually points at the right
+    thing!) If you want to check if a pointer is null, you can use either of these forms:</p>
 
   <program>
     if (p == nullptr) {
@@ -38,8 +52,48 @@
   </program>
 
 
-  <p>A null pointer is not the same as an uninitialized pointer. An uninitialized pointer is a pointer that has not been assigned any value at all. It may contain any random value, including a valid memory address. Dereferencing an uninitialized pointer can lead to undefined behavior, which can cause your program to crash or behave unpredictably. A null pointer, on the other hand, is explicitly set to point at nothing, and dereferencing it will always result in an immediate error. It is also easy to check if a pointer is null. But there </p>
+  <p>A null pointer is not the same as an uninitialized pointer. An uninitialized pointer is a
+    pointer that has not been assigned any value at all. It may contain any random value, including
+    a valid memory address. Dereferencing an uninitialized pointer can lead to undefined behavior,
+    which can cause your program to crash or behave unpredictably. A null pointer, on the other
+    hand, is explicitly set to point at nothing, and dereferencing it will always result in an
+    immediate error. It is also easy to check if a pointer is null. But there </p>
 
-  <warning><p>Any pointers you do not initialize immediately should be set to <pf>nullptr</pf>. If you do something that invalidates a pointer (delete the thing it points at), you should set the pointer to null.</p></warning>
+  <warning>
+    <p>Any pointers you do not initialize immediately should be set to <pf>nullptr</pf>. If you do
+      something that invalidates a pointer (delete the thing it points at), you should set the
+      pointer to null.</p>
+  </warning>
+
+  <exercise label="pointers-aggregation_pointers-null-ex-1">
+    <statement>
+      <p>What statements are true about the difference between a null pointer and an uninitialized
+        pointer?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>A null pointer is explicitly set to point at nothing, while an uninitialized pointer
+            may contain any random value.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Null pointers are always valid memory addresses, while uninitialized pointers are not.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Null pointers can be dereferenced safely, while uninitialized pointers cannot.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>It is easy to check if a pointer is null, while it is hard to tell if a pointer has a
+            bad address because it was uninitialized.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

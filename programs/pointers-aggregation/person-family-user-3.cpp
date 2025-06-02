@@ -1,30 +1,31 @@
 #include <iostream>
+#include <iostream>
 
 import Person;
 
 using namespace std;
 
 int main() {
-    Person p1("Anna");
-    Person p2("Bob");
-    Person p3("Carl");
-    Person p4("Diana");
-    Person p5("Erin");
-    Person p6("Fay");
-    Person p7("George");
-    Person p8("Henry");
+    Person p0("Anna");
+    Person p1("Bob");
+    Person p2("Carl");
+    Person p3("Diana");
+    Person p4("Erin");
+    Person p5("Fay");
+    Person p6("George");
+    Person p7("Henry");
 
     // Set up family relationships
-    p2.setMother(&p1);
-    p3.setMother(&p1);
-    p4.setMother(&p1);
+    p1.setMother(&p0);
+    p2.setMother(&p0);
+    p3.setMother(&p0);
+    p4.setMother(&p3);
     p5.setMother(&p4);
     p6.setMother(&p5);
-    p7.setMother(&p6);
-    p8.setMother(&p6);
+    p7.setMother(&p5);
 
     // Print some Person objects
-    Person* currentPerson = &henry;
+    Person* currentPerson = &p7;
 
     while (currentPerson != nullptr) {
         //Print the current person's information

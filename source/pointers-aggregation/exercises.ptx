@@ -1,0 +1,109 @@
+<exercises xml:id="pointers-aggregation_exercises"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Exercises</title>
+  
+  <exercise label="pointers-aggregation_exercises-ex-1" xml:id="pointers-aggregation_exercises-ex-1">
+    <statement>
+      <p>This exercises makes use of the Point class created in the previous chapter. See <xref ref="point-final-cxx-listing"/> for the code for it.</p>
+      <p>A <pf>Segment</pf> should connect two points (its endpoints). When we make a segment, we will give the constructor the addresses of two Points - we want the segment to use those points as its endpoints. The segment should link to those points, not make copies of them. <pf>(Aggregation)</pf></p>
+      <p>
+        Finish the Segment class by:
+        <ul>
+          <li>Adding the member variables <pf>m_p1</pf> and <pf>m_p2</pf> needed to hold the addresses of two Points.</li>
+          <li>Make a constructor that accepts two memory addresses to store.</li>
+        </ul>
+      </p>
+    </statement>
+      <program interactive="activecode" compile-also="point-final-cxx" extra-compiler-args="-fsanitize=address">
+        <preamble>
+<xi:include href="../../programs/pointers-aggregation/exercises-segment-1.cpp" parse="text"/>
+        </preamble>
+        <code>
+private:
+    // Declare the member variables
+public:
+    // Define the constructor
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/pointers-aggregation/exercises-segment-1-test.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+  <exercise label="pointers-aggregation_exercises-ex-2">
+    <statement>
+      <p>This exercises makes use of the Point class created in the previous chapter. See <xref ref="point-final-cxx-listing"/> for the code for it.</p>
+
+      <p>This exercises builds on <xref ref="pointers-aggregation_exercises-ex-1"/> - begin by copying your code for the member variables and constructors into this problem.</p>
+      <p>
+        Then add code for a <pf>shift(int deltaX, int deltaY)</pf> function to <pf>Segment</pf> so that we can shift the segment by some amount in x (deltaX) and some amount in y (deltaY). Moving a segment should move both of its endpoints.
+
+      </p>
+    </statement>
+      <program interactive="activecode" compile-also="point-final-cxx" extra-compiler-args="-fsanitize=address">
+        <preamble>
+<xi:include href="../../programs/pointers-aggregation/exercises-segment-1.cpp" parse="text"/>
+        </preamble>
+        <code>
+private:
+    // Your variables here
+public:
+    // Your constructor here
+
+    // Your shift function here
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/pointers-aggregation/exercises-segment-2-test.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint><p>Your Segment class does not have access to the private data of Point. You will need to use Point functions to modify the two endpoints.</p></hint>
+  </exercise>
+
+
+
+  <exercise label="pointers-aggregation_exercises-ex-3">
+    <statement>
+      <p>Below is a very simple implementation of a Friend class. In the <pf>TEST_CASE</pf>, add code to create a <pf>Friend f1</pf> named Ronnie, a Friend named Dakota, and a friend named Mary. Make Ronnie Friends with Dakota, Dakota friends with Mary, and Mary friends with Ronnie. Note that friendship is only set in one direction in this program.</p>
+      <p>
+      </p>
+    </statement>
+      <program interactive="activecode" extra-compiler-args="-fsanitize=address">
+        <preamble>
+<xi:include href="../../programs/pointers-aggregation/exercises-friend-1.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+    // your setup here
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/pointers-aggregation/exercises-friend-1-test.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+  <exercise label="pointers-aggregation_exercises-ex-4">
+    <statement>
+      <p>Add a <pf>bool bestieCheck()</pf> function to the Friend class. If a Friend's <pf>m_bestFriend</pf> is a null pointer return false. If they have a <pf>m_bestFriend</pf>, check to see if their best friend's <pf>m_bestFriend</pf> is the current object (<pf>this</pf>), if so return true, otherwise return false. In other words, your function returns true if the Friend and their best friend agree that they are best friends. Otherwise it returns false.</p>
+      <p>
+      </p>
+    </statement>
+      <program interactive="activecode" compile-also="point-final-cxx" extra-compiler-args="-fsanitize=address">
+        <preamble>
+<xi:include href="../../programs/pointers-aggregation/exercises-friend-2.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+    // your bestieCheck function here
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/pointers-aggregation/exercises-friend-2-test.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint><p>You will need to compare the best friend's best friend to <pf>this</pf>.</p></hint>
+    <hint><p>You should check if the current object has a best friend before you try to access best friend's best friend variable.</p></hint>
+  </exercise>
+
+</exercises>
