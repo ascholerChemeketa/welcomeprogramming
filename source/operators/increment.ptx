@@ -3,19 +3,32 @@
 
   <title>Overloading ++</title>
 
-  <p> The <pf>++</pf> operator says to increment (increase) a value by 1. As we will see later, the
-    concept of <q>increase by one</q> gets used by an important type of object called an <term>
-    iterator</term>. An iterator is an object that allows us to traverse a collection of data, like
-    a list or an array. The <pf>++</pf> operator is used to move an iterator to the next item in the
-    collection (to advance it by 1). So it is worth learning how <pf>++</pf> works. </p>
-
-  <p> Recall that there are two versions of <pf>++</pf>: the <term>prefix</term> version, which is
+  <p>Recall that there are two versions of <pf>++</pf>: the <term>prefix</term> version, which is
     written as <pf>++x</pf>, and the <term>postfix</term> version, which is written as <pf>x++</pf>. We
     will start with the prefix version as it is the simpler of the two to implement. </p>
 
-  <p>What does <pf>++x</pf> do? Well, it changes <pf>x</pf> by 1. It also needs to return the updated
-    value so that we can use it in a complex expression like <pf>y = ++x</pf>. That indicates the prototype
-    of <pf>++</pf> as a member function needs to look like:</p>
+  <p>What does <pf>++x</pf> do? Well, it increments <pf>x</pf> to the next value. This of course can be
+    a numeric value<mdash/>given `int x = 3;` we can use `++x` to increase it to 4. But <q>increment</q>
+    can have non-numeric meanings. When used on an iterator<!--todo
+    xref-->, the <pf>++</pf> operator advances the
+    iterator to the next item in the collection. In fact, we can write a loop to walk through a
+    vector using an iterator and `++`:</p>
+
+  <program>
+    vector&lt;int> v = {1, 2, 3, 4, 5};
+    // Get an iterator that points to the first item
+    vector&lt;int>::iterator it = v.begin();
+    while (it != v.end()) {
+      ++it; // advance the iterator to the next item
+    }
+  </program>
+
+  <p>For this code to work, there must be a definition for what `++` means for the iterator. This
+    definition is provided by an overload for the operator.</p>
+
+  <p>So what should that definition look like? Well, in addition to incrementing the current value,
+    `++` needs to return the updated value so that we can use it in a complex expression like <pf>y = ++x</pf>.
+    So the prototype of <pf>++</pf> needs to look like:</p>
 
   <program>
     Rational&amp; Rational::operator++();
@@ -60,7 +73,6 @@
 
         </code>
         <tests visible="yes">
-
 <xi:include href="../../programs/operators/increment-ex-test.cpp" parse="text"/>
         </tests>
     </program>
