@@ -1,0 +1,124 @@
+<exercises xml:id="operators_exercises"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Exercises</title>
+  
+  <exercise label="operators_exercises-ex-1">
+    <statement>
+      <p>Write an <pf>==</pf> operator that determines if two <pf>EvenNumber</pf> objects are equal. We will define them as being equal if they have the same value (seems logical enough). The operator is declared in the class, you need to implement it after the class declaration. (Don't forget <pf>EvenNumber::</pf> before the function name <pf>operator==</pf>.)
+      </p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/operators/ex-even-number-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+Your code here
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/operators/ex-even-number-end.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+  
+  <exercise label="operators_exercises-ex-2">
+    <statement>
+      <p>Write an <pf>+</pf> operator that adds two EvenNumbers. The operator is declared in the class, you need to implement it after the class declaration.
+      </p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/operators/ex-even-number-start-2.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+Your code here
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/operators/ex-even-number-end-2.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+  
+  <exercise label="operators_exercises-ex-3">
+    <statement>
+      <p>A <pf>Person</pf> has a firstName and lastName. Implement <pf>operator&lt;</pf> (outside the class) to compare people by their first and last names according to this logic:
+        <ul>
+          <li>If the current person's last name is <pf>&lt;</pf> the other person's last name, return true.</li>
+          <li>If the last names are equal, compare the first names. If the current person's first name is <pf>&lt;</pf> the other person's first name, return true.</li>
+          <li>In all other cases, return false.</li>
+        </ul>
+      </p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/operators/ex-person-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+Your code here
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/operators/ex-person-end.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+  
+  <exercise label="operators_exercises-ex-4">
+    <statement>
+      <p>Write a prefix <pf>++</pf> operator that changes an <pf>EvenNumber</pf> to the next even number (adds two to its value). The operator is declared in the class, you need to implement it after the class declaration.
+      </p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/operators/ex-even-number-start-3.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+Your code here
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/operators/ex-even-number-end-3.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint><p>This is the easy case, just change the value of the current object and then return it.</p></hint>
+    <hint><p><pf>*this</pf> is <q>the current object</q></p></hint>
+  </exercise>
+  
+  <exercise label="operators_exercises-ex-5">
+    <statement>
+      <p>Write a postfix <pf>++</pf> operator that changes an <pf>EvenNumber</pf> to the next even number (adds two to its value). The operator is declared in the class, you need to implement it after the class declaration.
+      </p>
+      <p>Remember that the <pf>(int)</pf> is not really a parameter to use... it is just a hint to the compiler that this is the postfix <pf>++</pf>.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/operators/ex-even-number-start-4.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+Your code here
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/operators/ex-even-number-end-4.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint><p>This is the complex version. You need to make a copy, modify the current object, and return the copy.</p></hint>
+  </exercise>
+
+
+
+
+
+
+
+</exercises>

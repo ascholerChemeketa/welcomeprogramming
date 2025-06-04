@@ -1,0 +1,37 @@
+<section xml:id="operators_other-ops"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Other Operator Overloads</title>
+
+  <p>Remember that the primary goal of this book is <q>learn to program using C++</q>, not <q>learn
+    C++ programming</q>. Operator overloading is not unique to C++, but C++ is fairly unique in how
+    much it depends the technique. At this point, we have covered the ideas you will need need in this book. But there are other ways to overload operators and other operators that can be overloaded. Below is a teaser of some other things that can be done.</p>
+
+  <p>Operator overloads can be written as non-member functions. For example, instead of `bool
+    Rational::operator==(const Rational&amp; other)`, we can define it as a non-member function:</p>
+
+  <program><![CDATA[
+  bool operator==(const Rational& r1, const Rational& r2);
+  ]]></program>
+
+  <p>With that version of <pf>==</pf>, the compiler will see <pf>r1 == r2</pf> as <pf>operator==(r1, r2)</pf>.</p>
+
+  <p>Writing operators as non-member functions can provide more flexibility to compare different
+    types of data - like writing an <pf>==</pf> to check if an <pf>int</pf>s is equal to a <pf>Rational</pf>. It is also required for some operators.</p>
+
+  <p>One such operator is the <pf>&lt;&lt;</pf> operator (stream insertion operator), which is used for
+    output streaming. Instead of having to write <pf>cout &lt;&lt; r1.toString()</pf> we can just write
+    <pf>cout &lt;&lt; r1</pf> if we define an operator that looks like:</p>
+
+  <program><![CDATA[
+  std::ostream& operator<<(std::ostream& os, const Rational& r);
+  ]]></program>
+
+  <p>You can overload the <pf>[]</pf> operator (subscript) to make an object behave like a string/vector/array. This
+    can be useful for accessing elements in an object that stores a collection of values.</p>
+
+  <p>In a similar fashion, you can override the <pf>()</pf> operator to allow an object to be called like a function. An object that can be called as if it is a function is sometimes referred to as a <term>functor</term>.</p>
+
+  <p>Should you be interested in learning more about any of these, <url href="https://www.learncpp.com/">LearnCPP</url> is a good place to learn more.</p>
+
+</section>

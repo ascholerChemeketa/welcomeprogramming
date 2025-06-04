@@ -1,0 +1,26 @@
+<chapter xml:id="operators"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Operator Overloads</title>
+
+  <introduction>
+    <p>Operator overloads allow us to define custom behavior for operators like <pf>+</pf> or <pf>==</pf> when applied to user-defined types.</p>
+    
+    <p>Many programming languages do not support customizing operators to work with new data types. In those, we write and use functions like <pf>add(a, b)</pf> or <pf>a.equals(a)</pf> instead of using <pf>a + b</pf> or <pf>a == b</pf> when <pf>a</pf> and <pf>b</pf> are user-defined types.</p>
+
+    <p>C++ does allow us to overload operators to work on new data types. Sometimes, this ability is just a form of <term>syntactic sugar</term> (a syntax feature designed to make a particular language more pleasant to use). We can use operator overloading to enable writing the more natural <pf>a + b</pf> instead of <pf>a.add(b)</pf>. However, it is sometimes necessary to define an operator overload not just for convenience, but to ensure that a fundamental operator like <pf>=</pf> (assignment) works correctly with user-defined types.</p>
+
+    <p>In this chapter, we will briefly explore how to define operator overloads. We will not cover all the possibilities and possible complications. Instead, we will focus on the basic principles and a few important operators. In future chapters we will rely on these ideas to build some new overloads.</p>
+
+  </introduction>
+
+  <xi:include href="power.ptx"/>
+  <xi:include href="guidelines.ptx"/>
+  <xi:include href="basic-member-overloads.ptx"/>
+  <xi:include href="increment.ptx"/>
+  <xi:include href="increment-post.ptx"/>
+  <xi:include href="assignment.ptx"/>
+  <xi:include href="other-ops.ptx"/>
+  <xi:include href="vocabulary.ptx"/>
+  <xi:include href="exercises.ptx"/>
+
+</chapter>

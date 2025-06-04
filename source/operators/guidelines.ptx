@@ -1,0 +1,67 @@
+<section xml:id="operators_guidelines"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Guidelines</title>
+
+  <p>For the compiler to understand what code to generate from <pf>a + b</pf> or <pf>a == b</pf>, it needs a rule that tells it what it means to add or compare the two values. For basic types, like <pf>int</pf> or <pf>double</pf>, the compiler already knows how to add them. But for user-defined types, like <pf>Point</pf>, there will be no such rules. So the compiler would refuse to compile something like:</p>
+
+  <program>
+    Point a(1, 2);
+    Point b(1, 2);
+    if (a == b) // error: no rule for Point == Point
+  </program>
+
+  <p>To fix this, we can define an operator overload for <pf>+</pf> or <pf>==</pf> that tells the compiler what to do when it sees the operator used with two <pf>Point</pf>s. For the <pf>==</pf> operator, we would define a function that compares both the x and y coordinates of the two <pf>Point</pf>s and returns true if they are equal, or false otherwise. Given that rule, the compiler would then know what to do with <pf>a == b</pf>. This is called <term>operator overloading</term><idx><h>operator overloading</h></idx>.</p>
+    
+    
+  <p>
+    Before we look at the syntax for operator overloading, there are some limitations to be aware of:
+    <ul>
+      <li>You cannot define your own operator symbols. So you can not make <pf>**</pf> for exponentiation or <pf>%%</pf> for percent because those symbols are not already operators.</li>
+      <li>You cannot change the order of operations of the symbols. So in <pf>a + b * c</pf>, the <pf>*</pf> must come first regardless of the type of data.</li>
+      <li>You cannot change how the operators work for existing types. Thus you can't make <pf>+</pf> mean something new for <pf>int</pf>s.</li>
+    </ul>
+  </p>
+
+  <p>
+    In addition to those technical limitations, there are some conventions we should stick to so that our code is easy to understand. Most importantly, we want to make sure that operator overloads we define are consistent with how that operator works for built-in types. In other words, if we define <pf>+</pf> for a data type, the operation it performs should be <q>addition</q>. Defining a <pf>+</pf> for a <pf>Fraction</pf> class that added two fractions would be intuitive. Anyone who saw <pf>fraction1 + fraction2</pf> would expect it to add the two fractions together. On the other hand, what would <pf>+</pf> mean for a Person class? <pf>person1 + person2</pf> does not have a clear meaning. So we shouldn't define an operator overload for <pf>+</pf> for Persons that does something like make them friends or set them as spouses. 
+  </p>
+
+  
+  <exercise label="operators_guidelines-ex-1">
+    <statement>
+      <p>Mark the true statements about operator overloading</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>Given a Point class, you could define a new operator <pf>^^^</pf> that performs a custom operation.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Built in types (int, double) already have operator definitions.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Given a Point class you could make a <pf>+</pf> operator that returned the distance between two points.</p>
+        </statement>
+        <feedback>
+          <p>Correct - that is possible. But just because you can does not mean you should. It is not clear that <pf>p1 + p2</pf> should produce the distance.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Given a Point class you could make an <pf>==</pf> operator to decide if two points had the same coordinates.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>You can redefine how the operators work for built in types.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

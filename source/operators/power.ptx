@@ -1,0 +1,67 @@
+<section xml:id="operators_power"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Importance of Operators</title>
+
+  <p>As a quick demonstration of the important ways operator overloads are used in C++, we will
+    borrow an idea from the future. There is an <pf>&lt;algorithms></pf> library that has a <pf>sort</pf>
+    function. It can be used on a vector to sort it:</p>
+
+  <program interactive="activecode"
+           label="xxx1">
+<xi:include href="../../programs/operators/power-1.cpp" parse="text"/>
+  </program>
+
+  <p>Pretty easy! (We will learn much more about <pf>sort</pf> later.)</p>
+
+  <p> Now let's try the same trick with our own Time class. Don't worry too much about time (it just
+    stores an hour and minute). Just trying running the code. </p>
+
+  <program interactive="activecode"
+           label="xxx1">
+<xi:include href="../../programs/operators/power-2.cpp" parse="text"/>
+  </program>
+
+  <p>Somewhere in the wall of errors you should see <pf>error: no match for ‘operator&lt;’</pf>. The
+    compiler refuses to build the code because the <pf>sort</pf> function uses the <pf>&lt;</pf> operator to
+    compare the objects. And there is no <pf>&lt;</pf> operator for time.</p>
+
+  <p>If we <b>create</b> an operator overload for <pf>&lt;</pf> in Time the code will compile and run. This
+    next sample does so. Again, don't worry about the details yet. Just notice that there are a few
+    lines of code for <pf>operator&lt;</pf> and that the <pf>sort</pf> function works. </p>
+
+  <listing xml:id="operators-power-3-listing">
+    <caption>Time Sorting Example</caption>
+    <program interactive="activecode"
+             label="xxx1">
+<xi:include href="../../programs/operators/power-3.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>Any class can be made sortable by the <pf>sort</pf> function simply by implementing an overload that
+    defines how <pf>&lt;</pf> works for that data type. Whoever wrote the <pf>sort</pf> code does not need to know
+    anything about our data type other than one object of that class can be asked <q>are you less
+    than this other object?</q>. We get to reuse the existing <pf>sort</pf> code instead of having to write
+    a new version for our data type.</p>
+
+  <p>This same basic idea could be accomplished by having sortable items all implement a
+    <pf>compareTo(other)</pf> method that the <pf>sort</pf> function relied on. Indeed, that is how languages that
+    do not support operator overloads would approach reusing <pf>sort</pf>. But in C++, the expectation is
+    often that generic behaviors like <q>less than</q> or <q>add to</q> will be implemented by
+    operators.</p>
+
+
+  <exercise label="operators_power-ex-1"
+            interactive="activecode">
+    <statement>
+      <p>Examine the logic in <pf>operator&lt;</pf> function in <xref ref="operators-power-3-listing"/>. What best describes the logic?</p>
+    </statement>
+
+    <choices randomize="yes">
+      <choice correct="true"><statement>If the current Time's hour is less than the other Time's hour, it is &lt;. If they have the same hour, the minutes are compared. If the current Time's hour is greater than the other Time's hour, it is not &lt;.</statement></choice>
+      <choice><statement>If the current Time's hour is less than the other Time's hour, it is &lt;. Otherwise, the minutes are compared to decide.</statement></choice>
+      <choice><statement>If the current Time's minute is less than the other Time's minute, it is &lt;. If they have the same minute, the hours are compared.</statement></choice>
+      <choice><statement>If the current Time's minute is less than the other Time's minute, it is &lt;. If they have the same minute, the hours are compared.</statement></choice>
+    </choices>
+  </exercise>
+</section>

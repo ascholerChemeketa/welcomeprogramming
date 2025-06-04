@@ -1,0 +1,48 @@
+<section xml:id="operators_assignment"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Overloading = (Assignment)</title>
+
+  <p>
+    An operator that can be critical to overload is the assignment operator. The compiler automatically generates an assignment operator for every new data type. That assignment operator looks something like this:</p>
+
+
+    <program><![CDATA[ 
+      Rational& Rational::operator=(const Rational& other) {
+        // copy the values from other into this
+        m_numerator = other.m_numerator;
+        m_denominator = other.m_denominator;
+        return *this; // return a reference to the updated object
+      }
+      ]]>
+    </program>
+
+  <p>This is the code that gets called when we write something like <pf>r1 = r2;</pf>. The compiler translates that expression into <pf>r1.operator=(r2)</pf>. In the context of the function call, <pf>r2</pf> is <pf>other</pf> and <pf>r1</pf> is <pf>this</pf>, the object running the code. The <pf>operator=</pf> will take the values from <pf>other</pf> and assign them to <pf>this</pf>. Then, a reference to <pf>r1</pf> is returned, just in case the assignment is being used in an even larger expression. (<pf>r3 = r2 = r1</pf> is legal in C++. It means copy <pf>r1</pf> into <pf>r2</pf> and then copy <pf>r2</pf> into <pf>r3</pf>.)</p>
+
+  
+  <p>The automatic assignment operator for Rational copies the numerator and denominator. Which is exactly what we want. But in more complex objects, we might not want to make a simple copy. Any object that manages memory or external resources will likely need more complex behavior to ensure the proper thing happens when we make a copy. For those objects, we will need to manually define a <pf>operator=</pf>. Doing that will prevent the simple default one from being used.</p>
+
+  <p>This codelens has a very simple version of the Rational class and a custom implementation of the assignment operator. It uses the custom operator to mark when an object is a copy of something else. The animation will start just before the assignment operator runs.</p>
+
+  <program include="RationalStart" interactive="codelens" label="operators_assignment-1" starting-step="11">
+<xi:include href="../../programs/operators/assignment-1.cpp" parse="text"/>
+  </program>
+
+  <p>In this case, overloading the assignment operator allows us to make sure that <pf>Rational</pf> objects are not perfectly copied. We don't use the <pf>m_isCopy</pf> variable to do anything interesting, but it is an illustration of how we can adjust what happens when <pf>=</pf> is used to copy an object.</p>
+
+  <warning><p>The details are beyond the scope of this book, but it is worth being aware that when you mix inheritance and custom assignment operators, there are significant complexities to worry about. If you ever need to do so, you should research <q>virtual assignment operators</q>.</p></warning>
+
+  <exercise label="operators_assignment-ex-1"
+            interactive="activecode">
+    <statement>
+      <p>What kind of custom data types need to define a custom assignment operator?</p>
+    </statement>
+
+    <choices randomize="yes">
+      <choice correct="true"><statement>Any that use dynamic memory or external resources.</statement></choice>
+      <choice><statement>All custom data types.</statement></choice>
+      <choice><statement>Any with multiple member variables.</statement></choice>
+      <choice><statement>Any that use pointers.</statement></choice>
+    </choices>
+  </exercise>
+</section>
