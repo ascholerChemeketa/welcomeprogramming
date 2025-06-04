@@ -3,17 +3,21 @@
 
   <title>Basic Member Operators</title>
 
-  <p>
-    A rational number represents a fraction like <pf>3/4</pf> or <pf>5/2</pf>. Below is a simple class <pf>Rational</pf> to represent a rational number by storing a numerator and a denominator. None of this code is doing anything special yet, so don't worry about reading it too closely.
-  </p>
+  <p> A rational number represents a fraction like <pf>3/4</pf> or <pf>5/2</pf>. Below is a simple class <pf>Rational</pf>
+    to represent a rational number by storing a numerator and a denominator. None of this code is
+    doing anything special yet, so don't worry about reading it too closely. </p>
 
-  <program xml:id="RationalStart" filename="RationalStart.cxx" label="operators_basic-member-overloads-RationalStart">
+  <program xml:id="RationalStart"
+           filename="RationalStart.cxx"
+           label="operators_basic-member-overloads-RationalStart">
 <xi:include href="../../programs/operators/RationalStart.cxx" parse="text"/>
   </program>
-  
-  <p>Lines 30-34 declare some functions that are not implemented in the file. Those are what we will be focusing on.</p>
 
-  <p>Without operator overloading, we might build functions to add and compare <pf>Rational</pf> objects like this:</p>
+  <p>Lines 30-34 declare some functions that are not implemented in the file. Those are what we will
+    be focusing on.</p>
+
+  <p>Without operator overloading, we might build functions to add and compare <pf>Rational</pf> objects
+    like this:</p>
   <program><![CDATA[
 Rational Rational::add(const Rational& other) const {
     int newNumerator = m_numerator * other.m_denominator 
@@ -30,78 +34,100 @@ bool Rational::equals(const Rational& other) const {
 ]]>
   </program>
 
-  <p>The critical thing about these functions for our purposes is not the math (though you should take a few seconds to convince yourself that the answers will be correct), but the way the functions operate.</p>
-  
-  <p><pf>add</pf> is called on one <pf>Rational</pf> and given a second <pf>Rational</pf> as a parameter. It returns a new <pf>Rational</pf> that is the sum of the two without modifying either of the starting values. Thus the right way to use <pf>add</pf> on two <pf>Rationals</pf> named <pf>r1</pf> and <pf>r2</pf> would be:</p>
+  <p>The critical thing about these functions for our purposes is not the math (though you should
+    take a few seconds to convince yourself that the answers will be correct), but the way the
+    functions operate.</p>
+
+  <p><pf>add</pf> is called on one <pf>Rational</pf> and given a second <pf>Rational</pf> as a parameter. It returns a
+    new <pf>Rational</pf> that is the sum of the two without modifying either of the starting values. Thus
+    the right way to use <pf>add</pf> on two <pf>Rationals</pf> named <pf>r1</pf> and <pf>r2</pf> would be:</p>
 
   <program>
 Rational r3 = r1.add(r2);
   </program>
 
-  <p>Similarly, <pf>equals</pf> is called on one <pf>Rational</pf> and the other is passed as a parameter: <pf>r1.equals(r2)</pf>.</p>
+  <p>Similarly, <pf>equals</pf> is called on one <pf>Rational</pf> and the other is passed as a parameter: <pf>r1.equals(r2)</pf>
+    .</p>
 
-  <p>To make these into operators, we will keep the same functionality but change the function names to <pf>operator+</pf> and <pf>operator==</pf>. This sample has those functions and a <pf>main</pf> to test them:</p>
+  <p>To make these into operators, we will keep the same functionality but change the function names
+    to <pf>operator+</pf> and <pf>operator==</pf>. This sample has those functions and a <pf>main</pf> to test them:</p>
 
-  <program include="RationalStart" interactive="activecode" label="operators_basic-member-overloads-rational-1">
+  <program include="RationalStart"
+           interactive="activecode"
+           label="operators_basic-member-overloads-rational-1">
 <xi:include href="../../programs/operators/basic-member-overloads-1.cpp" parse="text"/>
   </program>
 
-  <p>When the compiler sees <pf>r1 + r2</pf> and <pf>r1 == r2</pf> in the above code, it translates them into <pf>r1.operator+(r2)</pf> and <pf>r1.operator==(r2)</pf>. This is what we mean by <term>syntactic sugar</term>... the operators are really just regular member functions, but there is some syntax magic happening to make the code look simpler.</p>
+  <p>When the compiler sees <pf>r1 + r2</pf> and <pf>r1 == r2</pf> in the above code, it translates them into <pf>r1.operator+(r2)</pf>
+    and <pf>r1.operator==(r2)</pf>. This is what we mean by <term>syntactic sugar</term>... the operators are really
+    just regular member functions, but there is some syntax magic happening to make the code look
+    simpler.</p>
 
-  <p>You can test this by changing <pf>r1 + r2</pf> to <pf>r1.operator+(r2)</pf> in the main function. The code will run exactly the same!</p>
+  <p>You can test this by changing <pf>r1 + r2</pf> to <pf>r1.operator+(r2)</pf> in the main function. The code will run
+    exactly the same!</p>
 
-  <insight><p>When the compiler sees something like <pf>data1 + data2</pf>, it will attempt to turn that into <pf>data1.operator+(data2)</pf>.</p></insight>
+  <insight>
+    <p>When the compiler sees something like <pf>data1 + data2</pf>, it will attempt to turn that into <pf>data1.operator+(data2)</pf>.</p>
+  </insight>
 
-  <p>The basic format we just learned for <pf>+</pf> can be applied to the other arithmetic symbols, such as <pf>-</pf>, <pf>*</pf>, and <pf>/</pf>. We also can take use <pf>==</pf> as a template to write other relational operators like <pf>!=</pf>, <pf>&lt;</pf>, <pf>>=</pf>, etc... For each of the operators, we just need to figure out what logic can be done with the member variables to generate the correct answer.</p>
+  <p>The basic format we just learned for <pf>+</pf> can be applied to the other arithmetic symbols,
+    such as <pf>-</pf>, <pf>*</pf>, and <pf>/</pf>. We also can take use <pf>==</pf> as a template to
+    write other relational operators like <pf>!=</pf>, <pf>&lt;</pf>, <pf>>=</pf>, etc... For each of the
+    operators, we just need to figure out what logic can be done with the member variables to
+    generate the correct answer.</p>
 
-  <exercise label="operators_basic-member-overloads-ex-1" language="cpp">
+  <exercise label="operators_basic-member-overloads-ex-1"
+            language="cpp">
     <statement>
-        <p>Form the prototype for operator <pf>!=</pf> as it would appear inside the class <pf>Rational</pf>.</p>
+      <p>Form the prototype for operator <pf>!=</pf> as it would appear inside the class <pf>Rational</pf>.</p>
     </statement>
-    <blocks layout="horizontal" randomize="yes">
-        <block><c>bool </c></block>
-        <block><c>operator!=</c></block>
-        <block><c>(</c></block>
-        <block><c>const Rational&amp; other</c></block>
-        <block><c>)</c></block>
-        <block><c>const</c></block>
-        <block><c>;</c></block>
-        <block correct="no"><c>Rational </c></block>
-        <block correct="no"><c>!=</c></block>
-        <block correct="no"><c>const Rational&amp; self</c></block>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>bool </c></block>
+      <block><c>operator!=</c></block>
+      <block><c>(</c></block>
+      <block><c>const Rational&amp; other</c></block>
+      <block><c>)</c></block>
+      <block><c>const</c></block>
+      <block><c>;</c></block>
+      <block correct="no"><c>Rational </c></block>
+      <block correct="no"><c>!=</c></block>
+      <block correct="no"><c>const Rational&amp; self</c></block>
     </blocks>
   </exercise>
 
-  <exercise label="operators_basic-member-overloads-ex-2" language="cpp">
+  <exercise label="operators_basic-member-overloads-ex-2"
+            language="cpp">
     <statement>
-        <p>Form the prototype for operator <pf>-</pf> as it would appear inside the class <pf>Rational</pf>.</p>
+      <p>Form the prototype for operator <pf>-</pf> as it would appear inside the class <pf>Rational</pf>.</p>
     </statement>
-    <blocks layout="horizontal" randomize="yes">
-        <block><c>Rational </c></block>
-        <block><c>operator-</c></block>
-        <block><c>(</c></block>
-        <block><c>const Rational&amp; other</c></block>
-        <block><c>)</c></block>
-        <block><c>const</c></block>
-        <block><c>;</c></block>
-        <block correct="no"><c>int </c></block>
-        <block correct="no"><c>-</c></block>
-        <block correct="no"><c>const Rational&amp; self</c></block>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>Rational </c></block>
+      <block><c>operator-</c></block>
+      <block><c>(</c></block>
+      <block><c>const Rational&amp; other</c></block>
+      <block><c>)</c></block>
+      <block><c>const</c></block>
+      <block><c>;</c></block>
+      <block correct="no"><c>int </c></block>
+      <block correct="no"><c>-</c></block>
+      <block correct="no"><c>const Rational&amp; self</c></block>
     </blocks>
   </exercise>
 
   <exercise label="operators_basic-member-overloads-ex-3"
-  numbered="yes"
-  adaptive="yes"
-  indentation="hide">
-  <statement>
-  <p>Put the blocks in order to define a multiplication operator for the Rational class.</p>
-  </statement>
-  <blocks>
-    <block>
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Put the blocks in order to define a multiplication operator for the Rational class.</p>
+    </statement>
+    <blocks>
+      <block>
         <cline><![CDATA[Rational Rational::operator*(const Rational& other) const {]]></cline>
     </block>
-    <block>
+      <block>
         <choice correct="yes">
           <cline><![CDATA[  int newNumerator = m_numerator * other.m_numerator; ]]></cline>
         </choice>
@@ -109,19 +135,19 @@ Rational r3 = r1.add(r2);
           <cline><![CDATA[  int newNumerator = m_numerator * other.m_denominator; ]]></cline>
         </choice>
     </block>
-    <block>
+      <block>
         <cline><![CDATA[  int newDenominator = m_denominator * other.m_denominator;]]></cline>
     </block>
-    <block>
+      <block>
         <cline><![CDATA[  Rational result(newNumerator, newDenominator);]]></cline>
     </block>
-    <block>
+      <block>
         <cline><![CDATA[  return result.simplify();]]></cline>
     </block>
-    <block>
+      <block>
         <cline><![CDATA[}]]></cline>
     </block>
-  </blocks>
-</exercise>
+    </blocks>
+  </exercise>
 
 </section>

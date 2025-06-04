@@ -3,37 +3,57 @@
 
   <title>Overloading ++</title>
 
-  <p>
-    The <pf>++</pf> operator says to increment (increase) a value by 1. As we will see later, the concept of <q>increase by one</q> gets used by an important type of object called an <term>iterator</term>. An iterator is an object that allows us to traverse a collection of data, like a list or an array. The <pf>++</pf> operator is used to move an iterator to the next item in the collection (to advance it by 1). So it is worth learning how <pf>++</pf> works.
-  </p>
+  <p> The <pf>++</pf> operator says to increment (increase) a value by 1. As we will see later, the
+    concept of <q>increase by one</q> gets used by an important type of object called an <term>
+    iterator</term>. An iterator is an object that allows us to traverse a collection of data, like
+    a list or an array. The <pf>++</pf> operator is used to move an iterator to the next item in the
+    collection (to advance it by 1). So it is worth learning how <pf>++</pf> works. </p>
 
-  <p>
-    Recall that there are two versions of <pf>++</pf>: the <term>prefix</term> version, which is written as <pf>++x</pf>, and the <term>postfix</term> version, which is written as <pf>x++</pf>. We will start with the prefix version as it is the simpler of the two to implement.
-  </p>
+  <p> Recall that there are two versions of <pf>++</pf>: the <term>prefix</term> version, which is
+    written as <pf>++x</pf>, and the <term>postfix</term> version, which is written as <pf>x++</pf>. We
+    will start with the prefix version as it is the simpler of the two to implement. </p>
 
-  <p>What does <pf>++x</pf> do? Well, it changes <pf>x</pf> by 1. It also needs to return the updated value so that we can use it in a complex expression like <pf>y = ++x</pf>. That indicates the prototype of <pf>++</pf> as a member function needs to look like:</p>
+  <p>What does <pf>++x</pf> do? Well, it changes <pf>x</pf> by 1. It also needs to return the updated
+    value so that we can use it in a complex expression like <pf>y = ++x</pf>. That indicates the prototype
+    of <pf>++</pf> as a member function needs to look like:</p>
 
   <program>
     Rational&amp; Rational::operator++();
   </program>
 
-  <p>The function requires no arguments. Whatever object it needs to work on will be the one we call the function on. It needs to return the updated object. If the return type was <pf>void</pf>, we would not be able to use <pf>++r1</pf> in a larger expression, as <pf>r2 = ++r1;</pf> would turn into <pf>r2 = (nothing);</pf> once <pf>++</pf> executed. If the return type was <pf>Rational</pf>, we would return a copy of the modified object. That would be inefficient. (And it would prevent code like <pf>++(++r1)</pf> from being able to change r1 twice.) So the return type is <pf>Rational&amp;</pf><mdash/> a reference, not copy, to the updated object.</p>
+  <p>The function requires no arguments. Whatever object it needs to work on will be the one we call
+    the function on. It needs to return the updated object. If the return type was <pf>void</pf>, we
+    would not be able to use <pf>++r1</pf> in a larger expression, as <pf>r2 = ++r1;</pf> would turn into <pf>r2 = (nothing);</pf>
+    once <pf>++</pf> executed. If the return type was <pf>Rational</pf>, we would return a copy of the
+    modified object. That would be inefficient. (And it would prevent code like <pf>++(++r1)</pf> from being
+    able to change r1 twice.) So the return type is <pf>Rational&amp;</pf><mdash/> a reference, not copy, to the
+    updated object.</p>
 
   <p>Here is an implementation of <pf>operator++</pf> for <pf>Rational</pf>:</p>
 
-  <program include="RationalStart" interactive="activecode" label="operators_increment-1">
+  <program include="RationalStart"
+           interactive="activecode"
+           label="operators_increment-1">
 <xi:include href="../../programs/operators/increment-1.cpp" parse="text"/>
   </program>
 
-  <p>Note how the object returns itself: <pf>return *this;</pf>. Recall that <pf>this</pf> is the memory address of the current object. <pf>*this</pf> dereferences that pointer to get the actual <pf>Rational</pf> object which we then return as a copy. Again, the math is not of critical importance, but you should take a minute to confirm that the right way to add one to a fraction is to increase the numerator by the value of the denominator.</p>
+  <p>Note how the object returns itself: <pf>return *this;</pf>. Recall that <pf>this</pf> is the memory address of
+    the current object. <pf>*this</pf> dereferences that pointer to get the actual <pf>Rational</pf> object which
+    we then return as a copy. Again, the math is not of critical importance, but you should take a
+    minute to confirm that the right way to add one to a fraction is to increase the numerator by
+    the value of the denominator.</p>
 
-  <p>The <pf>--</pf> prefix operator can be implemented in the same fashion, only with logic to <q>decrease the value by 1</q>.</p>
+  <p>The <pf>--</pf> prefix operator can be implemented in the same fashion, only with logic to <q>decrease
+    the value by 1</q>.</p>
 
   <exercise label="operators_increment-ex-1">
     <statement>
-      <p>Define the <pf>operator--</pf> for <pf>Rational</pf>. It's logic should be the same as <pf>++</pf> but it should decrease the value by 1 instead of increasing it. (Decrease the numerator by the value of the denominator.)</p>
+      <p>Define the <pf>operator--</pf> for <pf>Rational</pf>. It's logic should be the same as <pf>++</pf> but it
+        should decrease the value by 1 instead of increasing it. (Decrease the numerator by the
+        value of the denominator.)</p>
     </statement>
-      <program interactive="activecode" include="RationalStart">
+    <program interactive="activecode"
+             include="RationalStart">
         <code>
           
              Your code here

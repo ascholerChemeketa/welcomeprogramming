@@ -3,30 +3,51 @@
 
   <title>Overloading ++ (Postfix)</title>
 
-  <p>
-    The postfix <pf>++</pf> operator (<pf>x++</pf>) says to increment (increase) a value by 1 after the current value has been used in the rest of the expression. This produces a challenge for implementing the postfix <pf>++</pf> operator. We need to return the original value before it was incremented, while still incrementing the value.</p>
-  
-    <p>To make this happen, we need to do some slight of hand. First, we will copy the current value of <pf>x</pf> into a temporary variable. Then we will increment <pf>x</pf>. We then return the temporary variable, which holds the original value of <pf>x</pf> before it was incremented. Because we are going to return a new object (the copy), the return value will not be a reference.</p>
+  <p> The postfix <pf>++</pf> operator (<pf>x++</pf>) says to increment (increase) a value by 1 after the
+    current value has been used in the rest of the expression. This produces a challenge for
+    implementing the postfix <pf>++</pf> operator. We need to return the original value before it was
+    incremented, while still incrementing the value.</p>
 
-  <p>We also need a way to indicate whether <pf>operator++()</pf> refers to the prefix or postfix operator. The convention used is to specify an anonymous <pf>int</pf> parameter to indicate <q>this is the postfix version</q>. So the final prototype for the post-increment operator looks like:</p>
+  <p>To make this happen, we need to do some slight of hand. First, we will copy the current value
+    of <pf>x</pf> into a temporary variable. Then we will increment <pf>x</pf>. We then return the
+    temporary variable, which holds the original value of <pf>x</pf> before it was incremented.
+    Because we are going to return a new object (the copy), the return value will not be a
+    reference.</p>
+
+  <p>We also need a way to indicate whether <pf>operator++()</pf> refers to the prefix or postfix operator. The
+    convention used is to specify an anonymous <pf>int</pf> parameter to indicate <q>this is the
+    postfix version</q>. So the final prototype for the post-increment operator looks like:</p>
 
   <program>
     Rational Rational::operator++(int);
   </program>
 
-  <note><p>The <pf>int</pf> is strictly a syntax trick to differentiate pre- vs post- increment. It does not actually exist as a parameter.</p></note>
+  <note>
+    <p>The <pf>int</pf> is strictly a syntax trick to differentiate pre- vs post- increment. It does
+      not actually exist as a parameter.</p>
+  </note>
 
   <p>Here is an implementation of the postfix <pf>++</pf> operator for <pf>Rational</pf>:</p>
 
-  <program  include="RationalStart" interactive="activecode" label="operators_increment-post-1">
+  <program include="RationalStart"
+           interactive="activecode"
+           label="operators_increment-post-1">
 <xi:include href="../../programs/operators/increment-post-1.cpp" parse="text"/>
   </program>
 
-  <p>In this version, as <pf>r2 = r1++</pf> runs, the <pf>r1++</pf> executes first. It changes r1, but then returns a copy of the <pf>temp</pf> variable, which holds the original value of r1 before the increment. So <pf>r2 = r1++</pf> becomes <pf>r2 = (temp);</pf> and r2 sees the right value to copy.</p>
+  <p>In this version, as <pf>r2 = r1++</pf> runs, the <pf>r1++</pf> executes first. It changes r1, but then
+    returns a copy of the <pf>temp</pf> variable, which holds the original value of r1 before the
+    increment. So <pf>r2 = r1++</pf> becomes <pf>r2 = (temp);</pf> and r2 sees the right value to copy.</p>
 
-  <p>Because the postfix version needs to make a copy, it is potentially less efficient than the prefix version. For simple data like <pf>int</pf>, the difference is negligible. But for larger objects, like <pf>Rational</pf>, it can be a significant performance hit to make a copy of the object. A compiler may be able to optimize this difference away. But rather than rely on that, we should prefer the prefix operator if we don't care about the way the two versions interact with the rest of an expression. (And in general, we shouldn't care about that! Complex expressions with <pf>++x</pf> or <pf>x++</pf> in the middle are a great way to cause confusion.)</p>
+  <p>Because the postfix version needs to make a copy, it is potentially less efficient than the
+    prefix version. For simple data like <pf>int</pf>, the difference is negligible. But for larger
+    objects, like <pf>Rational</pf>, it can be a significant performance hit to make a copy of the object. A
+    compiler may be able to optimize this difference away. But rather than rely on that, we should
+    prefer the prefix operator if we don't care about the way the two versions interact with the
+    rest of an expression. (And in general, we shouldn't care about that! Complex expressions with <pf>++x</pf>
+    or <pf>x++</pf> in the middle are a great way to cause confusion.)</p>
 
-  
+
   <exercise label="operators_increment-post-ex-1">
     <statement>
       <p>Match each description to preincrement or postincrement.</p>
@@ -48,6 +69,6 @@
       </match>
     </cardsort>
   </exercise>
-  
+
 
 </section>
