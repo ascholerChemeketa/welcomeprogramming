@@ -1,0 +1,143 @@
+<section xml:id="recursive-functions_iteration-recursion"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Iteration &amp; Recursion</title>
+
+  <p>As mentioned earlier, any problem that can be solved with iteration can also be solved with
+    recursion. If you are having trouble seeing a recursive approach to a problem, it can sometimes
+    help to translate an iterative solution. Although this may not always produce the simplest or
+    cleanest recursive algorithm, it can be a useful alternative way to reach a recursive design.</p>
+
+  <p>Let us consider a function to clean up extra spaces in a string. We want to take something like <c>"This  is   a   string   with extra      spaces."</c>
+    and turn any run of multiple spaces into a single space, so that it becomes <c>"This is a string with extra spaces."</c>.</p>
+
+  <p>One possible algorithm is shown below. It loops through the string one character at a time.
+    <pf>inSpace</pf> tracks whether or not we are currently in a sequence of spaces. If a character is a
+    space, and we are not already in a sequence of spaces, we add it to the <pf>result</pf> and then mark
+    that we are in a space sequence. Any more spaces we see right after that will get ignored. When
+    we see a non-space, we add it to the result and mark that we are not in a space sequence. That
+    way, we know that the next space we see will start a new run of spaces:</p>
+
+  <program label="recursive-functions_iteration-recursion-program-1"
+           interactive="activecode">
+<xi:include href="../../programs/recursive-functions/iteration-recursion-1.cpp" parse="text"/>
+  </program>
+
+  <p>Now, let us translate this into a recursive solution. First, we need to identify the base case.
+    What stops the loop? That should also stop the recursion. In this case, the loop stops if there
+    are no more characters in <pf>input</pf>. That sounds like a base case:</p>
+
+  <program label="recursive-functions_iteration-recursion-program-2"
+           interactive="activecode">
+string cleanUpSpaces(const string&amp; input) {
+    if (input.empty()) {
+        return "";
+    }
+}
+  </program>
+
+  <p>Now for the recursive case. The loop starts with the first character, then goes to the second,
+    etc... Each iteration only worries about the <q>next</q> character. To make that recursive, we
+    have two choices: <ul>
+      <li>We can pass the index of the character we are looking at as a parameter.</li>
+      <li>We can always look at the first character and then remove that character before recursing.</li>
+    </ul>
+    We will use the second option, as it is simpler to implement. It is not as efficient, but after
+    building the simple version, we could always go back and refine it later.</p>
+
+  <p>So our solution will need to separate the first character from the rest of the string. We will call that first character <c>firstChar</c> and the other characters <c>rest</c>. Each function call will only be responsible for making a decision about the <c>firstChar</c> and then making a recursive call with <c>rest</c>. For now we won't worry about spaces, we will include every single character to verify that we are working our way through the string:</p>
+
+  <program label="recursive-functions_iteration-recursion-program-3"
+           interactive="activecode">
+<xi:include href="../../programs/recursive-functions/iteration-recursion-2.cpp" parse="text"/>
+  </program>
+
+  <p>Now we need to do something about the spaces.</p>
+  
+  <p>The iterative version has a variable that exists throughout
+    the entire loop: <pf>inSpace</pf>. In recursion, the only way to store a value across all the entire
+    process is to make it a parameter. So will modify the <pf>cleanUpSpaces</pf> function to include a
+    boolean parameter <pf>inSpace</pf> that tracks whether we are currently in a sequence of spaces. That
+    can be used to decide whether to include or skip the <pf>firstChar</pf> in the result:</p>
+
+  <program label="recursive-functions_iteration-recursion-program-4"
+           interactive="activecode">
+<xi:include href="../../programs/recursive-functions/iteration-recursion-3.cpp" parse="text"/>
+</program>
+
+  <p>Notice that line 31 has some debugging information. Try uncommenting that line and running the program to better see the step by step progression of the algorithm. Note that the actual output is being built up as return from each function call. So the debugging output will appear to build from the end of the string (where the recursion ended) back to the start of the string (where it began).</p>
+
+
+  <exercise label="recursive-functions_iteration-recursion-ex-1"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  <statement>
+  <p>Build the code that would get us started on a version of the algorithm that would use an index to track our position in the string instead of making successively shorter substrings. (Ignore the <c>|</c> symbols, they are a formatting convenience).</p>
+  <p>This version will not actually clean spaces, it will just progress through the string character by character.</p>
+  </statement>
+  <blocks>
+    <block order="3">
+        <choice correct="yes">
+          <cline><![CDATA[string cleanUpSpaces(const string& input,]]></cline>
+          <cline><![CDATA[|                    bool inSpace = false,]]></cline>
+          <cline><![CDATA[|                    int curIndex = 0) {]]></cline>
+        </choice>
+        <choice>
+          <cline></cline>
+        </choice>
+    </block>
+    <block order="7">
+        <choice correct="yes">
+          <cline><![CDATA[    if (curIndex >= input.length()) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    if (input.empty()) {]]></cline>
+        </choice>
+    </block>
+    <block order="6">
+        <choice correct="yes">
+          <cline><![CDATA[        return "";]]></cline>
+          <cline><![CDATA[    }]]></cline>
+          <cline></cline>
+        </choice>
+    </block>
+    <block order="2">
+        <choice correct="yes">
+          <cline><![CDATA[    char curChar = input.at(curIndex);]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    char curChar = input.at(0);]]></cline>
+        </choice>
+    </block>
+    <block order="5">
+        <choice correct="yes">
+          <cline><![CDATA[    string restCleaned = cleanUpSpaces(input,]]></cline>
+          <cline><![CDATA[    |                                  false,]]></cline>
+          <cline><![CDATA[    |                                  curIndex + 1);]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    string restCleaned = cleanUpSpaces(input,]]></cline>
+          <cline><![CDATA[    |                                  false,]]></cline>
+          <cline><![CDATA[    |                                  1);]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    string restCleaned = cleanUpSpaces(input,]]></cline>
+          <cline><![CDATA[    |                                  false,]]></cline>
+          <cline><![CDATA[    |                                  curIndex);]]></cline>
+        </choice>
+    </block>
+    <block order="1">
+        <choice correct="yes">
+          <cline><![CDATA[    string result = curChar + restCleaned;]]></cline>
+        </choice>
+    </block>
+    <block order="7">
+        <choice correct="yes">
+          <cline><![CDATA[    return result;]]></cline>
+        </choice>
+    </block>
+  </blocks>
+</exercise>
+
+
+</section>

@@ -1,0 +1,98 @@
+<section xml:id="recursive-functions_recursive-intro"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Intro to Recursion</title>
+  <p>
+    <idx>
+      <h>recursive function</h>
+    </idx>A recursive function is simply one that calls itself. The
+    function calls itself is called a <term>recursive call</term>.</p>
+
+  <p>Consider the following example of the recursive function <pf>countdown</pf>. If it is called with an <pf>n</pf>
+    value of 0, it displays the word <pf>Blastoff!</pf>. Otherwise, it displays the number and then makes a
+    recursive call to <pf>countdown</pf>, passing <pf>n - 1</pf> as the argument.</p>
+
+  <p>Run the codelens to watch it execute:</p>
+
+  <program label="recursive-functions_recursive-intro-program-1" 
+           interactive="codelens">
+<xi:include href="../../programs/recursive-functions/recursive-intro-1.cpp" parse="text"/>
+</program>
+
+  <p> What happened when we invoked <pf>countdown(3)</pf> from <pf>main</pf>? <ul>
+      <li>The execution of <pf>countdown</pf> begins with <pf>n == 3</pf>, and since <pf>n</pf> is not 0, it
+    displays the value 3, and then invokes <pf>countdown(2)</pf></li>
+      <li><pf>countdown(2)</pf> begins, and since <pf>n</pf> is not 0, it displays the value 2, and then invokes
+    <pf>countdown(1)</pf></li>
+      <li><pf>countdown(1)</pf> begins, and since <pf>n</pf> is not 0, it displays the value 1, and then invokes
+    <pf>countdown(0)</pf></li>
+      <li><pf>countdown(0)</pf> begins, and since <pf>n</pf> is 0, it displays the word <pf>Blastoff!</pf>.</li>
+    </ul>
+  </p>
+
+  <p>Now let's swap lines 9 and 10. Run this new version:</p>
+
+  <listing xml:id="recursive-functions-recursive-intro-program-2-listing">
+    <program label="recursive-functions_recursive-intro-program-2"
+             interactive="codelens">
+<xi:include href="../../programs/recursive-functions/recursive-intro-2.cpp" parse="text"/>
+</program>
+  </listing>
+
+  <exercise label="recursive-functions_recursive-intro-ex-1">
+    <statement>
+      <p>What is the output of <pf>countdown(3)</pf> in <xref ref="recursive-functions-recursive-intro-program-2-listing"/>
+        ?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>3 2 1 Blastoff!</statement>
+      </choice>
+      <choice>
+        <statement>1 2 3 Blastoff!</statement>
+      </choice>
+      <choice>
+        <statement>Blastoff! 3 2 1</statement>
+      </choice>
+      <choice correct="yes">
+        <statement>Blastoff! 1 2 3</statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <p>What was different this time? The work of displaying the number was done after the recursive
+    call. So level 3 did not print until after level 2 was done. And level 2 did not print until
+    after level 1 was done...</p>
+
+  <insight>
+    <p>A recursive call breaks the execution of a function into two parts. The code before the
+      recursive call runs before the next <term>recursive call</term> executes. The code after the
+      recursive call runs after the recursive call completes.</p>
+  </insight>
+
+  <p>We can more clearly see the timing in this final example. Notice this <pf>countdown</pf> prints both
+    before and after the recursive call.</p>
+
+  <program label="recursive-functions_recursive-intro-program-3" 
+           interactive="codelens">
+<xi:include href="../../programs/recursive-functions/recursive-intro-3.cpp" parse="text"/>
+</program>
+
+  <p> What happened this time when we invoked <pf>countdown(3)</pf> from <pf>main</pf>? <ul>
+      <li>The execution of <pf>countdown</pf> begins with <pf>n == 3</pf>, and since <pf>n</pf> is not 0, it
+    displays the start message, and then invokes <pf>countdown(2)</pf></li>
+      <li><pf>countdown(2)</pf> begins, and since <pf>n</pf> is not 0, it displays the start message, and then
+    invokes <pf>countdown(1)</pf></li>
+      <li><pf>countdown(1)</pf> begins, and since <pf>n</pf> is not 0, it displays the start message, and then
+    invokes <pf>countdown(0)</pf></li>
+      <li><pf>countdown(0)</pf> begins, and since <pf>n</pf> is 0, it displays the word <pf>Blastoff!</pf>. It returns to
+    where it was called (<pf>countdown(1)</pf>).</li>
+      <li>Back in <pf>countdown(1)</pf> execution resumes after the recursive call and displays the finish
+    message. It then returns to where it was called (<pf>countdown(2)</pf>).</li>
+      <li>Back in <pf>countdown(2)</pf> execution resumes after the recursive call and displays the finish
+    message. It then returns to where it was called (<pf>countdown(3)</pf>).</li>
+      <li>Back in <pf>countdown(3)</pf> execution resumes after the recursive call and displays the finish
+    message. It returns to where it was called (<pf>main</pf>).</li>
+    </ul>
+  </p>
+
+</section>

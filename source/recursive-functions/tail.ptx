@@ -1,0 +1,119 @@
+<section xml:id="recursive-functions_tail"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Tail Recursion</title>
+
+  <p>A <term>tail-recursive</term> function is one where the recursive call is the last operation in the function, no work is done other than returning the answer produced by the recursion. Our <pf>countdown</pf> function was tail recursive. No work happens in it after the recursive call to <pf>countdown</pf>:<idx><h>tail recursion</h></idx></p>
+
+  <program highlight-lines="6" line-numbers="yes">
+<xi:include href="../../programs/recursive-functions/tail-1.cpp" parse="text"/>
+  </program>
+
+  <p>Our other recipes have not been tail-recursive, as we always do something to build on the answer produced by the recursive call:</p>
+
+  <program highlight-lines="5-6" line-numbers="yes">
+<xi:include href="../../programs/recursive-functions/tail-2.cpp" parse="text"/>
+  </program>
+
+  <p>The advantage of tail-recursive functions is that they can be optimized by the compiler to avoid increasing the call stack depth, thus preventing stack overflow errors for deep recursions. Essentially, the compiler can <q>cheat</q> and just keep using the same stack frame for each recursive call. If the call to <pf>factorial(5)</pf> does not need to do anything once <pf>factorial(4)</pf> is done producing an answer, there is no need to keep a stack frame around for it. We can just overwrite it with the data for <pf>factorial(4)</pf>. Then we can wipe that out and reuse the space for <pf>factorial(3)</pf>. And so on...</p>
+
+  <p>But how do we make the function tail recursive? <pf>factorial(4)</pf> counts on being able to ask <pf>factorial(3)</pf> for its answer and then <pf>factorial(4)</pf> produces the answer including 4. To make it tail-recursive, we need <pf>factorial(4)</pf> to give all the information <pf>factorial(3)</pf> needs to get the final answer.</p>
+  
+  <p>As always when we want to pass more information from one recursive call to the next, that means a new parameter. We will call this parameter the <pf>accumulator</pf> as it will accumulate the <q>answer so far</q>.</p>
+
+  <program><![CDATA[int factorial(int n, int accumulator);]]></program>
+
+  <p>Now if we start with factorial of 4, it will call <pf>factorial(3, 4)</pf> to say <q>Hey, you need to calculate 3! and multiply that by 4.</q>. <pf>factorial(3)</pf>, will take the 4, multiply it by 3, and then call <pf>factorial(2, 12)</pf> to say <q>Hey, you need to calculate 2! and multiply that by 12.</q>. Eventually we will call <pf>factorial(0, 12)</pf> to say <q>Hey, you need to calculate 0! and multiply that by 12.</q>. Factorial of 0 is still our base case. But when we reach <pf>n == 0</pf>, we already should have a final result to return.</p>
+
+  <p>Here is that function. Note that it does the work to calculate <pf>newAccumulator</pf> (<q>the answer so far</q>) before the recursive call and then hands that value off to the next call. We also have a non-recursive function to kick start the recursive process with an accumulator of 1.</p>
+
+  <program label="recursive-functions_tail-program-1" interactive="codelens" >
+<xi:include href="../../programs/recursive-functions/tail-3.cpp" parse="text"/>
+  </program>
+
+  <p>It is harder to see what is getting returned from each level of recursion, as we do not store the result at each level before returning it to the next (that would not be tail recursive!). However, you can see that the base case returns the answer 24 and every recursive level just returns that same answer.</p>
+
+  <insight><p>Tail recursion focuses on doing work on the way down the recursion stack. Non-tail recursive algorithms do work on the way back out of the recursion calls.</p></insight>
+
+  <exercise label="recursive-functions_tail-ex-1"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+
+  <statement>
+  <p>Construct a tail recursive version of <pf>countZeros</pf>. We will add a parameter to keep track of the current count of zeros so that all the work can be done on the way down the recursion stack.</p>
+  </statement>
+  <blocks>
+    <block order="10">
+        <choice correct="yes">
+          <cline><![CDATA[int countZeros(const vector<int>& numbers,]]></cline>
+          <cline><![CDATA[|              size_t curIndex = 0,]]></cline>
+          <cline><![CDATA[|              int zeroCount = 0) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[int countZeros(const vector<int>& numbers,]]></cline>
+          <cline><![CDATA[|              size_t curIndex = 0,]]></cline>
+          <cline><![CDATA[|              int zeroCount = 1) {]]></cline>
+        </choice>
+    </block>
+    <block order="11">
+        <choice correct="yes">
+          <cline><![CDATA[    if (curIndex == numbers.size()) {]]></cline>
+        </choice>
+    </block>
+    <block order="12">
+        <choice correct="yes">
+          <cline><![CDATA[        return zeroCount;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        return 0;]]></cline>
+        </choice>
+    </block>
+    <block order="14">
+        <choice correct="yes">
+          <cline><![CDATA[    } else {]]></cline>
+        </choice>
+        <choice>
+          <cline></cline>
+        </choice>
+    </block>
+    <block order="7">
+        <choice correct="yes">
+          <cline><![CDATA[        if (numbers.at(curIndex) == 0) {]]></cline>
+        </choice>
+    </block>
+    <block order="13">
+        <choice correct="yes">
+          <cline><![CDATA[            zeroCount++;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[            zeroCount = 1;]]></cline>
+        </choice>
+    </block>
+    <block order="1">
+        <choice correct="yes">
+          <cline><![CDATA[        } ]]></cline>
+        </choice>
+    </block>
+    <block order="3">
+        <choice correct="yes">
+          <cline><![CDATA[        return countZeros(numbers,]]></cline>
+          <cline><![CDATA[                          curIndex + 1,]]></cline>
+          <cline><![CDATA[                          zeroCount);]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        return countZeros(numbers,]]></cline>
+          <cline><![CDATA[                          curIndex + 1,]]></cline>
+          <cline><![CDATA[                          zeroCount + 1);]]></cline>
+        </choice>
+    </block>
+    <block order="8">
+        <choice correct="yes">
+          <cline><![CDATA[    }]]></cline>
+          <cline><![CDATA[}]]></cline>
+        </choice>
+    </block>
+  </blocks>
+</exercise>
+
+</section>

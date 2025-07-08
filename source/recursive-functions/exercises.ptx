@@ -1,211 +1,222 @@
-<section xml:id="recursive-functions_exercises" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Exercises</title>
-<p>
-The code for this chapter is in the <term>ch08</term> directory of <term>ThinkJavaCode2</term>.
-See <xref ref="code">page</xref> for instructions on how to download the repository.
-Before you start the exercises, we recommend that you compile and run the examples.
-</p>
+<section xml:id="recursive-functions_exercises"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
 
-<p>
-If you have not already read <xref ref="JUnit">Appendix</xref>, now might be a good time.
-It describes JUnit, a standard framework for writing test code.
-</p>
-<exercise label="recursive-functions_exercises-ex-1">
-<statement>
-<p>
-The purpose of this exercise is to take a problem and break it into smaller problems, and to solve the smaller problems by writing simple functions.
-Consider the first verse of the song <q>99 Bottles of Beer</q>:
-</p>
-<blockquote>
-99 bottles of beer on the wall,
+  <title>Exercises</title>
 
-99 bottles of beer,
-
-ya' take one down, ya' pass it around,
-
-98 bottles of beer on the wall.
-</blockquote>
-<p>
-Subsequent verses are identical except that the number of bottles gets smaller by one in each verse, until the last verse:
-</p>
-<blockquote>
-No bottles of beer on the wall,
-
-no bottles of beer,
-
-ya' can't take one down, ya' can't pass it around,
-
-'cause there are no more bottles of beer on the wall!
-</blockquote>
-<p>
-And then the song (finally) ends.
-</p>
-
-<p>
-Write a program that displays the entire lyrics of <q>99 Bottles of Beer</q>.
-Your program should include a recursive function that does the hard part, but you might want to write additional functions to separate other parts of the program.
-As you develop your code, test it with a small number of verses, like <pf>3</pf>.
-</p>
-</statement>
-</exercise>
-
-<exercise label="recursive-functions_exercises-ex-2">
-<statement>
-<p>
-Write a recursive function named <pf>oddSum</pf> that takes a positive odd integer <pf>n</pf> and returns the sum of odd integers from 1 to <pf>n</pf>.
-Start with a base case, and use temporary variables to debug your solution.
-You might find it helpful to print the value of <pf>n</pf> each time <pf>oddSum</pf> is invoked.
-</p>
-</statement>
-</exercise>
-
-<exercise label="recursive-functions_exercises-ex-3">
-<statement>
-<p>
-In this exercise, you will use a stack diagram to understand the execution of the following recursive function:
-</p>
-
-<program interactive="activecode">
-<xi:include href="../../programs/recursive-functions/exercises-1.cpp" parse="text"/>
-</program>
-
-<ol>
-<li><p>Draw a stack diagram showing the state of the program just before the last invocation of <pf>prod</pf> completes.</p></li>
-<li><p>What is the output of this program?
-(Try to answer this question on paper first; then run the code to check your answer.)</p></li>
-<li><p>Explain in a few words what <pf>prod</pf> does (without getting into the details of how it works).</p></li>
-<li><p>Rewrite <pf>prod</pf> without the temporary variables <pf>recurse</pf> and <pf>result</pf>.
-<term>Hint:</term> You need only one line for the <pf>else</pf> branch.</p></li>
-</ol>
-</statement>
-</exercise>
-
-<exercise label="recursive-functions_exercises-ex-4">
-<statement>
-<p>
-The goal of this exercise is to translate a recursive definition into a Java function.
-The Ackermann function is defined for non-negative integers as follows:
-<md>
-  <mrow>  A(m, n) = \begin{cases}n+1 \amp  \mbox{if }  m = 0 \\
-        A(m-1, 1) \amp  \mbox{if }  m > 0 \mbox{ and }  n = 0 \\
-A(m-1, A(m, n-1)) \amp  \mbox{if }  m > 0 \mbox{ and }  n > 0
-\end{cases}</mrow>
-</md>
-</p>
-
-<p>
-Write a recursive function called <pf>ack</pf> that takes two <pf>int</pf>s as parameters and that computes and returns the value of the Ackermann function.
-</p>
-
-<p>
-Test your implementation of Ackermann by invoking it from <pf>main</pf> and displaying the return value.
-Note the return value gets very big very quickly.
-You should try it only for small values of <m>m</m> and <m>n</m> (not bigger than 3).
-</p>
-</statement>
-</exercise>
-
-<exercise label="recursive-functions_exercises-ex-5" xml:id="ex_power">
-<statement>
-<p>
-Write a recursive function called <pf>power</pf> that takes a double <pf>x</pf> and an integer <pf>n</pf> and returns <m>x^n</m>.
-</p>
-
-<p>
-<term>Hint:</term> A recursive definition of this operation is <m>x^n = x \cdot x^{n-1}</m>.
-Also, remember that anything raised to the zeroth power is 1.
-</p>
-
-<p>
-Optional challenge: you can make this function more efficient, when <pf>n</pf> is even, using <m>x^n = \left( x^{n/2} \right)^2</m>.
-</p>
-</statement>
-</exercise>
-
-<exercise label="recursive-functions_exercises-ex-6">
-<statement>
-<p>
-Many of the patterns you have seen for traversing arrays can also be written recursively.
-It is not common, but it is a useful exercise.
-<ol>
-<li><p>Write a function called <pf>maxInRange</pf> that takes an array of integers and two indexes, <pf>lowIndex</pf> and <pf>highIndex</pf>, and finds the maximum value in the array, but considering only the elements between <pf>lowIndex</pf> and <pf>highIndex</pf>, including both.
-
-This function should be recursive.
-If the length of the range is 1 (i.e., if <pf>lowIndex == highIndex</pf>), we know immediately that the sole element in the range must be the maximum.
-So that's the base case.
-
-If there is more than one element in the range, we can break the array into two pieces, find the maximum in each piece, and then find the maximum of the maxima.</p></li>
-<li><p>functions like <pf>maxInRange</pf> can be awkward to use.
-To find the largest element in an array, we have to provide the range for the entire array:
-
-
-<program interactive="activecode">
-<xi:include href="../../programs/recursive-functions/exercises-2.cpp" parse="text"/>
-</program>
- 
-
-Write a function called <pf>max</pf> that takes an array and uses <pf>maxInRange</pf> to find and return the largest element.</p></li>
-</ol>
-
-</p>
-</statement>
-</exercise>
-
-<exercise label="recursive-functions_exercises-ex-7">
-<statement>
-<p>
-Create a program called <term>Recurse.java</term> and type in the following functions:
-</p>
-
-<program>
-<xi:include href="../../programs/recursive-functions/exercises-3.cpp" parse="text"/>
-</program>
   
-<program>
-<xi:include href="../../programs/recursive-functions/exercises-4.cpp" parse="text"/>
-</program>
+  <exercise label="recursive-functions_exercises-ex-1">
+    <statement>
+      <p>Implement the recursive function: <pf>int power(int x, int p)</pf></p>
+
+      <p>The returned value should be <pf>x</pf> to the <pf>p</pf> power. You don't have to worry about negative exponents. Note that the function header is there, you just need to fill in the body.</p>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/ex-recursion-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+int power(int x, int p) {
+    //YOUR CODE HERE
+}
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/ex-power-end.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>What is an easy obvious power to calculate for any value x? That is a base case.</hint>
+    <hint>Say you were told to calculate 5 to the 10th power and knew you could ask me what the value of 5 to the 9th power was. How could you get your answer?</hint>
+  </exercise>
+
   
-<program>
-<xi:include href="../../programs/recursive-functions/exercises-5.cpp" parse="text"/>
-</program>
+  <exercise label="recursive-functions_exercises-ex-2">
+    <statement>
+      <p>Write a function int <pf>investmentLength(double money, double goal, double interestRate)</pf> that returns the time it will take to reach the given goal if you start with the given amount of money and invest at the specified interest rate. (Interest rate will be a %, divide by 100.0 before using).</p>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/ex-recursion-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+int investmentLength(double money, double goal, double interestRate) {
+    //YOUR CODE HERE
+}
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/ex-invest-end.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>Your base case should return 0 - indicating you don't need to invest for any years because you've met your goal</hint>
+    <hint>The general case represents one more year of your money having been invested. It should return one year plus the result of the recursive call with updated parameters.</hint>
+    <hint>If you leave the money invested until next year, what would the new amount of money be? Would the goal or interest rate change for the recursive call?</hint>
+  </exercise>
+
+  <exercise label="recursive-functions_exercises-ex-3">
+    <statement>
+      <p>Implement a recursive function to turn an integer into a string of binary digits (1s and 0s) <pf>string makeBinary(int n)</pf></p>
+      <p>Use the divide by 2 method to convert decimal to binary (you can refer to <url href="https://runestone.academy/ns/books/published/welcomecs2/data-representation_binary-conversions-multiplication-division-method.html#data-representation_decimal-to-binary-1">Welcome to CS</url> for how the algorithm works).</p>
+      <p>The logic for converting 13 to binary (1101):</p>
+
+        <tabular halign="center">
+          <row header="yes"
+              bottom="major">
+            <cell>Number</cell>
+            <cell>/2 Quotient</cell>
+            <cell>/2 Remainder</cell>
+            <cell>Result</cell>
+            <cell>Comment</cell>
+          </row>
+          <row>
+            <cell>13</cell>
+            <cell>6</cell>
+            <cell>1</cell>
+            <cell>"1"</cell>
+            <cell><p>Add 1 to answer, continue working with 6</p></cell>
+          </row>
+          <row>
+            <cell>6</cell>
+            <cell>3</cell>
+            <cell>0</cell>
+            <cell>"01"</cell>
+            <cell><p>Add 0 to answer, continue working with 3</p></cell>
+          </row>
+          <row>
+            <cell>3</cell>
+            <cell>1</cell>
+            <cell>1</cell>
+            <cell>"101"</cell>
+            <cell><p>Add 1 to answer, continue working with 1</p></cell>
+          </row>
+          <row>
+            <cell>1</cell>
+            <cell>0</cell>
+            <cell>1</cell>
+            <cell>"1101"</cell>
+            <cell><p>Add 1 to answer, continue working with 0</p></cell>
+          </row>
+          <row>
+            <cell>0</cell>
+            <cell>0</cell>
+            <cell>0</cell>
+            <cell>"1101"</cell>
+            <cell>Once we reach 0, stop.</cell>
+          </row>
+        </tabular>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/ex-recursion-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+string makeBinary(int n) {
+    // YOUR CODE HERE
+}
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/ex-binary-end.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
   
-<program>
-<xi:include href="../../programs/recursive-functions/exercises-6.cpp" parse="text"/>
-</program>
 
-<ol>
-<li><p>Write some code in <pf>main</pf> that tests each of these functions.
-Make sure they work, and you understand what they do.</p></li>
-<li><p>Using these functions, and without using any other <pf>String</pf> functions, write a function called <pf>printString</pf> that takes a string as a parameter and displays the letters of the string, one on each line.
-It should be a <pf>void</pf> function.</p></li>
-<li><p>Again using only these functions, write a function called <pf>printBackward</pf> that does the same thing as <pf>printString</pf> but displays the string backward (again, one character per line).</p></li>
-<li><p>Now write a function called <pf>reverseString</pf> that takes a string as a parameter and returns a new string as a return value.
-The new string should contain the same letters as the parameter, but in reverse order:
+  <exercise label="recursive-functions_exercises-ex-4">
+    <statement>
+      <p>Implement the function: <pf>double series(int steps)</pf></p>
+      <p>This function should return the sum of the first <pf>steps</pf> number of terms from the series 1 + 1/2 + 1/4 + 1/8 + 1/16....</p>
+      <p>For example:
+      <ul>
+        <li>series(1) would give 1</li>
+        <li>series(2) would give 1.5</li>
+        <li>series(3) would give 1.75</li>
+        <li>series(4) would give 1.875</li>
+      </ul></p>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/ex-recursion-start.cpp" parse="text"/>
+        </preamble>
+        <code>
 
+double series(int steps) {
+    // YOUR CODE HERE
+}
 
-<program interactive="activecode">
-<xi:include href="../../programs/recursive-functions/exercises-7.cpp" parse="text"/>
-</program>
- 
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/ex-series-end.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
 
-The output of this example code should be as follows:
+  <exercise label="recursive-functions_exercises-ex-5">
+    <statement>
+      <p>Implement the function int <pf>letterCount(const string&amp; s, char a)</pf>. It should return the number of times char <pf>a</pf> appears in <pf>s</pf>.</p>
+      <p>If you want to avoid making substrings of s, you can create a recursive helper that the provided <pf>letterCount</pf> calls.</p>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/ex-recursion-start.cpp" parse="text"/>
+        </preamble>
+        <code>
 
+int letterCount(const string&amp; s, char a) {
+    // YOUR CODE HERE
+}
 
-<console>
-<output>
-eeffoc
-</output>
-</console>
- 
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/ex-letterCount-end.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
 
-    <idx><h>palindrome</h></idx></p></li>
-<li><p>A palindrome is a word that reads the same both forward and backward, like <q>otto</q> and <q>palindromeemordnilap</q>.
-Here's one way to test whether a string is a palindrome:
+  <exercise label="recursive-functions_exercises-ex-6">
+    <statement>
+      <p>Write a function <pf>int numLegs(const vector&lt;char>&amp; animals, int curPosition = 0)</pf>. The vector will consist only of the chars 'c' and 'd' representing "cow" or "duck".  The function should calculate the total number of legs those animals have (assume no mutations or industrial accidents... a cow has 4 and a duck has 2).</p>
+      <p>Use the changing index strategy.</p>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/ex-recursion-start.cpp" parse="text"/>
+        </preamble>
+        <code>
 
-A single letter is a palindrome, a two-letter word is a palindrome if the letters are the same, and any other word is a palindrome if the first letter is the same as the last and the middle is a palindrome. 
+int numLegs(const vector&lt;char>&amp; animals, int curPosition = 0) {
+    // YOUR CODE HERE
+}
 
-Write a recursive function named <pf>isPalindrome</pf> that takes a <pf>String</pf> and returns a <pf>boolean</pf> indicating whether the word is a palindrome.</p></li>
-</ol>
-</statement>
-</exercise>
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/ex-legs-end.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>Your recursion should change the <pf>curPosition</pf> by 1. When <pf>curPosition</pf> is the same as the <pf>.size()</pf> of the vector, you have reached the end.</hint>
+  </exercise>
+
+  <exercise label="recursive-functions_exercises-ex-7">
+    <statement>
+      <p>Implement the function <pf>int getMax(const vector&lt;int>&amp;, int curIndex = 0)</pf>. It should return the largest int in the vector.</p>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/ex-recursion-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+int getMax(const vector&lt;int>&amp;, int curIndex = 0) {
+    // YOUR CODE HERE
+}
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/ex-getmax-end.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>Your base case should be when the index is at the last element (<pf>.size() - 1</pf>). If there are no other elements to worry about (because you responsible for the last one), what ever value it has must be the maximum.</hint>
+  </exercise>
+
 </section>

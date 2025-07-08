@@ -1,0 +1,156 @@
+<section xml:id="recursive-functions_recursive-design2"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Recursive Design Practice</title>
+
+  <p>Let's try applying the recursive design process to a new function. Recall that the steps in our process are:
+    <ul>
+      <li>Identify the inputs and outputs for the function</li>
+      <li>Determine the base case for the recursion</li>
+      <li>Define the recursive case to break down the problem into a smaller version that is one
+    step closer to the base case</li>
+    </ul>
+  </p>
+
+  <activity>
+    <introduction>
+      <p>We want to write a function that counts the number of 0's in a vector of integers using recursion.</p>
+    </introduction> 
+    <task label="recursive-functions_recursive-design-io">
+      <statement>
+        <p>What are the inputs and outputs for this function?</p>
+      </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>Input: a vector of integers, Output: the number of 0's in the vector</statement>
+        </choice>
+        <choice>
+          <statement>Input: a vector of integers, Output: the sum of the integers in the vector</statement>
+        </choice>
+        <choice>
+          <statement>Input: a vector of integers, Output: the maximum integer in the vector</statement>
+        </choice>
+      </choices>
+    </task>
+    <task label="recursive-functions_recursive-design-base">
+      <statement>
+        <p>What is the best base case for this function?</p>
+      </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>If the vector is empty, return 0.</statement>
+        </choice>
+        <choice>
+          <statement>If the vector has only one element, return 1 if it is 0, otherwise return 0</statement>
+          <feedback>This is simple in that it only involves checking a single element. But it is still more work than it could be.</feedback>
+        </choice>
+        <choice>
+          <statement>If none of the elements is 0, return 0.</statement>
+          <feedback>That is not an easy job. It still involves looking at the entire vector!</feedback>
+        </choice>
+      </choices>
+    </task>
+    <task label="recursive-functions_recursive-design-recurse">
+      <statement>
+        <p>How could a recursive case for this function break down the problem into a smaller version that is one step closer to the base case?</p>
+        <p>Remember, we want to take most of the work and hand it off to <q>someone else</q> (a recursive call).</p>
+      </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>Remove the last element from the vector.</statement>
+        </choice>
+        <choice>
+          <statement>Change the last element to 0.</statement>
+          <feedback>Our base case involves an empty vector. This does not get us closer.</feedback>
+        </choice>
+        <choice>
+          <statement>Check if there are 0's left to decide if we need to recurse again.</statement>
+          <feedback>A recursive function case should have one simple job. In this case it should look at just one element. The reset are<q>someone else</q>'s problem.</feedback>
+        </choice>
+      </choices>
+    </task>
+    <task label="recursive-functions_recursive-design-recurse-build">
+      <statement>
+        <p>When the recursive case gets an answer to the simpler problem, what do we do with that answer?</p>
+      </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>Return the count from the recursive call and add 1 if the last element (that we removed) is 0.</statement>
+        </choice>
+        <choice>
+          <statement>Return the count from the recursive call.</statement>
+          <feedback>That does not include our part of the task - dealing with the last element.</feedback>
+        </choice>
+        <choice>
+          <statement>Return the count from the recursive call and add 0 if the last element (that we removed) is 0.</statement>
+          <feedback>Each we see should increase the total by 1.</feedback>
+        </choice>
+      </choices>
+    </task>
+  </activity>
+
+  <p>Now we can put it all together. Build the working function and then test it out:</p>
+
+  <exercise label="recursive-functions_recursive-design2-ex-1"
+    numbered="yes"
+    adaptive="yes"
+    indentation="hide">
+    <statement>
+    <p>Build the countZeros function.</p>
+    </statement>
+    <blocks>
+      <block order="1">
+          <cline><![CDATA[int countZeros(vector<int>& numbers) {]]></cline>
+      </block>
+      <block order="4">
+          <cline><![CDATA[    if (numbers.empty()) {]]></cline>
+      </block>
+      <block order="6">
+          <cline><![CDATA[        return 0;]]></cline>
+      </block>
+      <block order="2">
+          <cline><![CDATA[    } else {]]></cline>
+      </block>
+      <block order="3">
+          <cline><![CDATA[        int lastElement = numbers.back();]]></cline>
+      </block>
+      <block order="5">
+          <cline><![CDATA[        numbers.pop_back(); // remove last element]]></cline>
+      </block>
+      <block order="8">
+          <cline><![CDATA[        int count = countZeros(numbers);]]></cline>
+      </block>
+      <block order="9">
+          <cline><![CDATA[        if (lastElement == 0) {]]></cline>
+      </block>
+      <block order="10">
+          <cline><![CDATA[            count = count + 1;]]></cline>
+      </block>
+      <block order="11">
+          <cline><![CDATA[        }]]></cline>
+      </block>
+      <block order="12">
+          <cline><![CDATA[        return count;]]></cline>
+      </block>
+      <block order="7">
+          <cline><![CDATA[    }]]></cline>
+          <cline><![CDATA[}]]></cline>
+      </block>
+    </blocks>
+    <program-preamble><![CDATA[#include <iostream>
+#include <vector>
+using namespace std;
+
+]]></program-preamble>
+    <program></program>
+    <program-postamble><![CDATA[
+      
+int main() {
+    vector<int> numbers = {0, 1, 2, 0, 3, 0, 4};
+    int zeroCount = countZeros(numbers);
+    cout << "The number of zeros in the vector is: " << zeroCount << endl;
+}
+]]></program-postamble>
+  </exercise>
+
+  
+</section>

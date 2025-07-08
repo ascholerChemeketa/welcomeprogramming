@@ -1,105 +1,231 @@
-<section xml:id="recursive-functions_valuereturning-functions" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Value-Returning functions</title>
-<p>
-To give you an idea of what you can do with the tools you have learned, let's look at functions that evaluate recursively defined mathematical functions.
-</p>
+<section xml:id="recursive-functions_valuereturning-functions"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Value-Returning functions</title>
 
-<p>
-A recursive definition is similar to a <q>circular</q> definition, in the sense that the definition refers to the thing being defined.
-Of course, a truly circular definition is not very useful:
-</p>
-<blockquote>
-<term>recursive:</term> 
+  <p>Now let's consider a more complicated situation<mdash/>a recursive function that returns a value.</p>
 
-An adjective used to describe a function that is recursive.
-</blockquote>
-<p>
-    <idx><h>recursion</h></idx>
-If you saw that definition in the dictionary, you might be annoyed.
-Then again, if you search for <q>recursion</q> on Google, it displays <q>Did you mean: recursion</q> as an inside joke.
-People fall for that link all the time.
-</p>
+  <p>
+    <idx>
+      <h>factorial</h>
+    </idx> Many mathematical functions are defined recursively, because that
+    is often the simplest way. For example, the <term>factorial</term> of an integer <m>n</m>, which
+    is written <m>n!</m>, is defined like this: <md>
+      <mrow> 0! = \amp 1</mrow>
+      <mrow> n! = \amp n \cdot(n-1)!</mrow>
+    </md>
+  </p>
 
-<p>
-    <idx><h>factorial</h></idx>
-Many mathematical functions are defined recursively, because that is often the simplest way.
-For example, the <term>factorial</term> of an integer <m>n</m>, which is written <m>n!</m>, is defined like this:
-<md>
-  <mrow>  \amp \amp   0! = 1</mrow>
-  <mrow>  \amp \amp   n! = n \cdot(n-1)!</mrow>
-</md>
-</p>
+  <p>Don't confuse the mathematical symbol <m>!</m>, which means <term>factorial</term>, with the
+    C++ operator <pf>!</pf>, which means <term>not</term>. This definition says that <pf>factorial(0)</pf> is <pf>1</pf>,
+    and <pf>factorial(n)</pf> is <pf>n * factorial(n - 1)</pf>. </p>
 
-<p>
-Don't confuse the mathematical symbol <m>!</m>, which means <term>factorial</term>, with the Java operator <pf>!</pf>, which means <term>not</term>.
-This definition says that <pf>factorial(0)</pf> is <pf>1</pf>, and <pf>factorial(n)</pf> is <pf>n * factorial(n - 1)</pf>.
-</p>
+  <p>It is trivial to turn that into a recursive function. The two parts of the definition are the base case and the recursive case:</p>
 
-<p>
-So <pf>factorial(3)</pf> is <pf>3 * factorial(2)</pf>; <pf>factorial(2)</pf> is <pf>2 * factorial(1)</pf>; <pf>factorial(1)</pf> is <pf>1 * factorial(0)</pf>; and <pf>factorial(0)</pf> is <pf>1</pf>.
-Putting it all together, we get <pf>3 * 2 * 1 * 1</pf>, which is 6.
-</p>
-
-<p>
-If you can formulate a recursive definition of something, you can easily write a Java function to evaluate it.
-The first step is to decide what the parameters and return type are.
-Since <pf>factorial</pf> is defined for integers, the function takes an <pf>int</pf> as a parameter and returns an <pf>int</pf>:
-</p>
-
-<program>
+  <program label="recursive-functions_valuereturning-functions-program-1"
+           interactive="activecode">
 <xi:include href="../../programs/recursive-functions/valuereturning-functions-1.cpp" parse="text"/>
 </program>
+    
+  <p>Why is the answer 120? Well...
+    <ul>
+      <li><pf>factorial(5)</pf> is <pf>5 * factorial(4)</pf></li>
+      <li><pf>factorial(4)</pf> is <pf>4 * factorial(3)</pf></li>
+      <li><pf>factorial(3)</pf> is <pf>3 * factorial(2)</pf></li>
+      <li><pf>factorial(2)</pf> is <pf>2 * factorial(1)</pf></li>
+      <li><pf>factorial(1)</pf> is <pf>1 * factorial(0)</pf></li>
+      <li><pf>factorial(0)</pf> is <pf>1</pf></li>
+    </ul>
+  </p>
 
-<p>
-Next, we think about the base case.
-If the argument happens to be 0, we return 1:
-</p>
+  <p>If we use those rules to keep expanding `factorial(5) it looks like:
+<ul>
+  <li><pf>factorial(5)</pf></li>
+  <li><pf>(5 * factorial(4))</pf></li>
+  <li><pf>(5 * (4 * factorial(3)))</pf></li>
+  <li><pf>(5 * (4 * (3 * factorial(2))))</pf></li>
+  <li><pf>(5 * (4 * (3 * (2 * factorial(1)))))</pf></li>
+  <li><pf>(5 * (4 * (3 * (2 * (1 * factorial(0))))))</pf></li>
+  <li><pf>(5 * (4 * (3 * (2 * (1 * (1))))))</pf></li>
+</ul>
+Once we there are no more <pf>factorial</pf> calls, we can evaluate the expression and get 120.
+  </p>
 
-<program>
+  <p>To actually see this play out in the code, it can help to break up the steps of the recursive case. This version of <pf>factorial</pf> does the same math, but prints more information along the way. </p>
+
+  <program label="recursive-functions_valuereturning-functions-program-2"
+  interactive="codelens">
 <xi:include href="../../programs/recursive-functions/valuereturning-functions-2.cpp" parse="text"/>
 </program>
 
-<p>
-Otherwise, and this is the interesting part, we have to make a recursive call to find the factorial of <m>n-1</m>, and then multiply it by <m>n</m>:
-</p>
+ <p>Notice that as you run the code, you get a chance to see the values being returned at each step of the recursion.</p>
 
-<program>
-<xi:include href="../../programs/recursive-functions/valuereturning-functions-3.cpp" parse="text"/>
-</program>
+  <insight><p>It is easier to debug recursion if we store the value that is returned from the recursive call, calculate and store the answer for the current call, and then return the result.  That way we can use a debugger or print statements to view how the result is being built up level by level.</p>
+  <p>The original version of <pf>factorial</pf>, which did <pf>return n * factorial(n - 1);</pf>, gave us no chance to see what came back from the call <pf>factorial(n - 1)</pf> or what value would be returned.</p></insight>
 
-<p>
-To illustrate what is happening, we'll use the temporary variables <pf>recurse</pf> and <pf>result</pf>.
-In each function call, <pf>recurse</pf> stores the factorial of <m>n - 1</m>, and <pf>result</pf> stores the factorial of <m>n</m>.
-</p>
+  <p>Below is a stack diagram that shows how the value is built up over the recursive calls. This stack diagram cheats a little. Instead of showing the stack at a particular point in time, it shows the final state of each stack frame all at the same time. It also shows what is being returned from one level to the next.</p>
 
-<p>
-The flow of execution for this program is similar to <pf>countdown</pf> from <xref ref="recursion">Section</xref>.
-If we invoke <pf>factorial</pf> with the value <pf>3</pf>:
-</p>
-<blockquote>
-Since 3 is not 0, we skip the first branch and calculate the factorial of <m>n-1</m>...
-<blockquote>
-Since 2 is not 0, we skip the first branch and calculate the factorial of <m>n-1</m>...
-<blockquote>
-Since 1 is not 0, we skip the first branch and calculate the factorial of <m>n-1</m>...
-<blockquote>
-Since 0 <term>is</term> 0, we take the first branch and return the value 1 immediately.
-</blockquote>
-The return value (1) gets multiplied by <pf>n</pf>, which is 1, and the result is returned.
-</blockquote>
-The return value (1) gets multiplied by <pf>n</pf>, which is 2, and the result is returned.
-</blockquote>
-The return value (2) gets multiplied by <pf>n</pf>, which is 3, and the result, 6, is returned to whatever invoked <pf>factorial(3)</pf>.
-</blockquote>
-<p>
-    <idx><h>stack diagram</h></idx>
-    <idx><h>diagram</h><h>stack</h></idx>
-<xref ref="fig_stack3">Figure</xref> shows what the stack diagram looks like for this sequence of function invocations.
-The return values are shown being passed up the stack.
-Notice that <pf>recurse</pf> and <pf>result</pf> do not exist in the last frame, because when <pf>n == 0</pf>, the code that declares them does not execute.
-</p>
-<figure xml:id="fig_stack3" >
-<caption>Stack diagram for the <pf>factorial</pf> function.</caption>
-<image width="73%" source="images/stack3.png" />
-</figure>
+  <figure>
+    <caption>Stack diagram for the <pf>factorial</pf> program.</caption>
+    <image width="40%"
+           source="images/recursion-stack-returns.png"
+           alt="There are 4 stack frame boxes for the countdown function. They have different values of n, from 3 to 0."/>
+  </figure>
+
+
+<exercise label="recursive-functions_valuereturning-functions-ex-1"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  <statement>
+  <p>Construct the function <pf>sumFrom(int start, int end)</pf>. It should return the sum of all integers from <pf>start</pf> to <pf>end</pf> (inclusive). If <pf>start</pf> is greater than <pf>end</pf>, it should return 0.</p>
+  <p>Each call will be responsible for the current <pf>start</pf> value. Recursion will change the <pf>start</pf>.</p>
+  </statement>
+  <blocks>
+    <block order="2">
+        <choice correct="yes">
+          <cline><![CDATA[int sumFrom(int start, int end) {]]></cline>
+        </choice>
+        <choice>
+          <cline></cline>
+        </choice>
+    </block>
+    <block order="9">
+        <choice correct="yes">
+          <cline><![CDATA[    if (start > end) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    if (start == end) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    if (start == 0) {]]></cline>
+        </choice>
+    </block>
+    <block order="3">
+        <choice correct="yes">
+          <cline><![CDATA[        return 0;]]></cline>
+          <cline><![CDATA[    } else {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        return end;]]></cline>
+          <cline><![CDATA[    } else {]]></cline>
+        </choice>
+    </block>
+    <block order="7">
+        <choice correct="yes">
+          <cline><![CDATA[        int rest = sumFrom(start + 1, end - 1);]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        int rest = sumFrom(start, end);]]></cline>
+        </choice>
+    </block>
+    <block order="6">
+        <choice correct="yes">
+          <cline><![CDATA[        int result = start + rest;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        int result = end + rest;]]></cline>
+        </choice>
+    </block>
+    <block order="8">
+        <choice correct="yes">
+          <cline><![CDATA[        return result;]]></cline>
+          <cline><![CDATA[    }]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        return rest;]]></cline>
+          <cline><![CDATA[    }]]></cline>
+        </choice>
+    </block>
+    <block order="5">
+        <choice correct="yes">
+          <cline><![CDATA[}]]></cline>
+        </choice>
+    </block>
+  </blocks>
+</exercise>
+
+
+
+<exercise label="recursive-functions_valuereturning-functions-ex-2"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  <statement>
+  <p>Build another version of the function <pf>sumFrom(int start, int end)</pf>. It should return the sum of all integers from <pf>start</pf> to <pf>end</pf> (inclusive). If <pf>start</pf> is greater than <pf>end</pf>, it should return 0.</p>
+  <p>This version will have two base cases. One for when <pf>start</pf> is equal to <pf>end</pf>, and another for when <pf>start</pf> is greater than <pf>end</pf>.</p>
+  <p>Each call should be responsible for the current <pf>end</pf> value. Recursion will change the <pf>end</pf>.</p>
+  </statement>
+  <blocks>
+    <block order="2">
+        <choice correct="yes">
+          <cline><![CDATA[int sumFrom(int start, int end) {]]></cline>
+        </choice>
+        <choice>
+          <cline></cline>
+        </choice>
+    </block>
+    <block order="3">
+        <choice correct="yes">
+          <cline><![CDATA[    if (start == end) {]]></cline>
+          <cline><![CDATA[        return end;]]></cline>
+          <cline><![CDATA[    }]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    if (start == end) {]]></cline>
+          <cline><![CDATA[        return 0;]]></cline>
+          <cline><![CDATA[    }]]></cline>
+        </choice>
+    </block>
+    <block order="4">
+        <choice correct="yes">
+          <cline><![CDATA[    else if (start > end) {]]></cline>
+          <cline><![CDATA[        return 0;]]></cline>
+          <cline><![CDATA[    }]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    else if (start > end) {]]></cline>
+          <cline><![CDATA[        return end;]]></cline>
+          <cline><![CDATA[    }]]></cline>
+        </choice>
+    </block>
+    <block order="7">
+        <choice correct="yes">
+          <cline><![CDATA[    else {]]></cline>
+          <cline><![CDATA[        int rest = sumFrom(start, end - 1);]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    else {]]></cline>
+          <cline><![CDATA[        int rest = sumFrom(start + 1, end);]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    else {]]></cline>
+          <cline><![CDATA[        int rest = sumFrom(start + 1, end - 1);]]></cline>
+        </choice>
+    </block>
+    <block order="6">
+        <choice correct="yes">
+          <cline><![CDATA[        int result = end + rest;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        int result = start + rest;]]></cline>
+        </choice>
+    </block>
+    <block order="8">
+        <choice correct="yes">
+          <cline><![CDATA[        return result;]]></cline>
+          <cline><![CDATA[    }]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        return rest;]]></cline>
+          <cline><![CDATA[    }]]></cline>
+        </choice>
+    </block>
+    <block order="5">
+        <choice correct="yes">
+          <cline><![CDATA[}]]></cline>
+        </choice>
+    </block>
+  </blocks>
+</exercise>
+
 </section>

@@ -1,0 +1,217 @@
+<section xml:id="recursive-functions_recursive-design"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Designing Recursive Functions</title>
+
+  <p>Recursion and iteration (loops) are two different approaches to repeat the same instructions
+    multiple times. Any problem that can be solved with one approach can also be solved with the
+    other, although the solutions may look quite different. For problems that are naturally
+    recursive, it is likely the recursive version will produce a simpler and more elegant solution.</p>
+
+  <p>Designing recursive algorithms requires thinking in a different way than solving with a loop.
+    When using a loop, we typically track some information in variables as we iterate through the
+    steps. At each step, we update that information to build an answer.</p>
+
+  <p>Consider this function to sum up the digits in an integer:</p>
+
+  <program label="recursive-functions_recursive-design-program-1"
+           interactive="activecode">
+<xi:include href="../../programs/recursive-functions/recursive-design-0.cpp" parse="text"/>
+  </program>
+
+  <p>The information we keep track of are the variables <pf>sum</pf> and <pf>n</pf>. Each step of the loop adds
+    the last digit to <pf>sum</pf> and then removes the last digit from <pf>n</pf>.</p>
+
+  <p>In recursion, there is no loop, so we can't keep track of information in the same way. The job
+    of adding each digit to the sum will be split across many different function calls. They way we
+    will keep track of information is by either passing or returning it from one recursive call to
+    the next.</p>
+
+  <p>The input for the loop-based function is <pf>n</pf>. Each recursive call will change <pf>n</pf> before making
+    a new recursive call. The result of the loop-based function is <pf>sum</pf>. That is what we will have
+    to return in our recursive implementation.</p>
+
+  <insight>
+    <p>Return values and parameters are how you track state in recursion. Any variable you would
+      build up using a loop needs to get turned into parameters or return values in a recursive
+      function.</p>
+  </insight>
+
+  <p>Next, we need to identify a base case. That will be a situation where there is no reasonable
+    way to make the problem any simpler. A situation where the answer can be determined without
+    worrying about multiple steps.</p>
+
+  <p>What is a situation where <pf>addDigits</pf> can easily identify the answer? Well, if there is only
+    one digit (the number is less than 10), than the sum of the digits is simply the number itself.
+    It doesn't get much simpler than that!</p>
+
+  <program>
+    int addDigits(int n) {
+        if (n &lt; 10) {
+            return n; // base case: single digit
+        } else {
+            // recursive case: more than one digit
+            int sum = 0; ???
+            return sum;
+        }
+    }
+  </program>
+
+  <p>Now we need to figure out how to handle the recursive case. The job of a recursive case is <em>
+    NEVER</em> to solve the entire problem. It is to break the problem down into smaller pieces and
+    say <q>if someone solves that smaller problem for me, I can tell you the answer to the full
+    problem</q>.</p>
+
+  <p>Imagine you are in charge of adding the digits in a number. You are given a long number like
+    <pf>54324238</pf>. If you had an assistant to help you might ask them to add all the digits except the
+    last one. <q>Hey - tell me what the sum of 5432423 is!</q>. Once they told you their answer, you
+    could add the first digit, <pf>8</pf>, to that sum to get the final result.</p>
+
+  <p>Put that way, your job just became easy. You don't care if the number is <pf>548</pf> or
+    <pf>54378573984579384758</pf>. You will hand off everything but the last digit and wait for a response.
+    Once you get that response, you will add <pf>8</pf> to it to determine your answer.</p>
+
+  <insight>
+    <p>Recursive cases always say something like <q>I don't know the answer, but if someone tells me
+      the answer to this slightly simpler problem, I could easily figure out my answer</q>.</p>
+  </insight>
+
+  <p>So our recursive case for adding digits involves looking at the last digit, making a recursive
+    call using everything but that digit, and then adding the last digit to the result of that call:</p>
+
+  <program>
+    int addDigits(int n) {
+        if (n &lt; 10) {
+            return n; // base case: single digit
+        } else {
+            int lastDigit = n % 10; // get the last digit
+            int remainingDigits = n / 10; // remove the last digit
+            int nextSum = addDigits(remainingDigits); // recursive call
+            int sum = nextSum + lastDigit; // add last digit to the response
+            return sum;
+        }
+    }
+  </program>
+
+  <p>The way that the recursive case breaks down the problem into something slightly simpler should
+    get us closer and closer to a base case. That is what will eventually end the recursion! This is
+    the case for our solution. At each recursive call, the number we are working with gets one digit
+    shorter. Eventually, it is only one digit and falls into the base case. Try running the program
+    in a Codelens to see:</p>
+
+  <program label="recursive-functions_recursive-design-program-2"
+           interactive="codelens">
+<xi:include href="../../programs/recursive-functions/recursive-design-1.cpp" parse="text"/>
+  </program>
+
+  <p>Wait, weren't we promised that recursion could sometimes produce simpler and easier algorithms?
+    That version of the algorithm intentionally stores every value that is calculated so we can
+    watch the code run. Once we are confident in how the code works, we could rewrite it to be this
+    version:</p>
+
+  <program label="recursive-functions_recursive-design-program-3"
+           interactive="activecode">
+<code>
+<xi:include href="../../programs/recursive-functions/recursive-design-2.cpp" parse="text"/>
+</code>
+<stdin>5343</stdin>
+  </program>
+
+  <p>To summarize our process: <ul>
+      <li>Identify the inputs and outputs for the function</li>
+      <li>Determine the base case for the recursion</li>
+      <li>Define the recursive case to break down the problem into a smaller version that is one
+    step closer to the base case</li>
+    </ul>
+  </p>
+
+  
+  <exercise label="recursive-functions_recursive-design-ex-1">
+    <statement>
+      <p>We want to write a recursive function <pf>int letterCount(string s)</pf> that counts the number of letters in a string. (We are not allowed to use <pf>.size()</pf> to help us.) What might be a good base case?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>There is only one letter in the string.</p>
+        </statement>
+        <feedback>
+          <p>How would you know that without using <pf>.size()</pf>?</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>The string is <pf>== ""</pf>.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>There are only two letters in the string.</p>
+        </statement>
+        <feedback>
+          <p>How would you know that without using <pf>.size()</pf>?</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  
+  <exercise label="recursive-functions_recursive-design-ex-2">
+    <statement>
+      <p>We want to write a recursive function <pf>int letterCount(string s)</pf> that counts the number of letters in a string. (We are not allowed to use <pf>.size()</pf> to help us.) How could recursion get one step closer to the base case?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>Chop the string in half.</p>
+        </statement>
+        <feedback>
+          <p>How would you determine the halfway point?</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Remove one letter from the string.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Remove all but the first letter from the string.</p>
+        </statement>
+        <feedback>
+          <p>That sounds like more than one step towards the base case.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="recursive-functions_recursive-design-ex-3">
+    <statement>
+      <p>We want to write a recursive function <pf>int letterCount(string s)</pf> that counts the number of letters in a string. (We are not allowed to use <pf>.size()</pf> to help us.) How could the recursive case determine its answer?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>The count produced by the recursive call</p>
+        </statement>
+        <feedback>
+          <p>That means each recursive call would produce the same answer. (Whatever the base case produces.)</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>1 + the count produced by the recursive call</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>1</p>
+        </statement>
+        <feedback>
+          <p>That would ignore the results of recursion.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+</section>

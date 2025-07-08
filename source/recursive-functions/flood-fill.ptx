@@ -1,0 +1,141 @@
+<section xml:id="recursive-functions_flood-fill"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Advanced Recursion - Flood Fill</title>
+
+  <p>Recursion often excels for problems that can be solved using a <term>divide and conquer</term>
+    strategy. Divide and conquer means breaking a problem down into smaller, similar sub-problems,
+    solving those sub-problems, and then combining the results to solve the original problem. (Even
+    description of the strategy should sound a lot like how we have described recursion.)</p>
+
+  <p>A classic example of this is the <term>flood fill</term> algorithm, which is used in computer
+    graphics to fill an area with a color. We will look at a simple version of flood fill that <q>
+    colors</q> in elements of a 2D matrix. Flood fill starts from a single point and keeps spreading
+    out, only stopping when we reach the edge of the area or a different color.</p>
+
+  <sidebyside>
+    <figure>
+      <caption>Flood Fill Start. We begin filling the area at the <pf>.</pf></caption>
+      <pre>
+      ###
+      # #
+  ##### #
+  # .   #
+  #  ####
+  ####   
+         
+    </pre>
+    </figure>
+    <figure>
+      <caption>Flood Fill End. All the blank areas inside the region are filled with <pf>.</pf>.</caption>
+      <pre>
+      ###
+      #.#
+  #####.#
+  #.....#
+  #..####
+  ####   
+         
+    </pre>
+    </figure>
+  </sidebyside>
+
+  <p>Let us consider the recursive design questions. As we do so, let us stop and think about what
+    one <q>worker</q> should be responsible for doing. What is the tiniest version of <q>fill in
+    this area with paint</q>? It seems like the smallest area we can consider is a single cell. So
+    that will be the work we focus on in each recursive call. <dl>
+      <li>
+        <title>What are the inputs/outputs</title>
+        <p>Input: a 2D matrix and a starting point; Output: nothing, we will just modify the matrix.</p>
+      </li>
+      <li>
+        <title>What is the base case</title>
+        <p>We have reached a cell that is not blank, or we have gone outside the bounds of the
+    matrix. So there are two base cases. In both, there is nothing to do, we just need to return.</p>
+      </li>
+      <li>
+        <title>What is the recursive case</title>
+        <p>We will fill in the current cell with the new color, and then recursively call
+    <pf>floodFill</pf> on the four neighboring cells (up, down, left, right).</p>
+      </li>
+    </dl>
+  </p>
+
+  <p>It almost seems like cheating. How do you flood fill? You fill one square and then ask the
+    neighbors to flood fill.</p>
+
+  <exercise label="recursive-functions_flood-fill-ex-1"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Build the flood fill algorithm. Tip: we need to test the <q>out of bounds</q> test case
+        BEFORE we try to check if the current location is already filled in.</p>
+    </statement>
+    <blocks>
+      <block order="7">
+        <cline><![CDATA[void floodFill(vector<vector<char>>& picture, ]]></cline>
+        <cline><![CDATA[                 size_t curRow, size_t curCol) {]]></cline>
+    </block>
+      <block order="9">
+        <cline><![CDATA[    size_t rows = picture.size();]]></cline>
+        <cline><![CDATA[    size_t cols = picture.at(0).size();]]></cline>
+    </block>
+      <block order="5">
+        <cline><![CDATA[    if (curRow >= rows || curCol >= cols) {]]></cline>
+    </block>
+      <block order="2">
+        <cline><![CDATA[        return; // went out of bounds - done]]></cline>
+        <cline><![CDATA[    }]]></cline>
+    </block>
+      <block order="6">
+        <cline><![CDATA[    if (picture.at(curRow).at(curCol) != ' ') {]]></cline>
+    </block>
+      <block order="8">
+        <cline><![CDATA[        return; // hit a filled square - done]]></cline>
+        <cline><![CDATA[    }]]></cline>
+    </block>
+      <block order="1">
+        <cline><![CDATA[    // mark the current square]]></cline>
+        <cline><![CDATA[    picture.at(curRow).at(curCol) = '.';]]></cline>
+        <cline><![CDATA[    printMaze(picture); // show what it looks like now]]></cline>
+    </block>
+      <block order="3">
+        <cline><![CDATA[    floodFill(picture, curRow, curCol - 1); // left]]></cline>
+        <cline><![CDATA[    floodFill(picture, curRow, curCol + 1); // right]]></cline>
+        <cline><![CDATA[    floodFill(picture, curRow - 1, curCol); // up]]></cline>
+        <cline><![CDATA[    floodFill(picture, curRow + 1, curCol); // down]]></cline>
+    </block>
+      <block order="4">
+        <cline><![CDATA[}]]></cline>
+    </block>
+    </blocks>
+    <program-preamble>
+<xi:include href="../../programs/recursive-functions/flood-fill-start.cpp" parse="text"/>
+  </program-preamble>
+    <program></program>
+    <program-postamble>
+<xi:include href="../../programs/recursive-functions/flood-fill-end.cpp" parse="text"/>
+  </program-postamble>
+  </exercise>
+
+  <p>Once you build the algorithm, make sure to run it. Then scroll through the output. Because we
+    print at each step of the algorithm, you can see the process play out. To see even more
+    information about what is going on, add `cout &lt;&lt; "Checking" &lt;&lt; curRow &lt;&lt; ", "
+    &lt;&lt; curCol &lt;&lt; endl;<pf> as the first line inside </pf>floodFill`. You will get to see
+    evidence of all of the function calls, even those that are a base case and do not do anything.</p>
+
+  <note>
+    <p>We are not checking if <pf>curRow</pf> or <pf>curCol</pf> are less than 0 because they are of type
+      <pf>size_t</pf>. A <pf>size_t</pf> can not be negative. If it is 0, and you subtract 1 from it, it will wrap
+      around to the largest possible number it can represent. (Similar to the large value
+      <pf>string::npos</pf> represents.)</p> 
+      <p>So <pf>curRow >= rows</pf> will catch both <q>The row number got too big</q>
+      and <q>we went below 0</q>. If there are 10 rows and we go to row 11, that is out of
+      bounds. If we are at row 0 and try to subtract 1, we will end up with a value like
+      <pf>18446744073709551615</pf>. That will also count as out of bounds.</p>
+      <p>You can test this by changing
+      <pf>main</pf> so the start row is 0 and the start col is 4. That location is not surrounded by walls.</p>
+  </note>
+
+</section>

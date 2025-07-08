@@ -1,0 +1,145 @@
+<section xml:id="recursive-functions_base-case"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Base vs General Case</title>
+
+  <p>Every recursive function will use some kind of selection logic to pick between two cases: <dl>
+      <li>
+        <title>base case</title>
+        <p>
+          <idx>
+            <h>base case</h>
+          </idx> A case that does not make a recursive call and ends the
+    recursion.</p>
+      </li>
+      <li>
+        <title>recursive (general) case</title>
+        <p>
+          <idx>
+            <h>recursive case</h>
+            <h>general case</h>
+          </idx> A case that makes a recursive call, so it adds a new
+    frame to the stack.</p>
+      </li>
+    </dl>
+    Sometimes, a recursive function will have multiple base cases, and sometimes it will have multiple recursive cases. But it must always have at least one of each.</p>
+
+  <p>We can see this in our <pf>countdown</pf> function. Lines 2-3 represent our base case. When <pf>n == 0</pf>, the function stops calling itself:</p>
+
+  <listing xref="recursive-functions-base-case-listing">
+    <caption>Base case of <pf>countdown</pf></caption>
+  <program line-numbers="yes" highlight-lines="2,3">
+    <code><![CDATA[
+      void countdown(int n) {
+        if (n == 0) {
+            cout << "Blastoff!" << endl;
+        } else {
+            cout << n << endl;
+            countdown(n - 1); //recursive call
+        }
+    }]]>
+    </code>
+  </program>
+  </listing>
+  
+  <p>We can see this in our <pf>countdown</pf> function. Lines 4-6 represent our recursive (general) case. When <pf>n</pf> is not 0, the function continues to call itself:</p>
+
+  <listing xref="recursive-functions-general-case-listing">
+    <caption>General case of <pf>countdown</pf></caption>
+  <program line-numbers="yes" highlight-lines="4-6">
+    <code><![CDATA[
+      void countdown(int n) {
+        if (n == 0) {
+            cout << "Blastoff!" << endl;
+        } else {
+            cout << n << endl;
+            countdown(n - 1); //recursive call
+        }
+    }]]>
+    </code>
+  </program>
+  </listing>
+
+  <p>
+    <idx>
+      <h>stack overflow</h>
+    </idx>
+    <idx>
+      <h>segmentation fault</h>
+    </idx>
+    If there is no base case in a recursive function, or if the
+    base case is never reached, the stack would grow forever<mdash/>at least in theory. In practice,
+    the size of the stack is limited.  If you exceed the limit it is called a <term>stack overflow</term> and your program will crash. In C++, when you do something that accesses memory you should not (like when you overflow the stack), you will encounter a <term>segmentation fault</term>.</p>
+
+  <p>For example, try running this program and then look at the output. Be patient while it runs.</p>
+
+  <program label="recursive-functions_stack-overflow_program" interactive="activecode" timelimit="1000" compiler-args="-Wno-infinite-recursion">
+<xi:include href="../../programs/recursive-functions/stack-overflow.cpp" parse="text"/>
+</program>
+
+  <p>Since there is no base case, the function does not stop when <pf>n == 0</pf>. It just keeps on counting! Eventually there is a segmentation fault, which stops the program.</p>
+
+  <insight><p><pf>Segmentation fault</pf> means <q>you accessed memory that you should not have.</q>. One way to do that is a bad pointer. A stack overflow is another way.</p></insight>
+
+  <exercise label="recursive-functions_base-case-ex-1">
+    <statement>
+      <p>Examine the code below. What is the base case?</p>
+      <program>
+        <code><![CDATA[
+          void foo(int n) {
+            if (n > 100) {
+                cout << n << endl;
+            } else {
+                foo(n * n);
+            }
+          }
+        ]]>
+        </code>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>n is 0</statement>
+      </choice>
+      <choice>
+        <statement>there is not one</statement>
+      </choice>
+      <choice>
+        <statement>n &lt;= 100</statement>
+      </choice>
+      <choice correct="yes">
+        <statement>n > 100</statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="recursive-functions_base-case-ex-2">
+    <statement>
+      <p>Examine the code below. How many times will the line marked <pf>// HERE</pf> be executed if we call <pf>foo(4)</pf>? <fillin mode="number"
+                answer="3"/></p>
+      <program>
+        <code><![CDATA[
+          void foo(int n) {
+            if (n > 100) {
+                cout << n << endl;
+            } else {
+                // HERE
+                foo(n * n);
+            }
+          }
+        ]]>
+        </code>
+      </program>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <feedback>Run the code by hand and draw a call stack. Note that the line we are looking at only executes in the general case.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>

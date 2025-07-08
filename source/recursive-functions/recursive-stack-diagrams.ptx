@@ -1,54 +1,36 @@
-<section xml:id="recursive-functions_recursive-stack-diagrams" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Recursive Stack Diagrams</title>
-<p>
-    <idx><h>stack diagram</h></idx>
-    <idx><h>diagram</h><h>stack</h></idx>
-    <idx><h>state</h></idx>
-In <xref ref="stack">Section</xref>, we used a stack diagram to represent the state of a program during a function invocation.
-The same kind of diagram can make it easier to interpret a recursive function.
-</p>
+<section xml:id="recursive-functions_recursive-stack-diagrams"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Recursive Stack Diagrams</title>
+  <p>
+    <idx>
+      <h>stack diagram</h>
+      <h>recursion</h>
+    </idx> Because recursive functions call themselves, stack diagrams that involve recursive functions will show the same function multiple times. Here is the stack diagram Codelens produces for the <pf>countdown</pf> function:</p>
 
-<p>
-Remember that every time a function gets called, Java creates a new frame that contains the function's parameters and variables.
-<xref ref="fig_stack2">Figure</xref> is a stack diagram for <pf>countdown</pf>, called with <pf>n == 3</pf>.
-</p>
-<figure xml:id="fig_stack2" >
-<caption>Stack diagram for the <pf>countdown</pf> program.</caption>
-<image width="73%" source="images/stack2.png" />
-</figure>
-<p>
-By convention, the frame for <pf>main</pf> is at the top, and the stack of other frames grows down.
-That way, we can draw stack diagrams on paper without needing to guess how far they will grow.
-The frame for <pf>main</pf> is empty because <pf>main</pf> does not have any variables.
-(It has the parameter <pf>args</pf>, but since we're not using it, we left it out of the diagram.)
-</p>
+  <figure>
+    <caption>Stack diagram for the <pf>countdown</pf> program.</caption>
+    <image width="25%"
+           source="images/recursion-stack-1.png"
+           alt="There are 4 stack frame boxes for the countdown function. They have different values of n, from 3 to 0."/>
+  </figure>
 
-<p>
-    <idx><h>base case</h></idx>
-There are four frames for <pf>countdown</pf>, each with a different value for the parameter <pf>n</pf>.
-The last frame, with <pf>n == 0</pf>, is called the <term>base case</term>.
-It does not make a recursive call, so there are no more frames below it.
-</p>
+  <p>The frame for <pf>main</pf> is empty because <pf>main</pf> does not have any variables. The next frame down is the original call to <pf>countdown</pf> and in it, <pf>n</pf> has the value 3. Each additional call to <pf>countdown</pf> creates a new stack frame with a new value of <pf>n</pf>. As we return from those function calls, the stack frames will be removed one by one.</p>
 
-<p>
-    <idx><h>StackOverflowError</h></idx>
-    <idx><h>exception</h><h>StackOverflow</h></idx>
-If there is no base case in a recursive function, or if the base case is never reached, the stack would grow forever<mdash/>at least in theory.
-In practice, the size of the stack is limited.
-If you exceed the limit, you get a <pf>StackOverflowError</pf>.
-</p>
+  <p>It can sometimes help to think of each instance of the recursive function as a separate worker (even though it is more accurate to think of one worker managing multiple tasks). Someone is given the task of doing <pf>countdown(3)</pf>. They say <q>hold on a second, let me ask someone to help out</q> and ask another worker to take care of <pf>countdown(2)</pf> and then wait for that worker to report that they are done. Once the worker in charge of 2 tells the 3 worker <q>all done with 2</q>, the 3 worker can then proceed to finish their task. The stack diagram shows a series of workers all waiting to hear from the next worker that it is safe to continue.</p>
 
-<p>
-For example, here is a recursive function without a base case:
-</p>
-
-<program>
+  <exercise label="recursive-functions_recursive-stack-diagrams-ex-1">
+    <statement><p>Run the codelens and answer the questions it asks you.</p></statement>
+  <program interactive="codelens">
+    <code>
 <xi:include href="../../programs/recursive-functions/recursive-stack-diagrams-1.cpp" parse="text"/>
+</code>
+    <checkpoint line="15" answer="1">
+      <prompt>What will be the value of n in the first stack frame for <pf>countdown</pf>?</prompt>
+    </checkpoint>
+    <checkpoint line="7" answer="5">
+      <prompt>How many stack frames are there for <pf>countdown</pf>?</prompt>
+    </checkpoint>
 </program>
+</exercise>
 
-<p>
-    <idx><h>call stack</h></idx>
-This function displays the given string until the stack overflows, at which point it throws an error.
-Try this example on your computer<mdash/>you might be surprised by how long the error message is!
-</p>
 </section>

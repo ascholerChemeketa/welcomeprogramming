@@ -1,29 +1,37 @@
-<chapter xml:id="recursive-functions" xmlns:xi="http://www.w3.org/2001/XInclude">
-<title>Recursive functions</title>
+<chapter xml:id="recursive-functions"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Recursive functions</title>
 
+  <introduction>
+    <p>
+      <idx>
+        <h>iterative</h>
+      </idx>
+    <idx>
+        <h>recursive</h>
+      </idx> Up to this point, we've been using <pf>while</pf> and <pf>for</pf>
+      loops whenever we've needed to repeat something. functions that use iteration are called <term>
+      iterative</term>. They are a straight-forward way to repeat some code, but they are not the only way. </p>
 
-<introduction>
-<p>
-    <idx><h>iterative</h></idx>
-    <idx><h>recursive</h></idx>
-Up to this point, we've been using <pf>while</pf> and <pf>for</pf> loops whenever we've needed to repeat something.
-functions that use iteration are called <term>iterative</term>.
-They are straight-forward, but sometimes more-elegant solutions exist.
-</p>
+    <p> In this chapter, we explore one of the most magical things that a function can do: invoke <term>
+      itself</term> to solve a smaller version of the <term>same</term> problem. A function that
+      invokes itself is called <term>recursive</term>. Recursive functions are another way to repeat
+      code, and they can lead to elegant solutions for some complex problems.</p>
 
-<p>
-In this chapter, we explore one of the most magical things that a function can do: invoke <term>itself</term> to solve a smaller version of the <term>same</term> problem.
-A function that invokes itself is called <term>recursive</term>.
-</p>
-</introduction>
-<xi:include  href="recursive-void-functions.ptx" />
-<xi:include  href="recursive-stack-diagrams.ptx" />
-<xi:include  href="valuereturning-functions.ptx" />
-<xi:include  href="leap-faith.ptx" />
-<xi:include  href="counting-up-recursively.ptx" />
-<xi:include  href="binary-number-system.ptx" />
-<xi:include  href="recursive-binary-function.ptx" />
-<xi:include  href="codingbat-problems.ptx" />
-<xi:include  href="vocabulary.ptx" />
-<xi:include  href="exercises.ptx" />
+    <p>In addition to being a way to simply and clearly express some algorithms, there are entire classes of programming languages that rely almost exclusively on recursion instead of iteration. For example, in <term>functional programming</term> languages, variables can't be assigned new values. This makes it impossible to write something like a traditional counting loop. So in these languages, recursion is the primary method for performing repetitive tasks.</p>
+  </introduction>
+
+  <xi:include href="recursive-intro.ptx"/>
+  <xi:include href="recursive-stack-diagrams.ptx"/>
+  <xi:include href="base-case.ptx"/>
+  <xi:include href="valuereturning-functions.ptx"/>
+  <xi:include href="recursive-design.ptx"/>
+  <xi:include href="recursive-design2.ptx"/>
+  <xi:include href="adding-params.ptx"/>
+  <xi:include href="iteration-recursion.ptx"/>
+  <xi:include href="tail.ptx"/>
+  <xi:include href="flood-fill.ptx"/>
+  <xi:include href="vocabulary.ptx"/>
+  <xi:include href="exercises.ptx"/> 
+
 </chapter>

@@ -1,0 +1,121 @@
+<section xml:id="recursive-functions_adding-params"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Parameters as Tools</title>
+
+  <p>You may have realized there is an issue with our <pf>countZeros</pf> function. It is destructive. It will remove all of the values from the vector we give it. (That is why the parameter was not <pf>const</pf>).</p>
+
+  <p>We could modify the function to use a <pf>const</pf> reference instead. To do this, we would have to change the code to make a copy of the starting vector, remove the last item from the copy, and pass that copy as the parameter:</p>
+
+  <program highlight-lines="yes" line-numbers="6-8">
+<xi:include href="../../programs/recursive-functions/add-params-0.cpp" parse="text"/>
+  </program>
+
+  <p>That would work, but it seems quite wasteful. To count the zero's in <pf>{5, 3, 0, 2, 0, 1}</pf>, we would make a copy that just had <pf>{5, 3, 0, 2, 0}</pf>, then another that had, <pf>{5, 3, 0, 2}</pf>, and so on....</p>
+
+  <p>Instead, we could modify the function to take an additional parameter that keeps track of the current index. Instead of always looking at the last item in the vector and then changing the vector, we will leave the vector the same, but change what index we are looking at.</p>
+
+  <p>This requires us to rethink all of our code. To keep track of the current index, we will need to add a parameter. It is storing a location in a vector, so we should use <pf>size_t</pf> as the type:</p>
+  
+  <program><![CDATA[int countZeros(const vector<int>& numbers, int curIndex);]]></program>
+
+  <insight><p>Anytime you want to keep track of a piece of information during recursion, you can add it as an additional parameter.</p></insight>
+
+  <p>Our base case can't be <q>the vector is empty</q> any more, as the vector never changes. Instead, we need to base it on the current index. We will assume we start at index 0 and then move to 1, then 2, etc... (This is changing the order we deal with each element.) In this case, if the current index is equal to the size of the vector, there are no more items to look at and we should return 0.</p>
+
+  <program><![CDATA[if (curIndex == numbers.size()) {
+    return 0;
+}]]></program>
+
+  <p>To implement the recursive case, we need to identify how to get one step closer to the base case. Well, if we are told to look at the vector and focus on <pf>curIndex</pf> of 0, we can ask someone else to look at <pf>curIndex</pf> of 1 and use their answer to learn about the rest of the vector. That person would ask someone else to look at index 2. Each recursive step will increase the current index.</p>
+
+  <p>Here is the updated version:</p>
+
+  <program interactive="activecode" >
+<xi:include href="../../programs/recursive-functions/add-params-1.cpp" parse="text"/>
+  </program>
+
+  <p>Calling our <pf>countZeros</pf> just got more complex. <pf>main</pf> has to pass in <pf>0</pf> as the starting index:</p>
+
+  <program><![CDATA[countZeros(numbers, 0);]]></program>
+
+  <p>That is not the end of the world. But it does seem silly to have to pass in 0 every time we call the function. It would be nice if we could just call <pf>countZeros(numbers)</pf> and have it work.</p>
+
+  <p>We can solve this by either making <pf>curIndex</pf> have a default value:</p>
+
+  <program><![CDATA[int countZeros(const vector<int>& numbers, size_t curIndex = 0);]]></program>
+
+  <p>Or by creating a non-recursive function <pf>countZeros</pf> which takes the vector and then calls the recursive <pf>countZeros</pf> with the correct parameters:</p>
+
+  <program><![CDATA[void countZeros(const vector<int>& numbers) {
+    return countZeros(numbers, 0);  //start recursion with extra params
+}]]></program>
+
+  <p>In the case of recursive functions with extra parameters, it is common to provide a function like this that <q>kick starts</q> the recursion. With that helper function in place, main can go back to simply call <pf>countZeros(numbers);</pf></p>
+  
+<exercise label="recursive-functions_adding-params-ex-1"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  <statement>
+  <p>We could make the <pf>countZeros</pf> function count down from the last index of the vector to the beginning. Starting that process might look like <pf>countZeros(myVector, myVector.size() - 1)</pf>.</p>
+  <p>Complete the code for this version:</p>
+  </statement>
+  <blocks>
+    <block order="4">
+        <choice correct="yes">
+          <cline><![CDATA[int countZeros(const vector<int>& numbers,]]></cline>
+          <cline><![CDATA[|              size_t curIndex) {]]></cline>
+        </choice>
+    </block>
+    <block order="7">
+        <choice correct="yes">
+          <cline><![CDATA[    if (curIndex == 0) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    if (curIndex == numbers.size()) {]]></cline>
+        </choice>
+    </block>
+    <block order="11">
+        <choice correct="yes">
+          <cline><![CDATA[        return numbers.at(0);]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        return 0;]]></cline>
+        </choice>
+    </block>
+    <block order="5">
+        <choice correct="yes">
+          <cline><![CDATA[    } else {]]></cline>
+        </choice>
+    </block>
+    <block order="3">
+        <choice correct="yes">
+          <cline><![CDATA[        int count = countZeros(numbers, curIndex - 1);]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        int count = countZeros(numbers, curIndex + 1);]]></cline>
+        </choice>
+    </block>
+    <block order="10">
+        <choice correct="yes">
+          <cline><![CDATA[        if (numbers.at(curIndex) == 0) {]]></cline>
+          <cline><![CDATA[            count++;]]></cline>
+          <cline><![CDATA[        }]]></cline>
+        </choice>
+    </block>
+    <block order="8">
+        <choice correct="yes">
+          <cline><![CDATA[        return count;]]></cline>
+          <cline><![CDATA[    }]]></cline>
+        </choice>
+    </block>
+    <block order="2">
+        <choice correct="yes">
+          <cline><![CDATA[}]]></cline>
+        </choice>
+    </block>
+  </blocks>
+</exercise>
+
+
+</section>
