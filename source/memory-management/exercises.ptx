@@ -1,0 +1,147 @@
+<section xml:id="memory-management_exercises"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Exercises</title>
+
+
+  <exercise label="memory-management_exercises-ex-1">
+    <statement>
+      <p>Write a function <pf>getPI</pf> that allocates a double on the heap, initializes the memory (or
+        assigns it) to hold 3.14, and returns a pointer to the allocated memory.</p>
+    </statement>
+    <program interactive="activecode"
+             extra-compiler-args="-fsanitize=address -g">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/memory-management_exercises-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+//YOUR CODE HERE
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/memory-management_exercises-ex1-tests.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="memory-management_exercises-ex-2">
+    <statement>
+      <p>Write a function <pf>makeArray</pf> that allocates an array of 3 double on the heap, sets them to
+        1.1, 2.2, and 3.3, then returns a pointer to the array.</p>
+    </statement>
+    <program interactive="activecode"
+             extra-compiler-args="-fsanitize=address -g">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/memory-management_exercises-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+//YOUR CODE HERE
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/memory-management_exercises-ex2-tests.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>
+      <p>You can use {value, value, value} to initialize the array. Or you can do assignments to the
+        three elements after creating it.</p>
+    </hint>
+  </exercise>
+
+  <exercise label="memory-management_exercises-ex-3">
+    <statement>
+      <p>Write a function <pf>makeBigArray</pf> that allocates an array of 100 double on the heap and sets them
+        all to 5.0. It should then return a pointer to the array.</p>
+    </statement>
+    <program interactive="activecode"
+             extra-compiler-args="-fsanitize=address -g">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/memory-management_exercises-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+//YOUR CODE HERE
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/memory-management_exercises-ex3-tests.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>
+      <p>You will almost certainly need a loop to set all the elements of the array.</p>
+    </hint>
+  </exercise>
+
+  <exercise label="memory-management_exercises-ex-4">
+    <statement>
+      <p>The class <pf>NumberWrapper</pf> manages a single integer value on the heap. (Which is admittedly a kind
+        of silly thing to do.)</p>
+      <p>Implement the copy constructor for `NumberWrapper. It is declared inside the class, you
+        will implement it outside the class (at line 36). It should make a deep copy of the managed
+        memory.</p>
+    </statement>
+    <program interactive="activecode"
+             extra-compiler-args="-fsanitize=address -g">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/memory-management_exercises-ex4-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+
+//YOUR CODE HERE
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/memory-management_exercises-ex4-tests.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>
+      <p><pf>m_myAddress</pf> is the memory address of the managed value. <pf>*m_myAddress</pf> is how you access the value
+        from the heap. To get the value from other you can use <pf>other.getNum()</pf>.</p>
+    </hint>
+    <hint>
+      <p>You do not need a loop, but you still will need to allocate new memory for the copy and
+        then copy the value from the original object to the new one.</p>
+    </hint>
+  </exercise>
+
+  <exercise label="memory-management_exercises-ex-5">
+    <statement>
+      <p>The class <pf>NumberWrapper</pf> manages a single integer value on the heap. (Which is admittedly a kind
+        of silly thing to do.)</p>
+      <p>Implement the assignment operator `NumberWrapper. It is declared inside the class, you will
+        implement it outside the class (at line 36). It should make a deep copy of the managed
+        memory.</p>
+      <p>Don't forget to check for self-assignment! If you have a use after free error, it could be
+        due to not handling self-assignment correctly.</p>
+    </statement>
+    <program interactive="activecode"
+             extra-compiler-args="-fsanitize=address -g">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/memory-management_exercises-ex4-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+
+//YOUR CODE HERE
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/memory-management_exercises-ex5-tests.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>
+      <p><pf>m_myAddress</pf> is the memory address of the managed value. <pf>*m_myAddress</pf> is how you access the value
+        from the heap.</p>
+    </hint>
+    <hint>
+      <p>You do not need a loop, but you still will need to allocate new memory for the copy and
+        then copy the value from the original object to the new one.</p>
+    </hint>
+  </exercise>
+
+
+</section>

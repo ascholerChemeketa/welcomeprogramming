@@ -1,0 +1,94 @@
+<section xml:id="memory-management_heap"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>The Heap</title>
+
+  <p>When the stack does not have enough room for what we wish to store, or when we wish to allocate
+    some memory and have it persist after the function that allocates it returns, we need to place
+    the memory somewhere else. That somewhere else is the <term>heap</term> (also known as the free
+    store). <idx>
+      <h>heap</h>
+    </idx></p>
+
+  <p>The memory space for a program is broken up into different <term>segments</term> that each have
+    a different purpose. One segment is used to store the actual code of the program. Another
+    segment is used to store global variables. A third segment is used for the stack. Those segments
+    are all fixed as the program starts running. That is why you can have a <term>stack overflow</term>
+    - the stack <q>grows</q> from the <q>bottom</q> (highest address) towards its lowest address and
+    if the <q>top</q> ever grows past that lowest address, it has overflowed.</p>
+
+  <p>The <term>heap</term> is another such segment. It is not organized in a strict manner like the
+    stack. Instead, it is a large pool of memory that can be allocated and deallocated as needed.
+    (The name <q>heap</q> should evoke the idea of a messy pile of things from which we can freely
+    add or remove things.)</p>
+
+  <figure>
+    <caption>Memory segments. This image is not to scale. The heap is typically thousands of times
+      larger than the stack.</caption>
+    <image source="images/memory-segments.png"
+           alt="Memory segments. The stack is managed by the compiler and is small. The heap is managed by the programmer and is much larger."/>
+  </figure>
+
+
+  <table>
+    <title>Stack vs Heap</title>
+    <tabular row-headers="yes">
+      <row header="yes"
+           bottom="major">
+        <cell></cell>
+        <cell>Stack</cell>
+        <cell>Heap</cell>
+      </row>
+      <row bottom="minor">
+        <cell header="yes">Managed by</cell>
+        <cell>
+          <p>Compiler</p>
+        </cell>
+        <cell>
+          <p>Programmer <em>(Possibly with help from a memory management library or garbage
+            collector)</em></p>
+        </cell>
+      </row>
+      <row bottom="minor">
+        <cell header="yes">Size</cell>
+        <cell>
+          <p>Typically small (e.g., a few MB)</p>
+        </cell>
+        <cell>
+          <p>Typically large (e.g., many GBs)</p>
+        </cell>
+      </row>
+      <row>
+        <cell header="yes">Organization</cell>
+        <cell>
+          <p>Organized in a last-in, first-out (LIFO) <term>stack</term>.</p>
+        </cell>
+        <cell>
+          <p>Free-form. Memory can be allocated and deallocated in any order.</p>
+        </cell>
+      </row>
+    </tabular>
+  </table>
+
+  <note>
+    <p>Not every computer system organizes memory into these segments, and the specifics can vary
+      based on the architecture and operating system. In particular, small embedded systems may not
+      have a traditional heap at all. But all typical desktop, server, and mobile systems use a
+      memory management scheme like the one described here.</p>
+  </note>
+
+  <exercise label="memory-management_heap-ex-1">
+    <statement>
+      <p>Click and drag to match each situation to the preferred approach for code reuse in each
+        situation.</p>
+    </statement>
+    <matching>
+      <premise ref="memory-management_heap-ex-1-h">Large amounts of storage</premise>
+      <premise ref="memory-management_heap-ex-1-s">Managed by the compiler</premise>
+      <premise ref="memory-management_heap-ex-1-s">Last in first out</premise>
+      <premise ref="memory-management_heap-ex-1-h">Items can be removed in any order</premise>
+      <response xml:id="memory-management_heap-ex-1-h">Heap</response>
+      <response xml:id="memory-management_heap-ex-1-s">Stack</response>
+    </matching>
+  </exercise>
+
+</section>

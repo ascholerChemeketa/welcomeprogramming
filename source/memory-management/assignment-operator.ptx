@@ -1,0 +1,209 @@
+<section xml:id="memory-management_assignment-operator"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Assignment Operator</title>
+
+  <p> The final responsibility of a container class is to implement the assignment operator. The
+    assignment operator is used to copy the contents of one object to another existing object of the
+    same class: </p>
+
+  <program line-numbers="yes"
+           highlight-lines="9">
+    PlayerList original(3); // Create a PlayerList with space for 3 players
+    original.setPlayerName(0, "Alice");
+    original.setPlayerName(1, "Bob");
+    original.setPlayerName(2, "Carlos");
+
+    PlayerList other(1); // Create another PlayerList with space for 1 player
+    other.setPlayerName(0, "Diana");
+
+    other = original; // Use the assignment operator to copy original into other
+  </program>
+
+  <p>Right before the assignment, the memory layout looks like this:</p>
+
+  <image source="images/assignment-operator-1.svg"
+         alt="Memory layout showing original and other PlayerList objects. Both are managing their own arrays."/>
+
+  <p>Like the copy constructor, there is a default assignment operator that performs a shallow copy.
+    It would copy the pointer to the array from <pf>original</pf> to <pf>other</pf>, rather than creating a new
+    array and copying the contents. This would result in leaking (losing track) of the old array
+    that other owned as well as the same problems we saw with the shallow copy constructor:</p>
+
+  <image source="images/assignment-operator-2.svg"
+         alt="Memory layout showing original and other PlayerList objects. Both point at the array owned by original. The array that was owned by other is now leaked."/>
+
+  <p>Instead, we need to delete the old array and then make a deep copy just like the copy
+    constructor did.</p>
+
+  <p>There are two other technical wrinkles to consider: <ul>
+      <li>We need to handle the case where the object is assigned to itself, like <pf>original = original;</pf>. That
+    would be silly to write, but it is syntactically legal and could happen by accident in more
+    complex code. In this case we do not want to do anything. We certainly do not want to delete the
+    existing array!</li>
+      <li>We need to return a reference to the current object so that we can chain assignments like <pf>a = b = c;</pf>.
+    If the assignment operator was <pf>void</pf> that syntax would not be possible.</li>
+    </ul>
+  </p>
+
+  <p>Here is what the assignment operator would look like:</p>
+
+  <program highlight-lines="7, 11-29"
+           line-numbers="yes">
+<xi:include href="../../programs/memory-management/playerlist-assign-op.cpp" parse="text"/>
+  </program>
+
+  <p> Keys to notice: <ul>
+      <li>The return type is always a reference to the current object type.</li>
+      <li>The parameter is a reference to another object of the same type. It gets the right hand
+    side of the assignment.</li>
+      <li>We first check if the current object's memory address (<pf>this</pf>) is the same as the other
+    object's memory address (<pf>&amp;other</pf>). If so, we do not need to copy or delete anything.</li>
+      <li>If the objects are different, we delete the old array. Then we use the same logic as the
+    copy constructor to make a deep copy.</li>
+      <li>Finally, we return <pf>*this</pf> to allow for chaining assignments.</li>
+    </ul> It looks
+    like a lot. But it really is just a few extra steps on top of the copy constructor and those
+    steps are always the same. </p>
+
+  <insight>
+    <p><pf>copy = original;</pf> is interpreted by the compiler as <pf>copy.operator=(original);</pf></p>
+  </insight>
+
+  <p>This program demonstrates the issue. After copying <pf>pList</pf>, it changes the name of the second
+    player in the copy. But when we then print out <pf>pList</pf>, it has been modified as well.
+    AddressSanitizer alerts us to a <pf>heap-use-after-free</pf> in <pf>~PlayerList()</pf>. That is the second destructor call
+    trying to delete the array that has already been deleted.</p>
+
+  <program label="memory-management_assignment-operator-program-1"
+           interactive="activecode"
+           compile-also="playerlist-final"
+           extra-compiler-args="-fsanitize=address -g">
+<xi:include href="../../programs/memory-management/playerlist-use-4.cpp" parse="text"/>
+  </program>
+
+  <p>Things would be even worse if one of the two PlayerLists was scoped to last longer than the
+    other. Whichever one was destroyed first would delete the array and the other would be left with
+    a dangling pointer.</p>
+
+  <exercise label="memory-management_assignment-operator-ex-1" numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>We want to add an assignment operator to the NumList class. It manages a dynamic array of
+        integers. Examine the members and decide what needs to be deleted. Then build the function
+        as it would appear when defined outside the class.</p>
+      <image>
+        <mermaid><![CDATA[
+classDiagram
+    class NumList {
+    -m_numbers : int&ast;
+    -m_size : int
+    -m_description : string
+    }
+        ]]>
+      </mermaid>
+      </image>
+    </statement>
+    <blocks>
+      <block order="9"
+             name="a"
+             depends="">
+        <cline><![CDATA[NumList& NumList::operator=(const NumList& other) {]]></cline>
+    </block>
+      <block order="3"
+             name="b"
+             depends="a">
+        <choice correct="yes">
+          <cline><![CDATA[    if (this != &other) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    if (this != other) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    if (&this != other) {]]></cline>
+        </choice>
+    </block>
+      <block order="8"
+             name="c"
+             depends="b">
+        <choice correct="yes">
+          <cline><![CDATA[        delete[] m_numbers;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        delete m_numbers;]]></cline>
+        </choice>
+    </block>
+      <block order="4"
+             name="d"
+             depends="c">
+        <cline><![CDATA[        m_size = other.m_size;]]></cline>
+        <cline><![CDATA[        m_description = other.m_description;]]></cline>
+        <cline><![CDATA[        m_numbers = new int[m_size];]]></cline>
+        <cline><![CDATA[        for (int i = 0; i < m_size; i++) {]]></cline>
+        <cline><![CDATA[            m_numbers[i] = other.m_numbers[i];]]></cline>
+        <cline><![CDATA[        }]]></cline>
+    </block>
+      <block order="10"
+             name="j"
+             depends="d">
+        <cline><![CDATA[    } // end if]]></cline>
+    </block>
+      <block order="5"
+             name="k"
+             depends="j">
+      <choice correct="yes">
+        <cline><![CDATA[    return *this;]]></cline>
+        </choice>
+      <choice>
+        <cline><![CDATA[    return this;]]></cline>
+        </choice>
+    </block>
+      <block order="2"
+             name="l"
+             depends="k">
+        <cline><![CDATA[} // end function]]></cline>
+    </block>
+    </blocks>
+  </exercise>
+
+
+  <exercise label="memory-management_assignment-operator-ex-2">
+    <statement>
+      <p>Our assignment operator looks like:</p>
+      <program>PlayerList&amp; PlayerList::operator=(const PlayerList&amp; other)</program>
+      <p>In the context of that function, match each expression to its description by dragging the
+        expression into the appropriate box.</p>
+    </statement>
+    <feedback>
+      <p>Try again!</p>
+    </feedback>
+    <cardsort>
+      <match>
+        <premise>
+          <pf>this</pf>
+        </premise>
+        <response>memory address of the current object running a member function</response>
+      </match>
+      <match>
+        <premise>
+          <pf>*this</pf>
+        </premise>
+        <response>the current object running a member function</response>
+      </match>
+      <match>
+        <premise>
+          <pf>&amp;other</pf>
+        </premise>
+        <response>memory address of the PlayerList that was a parameter</response>
+      </match>
+      <match>
+        <premise>
+          <pf>other</pf>
+        </premise>
+        <response>a reference to the PlayerList that was a parameter</response>
+      </match>
+    </cardsort>
+  </exercise>
+
+</section>

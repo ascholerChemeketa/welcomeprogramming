@@ -1,0 +1,133 @@
+<section xml:id="memory-management_passing-pointers"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Passing Memory with Pointers</title>
+
+  <p>One of the main reasons to allocate memory on the heap is to give it a lifespan that is not
+    determined by the scope of a single function. Instead of deleting memory that it allocates, a
+    function can return the address of it (or otherwise pass off the address to other code). If it
+    does pass the address off to other code, that implies that the other code is now responsible for
+    the memory.</p>
+
+  <insight>
+    <p>When a function calls <pf>new</pf>, it should either delete the memory, or pass off
+      responsibility for deleting it to another part of the program.</p>
+  </insight>
+
+  <p>To return the address of heap based memory, the function can just return the pointer it is
+    using to store that address. The caller can store the returned memory address into a pointer of
+    the correct type. It now <q>owns</q> that memory and is responsible for deleting it when it is
+    no longer needed. We can also pass the memory address to other functions, allowing them to use
+    the memory. As we do so, we must decide which code now <q>owns</q> the memory and is responsible
+    for deleting it. The Codelens below demonstrates: <ul>
+      <li>Creating memory in <pf>makeMemory</pf>.</li>
+      <li>Passing responsibility for that memory to <pf>main</pf> with a return.</li>
+      <li>Main passing that memory to <pf>borrowMemory</pf>. Here we have decided that main <q>owns</q> the
+    memory still.</li>
+      <li>Main deleting the memory when it is done using it.</li>
+    </ul> There is one part of the
+    Codelens animation that is inaccurate. When the <pf>makeMemory</pf> function returns, it looks like the
+    memory on the heap disappears. That is just an artifact of the animation. It is still there. By
+    comparing the memory addresses reported for <pf>p1</pf> and <pf>returnedPointer</pf>, we can see that they are
+    the same<mdash/>the memory never actually went away.</p>
+
+
+  <program label="memory-management_passing-pointers-program-1"
+           interactive="codelens">
+<xi:include href="../../programs/memory-management/passing-pointers-1.cpp" parse="text"/>
+  </program>
+
+  <p>Notice that <pf>borrowMemory</pf> changes the value of the memory that was shared with it. When we return
+    to main, the <pf>returnedMemory</pf> pointer still has the same address, but now that memory location contains
+    the value 10.</p>
+
+  <activity>
+    <statement>
+      <p>Fix the function <pf>takeoverMemory</pf> so that the program runs without errors from AddressSanitizer. <pf>main</pf>
+        will not use the memory after passing the address to <pf>takeoverMemory</pf> and so the code assumes that <pf>takeoverMemory</pf>
+        will be responsible for deleting the memory.</p>
+    </statement>
+    <program label="memory-management_passing-pointers-program-2"
+             interactive="activecode"
+             extra-compiler-args="-fsanitize=address -g">
+<preamble>
+<xi:include href="../../programs/memory-management/passing-pointers-2a.cpp" parse="text"/>
+</preamble>
+<code>
+<xi:include href="../../programs/memory-management/passing-pointers-2b.cpp" parse="text"/>
+</code>
+<postamble>
+<xi:include href="../../programs/memory-management/passing-pointers-2c.cpp" parse="text"/>
+</postamble>
+  </program>
+  </activity>
+
+  <exercise
+            numbered="yes"
+            adaptive="yes"
+            indentation="show">
+    <statement>
+      <p>Construct a program that: <ul>
+          <li>Starts with the <pf>makePerson</pf> function It allocates a person on the heap and returns the
+        memory address of the new memory.</li>
+          <li>Next has a <pf>printPerson</pf> function that takes a pointer to a <pf>Person</pf> object and prints
+        its name. It is assumed to just <q>borrow</q> the memory.</li>
+          <li>The main function will be assumed to <q>own</q> the memory for the <pf>Person</pf> objects
+        it gets back from <pf>makePerson</pf>.</li>
+        </ul>
+      </p>
+    </statement>
+    <blocks>
+      <block order="16">
+        <cline><![CDATA[]]></cline>
+    </block>
+      <block order="8">
+        <choice correct="yes">
+          <cline><![CDATA[Person* makePerson(string name) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[Person makePerson(string name) {]]></cline>
+        </choice>
+    </block>
+      <block order="1">
+        <choice correct="yes">
+          <cline><![CDATA[    Person* pPointer = new Person(name);]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    Person pPointer(name);]]></cline>
+        </choice>
+    </block>
+      <block order="10">
+        <cline><![CDATA[    return pPointer;]]></cline>
+        <cline><![CDATA[}]]></cline>
+    </block>
+      <block order="5">
+        <cline><![CDATA[void printPerson(Person* personPointer) {]]></cline>
+        <cline><![CDATA[    cout << personPointer->getName() << endl;]]></cline>
+    </block>
+      <block order="99"
+             correct="no">
+        <cline><![CDATA[    delete personPointer;]]></cline>
+    </block>
+      <block order="20">
+        <cline><![CDATA[}  //end of printPerson]]></cline>
+    </block>
+      <block order="12">
+        <cline><![CDATA[int main() {]]></cline>
+        <cline><![CDATA[    Person* person1Address = makePerson("Suzie");]]></cline>
+        <cline><![CDATA[    Person* person2Address = makePerson("Chaz");]]></cline>
+        <cline><![CDATA[    printPerson(person1Address);]]></cline>
+        <cline><![CDATA[    printPerson(person2Address);]]></cline>
+    </block>
+      <block order="18">
+        <cline><![CDATA[    delete person1Address;]]></cline>
+        <cline><![CDATA[    delete person2Address;]]></cline>
+    </block>
+      <block order="13">
+        <cline><![CDATA[}  //end of main]]></cline>
+    </block>
+    </blocks>
+  </exercise>
+
+
+</section>

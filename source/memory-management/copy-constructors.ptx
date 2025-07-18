@@ -1,0 +1,181 @@
+<section xml:id="memory-management_copy-constructors"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Copy Constructors</title>
+
+  <p> One responsibility of implementing a container class is defining a destructor to clean up
+    resources when the object is destroyed. However, we also need to consider what happens when we
+    copy an object of that class. The default copy behavior for objects is to perform a shallow
+    copy, which means that it copies the values of the member variables directly. </p>
+
+  <p>If we have a <pf>PlayerList</pf> object that is initialized with some data, we could copy it using this
+    syntax:</p>
+
+  <program>
+    PlayerList original(3); // Create a PlayerList with space for 3 players
+    original.setPlayerName(0, "Alice");
+    original.setPlayerName(1, "Bob");
+    original.setPlayerName(2, "Carlos");
+
+    PlayerList copy(original); // Copy the original PlayerList
+  </program>
+
+  <p>Here is what would result in memory:</p>
+
+  <image source="images/copy-constructor-1.svg"
+         alt="Memory layout showing original and copy PlayerList objects. Both have the same memory address for the array they manage."/>
+
+  <p>This is a <term>shallow copy</term>. There is really only one array and it is shared by <pf>original</pf>
+    and <pf>copy</pf>. This means changing one will change the other. It also means that we will have an
+    error as they go out of scope: First one will be destroyed and it will delete the array. Then
+    the other PlayerList will be destroyed and it will also try to delete the array.</p>
+
+  <p>This program demonstrates the issue. After copying <pf>pList</pf>, it changes the name of the second
+    player in the copy. But when we then print out <pf>pList</pf>, it has been modified as well.
+    AddressSanitizer alerts us to a <pf>heap-use-after-free</pf> in <pf>~PlayerList()</pf>. That is the second destructor call
+    trying to delete the array that has already been deleted.</p>
+
+  <program label="memory-management_copy-constructors-program-1"
+           interactive="activecode"
+           compile-also="playerlist-v2"
+           extra-compiler-args="-fsanitize=address -g">
+<xi:include href="../../programs/memory-management/playerlist-use-3.cpp" parse="text"/>
+  </program>
+
+  <p>Things would be even worse if one of the two PlayerLists was scoped to last longer than the
+    other. Whichever one was destroyed first would delete the array and the other would be left with
+    a dangling pointer.</p>
+
+  <p>To avoid these problems, we need to implement a <term>deep copy</term>. A deep copy means that
+    we create a new array and copy the values from the original array into the new array. This way,
+    each PlayerList object has its own separate copy of the data. Something like this:</p>
+
+  <image source="images/copy-constructor-2.svg"
+         alt="Memory layout showing original and copy PlayerList objects. Both have their own arrays of player names."/>
+
+  <p>To do this, we need to implement a <term>copy constructor</term>. A copy constructor is a
+    special constructor that is called when an object is initialized with another object of the same
+    class. It allows us to define how the copying should be done, including performing a deep copy
+    of any dynamically allocated memory. The prototype for a copy constructor always looks like:<idx>
+      <h>copy constructor</h>
+    </idx></p>
+
+  <program>ClassName(const ClassName&amp; other);</program>
+
+  <p>It is a constructor that takes a reference to some existing object as its parameter. The body
+    of the copy constructor will generally do the following: <ul>
+      <li>Copy any member variables that are not pointers (or other managed resources).</li>
+      <li>Allocate new memory for any dynamically allocated member variables.</li>
+      <li>Copy the values from the <pf>other</pf> object's dynamic memory into the newly allocated
+    memory.</li>
+    </ul>
+  </p>
+
+  <p>Here is what it would look like for our class:</p>
+
+  <program highlight-lines="7, 11-22"
+           line-numbers="yes">
+<xi:include href="../../programs/memory-management/playerlist-copy-ctor.cpp" parse="text"/>
+</program>
+
+  <p>Now, when we run the same main program, we should see that changing the copy does not change
+    the array used by the original. There also will not be any memory errors:</p>
+
+  <program label="memory-management_copy-constructors-program-2"
+           interactive="activecode"
+           compile-also="playerlist-final"
+           extra-compiler-args="-fsanitize=address -g">
+<xi:include href="../../programs/memory-management/playerlist-use-3.cpp" parse="text"/>
+  </program>
+
+  <exercise label="memory-management_copy-constructors-ex-1" numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>We want to add a copy constructor to the NumberList class. It manages a dynamic array of
+        integers. Examine the members and decide what needs to be deleted. Then build the function
+        as it would appear when defined outside the class.</p>
+      <image>
+        <mermaid><![CDATA[
+classDiagram
+    class NumberList {
+    -m_numbers : int&ast;
+    -m_size : int
+    -m_description : string
+    }
+        ]]>
+      </mermaid>
+      </image>
+    </statement>
+    <blocks>
+      <block order="3"
+             name="a"
+             depends="">
+        <choice correct="yes">
+          <cline><![CDATA[NumberList::NumberList(const NumberList& other) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[NumberList::NumberList() {]]></cline>
+        </choice>
+    </block>
+      <block order="9"
+             name="b"
+             depends="a">
+        <choice correct="yes">
+          <cline><![CDATA[    m_size = other.m_size;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    m_size = new int[other.m_size];]]></cline>
+        </choice>
+    </block>
+      <block order="7"
+             name="c"
+             depends="a">
+        <choice correct="yes">
+          <cline><![CDATA[    m_description = other.m_description;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    m_description = new string[m_size];]]></cline>
+        </choice>
+    </block>
+      <block order="8"
+             name="d"
+             depends="b">
+        <choice correct="yes">
+          <cline><![CDATA[    m_numbers = new int[m_size];]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    m_numbers = other.m_numbers;]]></cline>
+        </choice>
+    </block>
+      <block order="6"
+             name="e"
+             depends="d">
+        <choice correct="yes">
+          <cline><![CDATA[    for (int i = 0; i < m_size; i++) {]]></cline>
+        </choice>
+    </block>
+      <block order="2"
+             name="f"
+             depends="e">
+        <choice correct="yes">
+          <cline><![CDATA[        m_numbers[i] = other.m_numbers[i];]]></cline>
+        </choice>
+        <choice correct="no">
+          <cline><![CDATA[    m_numbers = other.m_numbers;]]></cline>
+        </choice>
+    </block>
+      <block order="1"
+             name="g"
+             depends="f">
+        <choice correct="yes">
+          <cline><![CDATA[    }]]></cline>
+          <cline><![CDATA[}]]></cline>
+        </choice>
+    </block>
+    </blocks>
+    <hint>Which variable looks like it holds the memory address of a dynamic array? That is the one
+      that needs to be allocated using <pf>new</pf>.</hint>
+  </exercise>
+
+</section>

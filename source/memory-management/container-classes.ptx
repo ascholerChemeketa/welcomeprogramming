@@ -1,0 +1,98 @@
+<section xml:id="memory-management_container-classes"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Container Classes</title>
+
+  <p>Tracking what code <q>owns</q> a given piece of memory isn't too hard in a simple program like
+    the ones we have seen so far. But in a complex program with many functions and potential
+    ownership transfers, it can become quite challenging. Developers must be diligent in documenting
+    and enforcing ownership rules to avoid memory leaks and other issues. Many programming languages
+    provide mechanisms to help with this, such as smart pointers in C++ or garbage collection in
+    languages like Java and Python.</p>
+
+  <p>A C++ strategy to help manage memory ownership is to use container classes. A container class
+    is a class that holds and manages the lifetime of dynamically allocated memory. When the object
+    is created, it allocates the necessary memory and takes ownership of it. When the object is
+    destroyed, it automatically deallocates the memory, ensuring that there are no memory leaks.</p>
+
+  <note>
+    <p>This is an example of the broader concept <term>Resource Acquisition Is Initialization (RAII)</term>.
+      That is in the idea that resource management is tied to object lifetime, making it easier to
+      manage. This means that as long as an object is alive, it owns its resources, and when the
+      object is destroyed, its resources are released. This is a key design principle not just in
+      C++ but in other languages like Rust.</p>
+  </note>
+
+  <p>Say we want to keep track of a list of players in a game. The players could be complex objects
+    (name, age, player handle), but we will just represent each player as a string (their name). To
+    keep track of a group of players, we will make a <pf>PlayerList</pf> class. It will store an array of
+    strings. It will also be useful to store the size of the array. (Unlike a vector, which manages
+    its own size, in C++ you can't ask an array what size it is. The programmer needs to keep track
+    of that). Here are our member variables and a constructor:</p>
+
+  <program xml:id="playerlist-v1"
+           label="playerlist-v1"
+           filename="PlayerList.cpp">
+<xi:include href="../../programs/memory-management/playerlist-v1.cpp" parse="text"/>
+</program>
+
+  <p>In the constructor, we allocate memory for the array of player names using <pf>new</pf>. We also
+    check that the size is positive, throwing an exception if it is not. This ensures that we do not
+    try to allocate an array of size 0 or negative size. We can set the names of individual players
+    using the <pf>setPlayerName</pf> method. It will check that the player number we try to set is actually a
+    valid index (0 through the size - 1). Finally, we have a <pf>print</pf> function just for testing.</p>
+
+  <note>
+    <p>We could make a <pf>vector&lt;string></pf> to store the list of players. If our only goal was to build a
+      program that tracks players, that would likely be the best approach (<pf>vector</pf> and <pf>string</pf>
+      are container classes that manage memory for us). But we want to understand the underlying
+      mechanics of memory management, so we will build our own container class.</p>
+    <p>For now, like the arrays we are using, our simple container classes will be a fixed size.
+      Later we will explore allowing the size to change while the <pf>PlayerList</pf> is in use.</p>
+  </note>
+
+  <p>We can use the <pf>PlayerList</pf> class by creating an instance of it and calling its methods:</p>
+
+  <program label="memory-management_container-classes-program-1"
+           interactive="activecode"
+           compile-also="playerlist-v1"
+           extra-compiler-args="-fsanitize=address -g">
+<xi:include href="../../programs/memory-management/playerlist-use.cpp" parse="text"/>
+  </program>
+
+  <p>If you try running our program, you will see that we have an issue. The container class is not
+    actually deleting the array yet. At the end of main, the memory looks like:</p>
+
+  <image source="images/memory-playerlist-1.svg"
+         alt="The pList variable contains a pointer to the array of player names"/>
+
+  <p>The <pf>pList</pf> variable will be removed when <pf>main</pf> finishes, but that still leaves behind
+    the array on the heap.</p>
+
+  <p>The constructor allocates memory using <pf>new</pf>, but that memory is never deleted. We can't
+    delete the memory in the constructor, because we need to keep using the array until we are done
+    with the <pf>pList</pf> variable. What we need is a special method that runs when the object is
+    destroyed. Fortunately, C++ provides a mechanism for this: the destructor.</p>
+
+  <exercise label="memory-management_container-classes-ex-1">
+    <statement>What best describes the PlayerList object <pf>pList</pf> in the code above?</statement>
+    <choices>
+      <choice correct="yes">
+        <statement>It is a stack based local variable that holds a pointer to an array of strings on
+          the heap.</statement>
+      </choice>
+      <choice>
+        <statement>It is a heap based variable that holds a pointer to an array of strings on the
+          heap.</statement>
+      </choice>
+      <choice>
+        <statement>It is a heap based variable that holds a pointer to an array of strings on the
+          stack.</statement>
+      </choice>
+      <choice>
+        <statement>It is a stack based local variable that holds a pointer to an array of strings on
+          the stack.</statement>
+      </choice>
+    </choices>
+  </exercise>
+</section>

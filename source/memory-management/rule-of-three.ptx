@@ -1,0 +1,139 @@
+<section xml:id="memory-management_rule-of-three"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Rule of Three</title>
+
+  <p> Together, the destructor, copy constructor, and assignment operator are known as the <term>Rule
+    of Three</term>. If you create a class that manages resources, it should declare all three of
+    these functions so that it can properly manage the resources it owns. If you do not think you
+    need a copy constructor and/or assignment operator (because you do not plan on letting your
+    class by copied), you should declare them as <pf>= delete;</pf> to prevent the compiler from generating
+    default versions that will do shallow copies. This way, if someone accidentally tries to copy an
+    object of your class, the compiler will produce an error instead of generating flawed code. Here
+    is a sample of declaring that there is no copy constructor or assignment operator: <idx>
+      <h>Rule of Three</h>
+    </idx></p>
+
+  <program>
+    class MyClass {
+    public:
+        MyClass();  // we will implement a constructor
+        ~MyClass(); // we will implement a destructor
+
+        // we do not want to allow copying
+        MyClass(const MyClass&amp; other) = delete; // no copy constructor
+        MyClass&amp; operator=(const MyClass&amp; other) = delete; // no assignment operator
+        ...
+  </program>
+
+  <note>
+    <p>There is also something known as the <term>Rule of Five</term>. This extends the Rule of
+      Three to include a <q>move constructor</q> and a <q>move assignment operator</q>. These
+      operate by stealing resources from the original and moving them to the new object, rather than
+      copying them. These are not required for correct behavior, so we are not covering them in this
+      book. They can however improve performance in situations where we are copying an object that
+      is managing resources and know that the original is no longer needed once the copy is
+      complete.</p>
+  </note>
+
+
+  <p>Also worth clarifying is the difference between the copy constructor and the assignment
+    operator. Using the <pf>=</pf> symbol can either call the copy constructor or the assignment
+    operator. The assignment operator is used when we are copying the contents from one existing
+    object to another existing object, while the copy constructor is used to create a new object as
+    a copy of an existing object.</p>
+
+  <program>
+    PlayerList p1(3);  // list with space for 3 players
+    ...
+
+    // Explicitly call the copy constructor to copy p2 into p1
+    PlayerList p2(p1);
+
+    // p3 does not exist yet, so this implicitly calls the copy constructor
+    // even though it looks like an assignment
+    PlayerList p3 = p1;
+
+    PlayerList p4(10);  // list with space for 10 players
+    // p4 already exists, so this calls the assignment operator
+    p4 = p1;
+  </program>
+
+  <p>Remembering the distinction between <pf>=</pf> as an assignment operator and <pf>=</pf> as a copy
+    constructor is not critical - you generally need to implement both the copy constructor and the
+    assignment operator anyway. But it can help explain why the compile or AddressSanitizer may
+    generate an error related to your copy constructor when you write something like <pf>PlayerList p3 = p1;</pf>.</p>
+
+  <p>With that, here is the final version of our class to manage a dynamic array of strings. The
+    Rule of Three code is highlighted.</p>
+
+  <listing>
+    <caption>PlayerList final version</caption>
+    <program xml:id="playerlist-final"
+             label="playerlist-final"
+             filename="PlayerList.cpp"
+             line-numbers="yes"
+             highlight-lines="17-21, 36-70"> 
+<xi:include href="../../programs/memory-management/playerlist-final.cpp" parse="text"/>
+</program>
+  </listing>
+
+
+  <exercise label="memory-management_rule-of-three-ex-1">
+    <statement>
+      <p>Match each expression with what it calls. Assume <pf>other</pf> and <pf>original</pf> are both
+        PlayerList objects and already exist if not declared in a block.</p>
+    </statement>
+    <feedback>
+      <p>The copy constructor is used when a new object is being made from an existing one. The
+        assignment operator is only used when no new object is being declared.</p>
+    </feedback>
+    <matching>
+      <premise ref="memory-management_rule-of-three-ex-1-cc">PlayerList other(original);</premise>
+      <premise ref="memory-management_rule-of-three-ex-1-ao">other = original;`</premise>
+      <premise ref="memory-management_rule-of-three-ex-1-cc">PlayerList other = original;</premise>
+      <response xml:id="memory-management_rule-of-three-ex-1-ao">Assignment Operator</response>
+      <response xml:id="memory-management_rule-of-three-ex-1-cc">Copy Constructor</response>
+    </matching>
+  </exercise>
+
+  <exercise label="memory-management_rule-of-three-ex-2">
+    <statement>
+      <p>Which are part of the <q>Rule of Three</q>?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Copy constructor</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Assignment operator</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Destructor</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Move constructor</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Default constructor</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Equality operator</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+
+</section>

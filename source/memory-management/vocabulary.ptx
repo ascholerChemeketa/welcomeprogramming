@@ -1,0 +1,109 @@
+<section xml:id="memory-management_vocabulary"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Vocabulary</title>
+  <p>
+    <dl>
+      <li>
+        <title>Resource Acquisition Is Initialization (RAII):</title>
+        <p>
+          <idx>
+            <h>RAII</h>
+          </idx> A programming idiom where resources are acquired and
+          released in a way that ensures proper cleanup, typically by using an object to manage
+          their lifetime.</p>
+      </li>
+      <li>
+        <title>shallow copy:</title>
+        <p>
+          <idx>
+            <h>shallow copy</h>
+          </idx> A copy of an object that shares the same memory for
+          its non-primitive members, leading to potential issues if the original object is modified
+          or destroyed.</p>
+      </li>
+      <li>
+        <title>deep copy:</title>
+        <p>
+          <idx>
+            <h>deep copy</h>
+          </idx> A copy of an object that duplicates all of its data,
+          including any dynamically allocated memory, ensuring that the original and copy are
+          independent.</p>
+      </li>
+      <li>
+        <title>dynamic memory:</title>
+        <p>
+          <idx>
+            <h>dynamic memory</h>
+          </idx> Memory that is allocated at runtime using
+          operators like <pf>new</pf> and <pf>delete</pf> in C++. This allows for flexible memory usage, but
+          also requires careful management to avoid leaks.</p>
+      </li>
+      <li>
+        <title>heap:</title>
+        <p>
+          <idx>
+            <h>heap</h>
+          </idx> A region of memory used for dynamic memory allocation, where
+          blocks of memory can be allocated and freed in an arbitrary order.</p>
+      </li>
+      <li>
+        <title>stack:</title>
+        <p>
+          <idx>
+            <h>stack</h>
+          </idx> A region of memory used for automatic memory allocation,
+          where function call information is stored.</p>
+      </li>
+      <li>
+        <title>LIFO:</title>
+        <p>
+          <idx>
+            <h>LIFO</h>
+          </idx> Last In, First Out - a principle where the last item added
+          to a structure is the first one to be removed, commonly used in stack data structures.</p>
+      </li>
+      <li>
+        <title>segment (memory):</title>
+        <p>
+          <idx>
+            <h>segment (memory)</h>
+          </idx> A contiguous block of memory that is allocated
+          for a specific purpose, such as the stack or heap.</p>
+      </li>
+      <li>
+        <title>memory leak:</title>
+        <p>
+          <idx>
+            <h>memory leak</h>
+          </idx> A situation where a program allocates memory but
+          fails to release it, leading to increased memory usage over time.</p>
+      </li>
+      <li>
+        <title>deallocate:</title>
+        <p>
+          <idx>
+            <h>deallocate</h>
+          </idx> The process of releasing previously allocated memory
+          back to the system, making it available for future allocations.</p>
+      </li>
+      <li>
+        <title>Rule of Three:</title>
+        <p>
+          <idx>
+            <h>Rule of Three</h>
+          </idx> A guideline in C++ that states if a class manages
+          resources it requires a user-defined destructor, copy constructor, and assignment
+          operator.</p>
+      </li>
+      <li>
+        <title>subscript operator:</title>
+        <p>
+          <idx>
+            <h>subscript operator</h>
+          </idx> The <pf>[]</pf> symbols, between which an index
+          is specified to access elements in a container.</p>
+      </li>
+    </dl>
+  </p>
+</section>

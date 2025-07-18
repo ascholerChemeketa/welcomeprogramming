@@ -1,0 +1,127 @@
+<section xml:id="memory-management_stack-issues"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Stack Issues</title>
+
+  <p>The <term>stack</term> enables programmers to not have to worry about memory management for
+    local variables and function parameters. When you call a function, space is allocated and when
+    it is done, that memory is reclaimed. The programmer doesn't have to worry about where in memory
+    each variable should go, it is all handled for them, no matter what series of function calls
+    takes place.</p>
+
+  <p>However, there are some significant limitations to the stack.</p>
+  <subsection>
+    <title>Limited Size</title>
+
+    <p>One limitation is that the stack has a fixed size, which is determined when the program
+      starts. If a program uses too much stack memory (for example, by making too many recursive
+      function calls), it can cause a <term>stack overflow</term> error. This size is usually
+      measured in megabytes. Which means that if you try to put a very large piece of data on the
+      stack it can cause a stack overflow.</p>
+
+    <p>Try this program, which tries to allocate a large block of 1,000,000,000 integers. (Don't
+      worry about the syntax <pf>int data[1000000000];</pf>, it will be explained soon.)</p>
+
+    <program label="memory-management_stack-issues-program-1"
+             interactive="activecode">
+  <xi:include href="../../programs/memory-management/stack-issues-1.cpp" parse="text"/>
+    </program>
+
+    <p>You should get a <q>segmentation fault</q>. Which is a runtime error indicated you went
+      outside a segment of memory (the stack). Each integer takes 4 bytes and <m>1,000,000,000
+      \times 4</m> is <m>4,000,000,000</m> bytes, or approximately 4 GB. This exceeds the space
+      available. Try reducing the number in the code to 1 million (<pf>1000000</pf>). That should run just
+      fine as <m>4,000,000</m> bytes is approximately 4 MB, which the stack has room for.</p>
+  </subsection>
+
+  <subsection>
+    <title>Limited Duration</title>
+
+    <p>Another limitation of the stack is that the lifespan of all local variables and parameters
+      are tied to the function call. When a function returns, all of its local variables and
+      parameters are destroyed. This means that if you try to return a pointer or reference to a
+      local variable, it will point to memory that is no longer valid. This is referred to as <term>undefined
+      behavior</term> as there is literally no definition for what should happen in this case.</p>
+
+    <p>The compiler knows this and will try to prevent you from making this mistake:</p>
+
+    <program label="memory-management_stack-issues-program-2"
+             interactive="activecode"
+             autorun="yes">
+<xi:include href="../../programs/memory-management/stack-issues-2.cpp" parse="text"/>
+    </program>
+
+    <p>If you force the compiler to ignore the issue (this next example uses the compiler flag <pf>-Wno-return-local-addr</pf>
+      to ignore warnings about returning local addresses), something bad will happen. Try it here:</p>
+
+    <program label="memory-management_stack-issues-program-3"
+             interactive="activecode"
+             compiler-args="-Wno-return-local-addr">
+<xi:include href="../../programs/memory-management/stack-issues-2.cpp" parse="text"/>
+    </program>
+
+    <activity>
+      <statement>
+        <p>When you run the code above, main passes 5 to <pf>foo</pf>, which stores it in <pf>x</pf> and
+          then makes a pointer that points at <pf>x</pf>. It returns that address to <pf>main</pf>.</p>
+        <p>What is the bad thing that happened?</p>
+      </statement>
+      <choices>
+        <choice>
+          <statement>The program crashes with a segmentation fault.</statement>
+          <feedback>Incorrect. The memory address stored in <pf>badPointer</pf> is not currently valid, but it
+            is in a valid memory segment.</feedback>
+        </choice>
+        <choice correct="yes">
+          <statement>The program prints a random looking value (that can change with each run).</statement>
+          <feedback>Correct, the pointer to <pf>x</pf> is no longer valid in <pf>main</pf>, so accessing
+            it results in undefined behavior.</feedback>
+        </choice>
+        <choice>
+          <statement>The program runs without any issues.</statement>
+          <feedback>Incorrect.</feedback>
+        </choice>
+        <choice>
+          <statement>The program fails to build with a compiler error.</statement>
+          <feedback>Incorrect.</feedback>
+        </choice>
+      </choices>
+    </activity>
+
+    <p>Now lets try running the same code using codelens:</p>
+
+    <exercise label="memory-management_stack-issues-ex-1">
+      <statement>
+        <p>Run the code in codelens and answer the question it asks you:</p>
+      </statement>
+      <program interactive="codelens">
+<code>
+<xi:include href="../../programs/memory-management/stack-issues-2.cpp" parse="text"/>
+</code>
+    <checkpoint line="7" answer="0xfff000ba4">
+      <prompt>What is the local variable <pf>x</pf>s address?</prompt>
+    </checkpoint>
+    <checkpoint line="7" answer="0xfff000ba4">
+      <prompt>What is the local variable <pf>x</pf>s address?</prompt>
+    </checkpoint>
+      <checkpoint line="10" answer="0xfff000ba4">
+        <prompt>What is the address stored in <pf>badPointer</pf>? (Hint: it stores the value returned from <pf>foo</pf>)</prompt>
+      </checkpoint>
+    </program>
+    </exercise>
+
+    <p>The address stored in <pf>badPointer</pf> is shown as a poop emoji (💩) because it holds an address
+      that does not currently point at a valid integer. It has the address that WAS used for <pf>x</pf>
+      in <pf>foo</pf>. But there is no telling what that address is currently being used for. Rather
+      than let you use the pointer, Codelens causes an error when line 17 tries to dereference the
+      pointer.</p>
+
+    <p>The critical thing in these examples is that there is no safe way for a function to return a
+      memory address for data that was created in its stack frame. All of the memory for the
+      function disappears when it returns.</p>
+
+    <p>If we want to write a function that creates some memory that will be used later on in the
+      program, we can not use stack allocation.</p>
+  </subsection>
+
+
+</section>

@@ -1,0 +1,169 @@
+<section xml:id="memory-management_dynamic-memory"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Dynamic Memory</title>
+
+  <p>As we have seen before, the term <term>static</term> generally refers to things that are done
+    or known at compile time, while <term>dynamic</term> refers to things that happen at runtime.
+    Although all the stack based memory is not actually allocated until the program runs, it is
+    still considered static because the amount of memory needed for each function is known at
+    compile time. In contrast, allocations made to the heap are considered dynamic because the
+    amount of memory needed can change at runtime.</p>
+
+  <p>To do a dynamic allocation, we use the <pf>new</pf> operator in C++ followed by the type we want
+    to allocate:</p>
+
+  <program>
+    new int;
+    new Person;
+  </program>
+
+  <p>We can use <pf>()</pf> to initialize the data. For example:</p>
+
+  <program>
+    new int(5);         // Allocates an int initialized to 5
+    new Person("Bob");  // Allocates a Person by calling a constructor that takes a string
+  </program>
+
+  <p>These allocations are placed on the heap and are not associated with any stack frame. Given
+    this program:</p>
+
+  <program highlight-lines="11-13"
+           line-numbers="yes">
+<xi:include href="../../programs/memory-management/dynamic-memory-1.cpp" parse="text"/>
+  </program>
+
+  <p>At the point where the comment indicating the end of <pf>foo</pf> is, the memory layout would look
+    something like this:</p>
+
+  <image source="images/dynamic-memory-1.svg"
+         alt="Memory layout after dynamic allocation in foo()"/>
+
+  <p>Notice that the <pf>5</pf> and <pf>Hello, world</pf> are stored on the heap, while <pf>x</pf> and <pf>y</pf>
+    are stored on the stack in frames associated with <pf>main</pf> and <pf>foo</pf>, respectively. Also
+    notice that items on the heap do not have <term>identifiers</term> (names). As written, there is
+    no way to access those pieces of memory! We will solve that problem in a minute, but for now,
+    let's look at what happens after foo returns.</p>
+
+  <p>When <pf>foo</pf> returns, the stack frame for <pf>foo</pf> is destroyed, and <pf>y</pf> is no longer
+    accessible. However, the memory allocated on the heap for the <pf>int</pf> and <pf>string</pf> still
+    exists. This is a key feature of dynamic memory: it persists beyond the scope in which it was
+    allocated. Back in main, where the comment indicates <pf>foo()</pf> has ended, the memory would now
+    look like:</p>
+
+  <image source="images/dynamic-memory-2.svg"
+         alt="Memory layout after foo returns"/>
+
+  <p>So how do we access the dynamically allocated memory if they do not have identifiers? The
+    answer is to keep track of the pointers to the allocated memory. When we use <pf>new</pf>, it
+    returns a pointer to the allocated memory. We can store this pointer in a variable, and then use
+    it later to access the memory.</p>
+
+  <p>This improved version of the code creates pointers to store the addresses of the dynamically
+    allocated memory. When <pf>new</pf> is called, the value it returns is stored into one of the
+    pointers. We can then use those pointers to access the heap memory:</p>
+
+  <program label="memory-management_dynamic-memory-program-1"
+           interactive="activecode"
+           highlight-lines="9-10"
+           line-numbers="yes">
+<xi:include href="../../programs/memory-management/dynamic-memory-2.cpp" parse="text"/>
+  </program>
+  <p>This time, the memory layout at the end of <pf>foo()</pf> would look like:</p>
+
+  <image source="images/dynamic-memory-3.svg"
+         alt="Memory layout with p1 and p2 that point at allocated heap memory"/>
+
+  <p>Key things to note: <ul>
+      <li>The values <pf>5</pf> and <pf>Hello, world</pf> are stored on the heap.</li>
+      <li><pf>p1</pf> and <pf>p2</pf> are local variables in <pf>foo</pf>s stack frame. They store the
+    memory addresses that <pf>new</pf> returned.</li>
+      <li>In the image, memory addresses <pf>0x40</pf> and <pf>0x80</pf> are used as examples. When you run
+    the program, you will get different (much larger) values.</li>
+    </ul>
+  </p>
+
+  <insight>
+    <p>Stack based variables have identifiers (names) that allow us to access them easily. Heap
+      based values do not have identifiers, so we must use pointers to access them. Every heap
+      memory access will start from a stack based variable that points to the heap allocated memory.</p>
+  </insight>
+
+  <exercise label="memory-management_dynamic-memory-ex-1">
+    <statement>
+      <p>Based on what you know about the stack and heap, what will happen when <pf>foo</pf> returns?</p>
+
+      <image source="images/dynamic-memory-3.svg"
+             alt="Memory layout with p1 and p2 that point at allocated heap memory"/>
+    </statement>
+
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>The memory allocated for variables <pf>y</pf>, <pf>p1</pf>, and <pf>p2</pf> will be
+          automatically cleaned up.</statement>
+        <feedback>Correct! The memory allocated on the stack persists until it is explicitly freed.</feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>The memory allocated for the values <pf>5</pf> and <pf>Hello, world</pf> will not be
+          automatically freed, leading to a memory leak.</statement>
+        <feedback>Correct, the memory allocated on the heap persists until it is explicitly freed.</feedback>
+      </choice>
+      <choice>
+        <statement>The memory allocated for variables <pf>y</pf>, <pf>p1</pf>, and <pf>p2</pf> will not
+          be automatically freed, leading to a memory leak.</statement>
+        <feedback>Those are all a part of the stack frame for <pf>foo</pf> that will be removed
+          automatically.</feedback>
+      </choice>
+      <choice>
+        <statement>The memory allocated for the values <pf>5</pf> and <pf>Hello, world</pf> will be automatically
+          cleaned up.</statement>
+        <feedback>The memory allocated on the heap must be explicitly freed.</feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="memory-management_dynamic-memory-ex-2">
+    <statement>
+      <p>Allocate a double on the heap with the value 3.14 and assign its address to a pointer named <pf>PIish</pf>
+        .</p>
+    </statement>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>double</c></block>
+      <block><c>*</c></block>
+      <block><c>PIish</c></block>
+      <block><c> = </c></block>
+      <block><c>new</c></block>
+      <block><c>double</c></block>
+      <block><c>(3.14)</c></block>
+      <block><c>;</c></block>
+    </blocks>
+  </exercise>
+
+
+  <exercise label="memory-management_dynamic-memory-ex-3">
+    <statement>
+      <p>The pointer <pf>pData</pf> points at an integer. Which line of code correctly prints the value
+        of that integer?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement><![CDATA[ std::cout << *pData;]]></statement>
+        <feedback>Correct! We need to dereference the pointer to access the integer that is on the
+          heap.</feedback>
+      </choice>
+      <choice>
+        <statement><![CDATA[ std::cout << &pData;]]></statement>
+        <feedback>That would print the address of the pointer variable itself (the address of where <pf>pData</pf>
+          is stored on the stack).</feedback>
+      </choice>
+      <choice>
+        <statement><![CDATA[ std::cout << pData;]]></statement>
+        <feedback>That prints what is stored in <pf>pData</pf>, which is the address of the integer that
+          is on the heap.</feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+</section>

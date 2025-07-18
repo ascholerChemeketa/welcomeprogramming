@@ -1,0 +1,135 @@
+<section xml:id="memory-management_destructors"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Destructors</title>
+
+  <p>In C++, a <term>destructor</term> is a special member function that is called when an object is
+    destroyed. Its primary purpose is to free resources that the object may have acquired during its
+    lifetime, such as dynamically allocated memory.<idx>
+      <h>destructor</h>
+    </idx></p>
+
+  <p>The prototype for a destructor looks like this:</p>
+
+  <program>~ClassName();</program>
+
+  <p>There is no return type, no parameters, and the name is always the same as the class name, but
+    with a tilde (~) in front. It automatically runs when an object of the class is destroyed. This
+    might happen because the object went out of scope (stack based variable) or was explicitly
+    deleted (if the object was allocated on the heap). This is the place we can clean up any memory
+    (or other restouces) that the object is responsible for.</p>
+
+  <warning>
+    <p>It is almost always an error to manually call the destructor. Calling it manually generally
+      means it will run twice, once when called directly and once when it runs automatically,
+      possibly trying to free the same memory twice.</p>
+  </warning>
+
+  <p>Below is a new version of our <pf>PlayerList</pf> class with a destructor to clean up the managed array.
+    (Normally we would not print the destructor message in a real program, that is done just for
+    demonstration purposes.)</p>
+
+  <program xml:id="playerlist-v2"
+           label="playerlist-v2"
+           filename="PlayerList.cpp"
+           highlight-lines="17, 32-35"
+           line-numbers="yes">
+<xi:include href="../../programs/memory-management/playerlist-v2.cpp" parse="text"/>
+</program>
+
+  <p>Note that the only thing it needs to do is delete the array that is being tracked by the
+    pointer <pf>m_players</pf>. The memory for the PlayerList variables themselves is automatically managed
+    by C++ and does not need to be deleted manually.</p>
+
+  <figure>
+    <caption>The heap based array that <pf>m_players</pf> points to needs to be cleaned up in the destructor.</caption>
+    <image source="images/memory-playerlist-1.svg"
+           alt="The pList variable contains a pointer to the array of player names"/>
+  </figure>
+
+  <p>Now, when we run the same main program, we should see that the memory is properly freed. The
+    destructor message should be printed when the <pf>PlayerList</pf> object is destroyed at the end of main.
+    And AddressSanitizer should now not identify any leaks.</p>
+
+  <program label="memory-management_destructors-program-1"
+           interactive="activecode"
+           compile-also="playerlist-v2"
+           extra-compiler-args="-fsanitize=address -g">
+<xi:include href="../../programs/memory-management/playerlist-use.cpp" parse="text"/>
+  </program>
+
+  <p>The destructor ends whenever an object goes out of scope. In the program above, that was at the
+    end of main. In the new program below, we have a separate function <pf>testPlayerList()</pf> that creates a <pf>PlayerList</pf>
+    object. When <pf>testPlayerList()</pf> ends, the <pf>PlayerList</pf> object is destroyed, and we see the destructor
+    message. <pf>testPlayerList()</pf> is called twice from <pf>main</pf>, so you will see two destructor messages, one
+    at the end of each function call.</p>
+
+  <program label="memory-management_destructors-program-2"
+           interactive="activecode"
+           compile-also="playerlist-v2"
+           extra-compiler-args="-fsanitize=address -g">
+<xi:include href="../../programs/memory-management/playerlist-use-2.cpp" parse="text"/>
+  </program>
+
+  <note>
+    <p>Destructors should always be virtual in base classes to ensure proper cleanup of derived
+      classes. We will not be mixing the ideas of inheritance and container classes, and so this
+      will not be an issue for us. But if you are writing a class that you think might be extended,
+      it is best to mark the destructor as virtual.</p>
+  </note>
+
+  <exercise label="memory-management_destructors-ex-1" numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>We want to add a destructor to the NumberList class. It manages a dynamic array of
+        integers. Examine the members and decide what needs to be deleted. Then build the function
+        as it would appear when defined outside the class.</p>
+      <image>
+        <mermaid><![CDATA[
+classDiagram
+    class NumberList {
+    -m_numbers : int&ast;
+    -m_size : int
+    -m_description : string
+    }
+        ]]>
+      </mermaid>
+      </image>
+    </statement>
+    <blocks>
+      <block order="3">
+        <choice correct="yes">
+          <cline><![CDATA[NumberList::~NumberList() {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[~NumberList::NumberList() {]]></cline>
+        </choice>
+    </block>
+      <block order="2">
+        <choice correct="yes">
+          <cline><![CDATA[    delete[] m_numbers;]]></cline>
+        </choice>
+    </block>
+      <block order="5">
+        <choice correct="no">
+          <cline><![CDATA[    delete[] m_description;]]></cline>
+        </choice>
+    </block>
+      <block order="9">
+        <choice correct="no">
+          <cline><![CDATA[    delete[] m_size;]]></cline>
+        </choice>
+    </block>
+      <block order="1">
+        <choice correct="yes">
+          <cline><![CDATA[}]]></cline>
+        </choice>
+    </block>
+    </blocks>
+    <hint>Which variable looks like it holds the memory address of a dynamic array. It is the only
+      one that needs to be deleted.</hint>
+  </exercise>
+
+
+</section>

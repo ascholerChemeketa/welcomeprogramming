@@ -1,0 +1,224 @@
+<section xml:id="memory-management_stack"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>The Stack</title>
+
+  <p>We have already discussed the <term>call stack</term> and how it is used to organize the memory
+    used by function calls in a program. When a function is called, a new frame is created on the
+    call stack to hold its local variables and parameters. This frame is removed when the function
+    returns, freeing up the memory it used.</p>
+
+  <p>In computer science, the <term>stack</term> is a data structure that stores a collection of
+    elements, with two main operations: <q>push</q>, which adds an element to the top of the stack,
+    and <q>pop</q>, which removes the top element (the most recently added). A stack works like a
+    stack of plates: when you need a plate, you likely just grab the top plate in a stack in your
+    cupboard. After washing a plate, you put it back at the top of the stack.<idx>
+      <h>stack</h>
+    </idx></p>
+
+  <p>This behavior is sometimes called <term>LIFO</term> (last-in, first-out), and it describes how
+    the call stack operates. As each function is called its stack frame is placed on the top of the
+    stack. When the function returns, the top stack frame is removed.<idx>
+      <h>LIFO</h>
+    </idx></p>
+
+  <p>The call stack is often organized so that the <q>bottom</q> of the stack is the highest memory
+    address and the <q>top</q> of the stack is the lowest memory address. This means that as new
+    frames are added to the stack, they are placed at lower memory addresses. You can see this in
+    codelens simulations<mdash/>it shows the most recently added stack frames at the bottom of the
+    display:</p>
+
+  <program label="memory-management_stack-program-1"
+           interactive="codelens">
+<xi:include href="../../programs/memory-management/stack-1.cpp" parse="text"/>
+  </program>
+
+  <p>Each time <pf>main</pf> called <pf>bar</pf>, a stack frame is added below main. Despite where it is
+    visually, we would say that <q>bar is on the top of the stack</q>. When <pf>bar</pf> in turn calls <pf>foo</pf>,
+    a new stack frame is added below <pf>bar</pf>. Again, we would say that <q>foo is on the top of the
+    stack</q>. When <pf>foo</pf> returns, its stack frame is removed, and we would say that <q>bar is
+    on the top of the stack</q> again. <pf>main</pf> is on the bottom of the stack throughout the run of
+    the program because it was the first function.</p>
+
+  <insight>
+    <p>Even when a stack starts at the highest point and builds down, we still refer to the most
+      recently added item as the <q>top</q> of the stack and the oldest item as the <q>bottom</q> of
+      the stack.</p>
+    <p>Another way to think about it: <pf>main</pf> is always the <q>bottom</q> of the stack. Items are
+      stacked so they build in one direction and that is the <q>top</q> of the stack.</p>
+  </insight>
+
+  <p>In C++ the call stack is managed automatically by the compiler and runtime system. When a
+    function is compiled, in addition to compiling the function's code, the compiler generates code
+    to create a new stack frame with space for its local variables and parameters. It also generates
+    code at the end of the function to clean up the stack frame.</p>
+
+  <exercise label="memory-management_stack-ex-1">
+    <statement>
+      <p>A program starts in <pf>main</pf>. It calls <pf>a</pf>, which then calls <pf>b</pf>. <pf>b</pf>
+        returns. Then <pf>c</pf> is called. It calls <pf>d</pf>. <pf>d</pf> returns. What does the call
+        stack look like?</p>
+      <p>Assume that, like Codelens illustrations, the <q>bottom</q> of the stack is the highest
+        memory address and the <q>top</q> of the stack is the lowest memory address.</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>At this point, the call stack is empty.</statement>
+        <feedback>There are multiple functions that did not return.</feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <tabular>
+            <row>
+              <cell>Address</cell>
+              <cell>Stack Frame</cell>
+            </row>
+            <row>
+              <cell>0x10000</cell>
+              <cell>c</cell>
+            </row>
+            <row>
+              <cell>0x9F00</cell>
+              <cell>a</cell>
+            </row>
+            <row>
+              <cell>0x8E20</cell>
+              <cell>main</cell>
+            </row>
+          </tabular>
+        </statement>
+        <feedback>The <q>top</q> of the stack should be the smallest address.</feedback>
+      </choice>
+
+
+      <choice correct="yes">
+        <statement>
+          <tabular>
+            <row>
+              <cell>Address</cell>
+              <cell>Stack Frame</cell>
+            </row>
+            <row>
+              <cell>0x10000</cell>
+              <cell>main</cell>
+            </row>
+            <row>
+              <cell>0x9F00</cell>
+              <cell>a</cell>
+            </row>
+            <row>
+              <cell>0x8E20</cell>
+              <cell>c</cell>
+            </row>
+          </tabular>
+        </statement>
+        <feedback>Correct, main, <pf>a</pf>, and <pf>c</pf> are on the stack. The <q>top</q> of the
+          stack (the lowest address 0x8E20) is <pf>c</pf>.</feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <tabular>
+            <row>
+              <cell>Address</cell>
+              <cell>Stack Frame</cell>
+            </row>
+            <row>
+              <cell>0x10000</cell>
+              <cell>main</cell>
+            </row>
+            <row>
+              <cell>0x9F00</cell>
+              <cell>a</cell>
+            </row>
+            <row>
+              <cell>0x8E20</cell>
+              <cell>b</cell>
+            </row>
+            <row>
+              <cell>0x7C00</cell>
+              <cell>c</cell>
+            </row>
+          </tabular>
+        </statement>
+        <feedback><pf>b</pf> is not on the stack.</feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <tabular>
+            <row>
+              <cell>Address</cell>
+              <cell>Stack Frame</cell>
+            </row>
+            <row>
+              <cell>0x10000</cell>
+              <cell>c</cell>
+            </row>
+            <row>
+              <cell>0x9F00</cell>
+              <cell>b</cell>
+            </row>
+            <row>
+              <cell>0x8E20</cell>
+              <cell>a</cell>
+            </row>
+            <row>
+              <cell>0x7C00</cell>
+              <cell>main</cell>
+            </row>
+          </tabular>
+        </statement>
+        <feedback><pf>b</pf> is not on the stack.</feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <tabular>
+            <row>
+              <cell>Address</cell>
+              <cell>Stack Frame</cell>
+            </row>
+            <row>
+              <cell>0x10000</cell>
+              <cell>main</cell>
+            </row>
+            <row>
+              <cell>0x9F00</cell>
+              <cell>a</cell>
+            </row>
+          </tabular>
+        </statement>
+        <feedback><pf>c</pf> never returned. It should be on the stack</feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <tabular>
+            <row>
+              <cell>Address</cell>
+              <cell>Stack Frame</cell>
+            </row>
+            <row>
+              <cell>0x10000</cell>
+              <cell>main</cell>
+            </row>
+            <row>
+              <cell>0x9F00</cell>
+              <cell>c</cell>
+            </row>
+            <row>
+              <cell>0x8E20</cell>
+              <cell>a</cell>
+            </row>
+          </tabular>
+        </statement>
+        <feedback><pf>a</pf> was called directly from <pf>main</pf>. It should be the closest stack frame
+          to that of <pf>main</pf>.</feedback>
+      </choice>
+
+
+    </choices>
+  </exercise>
+
+</section>

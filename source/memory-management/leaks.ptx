@@ -1,0 +1,81 @@
+<section xml:id="memory-management_leaks"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Memory Leaks and Delete</title>
+
+  <p>When our program is in <pf>foo()</pf>, the memory looks like this:</p>
+
+  <image source="images/dynamic-memory-3.svg"
+         alt="Memory layout with p1 and p2 that point at allocated heap memory"/>
+
+  <p>When <pf>foo</pf> returns, its stack frame disappears. That means <pf>p1</pf> and <pf>p2</pf> will go
+    away and so will our only record of where the memory allocated for <pf>5</pf> and <pf>"Hello World"</pf> is.
+    The heap memory persists, but is no longer locatable by the program. This is called a <term>memory
+    leak</term>. A memory leak is not immediately harmful. Whatever memory has been leaked will just
+    sit around on the heap until the program finishes, at which time it is recovered.<idx>
+      <h>memory leak</h>
+    </idx></p>
+
+  <p>The memory diagram for this situation might look like:</p>
+
+  <image source="images/leaks-1.svg"
+         alt="Leaked memory on the heap has no pointers that point to it"/>
+
+  <p>However, in a long running program that keeps leaking memory, it will get harder and harder to
+    find an empty block of space on the heap when a new allocation is made. Eventually, we will run
+    out of memory and the program will crash. If you have ever played a video game for an extended
+    period of time and noticed that it started to slow down before eventually crashing, you probably
+    encountered a memory leak.</p>
+
+  <p>To avoid memory leaks, we need to <term>deallocate</term> (or <term>free</term>) the memory we
+    have allocated on the heap. In C++, we do this with the <pf>delete</pf> operator followed by a pointer
+    that points at the memory we wish to delete. Something like <pf>delete p1;</pf>. Here is a version of the
+    program that avoids leaking memory: <idx>
+      <h>free (memory)</h>
+    </idx><idx>
+      <h>deallocate</h>
+    </idx></p>
+
+  <program highlight-lines="17-18"
+           line-numbers="yes">
+<xi:include href="../../programs/memory-management/leaks-1.cpp" parse="text"/>
+  </program>
+
+  <p>In this version, we call <pf>delete</pf> on <pf>p1</pf> and <pf>p2</pf> before <pf>foo</pf> returns. This
+    properly deallocates the memory we allocated with <pf>new</pf>, preventing any memory leaks. The
+    memory diagram right before foo returns would look like:</p>
+
+  <image source="images/leaks-2.svg"
+         alt="The memory allocated on the heap and pointed to by p1 and p2 was freed"/>
+
+  <p>Note that <pf>p1</pf> and <pf>p2</pf> still exist, but they no longer point to valid memory.
+    Accessing them would result in undefined behavior - we don't know what might be at <pf>0x40</pf> or <pf>0x80</pf>
+    anymore. The program below tries to use <pf>p1</pf> and <pf>p2</pf> after the memory they point at
+    has been freed. It may print out garbage values or crash.</p>
+
+  <program label="memory-management_leaks-program-1"
+           interactive="activecode">
+<xi:include href="../../programs/memory-management/leaks-2.cpp" parse="text"/>
+  </program>
+
+  <insight>
+    <p><pf>delete</pf> does not delete a pointer. It only tells the operating system that the memory the
+      pointer was pointing to can be reused. From that point on, trying to use the pointer will lead
+      to undefined behavior.</p>
+  </insight>
+
+  <p>To help make sure we do not use a pointer after the memory it points at has been freed, it is
+    good practice to set the pointer to <pf>nullptr</pf>. This way, we can write code to check if the
+    pointer is null, and, even if we accidentally try to use it, we are guaranteed that the program
+    will crash instead of doing something unpredictable. We can do this in our program with
+    something like:</p>
+
+  <program>
+<xi:include href="../../programs/memory-management/leaks-3.cpp" parse="text"/>
+  </program>
+
+  <p>Now at the end of the <pf>foo()</pf> function, the memory layout looks like this:</p>
+
+  <image source="images/leaks-3.svg"
+         alt="Setting pointers to nullptr ensures they don't point at deallocated memory."/>
+
+</section>

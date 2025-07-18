@@ -1,0 +1,135 @@
+<section xml:id="memory-management_using-arrays"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Using Arrays</title>
+
+  <p>To use the elements of a heap allocated array, you use the <term>subscript operator</term>
+    (square brackets) after the pointer that points to the array to specify the index of the element
+    you wish to use. The index can be a literal or an expression that evaluates to an integer:</p>
+
+  <program>
+    // Allocate an array of 3 integers - uninitialized
+    int* data = new int[3];
+    data[0] = 1; // set the first element to 1
+    data[1] = 2; // set the second element to 2
+
+    int location = 2;
+    data[location] = 3; // set the third element to 3
+
+    // print the first element
+    cout &lt;&lt; "data[0]: " &lt;&lt; data[0] &lt;&lt; endl;
+  </program>
+
+  <p>Diagramed, the result of this would look like:</p>
+
+  <image source="images/array-use-0.svg">
+    <shortdescription>data holds the address 0x40. At that address is an array that holds three
+      integers: 1 and 2</shortdescription>
+  </image>
+
+
+  <note>
+    <p>The <pf>[]</pf> syntax may look familiar. It is what we said NOT to use with vectors or
+      strings. Vectors and strings are wrappers around dynamically allocated arrays. They provide <pf>[]</pf>
+      to access the elements as if you were using a raw array. But usually you want to use <pf>at()</pf>
+      instead, as it performs bounds checking and can help prevent accessing invalid memory.</p>
+    <p>Plain arrays do not provide a <pf>at()</pf> or any other way to access elements that will perform
+      bounds checking. It is completely up to the programmer (with the help of other tools like
+      AddressSanitizer) to avoid accessing invalid memory.</p>
+  </note>
+
+  <p>When you use the name of the pointer that points to the array, you are referring to the memory
+    address of the array and not its contents. This means that expressions like <pf>data == other</pf> will not
+    compare the contents of the arrays, but rather the memory addresses of the arrays. For example,
+    in the memory diagram below, we see two different pointers, <pf>data</pf> and <pf>other</pf>, both
+    pointing to arrays containing 1, 2, and 3. <pf>data == other</pf> would evaluate to false because it compares
+    the pointers (the two memory addresses), not the things they point at.</p>
+
+  <image source="images/array-use-1.svg"
+         alt="data holds the address 0x40. At that address is an array that holds three integers: 1, 2, and 3. other holds the address 0x80. At that address is a different array that also holds three integers: 1, 2, and 3."/>
+
+  <p>This also means that something like <pf>int* copy = data;</pf> will not create a copy of the array, but rather
+    another pointer to the same array. Given this code:</p>
+
+  <program>
+    // Allocate an array of 3 integers - initialized to 1, 2, and 3
+    int* data = new int[3] {1, 2, 3};
+
+    int* copy = data; // copy points to the same array as data
+  </program>
+
+  <p>The memory layout would look like:</p>
+
+  <image source="images/array-use-2.svg"
+         alt="data holds the address 0x40. At that address is an array that holds three integers: 1, 2, and 3. copy holds the same address"/>
+
+  <p>There is really only one array, and both <pf>data</pf> and <pf>copy</pf> point to it. The assignment
+    statement copied the memory address from data to copy. This is known as a <term>shallow copy</term>.
+    If you modify the contents of the array using either pointer, the changes will be reflected when
+    accessing the array through the other pointer.</p>
+
+  <insight>
+    <p>In <pf> int* data = new int[3];</pf>, <pf>data</pf> is the name of the pointer that is tracking the array. It does NOT
+      name the array.</p>
+  </insight>
+
+  <p>To do something like compare two arrays, or to copy one array to another, you generally need to
+    use a loop to work with each element one at a time. This Codelens demonstrates making a copy of
+    an array using a loop:</p>
+
+  <program label="memory-management_using-arrays-program-1"
+           interactive="codelens">
+<xi:include href="../../programs/memory-management/using-arrays-loop.cpp" parse="text"/>
+  </program>
+
+  <note>
+    <p>The range-based for loop will not work on a dynamically allocated array. (There is no
+      guarantee the compiler will know the size of the array.) You have to use a counting loop to
+      iterate through the elements.</p>
+  </note>
+
+  <p>In this code, <pf>copy</pf> would be called a <term>deep copy</term> because it allocates its own
+    memory and copies the contents of the original array into it. Once the copy is made, changing
+    either array will not affect the other.</p>
+
+  <exercise label="memory-management_using-arrays-ex-1">
+    <statement>What does <pf>int* copy = myArray;</pf> do?</statement>
+    <choices>
+      <choice correct="yes">It creates a new pointer <pf>copy</pf> that points to the same array as <pf>myArray</pf>
+        .</choice>
+      <choice>It allocates memory for a new array but does not initialize it.</choice>
+      <choice>It creates a new array and copies the contents of <pf>myArray</pf> into it.</choice>
+    </choices>
+  </exercise>
+
+  <exercise label="memory-management_using-arrays-ex-2">
+    <statement>In <pf>int* myArray = int[100];</pf> what best describes what is stored in <pf>myArray</pf>?</statement>
+    <choices>
+      <choice correct="yes">The memory address of a block of memory with space for 100 integers.</choice>
+      <choice>An array of 100 integers.</choice>
+      <choice>A block of memory with space for 100 integers.</choice>
+      <choice>A block of 100 memory addresses.</choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="memory-management_using-arrays-ex-3">
+    <statement><pf>myArray</pf> is an array of integers. How would you assign 5 to the second element
+      (index 1)?</statement>
+    <choices>
+      <choice correct="yes">
+        <pf>myArray[1] = 5;</pf>
+      </choice>
+      <choice>
+        <pf>myArray.at(1) = 5;</pf>
+      </choice>
+      <choice>
+        <pf>myArray(1) = 5;</pf>
+      </choice>
+      <choice>
+        <pf>myArray = 5;</pf>
+      </choice>
+    </choices>
+  </exercise>
+
+
+</section>

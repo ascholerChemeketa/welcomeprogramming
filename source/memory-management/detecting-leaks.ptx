@@ -1,0 +1,245 @@
+<section xml:id="memory-management_detecting-leaks"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Detecting Leaks and Use-After-Free Errors</title>
+
+  <p>As mentioned in the previous section a memory leak does not do any immediate harm. Because of
+    this, it can be difficult to detect and diagnose memory leaks in a program. However, there are
+    several techniques and tools that can help us identify memory leaks.</p>
+
+  <p>Some compilers include built in tools that can be used to add code that monitors allocations
+    and deallocation and detects memory leaks. One such tool, AddressSanitizer, is available in GCC
+    (the compiler used by this book) and can be enabled with the <pf>-fsanitize=address</pf> flag. It is most useful
+    if you also use the <pf>-g</pf> flag to include debug information in the compiled binary.</p>
+
+  <note>
+    <p>AddressSanitizer does not work on GCC for Windows. But it does work when using GCC on Windows
+      Subsystem for Linux (WSL).</p>
+  </note>
+
+  <p>The following program demonstrates what AddressSanitizer does. It is setup to compile with
+    something like:</p>
+
+  <console>
+    <input>g++ -fsanitize=address -g -o program.exe detect-leaks.cpp</input>
+  </console>
+
+  <p>Try running the program. You will see the program output and then a memory report from
+    AddressSanitizer.</p>
+
+  <program label="memory-management_detecting-leaks-program-1"
+           interactive="activecode"
+           extra-compiler-args="-fsanitize=address -g">
+<xi:include href="../../programs/memory-management/detecting-leaks.cpp" parse="text"/>
+  </program>
+
+  <p>The report should indicate two leaks. One for the integer allocated with <pf>new int(5)</pf> and another
+    for the string allocated with <pf>new string("Hello, world")</pf>. Add the line <pf>delete p1;</pf> at the end of foo, and run the
+    program again. Now you should only get one memory leak (the one for the string).</p>
+
+  <p>Each leak report looks like:</p>
+
+  <console>
+    <output>
+Direct leak of 32 byte(s) in 1 object(s) allocated from:
+    #0 0x7f058b6bb548 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:95
+    #1 0x55792de515bd in foo() /home/jobe/runs/jobe_9E1yY2/test.cpp:10
+    #2 0x55792de51805 in main /home/jobe/runs/jobe_9E1yY2/test.cpp:19
+    #3 0x7f058b0401c9  (/lib/x86_64-linux-gnu/libc.so.6+0x2a1c9) (BuildId: 42c84c92e6f98126b3e2230ebfdead22c235b667)
+    #4 0x7f058b04028a in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2a28a) (BuildId: 42c84c92e6f98126b3e2230ebfdead22c235b667)
+    #5 0x55792de51404 in _start (/home/jobe/runs/jobe_9E1yY2/test.cpp.exe+0x2404) (BuildId: 2d2506729042a70f415e3a189abe98bf4c37c123)
+    </output>
+  </console>
+
+  <p>Here is how to read that: <ul>
+      <li>The first line indicates the type and size of the leak (e.g., <c>"Direct leak of 32 byte(s) in 1 object(s) allocated from:"</c>).</li>
+      <li>
+        <p>Each subsequent line shows a stack trace of the allocation, with the most recent call at
+    the top. The format of each line is: <c>#<i>n</i> <i>ADDRESS</i> in <i>FUNCTION</i> (<i>FILE</i>:<i>LINE</i>)</c>.</p>
+        <ol>
+          <li>The <c>ADDRESS</c> is the memory address where the allocation occurred.</li>
+          <li>The <c>FUNCTION</c>, <c>FILE</c>, and <c>LINE</c> number indicate where in the code the allocation was
+    made.</li>
+        </ol>
+      </li>
+    </ul> So, for this leak, we can see: <ul>
+      <li>
+        <title>Header</title>
+        <p>The leak is 32 bytes. That must be how much memory was allocated for the string. (The
+    other leak was 4 bytes because an integer is always 4 bytes.)</p>
+      </li>
+      <li>
+        <title>#0</title>
+        <p>It was allocated by <pf>new</pf> from the asan library. We probably don't care about that.
+    The library did not cause our leak.</p>
+      </li>
+      <li>
+        <title>#1</title>
+        <p><pf>new</pf> was called from <pf>foo()</pf> on line 10 of <pf>test.cpp</pf>. (Don't worry about <pf>/home/jobe/runs/jobe_5QqFtF/</pf>,
+    that is just the folder on the server the code was in when it ran.) This is the important piece
+    of information. It is the first code that we wrote that is responsible for the leak.</p>
+      </li>
+      <li>
+        <title>#2</title>
+        <p><pf>foo()</pf> was called from <pf>main</pf> on line 19 of <pf>test.cpp</pf>. This is also important
+    because it shows us the chain of function calls that led to the leak. If <pf>foo()</pf> was called
+    multiple times, this would help us figure out which call was responsible for the leak.</p>
+      </li>
+      <li>
+        <title>#3-5</title>
+        <p>These are the C++ library calls that setup the run of the program and called our main
+    function. We don't care about any of those.</p>
+      </li>
+    </ul>
+  </p>
+
+  <p>Once you know where leaked memory was allocated, you can try to decide where to delete that
+    memory. Often times, you will not be able delete the memory where it was allocated. Instead, you
+    will have to trace the use of that memory through the code and decide when the program is done
+    with the memory. That is the point to delete it.</p>
+
+  <insight>
+    <p>A memory leak report tells you there is an issue. It does not tell you where to fix that
+      issue.</p>
+  </insight>
+
+  <p>AddressSanitizer will also detect some other common mistakes. The even more dangerous
+    counterpart to a leak is a use-after-free error. That is when after deleting some memory you try
+    to use it. Add a use-after-free error to the end of <pf>foo()</pf> by making it look like:</p>
+
+  <program>
+<![CDATA[
+      ...
+      cout << "p2 points to: " << *p2 << endl;
+      delete p1;
+      cout << *p1;  // Use after free error
+}
+...]]>
+  </program>
+
+  <p>If you run the program again, you should see a use-after-free error reported by
+    AddressSanitizer. There is a lot of other information it provides, but the key bit is in the
+    first two lines of the report. They should say something like:</p>
+
+  <console>
+    <output>
+==55472==ERROR: AddressSanitizer: heap-use-after-free on address 0x502000000010 at pc 0x55817502f795 bp 0x7ffd453d5840 sp 0x7ffd453d5830
+READ of size 4 at 0x502000000010 thread T0
+    #0 0x55817502f794 in foo() /home/jobe/runs/jobe_nZISUA/test.cpp:16
+...
+    </output>
+  </console>
+
+  <p>That tells us we used address <pf>0x502000000010</pf> after freeing it. We used it on line 16 of <pf>test.cpp</pf>.
+    Looking down further, we can see a report about when it was freed:</p>
+
+  <console>
+    <output>
+...
+0x502000000010 is located 0 bytes inside of 4-byte region [0x502000000010,0x502000000014)
+freed by thread T0 here:
+    #0 0x7ff94b2635e8 in operator delete(void*, unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:164
+    #1 0x55817502f75a in foo() /home/jobe/runs/jobe_nZISUA/test.cpp:15
+...
+    </output>
+  </console>
+
+  <p>It was freed by <pf>delete</pf>, which was called from <pf>foo()</pf> on line 15 of <pf>test.cpp</pf>.</p>
+
+  <note>
+    <p>Programs in this book where you are expected to work with dynamic memory will be configured
+      to use address sanitizer to help detect memory issues. When building your own programs that
+      involve memory management, you should use AddressSanitizer or a similar tool to check for
+      leaks and use-after-free errors.</p>
+  </note>
+
+  <exercise label="memory-management_detecting-leaks-ex-1">
+    <statement>
+      <p>Read the AddressSanitizer output below and answer these questions:</p>
+      <ul>
+        <li>
+          <p>How many different leaks were detected?<fillin mode="number"
+                    answer="2"/></p>
+        </li>
+        <li>
+          <p>What are the total number of bytes leaked?<fillin mode="number"
+                    answer="160"/></p>
+        </li>
+        <li>
+          <p>How many bytes were leaked in the first leak?<fillin mode="number"
+                    answer="128"/></p>
+        </li>
+        <li>
+          <p>What is the filename where the leaks occurred?<fillin mode="text"
+                    answer="myfile.cpp"/></p>
+        </li>
+        <li>
+          <p>What function was responsible for the first leak (answer without parentheses)?<fillin mode="text"
+                    answer="bar"/></p>
+        </li>
+        <li>
+          <p>What line in main was that function called from?<fillin mode="number"
+                    answer="82"/></p>
+        </li>
+      </ul>
+      <console>
+        <output>
+Direct leak of 128 byte(s) in 1 object(s) allocated from:
+    #0 0x7f665473d548 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:95
+    #1 0x5633de0475bd in bar() /home/jobe/runs/jobe_egu7oe/myfile.cpp:16
+    #2 0x5633de047805 in main /home/jobe/runs/jobe_egu7oe/myfile.cpp:82
+    #3 0x7f66540c21c9  (/lib/x86_64-linux-gnu/libc.so.6+0x2a1c9) (BuildId: 42c84c92e6f98126b3e2230ebfdead22c235b667)
+    #4 0x7f66540c228a in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2a28a) (BuildId: 42c84c92e6f98126b3e2230ebfdead22c235b667)
+    #5 0x5633de047404 in _start (/home/jobe/runs/jobe_egu7oe/myfile.cpp.exe+0x2404) (BuildId: a3c844b7094161e09f8777ec12866b6e72f34593)
+
+Direct leak of 32 byte(s) in 1 object(s) allocated from:
+    #0 0x7f665473d548 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:95
+    #1 0x5633de04756f in foo() /home/jobe/runs/jobe_egu7oe/myfile.cpp:10
+    #2 0x5633de047805 in main /home/jobe/runs/jobe_egu7oe/myfile.cpp:82
+    #3 0x7f66540c21c9  (/lib/x86_64-linux-gnu/libc.so.6+0x2a1c9) (BuildId: 42c84c92e6f98126b3e2230ebfdead22c235b667)
+    #4 0x7f66540c228a in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x2a28a) (BuildId: 42c84c92e6f98126b3e2230ebfdead22c235b667)
+    #5 0x5633de047404 in _start (/home/jobe/runs/jobe_egu7oe/myfile.cpp.exe+0x2404) (BuildId: a3c844b7094161e09f8777ec12866b6e72f34593)
+
+SUMMARY: AddressSanitizer: 160 byte(s) leaked in 2 allocation(s).
+    </output>
+      </console>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <strcmp use-answer="yes"/>
+          <feedback>Test</feedback>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <numcmp>16</numcmp>
+          <feedback>That is the line in the <pf>bar()</pf> function where the memory was allocated.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>

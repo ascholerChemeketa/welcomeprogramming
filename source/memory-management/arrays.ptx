@@ -1,0 +1,112 @@
+<section xml:id="memory-management_arrays"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Arrays</title>
+
+  <p>Often we need to allocate space to store more than one value. Perhaps we need to allocate space
+    for 1000 integers or 200 Person objects. In C++, we can use arrays to achieve this. Think of an
+    array as a block of memory (contiguous) that can hold multiple values of the same type.</p>
+
+  <p>To dynamically allocate an array of data, we put the size we want in <q>square brackets</q>
+    after the type (<pf>[size]</pf>). The individual elements will be initialized by the default
+    constructor if they are objects or uninitialized if they are primitive values (int, double,
+    char, etc...). To initialize an array of primitive values all to 0, we can use an empty
+    initializer list after the brackets:</p>
+
+  <program>
+    // Allocate an array of 4 integers - uninitialized
+    int* data = new int[4];
+
+    // Allocate an array of 1000 integers - initialize to 0
+    int* data = new int[1000] {};
+
+    int numPersons = 10;
+    // Allocate an array of 10 Person objects - initialized with default constructor
+    Person* persons = new Person[numPersons];
+  </program>
+
+  <p>The first line says something like <q>Allocate enough memory to hold 4 integers and give me a
+    pointer to where the data starts.</q>. A memory diagram after running just that line in main
+    might look like:</p>
+
+  <image source="images/array-allocation-1.svg"
+         alt="data points at a block of memory that holds four integers. The integers have random values."/>
+
+  <p>Notice that the pointer <pf>data</pf> is a local variable in <pf>main</pf>'s stack frame. It points to
+    the first element of the array, which is stored on the heap. The rest of the elements are stored
+    in contiguous memory locations after the first element. All of the values are shown as random
+    values because we did not initialize them.</p>
+
+  <p>To free the memory allocated for an array, we use the <pf>delete[]</pf> operator:</p>
+
+  <program>delete[] data;</program>
+
+  <warning>
+    <p>The [] is important. It says that we are deleting an array, not just a single value.
+      Forgetting the brackets is an error that can lead to undefined behavior (but fortunately,
+      AddressSanitizer will catch this).</p>
+  </warning>
+
+  <program label="memory-management_arrays-program-1"
+           interactive="activecode"
+           extra-compiler-args="-fsanitize=address -g">
+<xi:include href="../../programs/memory-management/array-delete.cpp" parse="text"/>
+  </program>
+
+
+  <exercise label="memory-management_arrays-ex-1">
+    <statement>What happens if you modify the <pf>delete[]</pf> in the program above to <pf>delete</pf>?</statement>
+    <choices>
+      <choice>
+        <statement>The program fails to compile.</statement>
+      </choice>
+      <choice>
+        <statement>The program produces a random result.</statement>
+      </choice>
+      <choice correct="yes">
+        <statement>AddressSanitizer produces a warning that specifies <pf>mismatched-new-delete</pf>.</statement>
+      </choice>
+      <choice>
+        <statement>AddressSanitizer produces a warning that specifies <pf>invalid-delete-address</pf>.</statement>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="memory-management_arrays-ex-2">
+    <statement>
+      <p>Allocate an array of 10 doubles on the heap, initialized to 0. Store the address into <pf>quizScores</pf>.
+        You will not use all the blocks.</p>
+    </statement>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>double</c></block>
+      <block><c>*</c></block>
+      <block><c>quizScores</c></block>
+      <block><c> = </c></block>
+      <block><c>new</c></block>
+      <block><c>double</c></block>
+      <block><c>[10]</c></block>
+      <block><c>{}</c></block>
+      <block correct="no"><c>{10}</c></block>
+      <block correct="no"><c>[]</c></block>
+      <block><c>;</c></block>
+    </blocks>
+  </exercise>
+
+
+  <note>
+    <p>Arrays can also be allocated on the stack as a local variable. To do that, we don't use <pf>new</pf>
+      and we put the size of the array after the variable name:</p>
+    <program>int data[1000];</program>
+    <p>Arrays placed on the stack have a major limitation: the size of an array put on the stack
+      must be known at compile time (i.e. a literal number or constant expression). So you can't use
+      a variable to declare the size. Trying to write <pf>int data[dataCount]</pf> where <pf>dataCount</pf> is a variable is a
+      compile error as the compiler does not know how much space to allocate.</p>
+    <p>Plain arrays are a very low-level way of working with memory. In plain C programming, there
+      are no vectors available, so they are the only tool available for storing a list of items. In
+      C++, we have the option to use the Standard Template Library (STL) which provides higher-level
+      abstractions like <pf>std::vector</pf> and <pf>std::array</pf>.</p>
+    <p>In this book we will only be using heap allocated arrays.</p>
+  </note>
+
+</section>
