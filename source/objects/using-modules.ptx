@@ -14,8 +14,8 @@ export class Point {
 
   <p>We may still wish to place the function definitions outside of the class. That way, the class definition has the minimal amount of code necessary and sticks to just what an <q>outside user</q> of the code should care about. The implementation details are there, but out of the way. But all of this code can go into a single file like <pf>Point.cxx</pf>:</p>
 
-  <program label="objects_using-modules-program-1" interactive="activecode">
-<xi:include href="../../programs/objects/headers-1.cpp" parse="text"/>
+  <program label="objects_using-modules-program-cxx" xml:id="objects_using-modules-program-cxx" interactive="activecode" filename="Point.cxx" extra-compiler-args="-c">
+<xi:include href="../../programs/objects/simple-point.cxx" parse="text"/>
 </program>
 
   <note>
@@ -24,8 +24,8 @@ export class Point {
 
   <p>With that file defined, we are ready to import the library and build the code:</p>
 
-  <program label="objects_using-modules-program-2" interactive="activecode">
-<xi:include href="../../programs/objects/headers-3.cpp" parse="text"/>
+  <program label="objects_using-modules-program-2" interactive="activecode" compile-also="objects_using-modules-program-cxx">
+<xi:include href="../../programs/objects/modules-1.cpp" parse="text"/>
   </program>
 
   <console>

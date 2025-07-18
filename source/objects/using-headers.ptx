@@ -30,9 +30,9 @@
 
   <listing>
     <caption>Point.h</caption>
-    <program>
+    <program label="objects_using-headers-point-h" xml:id="objects_using-headers-point-h" extra-compiler-args="-c" filename="Point.h">
 <xi:include href="../../programs/objects/simple-point.h" parse="text"/>
-  </program>
+    </program>
   </listing>
 
   <note>
@@ -47,15 +47,15 @@
 
   <listing>
     <caption>Point.cpp</caption>
-    <program>
+    <program label="objects_using-headers-point-cpp" xml:id="objects_using-headers-point-cpp" add-files="objects_using-headers-point-h" extra-compiler-args="-c" filename="Point.cpp">
 <xi:include href="../../programs/objects/simple-point.cpp" parse="text"/>
-</program>
+    </program>
   </listing>
 
   <p>Then to use the Point class, other code can simply include the .h file and be compiled along
     with the .cpp file:</p>
 
-  <program label="objects_using-headers-program-1" interactive="activecode">
+  <program label="objects_using-headers-program-1" interactive="activecode" add-files="objects_using-headers-point-h" compile-also="objects_using-headers-point-cpp">
 <xi:include href="../../programs/objects/headers-3.cpp" parse="text"/>
   </program>
 
@@ -65,7 +65,7 @@
 
   <exercise label="objects_using-headers-ex-1">
     <statement>
-      <p>What statements are true based on the following <pf>Stundent.h</pf> header file?</p>
+      <p>What statements are true based on the following <pf>Student.h</pf> header file?</p>
       <program line-numbers="yes">
         <code>
 class Student {
