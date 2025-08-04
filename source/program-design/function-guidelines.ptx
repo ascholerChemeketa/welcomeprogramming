@@ -1,0 +1,65 @@
+<section xml:id="program-design_function-guidelines"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Function Guidelines</title>
+
+  <p>Any kind of design is subjective and as much an art as a science. Design problems often have
+    multiple solutions, and there is no single <q>right</q> solution. Different goals of a design
+    problem will often be at odds with each other, and different solutions will have different
+    trade-offs.</p>
+
+  <p>If we are designing a car, we might want it to be fast, comfortable, and fuel-efficient.
+    However, these goals are often in conflict with each other. A car that is fast may need to be
+    low and aerodynamic, which may make it less comfortable. An engine designed to generate more
+    power may be less fuel-efficient. Good design is about deciding which goals are most important
+    and making trade-offs accordingly. The design for a SUV that will be marketed to families will
+    prioritize comfort and safety over speed and efficiency. The design for a sports car will
+    prioritize performance and might </p>
+
+  <p>For any design domain, we can try to identify design guidelines that should shape our approach.
+    A car design guideline might be <q>start from an egg-like shape</q>. That is a very aerodynamic
+    shape, so following it will likely improve both performance and fuel-efficiency. However, these
+    guideline are not absolute rules. For a particular car design, we might need to ignore that
+    guideline to satisfy some other important goal. But absent a clear reason to ignore that
+    guideline, our design will likely benefit from following it.</p>
+
+  <p>Function design offers room for similar tradeoffs. For example, a design that allows a function
+    to be reused in many different contexts may require it to be more complex, which can make it
+    harder to understand (a less good abstraction). Or a function that is very efficient may be
+    difficult to read and maintain. Our goal is to maximize some combination of the following
+    factors: <ul>
+      <li>The clarity of the code (the abstraction of the function)</li>
+      <li>The reusability of the code (how much it avoids repeating code)</li>
+      <li>The modularity of the code (how easy it is to work on one part at a time)</li>
+      <li>The efficiency of the code (how efficiently it performs its task)</li>
+    </ul> Of those,
+    efficiency will be the one that we worry about the least for now. If a function is clear,
+    reusable, and modular, it will likely be efficient enough for most purposes. If it is not
+    efficient enough, we can often optimize it later without changing its interface or how it is
+    used. Furthermore, most big gains of efficiency come from algorithmic improvements, not from
+    micro-optimizations of a function's implementation. </p>
+
+  <p>Here are some guidelines that we can follow to help us achieve those goals:</p>
+  <ul>
+    <li>
+      <p>Functions should have a <term>single responsibility</term>. A function should do one thing
+        and do it well. If a function is trying to do too many things, it often becomes more complex
+        and difficult to maintain. And, it ends up being harder to reuse in situations that only
+        call for part of its functionality.</p>
+    </li>
+    <li>
+      <p>Functions should be <term>modular</term>. A function should be self-contained and not
+        depend on the state of the rest of the program. This makes it easier to test and reuse the
+        function in different contexts.</p>
+    </li>
+    <li>
+      <p>Functions should be <term>small</term>. A function that is too large is difficult to
+        understand and maintain. <q>Too large</q> is a loosely defined term. The real goal is to
+        avoid programmers having to keep too much information in their head at once. But a good rule
+        of thumb is to keep functions under 10-15 lines of code when possible. If a function starts
+        getting larger than that, it is time to take a look at breaking it up into smaller
+        functions.</p>
+    </li>
+  </ul>
+
+</section>

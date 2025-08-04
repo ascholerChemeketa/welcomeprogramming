@@ -1,0 +1,84 @@
+<section xml:id="program-design_single-responsibility"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Single Responsibility Principle</title>
+
+  <p>The Single Responsibility Principle (SRP) is a key concept in software design that states that
+    a function should only do one thing. This means that a function should have a single,
+    well-defined purpose and should not be responsible for multiple tasks or concerns.</p>
+
+  <p>A simple example of this principle in action is a function that calculates the area of a
+    rectangle. This function should only be responsible for the area calculation and not for any
+    other tasks, such as printing the result or validating input. By keeping the function focused on
+    a single responsibility, we make it easier to understand and maintain. Other functions should be
+    responsible for different tasks, such as displaying the result or handling user input.</p>
+
+  <p>A poorly designed function might look like `calculateTriangleArea` in this sample:</p>
+
+  <program>
+<xi:include href="../../programs/program-design/area-calculation-bad.cpp" parse="text"/>
+</program>
+
+  <p> That function is doing four different jobs: <ul>
+      <li>Getting user input</li>
+      <li>Validating user input</li>
+      <li>Calculating the area</li>
+      <li>Printing the result</li>
+    </ul>
+  </p>
+
+  <p> This makes the function less flexible. What if we want to calculate the area of a triangle and
+    then use that value to do more calculations? We can't do that easily because the result is just
+    sent to `cout`. There is no way for other code to access the value produced inside that
+    function.</p>
+
+  <p>It also makes it harder to test each individual part of the function. There is no way to test
+    that the area calculation is correct without also testing the input and output. If we want to
+    change how the area is calculated, we have to change the entire function, which can introduce
+    bugs in the other parts of the function. In this example, there is an extra complication<mdash/>it
+    is much more challenging to build unit tests that work with `cin` and `cout` than it is to write
+    ones that check the values returned from functions.</p>
+
+  <insight>
+    <p>Getting user input and printing out results are distinct tasks from working with data. They
+      should generally not be a part of functions that perform calculations or data processing.</p>
+    <p>Only a function that's responsibility is getting input should use `cin`. Only a function
+      that's responsibility is printing output should use `cout`.</p>
+  </insight>
+
+  <p>We can fix the `calculateTriangleArea` by giving it the single responsibility of doing the
+    necessary math. The other work does not belong in the function that is doing calculation:</p>
+
+  <program interactive="activecode">
+    <stdin>
+3
+4
+5
+    </stdin>
+    <code>
+<xi:include href="../../programs/program-design/area-calculation-better.cpp" parse="text"/>
+    </code>
+</program>
+
+  <p>Now, if we want to use the results of `calculateTriangleArea`, we can easily do so because it
+    returns a value. So we could use it to help build a program that compares two triangles to
+    decide if one is larger than the other.</p>
+
+  <program>
+double areaA = calculateTriangleArea(10, 10, 10);
+double areaB = calculateTriangleArea(7, 12, 13);
+if (areaA > areaB) {
+    ...
+  </program>
+
+  <p>We can also write a unit test for `calculateTriangleArea` to ensure it behaves as expected:</p>
+
+  <program>
+TEST_CASE("calculateTriangleArea") {
+    CHECK(calculateTriangleArea(3, 4, 5) == doctest::Approx(6));
+    CHECK(calculateTriangleArea(2.5, 4.1, 6.25) == doctest::Approx(3.20322));
+    CHECK(calculateTriangleArea(0, 3, 3) == doctest::Approx(0));
+}
+  </program>
+
+</section>

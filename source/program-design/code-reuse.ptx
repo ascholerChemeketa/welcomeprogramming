@@ -1,0 +1,25 @@
+<section xml:id="program-design_code-reuse"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Abstractions and Code Reuse</title>
+
+  <p>Two key reasons to write a function are abstraction and code reuse. Our <q>better</q> version of `calculateTriangleArea` provides an opportunity to write a new function that addresses both principles. The start of main has this ugly chunk of code:</p>
+
+  <program>
+<xi:include href="../../programs/program-design/area-calculation-better-bad.cpp" parse="text"/>
+</program>
+
+  <p>We repeat more or less the same code three times, once for each side of the triangle. This is a violation of the DRY principle (Don't Repeat Yourself). It would get even more ugly if we were trying to validate each input (say check if each side was a positive number). We might then have three copies of something like `if (side1 &lt;=0) ...`. One way to avoid repetition is with a loop. We could try to use a loop to repeat <q>get a side</q> three times. But another way to avoid repetition is to make a function that has the repeated code.</p>
+
+  <p>The code also could also benefit from abstracting the <q>get input</q> logic. It takes a few seconds of reading to understand what that part of the `main` function is doing. After scanning it, a programmer hopefully says something like <q>oh, that whole block just gets the three sides</q> and then doesn't worry about the details of how that happens (unless that is the part of the code they are trying to work on!).</p>
+
+  <p>It might make sense to make a function `getInput` that hides away the messy details of getting user input like this:</p>
+
+  <program>
+<xi:include href="../../programs/program-design/area-calculation-best.cpp" parse="text"/>
+</program>
+
+  <p>Now it is easier to understand what the `main` function is doing at a high level. We can see that it is getting the three sides of the triangle without having to worry about the details of how that is done. We also are reusing the logic for getting user input without duplicating it. If we wanted to add a check for negative input, and ask for new input in that case, we could modify the `getDoubleInput` function to handle that. All three inputs would then take advantage of that same code.</p>
+
+
+</section>

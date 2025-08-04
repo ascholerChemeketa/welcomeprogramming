@@ -1,0 +1,52 @@
+<section xml:id="program-design_why-functions"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Why Functions?</title>
+
+  <p>Beginner programmers often wonder why it's worth the trouble to write other functions, when
+    they could just do everything in <pf>main</pf>. The answer is that functions are a powerful tool for
+    organizing and managing complexity.</p>
+
+  <p>We have already discussed some of the ways that functions manage complexity: <ul>
+      <li>
+        <p>They enable <term>abstractions</term>. In a large codebase, developers can't be expected
+    to remember all the details of every corner of the code. A well designed function lets you use
+    logic without having to know those details. You can think of a function as a black box that
+    takes inputs, does something with them, and produces an output. You don't need to know how it
+    works; you just need to know what it does.</p>
+      </li>
+      <li>
+        <p>They enable efficient <term>reuse</term> of code. Rather than copy/pasting code from one
+    part of a program (and then having to keep all of those copies in sync as you make changes), you
+    can call the same function from many parts of a program.</p>
+      </li>
+    </ul>
+  </p>
+
+  <p>
+    In addition to those advantages, functions can be useful for the development process itself.
+    Functions give us a powerful way to think about breaking a large problem into smaller, more manageable
+    pieces, making it easier to focus on one manageable part of a problem at a time.</p>
+
+  <p>As we think about designing functions, we need to keep those reasons for using functions in mind. Good function design ensures that we have clean abstractions, efficient code reuse, and building blocks that can be developed independently.</p>
+
+  <ul>
+    <li>
+      <p>Functions should be <term>small</term>. A function that is too large is difficult to
+    understand and maintain. A good rule of thumb is that a function should fit on a single screen. If it doesn't, consider breaking it up into smaller functions.</p> 
+    </li>
+    <li>
+    <p>Functions should have a <term>single responsibility</term>. A function should do one thing and do it well. If a function is trying to do too many things, it becomes difficult to understand and maintain. If you find yourself writing a function that does multiple things, consider breaking it up into smaller functions.</p>
+    </li>
+    <li>
+      <p>Functions should be <term>well-named</term>. A function's name should clearly indicate what it does. A good name makes it easier to understand the code and reduces the need for comments. If a function's name is not clear, consider renaming it to something more descriptive.</p>
+    </li>
+    <li>
+      <p>Functions should be <term>modular</term>. A function should be self-contained and not depend on the state of the rest of the program. This makes it easier to test and reuse the function in different contexts. If a function depends on global variables or other state, consider refactoring it to take parameters instead.</p>
+    </li>
+    <li>
+      <p>Functions should be <term>testable</term>. A function should be easy to test in isolation. This means that it should not depend on the state of the rest of the program. If a function is difficult to test, consider refactoring it to make it more modular and self-contained.</p>
+    </li>
+  </ul>
+
+</section>
