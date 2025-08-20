@@ -187,6 +187,7 @@ Input: concatenate
 Output: false
       </pre>
       <p>Includes and tests are present but hidden.</p>
+    </statement>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
 #include <iostream>
@@ -214,7 +215,6 @@ TEST_CASE("caturdayCheck") {
 ]]>
         </tests>
     </program>
-    </statement>
     <hint>You should not need to check letter by letter... use a string function that allows you to ask "where is this substring within the string?". Use its answer to decide whether to print true or false</hint>
   </exercise>
 
@@ -230,6 +230,7 @@ Input: programming
 Output: prng
       </pre>
       <p>Includes and tests are present but hidden.</p>
+    </statement>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
 #include <iostream>
@@ -255,7 +256,6 @@ TEST_CASE("wordShortener") {
 ]]>
         </tests>
     </program>
-    </statement>
     <hint><pf>substr</pf> is useful for getting the two chunks. If the string has length <pf>n</pf>, what index is the next to last character at?</hint>
   </exercise>
   
@@ -273,6 +273,7 @@ Input: Hello [b]class[/b].
 Output: class
       </pre>
       <p>Includes and tests are present but hidden.</p>
+    </statement>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
 #include <iostream>
@@ -299,7 +300,6 @@ TEST_CASE("boldContents") {
 ]]>
         </tests>
     </program>
-    </statement>
     <hint>You can use <pf>.find()</pf> to locate the start and end. You will need to do math to figure out how many characters are between them.</hint>
   </exercise>
 
@@ -308,6 +308,7 @@ TEST_CASE("boldContents") {
   <exercise label="strings_exercises-ex-7">
     <statement>
       <p>Write an <pf>string initials(string name)</pf> function that takes a name like <pf>Sergio Romas Garcia</pf> or <pf>Jane Goodall</pf> and returns the initials for that name (<pf>SRG</pf> or <pf>JG</pf>). You should use spaces to identify name parts. You can assume there are always either one or two spaces.</p>
+    </statement>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
 #include <iostream>
@@ -334,7 +335,6 @@ TEST_CASE("initials") {
 ]]>
         </tests>
     </program>
-    </statement>
     <hint>Start by finding the first space. Then try finding a second space. Print out the locations.</hint>
     <hint>Use a comparison with <pf>string::npos</pf> to check if the second space actually exists. You will need one set of logic for if there is one spaces and a different set if there are two spaces.</hint>
   </exercise>
@@ -347,6 +347,7 @@ TEST_CASE("initials") {
 Input: Hello "world" 'this' is "a" test
 Output: 6
       </pre>
+    </statement>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
 #include <iostream>
@@ -372,7 +373,6 @@ TEST_CASE("countQuotes") {
 ]]>
         </tests>
     </program>
-    </statement>
     <hint>You will need to loop through the characters and count the quote symbols. Start by just printing the characters one by one. Then try to just print the quotes. Then count them.</hint>
   </exercise>
 
@@ -385,6 +385,7 @@ TEST_CASE("countQuotes") {
 Input: hello world
 Output: h3110 w0r1d
       </pre>
+    </statement>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
 #include <iostream>
@@ -410,7 +411,6 @@ TEST_CASE("leetspeak") {
 ]]>
         </tests>
     </program>
-    </statement>
     <hint>You will need to loop to iterate through the string. You can either modify the string you start with or build up a new string from scratch.</hint>
   </exercise>
 
@@ -426,6 +426,7 @@ Output: hlo
 Input: This is a test
 Output: Ti sats
       </pre>
+    </statement>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
 #include <iostream>
@@ -450,7 +451,6 @@ TEST_CASE("stringCompactor") {
 ]]>
         </tests>
     </program>
-    </statement>
     <hint>You will need a loop. The easiest way to do this is to build up a new string. But you could keep calling <pf>erase</pf> to delete the characters you do not want from the original string.</hint>
   </exercise>
 

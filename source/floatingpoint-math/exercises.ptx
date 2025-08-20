@@ -13,7 +13,8 @@
            indentation="hide">
     <statement>
       <p>Construct a block of code that calculates the volume of a cylinder with a radius of 3 and a
-        height of 4. Store the result into a variable before printing it.</p>
+        height of 4. Store the result into a variable before printing it.
+      </p>
     </statement>
     <blocks>
       <block name="start">
@@ -103,6 +104,7 @@
   <exercise label="floatingpoint-math_exercises-ex-3">
     <statement>
       <p>The code below reads in a decimal value. Print out the two integers it is between, smaller value first, with exactly one space in between them. If it is an integer value already, your program should print out the integer twice. </p>
+    </statement>
       <program
               interactive="activecode">
         <preamble>
@@ -129,7 +131,6 @@
         </iotest>
         </tests>
       </program>
-    </statement>
       <hint><p>There are rounding functions in the cmath library</p></hint>
   </exercise>
 
@@ -137,6 +138,7 @@
     <statement>
       <p>This program should read in the opposite and adjacent sides for one of the acute angles in a right triangle and then print the size of the angle in degrees.</p>
       <p>Use the rule <m>angle = atan(opposite/adjacent)</m> to find the measure of the angle.</p>
+    </statement>
       <program
               interactive="activecode">
         <preamble>
@@ -165,7 +167,6 @@
         </iotest>
         </tests>
       </program>
-    </statement>
       <hint><p><pf>atan</pf> produces an answer in radians. Don't forget to convert your answer to degrees.</p></hint>
   </exercise>
 
@@ -175,6 +176,7 @@
       <p>Your friend is getting sick of solving quadratic equations by hand. Finish the program below that will take a, b, and c from a quadratic in the form <m>ax^2 + bx + c = 0</m> and output the solutions. Your program only has two work for problems that have two solutions.</p>
       <p>Print the two solutions separated by a space.</p>
       <p>The two solutions to a quadratic are given by <m>x = \frac{-b + \sqrt{b^{2} - 4ac}}{2a}</m> and <m>x = \frac{-b - \sqrt{b^{2} - 4ac}}{2a}</m>. Do your best to avoid doing the same calculation multiple times <mdash/> use a variable to old the result <m>\sqrt{b^{2} - 4ac}</m> (known as the discriminant).</p>
+    </statement>
       <program
               interactive="activecode" language="python">
         <preamble>
@@ -201,8 +203,7 @@
         </iotest>
         </tests>
       </program>
-    </statement>
-      <hint><p>If you have trouble, do the math one step at a time and print out each result along the way. Check them by hand.</p></hint>
+      <hint><title>Hint about debugging</title><p>If you have trouble, do the math one step at a time and print out each result along the way. Check them by hand.</p></hint>
   </exercise>
 
 </exercises>

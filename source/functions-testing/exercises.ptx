@@ -111,6 +111,7 @@ int secretFunction(int input) {
       <p>Many computations can be expressed more concisely using the <q>multadd</q> operation,
         which takes three operands and computes <pf>a * b + c</pf>. Some processors even provide a hardware
         implementation of this operation for floating-point numbers. Write the function <pf>multadd</pf> so that it takes in three double values and returns the result of multiplying the first two and then adding the third value.</p>
+    </statement>
       <program interactive="activecode">
         <preamble><![CDATA[
 #include <iostream>
@@ -133,13 +134,13 @@ TEST_CASE("multadd") {
 ]]>
         </tests>
     </program>
-    </statement>
   </exercise>
 
 
   <exercise label="functions-testing_exercises-ex-4">
     <statement>
       <p>The <q>wind chill temperature</q> is the temperature it feels like when the wind is blowing. The National Weather Service uses the formula <m>WCT = 35.74 + 0.6215T - 35.75(V^{0.16}) + 0.4275T(V^{0.16})</m> where T is the temperature in degrees F and V is the wind speed (velocity) in miles per hour to calculate the wind chill temperature.  You need to write a function that will do that computation. Examine the tests and determine what the function you need to write is called, what parameters it should take, and what it should return. Then write the function.</p>
+    </statement>
       <program interactive="activecode">
         <preamble><![CDATA[
 #include <iostream>
@@ -167,7 +168,6 @@ TEST_CASE("windChillTemp") {
 ]]>
         </tests>
     </program>
-    </statement>
   </exercise>
 
 
