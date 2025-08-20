@@ -1,0 +1,150 @@
+<section xml:id="program-design_program-design"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Top Down Design</title>
+
+  <p>There are two main approaches to program design: <term>top-down</term> and <term>bottom-up</term>
+    .</p>
+
+  <p>As we discuss each, we will consider how they might be used to design a program that calculates
+    the number of days between two dates like 3/4/2023 and 4/5/2024. The program will ask the user
+    to enter two dates, then calculate the number of days between them, and finally display the
+    result. In these samples of the process, we will not worry about leap years just to reduce the
+    complexity and allow us to focus more on the process than the mathematical details.</p>
+
+  <p>The first approach we will consider is <term>top-down design</term>. This method involves
+    starting with the highest-level function, which outlines the overall structure of the program,
+    and then breaking it down into smaller functions that handle specific tasks. Each function
+    should be designed to perform a single task or a closely related set of tasks.</p>
+  <p>As new functions are identified, we should try to clearly specify what inputs they take and
+    what outputs they produce. If we are fairly certain a given function can be implemented with a
+    short amount of code, we can consider that part of the design finalized. That function will be a
+    base-level function that we can implement directly and then use to build higher-level functions.
+    If it seems like a given function is too complex to implement easily, we should stop and
+    identify parts of the task that can be further broken up.</p>
+  <p>The strength of top-down design is that we start from the problem we want to solve and use that
+    to identify the necessary building blocks. This reduces the chances that we design functions
+    that are not actually necessary for the program.</p>
+  <p>However, top-down design works best when the programmer clearly understands the problem being
+    solved and can easily identify the necessary steps to produce a solution. It can be difficult to
+    use this approach effectively if the problem is not well understood or the high level task is so
+    complex that each piece must be broken down many times before we get to something simple enough
+    to consider a base-level function.</p>
+  <example xml:id="top-down-design-example">
+    <title>A Top-Down Design</title>
+    <p>A top-down design for our date program would start by identifying the high-level tasks: <ul>
+        <li>★ Get user input for two dates.</li>
+        <li>
+          <p>★ Calculate the number of days between two dates. Inputs: two strings (like <pf>"3/4/2023"</pf>
+      and "4/5/2024"); Output: an integer representing the number of days between the two dates. <pf>int daysBetween(string date1, string date2)</pf></p>
+        </li>
+      </ul>
+    </p>
+    <note>
+      <p>We will use ★ to mark new functions at each step of the process. Each time you see a list
+        of function ideas, look for that symbol to find the new functions. Anything without that
+        symbol is a function we already identified in a previous step.</p>
+    </note>
+    <p>That sounds too complicated to implement in a few lines of code. So let's break it down.</p>
+
+    <p>If
+      we can convert each date into a number of days since the start of year 0000, we can then find
+      the difference between those two numbers. So we will need a function that converts a date
+      string into a number of days. That function will take a string like <pf>"3/4/2023"</pf> and return an
+      integer representing the number of days since 0/0/0. Let's call it <pf>dateToDays</pf>. The existing <pf>daysBetween</pf> function will
+      use <pf>dateToDays</pf> to help do its job. <ul>
+        <li>Get user input for two dates.</li>
+        <li>
+          <p>Calculate the number of days between two dates. Inputs: two strings (like <pf>"3/4/2023"</pf> and
+      <pf>"4/5/2024"</pf>); Output: an integer representing the number of days between the two dates. <pf>int daysBetween(string date1, string date2)</pf> <ul>
+              <li>
+                <p>★ Convert each date string into a number of days since 0/0/0. Inputs: a string
+      like <pf>"3/4/2023"</pf>; Output: an integer representing the number of days since 0/0/0. <pf>int
+      dateToDays(string date)</pf></p>
+              </li>
+            </ul>
+          </p>
+        </li>
+      </ul>
+    </p>
+    <p>The <pf>dateToDays</pf> function is going to need to work with the month, day and year as numbers. So
+      maybe we should write functions to get those parts of the string as integers: <ul>
+        <li>Get user input for two dates.</li>
+        <li>
+          <p>Calculate the number of days between two dates. Inputs: two strings (like <pf>"3/4/2023"</pf> and
+      "4/5/2024"); Output: an integer representing the number of days between the two dates. <pf>int daysBetween(string date1, string date2)</pf> <ul>
+              <li>
+                <p>Convert each date string into a number of days since 0/0/0. Inputs: a string like <pf>"3/4/2023"</pf>;
+      Output: an integer representing the number of days since 0/0/0. <pf>int dateToDays(string date)</pf> <ul>
+                    <li>
+                      <p>★ Get the month as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an
+      integer representing the month (3 in this case). <pf>int getMonth(string date)</pf></p>
+                    </li>
+                    <li>
+                      <p>★ Get the day as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an
+      integer representing the day (4 in this case). <pf>int getDay(string date)</pf></p>
+                    </li>
+                    <li>
+                      <p>★ Get the year as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an
+      integer representing the year (2023 in this case). <pf>int getYear(string date)</pf></p>
+                    </li>
+                  </ul>
+                </p>
+              </li>
+            </ul>
+          </p>
+        </li>
+      </ul></p>
+    <p>Those all sound easy enough to implement, they don't need any more refinement.</p>
+    
+    <p>However,
+      calculating the total number of days still sounds a bit complex. Working with the days and
+      years should be easy. We know each year is 365 days (recall that we are cheating a little and
+      ignoring leap years) and that each day is 1 day. But the months will complicate things.</p>
+
+      <p>What would make the job easier? Well, what if I could ask someone <q>how many days are there before month X starts?</q>. If I could ask <q>how many days were there before the start of March</q> and get the answer 59 (31 for Jan + 28 for Feb), it would be easy to do the rest of <pf>dateToDays</pf>. </p>
+
+      <p>So let's add a function <pf>daysBeforeMonth</pf> that answers that question. Our design now looks like:<ul>
+
+        <li>Get user input for two dates.</li>
+        <li>
+          <p>Calculate the number of days between two dates. Inputs: two strings (like <pf>"3/4/2023"</pf> and
+      "4/5/2024"); Output: an integer representing the number of days between the two dates. <pf>int daysBetween(string date1, string date2)</pf> <ul>
+              <li>
+                <p>Convert each date string into a number of days since 0/0/0. Inputs: a string like <pf>"3/4/2023"</pf>;
+      Output: an integer representing the number of days since 0/0/0. <pf>int dateToDays(string date)</pf> <ul>
+                    <li>
+                      <p>Get the month as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an
+      integer representing the month (3 in this case). <pf>int getMonth(string date)</pf></p>
+                    </li>
+                    <li>
+                      <p>Get the day as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an
+      integer representing the day (4 in this case). <pf>int getDay(string date)</pf></p>
+                    </li>
+                    <li>
+                      <p>Get the year as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an
+      integer representing the year (2023 in this case). <pf>int getYear(string date)</pf></p>
+                    </li>
+                    <li>
+                      <p>★ Get the number of days before the given month. Inputs: an integer month;
+      Output: an integer representing the number of days before the given month started. <pf>int daysBeforeMonth(int month)</pf></p>
+                    </li>
+                  </ul>
+                </p>
+              </li>
+            </ul>
+          </p>
+        </li>
+      </ul></p>
+
+    <p>At this point, each of the listed functions seems simple enough to implement on its own. (The new function could just be a big if/else chain (if the month is 0, return 0; if the month is 1, return 31; if the month is 2, return 59; etc...). So now we can start implementation.</p>
+
+  </example>
+
+    <insight>
+      <p>While reading the steps, you might have noticed that this method depends on <q>seeing</q>
+        the solution clearly before we get down to the details. We need to have a strong sense of how
+        we are going to solve each part of the problem to identify the functions we need to build.</p>
+      <p>Faced with a new problem, you may have to try to solve it by hand first to get a better sense of the path you want to take before you start designing a solution.</p>
+    </insight>
+</section>

@@ -1,0 +1,102 @@
+<section xml:id="program-design_writing-tests"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Writing Tests</title>
+
+  <p>To write the test(s) for a function, we need to consider the different inputs the function can
+    take and the expected outputs for those inputs. We generally do not need to (and could not) test every possible input to a function. Instead, we can test a few specific cases that cover the different scenarios we expect the function to handle. For example: if we are writing a function <pf>bool isEven(int n)</pf>, we do not need to test every possible integer. Instead, we would start with a representative sample. If the function reports that 2, 4, and 52 are even, it is likely going to work for other even numbers.</p>
+
+  <insight><p>A test can not generally prove that a function is correct for all possible inputs. The goal is to give us confidence that the function works correctly in all the scenarios we care about.</p></insight>
+
+  <p>If we are writing a function that involves conditional logic, you should consider testing each possible path through the code. Knowing that a function <pf>isEven</pf> returns <pf>true</pf> when it is given <pf>2</pf> is good. But it doesn't show that it returns <pf>false</pf> when given an odd number. So we should also test it with odd numbers like <pf>1</pf> and <pf>3</pf> to ensure it behaves as expected.</p>
+
+  <p>We should also think about possible tricky scenarios. These are inputs that are valid, but might not be typical. For <pf>isEven</pf>, we might consider 0 and negative numbers. Our tests should include these cases to ensure the function handles them correctly.</p>
+
+  <p>Finally we should think about possible edge cases. These are values right at the boundary between two possible scenarios for the code. If we were writing a function <pf>isAdult</pf> to tell us if someone is a legal adult, 18 would be an edge case. That is the value at which the status changes from minor to adult. A coding error (say <pf>age > 18</pf> instead of <pf>age >= 18</pf>) could result in this value being misclassified.</p>
+
+  <p>So for our <pf>isEven</pf> function, we might want to test the following cases/values:
+    <ul>
+      <li>Positive even numbers (e.g., 2, 4, 52) should be <pf>true</pf></li>
+      <li>Positive odd numbers (e.g., 1, 3, 111) should be <pf>false</pf></li>
+      <li>Negative even numbers (e.g., -16) should be <pf>true</pf></li>
+      <li>Negative odd numbers (e.g., -35) should be <pf>false</pf></li>
+      <li>Zero (0) should be <pf>true</pf></li>
+    </ul>
+  </p>
+
+  <p>We can either implement a single test that covers all these cases, or we can write separate tests for each case. The advantage of separate tests is that they can provide more detailed feedback about which specific case is failing if the function does not behave as expected.</p>
+
+
+  <p>Here is what our tests might look like using the Doctest framework. We have grouped the tests into two <pf>TEST_CASE</pf>s, one for basic behavior and the other for special cases:</p>
+
+  <program interactive="activecode">
+<xi:include href="../../programs/program-design/is-even-test.cpp" parse="text"/>
+  </program>
+
+  <p>Note that we have not yet implemented the actual function <pf>isEven</pf>. We just wrote enough code for it that the tests will compile, run, and fail. Once we have tests that compile and run, we are ready to start writing the code to pass the tests.</p>
+
+  <p>If anyone isn't sure our implementation is correct, looking at the tests should convince them. If they do find a bug that is not covered by our tests, the first thing we should do is add a new one or more new tests that exposes the bug - tests that fail because of the bug. Then we can worry about trying to fix the bug using the new test(s) as our goalpost.</p>
+
+  <p>If we ever decide to refactor (improve without intentionally changing the behavior) our code, we can run the tests to ensure that we did not break anything.</p>
+
+  <exercise label="program-design_writing-tests-ex-1">
+    <statement>
+      <p>We want to write a function <pf>string academicYear(int credits)</pf> that determines what academic year a student is in based on their number of credits. A student with 0-44 credits is a freshman, 45-89 is a sophomore, 90-134 is a junior, and 135 or more is a senior.</p>
+      <p>What is the absolute minimum number of checks that we should perform? (Checking edge cases and bad values would require additional checks.) <fillin mode="number" answer="4"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <exercise label="program-design_writing-tests-ex-2">
+    <statement>
+      <p>We want to write a function <pf>string academicYear(int credits)</pf> that determines what academic year a student is in based on their number of credits. A student with 0-44 credits is a freshman, 45-89 is a sophomore, 90-134 is a junior, and 135 or more is a senior.</p>
+      <p>Construct a check that verifies the function identifies at least some sophomores correctly.</p>
+    </statement>
+    <blocks layout="horizontal" randomize="yes">
+        <block><c>CHECK</c></block>
+        <block><c>(</c></block>
+        <block correct="no"><c>academicYear(100)</c></block>
+        <block><c>academicYear(70)</c></block>
+        <block><c>==</c></block>
+        <block><c>"sophomore"</c></block>
+        <block><c>);</c></block>
+    </blocks>
+  </exercise>
+
+  <exercise label="program-design_writing-tests-ex-3">
+    <statement>
+      <p>We want to write a function <pf>string academicYear(int credits)</pf> that determines what academic year a student is in based on their number of credits. A student with 0-44 credits is a freshman, 45-89 is a sophomore, 90-134 is a junior, and 135 or more is a senior.</p>
+      <p>What is an <term>edge case</term> we should test?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>90</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>190</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>-1</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>"XXX"</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+  
+
+</section>

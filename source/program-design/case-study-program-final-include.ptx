@@ -1,0 +1,66 @@
+<section xml:id="program-design_case-study-program-final-include"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Final Program Using Header File</title>
+
+  <p>Here is the final program using the a DateFunctions library built as a .h/.cpp pair. It can be compiled with the following command:</p>
+
+  <console>
+    <input>g++ main.cpp dateFunctions.cpp -o program.exe</input>
+  </console>
+
+  <listing><title><pf>main.cpp</pf> for use with .h/.cpp date functions libarary</title>
+  <program label="program-design_case-study-program-final-include-main"
+           compile-also="program-design_case-study-program-final-include-cpp"
+           add-files="program-design_case-study-program-final-include-h"
+           interactive="activecode">
+    <code>
+<xi:include href="../../programs/program-design/case-study-main-final-include.cpp" parse="text"/>
+    </code>
+    <stdin>
+      4/22/1974
+      3/14/2025
+    </stdin>
+  </program>
+  </listing>
+
+  <p>And the final unit test program. It can be compiled with the following command:</p>
+
+  <console>
+    <input>g++ dateTests.cpp dateFunctions.cpp -o test-program.exe</input>
+  </console>
+
+  <listing><title><pf>dateTests.cpp</pf> for use with module</title>
+  <program label="program-design_case-study-test-final-include"
+           compile-also="program-design_case-study-program-final-include-cpp"
+           add-files="program-design_case-study-program-final-include-h"
+           interactive="activecode">
+<xi:include href="../../programs/program-design/case-study-test-final-include.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>Both of those files include our .h file. The .h file can not be compiled, so there is no activecode for this listing. The .h file is just included into the .cpp files that need the definitions from it.</p>
+
+  <listing><title><pf>dateFunctions.h</pf></title>
+  <program xml:id="program-design_case-study-program-final-include-h"
+            label="program-design_case-study-program-final-include-h"
+            filename="dateFunctions.h">
+<xi:include href="../../programs/program-design/case-study-dateFunctions-final.h" parse="text"/>
+  </program>
+  </listing>
+
+  <p>The code for the date functions will be in the .cpp file. It can not be linked into a full program, as there is no main function, but it can be compiled using a recipe like:</p>
+
+  <console><output>g++ -c dateFunctions.cpp -o dateFunctions.o</output></console>
+
+  <listing><title><pf>dateFunctions.cpp</pf></title>
+  <program xml:id="program-design_case-study-program-final-include-cpp"
+            label="program-design_case-study-program-final-include-cpp"
+            extra-compiler-args="-c"
+            add-files="program-design_case-study-program-final-include-h"
+            filename="dateFunctions.cpp"
+            interactive="activecode">
+<xi:include href="../../programs/program-design/case-study-dateFunctions-final.cpp" parse="text"/>
+  </program>
+  </listing>
+</section>

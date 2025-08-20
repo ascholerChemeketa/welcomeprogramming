@@ -1,0 +1,198 @@
+<section xml:id="multiple-files_separate-compilation"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Exploring Separate Compilation</title>
+
+  <p>The file <pf>library.cpp</pf> below has some simple functions. The code does not depend on any other code (no includes). However, there is no main function. This means that if we try to compile and link the code into a program, using a recipe like the one below, the build will fail.</p>
+
+  <console>
+    <input>g++ library.cpp -o program.exe</input>
+  </console>
+
+  <listing>
+    <caption><pf>library.cpp</pf> - attempt to compile and link</caption>
+    <program label="multiple-files_headers-library-cpp-bad"
+             xml:id="multiple-files_headers-library-cpp-bad"
+             interactive="activecode">
+<xi:include href="../../programs/multiple-files/headers-library.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>If you try out the ActiveCode, you should get an error about an <c>undefined reference to main</c></p>
+
+  <p>We can't link that file into a full program because there is no main function. But it is possible to just compile the code. To do that with g++, we can use the <pf>-c</pf> flag which tells the compiler to just compile the file and not link it:
+  </p>
+  
+  <console>
+    <input>g++ -c library.cpp -o library.o</input>
+  </console>
+
+  <figure>
+    <caption>Compiling but not linking library.cpp</caption>
+    <image source="images/compilation-single-library.svg"
+           width="20%"/>
+  </figure>
+
+  <p>This recipe will successfully build. But there is no program to run:</p>
+
+  <listing>
+    <caption><pf>library.cpp</pf> - set to just compile and not link or execute</caption>
+    <program label="multiple-files_headers-library-cpp"
+             xml:id="multiple-files_headers-library-cpp"
+             filename="library.cpp"
+             interactive="activecode"
+             extra-compiler-args="-c">
+<xi:include href="../../programs/multiple-files/headers-library.cpp" parse="text"/>
+  </program>
+  </listing>
+  
+
+  <p>The <pf>main.cpp</pf> below has a different problem. Although it has a main function, it tries to call <pf>doubleValue</pf>, which is not declared. So if we try to compile it, we get an error:</p>
+
+  <console>
+    <input>g++ -c main.cpp -o main.o</input>
+  </console>
+
+  <listing>
+    <caption><pf>main.cpp</pf> - set to just compile and not link</caption>
+    <program label="multiple-files_main-cpp-bad"
+             interactive="activecode"
+             extra-compiler-args="-c">
+<xi:include href="../../programs/multiple-files/headers-main.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>To compile main, we could declare the <pf>doubleValue</pf> function in <pf>main.cpp</pf>, like
+    this:</p>
+
+  <listing>
+    <caption><pf>main.cpp</pf> (with declaration) - set to just compile and not link</caption>
+    <program label="multiple-files_main-cpp"
+             highlight-lines="4-5"
+             interactive="activecode"
+             extra-compiler-args="-c">
+<xi:include href="../../programs/multiple-files/headers-main-2.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>The declaration promises the compiler that <pf>doubleValue</pf> exists somewhere. The compiler goes ahead and
+    builds the code in <pf>main</pf> by relying on the promise. (See <xref ref="functions-testing_declarations"/> for a reminder of the difference between <term>declaring</term> and <term>defining</term> a function.)</p>
+
+  <p>Although we can compile <pf>main.cpp</pf> now, if we try to link it into a program, we will get an error because the linker does not know where to find the definition of <pf>doubleValue</pf>. This time we will try building without the <pf>-c</pf> flag:</p>
+  
+  <console>
+    <input>g++ main.cpp -o program.exe</input>
+  </console>
+
+  <p>This recipe tells the compiler that we want to both compile <pf>main.cpp</pf> and try to link it into a full program.</p>
+
+  <listing>
+    <caption><pf>main.cpp</pf> (with declaration) - set to compile and link</caption>
+    <program label="multiple-files_main-cpp-2"
+             interactive="activecode">
+<xi:include href="../../programs/multiple-files/headers-main-2.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>That recipe should result in an error like this:</p>
+
+<console>
+  <output>
+/usr/bin/ld: /tmp/ccoUEcGg.o: in function `main':
+test.cpp:(.text+0x19): undefined reference to `doubleValue(int)'
+collect2: error: ld returned 1 exit status
+  </output>
+</console>
+
+  <p><pf>ld</pf> is the linker. The final line tells us that the linker had an error. Above that is the error message. In this case, the linker could not find the definition of <pf>doubleValue</pf> that was called in <pf>main</pf>. The declaration in <pf>main.cpp</pf> promised that somewhere else there would be a definition for that function. The linker's job is to resolve that promise and it can't because we have not told it to use <pf>library.cpp</pf>.</p>
+  
+  <figure>
+    <caption>Compiling and linking main.cpp without library.cpp</caption>
+    <image source="images/compilation-multiple-broken.svg"
+           width="40%"/>
+  </figure>
+
+  <p>To successfully build the full program that, we need to tell the compiler to build both <pf>library.cpp</pf> and <pf>main.cpp</pf>. That way, the linker has all the necessary definitions to work with:</p>
+
+  <console>
+    <input>g++ main.cpp library.cpp -o program.exe</input>
+  </console>
+
+  <p>The code below looks the same, but it is set to compile with the <pf>library.cpp</pf> file from above:</p>
+
+  <listing>
+    <caption><pf>main.cpp</pf> (with declaration) - set to compile with library.cpp and then link</caption>
+    <program label="multiple-files_main-cpp-3"
+             compile-also="multiple-files_headers-library-cpp"
+             interactive="activecode">
+<xi:include href="../../programs/multiple-files/headers-main-2.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>Although we can declare the function <pf>doubleValue</pf> in multiple places, we are only allowed to have one definition. This final example illustrates what happens if both <pf>main.cpp</pf> and <pf>library.cpp</pf> contain a definition for <pf>doubleValue</pf>:</p>
+
+  <listing>
+    <caption><pf>main.cpp</pf> (with a second definition)</caption>
+    <program label="multiple-files_main-cpp-4"
+             compile-also="multiple-files_headers-library-cpp"
+             interactive="activecode">
+<xi:include href="../../programs/multiple-files/headers-main-2b.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>This time, the linker (<pf>ld</pf>) complains about <c>multiple definition of doubleValue(int)</c>. It found two copies of the function and is not sure which to use. (It will be an error even if the two versions of the function are identical.)</p>
+
+  <p>To summarize what we have learned from these examples:
+    <ul>
+      <li>Every file is compiled on its own. Any functions used in that file must be declared in that file (but not necessarily defined).</li>
+      <li>The linker merges the compiled files. It must find one (and only one!) copy of every function that is used in the program.</li>
+    </ul>
+  </p>
+
+  <exercise label="multiple-files_separate-compilation-ex-1">
+    <statement>
+      <p>What do we add to the compile recipe to tell <pf>g++</pf> to just compile without linking? <fillin mode="string" answer="-c"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>c</strcmp>
+          <feedback>You need to use a dash</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <exercise label="multiple-files_separate-compilation-ex-2">
+    <statement>
+      <p>Which are the true statements?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>To compile code, all functions used in a file must be declared in that file.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>To compile code, all functions used in a file must be defined in that file.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>To link code, all functions used in the program must be defined in each file.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>To link code, all functions used in the program must be defined in one file.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+
+</section>

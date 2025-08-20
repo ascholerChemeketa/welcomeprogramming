@@ -1,25 +1,119 @@
 <section xml:id="program-design_code-reuse"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <title>Abstractions and Code Reuse</title>
+  <title>Code Reuse and Abstractions</title>
 
-  <p>Two key reasons to write a function are abstraction and code reuse. Our <q>better</q> version of `calculateTriangleArea` provides an opportunity to write a new function that addresses both principles. The start of main has this ugly chunk of code:</p>
+  <p>Two key reasons to write a function are abstraction and code reuse. Our <q>better</q> version of <pf>calculateTriangleArea</pf> provides an opportunity to write a new function that addresses both principles. The start of main has this ugly chunk of code:</p>
 
   <program>
 <xi:include href="../../programs/program-design/area-calculation-better-bad.cpp" parse="text"/>
 </program>
 
-  <p>We repeat more or less the same code three times, once for each side of the triangle. This is a violation of the DRY principle (Don't Repeat Yourself). It would get even more ugly if we were trying to validate each input (say check if each side was a positive number). We might then have three copies of something like `if (side1 &lt;=0) ...`. One way to avoid repetition is with a loop. We could try to use a loop to repeat <q>get a side</q> three times. But another way to avoid repetition is to make a function that has the repeated code.</p>
+  <p>We repeat more or less the same code three times, once for each side of the triangle. This is a violation of the DRY principle (Don't Repeat Yourself). If we were trying to validate each input (say check if each side was a positive number), it would get even more ugly. Then we might then have three copies of code like <pf>if (side1 &lt;=0) ...</pf>.</p>
+  
+  <p>One way to avoid repetition is with a loop. We could try to use a loop to repeat <q>get a side</q> three times. But another way to avoid repetition is to make a function that has the repeated code.</p>
 
-  <p>The code also could also benefit from abstracting the <q>get input</q> logic. It takes a few seconds of reading to understand what that part of the `main` function is doing. After scanning it, a programmer hopefully says something like <q>oh, that whole block just gets the three sides</q> and then doesn't worry about the details of how that happens (unless that is the part of the code they are trying to work on!).</p>
+  <p>To do this, we need to identify a group of lines that works together to calculate a single value and is then repeated multiple times. In this case, we have three repetitions of <q>Print prompt, read in value, print to confirm</q>. Each of those repetitions results in a single piece of information, a double represent a side length. So we can break that code out into a function <pf>double getDoubleInput</pf> that will perform the three steps and return the side length.</p>
 
-  <p>It might make sense to make a function `getInput` that hides away the messy details of getting user input like this:</p>
+  <p>We will need to call the function three times. Anything that needs to change from one repetition to the next can be passed in as a parameter to the function. In this case, we need to print a different message each time we get input. So we will make the <pf>prompt</pf> a parameter. That way, we can customize the message for each side of the triangle. We now have a function <pf>double getDoubleInput(const string&amp; prompt)</pf>:</p>
 
-  <program>
+  <program linenumbers="yes" line-numbers="yes" highlight-lines="7-13,22-24">
 <xi:include href="../../programs/program-design/area-calculation-best.cpp" parse="text"/>
 </program>
 
-  <p>Now it is easier to understand what the `main` function is doing at a high level. We can see that it is getting the three sides of the triangle without having to worry about the details of how that is done. We also are reusing the logic for getting user input without duplicating it. If we wanted to add a check for negative input, and ask for new input in that case, we could modify the `getDoubleInput` function to handle that. All three inputs would then take advantage of that same code.</p>
+  <p>Not only have we eliminated duplication, we have made it easier to make future changes to the input. Say we want to add a check for negative input<mdash/>if the user enters a negative value, we will ask for new input. In this new version of the program, we can modify the <pf>getDoubleInput</pf> function and all three inputs will then take advantage of the new code.</p>
 
+  <p>Writing a function also provides a nice abstraction for the <q>get input</q> logic. In the original version, it takes a few seconds of reading to understand what that part of the <pf>main</pf> function is doing. After scanning it, a programmer hopefully thinks something like <q>oh, that whole block just gets the three sides</q> and then doesn't worry about the details of how that happens (unless that is the part of the code they are trying to work on!).</p>
+
+  <p>In the new version, it is easier to understand what the first part of the <pf>main</pf> function. We can see that it is getting the three sides of the triangle without having to worry about the details of how that is done. It might be worth writing the <pf>getDoubleInput</pf> function even if we only use it once (and thus get no code reuse benefit) because it still makes the code clearer.</p>
+
+  <insight><p>Good code is <term>self-documenting</term>. It should be clear what the code is doing without needing extensive comments. The abstractions produced by well designed functions help make code more understandable.</p></insight>
+
+  <exercise label="program-design_code-reuse-ex-1"
+  numbered="yes"
+  adaptive="yes"
+  xml:id="program-design_code-reuse-ex-1">
+    <statement>
+      <p>Here is part of a program that involves calculating the shipping for two orders:</p>
+      <program>
+        <![CDATA[
+        double shippingCost1 = 0;
+        if (order1Cost < 100) {
+            shippingCost1 = order1Weight * 3.50;
+        }
+        if (order1IsExpressHandling) {
+            shippingCost1 += 20;
+        }
+        double shippingCost2 = 0;
+        if (order2Cost < 100) {
+            shippingCost2 = order2Weight * 3.50;
+        }
+        if (order2IsExpressHandling) {
+            shippingCost2 += 20;
+        }
+        ]]> 
+      </program>
+      <p>Design a function to avoid the repetition. You will not use all of the blocks.</p>
+    </statement>
+    <blocks>
+      <block order="1">
+        <choice correct="yes">
+          <cline><![CDATA[void getShippingCost(double orderCost,]]></cline>
+          <cline><![CDATA[                     double weight,]]></cline>
+          <cline><![CDATA[                     bool isExpressHandling) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[double getShippingCost() {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[double getShippingCost(double orderCost,]]></cline>
+          <cline><![CDATA[                     double weight,]]></cline>
+          <cline><![CDATA[                     bool isExpressHandling) {]]></cline>
+        </choice>
+      </block>
+      <block order="5">
+          <cline><![CDATA[    double cost = 0;]]></cline>
+      </block>
+      <block order="10">
+        <cline><![CDATA[    if (orderCost < 100) {]]></cline>
+        <cline><![CDATA[        cost = weight * 3.50;]]></cline>
+        <cline><![CDATA[    }]]></cline>
+      </block>
+      <block order="12" correct="no">
+        <cline><![CDATA[    if (order1Cost < 100) {]]></cline>
+        <cline><![CDATA[        cost = order1Weight * 3.50;]]></cline>
+        <cline><![CDATA[    }]]></cline>
+      </block>
+      <block order="13" correct="no">
+        <cline><![CDATA[    if (order2Cost < 100) {]]></cline>
+        <cline><![CDATA[        cost = order2Weight * 3.50;]]></cline>
+        <cline><![CDATA[    }]]></cline>
+      </block>
+      <block order="8">
+          <cline><![CDATA[    if (isExpressHandling) {]]></cline>
+          <cline><![CDATA[        cost += 20;]]></cline>
+          <cline><![CDATA[    }]]></cline>
+      </block>
+      <block order="3">
+          <cline><![CDATA[    return cost;]]></cline>
+      </block>
+      <block order="4">
+          <cline><![CDATA[}]]></cline>
+      </block>
+    </blocks>
+  </exercise>
+
+  <exercise label="program-design_code-reuse-ex-2">
+    <statement>Complete a function call to use the function from <xref ref="program-design_code-reuse-ex-1"/> to calculate the value for <pf>shippingCost1</pf>.</statement>
+    <blocks layout="horizontal" randomize="yes">
+        <block><c>double</c></block>
+        <block><c>shippingCost1</c></block>
+        <block><c>=</c></block>
+        <block><c>getShippingCost(</c></block>
+        <block><c>order1Cost, order1Weight, order1IsExpressHandling</c></block>
+        <block correct="no"><c>orderCost, orderWeight, orderIsExpressHandling</c></block>
+        <block><c>);</c></block>
+    </blocks>
+  </exercise>
 
 </section>

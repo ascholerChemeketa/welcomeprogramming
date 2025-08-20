@@ -1,0 +1,143 @@
+<section xml:id="multiple-files_modules"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Modules</title>
+
+  <p>The C++20 standard introduced a new way to break code into multiple files<mdash/><term>modules</term>
+    . <idx>
+      <h>modules</h>
+    </idx> A module is written in a single file instead of a .h/.cpp pair. When
+    a compiler builds a module, it creates the object code like normal, but it also automatically
+    creates a file that works like a <pf>.h</pf> to declare what is in the file. When we make use of
+    the module in other files, the compiler automatically finds and reads that file to discover what
+    is available.</p>
+
+  <insight>
+    <p>You can think of a module as a .cpp file that (among other things) will automatically
+      generate its own .h file</p>
+  </insight>
+
+  <p>To create a module, we need two new keywords. The <pf>module</pf> keyword is used to declare that we
+    are starting a module. Within a module, <pf>export</pf> is used to state what code in the module is
+    made available to use outside of the module. In a simple library, we may export everything. But
+    in a more complex code base, there may be helper functions that are needed in the module that do
+    not make sense to use outside of the module. In that case, we would not <pf>export</pf> those
+    functions.</p>
+
+  <p>Here is a module file <pf>library.cxx</pf> that would work just like our <pf>library.h</pf>/<pf>library.cpp</pf> pair:</p>
+
+  <note>
+    <p>A module file can have any extension (like <pf>.cxx</pf>) we choose. But it is common to use
+      something other than <pf>.cpp</pf> to indicate that the file is a C++ module. <pf>.cxx</pf> is one
+      common extension used for this purpose.</p>
+    <p>It is possible to write a module that spans multiple files, we will keep things simple by
+      placing each module in a single file.</p>
+  </note>
+
+  <listing>
+    <caption>
+      <pf>library.cxx</pf>
+    </caption>
+    <program label="multiple-files_modules-library-cxx"
+             xml:id="multiple-files_modules-library-cxx"
+             filename="library.cxx"
+             line-numbers="yes"
+             highlight-lines="2, 8, 30">
+<xi:include href="../../programs/multiple-files/modules-library.cxx" parse="text"/>
+  </program>
+  </listing>
+
+
+  <p>Key things to note: <ul>
+      <li>Line 2 uses <pf>module;</pf> to declare that this is a module and begin the <q>global module
+    fragment</q>. Any includes (uses of non-module libraries) need to be in this part of the file.
+    If there are no includes needed in a file, this part can be skipped. (We could remove the <pf>&lt;cmath</pf>
+    include and then remove everything before line 8.)</li>
+      <li>
+        <p>Line 8 does three things: <ul>
+            <li>It starts this module</li>
+            <li>It gives the module the name <pf>library</pf></li>
+            <li>The word <pf>export</pf> makes <pf>library</pf> available outside of the module.</li>
+          </ul>
+        </p>
+      </li>
+      <li>Line 30 uses <pf>export</pf> to state that the <pf>doubleValue</pf> function will also be available outside
+    of the module.</li>
+    </ul>
+  </p>
+
+  <p>To use a module in another file, we need to <pf>import</pf> the module (not <pf>include</pf> it):</p>
+
+  <listing>
+    <caption><pf>main.cpp</pf> (with module import)</caption>
+    <program label="multiple-files_modules-program-1"
+             interactive="activecode"
+             highlight-lines="4-5"
+             compile-also="multiple-files_modules-library-cxx">
+<xi:include href="../../programs/multiple-files/modules-main.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <figure>
+    <caption>Compiling main.cpp and the module library.cxx. Compiling the library automatically
+      generates the necessary interface file that will be used when main.cpp imports the module.</caption>
+    <image source="images/compilation-multiple-module.svg"
+           width="60%"/>
+  </figure>
+
+
+  <warning>
+    <p> Modules are relatively new, and not completely supported by all compilers. You may need to
+      use a specific version of the compiler or enable a special flag to use modules. For example,
+      when using the g++ compiler, you need to use the <pf>-fmodules-ts</pf> flag to enable modules and ensure
+      that the compiler is using C++20 (or above) features with <pf>-std=c++20</pf>.</p>
+  </warning>
+
+
+  <p>To build the code above using g++, we need the recipe:</p>
+
+  <console>
+    <input>g++ -std=c++20 -fmodules-ts library.cxx main.cpp -o program.exe</input>
+  </console>
+
+  <note>
+    <p>Although support for modules is still evolving, they offer a simpler mechanism for organizing
+      code than the traditional header/source file pairs. In addition, the module system of
+      importing/exporting specific functions is closer to how other programming languages, such as
+      Python and Javascript, handle code organization.</p>
+
+    <p>You should be familiar with both headers and modules, but in this book, we will primarily use
+      modules when we need to simulate multiple files.</p>
+  </note>
+
+
+  <exercise label="multiple-files_modules-ex-1"> numbered="yes" adaptive="yes" indentation="hide"> <statement>
+      <p>Write a module file <pf>mycode.cxx</pf> for a library that just has a void function called <pf>print</pf>
+    that takes a string parameter. You will not use all of the blocks.</p>
+    </statement>
+    <blocks>
+      <block order="2">
+          <cline><![CDATA[module;]]></cline>
+      </block>
+        <block order="3">
+          <cline><![CDATA[#include <string>]]></cline>
+      </block>
+        <block order="5">
+          <cline><![CDATA[export module mycode;]]></cline>
+      </block>
+        <block order="1">
+          <cline><![CDATA[using namespace std;]]></cline>
+      </block>
+      <block order="4">
+        <choice correct="yes">
+          <cline><![CDATA[export void foo(string text) {]]></cline>
+          <cline><![CDATA[    cout << text << endl;]]></cline>
+          <cline><![CDATA[}]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[export void foo(string text);]]></cline>
+        </choice>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

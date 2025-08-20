@@ -3,30 +3,107 @@
 
   <title>Function Length</title>
 
-  <p>Function length is the squishiest of the three principles we have listed. There is no hard and fast rule about how long a function should be, but longer functions are generally harder to understand and maintain.</p>
+  <subsection>
+    <title>Challenges with Long Functions</title>
 
-  <p>One reason we should be wary of longer functions is that it the length might be a sign we are violating the principle of single responsibility. Instead of one clear purpose, the function is doing a whole sequence of operations (getting input, calculating, printing output, etc...) that could be broken down into smaller, more focused functions.</p>
+    <p>Function length is the squishiest of the three principles we have listed. There is no hard and
+      fast rule about how long a function should be. However, longer functions are generally harder to
+      understand and maintain. Anytime a function starts approaching 15+ lines of code, it is worth
+      thinking about whether it can be simplified or broken down into smaller functions.</p>
 
-  <p>Another reason to avoid long functions is that they tend to have more complex control flow, making them harder to follow. When a function is long, it often contains multiple branches, loops, and other control structures that can make it difficult to understand the overall logic.</p>
+    <p>Sometimes, a long function is a sign of some other problem, like violating the single
+      responsibility principle. But length itself increases the cognitive load on the programmer
+      reading the code.</p>
 
-  <p>Longer functions are also more difficult to test and debug. If a test reveals that a 100 line function has a bug, there are 100 possible lines of code where the bug could be. If a 15 line function has a bug, there is simply less code to wade through. (It is also likely that the shorter function is less complex, making each line that much easier to understand!)</p>
+    <p>There is a famous finding in cognitive psychology that places the human
+      working memory at about 7±2 items. A person can remember about 5 to 9 pieces of information in
+      their head at once. To remember more than that requires committing some of the information to
+      long-term memory or <q>chunking</q> items.</p>
 
-  <p>Finally, longer functions can be more difficult to read and understand. There is a famous finding in cognitive psychology that places the human working memory at about 7±2 items. A person can remember about 5 to 9 pieces of information in their head at once. To remember more than that requires committing some of the information to long-term memory or special memory tricks. So when a programmer is reading through a function, they can only keep track of a limited number of variables, control structures, and other elements at once. Good programmers mentally <q>chunk</q> code that they are reading. Instead of thinking about `cin >> variable1` as three separate pieces of information (`cin`, `>>` and `varaible1`), they think of it as <q>get input into variable1</q> operation. They will even chunk multiple lines into a single mental group: <q>oh, those 5 lines just get the input</q>. These tricks are how we use our memory capacity of 7ish items to read and understand code that is much longer than 7 lines. But if a function is too long, especially if it is complex, it will likely be hard to automatically mentally chunk up the code. Instead, the reader will likely have to stop and reason about how what each part of the function is doing and how it relates to the others.</p>
+    <p>A common example - if you are trying to remember a phone number, you normally don't think of it as a series of 10 items like: <c>5 0 3 5 5 5 3 2 5 1</c>. Instead, you mentally group the numbers into chunks: <c>503</c>, <c>555</c>, and <c>3251</c>. Thinking of <c>503</c> as a group instead of three digits reduces the number of things you are trying to remember at once. (And if you are used to the <c>503</c> area code, you already will have a long-term mental chunk for it.)</p>
 
-  <p>So although there are times that an algorithm is inherently complex and difficult to break up into smaller pieces, you should stop and think about any function that is approaching 15 or so lines of length. Is it trying to do too much? Are there subtasks it can be broken into?</p>
+    <p>When a programmer is reading through a function, the 7±2 mental limit applies to the things they are trying to keep track of. Rather than try to remember each symbol and word, good programmers mentally <q>chunk</q> code that they are reading to stretch what they can keep track of. Instead of thinking of <pf>cin >> variable1</pf> as three separate pieces of information (<pf>cin</pf>, <pf>>></pf> and
+      <pf>variable1</pf>), they might think of the whole chunk as <q>get input into variable1</q>. They will even
+      chunk multiple lines into a single mental group: <q>oh, those 5 lines just calculate the <pf>triangleArea</pf></q> and then stop paying attention to the details inside that <q>chunk</q>.</p>
 
-  <warning><p>The number of lines of code in a function is only a rough measure of its complexity. Fitting more logic into fewer lines does not necessarily make the function simpler or easier to understand.</p>
-    <p>It is often easier to read 15 lines of simple, straightforward code than 5 lines of code that is using complex syntax and fancy tricks to pack the same work into fewer characters. Each line in the simple code can be quickly read and then mentally chunked. The short complex code likely requires the reader to slow down and carefully parse each line, making it harder to grasp the overall logic.</p></warning>
+    <note>
+      <p>Programmers often use blank lines to break parts of a function into distinct blocks. This helps the reader spot the logic that the writer used while <q>chunking</q> the code.</p>
 
-  <p>Can functions be too short? Not really. There is a slight amount of processing overhead involved in calling a function. In theory it is faster to just do `int area = length * width;` than to call a function that does the same work: </p>
+      <program>
+        // (chunk 1)
+        cin >> variable1;
+        cin >> variable2;
+        cin >> variable3;
 
-  <program>
-  // Too short??? Probably not!
-  int  calculateRectangleArea(int length, int width) {
-      return length * width;
-  }
-  </program>
+        // (chunk 2)
+        variable4 = variable1 + variable2;
+        variable5 = variable2 * variable3;
+        variable6 = variable4 + variable5;
 
-  <p>However, compilers do all kinds of optimizations that can eliminate that overhead. Any modern compiler will likely generate the same machine code for `int area = calculateRectangleArea(length, width);` as it would for the code `int area = length * width;`. So in practice, there is likely no performance difference, and the benefits of using functions (like improved readability and maintainability) far outweigh the costs. The reader who sees `calculateRectangleArea` will immediately understand what it does, without having to mentally parse the implementation details (<q>hrmmm, `length * width`, oh that is just calculating the area</q>). And if we ever need to fix a bug with our calculation, we can do so in one place without having to find and change every instance of `length * width` in our code.</p>
+        // (chunk 3)
+        cout &lt;&lt; "The result is: " &lt;&lt; endl;
+        cout &lt;&lt; variable6 &lt;&lt; endl;
+      </program>
+    </note>
+
+    <p>These tricks are how we use our memory capacity of 7ish items to read and understand code that
+      is much longer than 7 lines. But if a function is too long, or the logic is too complex to easily chunk, it will become harder to understand the code. We will have to reread the logic multiple times before being able to grasp how all the parts fit together.</p>
+
+    <p>Longer functions are also more difficult to test and debug. If a test reveals that a 100 line
+      function has a bug, there are 100 possible lines of code where the bug could be. If a 15 line
+      function has a bug, there is simply less code to wade through. (It is also likely that the
+      shorter function is less complex, making each line that much easier to understand!)</p>
+    
+    <warning>
+      <p>The number of lines of code in a function is only a rough measure of its complexity. Fitting
+        more logic into fewer lines does not necessarily make the function simpler or easier to
+        understand.</p>
+      <p>It is often easier to read 15 lines of simple, straightforward code than 5 lines of code that
+        is using complex syntax and fancy tricks to pack the same work into fewer characters. Each
+        line in the simple code can be quickly read and then mentally chunked. The short complex code
+        likely requires the reader to slow down and carefully parse each line, making it harder to
+        grasp the overall logic.</p>
+    </warning>
+  </subsection>
+
+  <subsection>
+    <title>Dealing with Function Length</title>
+    <p>If a function starts feeling long, we should stop and decide: Is it trying to do too much?
+      Are there subtasks it can be broken into?</p>
+    
+    <p>Look for groups of lines in the function that work together to produce a single
+      value or perform a single task. Consider breaking each of those groups into their own functions.</p>
+      
+    <p>For example, maybe inside a 20 line function you do 5 lines of calculations to get <pf>triangleArea</pf>. All the code after those 5 lines only depends on final value for <pf>triangleArea</pf> and not any of the work done to calculate it. Those 5 lines would be a good candidate to <q>chunk</q> into a separate function <pf>getTriangleArea</pf> would make the code clearer and easier to read. The main function would then just call <pf>getTriangleArea</pf> and use the result.</p>
+      
+    <p>There are
+      algorithms that involve a significant number of steps which are all tightly interrelated. In
+      those cases you may not be able to cleanly break out parts of the logic. But in many cases, there will
+      be opportunities to simplify and clarify the code by breaking it into smaller pieces.</p>
+  </subsection>
+
+  <subsection>
+    <title>Too Short Functions</title>
+    <p>Can functions be too short? Not really. There is a slight amount of processing overhead
+      involved in calling a function. In theory it is faster to just do <pf>int area = length * width;</pf>
+      than to call a function that does the same work: </p>
+
+    <program>
+    // Too short??? Probably not!
+    int  calculateRectangleArea(int length, int width) {
+        return length * width;
+    }
+    </program>
+
+    <p>However, compilers do all kinds of optimizations that can eliminate that overhead. Any modern
+      compiler will likely generate the same machine code for <pf>int area =
+      calculateRectangleArea(length, width);</pf> as it would for the code <pf>int area = length * width;</pf>.
+      So in practice, there is likely no performance difference, and the benefits of using functions
+      (like improved readability and maintainability) far outweigh the costs. The reader who sees
+      <pf>calculateRectangleArea</pf> will immediately understand what it does, without having to mentally
+      parse the implementation details (<q>hrmmm, <pf>length * width</pf>, oh that is just calculating the
+      area</q>). And if we ever need to fix a bug with our calculation, we can do so in one place
+      without having to find and change every instance of <pf>length * width</pf> in our code.</p>
+  </subsection>
 
 </section>

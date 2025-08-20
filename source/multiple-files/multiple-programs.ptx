@@ -1,0 +1,77 @@
+<section xml:id="multiple-files_multiple-programs"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Multiple Programs</title>
+
+  <p>Now that we know how to split code across multiple files, we can use that knowledge to build a project that has multiple programs. This is useful when we want to have one program that uses some code, and a separate program that tests the code.</p>
+
+  <p>In this section, we will look at a project that demonstrates building multiple different programs that all share some common code. Our code will be split into these files:
+    <ul>
+      <li><pf>library.cxx</pf>: The library code we want to use and to test.</li>
+      <li><pf>main.cpp</pf>: the main file for the <q>real</q> program. It will have the <pf>main</pf> function. It will import <pf>library</pf> to help do its work.</li>
+      <li><pf>tests.cpp</pf>: a test program that verifies the functions from <pf>library</pf> work correctly.</li>
+    </ul>
+  </p>
+
+  <note><p>We are using a module, but we could replace <pf>library.cxx</pf> with <pf>library.h</pf> and <pf>library.cpp</pf>. The only necessary change would be to <pf>#include "library.h"</pf> instead of using <pf>import library;</pf>.</p></note>
+
+  <p>To compile the main program, we can use the same recipe as before:</p>
+  
+  <console>
+    <input>g++ -std=c++20 -fmodules-ts library.cxx main.cpp -o program.exe</input>
+  </console>
+
+  <p>Note that we do not mention the <pf>tests.cpp</pf> file, as we do not want to build it into this program. We can't build both <pf>main.cpp</pf> and <pf>tests.cpp</pf> into the same program. Each program can only have one <pf>main</pf> function. <pf>main.cpp</pf> defines one and the <pf>#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN</pf> line in <pf>tests.cpp</pf> forces that file to automatically create a <pf>main</pf> function in that file.</p>
+
+  <p>To compile the test program, we can use a similar recipe that specifies using the module file and <pf>tests.cpp</pf> (and not <pf>main.cpp</pf>):</p>
+  
+  <console>
+    <input>g++ -std=c++20 -fmodules-ts library.cxx tests.cpp -o test-program.exe</input>
+  </console>
+
+  <p>Here is a test program that builds using the library defined on the previous page:</p>
+
+  <listing>
+    <caption><pf>main.cpp</pf> (with module import)</caption>
+    <program label="multiple-files_multiple-programs-1"
+             interactive="activecode"
+             compile-also="multiple-files_modules-library-cxx">
+<xi:include href="../../programs/multiple-files/modules-test.cpp" parse="text"/>
+  </program>
+  </listing>
+  
+  <p>There are now two paths to build a program using our <pf>library.cxx</pf> file. One path produces <pf>program.exe</pf> and the other produces <pf>test-program.exe</pf>:</p>
+
+  <figure>
+    <caption>We can build both the main program and the test program using the same library.</caption>
+    <image source="images/compilation-multiple-programs.svg"
+           width="80%"/>
+  </figure>
+  
+  <note><p>Depending on the development environment you are using outside of this book, the details of setting up two programs that build from the same files may vary. You may need to set up two separate <q>projects</q> in your development environment or you may be able to set up one <q>project</q> with multiple build targets.</p></note>
+
+
+  <exercise label="multiple-files_multiple-program-ex-1">
+    <statement>
+      <p>Which is the true statements?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Each program must have exactly one <pf>main</pf> function.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>All programs in a project must be compiled at the same time.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Different programs can make use of the same library code.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

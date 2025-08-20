@@ -5,13 +5,13 @@
 
   <p><term>Modularity</term> is the degree to which a system's components may be separated and recombined. In programming, this often refers to the organization of code into distinct functions or modules that can be developed, tested, and maintained independently. One important way to make functions modular is to follow the single responsibility pattern. But another is to limit a functions communication with other code to parameters and return values.</p>
 
-  <p>In <xref ref="functions-testing_stack-diagrams_global-variables"/>, we discussed global variables. Global variables make functions less modular because it ties their behavior to the global state of the program. If you see the code: `getTriangleArea(side1, side2, side3)`, it is pretty clear that the function is going to calculate the area of a triangle with those three sides. We could write a version of that function that instead uses global variables to store the data needed:</p>
+  <p>In <xref ref="functions-testing_stack-diagrams_global-variables"/>, we discussed global variables. Global variables make functions less modular because it ties their behavior to the global state of the program. If you see the code: <pf>getTriangleArea(side1, side2, side3)</pf>, it is pretty clear that the function is going to calculate the area of a triangle with those three sides. We could write a version of that function that instead uses global variables to store the data needed:</p>
 
   <program line-numbers="yes" highlight-lines="2,3,6-11,24" >
 <xi:include href="../../programs/program-design/area-calculation-awful.cpp" parse="text"/>
 </program>
 
-  <p>Looking at the function call `getTriangleArea()` on line 24, it is completely unclear what data is going to be worked on. It is also unclear what answer is produced. The caller has to know that they need to set the special variables `side1`, `side2`, and `side3` before calling the function. And they need to know that the result will be stored in the global variable `area`. This function communicates with the rest of this program via the secret back channel of global variables.</p>
+  <p>Looking at the function call <pf>getTriangleArea()</pf> on line 24, it is completely unclear what data is going to be worked on. It is also unclear what answer is produced. The caller has to know that they need to set the special variables <pf>side1</pf>, <pf>side2</pf>, and <pf>side3</pf> before calling the function. And they need to know that the result will be stored in the global variable <pf>area</pf>. This function communicates with the rest of this program via the secret back channel of global variables.</p>
 
   <p>A call to the original version of the function looked like this:</p>
 
@@ -19,13 +19,15 @@
     double area = getTriangleArea(side1, side2, side3);
   </program>
 
-  <p>It is clear exactly what information is being passed to the function and what result is produced. It is an example of a <term>pure function</term>, one that does not have side effects and always produces the same output for the same input. `getTriangleArea(3,4,5)` will always produce the same answer (unlike the bad `getTriangleArea()` that can produce a different answer if the global variables change). And calling that function will not change the behavior of any code that comes after it. We could insert `getTriangleArea(3,4,5)` after each line of main and the only effect would be some wasted time doing math that then was ignored. Pure functions like that are much more modular than functions that rely on global state or side effects.</p>
+  <p>It is clear exactly what information is being passed to the function and what result is produced. It is an example of a <term>pure function</term>, one that does not have side effects and always produces the same output for the same input. <pf>getTriangleArea(3,4,5)</pf> will always produce the same answer (unlike the bad <pf>getTriangleArea()</pf> that can produce a different answer if the global variables change). And calling that function will not change the behavior of any code that comes after it. We could insert <pf>getTriangleArea(3,4,5)</pf> after each line of main and the only effect would be some wasted time doing math that then was ignored. Pure functions like that are much more modular than functions that rely on global state or side effects.</p>
 
   <insight>
     <p>Functions should take input via parameters. They should return results via return values. All <q>communication</q> with the rest of the program should happen through these mechanisms.</p>
   </insight>
 
-  <p>A slight exception to this rule is using reference parameters. When we are working with large data structures, it can be more efficient to modify the parameter in place rather than create a new value to return. Say we want to write a function that is supposed to capitalize a string. We could write a pure function to do so:</p>
+  <p>Of course, every rule has exceptions. Functions that do input or output operations always rely on the overall state of the program and input/output streams. But as discussed earlier, input and output should be thought of as distinct jobs and kept out of functions that are doing other work. Doing that will minimize the number of functions that depend on the global state of io streams.</p>
+
+  <p>Another exception to this rule is using reference parameters. When we are working with large data structures, it can be more efficient to modify the parameter in place rather than create a new value to return. Say we want to write a function that is supposed to capitalize a string. We could write a pure function to do so:</p>
 
   <program>
     // Take a constant reference
@@ -38,7 +40,7 @@
     }
   </program>
 
-  <p>To use that function we would call: `string copy = capitalize(original);`</p>
+  <p>To use that function we would call: <pf>string copy = capitalize(original);</pf></p>
 
   <p>We end up with two different strings, one capitalized and one not. This would be perfectly reasonable if we need to keep the original string unchanged or if the string is small. But if the string was the entire text of a book, and we did not care about keeping the original, it would be more efficient to modify the original string in place:</p>
 
@@ -51,10 +53,44 @@
     }
   </program>
 
-  <p>To use that function we would call: `capitalize(original);`</p>
+  <p>To use that function we would call: <pf>capitalize(original);</pf></p>
 
   <p>The advantage here is there is only one string. We never make a copy of the original. The downside is the behavior of that call is less clear. The reader can't necessarily tell that the original string is being modified. They might assume the function is printing the modified version and not changing the original.</p>
 
   <p>For a function we expect to only work on small pieces of text, the less efficient approach of returning a modified copy is probably the better design. However, if we expect to work with larger strings where performance is a concern, modifying the original in place may be justified. (Remember, design is about trade-offs!)</p>
+
+  <exercise label="program-design_modularity-ex-1">
+    <statement>
+      <p>Which statements are true of <term>pure functions</term>?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>They communicate back to the caller only via the return value.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>They receive information from callers only via parameters.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>They can change reference parameters.</p>
+        </statement>
+        <feedback>
+          <p>Pure functions cannot change any parameters, including reference parameters. Sometimes we may design a </p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>They can do input and output to the console.</p>
+        </statement>
+        <feedback>
+          <p>Anything that communicates with the outside world (like printing to the console) makes a function depend on what has happened outside of it.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

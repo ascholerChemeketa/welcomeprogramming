@@ -1,0 +1,40 @@
+<section xml:id="program-design_test-driven-development"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Test Driven Development</title>
+
+  <p>As we write code, we want to test it to make sure that it works as designed. A 10 line function will generally be easier to test than an entire 1000 line program simply because there is less behavior to check. And, if we realize that a 10 line function has a bug, it is much easier to find and fix the issue than if all we know is that the full 1000 line program is not working correctly.</p>
+
+  <p>This testing can be done in multiple ways. We can write code in a <pf>main</pf> function that uses the code we are testing or we can develop automatic unit tests to verify the function's behavior. Automatic unit tests that use a framework like Doctest are generally easier to write and run than hand-written test logic. So whenever possible, it makes sense to try to leverage automatic testing.</p>
+
+  <p><term>Test driven development</term> (TDD) is a programming methodology that focuses on the importance of not just writing code, but verifying that the code is actually correct. Instead of writing code and then (maybe) figuring out how to test it, in TDD we write tests first and then write the code to pass those tests. The TDD process looks like:
+  <ol>
+    <li>Identify the next function to implement (or fix or improve).</li>
+    <li>Write a test that checks for the desired behavior.</li>
+    <li>Run the test and see it fail. If the function is new, we don't need to run the test to know that it will fail... there is no code yet! But if we are fixing a bug, it is important to know that the new test identifies the issue by failing given the current code.</li>
+    <li>Write code (or new code) for the function</li>
+    <li>
+      <p>Run the test again
+        <ul>
+          <li>If the test passes, we are done with that function. Go back to step 1.</li>
+          <li>If the test fails, go back to step 3</li>
+        </ul>
+      </p>
+    </li>
+  </ol></p>
+
+  <insight><p>At a basic level, test driven development boils down to common sense: When working on something, it is important to have a goal in mind and it is important to be able to tell if work you have done meets that goal or not.</p></insight>
+
+  
+  <exercise label="program-design_test-driven-development-ex-1" language="natural">
+    <statement><p>Put the steps of Test Driven Development in order.</p></statement>
+    <blocks>
+      <block order="5"><p>Decide on a problem to solve</p></block>
+      <block order="4"><p>Write a test that will verify the solution</p></block>
+      <block order="2"><p>Run the test and see it fail</p></block>
+      <block order="1"><p>Write code to solve the problem</p></block>
+      <block order="3"><p>Run the test again</p></block>
+    </blocks>
+  </exercise>
+
+</section>

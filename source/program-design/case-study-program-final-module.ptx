@@ -1,0 +1,55 @@
+<section xml:id="program-design_case-study-program-final-module"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Final Program Using Modules</title>
+
+  <p>Here is the final program using the DateFunctions module. It requires the DateFunctions module to build. It can be compiled with the following command:</p>
+
+  <console>
+    <input>g++ -std=c++20 -fmodules-ts main.cpp DateFunctions.cxx -o program.exe</input>
+  </console>
+
+  <listing><title><pf>main.cpp</pf> for use with module</title>
+  <program label="program-design_case-study-program-final-module-main"
+           extra-compiler-args="-std=c++20 -fmodules-ts"
+           compile-also="program-design_case-study-program-final-module-cxx"
+           interactive="activecode">
+    <code>
+<xi:include href="../../programs/program-design/case-study-main-final.cpp" parse="text"/>
+    </code>
+    <stdin>
+      4/22/1974
+      3/14/2025
+    </stdin>
+  </program>
+  </listing>
+
+  <p>And the final unit test program. It can be compiled with the following command:</p>
+
+  <console>
+    <input>g++ -std=c++20 -fmodules-ts dateTests.cpp DateFunctions.cxx -o test-program.exe</input>
+  </console>
+
+  <listing><title><pf>dateTests.cpp</pf> for use with module</title>
+  <program label="program-design_case-study-test-final"
+           extra-compiler-args="-std=c++20 -fmodules-ts"
+           compile-also="program-design_case-study-program-final-module-cxx"
+           interactive="activecode">
+<xi:include href="../../programs/program-design/case-study-test-final.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>Add the code for the module itself. It can not be linked into a full program, but can be compiled. It would be compiled with something like:</p>
+
+  <console><output>g++ -c -std=c++20 -fmodules-ts DateFunctions.cxx -o DateFunctions.o</output></console>
+
+  <listing><title><pf>DateFunctions.cxx</pf></title>
+  <program xml:id="program-design_case-study-program-final-module-cxx"
+            label="program-design_case-study-program-final-module-cxx"
+            extra-compiler-args="-c -std=c++20 -fmodules-ts"
+            filename="DateFunctions.cxx"
+            interactive="activecode">
+<xi:include href="../../programs/program-design/case-study-dateFunctions-final.cxx" parse="text"/>
+  </program>
+  </listing>
+</section>

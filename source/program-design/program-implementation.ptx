@@ -1,0 +1,72 @@
+<section xml:id="program-design_program-implementation"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>From Design to Implementation</title>
+
+  <p>Design is an iterative process. We may not perfectly specify every aspect of the program
+    correctly on the first try, and that is okay. As we start implementing parts of our design, we
+    may realize that a given task was much harder or easier than we thought. Or we may identify a
+    better way entirely to solve the problem. In those situations, we will have to update our design
+    to either change functions or design more functions to help do the work.</p>
+
+  <p>It may even be necessary to start implementing parts of our design before we have a complete
+    understanding of the other aspects. Writing concrete code to solve part of a problem is
+    sometimes the best way to test out if a particular idea works and to clarify our understanding
+    of the problem.</p>
+
+  <p>Once we have designed one or more functions that are well-defined and
+    simple enough to write, we can begin the implementation phase. This is where we translate our
+    design into actual code.</p>
+
+  <p>Regardless of which strategy we used to design our program, implementation is much easier done
+    bottom-up. We can start by implementing the lowest-level functions (those that do not depend on
+    any other functions), then use those to build up to the higher-level ones. This allows us to
+    test each piece as we go, making sure each function works correctly before we use it to build
+    more complex code. It will be much easier to trust high-level functions if we know that the
+    low-level functions they depend on work as expected.</p>
+
+  <p>It is possible to do top-down development. While implementing a high-level function, we can
+    fake the existence of lower-level functions by creating <term>stub</term> versions of them. For
+    example, if we were implementing a <pf>totalDays</pf> function that depends on a <pf>daysInMonth</pf> function, we
+    could write a version of <pf>daysInMonth</pf> that always returns 30. It is clearly not correct, but we
+    could use it to build the rest of the <pf>totalDays</pf> logic. However, it will be much harder to verify
+    that the high-level function is correct if it depends on <q>stubbed</q> lower-level functions
+    that do not behave correctly in all cases.</p>
+
+
+  <insight>
+    <p>Minutes of design can save hours of coding.</p>
+
+    <p>But it can be difficult to accurately plan out every detail before you start working. As the
+      saying goes, <q>no plan survives first contact with the enemy</q><mdash/>assumptions we make
+      during planning may turn out to be incorrect.</p>
+
+    <p>Learning to balance design and implementation is key to becoming an effective programmer.</p>
+  </insight>
+
+
+  <exercise label="program-design_program-implementation-ex-1">
+    <statement>
+      <p>Which is the true statement?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Design can be done top-down or bottom-up. But implementation is generally easier done bottom-up.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Design can be done top-down or bottom-up. Implementation should be done in the same way as the design.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Design can be done top-down or bottom-up. But implementation is generally easier done top-down.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+
+</section>

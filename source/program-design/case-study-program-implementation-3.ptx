@@ -1,0 +1,40 @@
+<section xml:id="program-design_case-program-implementation-3"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Case Study: Building a Multi-File Program - Part 3</title>
+
+  <p>Once all of the functions other than <pf>main</pf> have been built and tested, we can switch our focus back to finalizing the <q>real</q> program. Like any function the <pf>main</pf> function should be a reasonable length. It will be responsible for multiple jobs in that all of the work of the program starts from it. But it should not be directly responsible for any complex work. Ideally, that work is already contained in other functions that will serve as abstractions in <pf>main</pf>.</p>
+
+  <p>A first draft of our <pf>main</pf> function might look like:</p>
+
+  <program>
+<xi:include href="../../programs/program-design/case-study-main-2.cpp" parse="text"/>
+  </program>
+
+  <p>There is some repetition in the way we handle the inputs. So we could refactor the input code into a function <pf>getInput</pf> that takes a prompt string as an argument and returns the string entered by the user. That function is not really a <q>date</q> function, so it probably does not belong in the library. Instead, we can put it in the <pf>main</pf> file. (It also will be hard to unit test since it gets input from <pf>stdin</pf>).</p>
+
+  <insight>
+    <p>Remember that sometimes we write functions mainly as an abstraction. Other times, the main purpose is to reuse a block of code without writing multiple copies of it.</p>
+    <p>The initial design process usually focuses more on building the abstractions. All of the opportunities to avoid code duplication may not become apparent until we start implementing the code.</p>
+  </insight>
+
+  <note><p>If you look at the final implementation of <pf>getMonth</pf>, <pf>getDay</pf>, and <pf>getYear</pf>, you will see that they presented another opportunity to add a function to avoid repeating code. They all need to verify that the string they are focused on is all digits. Rather than write the same "loop through each character and verify that it is a digit" logic three times, that logic has been moved to a function.</p>
+  <p>The new <pf>isAllDigits</pf> function is not marked with <pf>export</pf> as we don't intend for that function to be used outside of the module.</p></note>
+
+  <p>The updated <pf>main.cpp</pf> will then look like the code below. It needs to be compiled with our library that has the date functions. The full version of that file can be found in <xref ref="program-design_case-study-program-final-module"/>.</p>
+
+  <program label="program-design_case-program-implementation-3-main-final"
+           extra-compiler-args="-std=c++20 -fmodules-ts"
+           compile-also="program-design_case-study-program-final-module-cxx"
+           interactive="activecode">
+  <code>
+<xi:include href="../../programs/program-design/case-study-main-3.cpp" parse="text"/>
+  </code>
+  <stdin>
+    4/22/1974
+    3/14/2025
+  </stdin>
+  </program>
+
+
+</section>

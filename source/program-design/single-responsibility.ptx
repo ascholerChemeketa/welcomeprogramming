@@ -13,15 +13,14 @@
     a single responsibility, we make it easier to understand and maintain. Other functions should be
     responsible for different tasks, such as displaying the result or handling user input.</p>
 
-  <p>A poorly designed function might look like `calculateTriangleArea` in this sample:</p>
+  <p>A poorly designed function might look like <pf>calculateTriangleArea</pf> in this sample:</p>
 
   <program>
 <xi:include href="../../programs/program-design/area-calculation-bad.cpp" parse="text"/>
 </program>
 
-  <p> That function is doing four different jobs: <ul>
+  <p> That function is doing three different jobs: <ul>
       <li>Getting user input</li>
-      <li>Validating user input</li>
       <li>Calculating the area</li>
       <li>Printing the result</li>
     </ul>
@@ -29,27 +28,27 @@
 
   <p> This makes the function less flexible. What if we want to calculate the area of a triangle and
     then use that value to do more calculations? We can't do that easily because the result is just
-    sent to `cout`. There is no way for other code to access the value produced inside that
+    sent to <pf>cout</pf>. There is no way for other code to access the value produced inside that
     function.</p>
+
+  <insight>
+    <p>Getting user input and printing out results are distinct tasks from working with data. They
+      should generally not be a part of functions that perform calculations or data processing.</p>
+    <p>Only a function that's responsibility is getting input should use <pf>cin</pf>. Only a function
+      that's responsibility is printing output should use <pf>cout</pf>.</p>
+  </insight>
 
   <p>It also makes it harder to test each individual part of the function. There is no way to test
     that the area calculation is correct without also testing the input and output. If we want to
     change how the area is calculated, we have to change the entire function, which can introduce
     bugs in the other parts of the function. In this example, there is an extra complication<mdash/>it
-    is much more challenging to build unit tests that work with `cin` and `cout` than it is to write
+    is much more challenging to build unit tests that work with <pf>cin</pf> and <pf>cout</pf> than it is to write
     ones that check the values returned from functions.</p>
 
-  <insight>
-    <p>Getting user input and printing out results are distinct tasks from working with data. They
-      should generally not be a part of functions that perform calculations or data processing.</p>
-    <p>Only a function that's responsibility is getting input should use `cin`. Only a function
-      that's responsibility is printing output should use `cout`.</p>
-  </insight>
+  <p>We can fix the <pf>calculateTriangleArea</pf> by giving it the single responsibility of doing the
+    necessary math:</p>
 
-  <p>We can fix the `calculateTriangleArea` by giving it the single responsibility of doing the
-    necessary math. The other work does not belong in the function that is doing calculation:</p>
-
-  <program interactive="activecode">
+  <program interactive="activecode" linenumbers="yes" highlight-lines="7-11">
     <stdin>
 3
 4
@@ -60,8 +59,8 @@
     </code>
 </program>
 
-  <p>Now, if we want to use the results of `calculateTriangleArea`, we can easily do so because it
-    returns a value. So we could use it to help build a program that compares two triangles to
+  <p>Now, if we want to use the results of <pf>calculateTriangleArea</pf> for further calculations, we can easily do so because it
+    returns a value. For example, we could use it to help build a program that compares two triangles in order to
     decide if one is larger than the other.</p>
 
   <program>
@@ -71,7 +70,7 @@ if (areaA > areaB) {
     ...
   </program>
 
-  <p>We can also write a unit test for `calculateTriangleArea` to ensure it behaves as expected:</p>
+  <p>We can also write an automated unit test for <pf>calculateTriangleArea</pf> to ensure it behaves as expected:</p>
 
   <program>
 TEST_CASE("calculateTriangleArea") {
@@ -80,5 +79,34 @@ TEST_CASE("calculateTriangleArea") {
     CHECK(calculateTriangleArea(0, 3, 3) == doctest::Approx(0));
 }
   </program>
+  
+
+  <exercise label="program-design_single-responsibility-ex-1">
+    <statement>
+      <p>Which are advantages of functions with a single responsibility?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>They are more flexible.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>They are easier to test.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>They are likely to be shorter.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>They minimize the number of functions we need to write.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

@@ -1,0 +1,40 @@
+<exercises xml:id="multiple-files_exercises"
+           xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Exercises</title>
+
+  <introduction>
+    <p>This chapter does not have automatically graded exercises like other ones. Instead, it includes open ended activities to explore what is covered in this chapter.</p>
+  </introduction>
+
+  <activity label="multiple-files_exercises-act-1">
+    <statement>
+      <p>In the development environment of your choice, set up a multiple file project. It should consist of:</p>
+      <ul>
+        <li>A .cpp file that has a simple function like <pf>int countSpaces(const string&amp; text);</pf>.</li>
+        <li>A .h file that declares that function.</li>
+        <li>A second .cpp file with a <pf>main</pf> function that uses that function and includes the .h file.</li>
+      </ul>
+      <p>Make sure you can:
+        <ul>
+          <li>Compile (but not link) each .cpp file on its own.</li>
+          <li>Build the full program by compiling and linking all .cpp files together.</li>
+        </ul>
+      </p>
+    </statement>
+  </activity>
+
+  <activity label="multiple-files_exercises-act-2">
+    <statement>
+      <p>In the development environment of your choice, set up a multiple file project. It should consist of:</p>
+      <ul>
+        <li>A .cxx file that exports a module called <pf>CountSpaces</pf>. It should define and export a function called <pf>int countSpaces(const string&amp; text);</pf>.</li>
+        <li>A second .cpp file with a <pf>main</pf> function that uses that function and imports the <pf>CountSpaces</pf> module.</li>
+      </ul>
+      <p>Make sure you can:
+        <ul>
+          <li>Build the full program by compiling and linking all .cpp files together.</li>
+        </ul>
+      </p>
+    </statement>
+  </activity>
+</exercises>

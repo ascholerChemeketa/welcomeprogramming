@@ -1,0 +1,96 @@
+<section xml:id="multiple-files_headers"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Header Files</title>
+
+  <p>Separate compilation requires that each <pf>.cpp</pf> file must have a declaration for every function that will be used in it.Manually declaring each function from a library (like we did with <pf>doubleValue</pf> in <pf>main.cpp</pf>) so that you can use it in another file works, but is a bit cumbersome. Imagine that I want to use a dozen different
+    functions from a library - I would have to start my file with a dozen declarations for the various functions. </p>
+
+  <p>Fortunately, there is an easier way to add all the function declarations for the functions in a library - by using a <term>header file</term>. A
+    <term>header file</term> is a file that contains a set of function declarations that match what is in a .cpp file or compiled library. <idx>
+      <h>header file</h>
+    </idx></p>
+
+  <p>Here is a header file that might correspond to <pf>library.cpp</pf>:</p>
+
+  <listing>
+    <caption><pf>library.h</pf></caption>
+    <program label="multiple-files_headers-library-h"
+             xml:id="multiple-files_headers-library-h"
+             filename="library.h"
+             line-numbers="yes"
+             highlight-lines="3,5,16">
+<xi:include href="../../programs/multiple-files/headers-library.h" parse="text"/>
+  </program>
+  </listing>
+
+  <p>Key things to note: <ul>
+      <li>It has the same name as the <pf>.cpp</pf> file, but with a <pf>.h</pf> extension. This is a convention,
+    not a strict requirement.</li>
+      <li>It has the declarations for the function(s) that exist in the .cpp file, but it does NOT
+    have the definitions.</li>
+      <li>It does not have to declare all the functions that exist in the .cpp. The <pf>getMultiplier</pf> function is not declared in the header file because it is not intended for use outside of the <pf>library.cpp</pf> file.</li>
+      <li>The function's comment goes in the .h file with the declaration. The .h file is what <q>
+    other</q> programmers should refer to when they want to know what is in <pf>library.cpp</pf> and how to
+    use it - ideally they should never need to look in the .cpp file.</li>
+      <li><p>Around the function declarations there is the special <pf>#ifndef ... #endif</pf> construct
+    (lines 3, 5, 16). These lines ensure that even if we include this file multiple times, it will
+    only be read one time. Line 3 asks <q>Have we not defined LIBRARY_H?</q> (<pf>ifndef</pf>). If we have
+    not, we keep going. Otherwise, all the code until the <pf>endif</pf> is skipped. The first thing we do
+    inside the <pf>ifndef</pf> is to define <pf>LIBRARY_H</pf>. That way, if we end up in this file again, it will
+    be clear we have already seen the code.</p><p>The name we check/define can be anything, but by
+    convention, it usually matches the name of the file (in this case <pf>LIBRARY_H</pf>).</p></li>
+    </ul>
+  </p>
+
+  <p>It is possible to have functions defined in <pf>library.cpp</pf> that are not declared in <pf>library.h</pf>. Doing so indicates that the unlisted functions are not for use by other <pf>.cpp</pf> files - they are <term>internal</term> functions that other code should not rely on.</p>
+
+  <p>If the declarations in the file header depend on types defined in other files, those files must be included at the top of the header file. For example, to refer to a <pf>string</pf>, we need to <pf>#include &lt;string&gt;</pf> at the top of the header file. However, it is bad practice to use <pf>using namespace std;</pf> in a header file. The header file code may get included into multiple different .cpp files, and putting <pf>using namespace std;</pf> in the header means that it will be added to each of those files. Although that will likely work fine in a small project, it could lead to naming conflicts in larger ones. So instead, we should use the full formal name <pf>std::string</pf> instead of the <pf>using namespace</pf> shortcut:</p>
+
+  <listing>
+    <caption><pf>otherLibrary.h</pf></caption>
+    <program label="multiple-files_headers-library-other-h"
+             xml:id="multiple-files_headers-library-other-h"
+             filename="otherLibrary.h"
+             line-numbers="yes"
+             highlight-lines="8, 10, 16">
+<xi:include href="../../programs/multiple-files/headers-library-other.h" parse="text"/>
+  </program>
+  </listing>
+
+  <exercise label="multiple-files_headers-ex-1">
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  <statement>
+  <p>Write a header file <pf>mycode.h</pf> for a library that just has a void function called <pf>print</pf> that takes a string parameter. You will not use all of the blocks.</p>
+  </statement>
+  <blocks>
+    <block order="2">
+        <cline><![CDATA[#ifndef MYCODE_H]]></cline>
+    </block>
+    <block order="4">
+        <cline><![CDATA[#define MYCODE_H]]></cline>
+    </block>
+    <block order="7">
+        <cline><![CDATA[#include <string>]]></cline>
+    </block>
+    <block order="8" correct="no">
+        <cline><![CDATA[using namespace std;]]></cline>
+    </block>
+    <block order="3">
+        <cline><![CDATA[void printHi(std::string text);]]></cline>
+    </block>
+    <block order="5" correct="no">
+        <cline><![CDATA[void printHi(std::string text) {]]></cline>
+        <cline><![CDATA[   std::cout << "Hi!" << std::endl;]]></cline>
+        <cline><![CDATA[}]]></cline>
+    </block>
+    <block order="1">
+        <cline><![CDATA[#endif]]></cline>
+    </block>
+  </blocks>
+</exercise>
+
+
+
+</section>

@@ -6,7 +6,7 @@ using namespace std;
 
 double getDoubleInput(const string& prompt) {
     cout << prompt;
-    double value = -1;
+    double value;
     cin >> value;
     cout << value << endl;  // echo the input
     return value;

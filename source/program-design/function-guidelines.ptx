@@ -18,10 +18,10 @@
 
   <p>For any design domain, we can try to identify design guidelines that should shape our approach.
     A car design guideline might be <q>start from an egg-like shape</q>. That is a very aerodynamic
-    shape, so following it will likely improve both performance and fuel-efficiency. However, these
-    guideline are not absolute rules. For a particular car design, we might need to ignore that
-    guideline to satisfy some other important goal. But absent a clear reason to ignore that
-    guideline, our design will likely benefit from following it.</p>
+    shape, so following it will likely improve both performance and fuel-efficiency. This guideline
+    is not an absolute rule. For a particular car design, we might need to ignore that guideline to
+    satisfy some other important goal. However, absent a clear reason to ignore the guideline, our
+    design will likely benefit from following it.</p>
 
   <p>Function design offers room for similar tradeoffs. For example, a design that allows a function
     to be reused in many different contexts may require it to be more complex, which can make it
@@ -33,11 +33,10 @@
       <li>The modularity of the code (how easy it is to work on one part at a time)</li>
       <li>The efficiency of the code (how efficiently it performs its task)</li>
     </ul> Of those,
-    efficiency will be the one that we worry about the least for now. If a function is clear,
+    efficiency will be the one that we worry about the least for now. If a design is clear,
     reusable, and modular, it will likely be efficient enough for most purposes. If it is not
-    efficient enough, we can often optimize it later without changing its interface or how it is
-    used. Furthermore, most big gains of efficiency come from algorithmic improvements, not from
-    micro-optimizations of a function's implementation. </p>
+    efficient enough, we can often optimize it later. Once you begin studying algorithms and data
+    structures, we will have more tools at our disposal for improving efficiency.</p>
 
   <p>Here are some guidelines that we can follow to help us achieve those goals:</p>
   <ul>
@@ -61,5 +60,50 @@
         functions.</p>
     </li>
   </ul>
+
+  <exercise label="program-design_function-guidelines-ex-1">
+    <statement>
+      <p>What is the name of the principle that each function should focus on doing one job? <fillin mode="string" answer="single responsibility"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>single</strcmp>
+          <feedback>There should be two words in your answer</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <exercise label="program-design_function-guidelines-ex-2">
+    <statement>
+      <p>Which concern is the least important for now while designing functions?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>How efficient the design is.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>How clear the abstractions are.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>How well the design avoids duplicating code.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>How well the design allows us to focus on one thing at a time.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

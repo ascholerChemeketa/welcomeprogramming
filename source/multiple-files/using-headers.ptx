@@ -1,0 +1,80 @@
+<section xml:id="multiple-files_using-headers"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Using Header Files</title>
+
+  <p>A header file is not compiled directly. Instead, the whole point is for <pf>.cpp</pf> files to include the .h file it using the <pf>#include</pf> directive:</p>
+
+  <listing>
+    <caption><pf>main.cpp</pf> (with include)</caption>
+    <program
+             compile-also="multiple-files_headers-library-cpp"
+             add-files="multiple-files_headers-library-h"
+             interactive="activecode"
+             highlight-lines="4-5">
+<xi:include href="../../programs/multiple-files/headers-main-3.cpp" parse="text"/>
+  </program>
+  </listing>
+  
+  <p>When the compiler is working on <pf>main.cpp</pf>, it will see the <pf>#include "library.h"</pf>
+    directive and read the contents of <pf>library.h</pf> into that location. (Including a file essentially
+    copies the contents of that file into the including file.) This means that the compiler will know about the
+    <pf>doubleValue</pf> function and be able to compile the code in <pf>main.cpp</pf> that calls it.</p>
+
+  <p>Note that this use of include uses <pf>" "</pf> around the name of the file to include instead of
+    <pf>&lt; &gt;</pf>. The angle brackets say <q>this is a standard library, look for it with the
+    compiler's file</q>. The quotes say <q>this is a library that is NOT part of the standard
+    compiler libraries, look for it in our files</q>. We use <pf>#include &lt;iostream&gt;</pf> because
+    <pf>iostream</pf> is a standard library. Our <pf>library.h</pf> file is not.</p>
+
+  <warning>
+    <p>If you use the wrong symbols around the filename in your include, the compiler may not find
+      the file because it is looking in the wrong folder.</p>
+  </warning>
+
+  <p>The compiler does not need to be told to build the header (as it is included into the .cpp files that need it to build). So our recipe to build a program code would make no mention of the header file:</p>
+
+  <console>
+    <input>g++ main.cpp library.cpp -o program.exe</input>
+  </console>
+
+  <p>Generally, a .cpp file will include it's own .h - we would put <pf>#include "library.h"</pf> in the
+    library.cpp file as well as the main file. This means that the code from the header file would be used
+  as part of compiling both .cpp files. This is why the header can only contain declarations, not definitions. We need to make sure that we do not have two copies of any function's definition.</p>
+
+  <figure>
+    <caption>Compiling main.cpp and library.cpp files that each include library.h.</caption>
+    <image source="images/compilation-multiple-winclude.svg"
+           width="60%"/>
+  </figure>
+
+  <note><p>Making a .cpp/.h file pair for the code and header is the most common way to build a code library in C++. However, the code in this book does not use the header file strategy in order to minimize the number of <q>files</q> that need to be defined in the text. Instead, we will rely on <term>modules</term>, which are discussed next.</p></note>
+
+  <exercise label="multiple-files_using-headers-ex-1">
+    <statement>
+      <p>Which is the true statements?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Including a header essentially copies its contents into the location of the <pf>#include</pf> directive.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Multiple .cpp files can include the same header file.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The .h file must be added to the compiler command.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Include directives for files you create should use angle brackets around the file name (<pf>&lt; &gt;</pf>).</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

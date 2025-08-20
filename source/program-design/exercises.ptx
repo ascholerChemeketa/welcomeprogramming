@@ -2,276 +2,65 @@
            xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Exercises</title>
 
-  <exercise label="program-design_exercises-ex-1">
-    <statement>
-      <p>What would be returned by <pf>secretFunction</pf> if the input was 14?</p>
-      <program line-numbers="yes">
-        <code>
-int secretFunction(int input) {
-  if (input % 2 == 0) {
-    return 3 * input - 2;
-  }
-  else {
-    if (input % 7 == 0) {
-      return input;
-    }
-    return 2 * input + 9;
-  }
-  return input + 4;
-}
-</code>
-      </program>
-    </statement>
-    <choices randomize="yes">
-      <choice>
-        <statement>
-          <p>14</p>
-        </statement>
-        <feedback>
-          Although 14 is divisible by 7, take another look at the conditionals.
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>18</p>
-        </statement>
-        <feedback>
-          The flow of code would never reach the last return statement.
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>36</p>
-        </statement>
-        <feedback>
-          Check your order of operations!
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>37</p>
-        </statement>
-        <feedback>
-          Take a closer look at the conditional statements.
-        </feedback>
-      </choice>
-      <choice correct="yes">
-        <statement>
-          <p>40</p>
-        </statement>
-        <feedback>
-          Since 14 is divisible by 2, the function returns two less than three times 14.
-        </feedback>
-      </choice>
-    </choices>
-  </exercise>
+  <introduction>
+    <p>This chapter does not have automatically graded exercises like other ones. Instead, it includes a series of open-ended questions and prompts for further exploration.</p>
+  </introduction>
 
-
-  <exercise label="program-design_exercises-ex-2"
-            numbered="yes"
-            adaptive="yes"
-            indentation="hide">
-    <statement>
-      <p>Vacation time! But before you go, you need to convert your currency.
-        Let's write the code for the <pf>dollarToYen</pf> function. <pf>dollarToYen</pf>
-        takes dollar as a parameter and returns the equivalent amount of Japanese yen.
-        The conversion rate is 1 USD equals 149.72 Japanese yen.
-        Put the necessary blocks of code in the correct order.</p>
-    </statement>
-    <blocks>
-      <block>
-        <cline>double dollarToYen(double dollar) {</cline>
-      </block>
-      <block correct="no">
-        <cline>int dollarToYen(double dollar) {  </cline>
-      </block>
-      <block correct="no">
-        <cline>void dollarToYen(double dollar) {  </cline>
-      </block>
-      <block correct="no">
-        <cline>double dollarToYen() {  </cline>
-      </block>
-      <block>
-        <cline>   double yen = 149.72 * dollar;  </cline>
-      </block>
-      <block>
-        <cline>   return yen;</cline>
-      </block>
-      <block correct="no">
-        <cline>   return 149.72 * yen;  </cline>
-      </block>
-      <block>
-        <cline>}</cline>
-      </block>
-    </blocks>
-  </exercise>
-
-  <exercise label="program-design_exercises-ex-3">
-    <statement>
-      <p>Many computations can be expressed more concisely using the <q>multadd</q> operation,
-        which takes three operands and computes <pf>a * b + c</pf>. Some processors even provide a hardware
-        implementation of this operation for floating-point numbers. Write the function <pf>multadd</pf> so that it takes in three double values and returns the result of multiplying the first two and then adding the third value.</p>
-      <program interactive="activecode">
-        <preamble><![CDATA[
-#include <iostream>
-using namespace std;]]>
-        </preamble>
-        <code>
-
-//Write the function multadd here
-
-        </code>
-        <tests visible="yes">
-<![CDATA[
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "doctest.h"
-
-TEST_CASE("multadd") {
-  CHECK(multadd(3, 2, 1.5) == doctest::Approx(7.5));
-  CHECK(multadd(1.25, 3.0, 6) == doctest::Approx(9.75));
-}
-]]>
-        </tests>
-    </program>
+  <exercise>
+    <statement>In the development environment of your choice, set up a multiple file project. It should consist of:
+      <ul>
+        <li>A library (either a module file or a .h/.cpp pair) that contains a simple function like <pf>double celsiusToFahrenheit(double celsiusTemp);</pf>.</li>
+        <li>A file with tests for that function.</li>
+        <li>A file with a <pf>main</pf> function.</li>
+      </ul>
+      <p>Make sure that you can compile and run both the tests program and the main program.</p>
     </statement>
   </exercise>
 
-
-  <exercise label="program-design_exercises-ex-4">
+  <exercise>
     <statement>
-      <p>The <q>wind chill temperature</q> is the temperature it feels like when the wind is blowing. The National Weather Service uses the formula <m>WCT = 35.74 + 0.6215T - 35.75(V^{0.16}) + 0.4275T(V^{0.16})</m> where T is the temperature in degrees F and V is the wind speed (velocity) in miles per hour to calculate the wind chill temperature.  You need to write a function that will do that computation. Examine the tests and determine what the function you need to write is called, what parameters it should take, and what it should return. Then write the function.</p>
-      <program interactive="activecode">
-        <preamble><![CDATA[
-#include <iostream>
-#include <iomanip>
-#include <cmath>
-using namespace std;]]>
-        </preamble>
-        <code>
+      <p>Design functions to help solve the following problem.</p>
 
-//Write the function here
+      <p>Given two blood types like <pf>AB+</pf> and <pf>O-</pf>, we want to determine if the first blood type can donate to the second blood type and if the second can donate to the first.</p>
 
+      <note>
+        <title>How blood types work</title>
+        <p>Blood that has type <pf>A</pf> antibodies (<pf>A</pf> or <pf>AB</pf>) can only be given to people with an <pf>A</pf> or <pf>AB</pf> blood type. Blood that has type <pf>B</pf> antibodies (<pf>B</pf> or <pf>AB</pf>) can only be given to people with a <pf>B</pf> or <pf>AB</pf> blood type. Blood that has type <pf>O</pf> antibodies can be given to anyone.</p>
+        <p>Blood that has the <pf>+</pf> factor can only be given to someone who also has the <pf>+</pf> factor. (Blood with the <pf>-</pf> factor can be given to anyone.)</p>
+      </note>
 
-        </code>
-        <tests visible="yes">
-<![CDATA[
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "doctest.h"
+      <p>Our input will be two strings. We should print out two lines of output like:</p>
 
-TEST_CASE("windChillTemp") {
-  // 10 mph wind with 50 degree temp
-  CHECK(windChillTemp(10.0, 50) == doctest::Approx(45.5868));
-  // 15.25 mph wind with 32.6 degree temp
-  CHECK(windChillTemp(15.25, 32.6) == doctest::Approx(21.975));
-}
-]]>
-        </tests>
-    </program>
-    </statement>
-  </exercise>
+      <console>
+        <output>
+          AB+ can donate to O-: false
+          O- can donate to AB+: true
+        </output>
+      </console>
 
-
-  <!-- <exercise label="program-design_exercises-ex-5">
-    <statement>
-      <p> This exercise reviews the flow of execution through a program with multiple functions.
-        Read the following code and answer the questions: </p>
-
-      <program
-               interactive="activecode">
-<xi:include href="../../programs/program-design/exercises-1.cpp" parse="text"/>
-</program>
-
-      <program
-               interactive="activecode">
-<xi:include href="../../programs/program-design/exercises-2.cpp" parse="text"/>
-</program>
-
-      <program
-               interactive="activecode">
-<xi:include href="../../programs/program-design/exercises-3.cpp" parse="text"/>
-</program>
-
-      <ol>
-        <li>
-          <p>Write the number 1 next to the first line of code in this program that will execute.</p>
-        </li>
-        <li>
-          <p>Write the number 2 next to the second line of code, and so on until the end of the
-            program. If a line is executed more than once, it might end up with more than one number
-            next to it.</p>
-        </li>
-        <li>
-          <p>What is the value of the parameter <pf>blimp</pf> when <pf>baffle</pf> gets invoked?</p>
-        </li>
-        <li>
-          <p>What is the output of this program?</p>
-        </li>
-      </ol>
-    </statement>
-  </exercise> -->
-
-  <!-- <exercise label="program-design_exercises-ex-6">
-    <statement>
-      <p> Answer the following questions without running the program on a computer. <ol>
-          <li>
-            <p>Draw a stack diagram that shows the state of the program the first time <pf>ping</pf> is
-        invoked.</p>
-          </li>
-          <li>
-            <p>What is output by the following program? Be precise about the placement of spaces and
-        newlines.</p>
-          </li>
-        </ol>
-
+      <p>Using either top-down or bottom-up design, design some functions that might be useful for solving this problem. Don't worry about doing the math or writing code, just focus on what tasks need to get done. For each function, write:
+        <ul>
+          <li>A prototype for the function</li>
+          <li>Some sample input/output pairs that could turn into a test</li>
+        </ul>
       </p>
-
-      <program
-               interactive="activecode">
-<xi:include href="../../programs/program-design/exercises-4.cpp" parse="text"/>
-</program>
-
-      <program
-               interactive="activecode">
-<xi:include href="../../programs/program-design/exercises-5.cpp" parse="text"/>
-</program>
-
-      <program
-               interactive="activecode">
-<xi:include href="../../programs/program-design/exercises-6.cpp" parse="text"/>
-</program>
-
-      <program
-               interactive="activecode">
-<xi:include href="../../programs/program-design/exercises-7.cpp" parse="text"/>
-</program>
-
     </statement>
   </exercise>
 
-  <exercise label="program-design_exercises-ex-7">
+  <exercise>
     <statement>
-      <p> Draw a stack diagram that shows the state of the program the <term>second</term> time <pf>zoop</pf>
-        is invoked. What is the complete output? </p>
+      <p>Design functions to help solve the following problem.</p>
+      <p>We would like to calculate blends of HTML colors in the format <pf>#RRGGBB</pf> where RR, GG, and BB are two-digit hexadecimal numbers. (See <url href="https://runestone.academy/ns/books/published/welcomecs2/data-representation_hex-data-colors.html?mode=browsing">Welcome to CS - Hex Data &amp; Colors</url> for more details).</p>
 
-      <program
-               interactive="activecode">
-<xi:include href="../../programs/program-design/exercises-8.cpp" parse="text"/>
-</program>
+      <p>Our input will be lines of text like <pf>#406000 #AAFFBB 80%</pf> that have two colors and a percentage. The percentage will describe how much of the second color to use. So <pf>#406000 #AAFFBB 80%</pf> would mean to give the color <pf>#AAFFBB</pf> 80% weight and the color <pf>#406000</pf> 20% weight. We should print a new string in the format <pf>#RRGGBB</pf> that represents the blended color.</p>
 
-      <program
-               interactive="activecode">
-<xi:include href="../../programs/program-design/exercises-9.cpp" parse="text"/>
-</program>
-
-      <program
-               interactive="activecode">
-<xi:include href="../../programs/program-design/exercises-10.cpp" parse="text"/>
-</program>
-
-      <program>
-<xi:include href="../../programs/program-design/exercises-11.cpp" parse="text"/>
-</program>
-
+      <p>Using either top-down or bottom-up design, design some functions that might be useful for solving this problem. Don't worry about doing the math or writing code, just focus on what tasks need to get done. For each function, write:
+        <ul>
+          <li>A prototype for the function</li>
+          <li>Some sample input/output pairs that could turn into a test</li>
+        </ul>
+      </p>
     </statement>
-  </exercise> -->
+  </exercise>
+
 </exercises>

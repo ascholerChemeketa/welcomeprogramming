@@ -1,0 +1,112 @@
+<section xml:id="multiple-files_multiple-files"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Projects with Multiple Files</title>
+
+  <p>As we build up a collection of functions, and tests for those functions, we may want or need to break our code into multiple files. Splitting code up into multiple files can makes it easier to manage, quicker to recompile, and easier to reuse code across multiple related programs.</p>
+
+  <p>In the next few sections, we will explore how to split a very simple program into multiple files. Once we learn how the process works, we will use those ideas to create a more realistic project that has some functions in a code library, a unit test program that tests those functions, and a <q>real</q> program that depends on the functions.</p>
+
+  <p>Recall that the compiler is the tool that turns the C++ code we write into executable machine code. Technically, this
+    happens in two phases. First, our .cpp file is compiled on its own into an <term>object file</term>
+    (compiled code). Then, that code is <term>linked</term> with other code to form the final
+    executable.</p>
+    
+    <p>Normally we don't see or think about the two steps. Unless we explicitly tell
+    the compiler not to, it will always both compile our code and then link it with code from the <term>standard library</term> (which handles the messy details of actually starting up a program and then running the <pf>main</pf>
+    function), as well as any the code from any other libraries like <pf>&lt;cmath></pf> that we have included.
+    <idx>
+      <h>linking</h>
+      <h>standard library</h>
+    </idx>
+  </p>
+
+  <p>Executing this compiler command builds <pf>main.cpp</pf> and then links that code into an executable program:</p>
+
+  <console>
+    <input>g++ main.cpp -o program.exe</input>
+  </console>
+
+  <note>
+  <p>Recall that <pf>-o</pf> says that the following name is what to use for the output file. The file name(s) before that are what to compile. So this recipe says <q>compile main.cpp into program.exe</q>.</p>
+  </note>
+
+
+  <figure>
+    <caption>Building a single file compiles it and links it with library code</caption>
+    <image source="images/compilation-single.svg"
+           width="40%"/>
+  </figure>
+
+  <p>We can tell the compiler to build multiple code files into a single program, as in this command:</p>
+  
+  <console>
+    <input>g++ main.cpp library.cpp -o program.exe</input>
+  </console>
+
+  <p>When we do so, the files (<pf>main.cpp</pf> and <pf>library.cpp</pf> in this case) are each independently compiled. After that is done, their code is linked together with any needed code from the standard library and any other included libraries:</p>
+
+  <figure>
+    <caption>Compiling multiple files compile each one, then links them and standard library code together</caption>
+    <image source="images/compilation-multiple.svg"
+           width="60%"/>
+  </figure>
+
+  <p>The critical detail here is that although we have said <q>build  main.cpp and library.cpp into program.exe</q>, the two files
+    are each first compiled on their own into object files. When the compiler is working on <pf>main.cpp</pf>, it must have ALL the information it needs to
+    compile that file<mdash/>it will have no awareness of the other files that are also to be compiled. This model is known as <term>separate compilation</term></p>
+
+  
+  <exercise label="multiple-files_multiple-files-ex-1">
+    <statement>
+      <p>Match each term to an example of it by dragging the term into the appropriate box.</p>
+    </statement>
+    <feedback>
+      <p>Try again!</p>
+    </feedback>
+    <cardsort>
+      <match>
+        <premise>compile</premise>
+        <response>the process of translating our program into object code</response>
+      </match>
+      <match>
+        <premise>linking</premise>
+        <response>the process of combining object code files into a single executable program</response>
+      </match>
+      <match>
+        <premise>building</premise>
+        <response>the process of both compiling and linking</response>
+      </match>
+    </cardsort>
+  </exercise>
+
+  <exercise label="multiple-files_multiple-files-ex-2">
+    <statement>
+      <p>Which is the true statement?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Each file is compiled separately into an object file.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Each object file is separately linked into an executable.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="multiple-files_multiple-files-ex-3">
+    <statement><p>Complete the compiler recipe to build a program called <pf>executable.exe</pf> using <pf>other.cpp</pf> and <pf>program.cpp</pf>. (Place the name of the output at the end of the command.) You will not use all the blocks.</p></statement>
+    <blocks layout="horizontal" randomize="yes">
+        <block><c>g++</c></block>
+        <block correct="no"><c>other.cpp main.cpp</c></block>
+        <block><c>other.cpp program.cpp</c></block>
+        <block><c>-o executable.exe</c></block>
+        <block correct="no"><c>-o program.exe</c></block>
+    </blocks>
+  </exercise>
+
+</section>

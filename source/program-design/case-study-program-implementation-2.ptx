@@ -1,0 +1,187 @@
+<section xml:id="program-design_case-program-implementation-2"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Case Study: Building a Multi-File Program - Part 2</title>
+
+  <introduction>
+    <p>After <pf>getMonth</pf> is implemented, we are ready to tackle another function. <pf>getYear</pf> or <pf>getDay</pf> would be logical choices. But they are going to look a lot like <pf>getMonth</pf>, so we will skip them for now.</p>
+    <p>Instead, we will skip ahead and try to implement our <pf>int daysBeforeMonth(int month)</pf> function.</p>
+  </introduction>
+
+  <subsection>
+    <title>Testing <pf>daysBeforeMonth</pf></title>
+
+    <p>Again, we should start by figuring out how we will know that <pf>daysBeforeMonth</pf> works correctly. To do this, we need to figure out what the correct answer for the various months are. (Remember that we are pretending leap years do not exist.)</p>
+
+    <tabular>
+      <col header="yes" width="20%"/>
+      <col width="70%"/>
+      <col width="10%"/>
+      <row header="yes"
+            bottom="major">
+        <cell>Month</cell>
+        <cell>Days Before Month</cell>
+        <cell>Days In Month</cell>
+      </row>
+      <row>
+        <cell>
+          January
+        </cell>
+        <cell>0</cell>
+        <cell>31</cell>
+      </row>
+      <row>
+        <cell>
+          February
+        </cell>
+        <cell><p>31 (Days before January + Days in January)</p></cell>
+        <cell>28</cell>
+      </row>
+      <row>
+        <cell>
+          March
+        </cell>
+        <cell><p>59 (Days before February + Days in February)</p></cell>
+        <cell>31</cell>
+      </row>
+      <row>
+        <cell>
+          April
+        </cell>
+        <cell><p>90 (Days before March + Days in March)</p></cell>
+        <cell>30</cell>
+      </row>
+      <row>
+        <cell>
+          ...
+        </cell>
+        <cell><p>...</p></cell>
+        <cell>...</cell>
+      </row>
+    </tabular>
+
+    <p>Written as unit tests in <pf>dateTests.cpp</pf>, this might look like the following:</p>
+
+    <program>
+TEST_CASE("daysBeforeMonth") {
+    CHECK(daysBeforeMonth(1) == 0);
+    CHECK(daysBeforeMonth(2) == 31);
+    CHECK(daysBeforeMonth(4) == 90);
+    //...
+    CHECK(daysBeforeMonth(12) == 334);
+}
+    </program>
+
+    <exercise>
+      <statement>
+        <p>What values should be used to test <pf>daysBeforeMonth</pf> for inputs of <pf>5</pf> and <pf>11</pf>?</p>
+        <p>5: <fillin answer="120" mode="number"/></p>
+        <p>11: <fillin answer="304" mode="number"/></p>
+      </statement>
+      <evaluation>
+        <evaluate>
+          <test>
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>Hint: How many days are in April? Add that to the answer for <pf>daysBeforeMonth(4)</pf></feedback>
+          </test>
+        </evaluate>
+        <evaluate>
+          <test>
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>Hint: How many days are in December? Subtract that from the answer for <pf>daysBeforeMonth(12)</pf></feedback>
+          </test>
+        </evaluate>
+      </evaluation> 
+    </exercise>
+
+    <p>How many months need to be tested? This is a judgement call. There are only 12 values, which is not an obnoxious number. And although the answer for the cases follow a pattern, it is not something that is calculated with a simple formula, so knowing that <pf>daysBeforeMonth(8)</pf> works, doesn't guarantee that <pf>daysBeforeMonth(7)</pf> is correct. So it might be reasonable to test all 12 cases.</p>
+
+    <p>If there was a simple formula like <pf>30 * (month - 1)</pf> there would be little value in testing all 12 cases. And if there were 120 different cases, it might be impractical to test them all individually. At some point, we would probably just start copy/pasting the values from tests into our implementation, which would mean we are not really testing anything other than <q>did I put the same number in both files</q>.</p>
+
+    <p>As mentioned earlier, the goal is not always to exhaustively test all possible inputs, but rather to test enough interesting cases that we have some degree of confidence in our implementation.</p>
+  </subsection>
+
+  <subsection>
+    <title>Implementing <pf>daysBeforeMonth</pf></title>
+
+    <p>Once we add new test(s) to <pf>dateTests.cpp</pf>, we are ready to implement the <pf>daysBeforeMonth</pf> function in <pf>DateFunctions.cxx</pf>.</p>
+
+    <p>The function is relatively straightforward. It is really just a big set of if/elses or a switch statement. For invalid months, we should either return some sentinel value like <pf>-1</pf> or throw an exception. Here is one possible implementation:</p>
+
+    <program>
+int daysBeforeMonth(int month) {
+    if (month == 1) {
+        return 0;
+    } else if (month == 2) {
+        return 31;
+    } else if (month == 3) {
+        return 59;
+    //... more code here
+    } else if (month == 12) {
+        return 334;
+    } else {
+        throw std::logic_error("Invalid month: " + std::to_string(month));
+    }
+    </program>
+
+    <exercise>
+      <statement>Complete the compiler recipe to build our module file with the test file. Although the compiler provides flexibility in parameter ordering, use the order we have been using: <pf>COMPILER_NAME FLAGS LIST_OF_FILES -o OUTPUT_NAME</pf>. You will not need all the blocks.</statement>
+      <blocks layout="horizontal" randomize="yes">
+          <block><c>g++</c></block>
+          <block><c>-std=c++20 -fmodules-ts</c></block>
+          <block correct="no"><c>main.cpp dateTests.cpp</c></block>
+          <block correct="no"><c>DateFunctions.cpp main.cpp</c></block>
+          <block><c>DateFunctions.cxx dateTests.cpp</c></block>
+          <block><c>-o test-program.exe</c></block>
+      </blocks>
+    </exercise>
+  </subsection>
+
+  <subsection>
+    <title>Next steps</title>
+
+    <p>There really is not much point in adding code to <pf>main.cpp</pf> at this point. The <pf>main</pf> function should not directly call <pf>daysBeforeMonth</pf>. Instead, we might as well move on to implementing the <pf>dateToDays</pf> function.</p>
+
+    <p>Again, we should start by writing tests for the <pf>dateToDays</pf> function. This will involve doing some math by hand to figure out how many days have elapsed to get us to a date like <pf>3/14/2025</pf>. Given our <q>no leap years</q> assumption, and our existing <pf>daysBeforeMonth()</pf> function,we can calculate the total number of days for <pf>3/14/2025</pf> as <pf>daysBeforeMonth(3) + 14 + 365 * 2025</pf>.</p>
+
+    <exercise>
+      <statement>
+        <p>Complete the <pf>TEST_CASE</pf> for <pf>dateToDays</pf>.</p>
+        <p><pf>CHECK(dateToDays("3/14/2025") == </pf>  <fillin answer="739198" mode="number"/> <pf>);</pf></p>
+      </statement>
+      <evaluation>
+        <evaluate>
+          <test>
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>Hint: <pf>daysBeforeMonth(3)</pf> is 59.</feedback>
+          </test>
+        </evaluate>
+      </evaluation> 
+    </exercise>
+
+    <p>The code itself should be very simple. Something like:</p>
+
+    <program>
+int dateToDays(string date) {
+    int month = getMonth(date);
+    int day = getDay(date);
+    int year = getYear(date);
+    int totalDays = daysBeforeMonth(month) + day + 365 * year;
+    return totalDays;
+}
+</program>
+
+    <insight><p>Well designed helper functions should make implementing functions that use them easy. If you find yourself struggling to implement a function, it is maybe a sign you need to add more helper functions or redesign the ones you have.</p></insight>
+
+  </subsection>
+
+</section>
