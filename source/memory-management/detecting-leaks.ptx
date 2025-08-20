@@ -20,7 +20,7 @@
     something like:</p>
 
   <console>
-    <input>g++ -fsanitize=address -g -o program.exe detect-leaks.cpp</input>
+    <input>g++ -fsanitize=address -g detect-leaks.cpp -o program.exe</input>
   </console>
 
   <p>Try running the program. You will see the program output and then a memory report from
@@ -54,7 +54,7 @@ Direct leak of 32 byte(s) in 1 object(s) allocated from:
       <li>The first line indicates the type and size of the leak (e.g., <c>"Direct leak of 32 byte(s) in 1 object(s) allocated from:"</c>).</li>
       <li>
         <p>Each subsequent line shows a stack trace of the allocation, with the most recent call at
-    the top. The format of each line is: <c>#<i>n</i> <i>ADDRESS</i> in <i>FUNCTION</i> (<i>FILE</i>:<i>LINE</i>)</c>.</p>
+    the top. The format of each line is: <c>#n ADDRESS in FUNCTION (FILE:LINE)</c>.</p>
         <ol>
           <li>The <c>ADDRESS</c> is the memory address where the allocation occurred.</li>
           <li>The <c>FUNCTION</c>, <c>FILE</c>, and <c>LINE</c> number indicate where in the code the allocation was
@@ -157,23 +157,23 @@ freed by thread T0 here:
       <p>Read the AddressSanitizer output below and answer these questions:</p>
       <ul>
         <li>
-          <p>How many different leaks were detected?<fillin mode="number"
+          <p>How many different leaks were detected? <fillin mode="number"
                     answer="2"/></p>
         </li>
         <li>
-          <p>What are the total number of bytes leaked?<fillin mode="number"
+          <p>What are the total number of bytes leaked? <fillin mode="number"
                     answer="160"/></p>
         </li>
         <li>
-          <p>How many bytes were leaked in the first leak?<fillin mode="number"
+          <p>How many bytes were leaked in the first leak? <fillin mode="number"
                     answer="128"/></p>
         </li>
         <li>
-          <p>What is the filename where the leaks occurred?<fillin mode="text"
+          <p>What is the filename where the leaks occurred? <fillin mode="text"
                     answer="myfile.cpp"/></p>
         </li>
         <li>
-          <p>What function was responsible for the first leak (answer without parentheses)?<fillin mode="text"
+          <p>What function was responsible for the first leak? (Answer with just the function name - no parentheses after)<fillin mode="text"
                     answer="bar"/></p>
         </li>
         <li>
@@ -235,8 +235,8 @@ SUMMARY: AddressSanitizer: 160 byte(s) leaked in 2 allocation(s).
           <numcmp use-answer="yes"/>
         </test>
         <test>
-          <numcmp>16</numcmp>
-          <feedback>That is the line in the <pf>bar()</pf> function where the memory was allocated.</feedback>
+          <numcmp value="16"/>
+          <feedback><p>That is the line in the <pf>bar()</pf> function where the memory was allocated.</p></feedback>
         </test>
       </evaluate>
     </evaluation>

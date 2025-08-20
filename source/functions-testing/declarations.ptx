@@ -1,0 +1,153 @@
+<section xml:id="functions-testing_declarations"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Declaring vs Defining Functions</title>
+
+  <p>Up until now, we have been <term>declaring</term> functions at the same time we have <term>defined</term> them. But it is possible to declare a function without defining it right away.</p>
+
+
+  <p>A <term>function declaration</term> is a statement that tells the compiler about a function's
+    name, return type, and parameters. To write a function declaration with a definition, we write its prototype, but instead of providing
+    the body, we just place a <pf>;</pf> at the end:<idx>
+      <h>function</h>
+      <h>declaration</h>
+    </idx></p>
+
+  <program>
+<xi:include href="../../programs/functions-testing/declarations-1.cpp" parse="text"/>
+  </program>
+
+  <p>When we <term>declare</term> a function, we are telling the compiler that the function exists and that it
+    will be <term>defined</term> later. The declaration lets the compiler know <q>there will be a function called
+    doubleValue that takes in an int and returns an int</q>. With that information, the compiler can look at a call to the function like `int x = doubleValue(3);` and decide if it
+    makes sense or not. Later on, when the declaration is provided, the compiler can link that call to the code in the function.</p>
+
+  <p>A <term>function definition</term> is the actual implementation of the function. It is what we
+    have seen up to now - the prototype plus the body of the function. (A definition always declares the function as well.)<idx>
+      <h>function</h>
+      <h>definition</h>
+    </idx></p>
+
+  <program>
+<xi:include href="../../programs/functions-testing/declarations-2.cpp" parse="text"/>
+  </program>
+
+  <p>This distinction allows us to write code where a function call comes before the definition of that function. This flexibility is useful when we have multiple
+    functions that call each other, or when we want to separate the implementation of a function
+    from its use. Say I want to put the <pf>main</pf> function in my program at the top of my code file. I
+    can do so by first declaring my functions, then writing main, then defining my other functions.</p>
+
+  <program label="functions-testing_declarations-program-1"
+           interactive="activecode">
+<xi:include href="../../programs/functions-testing/declarations-3.cpp" parse="text"/>
+  </program>
+
+  <p>Try running the program above. Then comment out the declaration of `doubleValue` on line 5. That should produce a compile error on line 11. When the compiler gets to that line, it sees a call to `doubleValue`, but does not yet know about that function.</p>
+
+  <p>Think of a declaration as you making a promise to the compiler <q>this function will exist</q>. When you define the function, you are fulfilling that promise. Here is a brief summary of when definitions and declarations must
+    occur: <ul>
+      <li>A function declaration must occur before the function is used. Although you would not want
+    to on purpose, it is OK to declare a function multiple times. (You are just making the same
+    promise multiple times.)</li>
+      <li>A function definition must occur once in the program, but can appear at any point after
+    the declaration. If you try to define a function multiple times, it will be a compiler error.</li>
+      <li>Defining a function declares it. So you only need to write a separate declaration if you
+    want to use the function before defining it.</li>
+    </ul>
+  </p>
+
+
+  <exercise label="functions-testing_declarations-ex-1"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Put these blocks of code into a valid order where the definition of main comes before any
+        other function definition. There are many possible correct orderings.</p>
+    </statement>
+    <blocks>
+      <block name="foo_declare">
+        <cline>void foo();</cline>
+      </block>
+      <block name="foo"
+             depends="foo_declare">
+        <cline>void foo() {</cline>
+        <cline> cout &lt;&lt; "Hello!" &lt;&lt; endl;</cline>
+        <cline> bar();</cline>
+        <cline>}</cline>
+      </block>
+      <block name="bar_declare">
+        <cline>void bar();</cline>
+      </block>
+      <block name="bar"
+             depends="bar_declare">
+        <cline>void bar() {</cline>
+        <cline> cout &lt;&lt; "Bye!" &lt;&lt; endl;</cline>
+        <cline>}</cline>
+      </block>
+      <block depends="foo_declare">
+        <cline>int main() {</cline>
+        <cline> foo();</cline>
+        <cline>} </cline>
+      </block>
+    </blocks>
+  </exercise>
+  <exercise label="functions-testing_declarations-ex-2">
+    <statement>
+      <p>If we wanted to create a function called <pf>isPrime</pf>, which takes an <pf>int input</pf> as a
+        parameter and returns either true or false, which of the following would be the correct function declaration?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>
+            <pf>boolean isPrime(int input);</pf>
+          </p>
+        </statement>
+        <feedback>
+          In C++, use the <pf>bool</pf> keyword for a boolean.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            <pf>bool isPrime (input);</pf>
+          </p>
+        </statement>
+        <feedback>
+          In a function header, the type of each variable must be specified in the parameter
+            list.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            <pf>int isPrime (input);</pf>
+          </p>
+        </statement>
+        <feedback>
+          The function should return true or false, not an integer.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>
+            <pf>bool isPrime(int input);</pf>
+          </p>
+        </statement>
+        <feedback>
+          This is the correct function header for the function.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            <pf>int isPrime(bool input);</pf>
+          </p>
+        </statement>
+        <feedback>
+          Take a closer look at what the return type is.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>
