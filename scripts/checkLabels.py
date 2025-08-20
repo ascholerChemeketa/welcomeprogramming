@@ -29,6 +29,7 @@ def verifyExerciseLabels(write=False):
     for root, dirs, files in os.walk(sys.argv[1]):
         for filename in files:
             file = os.path.join(root, filename)
+            print(f"Processing file: {file}")
             if ".ptx" not in file:
                 continue
             outlines = []
@@ -48,7 +49,7 @@ def verifyExerciseLabels(write=False):
                             curSection = xmlid.group(1)
                             curCounter = 1
 
-                    for ex_type in ['exercise']:
+                    for ex_type in ['exercise', 'activity']:
                         has_ex = re.search(f'<{ex_type}[ >]', line)
                         if has_ex:
                             element_content, end_line = extractElement(lines, i)
@@ -61,8 +62,15 @@ def verifyExerciseLabels(write=False):
                                 print(" label is {}".format(cur_label.group(1) if cur_label else "None"))
                                 print(" new label is {}".format(new_label))
                             if cur_label:
-                                element_content = re.sub(r'label=\"[^"]+\"', f'label="{new_label}"', element_content)
+                                if cur_label.group(1) == new_label:
+                                    # print(" Label is already correct: {}".format(cur_label.group(1)))
+                                    pass
+                                else:
+                                    print(" ==label is {}".format(cur_label.group(1) if cur_label else "None"))
+                                    print(" new label would be {}".format(new_label))
+                                    # element_content = re.sub(r'label=\"[^"]+\"', f'label="{new_label}"', element_content)
                             else:
+                                print(" new label is {}".format(new_label))
                                 element_content = element_content.replace(f'<{ex_type}', f'<{ex_type} label="{new_label}"')
                             i = end_line - 1
                             line = element_content
@@ -133,14 +141,19 @@ def verifyProgramIds(write=False):
                                 #print(" Has both {} {} {} {}".format(prog_type, file, curSection, curCounter))
                             else:
                                 if cur_id:
+                                    pass
                                     # nuke all ids wihtout labels
-                                    cur_id = cur_id.group(1)
-                                    element_content = element_content.replace(f' xml:id="{cur_id}"', '')
-                                if cur_label:
-                                    cur_label = cur_label.group(1)
-                                    element_content = element_content.replace(f' label="{cur_label}"', '')
-                                if is_interactive and not in_exercise:
+                                    # cur_id = cur_id.group(1)
+                                    # element_content = element_content.replace(f' xml:id="{cur_id}"', '')
+                                elif cur_label:
+                                    pass
+                                    # cur_label = cur_label.group(1)
+                                    # print(f"  Removing label from {prog_type} in {file}: {cur_label}")
+                                    # element_content = element_content.replace(f' label="{cur_label}"', '')
+                                elif is_interactive and not in_exercise:
                                     new_label = f"{curSection}-program-{curCounter}"
+                                    print(f"  Adding label to {prog_type} in {file}: {new_label}")
+                                    # print(f"  Old label: {cur_label.group(1)}")
                                     element_content = element_content.replace(f'<program', f'<program label="{new_label}"')
                                     curCounter += 1
                             
@@ -156,8 +169,8 @@ def verifyProgramIds(write=False):
     return result
 
 
-verifyExerciseLabels(write=True)
-verifyProgramIds(write=False)
-
+# verifyExerciseLabels(write=False)
 # verifyExerciseLabels(write=True)
-# verifyProgramIds(write=True)
+
+verifyProgramIds(write=False)
+verifyProgramIds(write=True)

@@ -115,7 +115,7 @@
         </tests>
     </program>
 
-    <exercise>
+    <exercise label="program-design_case-program-implementation-ex-1">
       <statement>Which test case fails?</statement>
       <choices randomize="yes">
         <choice correct="yes"><statement>The test for the invalid month 1a5</statement><feedback>Correct. It turns out that stoi will turn <pf>1a5</pf> into <pf>1</pf>, ignore the <pf>a5</pf>, and not throw an exception. To see what the function actually returns, we can add some print statements or use a debugger.</feedback></choice>
@@ -139,7 +139,7 @@
       }
     </program>
 
-    <activity xml:id="program-design_case-study-implementation-getMonth-fix-listing">
+    <activity label="program-design_case-program-implementation-act-2" xml:id="program-design_case-study-implementation-getMonth-fix-listing">
       <statement>
       <p>Try adding the loop shown above (or similar code that checks if all the characters are digits) to this copy of <pf>DateFunctions.cxx</pf>. (Right after the <pf>monthPart</pf> variable is assigned is a logical place). The activecode is set to compile, but not link. It will tell you if you have a compile error, but not if your implementation is correct. (We will check that below.)</p>
       </statement>

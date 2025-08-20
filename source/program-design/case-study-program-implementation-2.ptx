@@ -72,7 +72,7 @@ TEST_CASE("daysBeforeMonth") {
 }
     </program>
 
-    <exercise>
+    <exercise label="program-design_case-program-implementation-2-ex-1">
       <statement>
         <p>What values should be used to test <pf>daysBeforeMonth</pf> for inputs of <pf>5</pf> and <pf>11</pf>?</p>
         <p>5: <fillin answer="120" mode="number"/></p>
@@ -130,7 +130,7 @@ int daysBeforeMonth(int month) {
     }
     </program>
 
-    <exercise>
+    <exercise label="program-design_case-program-implementation-2-ex-2">
       <statement>Complete the compiler recipe to build our module file with the test file. Although the compiler provides flexibility in parameter ordering, use the order we have been using: <pf>COMPILER_NAME FLAGS LIST_OF_FILES -o OUTPUT_NAME</pf>. You will not need all the blocks.</statement>
       <blocks layout="horizontal" randomize="yes">
           <block><c>g++</c></block>
@@ -150,7 +150,7 @@ int daysBeforeMonth(int month) {
 
     <p>Again, we should start by writing tests for the <pf>dateToDays</pf> function. This will involve doing some math by hand to figure out how many days have elapsed to get us to a date like <pf>3/14/2025</pf>. Given our <q>no leap years</q> assumption, and our existing <pf>daysBeforeMonth()</pf> function,we can calculate the total number of days for <pf>3/14/2025</pf> as <pf>daysBeforeMonth(3) + 14 + 365 * 2025</pf>.</p>
 
-    <exercise>
+    <exercise label="program-design_case-program-implementation-2-ex-3">
       <statement>
         <p>Complete the <pf>TEST_CASE</pf> for <pf>dateToDays</pf>.</p>
         <p><pf>CHECK(dateToDays("3/14/2025") == </pf>  <fillin answer="739198" mode="number"/> <pf>);</pf></p>
