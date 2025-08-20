@@ -1,5 +1,5 @@
 #include <iostream>
-#include "SimpleRandom.h"
+import SimpleRandom;
 
 using namespace std;
 

@@ -14,13 +14,13 @@ do {
 
   <p>The <pf>do...while</pf> puts the test at the end of the loop. This means that the body of the loop is guaranteed to execute at least one time. Say you want to roll a pair of dice until you roll a pair. The know we want at least one iteration. So we might write it using do-while like this:</p>
 
-  <program label="loops_do-while-program-1" interactive="activecode" add-files="SimpleRandom-h">
+  <program label="loops_do-while-program-1" interactive="activecode" compile-also="SimpleRandom-cxx" extra-compiler-args="-std=c++20 -fmodules-ts">
 <xi:include href="../../programs/loops/do-while-1.cpp" parse="text"/>
 </program>
 
   <p>Unfortunately, to test <pf>die1</pf> and <pf>die2</pf> in the condition, we need to declare them before the body of the loop. But you might still prefer that code to the <pf>while</pf> loop implementation. It starts the two dice with made up values that force the loop to run once:</p>
 
-  <program label="loops_do-while-program-2" interactive="activecode" add-files="SimpleRandom-h">
+  <program label="loops_do-while-program-2" interactive="activecode" compile-also="SimpleRandom-cxx" extra-compiler-args="-std=c++20 -fmodules-ts">
 <xi:include href="../../programs/loops/do-while-2.cpp" parse="text"/>
 </program>
 

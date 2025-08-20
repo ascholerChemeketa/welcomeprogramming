@@ -22,7 +22,7 @@
 
   <program label="loops_coin-flips-program-1"
            interactive="activecode"
-           add-files="SimpleRandom-h">
+           compile-also="SimpleRandom-cxx" extra-compiler-args="-std=c++20 -fmodules-ts">
 <xi:include href="../../programs/loops/flips-1.cpp" parse="text"/>
 </program>
 
@@ -40,7 +40,7 @@
     </statement>
     <program
              interactive="activecode"
-             add-files="SimpleRandom-h">
+             compile-also="SimpleRandom-cxx" extra-compiler-args="-std=c++20 -fmodules-ts">
 <xi:include href="../../programs/loops/flips-2.cpp" parse="text"/>
 </program>
   </exercise>
@@ -71,7 +71,7 @@ if (headStreak == 4) {
     <blocks>
       <block>
         <cline>#include &lt;iostream></cline>
-        <cline>#include "SimpleRandom.h"</cline>
+        <cline>import SimpleRandom</cline>
         <cline>using namespace std;</cline>
         <cline></cline>
         <cline>int main() {</cline>
@@ -126,7 +126,7 @@ if (headStreak == 4) {
         </choice>
       </block>
     </blocks>
-    <program add-files="SimpleRandom-h"></program>
+    <program compile-also="SimpleRandom-cxx" extra-compiler-args="-std=c++20 -fmodules-ts"></program>
   </exercise>
 
 </section>
