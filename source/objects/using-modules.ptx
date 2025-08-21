@@ -12,6 +12,8 @@ export class Point {
   ...
   </program>
 
+  <note><p>We do not have to export the member functions of the class. Exporting the class makes them available.</p></note>
+
   <p>We may still wish to place the function definitions outside of the class. That way, the class definition has the minimal amount of code necessary and sticks to just what an <q>outside user</q> of the code should care about. The implementation details are there, but out of the way. But all of this code can go into a single file like <pf>Point.cxx</pf>:</p>
 
   <program label="objects_using-modules-program-cxx" xml:id="objects_using-modules-program-cxx" interactive="activecode" filename="Point.cxx" extra-compiler-args="-c">

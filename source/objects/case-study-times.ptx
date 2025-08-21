@@ -3,36 +3,45 @@
   <title>Case Study: Times</title>
 
   <introduction>
-    <p>We realize that a calendar program we are helping build is going to is going to have to store and work with times of the day. We have been put in charge of writing the Time class to manage those.</p>
+    <p>We realize that a calendar program we are helping build is going to is going to have to store
+      and work with times of the day. We have been put in charge of writing the Time class to manage
+      those.</p>
 
-    <p>Some tasks we expect to need them to do:
-      <ul>
+    <p>Some tasks we expect to need them to do: <ul>
         <li>Store a time of day.</li>
         <li>Present it in 12 hour (AM/PM) format or 24 hour format.</li>
         <li>Figure out a new time by adding a number of minutes to a given time.</li>
-      </ul>
-      We do not need to worry about seconds.
-    </p>
+      </ul> We
+      do not need to worry about seconds. </p>
   </introduction>
 
   <subsection>
     <title>Making a Plan</title>
-    <p>We need to start by figuring out how to represent the data. There are many ways we could represent a time:
-        <ul>
-          <li>As the number of minutes since midnight. We could calculate the hour as needed (96 minutes is just another way of saying 1 hour and 36 minutes).</li>
-          <li>As an hours and minutes in 24 hour time.</li>
-          <li>As an hours and minutes in 12 hour time plus whether it is AM or PM.</li>
-        </ul>
+    <p>We need to start by figuring out how to represent the data. There are many ways we could
+      represent a time: <ul>
+        <li>As the number of minutes since midnight. We could calculate the hour as needed (96
+      minutes is just another way of saying 1 hour and 36 minutes).</li>
+        <li>As an hours and minutes in 24 hour time.</li>
+        <li>As an hours and minutes in 12 hour time plus whether it is AM or PM.</li>
+      </ul>
     </p>
-    <p>Believe it or not, the first option is a common approach for representing time in computers. But we will choose the second option. It will make thinking in terms of hours and minutes, which we will need to do for many tasks, more straightforward.</p>
+    <p>Believe it or not, the first approach is a common approach for representing time in
+      computers. But we will use the second option, which will make it easier to work in terms of
+      hours and minutes.</p>
   </subsection>
 
   <subsection>
     <title>The Basics</title>
 
-    <p>As our first step, we need to define the variables, a constructor, and some getters. That way we have something to test:</p>
+    <p>As our first step, we need to define the variables, a constructor, and some getters. That way
+      we have something to test:</p>
 
-      <program label="objects_case-study-times-program-1" line-numbers="yes"
+    <exercise label="objects_case-study-times-ex-1">
+      <statement>
+        <p>Complete the constructor for the Time class.</p>
+      </statement>
+      <program label="objects_case-study-times-program-1"
+               line-numbers="yes"
                interactive="activecode">
 <code>
 <xi:include href="../../programs/objects/case-study-time-1.cpp" parse="text"/>
@@ -47,24 +56,34 @@ TEST_CASE("Time constructor") {
     CHECK(t.getHour() == 1);
     CHECK(t.getMinute() == 2);
     Time t2(14, 20);
-    CHECK(t.getHour() == 14);
-    CHECK(t.getMinute() == 20);
+    CHECK(t2.getHour() == 14);
+    CHECK(t2.getMinute() == 20);
 }
 ]]>
       </tests>
       </program>
+    </exercise>
 
   </subsection>
 
   <subsection>
     <title>Handling Invalid Times</title>
 
-    <p>This seems to work well for correct times, but what about incorrect ones? What should we do if someone asks to make <pf>Time t1(11, 95)</pf>? Should we turn that into 12:35? Or should we treat that as an error and throw an exception? This is a design choice. Assuming that we should try to fix the issue can make the class a little more forgiving to use. Maybe it will be helpful for other code to assume that <pf>Time</pf> classes will handle issues like that. But it could also lead to bugs. What if other code didn't realize it was asking for the minutes value to be something that does not really make sense? If our code attempts to <q>fix</q> the issue, that could hide the fact there is a bug elsewhere.</p>
+    <p>What should we do if someone asks to make <pf>Time t1(11, 95)</pf>? Should we turn that into 12:35? Or
+      should we treat that as an error and throw an exception? This is a design choice. Assuming
+      that we should try to fix the issue can make the class a little more flexible<mdash/>it might
+      be nice to be able to specify <pr>Time(0, 190)</pr> and get 3:10. But it could also lead to
+      confusion. A value of 190 for minutes could be the result of a bug elsewhere and <q>fixing</q>
+      it automatically in <pf>Time,</pf> could hide the existence of that bug.</p>
 
-    <p>So let's do some basic sanity checking. We might start by writing something like this in our constructor:</p>
+    <p>Instead of trying to fix the issue, we could instead use an exception to indicate there was a
+      problem and require the caller to deal with the issue. This stricter approach can help catch
+      errors earlier.</p>
+
+    <p>To do so, we might might start our constructor with some checks:</p>
 
     <program>
-Time(int hours, int minutes) {
+Time::Time(int hours, int minutes) {
     if(hours &lt; 0 || hours > 23) {
         throw logic_error("Invalid value for hours");
     }
@@ -76,27 +95,43 @@ Time(int hours, int minutes) {
 }
     </program>
 
-    <p>This would work just fine. But we likely will need similar code elsewhere. Maybe we should build a function that checks if a given time is valid. We could then use that function to help check the time we are trying to construct. Because this function is only intended for internal use, we might want to mark it private.</p>
+    <p>This would work just fine. But we will likely need similar code elsewhere. Maybe we should
+      build a function that checks if a given time is valid. We could then use that function to help
+      check the time we are trying to construct.</p>
 
     <program>
-      void Time::validate() {
-          if(m_hours &lt; 0 || m_hours > 23) {
-              throw logic_error("Invalid hours value in time");
-          }
-          if(m_hours &lt; 0 || m_hours > 59) {
-              throw logic_error("Invalid minutes value in time");
-          }
-      }
+    void Time::validate(int hours, int minutes) {
+        if(hours &lt; 0 || hours > 23) {
+            throw logic_error("Invalid hours value in time");
+        }
+        if(minutes &lt; 0 || minutes > 59) {
+            throw logic_error("Invalid minutes value in time");
+        }
+    }
+    </program>
+
+    <p>Because this function is only intended for internal use, we might want to place it in the
+      private section:</p>
+
+    <program>
+      ... public code ...
+      private:
+          void validate(int hours, int minutes);
+
+          int m_hours = 0;
+          int m_minutes = 0;
+    }; // end of class Time
     </program>
 
     <p>We could then use that function in our constructor:</p>
 
     <program>
-      Time(int hours, int minutes) {
+      Time::Time(int hours, int minutes) {
+          // check the values, throw an exception if they are invalid
+          validate(hours, minutes);
+          // otherwise safe to use them
           m_hours = hours;
           m_minutes = minutes;
-          // check the values, throw an exception if they are invalid
-          validate();
       }
     </program>
   </subsection>
@@ -104,7 +139,8 @@ Time(int hours, int minutes) {
   <subsection>
     <title>Displaying Times</title>
 
-    <p>Next let's tackle getting string representations of the time. We want to be able to generate either a 12 hour or 24 hour format. Before we write the functions, we will set up some tests:</p>
+    <p>Next let's tackle getting string representations of the time. We want to be able to generate
+      either a 12 hour or 24 hour format. Before we write the functions, we will set up some tests:</p>
 
     <program>
       TEST_CASE("Time toString12Hour") {
@@ -125,68 +161,149 @@ Time(int hours, int minutes) {
           CHECK(t2.toString12Hour() == "2:20 PM");
       }
       </program>
-      <program>
-        string toString24Hour() {
+
+    <p>Then we are ready to implement the functions. Here is <pf>toString24Hour</pf>:</p>
+
+    <program>
+        string Time::toString24Hour() {
             // minutes should always be 2 digits, use 0 to pad
             string tString = format("{}:{:0>2}", m_hours, m_minutes);
             return tString;
         }
-        string toString12Hour() {
-            // decide what hour to display
-            int displayHour = m_hours % 12;
-            if (displayHour == 0) {
-              displayHour = 12;
-            }
-            string tString = format("{}:{:0>2}", displayHour, m_minutes);
-            string ampm = (m_hours &lt; 12) ? "AM" : "PM";
-            return tString + " " + ampm;
-        }
       </program>
+
+      <p>Now we can implement the other function:</p>
+
+      <exercise label="objects_case_study-times-ex-2"
+              numbered="yes"
+              adaptive="yes"
+              indentation="hide">
+      <statement>
+        <p>Implement the <pf>toString12Hour</pf> function. It should calculate the 12-hour value to show along with the right am/pm designation.</p>
+      </statement>
+  <blocks>
+    <block order="5" name="a" depends="">
+        <cline><![CDATA[string Time::toString12Hour() {]]></cline>
+    </block>
+    <block order="7" name="b" depends="a">
+        <cline><![CDATA[    string ampm = ]]></cline>
+        <cline><![CDATA[        (m_hours &lt; 12) ? "AM" : "PM";]]></cline>
+    </block>
+    <block order="1" name="c" depends="a">
+        <cline><![CDATA[    // decide what hour to display]]></cline>
+        <cline><![CDATA[    int displayHour = m_hours % 12;]]></cline>
+    </block>
+    <block order="3" name="d" depends="c">
+        <cline><![CDATA[    if (displayHour == 0) {]]></cline>
+    </block>
+    <block order="8" name="e" depends="d">
+        <cline><![CDATA[      displayHour = 12;]]></cline>
+    </block>
+    <block order="6" name="f" depends="e">
+        <cline><![CDATA[    }]]></cline>
+    </block>
+    <block order="2" name="g" depends="a e">
+        <cline><![CDATA[    string tString = format(]]></cline>
+        <cline><![CDATA[               "{}:{:0>2} {}",]]></cline>
+        <cline><![CDATA[               displayHour, m_minutes, ampm]]></cline>
+        <cline><![CDATA[             );]]></cline>
+    </block>
+    <block order="4" name="h" depends="g">
+        <cline><![CDATA[    return tString;]]></cline>
+        <cline><![CDATA[}]]></cline>
+    </block>
+  </blocks>
+    </exercise>
   </subsection>
 
   <subsection>
     <title>Modifiers</title>
 
-    <p>Next we need to decide how and if to support changing the time. One approach would be to make Time objects <term>immutable</term>, or unchangeable. If we do not provide setters, or any other methods to change the member variables of a Time, it will be impossible for other code to modify a time. Instead, that code will have to make a new Time anytime it wants to work with a new value. This design choice can make it easier for other code to share Time objects using references without having to worry about one part of the code changing a Time that another part is relying on to not change.<idx><h>immutable</h></idx></p>
+    <p>Next we need to decide how and if to support changing the time. One approach would be to make
+      Time objects <term>immutable</term>, or unchangeable. If we do not provide setters, or any
+      other methods to change the member variables of a Time, it will be impossible for other code
+      to modify a Time. Instead, anytime we want to change a time, we would need to make a a new
+      Time object. Making Time objects immutable can make it safer to work with <pf>Time</pf>s. If they
+      can't be changed, we can pass around <pf>Time</pf> objects by reference without having to worry
+      about them being changed.</p>
 
-    <p>But we decide we will support modification of Time objects. Then the question becomes how to do so. Do we provide setters for both hours and minutes? Do we provide a function that sets both to new values? If we anticipate other code will need to change times from something like 8:00 to 7:30 on a regular basis, it would be nice to provide a single function to do so. So let's provide both:</p>
+    <p>But we decide we will support modification of Time objects. Then the question becomes how to
+      do so. Do we provide setters for both hours and minutes? Do we provide a function that sets
+      both to new values? We could just provide one or the other option, but it will be more
+      convenient for users of the class if they can just chose to update either the hour or the minute, or both, with a single call.</p>
 
-      <program line-numbers="yes">
-      void setHour(int hour) {
+      <p>
+      Let's provide functions to change both members as well as both at the same time. They can all use our existing <pf>validate</pf> function to make sure that the provided values make sense. When we are only given one value, we can pass <pf>validate</pf> a dummy value that we know is valid for the other one.
+      </p>
+
+    <program line-numbers="yes">
+      void Time::setHour(int hour) {
+          validate(hour, 1);  // valid dummy value for minutes
           m_hours = hour;
-          validate();
       }
 
-      void setMinute(int minute) {
+      void Time::setMinute(int minute) {
+          validate(1, minute); // valid dummy value for hours
           m_minutes = minute;
-          validate();
       }
-      
-      void setTime(int hour, int minute) {
+
+      void Time::setTime(int hour, int minute) {
+          validate(hour, minute);
           m_hours = hour;
           m_minutes = minute;
-          validate();
       }
       </program>
   </subsection>
   <subsection>
     <title>Adding Minutes</title>
 
-    <p>Finally, we need to add a function that adds minutes to a time so that other code can easily calculate the </p>
+    <p>If <pf>main</pf> wants to add 30 minutes to a <pf>Time</pf>, it should not have to <pf>getMinute</pf>, do
+      math, and then do <pf>setTime</pf> (and possibly <pf>setHour</pf>) to do so. So let's add a function to <pf>Time</pf>
+      that does that work.</p>
 
-    <program>
-      Time addMinutes(int minutes) {
-          m_minutes += minutes;
-          // if minutes is greater than 59, we need to adjust hours
-          if (m_minutes > 59) {
-              m_hours += m_minutes / 60;
-              m_minutes = m_minutes % 60;
-          }
-          // if hours is greater than 23, we need to adjust it
-          if (m_hours > 23) {
-              m_hours = m_hours % 24;
-          }
-      }
-    </program>
+    <exercise label="FIXME"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  <statement>
+  <p>Build the <pf>addMinutes</pf> function.</p>
+  </statement>
+  <blocks>
+    <block order="7">
+        <cline><![CDATA[void Time::addMinutes(int minutes) {]]></cline>
+    </block>
+    <block order="3">
+        <cline><![CDATA[    m_minutes += minutes;]]></cline>
+    </block>
+    <block order="5">
+        <cline><![CDATA[    // if minutes is now greater than 59,]]></cline>
+        <cline><![CDATA[    // wrap and update the number of hours]]></cline>
+        <cline><![CDATA[    if (m_minutes > 59) {]]></cline>
+    </block>
+    <block order="2">
+        <cline><![CDATA[        m_hours += m_minutes / 60;]]></cline>
+        <cline><![CDATA[        m_minutes = m_minutes % 60;]]></cline>
+    </block>
+    <block order="4">
+        <cline><![CDATA[    }]]></cline>
+    </block>
+    <block order="6">
+        <cline><![CDATA[    // if hours is now greater than 23]]></cline>
+        <cline><![CDATA[    // fix it]]></cline>
+        <cline><![CDATA[    if (m_hours > 23) {]]></cline>
+        <cline><![CDATA[        m_hours = m_hours % 24;]]></cline>
+        <cline><![CDATA[    }]]></cline>
+    </block>
+    <block order="1">
+        <cline><![CDATA[}]]></cline>
+    </block>
+  </blocks>
+</exercise>
+  </subsection>
+  <subsection>
+    <title>Wrapping up</title>
+
+    <p>We certainly could add more functionality to the Time class, such as support for different time zones or the ability to compare two times. And we need to add comments to our class. However, we will stop here. You can find the complete code for the Time class as a module and as a .h/.cpp file pair in the appendix for this chapter.</p>
+
   </subsection>
 </section>

@@ -1,0 +1,29 @@
+<section xml:id="objects_case-study-time-final-traditional"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Appendix - Time class as .h/.cpp</title>
+
+  <p>Below is what our final code might look like as a .h/.cpp file pair.</p>
+  
+  <p>First is our header file. Note that we need to include <pf>string</pf> because that is the return type of some functions. As is best practice, use <pf>std::string</pf> instead of <pf>using namespace std;</pf> within the header. We do not need to include <pf>stdexcept</pf> here as there is no mention of exceptions in the interface.</p>
+
+  <listing>
+    <title><pf>Time.h</pf></title>
+    <program line-numbers="yes">
+    <code>
+<xi:include href="../../programs/objects/case-study-time-final.h" parse="text"/>
+    </code>
+  </program>
+  </listing>
+  
+  <p>And then our .cpp file. It needs to include the .h file, which means it includes <pf>string</pf> indirectly. It also needs to include <pf>stdexcept</pf>.</p>
+
+  <listing>
+    <title><pf>Time.cpp</pf></title>
+    <program line-numbers="yes">
+    <code>
+<xi:include href="../../programs/objects/case-study-time-final.cpp" parse="text"/>
+    </code>
+  </program>
+  </listing>
+
+</section>
