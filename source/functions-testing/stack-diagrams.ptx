@@ -38,7 +38,7 @@
         grow down from <pf>main</pf>. </p>
     </note>
 
-    <p> As with memory diagrams, stack diagrams show variables and functions at a particular point
+    <p> As with other memory diagrams, stack diagrams show variables and functions at a particular point
       in time. If you go back and run the program again in Codelens, you will see the stack diagram
       change as the program runs. </p>
   </subsection>
@@ -105,6 +105,34 @@
         works on the rest of the code. Don't assume that either you knows much about what they other
         is doing!</p>
     </insight>
+
+    <exercise label="functions-testing_stack-diagrams-ex-1">
+      <statement>
+        <p>Local variables are visible in:</p>
+      </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>
+            <p>The function where they are defined</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>All functions in the program</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>The function where they are defined and functions it calls</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>The function where they are defined and the functions that call that function</p>
+          </statement>
+        </choice>
+      </choices>
+    </exercise>
   </subsection>
 
   <subsection xml:id="functions-testing_stack-diagrams_global-variables">
@@ -132,7 +160,7 @@
     </warning>
   </subsection>
   
-  <exercise label="functions-testing_stack-diagrams-ex-1">
+  <exercise label="functions-testing_stack-diagrams-ex-2">
     <statement>
       <p>Why are we allowed to use the variable <pf>x</pf> in both <pf>main</pf> and in the function
         definition of <pf>superSecretFunction</pf>?</p>
@@ -190,8 +218,5 @@ int main() {
       </choice>
     </choices>
   </exercise>
-
-
-  <!-- TODO stack frame exercise?? -->
 
 </section>

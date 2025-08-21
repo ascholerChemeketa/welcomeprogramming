@@ -90,15 +90,18 @@
         when comparing values. If you make this mistake, the compiler will emit a warning like the
         one shown below that tells you you are using an assignment operator in a place where a
         true/false value is expected. </p>
+      <pre>
+        asdfasdfasdf
+      </pre>
+      <program language="natural">
+        asdfasdf
+      </program>
       <console>
         <output>test.cpp:7:10: error: suggest parentheses around assignment used as truth value [-Werror=parentheses]
     7 |     if( x = 0 ) {
       |          ~^~~</output>
       </console>
     </warning>
-
-
-    <!-- TODO styling of pre inside warning -->
 
     <p>The braces are optional for branches that have only one statement. So is we only have one
       statement that is going to be executed when the conditional is true we can write it in either
