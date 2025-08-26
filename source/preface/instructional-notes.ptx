@@ -1,0 +1,81 @@
+<section xml:id="preface_instructional-notes"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Instructional Notes</title>
+
+  <subsection>
+    <title>Exercises (and what they lack)</title>
+    <p>
+      The exercises in this book are designed to reinforce the concepts presented in a given section or chapter and, generally, to provide instant feedback. They make use of interactive elements that evaluate the learners responses. Exercises in each section are designed to be completed as part of reading. Exercises at the end of each chapter are meant to review the material and provide additional practice.
+    </p>
+    <p>
+      They are NOT intended to be the only form of practice. Each exercise generally focuses on a very specific skill or concept. There are many essential skills that these exercises do not adequately address, including:
+      <ul>
+        <li>Setting up and using a real development environment</li>
+        <li>Writing readable and maintainable code, following styling conventions</li>
+        <li>Communicating about code with others (e.g. documentation, code reviews, pair programming, etc...)</li>
+        <li>Integrating many different concepts to solve larger problems</li>
+      </ul>
+    </p>
+    <p>
+    If you are an instructor, you will need to provide additional practice opportunities for your students that address these skills.
+    If you are learning on your own, you should periodically stop and try to write programs that integrate multiple concepts.
+    </p>
+  </subsection>
+
+  <subsection>
+    <title>Case Studies</title>
+    <p>One of the challenges of a programming text is balancing the need to efficiently convey the
+      details of new concepts while also providing examples of how larger programs are built. The
+      early part of this book features <term>Case Studies</term> that explore developing a larger
+      program using newly learned concepts.</p>
+    <p>Later in the book, as a meaningful scale project becomes larger and larger, there are fewer
+      such examples. It is hoped that the learner will have already internalized the concept of
+      iterative development and be able to apply the concepts on their own.</p>
+  </subsection>
+
+  <subsection>
+    <title>Chapter Dependencies</title>
+    <p> Not every chapter of this book must be read in order. Some chapters can be skipped or read
+      out of sequence without losing the overall understanding of the material. The diagram below
+      shows the dependencies that exist.</p>
+    <figure>
+      <caption>Chapter Dependencies. Dotted lines indicate weak dependencies (e.g. use in just a few
+        sections).</caption>
+      <image alt="The dependencies between chapters in this book.">
+        <mermaid>
+  flowchart TD
+      Intro["`Chapters 1-5
+      Variables &amp; Functions`"]
+      Files["`Chapter 6
+      Multiple files`"]
+      Ch7-11["`Chapters 7-11
+      Control &amp; Strings`"]
+      Ch12["`Chapters 12
+      Program Design`"]
+      Ch13["`Chapter 13
+      Vectors`"]
+      Ch14["`Chapter 14
+      Multidimensional Vectors`"]
+      Ch15-20["`Chapters 15-20
+      Basic Object Oriented Programming`"]
+      Ch15-20["`Chapters 15-20
+      Basic Object Oriented Programming`"]
+      Ch21["`Chapter 21
+      Recursion`"]
+      Ch22["`Chapter 22
+      Memory Management`"]
+
+      Intro --> Files
+      Intro --> Ch7-11
+      Files --> Ch12
+      Ch7-11 --> Ch12
+      Ch7-11 --> Ch13
+      Ch13 --> Ch14
+      Ch13 -.-> Ch15-20
+      Ch14 -.-> Ch21
+      Ch15-20 --> Ch22
+        </mermaid>
+      </image>
+    </figure>
+  </subsection>
+</section>
