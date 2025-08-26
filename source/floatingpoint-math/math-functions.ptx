@@ -22,7 +22,11 @@
 
   <p>The idea of a function in programming is similar to the idea of a function in math. A mathematical function takes some input and produces an output based on that input. You may have seen this idea illustrated via a <q>function box</q> - a visualization of a function as a black box (one we can't see into) that transforms inputs:</p>
 
-  <!-- TODO add image of function box for square root-->
+  <figure>
+    <caption>A function box transforms inputs into outputs. This function could be <m>f(x) = 2x + 5</m> or <m>f(x) = x + 15</m> or anything else that would produce 25 given input of 10.</caption>
+    <image source="images/function-box.svg" width="40%"
+           alt="10 is passed into the box f(x). 25 comes out."/>
+  </figure>
 
   <p><idx>
       <h>abstration</h>
@@ -77,7 +81,7 @@
     <statement>
       <p>Complete this line of code to passes the variable <pf>b</pf>'s value to <pf>sqrt</pf> and stores the result into <pf>a</pf>:</p>
 
-      <p><pf>double</pf> <fillin mode="string" case="insensitive" answer="a"/><pf> = </pf><fillin mode="string" case="insensitive" answer="sqrt\s*\(\s*b\s*\)"/><pf>;</pf></p>
+      <p><pf>double</pf> <fillin mode="string" case="insensitive" answer="a"/><pf> = </pf><fillin mode="string" case="insensitive" answer="sqrt\\(b\\)"/><pf>;</pf></p>
     </statement>
     <evaluation>
       <evaluate>
@@ -95,8 +99,11 @@
           </test>
       </evaluate>
       <evaluate>
-          <test>
-            <strcmp use-answer="yes"/>
+          <test correct="yes">
+            <strcmp>sqrt\s*\(\s*b\s*\)</strcmp>
+            <feedback>
+              Correct!
+            </feedback>
           </test>
           <test>
             <strcmp>.*</strcmp>

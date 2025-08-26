@@ -92,7 +92,6 @@
     each subsequent word. Variable names are case-sensitive, so <pf>firstName</pf> is not the same as <pf>firstname</pf>
     or <pf>FirstName</pf>.</p>
 
-
   <p>Beyond the syntax requirements, there are also conventions for naming variables. For example,
     it is common to use lowercase letters for variable names, and to capitalize the first letter of
     each subsequent word in a multi-word name. For example, <pf>firstName</pf> is a common way to name a
@@ -107,7 +106,28 @@
     <console><output>error: ‘myname’ was not declared in this scope</output></console>
     <p>Double check that your identifier isn't actually <pf>myName</pf></p>
   </note>
-  
+
+  <p>Another important consideration when naming variables is readability. The compiler does not care if you name your variables are all single letters or are random sequences of characters. But without comments, it is not clear to humans what these variables are for:</p>
+
+  <program>
+<xi:include href="../../programs/variables-operators/declaring-variables-2.cpp" parse="text"/>
+</program>
+
+  <p>Variables should always be given meaningful names that describe what data they are going to be used to store.
+    A name like <pf>t</pf> does not indicate what the variable is for - if it is storing time, a temperature, or something else.
+    Calling it <pf>time</pf> would be better. But if we were working with multiple times, we would want to be more specific and call it
+  something like <pf>startTime</pf> or <pf>totalTime</pf>. Meaningful names like these help programmers understand code they are reading.</p>
+
+  <p>Good code is <term>self documenting</term>. The variable names and structure of the code make it
+      easy to understand the intent of the programmer who wrote the code. Comments can be useful to
+      help explain code, but they should never be thought of as a replacement for well chosen names.</p>
+
+  <p>Because we want to assign meaningful names for variables based on their purpose, you should not reuse variables for different purposes. If you declare a variable <pf>startTime</pf>, don't later use it to store a different value like <q>endTime</q> or <q>numberOfClicks</q>.</p>
+
+  <insight>
+    <p>We write code as much for other people as for the computer. Code that makes sense to the compiler, but is difficult for humans to read is only fulfilling half of its purpose. Quality code is easy to read and understand, making it easier for others (and yourself) to work with it in the future.</p>
+  </insight>
+
   <exercise label="variables-operators_identifiers-ex-1">
     <statement>
       <p>Click on all the legal identifier names. (Hint, one of the identifiers is a keyword you should recognize.)</p>

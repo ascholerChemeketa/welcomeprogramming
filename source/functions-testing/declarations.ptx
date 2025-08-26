@@ -18,7 +18,7 @@
 
   <p>When we <term>declare</term> a function, we are telling the compiler that the function exists and that it
     will be <term>defined</term> later. The declaration lets the compiler know <q>there will be a function called
-    doubleValue that takes in an int and returns an int</q>. With that information, the compiler can look at a call to the function like `int x = doubleValue(3);` and decide if it
+    doubleValue that takes in an int and returns an int</q>. With that information, the compiler can look at a call to the function like <pf>int x = doubleValue(3);</pf> and decide if it
     makes sense or not. Later on, when the declaration is provided, the compiler can link that call to the code in the function.</p>
 
   <p>A <term>function definition</term> is the actual implementation of the function. It is what we
@@ -41,7 +41,7 @@
 <xi:include href="../../programs/functions-testing/declarations-3.cpp" parse="text"/>
   </program>
 
-  <p>Try running the program above. Then comment out the declaration of `doubleValue` on line 5. That should produce a compile error on line 11. When the compiler gets to that line, it sees a call to `doubleValue`, but does not yet know about that function.</p>
+  <p>Try running the program above. Then comment out the declaration of <pf>doubleValue</pf> on line 5. That should produce a compile error on line 11. When the compiler gets to that line, it sees a call to <pf>doubleValue</pf>, but does not yet know about that function.</p>
 
   <p>Think of a declaration as you making a promise to the compiler <q>this function will exist</q>. When you define the function, you are fulfilling that promise. Here is a brief summary of when definitions and declarations must
     occur: <ul>

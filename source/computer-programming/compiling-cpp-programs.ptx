@@ -45,13 +45,14 @@
   <p>Two kinds of programs translate high-level languages into low-level languages: interpreters and
     compilers. An <term>interpreter</term> reads a high-level program and executes it, meaning that
     it does what the program says. It processes the program a little at a time, alternately reading
-    lines and performing computations. Languages like Python and Javascript are often interpreted.<xref ref="fig_interpreter">
-    Figure</xref> shows the structure of an interpreter. </p>
-  <figure xml:id="fig_interpreter">
-    <caption>How interpreted languages are executed.</caption>
-    <image width="73%"
-           source="images/interpreter.svg"/>
+    lines and performing computations. Languages like Python and Javascript are often interpreted.</p>
+
+  <figure>
+    <caption>An interpreter executes a program by reading and immediately performing its instructions one by one.</caption>
+    <image source="images/interpretation.svg" width="50%"
+           alt="Interpretation produces program output as code is interpreted."/>
   </figure>
+
   <p>In contrast, a <term>compiler</term> reads the entire program and translates it completely
     before the program starts running. The high-level program is called the <term>source
       code</term>. The translated program is called the <term>object
@@ -74,18 +75,11 @@
     </idx>
   </p>
 
-  <p>The programmer writes source code in a file. For C++ these typically have the extension <pf>.cpp</pf>
-    - like <em>hello.cpp</em>. Then they use a C++ compiler like <pf>g++</pf> to compile it. If there are
-    no errors, the compiler saves the object code into a file with a name specified by the developer
-    - here we will call it <pf>hello.exe</pf>. When the programmer executes the program, its output is
-    displayed on the screen. </p>
-
-  <figure xml:id="fig_compiler">
-    <caption>The process of compiling and running a C++ program.</caption>
-    <image width="73%"
-           source="images/compiler.svg"/>
+  <figure>
+    <caption>Compiling high-level code turns it into executable code. Once all the code is compiled, it can be then be run to produce output.</caption>
+    <image source="images/compilation-simple.svg" width="80%"
+           alt="Compiling high-level code turns it into executable code all at once."/>
   </figure>
-  <!-- TODO fix diagrams -->
 
   <p>
     Although it might seem complicated, these steps are automated for you in most development

@@ -35,33 +35,13 @@
     byte</term> - a sequence of eight digits, each of which is either 0 or 1. To picture what the
     code above is doing, you should imagine that something like the image below:</p>
 
-  <!-- TODO figure with memory illustration-->
+  <figure>
+    <caption>Declaring <pf>int age</pf> asks to reserve four bytes of memory.</caption>
+    <image source="images/memory-declaration.svg" width="50%"
+           alt="Four bytes of memory with random 1's and 0's."/>
+  </figure>
 
-  <p>The figure above shows that <pf>age</pf> is occupying four bytes of space. The amount of memory
-    reserved will depend on the type of data that is declared. Different types of data require
-    different amounts of space to store.</p>
-
-  <p>To declare an integer variable named <pf>x</pf>, you simply type this: </p>
-
-  <program>
-<xi:include href="../../programs/variables-operators/declaring-variables-2.cpp" parse="text"/>
-</program>
-
-  <p>Note that <pf>x</pf> is an arbitrary name for the variable. In general, you should use names that
-    indicate what the values they will hold represent. A name like <pf>c</pf> does not communicate
-    anything about what value is being stored. If that variable in fact stores the color being used
-    on a webpage, a better name would be <pf>color</pf>. Even better would be to indicate what the color is
-    used for with a name like <pf>textColor</pf> or <pf>backgroundColor</pf>. Meaningful names help other programmers more
-    easily understand code they are reading. That <q>other programmer</q> is likely to be future you
-    who looks back at your code after a few months and has no memory of what <pf>means</pf> - so be nice to
-    future you!</p>
-
-  <insight>
-    <p>Good code is <q>self documenting</q>. The variable names and structure of the code make it
-      easy to understand the intent of the programmer who wrote the code. Comments can be useful to
-      help explain code, but they should never be thought of as a replacement for well chosen names.</p>
-  </insight>
-
+  <p>Once that memory is reserved, any use of the name <pf>age</pf> will tell the compiler we are referring to that memory. The type <pf>int</pf> tells the compiler two things: how much memory to reserve (different types require different amounts of space) and how to interpret the 1's and 0's. In this case the compiler will interpret them as an integer. If we were storing a decimal number, or a piece of text, we would need to tell the compiler to interpret the bits differently. (For deeper coverage of representing different kinds of data using bits, see <url href="https://author.runestone.academy/ns/books/published/welcomecs2/data-representation_data-representation.html?mode=browsing">Welcome to CS</url> Data Representation chapter)</p>
 
   <exercise label="variables-operators_declaring-variables-ex-1">
     <statement>
@@ -78,8 +58,11 @@ int population;
     </statement>
     <evaluation>
       <evaluate>
-        <test>
+        <test correct="yes">
           <strcmp use-answer="yes"/>
+        </test>
+        <test correct="yes">
+          <strcmp>declare</strcmp>
         </test>
       </evaluate>
     </evaluation>

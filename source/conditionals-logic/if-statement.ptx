@@ -21,6 +21,8 @@
       code gets executed. <term>Conditional statements</term> give us this ability. The simplest
       conditional statement in C++ is the <pf>if</pf> statement: </p>
 
+      <p>An if statement consists of <pf>if</pf>, followed by an expression in parentheses, followed by a block of code. The expression is used to determine whether the block of code should be executed.</p>
+
     <program>
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-1.cpp" parse="text"/>
 </program>
@@ -33,11 +35,24 @@
         <h>block</h>
       </idx> The expression in parentheses is called the <term>condition</term>
       and must be a variable or expression with a boolean value. If it is true, the statements in
-      the curly braces get executed. That group of statements in the braces is known as a <term>
-      block</term>. If the condition is false, execution skips over that <term>block</term> of code.</p>
+      the curly braces get executed. That group of statements in the braces is known as the <term>
+      body</term>. If the condition is false, execution skips over the <term>body</term>.</p>
+
+  <figure>
+    <caption>Flow of execution for an <pf>if</pf> statement.</caption>
+    <image width="60%"
+           source="images/control-if.svg"
+           alt="Flowchart showing the structure of an if statement."/>
+  </figure>
 
     <p>Try running this sample in Codelens. Notice that only one of the three conditions is true and
       that the bodies of the other two conditionals get skipped.</p>
+
+    <program label="conditionals-logic_if-statement-program-1"
+             interactive="codelens">
+<xi:include href="../../programs/conditionals-logic/ifelse-statement-1a.cpp" parse="text"/>
+</program>
+
 
     <p>The <term>condition</term> can be any value that evaluates to <pf>true</pf> or <pf>false</pf>. Because
       numbers can evaluate as true or false (with 0 being false and all other numbers being true),
@@ -64,15 +79,6 @@
     <p>This way of testing a boolean variable is generally preferred to comparing it to true.
       Writing <pf>if (isEven == true)</pf> would do the same thing, but is redundant.</p>
 
-  </subsection>
-  <subsection>
-    <title>The body</title>
-
-    <program label="conditionals-logic_if-statement-program-1"
-             interactive="activecode">
-<xi:include href="../../programs/conditionals-logic/ifelse-statement-1a.cpp" parse="text"/>
-</program>
-
     <warning>
       <p>
         <idx>
@@ -86,16 +92,11 @@
           <h>== equals operator</h>
         </idx>Remember that a single <pf>=</pf> represents
         assignment - it says <q>gets the value</q>. A double equals <pf>==</pf> asks the question <q>is
-        equal to?</q>. A common mistake is to use a single <pf>=</pf> instead of a double <pf>==</pf>
+        equal to?</q>.</p>
+        <p>A common mistake is to use a single <pf>=</pf> instead of a double <pf>==</pf>
         when comparing values. If you make this mistake, the compiler will emit a warning like the
         one shown below that tells you you are using an assignment operator in a place where a
         true/false value is expected. </p>
-      <pre>
-        asdfasdfasdf
-      </pre>
-      <program language="natural">
-        asdfasdf
-      </program>
       <console>
         <output>test.cpp:7:10: error: suggest parentheses around assignment used as truth value [-Werror=parentheses]
     7 |     if( x = 0 ) {
@@ -103,12 +104,20 @@
       </console>
     </warning>
 
-    <p>The braces are optional for branches that have only one statement. So is we only have one
-      statement that is going to be executed when the conditional is true we can write it in either
-      of these two ways: </p>
+  </subsection>
+  <subsection>
+    <title>The body</title>
+
+    <p>The <term>body</term> is the code that gets conditionally. Although above we have shown the body in braces (<pf>{ }</pf>), those are not strictly required if the body is only a single statement:</p>
 
     <program>
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-1b.cpp" parse="text"/>
+</program>
+
+    <p>The braces serve to define a <term>block</term> that groups multiple statements into a single one. If we want to have two statements that are both part of the body of the if, they must be made into a block with <pf>{ }</pf>:</p>
+
+    <program>
+<xi:include href="../../programs/conditionals-logic/ifelse-statement-1b2.cpp" parse="text"/>
 </program>
 
     <p>By convention, we indent the code that is inside a condition, whether or not it is inside
@@ -116,16 +125,19 @@
       not care if you indent or not, but indenting blocks makes code much easier to read.</p>
 
     <p>Because indentation signals <q>this is inside</q> to programers, but it meaningless to the
-      compiler, it can be dangerous to skip braces<mdash/>even when they are optional<mdash/>. It
+      compiler, it can be dangerous to skip braces, even when they are optional. Doing so
       makes it easy to accidentally add a statement to a one-line <pf>if</pf> block.</p>
 
     <program label="conditionals-logic_if-statement-program-2"
+             extra-compiler-args="-Wno-misleading-indentation"
              interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-4.cpp" parse="text"/>
 </program>
 
+    <p>With a modern compiler, you likely will get a warning about that code. But it is possible to silence the warning (like we have here) and run the code anyway.</p>
+
     <p>Since there are no braces, only the first <pf>cout</pf> is part of the <pf>if</pf> statement. Here
-      is what the compiler actually sees: </p>
+      is a more accurate representation of what the compiler sees:</p>
 
     <program label="conditionals-logic_if-statement-program-3"
              interactive="activecode">
@@ -142,30 +154,34 @@
         <h>\{\} curly braces</h>
       </idx> In all previous examples, notice that there is no
       semicolon at the end of the line with <pf>if (condition)</pf>. That is because the body is technically part
-      of the same statement. You could correctly write the code like this: </p>
+      of the same statement. This is valid C++:</p>
 
     <program>
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-1c.cpp" parse="text"/>
 </program>
 
-    <p>If you put a semicolon after the condition, the compiler will treat the <pf>if</pf> statement
-      as if there is no body, and the subsequent block will run independently.</p>
+    <p>But the strong convention is to write the body on a line by itself. However, it is all still one statement and there should not be a semicolon at the end of the line with the <pf>if</pf> condition. 
+      If you put a semicolon after the condition, like this:</p>
+
+    <program label="conditionals-logic_if-statement-program-5">
+<xi:include href="../../programs/conditionals-logic/ifelse-statement-7b.cpp" parse="text"/>
+</program>
+
+    <p>The compiler sees an <pf>if</pf> statement with no body, followed by a block of code that is not a part
+      of the conditional. It sees something more like:</p>
+
+    <program label="conditionals-logic_if-statement-program-5">
+<xi:include href="../../programs/conditionals-logic/ifelse-statement-7.cpp" parse="text"/>
+</program>
+
+    <p>Again, a modern compiler should offer warnings for this situation. Here, we have left the warnings enabled:</p>
 
     <program label="conditionals-logic_if-statement-program-4"
              interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-6.cpp" parse="text"/>
 </program>
 
-    <p> This code will compile, but the program will output <pf>"x is even"</pf> regardless of the value of <pf>x</pf>.
-      Here is what the compiler sees in that sample:</p>
-
-    <program label="conditionals-logic_if-statement-program-5"
-             interactive="activecode">
-<xi:include href="../../programs/conditionals-logic/ifelse-statement-7.cpp" parse="text"/>
-</program>
-
-    <p>It sees an <pf>if</pf> statement with no body, followed by a block of code that is not a part
-      of the conditional.</p>
+<insight><p>Make sure you know how to enable warnings for your compiler. Then pay attention to them! Most warnings are actually errors.</p></insight>
 
   </subsection>
 

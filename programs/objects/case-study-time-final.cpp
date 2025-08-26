@@ -1,5 +1,4 @@
 #include <stdexcept>
-
 #include "Time.h"
 
 using namespace std;

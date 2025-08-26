@@ -33,8 +33,6 @@ long double sqrt ( long double num );
   and <pf>long double</pf>s, but we are not concerned with those (see <xref ref="floatingpoint-math_other-size-types"/>
   ).</p>
 
-  <!-- TODO add a pretty picture of prototypes -->
-
   <p>Once we find the right listing, we just need to
   figure out what it says. Something like <pf>double sqrt ( double num );</pf> is known as a <term>function prototype</term>. A function prototype generally consists of three parts: <pf>returnType  functionName ( paramters )</pf>
   <dl>
@@ -58,6 +56,9 @@ long double sqrt ( long double num );
   the name can help you figure out exactly what you are supposed to pass in.</p>
       </li>
     </dl></p>
+
+  <image source="images/prototype.svg" width="75%"
+           alt=""/>
   
   <insight>
     <p>You can think of a function prototype as a contract between the caller and the
@@ -92,12 +93,12 @@ long double sqrt ( long double num );
     <statement>
       <p>Complete this line of code to call the <pf>pow</pf> function and raise the number 5.2 to the power <pf>n</pf> (assume n is a variable that is already initialized).</p>
 
-      <p><pf>double result = </pf><fillin mode="string" case="insensitive" answer="pow\s*\(\s*5.2\s*,\s*n\s*\)"/><pf>;</pf></p>
+      <p><pf>double result = </pf><fillin mode="string" case="insensitive" answer="pow\\(5.2, n\\)"/><pf>;</pf></p>
     </statement>
     <evaluation>
       <evaluate>
-          <test>
-            <strcmp use-answer="yes"/>
+          <test correct="yes">
+            <strcmp>pow\s*\(\s*5.2\s*,\s*n\s*\)</strcmp>
           </test>
           <test>
             <strcmp>pow\s*\(\s*n\s*,\s*5.2\s*\)</strcmp>

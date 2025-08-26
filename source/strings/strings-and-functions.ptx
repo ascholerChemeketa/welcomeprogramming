@@ -20,10 +20,9 @@ string fullName(string first, string last) {
 <xi:include href="../../programs/strings/strings-and-functions-1.cpp" parse="text"/>
   </program>
 
-  <note><p>It would be better to write all of our string parameters as <pf>(const string&amp; s)</pf> instead of just <pf>(string s)</pf>. <pf>(string s)</pf> makes a copy of whatever string is passed in as the parameter. If you pass a very large string to a function, making that copy can be expensive. The other syntax tells the compiler to skip the copy and work with the original string (<pf>&amp;</pf>) while making sure it does not get altered by accident (<pf>const</pf>).</p>
-  <p>We will learn about the <pf>(const string&amp; s)</pf> syntax later and just use the simple and inefficient version for now. But if you like, you can skip ahead to learn more about passing by const reference and start using it now. <!--todo xref to reference params --></p></note>
-
-
+  <note><p>Our current syntax for string parameters, <pf>(string s)</pf>, is inefficient. <pf>(string s)</pf> makes a copy of whatever string is passed and stores that value in the function's parameter. If you pass a very large string to a function, making that copy can be expensive.</p>
+    <p>Instead, we could use the syntax <pf>(const string&amp; s)</pf>. That tells the compiler to skip the copy and work with the original string (<pf>&amp;</pf>) while making sure it does not get altered by accident (<pf>const</pf>).</p>
+  <p>We will learn about using references (<pf>&amp;</pf>) later. For now, we will just live with making copies every time we pass a string. But if you like, you can skip ahead to learn about references (see <xref ref="references-exceptions_references"/>and start using them now.</p></note>
 
   <exercise label="strings_strings-and-functions-ex-1"
             numbered="yes"

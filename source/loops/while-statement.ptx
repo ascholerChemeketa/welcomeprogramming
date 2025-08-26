@@ -12,32 +12,7 @@
     <idx>
       <h>loop</h>
     </idx> 
-    <term>Looping</term> or <term>iteration</term> is when a program repeatedly runs the same lines of code. A loop is created when the programmer specifies that the program need to jump back to a previous instruction instead of continuing to the next instruction. The name <term>loop</term> comes from the fact that a diagram of the path the program takes through the code makes a loop:</p>
-
-  <!-- <figure xml:id="fig_while">
-    <caption>Flow of execution for a <pf>while</pf> loop.</caption>
-    <image width="92.5%"
-           source="images/while.svg"/>
-  </figure> -->
-
-<!--TODO better diagram for here and for if/else-->
-    <figure xml:id="loop-structure-diagram">
-        <caption>Looping structures</caption>
-        <image>
-            <mermaid>
-flowchart TD
-    START([code before loop])
-    END([code after loop])
-    C{"test\ncondition"}
-    B[body of loop]
-
-    START --> C
-    C --> |true| B
-    C --> |false| END
-    B --> C
-            </mermaid>
-        </image>
-    </figure>
+    <term>Looping</term> or <term>iteration</term> is when a program repeatedly runs the same lines of code. A loop is created when the programmer specifies that the program need to jump back to a previous instruction instead of continuing to the next instruction.</p>
 
   <p>
     <idx>
@@ -62,16 +37,24 @@ flowchart TD
 
   <p> The flow of execution for a <pf>while</pf> statement is as follows: <ol>
       <li>
-        <p>Evaluate the condition in parentheses, yielding <pf>true</pf> or <pf>false</pf>.</p>
+        <p>Evaluate the <term>test</term> (condition) in parentheses, which produces <pf>true</pf> or <pf>false</pf>.</p>
       </li>
       <li>
-        <p>If the condition is <pf>false</pf>, skip the body (statements in braces).</p>
+        <p>If the condition is <pf>false</pf>, skip the <term>body</term> (statements in braces).</p>
       </li>
       <li>
-        <p>If the condition is <pf>true</pf>, execute the body and go back to step 1.</p>
+        <p>If the condition is <pf>true</pf>, execute the <term>body</term> and go back to step 1.</p>
       </li>
     </ol>
   </p>
+  
+  <figure>
+    <caption>Flow of execution for a <pf>while</pf> loop.</caption>
+    <image width="60%"
+           source="images/control-while.svg"
+           alt="Flowchart showing the structure of a while loop."/>
+  </figure>
+
 
   <p>
     <idx>
@@ -95,13 +78,13 @@ flowchart TD
       <h>loop</h>
       <h>variable</h>
     </idx> The <term>test</term> of the loop almost always has a variable as part of the expression it tests. Without a variable, there is no way for the loop to terminate once it starts. This variable is referred to as a <term>loop control variable</term>. The
-    <term>body</term> of the loop must change the value of that variable so that, eventually, the condition becomes <pf>false</pf> and the loop terminates. Otherwise, the loop will repeat forever, which is called an <term>infinite loop</term>: </p>
+    <term>body</term> of the loop must change the value of that variable so that, eventually, the condition becomes <pf>false</pf> and the loop terminates. Otherwise, the loop will repeat forever, which is called an <term>infinite loop</term>.</p>
+
+  <p>This example has an infinite loop. It will print the number <pf>3</pf> forever, or at least until you get bored of pressing <term>Next</term>.</p>
 
   <program label="loops_while-statement-program-2" interactive="codelens">
 <xi:include href="../../programs/loops/while-statement-2.cpp" parse="text"/>
 </program>
-
-  <p>This example will print the number <pf>3</pf> forever, or at least until you get bored of pressing <term>Next</term>.</p>
 
   <warning>
   <p>When you make an infinite loop on an ActiveCode problem, it will display <pf>Compiling and running your program</pf> for ~10 seconds until the server decides to stop your program. If you run an infinite loop on your own computer, you will need to stop the program manually. You can generally do this by pressing <pf>Ctrl+C</pf> in the terminal window where the program is running. That sends a <q>kill</q> signal to the program, which should stop it.
@@ -110,39 +93,12 @@ flowchart TD
 
   <p>It is also possible for the body of a loop to never end up executing. Notice in this sample that the condition is <pf>false</pf> the first time we reach it. That means the body will never get a chance to execute:</p>
 
-  <program label="loops_while-statement-program-3"  interactive="codelens">
-<code>
-<xi:include href="../../programs/loops/while-statement-3.cpp" parse="text"/>
-</code>
-</program>
-
-<!-- todo remove  colatz example and turn into exercise?? -->
-
-  <p>In the first example, we can prove that the loop terminates when <pf>n</pf> is positive. But in
-    general, it is not so easy to tell whether a loop terminates. For example, this loop continues
-    until <pf>n</pf> is 1 (which makes the condition <pf>false</pf>): </p>
-
   <program label="loops_while-statement-program-4"  interactive="activecode">
 <code>
 <xi:include href="../../programs/loops/while-statement-4.cpp" parse="text"/>
 </code>
-<stdin>3</stdin>
 </program>
 
-  <p>Each time through the loop, the program displays the value of <pf>n</pf> and then checks whether
-    it is even or odd. If it is even, the value of <pf>n</pf> is divided by 2. If it is odd, the value
-    is replaced by <m>3n+1</m>. For example, if the starting value is 3, the resulting sequence is
-    3, 10, 5, 16, 8, 4, 2, 1. </p>
-
-  <p>Since <pf>n</pf> sometimes increases and sometimes decreases, there is no obvious proof that <pf>n</pf>
-    will ever reach 1 and that the program will ever terminate. For some values of <pf>n</pf>, such as
-    the powers of two, we can prove that it terminates. The previous example ends with such a
-    sequence, starting when <pf>n</pf> is 16 (or <m>2^4</m>). </p>
-
-  <p>The hard question is whether this program terminates for <term>all</term> values of <pf>n</pf>.
-    So far, no one has been able to prove it <term>or</term> disprove it! For more information, see <url href="https://en.wikipedia.org/wiki/Collatz_conjecture"/>.
-  </p>
-  
   <exercise label="loops_while-statement-ex-1">
     <statement>
       <p>The following code contains an infinite loop. Which is the best explanation for why the
