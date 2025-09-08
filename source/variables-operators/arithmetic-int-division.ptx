@@ -5,10 +5,12 @@
 
   <p>The program below divides 45 by 60. Before you run it, stop and think about what you expect the output to be:</p>
 
+  <listing>
   <program label="variables-operators_int-division-program-1"
            interactive="activecode">
 <xi:include href="../../programs/variables-operators/int-division-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>This behavior often confuses people. The value of <pf>minute</pf> is <pf>45</pf>,
     and 45 divided by 60 should be 0.75, not 0. So why is 0 produced?</p>
@@ -30,10 +32,12 @@
 
   <p>As an alternative, we can calculate a percentage rather than a fraction: </p>
 
+  <listing>
   <program label="variables-operators_int-division-program-2"
            interactive="activecode">
 <xi:include href="../../programs/variables-operators/int-division-2.cpp" parse="text"/>
 </program>
+  </listing>
 
 
   <p>Because the multiplication happens first, we get <pf>4500 / 60</pf>, which is <pf>75</pf>. (The multiplication
@@ -52,10 +56,12 @@
     shown below, we are back to 0 for our result. The first thing evaluated is <pf>minute / 60</pf>, which is 0.
     Multiplying that by 100 results in 0.</p>
 
+  <listing>
   <program label="variables-operators_int-division-program-3"
            interactive="activecode">
 <xi:include href="../../programs/variables-operators/int-division-3.cpp" parse="text"/>
 </program>
+  </listing>
 
   <exercise label="variables-operators_int-division-ex-1">
     <statement>

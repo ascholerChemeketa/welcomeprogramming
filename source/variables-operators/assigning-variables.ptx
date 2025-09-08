@@ -35,11 +35,13 @@
     variable:</p>
 
 
+  <listing>
   <program label="variables-operators_assigning-variables-program-2"
            interactive="activecode"
            autorun="yes">
 <xi:include href="../../programs/variables-operators/assigning-variables-2.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>The <term>type</term> of <pf>hour</pf> is <term>int</term>. It can only store whole number values,
     not <term>strings</term> like <pf>"six"</pf>. It would also be an error to try to store <pf>"6"</pf> as
@@ -66,21 +68,25 @@
     variable can cause the program to behave unpredictably and is never desired. Fortunately, the
     compiler will generally provide you with a warning. The program below has this issue:</p>
 
+  <listing>
   <program label="variables-operators_assigning-variables-program-4"
            interactive="activecode">
 <xi:include href="../../programs/variables-operators/assigning-variables-4.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>If we ignore the warning and run the code anyway, the output will be unpredictable. The value
     of <pf>hour</pf> will be whatever value is represented by the bits that were already in the memory
     location chosen for the variable! Try running the program below multiple times. You should see
     different values appear for the uninitialized variable.</p>
 
+  <listing>
   <program label="variables-operators_assigning-variables-program-4-error"
            interactive="activecode"
            extra-compiler-args="-Wno-uninitialized">
 <xi:include href="../../programs/variables-operators/assigning-variables-4.cpp" parse="text"/>
 </program>
+  </listing>
 
   <insight>
     <p> Make sure to ALWAYS initialize variables. Always using the <pf>type name = value;</pf> syntax to declare and
@@ -91,10 +97,12 @@
 
   <p>Once a variable has been declared, it is a syntax error to redeclare it:</p>
 
+  <listing>
   <program label="variables-operators_assigning-variables-program-5"
            interactive="activecode">
 <xi:include href="../../programs/variables-operators/assigning-variables-5.cpp" parse="text"/>
 </program>
+  </listing>
 
   <insight>
     <p>
