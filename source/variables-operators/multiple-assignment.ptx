@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
-<section xml:id="variables-operators_multiple-assignment">
+<section xml:id="variables-operators_multiple-assignment"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Multiple assignment</title>
   <p>It is perfectly legal C++ to make more than one assignment to the same variable. The effect of
     the second assignment is to replace the old value of the variable with a new value. (This is why
     they are called <q>variables</q><mdash/>they can vary!)</p>
 
-  <listing label="multiple_assignment_AC_1">
+  <listing>
     <caption> This active code reassigns <pf>fred</pf> from 5 to 7 and prints both values out. </caption>
     <program label="variables-operators_multiple-assignment-program-1"
              interactive="activecode"
@@ -25,7 +26,7 @@ int main() {
   </listing>
   <p>The output of this program is <pf>57</pf>, because the first time we print <pf>fred</pf> his value is 5,
     and the second time his value is 7.</p>
-  <listing label="multiple_assignment_AC_2">
+  <listing>
     <caption> This active code reassigns <pf>fred</pf> from 5 to 7 without printing out the initial value. </caption>
     <program label="variables-operators_multiple-assignment-program-2"
              interactive="activecode"
@@ -52,29 +53,22 @@ int main() {
   <figure align="center">
     <image source="images/multiple-assign.png"
            width="50%"
-           alt="An assignment of 'fred = 7' changing the existing value of 'fred'."/>
+           >
+      <shortdescription>An assignment of 'fred = 7' changing the existing value of 'fred'.</shortdescription>
+    </image>
   </figure>
 
-  <p>Because C++ uses the <pf>=</pf> symbol
-    for assignment, it is tempting to interpret a statement like <pf>a = b</pf> as a statement of equality.
-    It is not, and multiple assignment helps make that clear.</p>
+  <p>Using one variable to assign the value of another copies the value of the first variable into the second variable. This means that after the assignment, there are two copies of the same value. But the variables that hold those values are independent. Changing one will not change the other:</p>
 
-  <p>First of all, equality is commutative, and assignment is not. For example, in mathematics if <m>a
-    = 7</m> then <m>7 = a</m>. But in C++ the statement <pf>a = 7;</pf> is legal<mdash/>it says <q>set a to store the value 7</q>. While <pf>7 = a;</pf> is not. It would say <q>set 7 to store the value of a</q>. It would not make much sense to give 7 a new value!</p>
+  <program label="variables-operators_multiple-assignment-program-1"
+           interactive="codelens">
+<xi:include href="../../programs/variables-operators/multiple-assignment-1.cpp" parse="text"/>
+</program>
 
-  <p>Furthermore, in mathematics, a statement of equality is true for all time. If <m>a = b</m> now,
-    then <m>a</m> will always equal <m>b</m>. In C++, an assignment statement can make two variables
-    equal, but they don't have to stay that way!</p>
-  <program>int a = 5;
-int b = a;   // b gets the value that a has (5)
-// a and b are now equal
-a = 3;       // a gets the value 3
-// a and b are no longer equal. b is still 5</program>
-  <p>The second line <em>copies</em> the value that <pf>a</pf> has into <pf>b</pf>. It does NOT link the two variables in any permanent way. The third line changes the value of <pf>a</pf> but it does not change the value of <pf>b</pf>, and so
-    they are no longer equal.</p>
-
-    <note><p>In many programming languages an alternate symbol is used for
-    assignment, such as <pf>&lt;-</pf> or <pf>:=</pf>, in order to avoid confusion. But in many programming languages, like C++, <pf>=</pf> is used to indicate assignment and you must learn to mentally translate it as <q>gets assigned the value</q> as opposed to <q>is equal to</q></p></note>
+  <insight>
+  <p>In mathematics, a statement of equality is true for all time. If <m>a = b</m> now,
+    then <m>a</m> will always equal <m>b</m>. In C++, an assignment statement can't permanently make two variables equal. All it can do it copy the current value from one variable to another.</p>
+  </insight>
 
   <p>Although multiple assignment is frequently useful, you should use it with caution. If the
     values of variables are changing constantly in different parts of the program, it can make the

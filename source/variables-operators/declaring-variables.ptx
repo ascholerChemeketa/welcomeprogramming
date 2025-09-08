@@ -38,7 +38,9 @@
   <figure>
     <caption>Declaring <pf>int age</pf> asks to reserve four bytes of memory.</caption>
     <image source="images/memory-declaration.svg" width="50%"
-           alt="Four bytes of memory with random 1's and 0's."/>
+           >
+      <shortdescription>Four bytes of memory with random 1's and 0's.</shortdescription>
+    </image>
   </figure>
 
   <p>Once that memory is reserved, any use of the name <pf>age</pf> will tell the compiler we are referring to that memory. The type <pf>int</pf> tells the compiler two things: how much memory to reserve (different types require different amounts of space) and how to interpret the 1's and 0's. In this case the compiler will interpret them as an integer. If we were storing a decimal number, or a piece of text, we would need to tell the compiler to interpret the bits differently. (For deeper coverage of representing different kinds of data using bits, see <url href="https://author.runestone.academy/ns/books/published/welcomecs2/data-representation_data-representation.html?mode=browsing">Welcome to CS</url> Data Representation chapter)</p>
@@ -59,10 +61,7 @@ int population;
     <evaluation>
       <evaluate>
         <test correct="yes">
-          <strcmp use-answer="yes"/>
-        </test>
-        <test correct="yes">
-          <strcmp>declare</strcmp>
+          <strcmp>declaration|declare</strcmp>
         </test>
       </evaluate>
     </evaluation>

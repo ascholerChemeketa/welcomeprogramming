@@ -3,7 +3,9 @@
 
   <title>Remainder Operator</title>
 
-  <p>Say you know that someone is 68 inches tall, and you want to express their height in feet and inches. As we just saw, dividing 68 by 12 will give you a whole number answer - in this case, 5. How do you calculate the leftover inches?</p>
+  <p>Say you know that someone is 68 inches tall, and you want to express their height in feet and
+    inches. As we just saw, dividing 68 by 12 will give you a whole number answer - in this case, 5.
+    How do you calculate the leftover inches?</p>
 
   <p>
     <idx>
@@ -14,19 +16,16 @@
     </idx>
     <idx>
       <h>remainder</h>
-    </idx> You have already seen the division operation (<pf>/</pf>), which
-    computes the quotient of two numbers. If the numbers are integers, the operation is integer
-    division. C++ also provides the <term>modulo</term> operation (<pf>%</pf>), which divides two
-    numbers and computes the remainder. </p>
+    </idx> When you first learned division, you likely learned to write the answer to something like <c>68 / 12</c> as <q>5r8</q> or <q>5 and 8/12</q>. When working with integers the <pf>/</pf> operator in C++ produces the whole number quotient (the <q>5</q>). To get the remainder C++ provides the <term>modulo</term> operator (<pf>%</pf>), which divides two numbers and computes the remainder. </p>
 
   <p>Using division and modulo, we can convert to feet and inches like this: </p>
 
-  <program>
+  <program interactive="activecode">
 <xi:include href="../../programs/variables-operators/remainder-operator-1.cpp" parse="text"/>
 </program>
 
-  <p>The first line yields 5. The second line, which is pronounced <q>height mod 12</q>, yields 8. So
-    68 inches is 5 feet, 8 inches. </p>
+  <p>The first line yields 5. The second line, which is pronounced <q>height mod 12</q>, yields 8.
+    So 68 inches is 5 feet, 8 inches. </p>
 
   <p>
     <idx>
@@ -35,19 +34,17 @@
     <idx>
       <h>extract digits</h>
     </idx> Modular arithmetic turns out to be surprisingly useful. For
-    example, you can check whether one number is divisible by another: if <pf>x % y</pf> is <pf>0</pf>, then <pf>x</pf>
-    is divisible by <pf>y</pf>. You can use the remainder operator to <q>extract</q> digits from a
-    number: <pf>x % 10</pf> yields the rightmost digit of <pf>x</pf>, and <pf>x % 100</pf> yields the last two digits.
-    Many encryption algorithms use remainders extensively. </p>
+    example, you can check whether one number is divisible by another: if <pf>x % y</pf> is <pf>0</pf>,
+    then <pf>x</pf> is divisible by <pf>y</pf>. You can use the remainder operator to <q>extract</q>
+    digits from a number: <pf>x % 10</pf> yields the rightmost digit of <pf>x</pf>, and <pf>x % 100</pf> yields
+    the last two digits. Many encryption algorithms use remainders extensively. </p>
 
 
   <exercise label="variables-operators_remainder-operator-ex-1">
     <statement>
       <p>Match the modulo expression to its result.</p>
     </statement>
-    <feedback>
-      Try again!
-    </feedback>
+    <feedback> Try again! </feedback>
     <cardsort>
       <match>
         <premise>3 % 2</premise>
@@ -65,6 +62,10 @@
         <premise>9 % 6</premise>
         <response>3</response>
       </match>
+      <match>
+        <premise>12 % 5</premise>
+        <response>2</response>
+      </match>
     </cardsort>
   </exercise>
   <exercise label="variables-operators_remainder-operator-ex-2">
@@ -76,35 +77,31 @@
         <statement>
           <p>Use x % 2, and if the result is 0, it is odd.</p>
         </statement>
-        <feedback>
-          If you divide a number by two and it has no remainder, that means it is an even number!
-        </feedback>
+        <feedback> If you divide a number by two and it has no remainder, that means it is an even
+          number! </feedback>
       </choice>
       <choice correct="yes">
         <statement>
           <p>Use x % 2, and if the result is 1, it is odd.</p>
         </statement>
-        <feedback>
-          If you divide a number by two and it has a remainder of one, that means it is an odd
-            number!
-        </feedback>
+        <feedback> If you divide a number by two and it has a remainder of one, that means it is an
+          odd number! </feedback>
       </choice>
       <choice>
         <statement>
           <p>Use x / 2, and if the result is 0, it is odd.</p>
         </statement>
-        <feedback>
-          Dividing a number by two won't give us the information we want.
-        </feedback>
+        <feedback> Dividing a number by two won't give us the information we want. </feedback>
       </choice>
       <choice>
         <statement>
           <p>Use x / 2, and if the result is 1, it is odd.</p>
         </statement>
-        <feedback>
-          Dividing a number by two won't give us the information we want.
-        </feedback>
+        <feedback> Dividing a number by two won't give us the information we want. </feedback>
       </choice>
     </choices>
+    <hint>
+      <p>Odd numbers have a remainder of 1 when divided by 2.</p>
+    </hint>
   </exercise>
 </section>

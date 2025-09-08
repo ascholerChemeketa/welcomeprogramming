@@ -2,135 +2,159 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <title>Identifiers</title>
-  <p>
-    <idx>
-      <h>identifier</h>
-    </idx> The name a variable is given is formally called an <term>
-    identifier</term>.
-    An identifier can be any sequence of letters and digits, but it must begin with a letter. It is
-    also allowed to use the underscore character (<pf>_</pf>) in an identifier. Below are some examples
-    of legal variable names and illegal ones: </p>
+  <introduction>
+    <p>
+      <idx>
+        <h>identifier</h>
+      </idx> The name a variable is given is formally called an <term>
+      identifier</term>. There are certain rules that limit what you can use as an identifier and
+      conventions that should guide your choices.</p>
+  </introduction>
 
-  <table>
-    <title>Legal and illegal identifiers</title>
-    <tabular halign="center">
-      <row header="yes"
-           bottom="minor">
-        <cell>Identifier</cell>
-        <cell>Legal/Illegal</cell>
-        <cell>Note</cell>
-      </row>
-      <row>
-        <cell>
-          <pf>age</pf>
-        </cell>
-        <cell>Legal</cell>
-        <cell></cell>
-      </row>
-      <row>
-        <cell>
-          <pf>firstName</pf>
-        </cell>
-        <cell>Legal</cell>
-        <cell></cell>
-      </row>
-      <row>
-        <cell>
-          <pf>x2</pf>
-        </cell>
-        <cell>Legal</cell>
-        <cell></cell>
-      </row>
-      <row>
-        <cell>
-          <pf>first_name</pf>
-        </cell>
-        <cell>Legal</cell>
-        <cell></cell>
-      </row>
-      <row>
-        <cell>
-          <pf>2ndPlace</pf>
-        </cell>
-        <cell>Illegal</cell>
-        <cell>Can't start with a digit</cell>
-      </row>
-      <row>
-        <cell>
-          <pf>first name</pf>
-        </cell>
-        <cell>Illegal</cell>
-        <cell>Can't use spaces</cell>
-      </row>
-      <row>
-        <cell>
-          <pf>l%$*</pf>
-        </cell>
-        <cell>Illegal</cell>
-        <cell>Can only use letters, digits, underscore</cell>
-      </row>
-    </tabular>
-  </table>
-  
-  <p>
-    <idx>
-      <h>keyword</h>
-    </idx>There are some words that are reserved in C++ and cannot be used as
-    identifiers. These words include ones you have already encountered like <pf>int</pf> and <pf>using</pf>, you
-    will encounter more as you learn more about the language. These reserved words are known as <term>
-    keywords</term>. You can find a full list of keywords at <url href="https://en.cppreference.com/w/cpp/keyword">
-    cppreference</url>, but you don't
-    have to memorize them. Most programming editors provide <q>syntax highlighting</q>, which will 
-    use a different color for keywords. And the compiler will complain even
-    if one does sneak past you and your editor. </p>
+  <subsection>
+    <title>Syntax Requirements</title>
+    <p> An identifier can be any sequence of letters and digits, but it must begin with a letter. It
+      is also allowed to use the underscore character (<pf>_</pf>) in an identifier. Below are some
+      examples of legal variable names and illegal ones: </p>
 
-  <p>
-    <idx>
-      <h>case-sensitive</h>
-    </idx> Variable names usually begin with a lowercase letter. 
-    When a variable name contains more than one word (like <pf>firstName</pf>), it is conventional to capitalize the first letter of
-    each subsequent word. Variable names are case-sensitive, so <pf>firstName</pf> is not the same as <pf>firstname</pf>
-    or <pf>FirstName</pf>.</p>
+    <table>
+      <title>Legal and illegal identifiers</title>
+      <tabular halign="center">
+        <row header="yes"
+             bottom="minor">
+          <cell>Identifier</cell>
+          <cell>Legal/Illegal</cell>
+          <cell>Note</cell>
+        </row>
+        <row>
+          <cell>
+            <pf>age</pf>
+          </cell>
+          <cell>Legal</cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell>
+            <pf>firstName</pf>
+          </cell>
+          <cell>Legal</cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell>
+            <pf>x2</pf>
+          </cell>
+          <cell>Legal</cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell>
+            <pf>first_name</pf>
+          </cell>
+          <cell>Legal</cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell>
+            <pf>2ndPlace</pf>
+          </cell>
+          <cell>Illegal</cell>
+          <cell>Can't start with a digit</cell>
+        </row>
+        <row>
+          <cell>
+            <pf>first name</pf>
+          </cell>
+          <cell>Illegal</cell>
+          <cell>Can't use spaces</cell>
+        </row>
+        <row>
+          <cell>
+            <pf>l%$*</pf>
+          </cell>
+          <cell>Illegal</cell>
+          <cell>Can only use letters, digits, underscore</cell>
+        </row>
+      </tabular>
+    </table>
 
-  <p>Beyond the syntax requirements, there are also conventions for naming variables. For example,
-    it is common to use lowercase letters for variable names, and to capitalize the first letter of
-    each subsequent word in a multi-word name. For example, <pf>firstName</pf> is a common way to name a
-    variable that stores a person's first name. This style of naming is called <term>camelCase</term>
-    (the uppercase letters look a little like the humps on a camel). That is the style used in this
-    book. Another common style is <term>snake_case</term>, where words are separated by underscores,
-    like <pf>first_name</pf>. Like other formatting choices, there is not a single <q>right</q> way to name
-    variables, but it is important to be consistent. </p>
+    <p>
+      <idx>
+        <h>keyword</h>
+      </idx>There are some words that are reserved in C++ and cannot be used
+      as identifiers. These words include ones you have already encountered like <pf>int</pf> and <pf>using</pf>,
+      you will encounter more as you learn more about the language. These reserved words are known
+      as <term> keywords</term>. You can find a full list of keywords at <url href="https://en.cppreference.com/w/cpp/keyword">
+      cppreference</url>, but you don't have to memorize them. Most programming editors provide <q>syntax
+      highlighting</q>, which will use a different color for keywords. And the compiler will
+      complain even if one does sneak past you and your editor. </p>
 
-  <note>
-    <p>Case matters! If you get an error that looks like:</p>
-    <console><output>error: ‘myname’ was not declared in this scope</output></console>
-    <p>Double check that your identifier isn't actually <pf>myName</pf></p>
-  </note>
+    <p>
+      <idx>
+        <h>case-sensitive</h>
+      </idx> Finally, it is important to recognize that identifiers are
+      case-sensitive, so <pf>firstName</pf> is not the same as <pf>firstname</pf> or <pf>FirstName</pf>. That means it would be
+      possible to have one variable named <pf>firstName</pf> and another named <pf>FirstName</pf> and use them to
+      store two different values, but that would be a recipe for confusion.</p>
+  </subsection>
 
-  <p>Another important consideration when naming variables is readability. The compiler does not care if you name your variables are all single letters or are random sequences of characters. But without comments, it is not clear to humans what these variables are for:</p>
+  <subsection>
+    <title>Conventions</title>
+    <p>Beyond the syntax requirements, there are also conventions for naming variables. For example,
+      it is common to use lowercase letters for variable names, and to capitalize the first letter
+      of each subsequent word in a multi-word name. For example, <pf>firstName</pf> is a common way to name a
+      variable that stores a person's first name. This style of naming is called <term>camelCase</term>
+      (the uppercase letters look a little like the humps on a camel). That is the style used in
+      this book.</p>
+      
+    <p>Another common style is <term>snake_case</term>, where words are separated by
+      underscores, like <pf>first_name</pf>. Like other formatting choices, there is not a single <q>right</q>
+      way to name variables, but it is important to be consistent. </p>
 
-  <program>
+    <note>
+      <p>Case matters! If you get an error that looks like:</p>
+      <console>
+        <output>error: ‘myname’ was not declared in this scope</output>
+      </console>
+      <p>Double check that your identifier isn't actually <pf>myName</pf></p>
+    </note>
+
+    <p>Another important consideration when naming variables is readability. The compiler does not
+      care if you name your variables are all single letters or are random sequences of characters.
+      But without comments, it is not clear to humans what these variables are for:</p>
+
+    <program>
 <xi:include href="../../programs/variables-operators/declaring-variables-2.cpp" parse="text"/>
 </program>
 
-  <p>Variables should always be given meaningful names that describe what data they are going to be used to store.
-    A name like <pf>t</pf> does not indicate what the variable is for - if it is storing time, a temperature, or something else.
-    Calling it <pf>time</pf> would be better. But if we were working with multiple times, we would want to be more specific and call it
-  something like <pf>startTime</pf> or <pf>totalTime</pf>. Meaningful names like these help programmers understand code they are reading.</p>
+    <p>Variables should always be given meaningful names that describe what data they are going to
+      be used to store. A name like <pf>t</pf> does not indicate what the variable is for - if it is
+      storing time, a temperature, or something else. Calling it <pf>time</pf> would be better. But if
+      we were working with multiple times, we would want to be more specific and call it something
+      like <pf>startTime</pf> or <pf>totalTime</pf>. Meaningful names like these help programmers understand code they
+      are reading.</p>
 
-  <p>Good code is <term>self documenting</term>. The variable names and structure of the code make it
-      easy to understand the intent of the programmer who wrote the code. Comments can be useful to
-      help explain code, but they should never be thought of as a replacement for well chosen names.</p>
+    <p>Good code is <term>self documenting</term>. The variable names and structure of the code make
+      it easy to understand the intent of the programmer who wrote the code. Comments can be useful
+      to help explain code, but they should never be thought of as a replacement for well chosen
+      names.</p>
 
-  <p>Because we want to assign meaningful names for variables based on their purpose, you should not reuse variables for different purposes. If you declare a variable <pf>startTime</pf>, don't later use it to store a different value like <q>endTime</q> or <q>numberOfClicks</q>.</p>
+    <p>Because we want to assign meaningful names for variables based on their purpose, you should
+      not reuse variables for different purposes. If you declare a variable <pf>startTime</pf>, don't later
+      use it to store a different value like <q>endTime</q> or <q>numberOfClicks</q>.</p>
 
-  <insight>
-    <p>We write code as much for other people as for the computer. Code that makes sense to the compiler, but is difficult for humans to read is only fulfilling half of its purpose. Quality code is easy to read and understand, making it easier for others (and yourself) to work with it in the future.</p>
-  </insight>
+    <insight>
+      <p>We write code as much for other people as for the computer. Code that makes sense to the
+        compiler, but is difficult for humans to read is only fulfilling half of its purpose.
+        Quality code is easy to read and understand, making it easier for others (and yourself) to
+        work with it in the future.</p>
+    </insight>
+  </subsection>
 
   <exercise label="variables-operators_identifiers-ex-1">
     <statement>
-      <p>Click on all the legal identifier names. (Hint, one of the identifiers is a keyword you should recognize.)</p>
+      <p>Click on all the legal identifier names. (Hint, one of the identifiers is a keyword you
+        should recognize.)</p>
     </statement>
     <feedback>
       <p>Try again!</p>

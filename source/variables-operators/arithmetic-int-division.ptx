@@ -3,10 +3,15 @@
 
   <title>Integer Division</title>
 
+  <p>The program below divides 45 by 60. Before you run it, stop and think about what you expect the output to be:</p>
+
   <program label="variables-operators_int-division-program-1"
            interactive="activecode">
 <xi:include href="../../programs/variables-operators/int-division-1.cpp" parse="text"/>
 </program>
+
+  <p>This behavior often confuses people. The value of <pf>minute</pf> is <pf>45</pf>,
+    and 45 divided by 60 should be 0.75, not 0. So why is 0 produced?</p>
 
   <p>
     <idx>
@@ -15,12 +20,8 @@
     </idx>
     <idx>
       <h>integer division</h>
-    </idx> This result often confuses people. The value of <pf>minute</pf> is <pf>45</pf>,
-    and 45 divided by 60 should be 0.75, not 0. The problem is that C++ performs <term>integer
-    division</term> when both operands are integers. By design, integer division always rounds toward
-    zero, even in cases like this one.</p>
-
-    <p>Integer division produces an integer answer by <term>truncating</term> the answer. <term>Truncating</term> a value means dropping the decimal portion. This is different than rounding the value - notive that 0.75 becomes 0, not 1.</p>
+    </idx> The reason this program behaves the way it does is that C++ performs <term>integer
+    division</term> when both operands are integers. Integer division produces an integer answer by <term>truncating</term> the answer. <term>Truncating</term> a value means dropping the decimal portion. Note that this is different than rounding the value - 0.75 becomes 0, not 1.</p>
 
   <insight>
     <p>When dividing integers, C++ does whole number division. Something like <pf>7 / 3</pf> asks <q>how

@@ -1,6 +1,6 @@
 <section xml:id="variables-operators_assigning-variables"
          xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Assigning Variables</title>
+  <title>Assigning Variables and Initialization</title>
 
   <p>
     <idx>
@@ -8,46 +8,47 @@
     </idx>
     <idx>
       <h>= assignment operator</h>
-    </idx>
-    Now that we have declared some variables, we can use them to store
-    values. We do that with an <term>assignment</term> statement.</p>
+    </idx> Now that we have declared some variables, we can use
+    them to store values. We do that with an <term>assignment</term> statement. An assignment
+    statement has the form <pf>variable = value;</pf>. This example shows a few assignments, and the comments
+    illustrate different ways people sometimes talk about assignment statements:</p>
 
-  <program label="variables-operators_assigning-variables-program-1" interactive="activecode">
+  <program label="variables-operators_assigning-variables-program-1">
 <xi:include href="../../programs/variables-operators/assigning-variables-1.cpp" parse="text"/>
 </program>
 
-  <p>This example shows two assignments, and the comments illustrate different ways people
-    sometimes talk about assignment statements. The vocabulary can be confusing here, but the idea
-    is straightforward: <ul>
-      <li>
-        <p>When you declare a variable, you create a named storage location.</p>
-      </li>
-      <li>
-        <p>When you make an assignment to a variable, you update its value.</p>
-      </li>
-    </ul>
-  </p>
+  <warning>
+    <p>Because C++ uses the <pf>=</pf> symbol for assignment, it is tempting to interpret a statement
+      like <pf>a = b</pf> as a statement of equality. It is not.</p>
 
-  <p>The variable type that you declare must match the type of the value
-      assigned to it. A type mismatch will generate a compile error. For example, you cannot
-      store a string in an <pf>int</pf> variable. The following statements
-    generate a compile error.</p>
+    <p>One major difference is that assignment is not commutative. For example, in mathematics if <m>a
+      = 7</m> then <m>7 = a</m>. But in C++ the statement <pf>a = 7;</pf> is legal<mdash/>it says <q>set a
+      to store the value 7</q>. While <pf>7 = a;</pf> is not. It would say <q>set 7 to store the value of
+      a</q>. It would not make much sense to give 7 a new value!</p>
 
-  <program>
-int hour;
-hour = "six";       // WRONG !!
+    <p>In some programming languages an alternate symbol is used for
+    assignment, such as <pf>&lt;-</pf> or <pf>:=</pf>, in order to avoid confusion. However, in C++, you must learn to mentally translate <pf>=</pf> it as <q>gets assigned the value</q> as opposed to <q>is equal to</q>.</p>
+  </warning>
+
+  <p>The variable type that you declare must match the type of the value assigned to it. A type
+    mismatch will generate a compile error. For example, you cannot store a string in an <pf>int</pf>
+    variable:</p>
+
+
+  <program label="variables-operators_assigning-variables-program-2"
+           interactive="activecode"
+           autorun="yes">
+<xi:include href="../../programs/variables-operators/assigning-variables-2.cpp" parse="text"/>
 </program>
 
-  <p>The <term>type</term> of <pf>hour</pf> is <term>int</term>. It can only store whole
-  number values, not <term>strings</term> like <pf>"six"</pf>. It would also be an error
-  to try to store <pf>"6"</pf> as that is still a string, not a number.</p>
+  <p>The <term>type</term> of <pf>hour</pf> is <term>int</term>. It can only store whole number values,
+    not <term>strings</term> like <pf>"six"</pf>. It would also be an error to try to store <pf>"6"</pf> as
+    that is still a string, not a number.</p>
 
-  <p>This rule is sometimes a source of confusion, because there are many
-    ways that you can convert values from one type to another, and C++
-    sometimes converts things automatically. But for now you should remember
-    that as a general rule variables and values have the same type, and
-    we'll talk about special cases later.</p>
-
+  <p>This rule is sometimes a source of confusion, because there are many ways that you can convert
+    values from one type to another, and C++ sometimes converts things automatically. But for now
+    you should remember that as a general rule variables and values have the same type, and we'll
+    talk about special cases later.</p>
   <p>
     <idx>
       <h>initialize</h>
@@ -55,23 +56,66 @@ hour = "six";       // WRONG !!
     time) before they can be used. You can declare a variable and then assign a value later, as in
     the previous example. You can also declare and initialize on the same line:</p>
 
-  <program label="variables-operators_assigning-variables-program-2" interactive="activecode">
+  <program label="variables-operators_assigning-variables-program-3">
 <xi:include href="../../programs/variables-operators/assigning-variables-3.cpp" parse="text"/>
 </program>
 
-  <p>When a variable is not given a value, it is said to be <term>uninitialized</term>. In C++, an uninitialized variable has an unknown value. (It will contain whatever value is represented by the bits that happened to be in the memory where it was placed!). Using an uninitialized variable can cause the program to behave unpredictably and is never desired. Fortunately, the compiler will generally provide you with a warning. The program below has this issue</p>
+  <p>When a variable is not given a value, it is said to be <term>uninitialized</term>. In C++, an
+    uninitialized variable has an unknown value. (It will contain whatever value is represented by
+    the bits that happened to be in the memory where it was placed!). Using an uninitialized
+    variable can cause the program to behave unpredictably and is never desired. Fortunately, the
+    compiler will generally provide you with a warning. The program below has this issue:</p>
 
-  <program label="variables-operators_assigning-variables-program-3" interactive="activecode">
+  <program label="variables-operators_assigning-variables-program-4"
+           interactive="activecode">
 <xi:include href="../../programs/variables-operators/assigning-variables-4.cpp" parse="text"/>
 </program>
 
-  <insight><p>
-    Make sure to ALWAYS initialize variables. Always using the <pf>type name = value;</pf> syntax to declare and initialize a variable all at once is a good way to make sure your variables are always initialized. If you do not have a value to assign yet, use <pf>type name = 0;</pf> or something similar to assign a reasonable default value.
-  </p></insight>
+  <p>If we ignore the warning and run the code anyway, the output will be unpredictable. The value
+    of <pf>hour</pf> will be whatever value is represented by the bits that were already in the memory
+    location chosen for the variable! Try running the program below multiple times. You should see
+    different values appear for the uninitialized variable.</p>
+
+  <program label="variables-operators_assigning-variables-program-4-error"
+           interactive="activecode"
+           extra-compiler-args="-Wno-uninitialized">
+<xi:include href="../../programs/variables-operators/assigning-variables-4.cpp" parse="text"/>
+</program>
+
+  <insight>
+    <p> Make sure to ALWAYS initialize variables. Always using the <pf>type name = value;</pf> syntax to declare and
+      initialize a variable all at once is a good way to make sure your variables are always
+      initialized. If you do not have a value to assign yet, use <pf>type name = 0;</pf> or something similar to
+      assign a reasonable default value. </p>
+  </insight>
+
+  <p>Once a variable has been declared, it is a syntax error to redeclare it:</p>
+
+  <program label="variables-operators_assigning-variables-program-5"
+           interactive="activecode">
+<xi:include href="../../programs/variables-operators/assigning-variables-5.cpp" parse="text"/>
+</program>
+
+  <insight>
+    <p>
+      <ul>
+        <li>
+          <p>Every variable must be <term>declared</term> ONCE before it can be used.</p>
+        </li>
+        <li>
+          <p>Variables should be <term>initialized</term> before you use them. You can do that at
+            the time of declaration, or later on.</p>
+        </li>
+      </ul>
+    </p>
+  </insight>
 
   <exercise label="variables-operators_assigning-variables-ex-1">
     <statement>
-      <p>A(n) <fillin mode="string" case="insensitive" answer="assignment"/> statement gives a value to a variable. </p>
+      <p>A(n) <fillin mode="string"
+                case="insensitive"
+                answer="assignment"/> statement gives a value
+        to a variable. </p>
     </statement>
     <evaluation>
       <evaluate>

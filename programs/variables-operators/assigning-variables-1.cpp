@@ -1,11 +1,6 @@
-#include <iostream>
-#include <string>
-
-using namespace std;
-
-int main() {
-    int hour;
-    hour = 11; // set hour to 11
-    int minute;
-    minute = 59; // minute gets the value 59
-}
+int hour;
+int minute;
+int second;
+hour = 11; // assign the value 11 to the variable hour
+minute = 59; // 59 gets the value 59
+second = 30; // set second to 30

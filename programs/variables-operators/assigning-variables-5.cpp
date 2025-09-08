@@ -2,6 +2,6 @@
 using namespace std;
 
 int main() {
-    cout << "Goodbye, ";
-    cout << "from C++";
+    int hour = 12;
+    int hour = 6;   // error!
 }

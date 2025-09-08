@@ -6,7 +6,7 @@
   <p>You can put as many statements as you like in the <pf>main</pf> function. For example, to display
     more than one line of output we could use two <pf>cout</pf> statements:</p>
 
-  <listing filename="hello2.cpp">
+  <listing>
     <program label="computer-programming_displaying-two-messages-program-1"
              interactive="activecode">
 <xi:include href="../../programs/computer-programming/displaying-two-messages-1.cpp" parse="text"/>
@@ -30,20 +30,29 @@
 
   <p>Now let us look at a similar program that lacks an <pf>endl</pf> in its print statement:</p>
 
-  <listing filename="goodbye.cpp">
+  <listing>
     <program label="computer-programming_displaying-two-messages-program-2"
              interactive="activecode">
 <xi:include href="../../programs/computer-programming/displaying-two-messages-2.cpp" parse="text"/>
     </program>
-    <idx>
-      <h>goodbye.cpp</h>
-    </idx>
   </listing>
 
   <p>Without the <pf>endl</pf> the second print statement will output to the same line as the first one.
     The output has a space after the comma because there is an extra space inside the quotation
-    marks of the first string. Without that space, the output would say <q>Goodbye,cruel world</q>.</p>
+    marks of the first string. Without that space, the output would say <q>Goodbye,from C++</q>.</p>
 
+  <p>You can output as many things as you like in one statement of code by chaining together <pf>&lt;&lt;</pf> operators. That can include as many (or few) <pf>endl</pf> as you like.</p>
+
+  <listing>
+    <program label="computer-programming_displaying-two-messages-program-3"
+             interactive="activecode">
+<xi:include href="../../programs/computer-programming/displaying-two-messages-3.cpp" parse="text"/>
+    </program>
+  </listing>
+
+  <insight>
+    <p>The number of lines of output is not controlled by the number of <pf>cout</pf> statements, but rather by the presence of <pf>endl</pf>s.</p>
+  </insight>
 
   <exercise label="computer-programming_displaying-two-messages-ex-1">
     <statement>
@@ -133,10 +142,10 @@ int main() {
         <cline><![CDATA[ cout << endl; // fourth endl]]></cline>
       </block>
       <block>
-        <cline> cout &lt;&lt; "Pop!";</cline>
-      </block>
-      <block correct="no">
         <cline><![CDATA[ cout << endl; // fifth endl ]]></cline>
+      </block>
+      <block>
+        <cline> cout &lt;&lt; "Pop!";</cline>
       </block>
       <block correct="no">
         <cline><![CDATA[ cout << endl; // sixth endl ]]></cline>

@@ -2,15 +2,15 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <title>The Hello World Program</title>
+
   <p>Traditionally, the first program you write when learning a new programming language is called
     the <q>Hello World</q> program. All it does is output the words <pf>Hello, World!</pf> to the screen. In C++,
-    it looks like this: <idx>
+    that program looks like this: <idx>
       <h>hello.cpp</h>
     </idx></p>
 
-  <listing filename="hello.cpp">
-    <program
-             line-numbers="yes"
+  <listing>
+    <program line-numbers="yes"
              interactive="activecode">
 <xi:include href="../../programs/computer-programming/hello-world-program-1.cpp" parse="text"/>
     </program>
@@ -31,16 +31,15 @@ Hello, World!
   <p>The first line of code is a <term>preprocessor directive</term>. Preprocessor directives are
     instructions to the C++ compiler that are executed before the program is compiled and start with <pf>#</pf>
   </p>
-  
-  <program
-            line-numbers="yes"
-            highlight-lines="1">
+
+  <program line-numbers="yes"
+           highlight-lines="1">
 <xi:include href="../../programs/computer-programming/hello-world-program-1.cpp" parse="text"/>
   </program>
-  
-  <p>Including a file in a C++
-    program essentially copies all the code from that file into the location of the <pf>#include</pf>. The <pf>iostream</pf>
-    file contains the code that allows you to use to do input and output (io) in C++ programs. <idx>
+
+  <p>Including a file in a C++ program essentially copies all the code from that file into the
+    location of the <pf>#include</pf>. The <pf>iostream</pf> file contains the code that allows you to use to do
+    input and output (io) in C++ programs. <idx>
       <h>iostream</h>
     </idx>
     <idx>
@@ -48,31 +47,33 @@ Hello, World!
     </idx>
   </p>
 
-  <p>Then there is a blank line.</p>
-  <program
-            line-numbers="yes"
-            highlight-lines="2">
+  <p>Then there is a blank line:</p>
+
+  <program line-numbers="yes"
+           highlight-lines="2">
 <xi:include href="../../programs/computer-programming/hello-world-program-1.cpp" parse="text"/>
   </program>
-  <p>Blank lines are ignored by the C++ compiler, but they make code
-    easier to read by separating logical chunks of a program from each other. Here, the blank line
-    separates the preprocessor directive from the rest of the program. </p>
+
+  <p>Blank lines are ignored by the C++ compiler, but they make code easier to read by separating
+    logical chunks of a program from each other. Here, the blank line separates the preprocessor
+    directive from the rest of the program. </p>
 
   <p>Next is the <pf>using namespace std;</pf> statement.</p>
-  <program
-            line-numbers="yes"
-            highlight-lines="3">
+  <program line-numbers="yes"
+           highlight-lines="3">
 <xi:include href="../../programs/computer-programming/hello-world-program-1.cpp" parse="text"/>
   </program>
-  <p>A <term>statement</term> is a line of code that performs a basic
-    action. In this case, the action is telling the compiler that we want it to assume that any
-    names we use may actually start with <pf>std</pf>. This will allow us to shorten the full formal name <pf>std::cout</pf> 
-    to <pf>cout</pf> on line 7. This is a convenient way to reduce the amount we have to type, especially if we are going to use that name over and over. Alternatively, we could skip line 3 and write the full formal name every time.<idx>
+  <p>A <term>statement</term> is a line of code that performs a basic action. In this case, the
+    action is telling the compiler that we want it to assume that any names we use may actually
+    start with <pf>std</pf>. This will allow us to shorten the full formal name <pf>std::cout</pf> to <pf>cout</pf>
+    on line 7. This is a convenient way to reduce the amount we have to type, especially if we are
+    going to use that name over and over. Alternatively, we could skip line 3 and write the full
+    formal name every time.<idx>
       <h>statement</h>
     </idx></p>
 
-  <p>Like most statements, it ends with a semicolon (<pf>;</pf> ). Semicolons function in C++ a little
-    like periods do in English sentences - they indicate the end of a statement.<idx>
+  <p>Like most statements, it ends with a semicolon (<pf>;</pf> ). Semicolons function in C++ a
+    little like periods do in English sentences - they indicate the end of a statement.<idx>
       <h>cout</h>
     </idx>
     <idx>
@@ -84,17 +85,17 @@ Hello, World!
   </p>
 
   <p>Line 5 defines a <term>function</term> named <pf>main</pf>.</p>
-  <program
-            line-numbers="yes"
-            highlight-lines="5">
+  <program line-numbers="yes"
+           highlight-lines="5">
 <xi:include href="../../programs/computer-programming/hello-world-program-1.cpp" parse="text"/>
   </program>
-  <p>In C++ <term>functions</term> are used to group and organize sequences of statements.
-    Every C++ program needs to have a function named <pf>main</pf>.
-    When a C++ program runs, it starts at the first statement in <pf>main</pf> and ends when it finishes
-    the last statement. Later, you will see programs that define more than one function. The word <pf>int</pf>
-    indicates that this function returns an integer (a whole number) when it is finished. Don't worry too much about these details right now, we will learn more about
-    these parts of the program later. For now, just know that <pf>int main</pf> marks the start of the program.<idx>
+  <p>In C++ <term>functions</term> are used to group and organize sequences of statements. Every C++
+    program needs to have a function named <pf>main</pf>. When a C++ program runs, it starts at the
+    first statement in <pf>main</pf> and ends when it finishes the last statement. Later, you will see
+    programs that define more than one function. The word <pf>int</pf> indicates that this function
+    returns an integer (a whole number) when it is finished. Don't worry too much about these
+    details right now, we will learn more about these parts of the program later. For now, just know
+    that <pf>int main</pf> marks the start of the program.<idx>
       <h>function</h>
     </idx>
     <idx>
@@ -102,41 +103,38 @@ Hello, World!
     </idx>
   </p>
 
-  <p>Notice that line 5 does not end with a semicolon. It instead ends with a curly brace. (<q>curly braces</q> are the name for <pf>{</pf>
-    and <pf>}</pf>). C++ uses to group things together. In <term>Hello.cpp</term>, braces wrap the
-    statements that are a part of the function definition. A good rule of thumb is that lines of
-    code either are a complete and independent statement - and end in a semicolon - or they are the
-    start of a group of related statements - in which case they end with a {.<idx>
+  <p>Notice that line 5 does not end with a semicolon. It instead ends with a curly brace. (<q>curly
+    braces</q> are the name for <pf>{</pf> and <pf>}</pf>). C++ uses to group things together. In <term>
+    Hello.cpp</term>, braces wrap the statements that are a part of the function definition. A good
+    rule of thumb is that lines of code either are a complete and independent statement - and end in
+    a semicolon - or they are the start of a group of related statements - in which case they end
+    with a {.<idx>
       <h>curly braces</h>
     </idx>
   </p>
 
-  <p>Line 6 is a <term> comment</term>, which is a bit of
-    English text that explains the code.
-    </p>
-  <program
-            line-numbers="yes"
-            highlight-lines="6">
+  <p>Line 6 is a <term> comment</term>, which is a bit of English text that explains the code. </p>
+  <program line-numbers="yes"
+           highlight-lines="6">
 <xi:include href="../../programs/computer-programming/hello-world-program-1.cpp" parse="text"/>
   </program>
-  <p>When the C++ compiler sees <pf>//</pf>, it ignores everything
-    from there until the end of the line. Comments have no effect on the execution of the program,
-    but they make it easier for other programmers (and your future self) to understand what you
-    meant to do. <idx>
+  <p>When the C++ compiler sees <pf>//</pf>, it ignores everything from there until the end of the
+    line. Comments have no effect on the execution of the program, but they make it easier for other
+    programmers (and your future self) to understand what you meant to do. <idx>
       <h>comment</h>
     </idx>
   </p>
 
   <p>Line 7 is a <term>print statement</term> that displays a message to the user.</p>
-  <program
-            line-numbers="yes"
-            highlight-lines="7">
+  <program line-numbers="yes"
+           highlight-lines="7">
 <xi:include href="../../programs/computer-programming/hello-world-program-1.cpp" parse="text"/>
   </program>
-  <p>Printing in C++ is done with <pf>cout</pf>, which stands
-    for "console output" - the console is a name for the screen where the input and output of a
-    program are displayed. The <pf>&lt;&lt;</pf> is an operator used to indicate that we are sending the data on the right to <pf>cout</pf>  (the formal name for that symbol is the <term>stream insertion operator</term>). The
-    data we are sending is the text <pf>"Hello, World!"</pf>.<idx>
+  <p>Printing in C++ is done with <pf>cout</pf>, which stands for "console output" - the console is a
+    name for the screen where the input and output of a program are displayed. The <pf>&lt;&lt;</pf> is an
+    operator used to indicate that we are sending the data on the right to <pf>cout</pf> (the formal
+    name for that symbol is the <term>stream insertion operator</term>). The data we are sending is
+    the text <pf>"Hello, World!"</pf>.<idx>
       <h>print statement</h>
     </idx><idx>
       <h>cout</h>
@@ -163,30 +161,32 @@ Hello, World!
       <h>case-sensitive</h>
     </idx></p>
 
-  <p>As mentioned earlier, the statement <pf>return 0;</pf> on line 8 fulfills the promise made by <pf>int main</pf> to return a value.</p>
-  <program
-            line-numbers="yes"
-            highlight-lines="8">
+  <p>As mentioned earlier, the statement <pf>return 0;</pf> on line 8 fulfills the promise made by <pf>int main</pf>
+    to return a value.</p>
+  <program line-numbers="yes"
+           highlight-lines="8">
 <xi:include href="../../programs/computer-programming/hello-world-program-1.cpp" parse="text"/>
   </program>
-   <p>Returning 0 from the main function lets the operating system know that the program finished without errors. Returning any other number would indicate some kind of issue. Using <pf>return 0</pf> at the end
-   of main is optional - the compiler will add it automatically if it is missing. You will see that many
-   of the samples in this book rely on that trick. <idx>
+  <p>Returning 0 from the main function lets the operating system know that the program finished
+    without errors. Returning any other number would indicate some kind of issue. Using <pf>return 0</pf> at
+    the end of main is optional - the compiler will add it automatically if it is missing. You will
+    see that many of the samples in this book rely on that trick. <idx>
       <h>return 0</h>
     </idx></p>
 
-  <p>Finally, line 9 is the end of the <pf>main</pf> function. The closing curly brace (<pf>}</pf>) matches the open curly brace on line 5 and indicates that the function is finished.
-  </p>
+  <p>Finally, line 9 is the end of the <pf>main</pf> function. The closing curly brace (<pf>}</pf>)
+    matches the open curly brace on line 5 and indicates that the function is finished. </p>
 
-  <program
-            line-numbers="yes"
-            highlight-lines="9">
+  <program line-numbers="yes"
+           highlight-lines="9">
 <xi:include href="../../programs/computer-programming/hello-world-program-1.cpp" parse="text"/>
   </program>
 
   <exercise label="computer-programming_hello-world-program-ex-1">
     <statement>
-      <p>How do you indicate a single line comment in C++? <fillin mode="string" case="insensitive" answer="//"/>
+      <p>How do you indicate a single line comment in C++? <fillin mode="string"
+                case="insensitive"
+                answer="//"/>
       </p>
     </statement>
     <evaluation>
@@ -251,8 +251,13 @@ Hello, World!
   </exercise>
   <exercise label="computer-programming_hello-world-program-ex-3">
     <statement>
-      <p>A print statement starts with the word <fillin mode="string" case="insensitive" answer="cout"/>. It requires you to use
-        the stream insertion operator which looks like <fillin mode="string" case="insensitive" answer="&lt;&lt;"/>. </p>
+      <p>A print statement starts with the word <fillin mode="string"
+                case="insensitive"
+                answer="cout"/>.
+        It requires you to use the stream insertion operator which looks like <fillin mode="string"
+                case="insensitive"
+                answer="&lt;&lt;"/>
+        . </p>
     </statement>
     <evaluation>
       <evaluate>
@@ -267,10 +272,13 @@ Hello, World!
       </evaluate>
     </evaluation>
   </exercise>
-  
+
   <exercise label="computer-programming_hello-world-program-ex-4">
     <statement>
-      <p>A phrase that appears in quotation marks is called a(n)<fillin mode="string" case="insensitive" answer="string"/>.</p>
+      <p>A phrase that appears in quotation marks is called a(n)<fillin mode="string"
+                case="insensitive"
+                answer="string"/>
+        .</p>
     </statement>
     <evaluation>
       <evaluate>
