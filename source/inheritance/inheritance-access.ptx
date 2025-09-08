@@ -10,11 +10,13 @@
     Here is a first attempt. Scroll down to see the error message and the explanation of what is
     going wrong.</p>
 
+  <listing>
   <program interactive="activecode"
            autorun="yes"
            highlight-lines="25-26, 30">
 <xi:include href="../../programs/inheritance/inheritance-access-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Trying to run that code produces a cascading mess of errors. But the key ones to pay attention
     to are the ones that look like this:</p>
@@ -65,10 +67,12 @@ test.cpp:24:49: error: no matching function for call to ‘Person::Person()’
 
     <p>This version of the code has both of those fixes:</p>
 
+  <listing>
   <program interactive="activecode"
            high-lines="30, 35">
 <xi:include href="../../programs/inheritance/inheritance-access-2.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p> The <pf>: Person(name, age)</pf> on line 30 says <q>call the constructor of the base class Person with the
     arguments name and age</q>.  That means the code will not try to call the no-arg <pf>Person()</pf> constructor since

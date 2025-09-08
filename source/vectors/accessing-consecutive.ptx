@@ -22,10 +22,12 @@
     special attention to lines 10 and 11 in this sample. By starting the loop counter at 1, we know
     it will be safe to check the previous index:</p>
 
+  <listing>
   <program label="vectors_accessing-consecutive-program-1"
            interactive="activecode">
 <xi:include href="../../programs/vectors/accessing-consecutive-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>If we want to access the next value at <pf>i + 1</pf>, we need to make sure our loop stops earlier.
     Index <pf>size() - 1</pf> is the index of the last element. So our loop needs to stop before it gets to

@@ -67,9 +67,11 @@
   <p>Given that information, we should be able to use that function to double the value of a number, even if we do not understand exactly how the function does its job. (Being able to use a function without understanding HOW it does its job is one of the key ideas of a function!) Here is a full program that makes use of the double value function:</p>
 
 
+<listing>
 <program label="functions-testing_defining-new-functions-program-1" interactive="activecode">
 <xi:include href="../../programs/functions-testing/defining-new-functions-2.cpp" parse="text"/>
 </program>
+</listing>
 
   <p>Note that the function definition for <pf>doubleValue</pf> is before <pf>main</pf>, where we make a call to the function.
   For now, we must always define a function before we try to use it. If you try moving the code for <pf>main</pf> above the <pf>doubleValue</pf> definition, the compiler will spit out an error message. When it hits the function call, it has not yet learned about <pf>doubleValue</pf>.</p>

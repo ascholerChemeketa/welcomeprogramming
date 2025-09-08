@@ -27,6 +27,7 @@
 
   <p>This definition of Segment <q>owns</q> two Point objects, but does not control any other data directly. Every function in the class would need to rely on <pf>m_start</pf>, <pf>m_end</pf>, or both to do its work. Here are what some functions might look like:</p>
 
+<listing>
 <program>
 double Segment::getStartX() const {
     return m_start.getX();
@@ -36,6 +37,7 @@ double Segment::length() const {
     return m_start.distanceTo(m_end);
 }
 </program>
+</listing>
 
   <p>Of course we could add more data to it. Perhaps we want a Segment to have a label associated with it:</p>
 
@@ -111,6 +113,7 @@ double Segment::length() const {
 
   <p>This Cylinder could do some work directly. Other work it would have to hand off to the Circle. Which might in turn hand off the job to the Point object it contains:</p>
 
+  <listing>
   <program>
 double Cylinder::getHeight() const {
     // height is the Cylinder's direct responsibility
@@ -138,6 +141,7 @@ Circle Cylinder::getBase() const {
     return m_base;
 }
   </program>
+  </listing>
 
   <p>Given this Cylinder class, we can even compose function calls. A common looking construct in object-oriented code is something like: <pf>cylinder1.getBase().getCenter().getY()</pf>. We first get the base of the Cylinder, which is a Circle. Then we ask that Circle to do <pf>getY</pf>. This is a place where returning a const reference from <pf>Cylinder::getBase()</pf> and <pf>Circle::getRadius</pf> could avoid needless work. The versions we have return copies of the objects. So even though we do not store those copies into variables, it still involves making some new, nameless objects that then get discarded.</p>
 

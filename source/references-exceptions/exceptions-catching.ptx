@@ -5,9 +5,11 @@
 
   <p>Instead of catching the exception in <pf>mediumJob</pf>, we could catch it at a higher level, like <pf>main</pf>:</p>
 
+  <listing>
   <program label="references-exceptions_exceptions-catching-program-1" interactive="activecode">
 <xi:include href="../../programs/references-exceptions/exceptions-catching-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Here, the exception will happen in line 8. Since there is no <pf>try</pf> block around line 8 in <pf>mediumJob</pf>, we immediately exit that function and jump back to <pf>bigJob</pf>. <pf>bigJob</pf> called <pf>mediumJob</pf> on line 14, so that location is checked for a <pf>try</pf> block. Because there is none, we exit <pf>bigJob</pf> without running lines 15-16 and jump back to main.</p>
 

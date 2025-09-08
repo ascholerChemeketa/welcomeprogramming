@@ -8,10 +8,12 @@
     back. Or they might want to convert height in inches to centimeters. We can write a program to
     help: </p>
 
+  <listing>
   <program label="floatingpoint-math_constants-program-1"
            interactive="activecode">
 <xi:include href="../../programs/input-output/literals-constants-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p> This code works correctly, but it has a minor problem. If another programmer reads this code,
     they might wonder where 2.54 comes from. For the benefit of others (and yourself in the future),
@@ -45,10 +47,12 @@
     </idx>
   </p>
 
+  <listing>
   <program label="floatingpoint-math_constants-program-2" 
            interactive="activecode">
 <xi:include href="../../programs/input-output/literals-constants-3.cpp" parse="text"/>
 </program>
+  </listing>
 
   <insight>
     <p><pf>const</pf> is not needed to make a program work correctly, but it does help prevent errors. It
@@ -60,9 +64,11 @@
     convention, not a requirement. The following program demonstrates how many programmers would use
     a const to avoid the magic number 2.54:</p>
 
+  <listing>
   <program label="floatingpoint-math_constants-program-3"
            interactive="activecode">
 <xi:include href="../../programs/input-output/literals-constants-4.cpp" parse="text"/>
 </program>
+  </listing>
 
 </section>

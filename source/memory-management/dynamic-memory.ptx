@@ -70,12 +70,14 @@
     allocated memory. When <pf>new</pf> is called, the value it returns is stored into one of the
     pointers. We can then use those pointers to access the heap memory:</p>
 
+  <listing>
   <program label="memory-management_dynamic-memory-program-1"
            interactive="activecode"
            highlight-lines="9-10"
            line-numbers="yes">
 <xi:include href="../../programs/memory-management/dynamic-memory-2.cpp" parse="text"/>
   </program>
+  </listing>
   <p>This time, the memory layout at the end of <pf>foo()</pf> would look like:</p>
 
   <image source="images/dynamic-memory-3.svg"

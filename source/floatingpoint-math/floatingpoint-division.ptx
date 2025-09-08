@@ -11,10 +11,12 @@
       <h>floating-point</h>
     </idx> If I divide 1.3 by 2.65, it is pretty clear that I expect a decimal (floating-point) answer. Thus C++ performs <term>floating-point division</term> and produces a decimal value. Using that knowledge, we can now calculate decimal value, like <q>what part of an hour is 45 minutes?</q>. We just have to make sure we use floating-point values in the calculation:</p>
 
+  <listing>
   <program label="floatingpoint-math_floatingpoint-division-program-1"
            interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/floatingpoint-division-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Recall that if we divided one integer by another, like <pf>45 / 60</pf>, we would get 0 for our answer. C++ assumes that if you start with two integers, you want an integer answer. But if you ask to do division involving a floating-point value, like <pf>45.0 / 60.0</pf>, it will assume you want to do floating-point division and produce a decimal answer. It will make the same assumption even if there is just one floating point value involved, like <pf>45 / 60.0</pf>.</p>
   
@@ -60,10 +62,12 @@ int main() {
   <p>This is true for other operations as well. If you add 4 to 2.5, the compiler assumes you want a decimal answer. However, this decision is made at each step of the calculation, without considering what might happen later. So the order of operations can matter. For example, consider the following code:
   </p>
 
+  <listing>
   <program label="floatingpoint-math_floatingpoint-division-program-3"
            interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/floatingpoint-division-2.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>You might expect <pf>value</pf> to be set to the result of 0.33333 times 3.14159. But the first step in evaluating the expression
   <pf>1 / 3 * 3.14159</pf> is dividing 1 by 3. Those are both integers, so C++ does whole number division and
@@ -75,10 +79,12 @@ int main() {
   <p>One way to solve this problem (once you figure out the logic error) is to make sure that if you want a decimal
   answer, that you do math with decimal values. This code works as expected: </p>
 
+  <listing>
   <program label="floatingpoint-math_floatingpoint-division-program-4"
            interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/floatingpoint-division-3.cpp" parse="text"/>
   </program>
+  </listing>
 
   <exercise label="floatingpoint-math_floatingpoint-division-ex-1">
     <statement>

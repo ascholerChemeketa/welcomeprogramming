@@ -7,6 +7,7 @@
     <title>Accessing Member Variables in the Class</title>
     <p>Look closely at the function <pf>getX()</pf>. What looks odd?</p>
 
+    <listing>
     <program>
 class Point {
 private:
@@ -18,6 +19,7 @@ public:
     }
 }
   </program>
+    </listing>
 
     <p>Notice that there is no declaration of <pf>m_x</pf> in this function! It is not declared as a
       parameter, nor is it declared as a local variable. So what is it?</p>
@@ -45,10 +47,12 @@ p2.getX();
       <pf>Point::getX()</pf>, it will point to <pf>p1</pf> since we called <pf>p1.getX()</pf> on line 23. Then, on line
       26 when we call <pf>p2.getX()</pf>, <pf>this</pf> will be pointing at <pf>p2</pf>.</p>
 
+    <listing>
     <program label="objects_member-access-program-1"
              interactive="codelens">
 <xi:include href="../../programs/objects/member-access-1.cpp" parse="text"/>
 </program>
+    </listing>
 
     <p>A hand drawn memory diagram might look like this:</p>
 
@@ -125,10 +129,12 @@ p2.getX();
       setter</term> function. These are functions that take a value and use that to set a member
       variable. This version of the Point class adds a setter for <pf>m_x</pf>:</p>
 
+    <listing>
     <program label="objects_member-access-program-2"
              interactive="codelens">
 <xi:include href="../../programs/objects/member-access-2.cpp" parse="text"/>
 </program>
+    </listing>
 
     <p>When main calls <pf>p1.setX(5.0)</pf>, it passes in the value 5. The <pf>Point::setX()</pf> function stores
       that value into the <pf>m_x</pf> instance variable of <pf>p1</pf>.</p>
@@ -140,10 +146,12 @@ p2.getX();
 
     <p>Say you are creating a Person class and you want to make sure that the age of a person never
       gets set to a negative value. You could design the class to prevent that from happening:</p>
+    <listing>
     <program label="objects_member-access-program-3"
              interactive="activecode">
 <xi:include href="../../programs/objects/member-access-3.cpp" parse="text"/>
 </program>
+    </listing>
 
     <p>When other code tries to set a negative age, the <pf>Person</pf> class ignores that request and
       prints an error message. (It would make even more sense in a real program to throw an
@@ -168,6 +176,7 @@ p2.getX();
       </idx></p>
 
     <p>For instance, a person might have a <pf>void getOlder()</pf> function that looked like:</p>
+    <listing>
     <program>
 class Person {
 private:
@@ -178,6 +187,7 @@ public:
     }
     ...
     </program>
+    </listing>
 
     <p><pf>getOlder</pf> mutates (changes) the object. But it doesn't allow other code to change the age to
       an arbitrary value.</p>

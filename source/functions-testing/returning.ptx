@@ -24,18 +24,22 @@
 
   <p>Watching functions run in the Codelens can help you see how information moves into and out of the function:</p>
   
+<listing>
 <program label="functions-testing_returning-program-1" interactive="codelens">
 <xi:include href="../../programs/functions-testing/defining-new-functions-2.cpp" parse="text"/>
 </program>
+</listing>
 
   <p>Step The code line by line. Notice that as you reach the <pf>doubleValue</pf> in main the next line that executes is the double value function. As that function starts running, the parameter <pf>num</pf> is automatically set to the value that was passed in from main (the value x has, which is 5). When we reach the return execution jumps back to where the function call was and the returned result is stored into the variable y.</p>
 
   <p>Here is a program that uses the function 
   twice. Again, try running it in Codelens:</p>
   
+<listing>
 <program label="functions-testing_returning-program-2" interactive="codelens">
 <xi:include href="../../programs/functions-testing/returning-1.cpp" parse="text"/>
 </program>
+</listing>
 
   <p>
     Notice that both times we reach a call to <pf>doubleValue</pf> in main, we jump up to the function. The <pf>num</pf> parameter is set to a different value in each call. When the function finishes and returns, the returned value goes back to the place where the function was most recently called from and execution resumes from there.

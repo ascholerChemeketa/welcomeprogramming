@@ -6,6 +6,7 @@
     initialize a loop control variable before the loop, they have a condition that depends on that variable, and they do
     something inside the loop to update that variable:</p>
 
+<listing>
 <program line-numbers="yes" highlight-lines="1,2,4"><![CDATA[
 int i = 0;              //initialize
 while (i < 5) {         //test
@@ -13,6 +14,7 @@ while (i < 5) {         //test
     i++;                //update
 }
 ]]></program>
+</listing>
 
   <p>
     <idx>
@@ -54,9 +56,11 @@ for (initializer; test; update) {
     
     <p>For example, we can rewrite the 1-5 loop this way: </p>
 
+  <listing>
   <program label="loops_for-statement-program-1" interactive="codelens">
 <xi:include href="../../programs/loops/for-statement-0.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>The <pf>for</pf> loop is often easier to read because it puts all the loop-related statements at the top of the loop. Looking at the statement in that loop, I can tell that it start from 1, goes up to 5, and counts by 1. In the equivalent while loop, the update might be separated from the test by quite a bit of code, making it harder to see at a glance see what the loop is doing.</p>
 
@@ -74,9 +78,11 @@ for (initializer; test; update) {
   <p>There is another difference between <pf>for</pf> loops and <pf>while</pf> loops: if you declare a variable
     in the initializer, it exists only <term>inside</term> the <pf>for</pf> loop. For example, this program has a syntax error - <pf>i</pf> no longer is in scope once we leave the loop:</p>
 
+  <listing>
   <program label="loops_for-statement-program-2" interactive="activecode">
 <xi:include href="../../programs/loops/for-statement-2.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>This can actually be an advantage. If you want to keep reusing the same name for your loop counters, you can do so with a <pf>for</pf> loop. Each time a loop ends, the variables created in the initializer are no longer in scope.</p>
 
@@ -84,6 +90,7 @@ for (initializer; test; update) {
 
   <p>A final note about for loops: It is possible for the initialize or update to be empty:</p>
 
+<listing>
 <program>
 // empty initialize
 for ( ; i &lt; 5; i++) { ...
@@ -91,6 +98,7 @@ for ( ; i &lt; 5; i++) { ...
 // empty update
 for (int i = 0; i &lt; 5;  ) { ...
 </program>
+</listing>
 
   <p>In the first one, <pf>i</pf> would already have to exist. In the second example, we would need to update <pf>i</pf> inside the loop body to avoid an infinite loop. Although these structures are legal, they are usually a sign that you are using a <pf>for</pf> loop when a <pf>while</pf> loop would be the better way to express what you want to do.</p>
 

@@ -7,6 +7,7 @@
 
   <p>Consider line 8 in the sample below. It creates <pf>personRef2</pf>, which is a reference to a <pf>Person</pf>, but then assigns it to reference a <pf>Student</pf>:</p>
 
+  <listing>
   <program interactive="activecode" highlight-lines="8">
     <preamble visible="no">
 <xi:include href="../../programs/inheritance/upcasting-prefix-1.cpp" parse="text"/>
@@ -15,11 +16,13 @@
 <xi:include href="../../programs/inheritance/upcasting-1.cpp" parse="text"/>
     </code>
   </program>
+  </listing>
 
   <p>This works because according to the concept of inheritance, the <pf>Student</pf> is-a <pf>Person</pf>. A Person reference (or pointer) can refer (point) to a Student because a Student is just a specialized version of Person. Anytime we are working with a Student, it must also be true we are working with a Person.</p>
 
   <p>The opposite is not true. Although a Person may happen to be a Student, there is a distinction between the two. A Person does not necessarily have the properties or behaviors of a Student. This version of the code tries to make a <pf>Student&amp;</pf> that refers to a Person. But doing so is a compile error because it makes no sense::</p>
 
+  <listing>
   <program interactive="activecode" highlight-lines="7" autorun="yes">
     <preamble visible="no">
 <xi:include href="../../programs/inheritance/upcasting-prefix-1.cpp" parse="text"/>
@@ -28,9 +31,11 @@
 <xi:include href="../../programs/inheritance/upcasting-2.cpp" parse="text"/>
     </code>
   </program>
+  </listing>
 
   <p>This ability to <term>upcast</term> and treat a derived class object as if it were a base class object enables us to write a function that can work on any type of <pf>Person</pf>. In this sample, we call <pf>makeIntroduction</pf> twice. Once with a plain Person and then with a Person that happens to be a Student:</p>
 
+  <listing>
   <program interactive="activecode" highlight-lines="3, 12-13">
     <preamble visible="no">
 <xi:include href="../../programs/inheritance/upcasting-prefix-1.cpp" parse="text"/>
@@ -39,6 +44,7 @@
 <xi:include href="../../programs/inheritance/upcasting-3.cpp" parse="text"/>
     </code>
   </program>
+  </listing>
 
   <p>Without inheritance, we would need to write separate functions for each of the data types. However, there is an issue with the resulting output. Notice how the Alex object introduces itself. It uses the basic Person version of <pf>introduce()</pf>, not the customized Student version that includes the Student's major.</p>
 

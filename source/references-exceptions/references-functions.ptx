@@ -7,9 +7,11 @@
 
   <p>For example, normally when we pass something to a function, a copy is made of the passed value. The copy is stored into the parameter. Take this example:</p>
 
+  <listing>
   <program label="references-exceptions_references-functions-program-1" interactive="codelens">
 <xi:include href="../../programs/references-exceptions/references-functions-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>This is called <term>pass by value</term> because the parameter <pf>x</pf> in <pf>add</pf> gets a copy of the value of <pf>number</pf> from <pf>main</pf>. The memory diagram when we reach line 6 (after calling <pf>add</pf> from <pf>main</pf>) would look like: <idx><h>pass by value</h></idx></p>
   <figure>
@@ -28,9 +30,11 @@
 
   <p>Now <pf>x</pf> is a reference to <pf>number</pf>. This is called <term>pass by reference</term>. It links back to the memory in the <pf>main</pf> stack frame. If we change <pf>x</pf>, we change <pf>number</pf>. Try it out in this sample. The only change we have made is to make chop take a reference to an int: <pf>add(int&amp; x)</pf>.<idx><h>pass by reference</h></idx></p>
 
+  <listing>
   <program label="references-exceptions_references-functions-program-2" interactive="codelens">
 <xi:include href="../../programs/references-exceptions/references-functions-2.cpp" parse="text"/>
 </program>
+  </listing>
 
   <exercise label="references-exceptions_references-functions-ex-1">
     <statement>

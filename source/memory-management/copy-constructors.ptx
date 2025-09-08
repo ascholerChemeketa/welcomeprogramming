@@ -11,6 +11,7 @@
   <p>If we have a <pf>PlayerList</pf> object that is initialized with some data, we could copy it using this
     syntax:</p>
 
+  <listing>
   <program>
     PlayerList original(3); // Create a PlayerList with space for 3 players
     original.setPlayerName(0, "Alice");
@@ -19,6 +20,7 @@
 
     PlayerList copy(original); // Copy the original PlayerList
   </program>
+  </listing>
 
   <p>Here is what would result in memory:</p>
 
@@ -39,12 +41,14 @@
     AddressSanitizer alerts us to a <pf>heap-use-after-free</pf> in <pf>~PlayerList()</pf>. That is the second destructor call
     trying to delete the array that has already been deleted.</p>
 
+  <listing>
   <program label="memory-management_copy-constructors-program-1"
            interactive="activecode"
            compile-also="playerlist-v2"
            extra-compiler-args="-fsanitize=address -g">
 <xi:include href="../../programs/memory-management/playerlist-use-3.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Things would be even worse if one of the two PlayerLists was scoped to last longer than the
     other. Whichever one was destroyed first would delete the array and the other would be left with
@@ -89,12 +93,14 @@
   <p>Now, when we run the same main program, we should see that changing the copy does not change
     the array used by the original. There also will not be any memory errors:</p>
 
+  <listing>
   <program label="memory-management_copy-constructors-program-2"
            interactive="activecode"
            compile-also="playerlist-final"
            extra-compiler-args="-fsanitize=address -g">
 <xi:include href="../../programs/memory-management/playerlist-use-3.cpp" parse="text"/>
   </program>
+  </listing>
 
   <exercise label="memory-management_copy-constructors-ex-1" numbered="yes"
             adaptive="yes"

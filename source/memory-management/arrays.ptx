@@ -12,6 +12,7 @@
     char, etc...). To initialize an array of primitive values all to 0, we can use an empty
     initializer list after the brackets:</p>
 
+  <listing>
   <program>
     // Allocate an array of 4 integers - uninitialized
     int* data = new int[4];
@@ -23,6 +24,7 @@
     // Allocate an array of 10 Person objects - initialized with default constructor
     Person* persons = new Person[numPersons];
   </program>
+  </listing>
 
   <p>The first line says something like <q>Allocate enough memory to hold 4 integers and give me a
     pointer to where the data starts.</q>. A memory diagram after running just that line in main
@@ -50,11 +52,13 @@
       AddressSanitizer will catch this).</p>
   </warning>
 
+  <listing>
   <program label="memory-management_arrays-program-1"
            interactive="activecode"
            extra-compiler-args="-fsanitize=address -g">
 <xi:include href="../../programs/memory-management/array-delete.cpp" parse="text"/>
   </program>
+  </listing>
 
 
   <exercise label="memory-management_arrays-ex-1">

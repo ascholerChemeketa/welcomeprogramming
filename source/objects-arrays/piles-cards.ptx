@@ -33,9 +33,11 @@ We define a new class named <pf>Pile</pf> to represent a pile of cards.
 It uses an <pf>ArrayList</pf> to store <pf>Card</pf> objects:
 </p>
 
+<listing>
 <program label="objects-arrays_piles-cards-program-1" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/piles-cards-1.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
     <idx><h>angle brackets</h></idx>
@@ -52,9 +54,11 @@ At the beginning of each round, each player draws a card from the top of their p
 So we define a function to do that:
 </p>
 
+<listing>
 <program label="objects-arrays_piles-cards-program-2" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/piles-cards-2.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 <pf>popCard</pf> removes the <pf>Card</pf> at the beginning of the <pf>ArrayList</pf>, which we think of as the top of the pile.
@@ -66,9 +70,11 @@ At the end of each round, the winner adds cards to the bottom of their pile.
 So we define a function to do that:
 </p>
 
+<listing>
 <program label="objects-arrays_piles-cards-program-3" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/piles-cards-3.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 <pf>ArrayList</pf> provides a function, <pf>add</pf>, that adds an element to the end of the collection, which we think of as the bottom of the pile.
@@ -79,9 +85,11 @@ To know when to stop the game, we have to check if one of the piles is empty.
 Here's a function to do that:
 </p>
 
+<listing>
 <program label="objects-arrays_piles-cards-program-4" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/piles-cards-4.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 So far, these functions don't do very much; they just invoke functions on the instance variable, <pf>cards</pf>.
@@ -93,9 +101,11 @@ Finally, to start the game, we need to divide the deck into two equal parts.
 We can do that with <pf>subdeck</pf> from <xref ref="subdeck">Section</xref> and a new function, <pf>addDeck</pf>:
 </p>
 
+<listing>
 <program label="objects-arrays_piles-cards-program-5" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/piles-cards-5.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 <pf>addDeck</pf> takes a <pf>Deck</pf> object, loops through the cards, and adds them to the <pf>Pile</pf>.

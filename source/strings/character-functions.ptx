@@ -9,15 +9,19 @@
 
   <p>Fortunately, the functions return 0 to indicate false and a non-zero value for true. And those values work as false and true in C++. So if you call <pf>isdigit('q')</pf> it will return <pf>0</pf>, but that counts as false. So you can store it into a bool or use it directly in a test:</p>
 
+  <listing>
   <program label="strings_character-functions-program-1" interactive="activecode">
 <xi:include href="../../programs/strings/character-functions-1.cpp" parse="text"/>
     </program>
+  </listing>
 
   <p>The other two functions in the <pf>cctype</pf> library are <pf>toupper</pf> and <pf>tolower</pf>. They take an <pf>int</pf> parameter (that is expected to be an ASCII code). If that ASCII code corresponds to a letter, <pf>toupper</pf> returns the ASCII code of the upper case version of that letter and <pf>tolower</pf> returns the lower case code. If the input is not a letter, you just get the same value back. Once again, for historical reasons, the value they return is an int. So to avoid a compiler warning, you must cast the returned value to store it as a <pf>char</pf>. (Recall from <xref ref="floatingpoint-math_type-cast-operators"></xref> that casting is how we tell the compiler <q>I know there might be a problem with doing this conversion, but I am confident it will work. Just do it</q>.)</p>
 
+  <listing>
   <program label="strings_character-functions-program-2" interactive="activecode">
 <xi:include href="../../programs/strings/character-functions-2.cpp" parse="text"/>
 </program>
+  </listing>
 
   <note><p>The <pf>cctype</pf> library works with regular <pf>char</pf>s and returns results that make sense for English. If using wide characters (<pf>wchar_t</pf>) and/or programming fo a language that uses another alphabet, there is a <pf>cwctype</pf> that works with wide characters and allows you to specify what <q>locale</q> to use for functions like <pf>isalpha</pf>. See <url href="https://en.cppreference.com/w/cpp/header/cwctype">CPPReference.com's csctype docs</url> if you are interested in details.</p></note>
 

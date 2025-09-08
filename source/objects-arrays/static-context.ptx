@@ -27,9 +27,11 @@ When you have static functions and instance functions in the same class, it is e
 To invoke an instance function, you need an instance:
 </p>
 
+<listing>
 <program label="objects-arrays_static-context-program-1" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/static-context-1.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 <pf>Deck</pf> with a capital <pf>D</pf> is a class, and <pf>deck</pf> with a lowercase <pf>d</pf> is an object.
@@ -39,9 +41,11 @@ To invoke an instance function, you need an instance:
 Say you try to invoke <pf>print</pf> like this:
 </p>
 
+<listing>
 <program label="objects-arrays_static-context-program-2" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/static-context-2.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
     <idx><h>static context</h></idx>
@@ -64,9 +68,11 @@ By <q>static context</q>, the compiler means you are trying to invoke a function
 On the other hand, if you have a <pf>Deck</pf> object, you can use it to invoke a static function:
 </p>
 
+<listing>
 <program label="objects-arrays_static-context-program-3" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/static-context-3.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 This is legal, but it is not considered good style, because someone reading this code would expect <pf>randomInt</pf> to be an instance function.
@@ -77,9 +83,11 @@ Another common error is to use <pf>this</pf> in a static function.
 For example, say you write something like this:
 </p>
 
+<listing>
 <program label="objects-arrays_static-context-program-4" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/static-context-4.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 You get a compiler error like this:

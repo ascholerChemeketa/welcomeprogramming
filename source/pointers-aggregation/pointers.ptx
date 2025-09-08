@@ -29,6 +29,7 @@
   <p>To initialize a pointer type, we use the <pf>&amp;</pf> to get the address of the variable we want
     ot <q>point</q> at. This sample sets <pf>p</pf> to point at <pf>x</pf>:</p>
 
+  <listing>
   <program label="pointers-aggregation_pointers-program-1"
            interactive="activecode"
            highlight-lines="11"
@@ -36,6 +37,7 @@
            codelens="yes">
 <xi:include href="../../programs/pointers-aggregation/pointers-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Note that printing out <pf>p</pf> produces the same value as printing <pf>&amp;x</pf>. This should not
     be surprising, as we initialized <pf>p</pf> to <pf>&amp;x</pf>. A memory diagram of this example is
@@ -67,6 +69,7 @@
     to <pf>y</pf> instead of <pf>x</pf>. It then copies that address to another <pf>int*</pf> named <pf>q</pf>,
     which means that <pf>q</pf> is also <q>pointing</q> at <pf>y</pf>:</p>
 
+  <listing>
   <program label="pointers-aggregation_pointers-program-2"
            interactive="activecode"
            highlight-lines="13, 16"
@@ -74,6 +77,7 @@
            codelens="yes">
 <xi:include href="../../programs/pointers-aggregation/pointers-2.cpp" parse="text"/>
   </program>
+  </listing>
 
 
   <exercise label="pointers-aggregation_pointers-ex-1"

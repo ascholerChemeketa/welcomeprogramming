@@ -32,12 +32,14 @@ test.cpp:5:7: note: definition of ‘class Person’ is not complete until the c
     of this code, we are not trying to store a Person inside of a Person. We are simply storing a
     memory address inside each Person. So this code will compile and run just fine:</p>
 
+  <listing>
   <program label="pointers-aggregation_self-aggregation-program-1"
            interactive="activecode"
            highlight-lines="9, 13, 14, 19-20"
            line-numbers="yes">
 <xi:include href="../../programs/pointers-aggregation/self-aggregation-2.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Here are a few of the interesting uses of the pointer: <ul>
       <li>When we construct a Person, their <pf>m_spouse</pf> is set to <pf>nullptr</pf> as we assume everyone

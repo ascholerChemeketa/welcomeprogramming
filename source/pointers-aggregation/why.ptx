@@ -37,6 +37,7 @@
     will be pointing to an unpredictable location in memory (whatever bits were in memory where the
     pointer was placed will be interpreted as an address). That is the case below:</p>
 
+  <listing>
   <program label="pointers-aggregation_why-program-1"
            interactive="activecode"
            highlight-lines="7"
@@ -45,6 +46,7 @@
            compiler-args="-std=c++20">
 <xi:include href="../../programs/pointers-aggregation/pointers-bugs-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>In that program, line 7 declares a pointer <pf>p</pf> but does not initialize it. That reserves
     some space in memory for <pf>p</pf>, but does not assign anything. So the address that <pf>p</pf>

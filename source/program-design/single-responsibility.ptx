@@ -48,6 +48,7 @@
   <p>We can fix the <pf>calculateTriangleArea</pf> by giving it the single responsibility of doing the
     necessary math:</p>
 
+  <listing>
   <program label="program-design_single-responsibility-program-1" interactive="activecode" linenumbers="yes" highlight-lines="7-11">
     <stdin>
 3
@@ -58,6 +59,7 @@
 <xi:include href="../../programs/program-design/area-calculation-better.cpp" parse="text"/>
     </code>
 </program>
+  </listing>
 
   <p>Now, if we want to use the results of <pf>calculateTriangleArea</pf> for further calculations, we can easily do so because it
     returns a value. For example, we could use it to help build a program that compares two triangles in order to
@@ -72,6 +74,7 @@ if (areaA > areaB) {
 
   <p>We can also write an automated unit test for <pf>calculateTriangleArea</pf> to ensure it behaves as expected:</p>
 
+  <listing>
   <program>
 TEST_CASE("calculateTriangleArea") {
     CHECK(calculateTriangleArea(3, 4, 5) == doctest::Approx(6));
@@ -79,6 +82,7 @@ TEST_CASE("calculateTriangleArea") {
     CHECK(calculateTriangleArea(0, 3, 3) == doctest::Approx(0));
 }
   </program>
+  </listing>
   
 
   <exercise label="program-design_single-responsibility-ex-1">

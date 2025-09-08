@@ -20,6 +20,7 @@
 
   <p>Thus it makes sense to ask a string variable what it's size is. But it does not make sense to ask that of a string literal. A string literal is not an object. It is <q>just</q> a sequence of characters.</p>
 
+    <listing>
     <program label="strings_character-cstrings-program-1"
              interactive="activecode">
       <code><![CDATA[
@@ -34,6 +35,7 @@ int main() {
 }
         ]]></code>
         </program>
+    </listing>
 
   <p>The two critical things to remember are:
   <ul>
@@ -42,6 +44,7 @@ int main() {
   </ul>
   </p>
 
+  <listing>
   <program><![CDATA[ 
   cout << 'a' << endl;  // a char literal
   char c = 'a';         // a char variable
@@ -50,6 +53,7 @@ int main() {
   string s = "hello";       // a string variable
   ]]>
   </program>
+  </listing>
   
   <p>As long as you keep those two facts in mind, and avoid trying to do work on string literals, you won't have to worry about other details. If you have a string literal to work with, store that literal into a variable and work with the variable.</p>
 

@@ -13,10 +13,12 @@
 
   <p>Consider this function to sum up the digits in an integer:</p>
 
+  <listing>
   <program label="recursive-functions_recursive-design-program-1"
            interactive="activecode">
 <xi:include href="../../programs/recursive-functions/recursive-design-0.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>The information we keep track of are the variables <pf>sum</pf> and <pf>n</pf>. Each step of the loop adds
     the last digit to <pf>sum</pf> and then removes the last digit from <pf>n</pf>.</p>
@@ -44,6 +46,7 @@
     one digit (the number is less than 10), than the sum of the digits is simply the number itself.
     It doesn't get much simpler than that!</p>
 
+  <listing>
   <program>
     int addDigits(int n) {
         if (n &lt; 10) {
@@ -55,6 +58,7 @@
         }
     }
   </program>
+  </listing>
 
   <p>Now we need to figure out how to handle the recursive case. The job of a recursive case is <em>
     NEVER</em> to solve the entire problem. It is to break the problem down into smaller pieces and
@@ -78,6 +82,7 @@
   <p>So our recursive case for adding digits involves looking at the last digit, making a recursive
     call using everything but that digit, and then adding the last digit to the result of that call:</p>
 
+  <listing>
   <program>
     int addDigits(int n) {
         if (n &lt; 10) {
@@ -91,6 +96,7 @@
         }
     }
   </program>
+  </listing>
 
   <p>The way that the recursive case breaks down the problem into something slightly simpler should
     get us closer and closer to a base case. That is what will eventually end the recursion! This is
@@ -98,16 +104,19 @@
     shorter. Eventually, it is only one digit and falls into the base case. Try running the program
     in a Codelens to see:</p>
 
+  <listing>
   <program label="recursive-functions_recursive-design-program-2"
            interactive="codelens">
 <xi:include href="../../programs/recursive-functions/recursive-design-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Wait, weren't we promised that recursion could sometimes produce simpler and easier algorithms?
     That version of the algorithm intentionally stores every value that is calculated so we can
     watch the code run. Once we are confident in how the code works, we could rewrite it to be this
     version:</p>
 
+  <listing>
   <program label="recursive-functions_recursive-design-program-3"
            interactive="activecode">
 <code>
@@ -115,6 +124,7 @@
 </code>
 <stdin>5343</stdin>
   </program>
+  </listing>
 
   <p>To summarize our process: <ul>
       <li>Identify the inputs and outputs for the function</li>

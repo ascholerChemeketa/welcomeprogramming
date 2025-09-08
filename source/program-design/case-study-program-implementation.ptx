@@ -103,6 +103,7 @@
 
     <console><output>g++ -std=c++20 -fmodules-ts dateTests.cpp DateFunctions.cxx -o test-program.exe</output></console>
 
+    <listing>
     <program xml:id="program-design_case-study-test-getMonth-2"
              label="program-design_case-study-test-getMonth-2"
              filename="dateTests.cpp"
@@ -114,6 +115,7 @@
 <xi:include href="../../programs/program-design/case-study-test-getMonth.cpp" parse="text"/>
         </tests>
     </program>
+    </listing>
 
     <exercise label="program-design_case-program-implementation-ex-1">
       <statement>Which test case fails?</statement>
@@ -131,6 +133,7 @@
     <title>Fixing <pf>getMonth</pf></title>
     <p>Before going on to other functions, we should fix <pf>getMonth</pf>. It appears we will need to scan the <pf>monthNum</pf> string to make sure that each character is a digit.</p>
     <p>We can do this by using a loop to check each character in the string. Something like:</p>
+    <listing>
     <program>
       for(char c: monthPart) {
           if(!isdigit(c)) {
@@ -138,6 +141,7 @@
           }
       }
     </program>
+    </listing>
 
     <activity label="program-design_case-program-implementation-act-2" xml:id="program-design_case-study-implementation-getMonth-fix-listing">
       <statement>

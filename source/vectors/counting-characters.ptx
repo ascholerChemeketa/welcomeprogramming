@@ -43,10 +43,12 @@
       So let us start with just some code to iterate through a string and print out each character,
       followed by the index it belongs in:</p>
 
+    <listing>
     <program label="vectors_counting-characters-program-1"
              interactive="activecode">
 <xi:include href="../../programs/vectors/counting-characters-1.cpp" parse="text"/>
 </program>
+    </listing>
 
     <p>Testing out that code, it seems like there are a few problems: <ul>
         <li>Upper case <pf>T</pf> gets a different index than <pf>t</pf></li>
@@ -56,10 +58,12 @@
 
     <p>So let us convert everything to lower and ignore anything that is not alphabetical:</p>
 
+    <listing>
     <program label="vectors_counting-characters-program-2"
              interactive="activecode">
 <xi:include href="../../programs/vectors/counting-characters-2.cpp" parse="text"/>
 </program>
+    </listing>
 
     <p>That looks better.</p>
   </subsection>
@@ -73,10 +77,12 @@
       from the vector to increment. To confirm that this is working, we will print out the new count
       for that letter each time we make a change:</p>
 
+    <listing>
     <program label="vectors_counting-characters-program-3"
              interactive="activecode">
 <xi:include href="../../programs/vectors/counting-characters-3.cpp" parse="text"/>
 </program>
+    </listing>
 
     <p>That seems to be working well.</p>
   </subsection>
@@ -88,10 +94,12 @@
     traverses the string. After that traversal, we can traverse the vector to print out the values.
     We want to print the index as well as the value of each element, so we will use a counting loop:</p>
 
+  <listing>
   <program label="vectors_counting-characters-program-4"
              interactive="activecode">
 <xi:include href="../../programs/vectors/counting-characters-4.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>This
     is looking good. But it is a little tricky to read the output. To figure out how many <pf>'t'</pf>s

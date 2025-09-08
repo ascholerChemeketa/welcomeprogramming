@@ -60,9 +60,11 @@
 
   <p>Attempting to access a bad index like -1 or a number greater than or equal to the size results in a run time error:</p>
 
+  <listing>
   <program label="strings_indicies-program-2" interactive="activecode">
 <xi:include href="../../programs/strings/string-indicies-2.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>If we read carefully, we can see the error message tells us there was an <pf>out_of_range</pf> problem using the value 100 in a string with <pf>size() (which is 11)</pf>. Notice however that it does not tell us the line number the error occurred on. If it was not obvious we would need to use a debugger or print statements to identify the location. Here, we can tell that the error happened before the line that prints <pf>"Well, that didn't work."</pf> as we do not see it in the output.</p>
 
@@ -72,9 +74,11 @@
   </warning>
 
   <p>You can also use the <pf>at()</pf> function to change the value of a character in a string by assigning a new character to the location:</p>
+  <listing>
   <program label="strings_indicies-program-3" interactive="activecode">
 <xi:include href="../../programs/strings/string-indicies-3.cpp" parse="text"/>
 </program>
+  </listing>
 
   <warning>
     <title>The <pf>[ ]</pf> syntax and its dangers</title>

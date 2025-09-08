@@ -156,6 +156,7 @@
       <li>The final <pf>else</pf> does not need a condition.</li>
     </ul>
     </p>
+    <listing>
     <program><![CDATA[ 
 if (income <= ???) {
     tax = income * 0.10;
@@ -167,6 +168,7 @@ if (income <= ???) {
   tax = 12000 + (income - 70000) * 0.25;
 }]]>
     </program>
+    </listing>
     <insight>
       <p>Avoid stating things that were eliminated by previous checks. Doing so is a form of <q>repeating yourself</q>. Remember <xref ref="DRY" text="custom">DRY</xref></p>
       <p>In this case, writing out each test in long form can make it easy to by accident include a boundary (like $50,000) in two conditions or none at all.</p>
@@ -203,6 +205,7 @@ if (income <= ???) {
 
     <p>Of course, there are other ways we could write the code. But they would almost all involve more repeating ourselves. One such alternate would be to replace the nested ifs with complex conditions:</p>
 
+    <listing>
     <program><![CDATA[
 ...
 if (isMarried && income <= 20000) {...
@@ -212,6 +215,7 @@ else if (isMarried) {...
 else if (!isMarried income <= 10000) {...
 ...
     ]]></program>
+    </listing>
 
     <p>Although that structure could produce the right values, the repetition is unnecessary and just serves to make the code harder to read or update.</p>
 

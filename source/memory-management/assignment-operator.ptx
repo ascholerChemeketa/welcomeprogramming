@@ -7,6 +7,7 @@
     assignment operator is used to copy the contents of one object to another existing object of the
     same class: </p>
 
+  <listing>
   <program line-numbers="yes"
            highlight-lines="9">
     PlayerList original(3); // Create a PlayerList with space for 3 players
@@ -19,6 +20,7 @@
 
     other = original; // Use the assignment operator to copy original into other
   </program>
+  </listing>
 
   <p>Right before the assignment, the memory layout looks like this:</p>
 
@@ -83,12 +85,14 @@
     AddressSanitizer alerts us to a <pf>heap-use-after-free</pf> in <pf>~PlayerList()</pf>. That is the second destructor call
     trying to delete the array that has already been deleted.</p>
 
+  <listing>
   <program label="memory-management_assignment-operator-program-1"
            interactive="activecode"
            compile-also="playerlist-final"
            extra-compiler-args="-fsanitize=address -g">
 <xi:include href="../../programs/memory-management/playerlist-use-4.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Things would be even worse if one of the two PlayerLists was scoped to last longer than the
     other. Whichever one was destroyed first would delete the array and the other would be left with

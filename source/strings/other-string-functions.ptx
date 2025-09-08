@@ -23,6 +23,7 @@
       looks for <pf>/</pf>, then keeps looking for another <pf>/</pf> after that location until it can't find any
       more. <pf>rfind()</pf> makes this much easier:</p>
 
+    <listing>
     <program><![CDATA[ 
 string path = "http://example.com/home/user/files/file.txt";
 
@@ -37,11 +38,13 @@ while (nextSlash != string::npos) {
 }
 
   ]]></program>
+    </listing>
 
     <p><pf>find_first_of</pf> and <pf>find_last_of</pf> let you specify a set of characters to look for. Say we
       want to find the first vowel in a string. One way would be to write our own loop that checks
       letter by letter until it find something that when made lowercase matches a e i o or u.:</p>
 
+    <listing>
     <program><![CDATA[
 // assume string s is defined
 size_t firstVowelLocation = string::npos;  // assume no vowel
@@ -55,6 +58,7 @@ for (int i = 0; i < s.length(); ++i) {
 }
 ]]>
 </program>
+    </listing>
 
     <p>But <pf>find_first_of</pf> can handle the loop for us. We just need to tell it what to look for (any
       upper or lower case letter).</p>
@@ -78,9 +82,11 @@ size_t firstVowelLocation = s.find_first_of("aeiouAEIOU");
     
     <p>You need to tell it what index to start erasing from and optionally, how many characters to erase (everything from that location to end is the default. Here it is in action:</p>
 
+    <listing>
     <program label="strings_other-string-functions-program-1" interactive="activecode">
 <xi:include href="../../programs/strings/other-string-functions-1.cpp" parse="text"/>
     </program>
+    </listing>
 
     <p>Note that we do not need to store the result of calling <pf>erase</pf>. Just calling the member function changes the string that we called it on.</p>
 
@@ -92,9 +98,11 @@ size_t firstVowelLocation = s.find_first_of("aeiouAEIOU");
 
     <p><pf>replace</pf> looks similar to <pf>erase</pf>, but has an additional parameter <pf>str</pf> that is put where the erased text was. Here is what it would look like to erase the word <pf>World</pf> (5 charcters) that starts at index 6, with the string <pf>"you"</pf>:</p>
 
+  <listing>
   <program label="strings_other-string-functions-program-2" interactive="activecode">
 <xi:include href="../../programs/strings/other-string-functions-3.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Again, we could do something equivalent without <pf>replace</pf> by grabbing the <pf>substr</pf>s before and after the part we want to replace and then concatenating them with something like: <pf>message = part1 + "you" + part2;</pf></p>
 

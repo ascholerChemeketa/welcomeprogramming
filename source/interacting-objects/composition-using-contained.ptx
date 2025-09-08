@@ -5,9 +5,11 @@
 
   <p>Now let's add and use some getters to the Circle class:</p>
 
+  <listing>
   <program label="interacting-objects_composition-using-contained-program-1" interactive="activecode" highlight-lines="19, 34">
 <xi:include href="../../programs/interacting-objects/circle-2.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>The <pf>getRadius</pf> is straightforward. It just returns the <pf>m_radius</pf> that the Circle stores. But <pf>getX()</pf> is more complicated. The Circle does not have an <pf>x</pf> or a <pf>m_x</pf> that it can return. What it does have is a Point <pf>m_center</pf>. It needs to rely on that Point to access the x location.</p>
 
@@ -17,9 +19,11 @@
 
   <p>Let's add another function that uses existing Point logic to help Circle do a job. We want to add a method that tells us if a Point is inside a Circle. We can do that by comparing the radius of the Circle and the distance from the Point to the center of the Circle. If that distance is less than the radius, then the Point is inside the Circle.</p>
 
+  <listing>
   <program label="interacting-objects_composition-using-contained-program-2" interactive="activecode" highlight-lines="13-20, 32">
 <xi:include href="../../programs/interacting-objects/circle-contains.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Finding the distance between two points is a job for a Point, not the Circle. So when we ask <pf>c1.contains(Point(3.2, 2.0))</pf>, the circle starts by asking its center Point to calculate the distance to that point (<pf>m_center.distanceTo(p)</pf>). It then uses that value to compute the final answer.</p>
   

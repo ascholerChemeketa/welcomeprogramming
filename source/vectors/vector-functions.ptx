@@ -19,15 +19,19 @@
 
   <p>To return a vector, we can declare the return type to be a <pf>vector&lt;T></pf> and then make sure to return an appropriate type of vector. (A returned value is always copied, though the compiler may do some tricks to avoid actually copying the data). This function returns a new vector that is a copy of the one passed in which every element gets doubled:</p>
 
+  <listing>
   <program label="vectors_vector-functions-program-1" interactive="activecode">
 <xi:include href="../../programs/vectors/vector-functions-3.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Note that we could write the function so that instead of making a new vector and returning that we modified the vector that was passed in:</p>
 
+  <listing>
   <program label="vectors_vector-functions-program-2" interactive="activecode">
 <xi:include href="../../programs/vectors/vector-functions-4.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>In this version, we must take the vector parameter as a reference that is not <pf>const</pf> so we can modify the vector (line 7). Similarly, as we use a range-based loop to traverse the elements, we need to declare the element type to be an <pf>int&amp;</pf> - a reference to an int - so that we are working with the actual element and not a copy of its value (line 9). Because the parameter is modified, there is nothing new to return from the function. So the return type is declared as <pf>void</pf> (line 7) and when it is called in <pf>main</pf>, there is no result to store (line 17). Because we <term>passed by reference</term>, all of the changes made to <pf>numbers</pf> in <pf>doubleValues</pf> really were made to <pf>myList</pf> that was passed in from <pf>main</pf>.</p>
 

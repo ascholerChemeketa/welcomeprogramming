@@ -4,9 +4,11 @@
 
     <p>What if you do not know how many tokens there are to read? Well, we can simply keep reading until we either encounter the end of the file or produce an error. Trying to read a token once we are at the end of the file will cause the stream to go into a failure state. If we want to try to stop before an input actually fails, we can use the <pf>.eof()</pf> method to ask <q>are you at the End Of File yet?</q>. It returns <pf>true</pf> if the end has been reached. So <pf>!streamName.eof()</pf> checks <q>is there more to read?</q></p>
 
+  <listing>
   <program label="input-output_file-eof-program-1" add-files="datafile-numbers"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-eof-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Let's try the same logic on a list of names:</p>
 
@@ -16,17 +18,21 @@ Alice Johnson
 Robert Brown
 Emily K. Davis</pre></datafile>
 
+  <listing>
   <program label="input-output_file-eof-program-2" add-files="datafile-names"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-eof-2.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Notice that when we read into strings, whitespace still breaks up the tokens. Thus we do not get entire names, we get <pf>John</pf>, <pf>Doe</pf>, <pf>Jr.</pf>,...</p>
 
   <p>We can also use the <pf>getline</pf> function to read an entire line of text. This is useful when we want to read a whole line of text into a string variable. The <pf>getline</pf> function takes two parameters: the stream and the string variable to read into. Here is an example:</p>
 
+  <listing>
   <program label="input-output_file-eof-program-3" add-files="datafile-names"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-eof-3.cpp" parse="text"/>
 </program>
+  </listing>
 
   <note><p>You can use getline to read an entire line from any stream, including <pf>cin</pf>. To use it on <pf>cin</pf> you would do something like <pf>getline(cin, stringVariable)</pf>.</p></note>
 
@@ -34,6 +40,7 @@ Emily K. Davis</pre></datafile>
 
   <p>Try changing lines 11-12 in the program above to this code:</p>
 
+<listing>
 <program><![CDATA[ 
         getline(inFile, name); // Read a line from the file
         if (name == "") { // Check if the line is empty
@@ -41,6 +48,7 @@ Emily K. Davis</pre></datafile>
         }
         cout << "The next number in the file is: " << name << endl;
 ]]></program>
+</listing>
 
   <p>Just because a file has lines does not mean you need to use <pf>getline</pf> to read them. If every line has the same number of pieces of data and those pieces are separated by whitespace, it is likely easier to read in each part directly. For example, given this data:</p>
 
@@ -52,9 +60,11 @@ Ford Focus 2015
 
   <p>The easiest way to read it in would likely be something like what is shown below. If we used <pf>getline</pf> we would have to do our own work to then split the line up into parts.</p>
 
+  <listing>
   <program label="input-output_file-eof-program-4" add-files="datafile-cars"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-eof-4.cpp" parse="text"/>
 </program>
+  </listing>
 
   <warning><p>Mixing <pf>getline</pf> and <pf>>></pf> can cause confusing issues. <pf>>></pf> will read the last thing on a line and leave the newline there to be read (or skipped) by the next input instruction. If <pf>getline</pf> is used next, it will read that newline as an empty line. Try to stick to one method or the other when reading a file.</p></warning>
 

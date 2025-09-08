@@ -10,6 +10,7 @@
 
   <p>Here are the three tests we wrote in doctest format:</p>
 
+  <listing>
   <program line-numbers="yes">
 // Bring in unit testing code and tell it to build a main function
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
@@ -24,6 +25,7 @@ TEST_CASE("heronsFormula") {
   CHECK(heronsFormula(0, 3, 3) == doctest::Approx(0));
 }
   </program>
+  </listing>
 
   <p>Don't worry about memorizing all the details. For now you will be using tests that are already written. Later we will worry about learning the syntax well enough to write tests. Here is what we are looking at:
   <ul>
@@ -40,6 +42,7 @@ TEST_CASE("heronsFormula") {
 
   <p>Below is that same testing code, with the same buggy version of the <pf>heronsFormula</pf> function. Before you fix it, run it to see the output. You should see a section that looks like:</p>
 
+  <listing>
   <program language="text" line-numbers="yes" highlight-lines="3-4,6-7">
 ===============================================================================
 Test messages:
@@ -49,6 +52,7 @@ TEST CASE:  heronsFormula
 test.cpp:28: ERROR: CHECK( heronsFormula(3, 4, 5) == doctest::Approx(6) ) is NOT correct!
   values: CHECK( 2.44949 == Approx( 6 ) )
   </program>
+  </listing>
 
   <p>Lines 3 and 4 show that we are looking at the <pf>TEST_CASE</pf> name <pf>heronsFormula</pf> on line <pf>27</pf> of the program. If we had more function, each would have its own <pf>TEST_CASE</pf>, so this would help identify which test was failing. Then on line 6 we are shown a <pf>CHECK</pf> that is failing. Immediately after that on line 7, we are shown the actual values that were used. Here, I can see that <pf>heronsFormula(3, 4, 5)</pf> evaluated to <pf>2.44949</pf> and that value is not <pf>Approx( 6 )</pf>.</p>
 

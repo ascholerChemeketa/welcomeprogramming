@@ -6,9 +6,11 @@
   
   <p>In this book, you will have no way to see the data in files that you write other than to try to open them and read the data. So that is what this program does. After it finishes writing some numbers to the file <pf>data.txt</pf>, it closes the file to make sure that it is available to open for reading, and then opens it with an <pf>ifstream</pf> to read the data back in:</p>
 
+  <listing>
   <program label="input-output_file-writing-program-1"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-writing-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>When you open a file name that does not exist, it is automatically created in the working directory. If a file with that name already exists, it is <term>truncated</term> on opening. That means any existing data is wiped out. If you would rather add to the existing contents of the file, you can choose to <term>append</term> to the file. The open command can take an optional second parameter specifying the mode to use for writing. The mode <pf>ios::app</pf> says to append new output to the end of the file instead of truncating the file:
   <idx><h>truncate</h></idx></p>

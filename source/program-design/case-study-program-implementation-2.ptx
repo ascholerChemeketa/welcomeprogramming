@@ -62,6 +62,7 @@
 
     <p>Written as unit tests in <pf>dateTests.cpp</pf>, this might look like the following:</p>
 
+    <listing>
     <program>
 TEST_CASE("daysBeforeMonth") {
     CHECK(daysBeforeMonth(1) == 0);
@@ -71,6 +72,7 @@ TEST_CASE("daysBeforeMonth") {
     CHECK(daysBeforeMonth(12) == 334);
 }
     </program>
+    </listing>
 
     <exercise label="program-design_case-program-implementation-2-ex-1">
       <statement>
@@ -114,6 +116,7 @@ TEST_CASE("daysBeforeMonth") {
 
     <p>The function is relatively straightforward. It is really just a big set of if/elses or a switch statement. For invalid months, we should either return some sentinel value like <pf>-1</pf> or throw an exception. Here is one possible implementation:</p>
 
+    <listing>
     <program>
 int daysBeforeMonth(int month) {
     if (month == 1) {
@@ -129,6 +132,7 @@ int daysBeforeMonth(int month) {
         throw std::logic_error("Invalid month: " + std::to_string(month));
     }
     </program>
+    </listing>
 
     <exercise label="program-design_case-program-implementation-2-ex-2">
       <statement>Complete the compiler recipe to build our module file with the test file. Although the compiler provides flexibility in parameter ordering, use the order we have been using: <pf>COMPILER_NAME FLAGS LIST_OF_FILES -o OUTPUT_NAME</pf>. You will not need all the blocks.</statement>
@@ -170,6 +174,7 @@ int daysBeforeMonth(int month) {
 
     <p>The code itself should be very simple. Something like:</p>
 
+    <listing>
     <program>
 int dateToDays(string date) {
     int month = getMonth(date);
@@ -179,6 +184,7 @@ int dateToDays(string date) {
     return totalDays;
 }
 </program>
+    </listing>
 
     <insight><p>Well designed helper functions should make implementing functions that use them easy. If you find yourself struggling to implement a function, it is maybe a sign you need to add more helper functions or redesign the ones you have.</p></insight>
 

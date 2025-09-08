@@ -16,9 +16,11 @@
 
   <p>Watching this process play out in Codelens is perhaps the best way to understand what is happening. Don't worry too much about what this code does (or what <pf>void</pf> means), pay attention to how the flow of execution works as we encounter function calls:</p>
 
+<listing>
 <program label="functions-testing_flow-execution-program-1" interactive="codelens">
 <xi:include href="../../programs/functions-testing/execution-flow.cpp" parse="text"/>
 </program>
+</listing>
 
   <p>That flow is a little convoluted. In the middle
     of <pf>main</pf>, we jump off to <pf>printMessageTwice</pf>. While in that function, we twice jump off to execute <pf>printMessage</pf>. Then, once we are back in <pf>main</pf>, we call invokes <pf>printMessage</pf> directly, which causes yet another detour.</p>

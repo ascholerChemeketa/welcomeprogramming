@@ -20,11 +20,13 @@
   <p>Let's start with a simple test of this idea. We will make a loop that counts until 10. In the
     loop we will generate a random number and use that to print "Heads" or "Tails":</p>
 
+  <listing>
   <program label="loops_coin-flips-program-1"
            interactive="activecode"
            compile-also="SimpleRandom-cxx" extra-compiler-args="-std=c++20 -fmodules-ts">
 <xi:include href="../../programs/loops/flips-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Now we need to keep track of how many heads in a row we have seen. We will need a variable to
     store the current streak. We will start it at 0. Every time we see a head, we will increment the

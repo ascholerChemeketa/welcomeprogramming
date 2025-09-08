@@ -29,11 +29,13 @@
 
   <p>Here is an implementation of the postfix <pf>++</pf> operator for <pf>Rational</pf>:</p>
 
+  <listing>
   <program include="RationalStart"
            interactive="activecode"
            label="operators_increment-post-1">
 <xi:include href="../../programs/operators/increment-post-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>In this version, as <pf>r2 = r1++</pf> runs, the <pf>r1++</pf> executes first. It changes r1, but then
     returns a copy of the <pf>temp</pf> variable, which holds the original value of r1 before the

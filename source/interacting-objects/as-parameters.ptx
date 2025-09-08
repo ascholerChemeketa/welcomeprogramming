@@ -34,6 +34,7 @@
     <title>Making Members Const</title>
     <p>A member function can be marked <pf>const</pf> by adding the keyword after the parameter list (before the body or the semicolon):</p>
 
+    <listing>
     <program line-numbers="yes" highlight-lines="3, 6, 10">
 class Point {
 public:
@@ -48,6 +49,7 @@ double Point::getY() const {
     return m_y;
 }
     </program>
+    </listing>
 
     <p><pf>const</pf> becomes part of the prototype of the function. <pf>getX</pf> is now <q>The getX function that is a part of Point, returns a double, and keeps the object constant</q>. Anywhere we write the prototype, like on line 10 to define the <pf>getY</pf> that was declared on line 6, we must use the <pf>const</pf>.</p>
 
@@ -65,9 +67,11 @@ double Point::getY() const {
 
     <p>Now we can successfully write a function that tries to use a const Point reference:</p>
 
+    <listing>
     <program label="interacting-objects_as-parameters-program-1" interactive="activecode" include="const-member-functions">
 <xi:include href="../../programs/interacting-objects/const-member-functions-user.cpp" parse="text"/>
     </program>
+    </listing>
 
     <p>Note that it is still not OK to use non-const functions. If you add a line <pf>p1.setX(10)</pf> to the <pf>distanceBetween</pf> code, it will produce an error. You are now calling a function that is not known to be safe on a <pf>Point</pf> we promised to keep const.</p>
   </subsection>

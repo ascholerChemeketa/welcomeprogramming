@@ -32,10 +32,12 @@
     the same<mdash/>the memory never actually went away.</p>
 
 
+  <listing>
   <program label="memory-management_passing-pointers-program-1"
            interactive="codelens">
 <xi:include href="../../programs/memory-management/passing-pointers-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Notice that <pf>borrowMemory</pf> changes the value of the memory that was shared with it. When we return
     to main, the <pf>returnedMemory</pf> pointer still has the same address, but now that memory location contains

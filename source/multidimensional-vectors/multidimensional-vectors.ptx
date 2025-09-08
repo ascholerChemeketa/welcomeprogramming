@@ -43,6 +43,7 @@
 
   <p>If we want to initialize the vector with particular values, we can do so using a list initializer that contains a list of lists:</p>
 
+  <listing>
   <program><![CDATA[ 
 vector<vector<int>> table = {
     {6, 3, 2, 5, 7},
@@ -51,6 +52,7 @@ vector<vector<int>> table = {
 };
   ]]>
   </program>
+  </listing>
 
   <p>This would make the 3 row, 5 column table of data shown at the top of the page. Note that the outer <pf>{...}</pf> surround a list of three things separated by <pf>,</pf>. Each of those three things is a list of 5 items that are in <pf>{...}</pf> and separated by a comma. (The newlines to space out the data more like how we picture it in the table are optional. The initialization could be on one long line.)</p>
 

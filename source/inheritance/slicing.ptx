@@ -26,6 +26,7 @@
 
   <p>Thus if we rewrote the <pf>makeIntroduction</pf> function to use pass by value, it would no longer be able to produce polymorphic behavior. The object we are working with is just a <pf>Person</pf> and will never have extra information.</p>
 
+  <listing>
   <program>
     void makeIntroduction(Person person) {
         // Person is a COPY of the object passed in - any extra data was sliced off
@@ -33,6 +34,7 @@
         // Consider using a reference to avoid slicing
     }
   </program>
+  </listing>
   
   <p>The original <pf>makeIntroduction</pf> uses pass by const reference, so the <pf>person</pf> parameter is not a copy of what is passed in, it is a reference to the original. Nothing needed to be sliced. That means at run time we can check <q>What kind of object is this? Which version of <pf>introduce</pf> should we use?</q></p>
 
@@ -199,6 +201,7 @@
   
   <p>If the check fails because <pf>p</pf> is not in fact pointing at a Student, the <pf>dynamic_cast</pf> will result in a <pf>nullptr</pf>. So, before we use the pointer produced by <pf>dynamic_cast</pf>, we should check to see if it is null or not:</p>
   
+  <listing>
   <program>
     Student* sPtr = dynamic_cast&lt;Student*>(p);
     if (sPtr) {  // or if (sPtr != nullptr)
@@ -209,6 +212,7 @@
         cout &lt;&lt; "p is not a Student" &lt;&lt; endl;
     }
   </program>
+  </listing>
 
   <p>Usually, polymorphism is a better way to make a derived class behave differently than its parent. When we used the <pf>introduce()</pf> function, we did not need to check if the object was a Student or not. We just called <pf>introduce()</pf> and the right version was used. But there are times when you absolutely need to know <q>Is this pointer pointing at a derived class?</q>. <pf>dynamic_cast&lt;DerivedClass*>(pointer)</pf> is the way to check.</p>
 

@@ -8,6 +8,7 @@
     looks something like this:</p>
 
 
+  <listing>
   <program><![CDATA[ 
       Rational& Rational::operator=(const Rational& other) {
         // copy the values from other into this
@@ -17,6 +18,7 @@
       }
       ]]>
     </program>
+  </listing>
 
   <p>This is the code that gets called when we write something like <pf>r1 = r2;</pf>. The compiler
     translates that expression into <pf>r1.operator=(r2)</pf>. In the context of the function call, <pf>r2</pf> is <pf>other</pf>
@@ -36,12 +38,14 @@
     the assignment operator. It uses the custom operator to mark when an object is a copy of
     something else. The animation will start just before the assignment operator runs.</p>
 
+  <listing>
   <program include="RationalStart"
            interactive="codelens"
            label="operators_assignment-1"
            starting-step="11">
 <xi:include href="../../programs/operators/assignment-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>In this case, overloading the assignment operator allows us to make sure that <pf>Rational</pf> objects
     are not perfectly copied. We don't use the <pf>m_isCopy</pf> variable to do anything interesting, but it

@@ -18,9 +18,11 @@ ifstream inFile;
 
     <p>This program opens the datafile <pf>Numbers.txt</pf> shown on the previous page and reads the first two numbers from it:</p>
 
+  <listing>
   <program label="input-output_file-input-program-1" add-files="datafile-numbers"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-1.cpp" parse="text"/>
 </program>
+  </listing>
 
     <exercise label="input-output_file-input-ex-1">
       <statement><p>What happens if you try changing the filename to something else like <pf>"oops.txt"</pf>?</p></statement>
@@ -48,6 +50,7 @@ ifstream inFile;
     <p>The streams provided by <pf>&lt;fstream></pf> are a bit frustrating in that they do not automatically report errors.
     If you want to know if the stream is OK, you have to use one of these checks:</p>
 
+  <listing>
   <program>
 // Check if the stream is OK
 if (inFile.good()) {
@@ -67,12 +70,15 @@ if (!inFile) {
   // stream is NOT OK
 }
   </program>
+  </listing>
 
   <p>Here is a version of the program that checks to make sure the file was opened successfully. It also uses a shortened form of creating the <pf>ifstream</pf> and opening a file with it.</p>
 
+  <listing>
   <program label="input-output_file-input-program-2" add-files="datafile-numbers"  interactive="activecode">
 <xi:include href="../../programs/input-output/file-input-2.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Try changing the filename this program is opening to see that it catches the issue. By returning from main, we end the program early when there was a failure opening the file. (Returning a non-zero value is the convention for <q>there was an error in the program</q>). We could instead throw an exception, try opening a different file, etc...</p>
 

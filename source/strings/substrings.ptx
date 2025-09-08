@@ -18,10 +18,12 @@ string substr (size_t pos = 0, size_t len = npos) const;
     <pf>myString.substr(0, string::npos)</pf> which says <q>start from the beginning and have no maximum
     number to copy</q>. Here are some sample uses of <pf>substr</pf>:</p>
 
+  <listing>
   <program label="strings_substrings-program-1"
            interactive="activecode">
 <xi:include href="../../programs/strings/string-substr-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Note that the original string is not changed. <pf>substr</pf> just copies parts of it, and does not remove them from the original string. Also note that even if we ask for just one character, the value is returned as a single character
     string. Not as a char.</p>
@@ -37,6 +39,7 @@ string substr (size_t pos = 0, size_t len = npos) const;
   <p>It is common to combine <pf>find</pf> and <pf>substr</pf> to chop up strings. This simple program breaks up an email address into the mailbox name and the domain. Notice that if something we find is at index <pf>x</pf>, then asking for <pf>substr(0, x)</pf> copies everything up to but not including that item:</p>
 
 
+  <listing>
   <program label="strings_substrings-program-2"
            interactive="activecode">
 <code>
@@ -44,6 +47,7 @@ string substr (size_t pos = 0, size_t len = npos) const;
 </code>
 <stdin>user@college.edu</stdin>
 </program>
+  </listing>
 
 
   <exercise label="strings_substrings-ex-1">

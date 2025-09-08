@@ -29,6 +29,7 @@
 
   <p>Another exception to this rule is using reference parameters. When we are working with large data structures, it can be more efficient to modify the parameter in place rather than create a new value to return. Say we want to write a function that is supposed to capitalize a string. We could write a pure function to do so:</p>
 
+  <listing>
   <program>
     // Take a constant reference
     string capitalize(const string&amp; s) {
@@ -39,11 +40,13 @@
         return copy;
     }
   </program>
+  </listing>
 
   <p>To use that function we would call: <pf>string copy = capitalize(original);</pf></p>
 
   <p>We end up with two different strings, one capitalized and one not. This would be perfectly reasonable if we need to keep the original string unchanged or if the string is small. But if the string was the entire text of a book, and we did not care about keeping the original, it would be more efficient to modify the original string in place:</p>
 
+  <listing>
   <program>
     void capitalize(string&amp; s) {
         // loop through the original string and modify it
@@ -52,6 +55,7 @@
         }
     }
   </program>
+  </listing>
 
   <p>To use that function we would call: <pf>capitalize(original);</pf></p>
 

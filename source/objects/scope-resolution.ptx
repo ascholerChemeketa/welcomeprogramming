@@ -16,9 +16,11 @@
     run into an issue. Here is a failed attempt to move the <pf>Point</pf> constructor's definition
     outside of the class:</p>
 
+  <listing>
   <program label="objects_scope-resolution-program-1" interactive="activecode">
 <xi:include href="../../programs/objects/headers-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Attempting to build the code fails. The compiler has no idea what line 11 is doing. It looks
     like a function called <q>Point</q> that has no return type. And in that function, we use
@@ -30,9 +32,11 @@
     <pf>Point::getX</pf> says <q>This is the getX that belongs to Point.</q> And saying <pf>Point::Point</pf> says <q>This
     is the constructors that belongs to Point.</q> Here is a working version of the code:</p>
 
+  <listing>
   <program label="objects_scope-resolution-program-2" interactive="activecode">
 <xi:include href="../../programs/objects/headers-2.cpp" parse="text"/>
 </program>
+  </listing>
 
   <insight>
     <p>Any time you want to define a function outside of the class declaration, you need to use the

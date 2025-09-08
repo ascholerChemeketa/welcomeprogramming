@@ -9,12 +9,14 @@
 
   <p>Here is a program that keeps reading in numbers until it encounters 0. The program does not know, or care, how many numbers it is going to get. So it isn't really <q>counting</q>, it is just continuing until it hits the sentinel value 0.</p>
 
+  <listing>
   <program label="loops_sentinel-loops-program-1" interactive="activecode">
 <code>
 <xi:include href="../../programs/loops/sentinel-loops-1.cpp" parse="text"/>
 </code>
 <stdin>5 10 15 4 0</stdin>
 </program>
+  </listing>
 
   <p>Codelens doesn't handle input, so we are printing out information inside the loop about what is going on. This can be a useful way to debug loops even if you have a debugger that you can use to step through the code. It can be useful to see all the iterations of a loop at once so you can track patterns in what happens from one iteration to the next. Here, each iteration starts by printing <pf>--------------</pf>, and then updates us about what each line did.</p>
 

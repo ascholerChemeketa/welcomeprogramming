@@ -8,10 +8,12 @@
     <p>By combining <pf>size</pf> and <pf>at()</pf>, we can write a loop that iterates through the
       characters of a string: </p>
 
+    <listing>
     <program label="strings_string-iteration-program-1"
              interactive="activecode">
 <xi:include href="../../programs/strings/string-iteration-1.cpp" parse="text"/>
 </program>
+    </listing>
 
     <p>The loop counts from 0 to <pf>size() - 1</pf> (note that we use <pf>&lt; size()</pf> in the test). For each of
       those values, it asks for the character at that index and then prints it. Notice that the
@@ -24,10 +26,12 @@
     <p>We could use the same basic loop to modify each character. This program encrypts the string <pf>myString</pf>
       (very poorly) by shifting each character by 1 alphabetically:</p>
 
+    <listing>
     <program label="strings_string-iteration-program-2"
              interactive="activecode">
 <xi:include href="../../programs/strings/string-iteration-2.cpp" parse="text"/>
 </program>
+    </listing>
   </subsection>
 
   <subsection>
@@ -60,10 +64,12 @@
       like. Then, in the loop, you can use that character variable to access the <q>current letter</q>.
       This example uses the ranged-based loop to count the number of spaces in a string:</p>
 
+    <listing>
     <program label="strings_string-iteration-program-3"
              interactive="activecode">
 <xi:include href="../../programs/strings/string-iteration-3.cpp" parse="text"/>
 </program>
+    </listing>
 
     <p>There are some limitations to the ranged-based loop that mean it is not always the best
       option: <ul>

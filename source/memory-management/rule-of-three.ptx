@@ -14,6 +14,7 @@
       <h>Rule of Three</h>
     </idx></p>
 
+  <listing>
   <program>
     class MyClass {
     public:
@@ -25,6 +26,7 @@
         MyClass&amp; operator=(const MyClass&amp; other) = delete; // no assignment operator
         ...
   </program>
+  </listing>
 
   <note>
     <p>There is also something known as the <term>Rule of Five</term>. This extends the Rule of
@@ -43,6 +45,7 @@
     object to another existing object, while the copy constructor is used to create a new object as
     a copy of an existing object.</p>
 
+  <listing>
   <program>
     PlayerList p1(3);  // list with space for 3 players
     ...
@@ -58,6 +61,7 @@
     // p4 already exists, so this calls the assignment operator
     p4 = p1;
   </program>
+  </listing>
 
   <p>Remembering the distinction between <pf>=</pf> as an assignment operator and <pf>=</pf> as a copy
     constructor is not critical - you generally need to implement both the copy constructor and the

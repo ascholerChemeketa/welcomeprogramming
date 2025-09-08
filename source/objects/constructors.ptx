@@ -22,6 +22,7 @@ Point(double x, double y) {
         <h>constructor</h>
       </idx></p>
 
+    <listing>
     <program>
 // A Point constructor
 Point(double x, double y) {
@@ -31,6 +32,7 @@ Point(double x, double y) {
     // implicit return of the new point
 }
 </program>
+    </listing>
 
     <p>Constructors can be called like other functions:</p>
 
@@ -49,10 +51,12 @@ Point p1(3, 4);
       the anonymous Point. Either syntax will produce the same results, but you should recognize
       that <pf>Point(3, 4)</pf> creates an anonymous point.</p>
 
+    <listing>
     <program label="objects_constructors-program-1"
              interactive="codelens">
 <xi:include href="../../programs/objects/constructors-1.cpp" parse="text"/>
 </program>
+    </listing>
   </subsection>
 
   <subsection>
@@ -62,6 +66,7 @@ Point p1(3, 4);
       could write a no argument constructor <pf>Point()</pf> that automatically set x and y to 0. Or if we
       wanted (for some unknown reason) to be able to easily make points with the same x and y value
       we might write <pf>Point(double sharedCoordinate);</pf>:</p>
+    <listing>
     <program>
     // A two-argument constructor
     Point(double x, double y) {
@@ -79,6 +84,7 @@ Point p1(3, 4);
         m_y = sharedCoordinate;
     }
     </program>
+    </listing>
     <p>Now we can create points in a variety of ways:</p>
     <program>
 Point p1(3, 4); // Point at (3, 4)
@@ -115,10 +121,12 @@ Point(double x = 0, double y = 0) {...
       the member variables are both set to 0 automatically at the start of each constructor. This is
       because the variables themselves are given default values of 0 on lines 15 and 16:</p>
 
+    <listing>
     <program label="objects_constructors-program-2"
              interactive="codelens">
 <xi:include href="../../programs/objects/constructors-2.cpp" parse="text"/>
   </program>
+    </listing>
 
     <p>Assigning default values at the class level can prevent having to do so in multiple
       constructors. Say we want to provide many different constructors for a <pf>Time</pf> class. We could

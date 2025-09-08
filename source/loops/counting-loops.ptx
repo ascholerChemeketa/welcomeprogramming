@@ -17,21 +17,27 @@ WHILE CONDITION IS TRUE
       <h>counting</h>
     </idx></p>
 
+  <listing>
   <program label="loops_counting-program-1" interactive="activecode">
 <xi:include href="../../programs/loops/counting-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Note that to get 5 repetitions when starting from 1, we need to count up to and including 5. For reasons that will become clear when we introduce arrays and strings, computer scientists often number things starting from 0. So often times, we count from 0. Most programmers would write a loop that repeats 5 times as starting from 0 and counting up to but not including 5, like this:</p>
 
+  <listing>
   <program label="loops_counting-program-2" interactive="activecode">
 <xi:include href="../../programs/loops/counting-2.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Note that the program repeats the body 5 times, but the output is now 0, 1, 2, 3, 4. If we care about the numbers being printed, that would be a problem. But often, we aren't doing much with the loop control variable other than tracking the progress of the loop. Say I want to print out <pf>"Hello"</pf> 5 times. It doesn't matter what my counter is doing, as long as it causes the loop to repeat 5 times:</p>
 
+  <listing>
   <program label="loops_counting-program-3" interactive="activecode">
 <xi:include href="../../programs/loops/counting-3.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>That sample could initialize <pf>line</pf> to 1 and count up to 5. It could initialize line to 5 and count down (<pf>--line</pf>) while line was greater than 0. It could even start from 0, count by 10s (<pf>line += 10</pf>) and stop at 50. (That would probably be confusing however... <q>wait, why is this loop counting by 10s? Is that important?</q>)</p>
 
@@ -41,6 +47,7 @@ WHILE CONDITION IS TRUE
 
   <p>Also, if the loop counter has a meaning beyond <q>loop counter</q>, you should consider giving it a real name, not just <pf>i</pf>. Say you are counting off the months of the year 1-12. When written like this, even if you only see the tail end of the loop on your screen, it is clear that we are printing out the month:</p>
 
+  <listing>
   <program><![CDATA[
 int month = 1;
 while (month <= 12) {
@@ -51,6 +58,7 @@ while (month <= 12) {
     month++;
 }]]>
   </program>
+  </listing>
 
   <p>If we used <pf>i</pf> it would be easier to lose sight of the fact that <pf>i</pf> really means <q>month number</q> in this loop.</p>
 

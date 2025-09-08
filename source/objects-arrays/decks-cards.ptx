@@ -5,9 +5,11 @@
 Here is the beginning of a <pf>Deck</pf> class that encapsulates an array of <pf>Card</pf> objects:
 </p>
 
+<listing>
 <program label="objects-arrays_decks-cards-program-1" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/decks-cards-1.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
     <idx><h>constructor</h></idx>
@@ -24,18 +26,22 @@ The constructor initializes the instance variable with an array of <pf>n</pf> ca
 We'll add another constructor that creates a standard 52-card array and populates it with <pf>Card</pf> objects:
 </p>
 
+<listing>
 <program label="objects-arrays_decks-cards-program-2" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/decks-cards-2.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 This function is similar to the example in <xref ref="cardarray">Section</xref>; we just turned it into a constructor.
 We can use it to create a complete <pf>Deck</pf> like this:
 </p>
 
+<listing>
 <program label="objects-arrays_decks-cards-program-3" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/decks-cards-3.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
     <idx><h>printDeck</h></idx>
@@ -44,17 +50,21 @@ Looking at the functions we have written so far, one obvious candidate is <pf>pr
 Here's how it looks, rewritten as an instance function of <pf>Deck</pf>:
 </p>
 
+<listing>
 <program label="objects-arrays_decks-cards-program-4" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/decks-cards-4.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 Notice that when we transform a static function into an instance function, the code is shorter.
 Here's how we invoke it:
 </p>
 
+<listing>
 <program label="objects-arrays_decks-cards-program-5" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/decks-cards-5.cpp" parse="text"/>
 </program>
+</listing>
 
 </section>

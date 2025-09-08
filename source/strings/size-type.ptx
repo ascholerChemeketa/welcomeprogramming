@@ -16,6 +16,7 @@
 
   <p>To store a <pf>size_type</pf> we will use a variable of type <pf>size_t</pf>. This is a bit of a simplification (see <xref ref="size_t-vs-size_type"/>). But it will serve our needs just fine. You can use a <pf>size_t</pf> just like an <pf>int</pf>. You can do math with them, compare them to other numbers, etc... The only difference is that they can never hold a negative value. Trying to assign one will result in the value <q>wrapping around</q> and becoming a large positive one:</p>
 
+    <listing>
     <program label="strings_character-size-type-program-1"
              interactive="activecode"
              line-numbers="yes">
@@ -38,6 +39,7 @@ int main() {
 }
         ]]></code>
     </program>
+    </listing>
 
   <insight><p>Any code that needs to talk about the size of a string, or the position of some character(s) in a string, will always use <pf>size_t</pf>. Because <pf>size_t</pf> is not that different than an <pf>int</pf> (other than not being unsigned and possibly having a different max value), you may be able to use <pf>int</pf> values anywhere a <pf>size_t</pf> is expected. But the compiler may give you a doing so<mdash/>it knows there are subtle differences that may cause issues.</p></insight>
 

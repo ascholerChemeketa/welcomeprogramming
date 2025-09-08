@@ -26,10 +26,12 @@
   <p>It is a syntax error for code outside of a class to try to access members of that class that
     were defined in a private block:</p>
 
+  <listing>
   <program label="objects_public-private-program-1"
            interactive="activecode">
 <xi:include href="../../programs/objects/public-private-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>In this sample, the two member variables are named <pf>m_x</pf> and <pf>m_y</pf>. It is common convention
     (but not a syntax requirement) to decorate member variable names to clearly identify them. One
@@ -43,10 +45,12 @@
     from an object are known as <term>getters</term> or <term>accessors</term> and usually have a name like <pf>getThing()</pf>. This
     sample adds getters for <pf>m_x</pf> and <pf>m_y</pf>:</p>
 
+  <listing>
   <program label="objects_public-private-program-2"
            interactive="activecode">
 <xi:include href="../../programs/objects/public-private-2.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Now, the main function has a way to access the x coordinate of the point - via the public
     function that returns the private piece of data.</p>
@@ -158,10 +162,12 @@
     would not need to change. Note in this sample that <pf>main</pf> does not need to change at all even
     though Point is now storing its data in an entirely different way:</p>
 
+  <listing>
   <program label="objects_public-private-program-3"
            interactive="activecode">
 <xi:include href="../../programs/objects/public-private-3.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Running this sample with the Codelens reveals what is going on. <pf>main</pf> asks for a point to be
     made with the coordinates 3, 4. The Point class translates this request into the data it will

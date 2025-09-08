@@ -16,9 +16,11 @@ string fullName(string first, string last) {
 
   <p>Sometimes, doing a job with a string like <q>check if there is a vowel</q> or <q>make this all uppercase</q> actually means working character by character to do the work. Here is an example which makes an upper case version of a string by calling <pf>toupper</pf> with each character in the original string and using those to build up a new string:</p>
 
+  <listing>
   <program label="strings_strings-and-functions-program-1" interactive="activecode">
 <xi:include href="../../programs/strings/strings-and-functions-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <note><p>Our current syntax for string parameters, <pf>(string s)</pf>, is inefficient. <pf>(string s)</pf> makes a copy of whatever string is passed and stores that value in the function's parameter. If you pass a very large string to a function, making that copy can be expensive.</p>
     <p>Instead, we could use the syntax <pf>(const string&amp; s)</pf>. That tells the compiler to skip the copy and work with the original string (<pf>&amp;</pf>) while making sure it does not get altered by accident (<pf>const</pf>).</p>

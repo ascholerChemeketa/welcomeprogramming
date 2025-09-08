@@ -5,9 +5,11 @@
   <p>A common task we need to do as part of a loop is to <term>accumulate</term> some value<mdash/>to keep a running total of something. For example, we might want to add up all the numbers from 1 to 5. We could do that by creating a variable to hold the total, and then adding each number to the total as we go:
   <idx><h>accumulate</h></idx></p>
 
+  <listing>
   <program label="loops_accumulating-program-1" interactive="codelens">
 <xi:include href="../../programs/loops/accumulating-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>This successfully adds up the numbers that 1-5 and gets 15. Key parts of the recipe:
     <ul>
@@ -17,9 +19,11 @@
     If we change the order of the statements in The loop body we will violate this second rule and get the wrong answer:
   </p>
 
+  <listing>
   <program label="loops_accumulating-program-2" interactive="codelens">
 <xi:include href="../../programs/loops/accumulating-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Now, because we are Updating the loop counter first, by the time we change the accumulator we are using the wrong value. We could fix that by changing the loop itself to count from zero up to but not including five, but It is easier to just have <pf>++i</pf> be the last statement.</p>
 

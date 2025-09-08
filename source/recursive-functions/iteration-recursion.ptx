@@ -17,15 +17,18 @@
     we see a non-space, we add it to the result and mark that we are not in a space sequence. That
     way, we know that the next space we see will start a new run of spaces:</p>
 
+  <listing>
   <program label="recursive-functions_iteration-recursion-program-1"
            interactive="activecode">
 <xi:include href="../../programs/recursive-functions/iteration-recursion-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Now, let us translate this into a recursive solution. First, we need to identify the base case.
     What stops the loop? That should also stop the recursion. In this case, the loop stops if there
     are no more characters in <pf>input</pf>. That sounds like a base case:</p>
 
+  <listing>
   <program label="recursive-functions_iteration-recursion-program-2"
            interactive="activecode">
 string cleanUpSpaces(const string&amp; input) {
@@ -34,6 +37,7 @@ string cleanUpSpaces(const string&amp; input) {
     }
 }
   </program>
+  </listing>
 
   <p>Now for the recursive case. The loop starts with the first character, then goes to the second,
     etc... Each iteration only worries about the <q>next</q> character. To make that recursive, we
@@ -46,10 +50,12 @@ string cleanUpSpaces(const string&amp; input) {
 
   <p>So our solution will need to separate the first character from the rest of the string. We will call that first character <c>firstChar</c> and the other characters <c>rest</c>. Each function call will only be responsible for making a decision about the <c>firstChar</c> and then making a recursive call with <c>rest</c>. For now we won't worry about spaces, we will include every single character to verify that we are working our way through the string:</p>
 
+  <listing>
   <program label="recursive-functions_iteration-recursion-program-3"
            interactive="activecode">
 <xi:include href="../../programs/recursive-functions/iteration-recursion-2.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Now we need to do something about the spaces.</p>
   
@@ -59,10 +65,12 @@ string cleanUpSpaces(const string&amp; input) {
     boolean parameter <pf>inSpace</pf> that tracks whether we are currently in a sequence of spaces. That
     can be used to decide whether to include or skip the <pf>firstChar</pf> in the result:</p>
 
+  <listing>
   <program label="recursive-functions_iteration-recursion-program-4"
            interactive="activecode">
 <xi:include href="../../programs/recursive-functions/iteration-recursion-3.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Notice that line 31 has some debugging information. Try uncommenting that line and running the program to better see the step by step progression of the algorithm. Note that the actual output is being built up as return from each function call. So the debugging output will appear to build from the end of the string (where the recursion ended) back to the start of the string (where it began).</p>
 

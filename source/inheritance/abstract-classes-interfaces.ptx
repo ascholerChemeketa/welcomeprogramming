@@ -126,6 +126,7 @@ classDiagram
 `
     <p>An interface provides no code to inherit, but it still allows for code reuse via polymorphism. We can write a function <pf>printObject</pf> that is able to print any object that has implemented the <pf>Printable</pf> interface. That object could be a <pf>GeometricObject</pf>, a <pf>Person</pf>, or anything else that inherits <pf>Printable</pf>:</p>
 
+    <listing>
     <program line-numbers="yes" highlight-lines="1">
       <![CDATA[
     class Printable {
@@ -154,6 +155,7 @@ classDiagram
     }
     ]]>
     </program>
+    </listing>
 
     <p>
       Note that the <pf>printObject</pf> accepts a <pf>Printable</pf> object. It knows that is-a <pf>Printable</pf> must have a <pf>print</pf> function that can be called, so <pf>obj.print()</pf> is must be allowed. It does not need to know anything else about the specific type of object it is printing.

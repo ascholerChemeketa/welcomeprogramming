@@ -16,9 +16,11 @@
 
   <p>First let's try to create a vector of 5 <pf>SimplePoint1</pf>s:</p>
 
+  <listing>
   <program label="interacting-objects_in-vectors-program-1" compile-also="simple-points" interactive="activecode" highlight-lines="10">
 <xi:include href="../../programs/interacting-objects/in-vectors-2.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>We immediate get an error:</p>
 
@@ -33,9 +35,11 @@
       <li>Provide an explicit list of Points.</li>
     </ul>. This sample demonstrates the approaches:</p>
   
+  <listing>
   <program label="interacting-objects_in-vectors-program-2" compile-also="simple-points" interactive="activecode" highlight-lines="10, 13, 16">
 <xi:include href="../../programs/interacting-objects/in-vectors-3.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>As shown on lines 23 and 24, once we have created the vector, we can access individual elements using the <pf>.at()</pf> function. Doing so names a particular <pf>Point</pf> that then we can call member functions on. So <pf>points1.at(0).getX()</pf> starts with the vector named <pf>points1</pf>, then gets the first element, which is a point, and then calls <pf>getX()</pf> on that point.</p>
 

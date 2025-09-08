@@ -54,27 +54,33 @@
   <p> The braces are optional for branches that have only one statement. So we could have written
     the previous example this way: </p>
 
+  <listing>
   <program label="conditionals-logic_ifelse-statement-program-1"
            interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-3.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p> However, it's better to use braces<mdash/>even when they are optional<mdash/>to avoid making
     the mistake of adding statements to a one-line <pf>if</pf> or <pf>else</pf> block. This code is misleading
     because it's not indented correctly: </p>
 
+  <listing>
   <program label="conditionals-logic_ifelse-statement-program-2"
            interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-4.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p> Since there are no braces, only the first <pf>println</pf> is part of the <pf>if</pf> statement. Here is
     what the compiler actually sees: </p>
 
+  <listing>
   <program label="conditionals-logic_ifelse-statement-program-3"
            interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-5.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p> As a result, the second <pf>println</pf> runs no matter what. Even experienced programmers make this
     mistake; search the web for Apple's <q>goto fail</q> bug. </p>

@@ -50,10 +50,12 @@
     <p>Try running this sample in Codelens. Notice that only one of the three conditions is true and
       that the bodies of the other two conditionals get skipped.</p>
 
+    <listing>
     <program label="conditionals-logic_if-statement-program-1"
              interactive="codelens">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-1a.cpp" parse="text"/>
 </program>
+    </listing>
 
 
     <p>The <term>condition</term> can be any value that evaluates to <pf>true</pf> or <pf>false</pf>. Because
@@ -70,6 +72,7 @@
     <p>It also means that it is legal to use a variable of type <pf>bool</pf> without a comparison, as
       it already has a value of <pf>true</pf> or <pf>false</pf>:</p>
 
+    <listing>
     <program>
     int x = 5;
     bool isEven = (x % 2 == 0);
@@ -77,6 +80,7 @@
         cout &lt;&lt; "x is even" &lt;&lt; endl;
     }
   </program>
+    </listing>
 
     <p>This way of testing a boolean variable is generally preferred to comparing it to true.
       Writing <pf>if (isEven == true)</pf> would do the same thing, but is redundant.</p>
@@ -130,21 +134,25 @@
       compiler, it can be dangerous to skip braces, even when they are optional. Doing so
       makes it easy to accidentally add a statement to a one-line <pf>if</pf> block.</p>
 
+    <listing>
     <program label="conditionals-logic_if-statement-program-2"
              extra-compiler-args="-Wno-misleading-indentation"
              interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-4.cpp" parse="text"/>
 </program>
+    </listing>
 
     <p>With a modern compiler, you likely will get a warning about that code. But it is possible to silence the warning (like we have here) and run the code anyway.</p>
 
     <p>Since there are no braces, only the first <pf>cout</pf> is part of the <pf>if</pf> statement. Here
       is a more accurate representation of what the compiler sees:</p>
 
+    <listing>
     <program label="conditionals-logic_if-statement-program-3"
              interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-5.cpp" parse="text"/>
 </program>
+    </listing>
 
     <p>The indentation in the first version was misleading. The second print statement is not a part
       of the body, and as a result, it runs no matter what. Even experienced programmers make this
@@ -178,10 +186,12 @@
 
     <p>Again, a modern compiler should offer warnings for this situation. Here, we have left the warnings enabled:</p>
 
+    <listing>
     <program label="conditionals-logic_if-statement-program-4"
              interactive="activecode">
 <xi:include href="../../programs/conditionals-logic/ifelse-statement-6.cpp" parse="text"/>
 </program>
+    </listing>
 
 <insight><p>Make sure you know how to enable warnings for your compiler. Then pay attention to them! Most warnings are actually errors.</p></insight>
 

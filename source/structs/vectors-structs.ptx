@@ -8,6 +8,7 @@
 
     <p>Now imagine we have a large number of those students. We would like to be able to loop though the students like a list. To accommodate this, we would want to make a vector of type <pf>Student</pf></p>
 
+    <listing>
     <program>
 // Make the students vector
 vector&lt;Student> students;
@@ -24,6 +25,7 @@ Student student2 = {
 students.push_back(student1);
 students.push_back(student2);
     </program>
+    </listing>
 
     <figure align="center">
     <caption>The memory diagram for the <pf>students</pf> vector</caption>
@@ -46,6 +48,7 @@ students.push_back(student2);
 
     <p>The key to remember is that assignment into a struct variable copies:</p>
 
+    <listing>
     <program>
 vector&lt;Student> students;
 // assume code here adds some students to the vector
@@ -54,6 +57,7 @@ vector&lt;Student> students;
 Student s1 = students.at(0);
 s1.exams.at(0) = 100.0; // This modifies the copy only
     </program>
+    </listing>
     
     <figure align="center">
     <caption>The memory diagram for the <pf>students</pf> vector and s1</caption>
@@ -69,6 +73,7 @@ s1.exams.at(0) = 100.0; // This modifies the copy only
 
     <p>To avoid making a copy, we can use a reference. Remember that a reference is an <term>alias</term> - another name for a thing that already exists. In this situation, that is what I really want. I want a new name for the existing struct. So I should declare a reference variable and use that to refer to the student:</p>
 
+    <listing>
     <program>
 vector&lt;Student> students;
 // assume code here adds some students to the vector
@@ -77,6 +82,7 @@ vector&lt;Student> students;
 Student&amp; s1 = students.at(0);
 s1.exams.at(0) = 100.0; // This modifies the student in the vector
     </program>
+    </listing>
 
     <figure align="center">
     <caption>The memory diagram for the <pf>students</pf> vector and s1 as a reference</caption>
@@ -91,6 +97,7 @@ s1.exams.at(0) = 100.0; // This modifies the student in the vector
 
     <p>A common place to run into this issue is while trying to loop through students. Say I want to clear all of the exams for each student. I can loop through the students using an enhanced for loop or a counting loop. I just need to make sure that I use a reference to store any temporary name for the student:</p>
 
+    <listing>
     <program>
 for (Student&amp; s : students) {
     s.exams.clear();
@@ -103,9 +110,11 @@ for (size_t i = 0; i &lt; students.size(); ++i) {
     s.exams.clear();
 }
   </program>
+    </listing>
 
     <p>But if I forget to use a reference, I will make a copy of the student and then clear the exams for that copy. The original student will be unchanged:</p>
 
+<listing>
 <program>
 for (Student s : students) { {
   s.exams.clear();
@@ -116,6 +125,7 @@ for (size_t i = 0; i &lt; students.size(); ++i) {
   s.exams.clear();
   // BAD: This copies the student...
 </program>
+</listing>
   </subsection>
 
   

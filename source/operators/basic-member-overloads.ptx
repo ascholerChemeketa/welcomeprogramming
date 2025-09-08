@@ -18,6 +18,7 @@
 
   <p>Without operator overloading, we might build functions to add and compare <pf>Rational</pf> objects
     like this:</p>
+  <listing>
   <program><![CDATA[
 Rational Rational::add(const Rational& other) const {
     int newNumerator = m_numerator * other.m_denominator 
@@ -33,6 +34,7 @@ bool Rational::equals(const Rational& other) const {
 }
 ]]>
   </program>
+  </listing>
 
   <p>The critical thing about these functions for our purposes is not the math (though you should
     take a few seconds to convince yourself that the answers will be correct), but the way the
@@ -52,11 +54,13 @@ Rational r3 = r1.add(r2);
   <p>To make these into operators, we will keep the same functionality but change the function names
     to <pf>operator+</pf> and <pf>operator==</pf>. This sample has those functions and a <pf>main</pf> to test them:</p>
 
+  <listing>
   <program include="RationalStart"
            interactive="activecode"
            label="operators_basic-member-overloads-rational-1">
 <xi:include href="../../programs/operators/basic-member-overloads-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>When the compiler sees <pf>r1 + r2</pf> and <pf>r1 == r2</pf> in the above code, it translates them into <pf>r1.operator+(r2)</pf>
     and <pf>r1.operator==(r2)</pf>. This is what we mean by <term>syntactic sugar</term>... the operators are really

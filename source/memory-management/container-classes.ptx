@@ -53,12 +53,14 @@
 
   <p>We can use the <pf>PlayerList</pf> class by creating an instance of it and calling its methods:</p>
 
+  <listing>
   <program label="memory-management_container-classes-program-1"
            interactive="activecode"
            compile-also="playerlist-v1"
            extra-compiler-args="-fsanitize=address -g">
 <xi:include href="../../programs/memory-management/playerlist-use.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>If you try running our program, you will see that we have an issue. The container class is not
     actually deleting the array yet. At the end of main, the memory looks like:</p>

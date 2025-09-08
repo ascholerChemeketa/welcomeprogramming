@@ -32,10 +32,12 @@
       </idx> Our first common pattern is a <term>search</term>, which involves
       traversing an vector while <q>searching</q> for a particular element.</p>
 
+    <listing>
     <program label="vectors_traversing-recipes-program-1"
              interactive="activecode">
 <xi:include href="../../programs/vectors/traversing-recipes-1.cpp" parse="text"/>
 </program>
+    </listing>
 
     <p>We start by assuming the value we are looking for is not present. This is done on line 10
       where we set the <pf>location</pf> to the size of the array. If the size is 4, the only valid values
@@ -96,10 +98,12 @@
       sample demonstrates a function that filters out 0 values from a vector, producing a new one
       with only non-zero values:</p>
 
+    <listing>
     <program label="vectors_traversing-recipes-program-2"
              interactive="activecode">
 <xi:include href="../../programs/vectors/traversing-recipes-4.cpp" parse="text"/>
 </program>
+    </listing>
 
     <note>
       <p>Simple does not always mean <q>bad</q> or <q>inefficient</q>. It will almost certainly be

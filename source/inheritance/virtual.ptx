@@ -44,12 +44,14 @@
       function now behaves in a polymorphic fashion. Try it out and pay attention the the version of <pf>.introduce()</pf>
       used for Alex.</p>
 
+    <listing>
     <program interactive="activecode"
              highlight-lines="20,34">
     <code>
 <xi:include href="../../programs/inheritance/virtual-1.cpp" parse="text"/>
     </code>
   </program>
+    </listing>
 
     <insight>
       <p>Think of <pf>virtual</pf> as meaning <q>a function we will wait to pick the best available version
@@ -142,6 +144,7 @@
       keyword. </p>
 
     <p>For example:</p>
+    <listing>
     <program line-numbers="yes"
              highlight-lines="2, 5"> 
     <code>
@@ -154,6 +157,7 @@
       }
     </code>
   </program>
+    </listing>
 
     <p>A little confusing. But don't worry too much, if you by accident add <pf>virtual</pf> to the
       definition the compiler will produce an error to let you know. You just need to know that the

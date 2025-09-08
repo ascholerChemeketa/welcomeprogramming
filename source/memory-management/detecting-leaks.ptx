@@ -26,11 +26,13 @@
   <p>Try running the program. You will see the program output and then a memory report from
     AddressSanitizer.</p>
 
+  <listing>
   <program label="memory-management_detecting-leaks-program-1"
            interactive="activecode"
            extra-compiler-args="-fsanitize=address -g">
 <xi:include href="../../programs/memory-management/detecting-leaks.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>The report should indicate two leaks. One for the integer allocated with <pf>new int(5)</pf> and another
     for the string allocated with <pf>new string("Hello, world")</pf>. Add the line <pf>delete p1;</pf> at the end of foo, and run the
@@ -106,6 +108,7 @@ Direct leak of 32 byte(s) in 1 object(s) allocated from:
     counterpart to a leak is a use-after-free error. That is when after deleting some memory you try
     to use it. Add a use-after-free error to the end of <pf>foo()</pf> by making it look like:</p>
 
+  <listing>
   <program>
 <![CDATA[
       ...
@@ -115,6 +118,7 @@ Direct leak of 32 byte(s) in 1 object(s) allocated from:
 }
 ...]]>
   </program>
+  </listing>
 
   <p>If you run the program again, you should see a use-after-free error reported by
     AddressSanitizer. There is a lot of other information it provides, but the key bit is in the

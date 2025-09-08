@@ -7,9 +7,11 @@ You can change the contents of an object by making an assignment to one of its a
 For example, to <q>move</q> a rectangle without changing its size, you can modify the <pf>x</pf> and <pf>y</pf> values:
 </p>
 
+<listing>
 <program label="mutable-objects_rectangles-are-mutable-program-1" interactive="activecode">
 <xi:include href="../../programs/mutable-objects/rectangles-are-mutable-1.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 The result is shown in <xref ref="fig_rectangle2">Figure</xref>.
@@ -33,9 +35,11 @@ The variables <pf>dx</pf> and <pf>dy</pf> indicate how far to move the rectangle
 Invoking this function has the effect of modifying the <pf>Rectangle</pf> that is passed as an argument:
 </p>
 
+<listing>
 <program label="mutable-objects_rectangles-are-mutable-program-2" interactive="activecode">
 <xi:include href="../../programs/mutable-objects/rectangles-are-mutable-3.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 Modifying objects by passing them as arguments to functions can be useful.
@@ -47,9 +51,11 @@ Java provides a number of functions that operate on <pf>Point</pf>s and <pf>Rect
 For example, <pf>translate</pf> has the same effect as <pf>moveRect</pf>, but instead of passing the rectangle as an argument, you use dot notation:
 </p>
 
+<listing>
 <program label="mutable-objects_rectangles-are-mutable-program-3" interactive="activecode">
 <xi:include href="../../programs/mutable-objects/rectangles-are-mutable-4.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 This line invokes the <pf>translate</pf> function on the object that <pf>box</pf> refers to, which modifies the object.

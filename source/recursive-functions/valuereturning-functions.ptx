@@ -21,10 +21,12 @@
 
   <p>It is trivial to turn that into a recursive function. The two parts of the definition are the base case and the recursive case:</p>
 
+  <listing>
   <program label="recursive-functions_valuereturning-functions-program-1"
            interactive="activecode">
 <xi:include href="../../programs/recursive-functions/valuereturning-functions-1.cpp" parse="text"/>
 </program>
+  </listing>
     
   <p>Why is the answer 120? Well...
     <ul>
@@ -52,10 +54,12 @@ Once we there are no more <pf>factorial</pf> calls, we can evaluate the expressi
 
   <p>To actually see this play out in the code, it can help to break up the steps of the recursive case. This version of <pf>factorial</pf> does the same math, but prints more information along the way. </p>
 
+  <listing>
   <program label="recursive-functions_valuereturning-functions-program-2"
   interactive="codelens">
 <xi:include href="../../programs/recursive-functions/valuereturning-functions-2.cpp" parse="text"/>
 </program>
+  </listing>
 
  <p>Notice that as you run the code, you get a chance to see the values being returned at each step of the recursion.</p>
 

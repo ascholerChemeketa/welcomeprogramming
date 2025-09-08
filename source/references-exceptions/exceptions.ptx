@@ -9,9 +9,11 @@
 
   <p>To start exploring exceptions, we will use a familiar string function. When <pf>substr</pf> is given a bad index it responds by throwing an exception. Try running this sample that ends up asking for a substring starting at index 50 in a much shorter string:</p>
 
+  <listing>
   <program label="references-exceptions_exceptions-program-1" interactive="activecode">
 <xi:include href="../../programs/references-exceptions/exceptions-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>If you run that code, you should get an error like:</p>
 
@@ -25,6 +27,7 @@
 
   <p>Let's try catching the exception in <pf>mediumJob</pf>. To catch an exception, we use this syntax:</p>
   
+<listing>
 <program>
   try {
     // code that might throw an exception
@@ -32,12 +35,15 @@
     // code to handle the exception
   }
 </program>
+</listing>
 
   <p><pf>exception</pf> is a data type defined in the <pf>&lt;exception></pf> library. <pf>catch(const exception&amp; e)</pf> says that the variable <pf>e</pf> is going to be a const reference to an <pf>exception</pf> that is coming from somewhere else. Let's add that to our program to catch the exception that is coming from <pf>substr</pf>:</p>
 
+  <listing>
   <program label="references-exceptions_exceptions-program-2" interactive="activecode">
 <xi:include href="../../programs/references-exceptions/exceptions-2.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>This time, we caught the exception. The exception happens on line 10. As soon as it happens, execution jumps to the <pf>catch</pf>. Line 11 never runs. Which is good, as there is no result from line 10 that it can use. Inside the catch, line 14 runs and prints a message. <pf>e.what()</pf> results in a string that describes the exception. The code then recovers from the error by setting the <pf>mediumResult</pf> variable to a default value (<pf>"mediumJob(?)"</pf>).</p>
 

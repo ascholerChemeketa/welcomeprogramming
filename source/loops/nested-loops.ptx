@@ -18,10 +18,12 @@
       2-dimensional tables. For example, a <q>multiplication table up to 8x8</q> needs to take each
       number from 1-8 and then multiply it by each value from 1-8: </p>
 
+    <listing>
     <program label="loops_nested-loops-program-1"
              interactive="activecode">
 <xi:include href="../../programs/loops/nested-loops-1.cpp" parse="text"/>
 </program>
+    </listing>
 
     <p>
       <idx>
@@ -38,16 +40,19 @@
       example below. It has the same structure, but produces a smaller table and calls the counters <pf>row and </pf>col`
       for clarity: </p>
 
+    <listing>
     <program label="loops_nested-loops-program-2"
              interactive="codelens">
 <xi:include href="../../programs/loops/nested-loops-2.cpp" parse="text"/>
 </program>
+    </listing>
 
     <p>The two loops create multiple areas to write code. Anything before the inner loop happens
       once per iteration of the outer loop at the start of the <q>row</q>. Anything in the inner
       loop happens at each <q>cell</q> (row/col). Anything after the inner loop happens once at the
       end of the <q>row</q>:</p>
 
+    <listing>
     <program line-numbers="yes"
              highlight-lines="2,4,6">
 for (int i = 0; i &lt; 8; i++) {
@@ -58,12 +63,14 @@ for (int i = 0; i &lt; 8; i++) {
     // Anything that is done at the end of each "row"
 }
 </program>
+    </listing>
 
     <p>This is especially important to keep in mind when nesting while loops. We need the inner
       loop's counter to reset EVERY time the outer loop iterates. That means the inner loop counter
       needs to be declared inside the outer loop. Also, we need to make sure that our updates to the
       loop control variables happen at the end of the appropriate loop body:</p>
 
+    <listing>
     <program line-numbers="yes"
              highlight-lines="3,6,8">
 int i = 0;
@@ -76,6 +83,7 @@ while (i &lt; 8) {
     ++i;  // next step of outer loop
 }
 </program>
+    </listing>
   </subsection>
 
   <subsection>

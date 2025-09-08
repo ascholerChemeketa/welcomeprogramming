@@ -7,18 +7,22 @@
     borrow an idea from the future. There is an <pf>&lt;algorithms></pf> library that has a <pf>sort</pf> function. It
     can be used on a vector to sort it:</p>
 
+  <listing>
   <program interactive="activecode" label="operators_power-1">
 <xi:include href="../../programs/operators/power-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Pretty easy! (We will learn much more about <pf>sort</pf> later.)</p>
 
   <p> Now let's try the same trick with our own Time class. Don't worry too much about time (it just
     stores an hour and minute). Just trying running the code. </p>
 
+  <listing>
   <program interactive="activecode" label="operators_power-2">
 <xi:include href="../../programs/operators/power-2.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Somewhere in the wall of errors you should see <pf>error: no match for ‘operator&lt;’</pf>. The compiler refuses to build the
     code because the <pf>sort</pf> function uses the <pf>&lt;</pf> operator to compare the objects. And

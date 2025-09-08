@@ -49,17 +49,21 @@ double randDouble();
 
   <p>Most of the time, we will just call something like <pf>randRange(1, 6)</pf> to get a random number from 1 to 6. Try running this program to generate 10 random dice rolls between 1 and 6. Every time you run it you should get a different sequence:</p>
 
+  <listing>
   <program label="loops_random-numbers-program-1" interactive="activecode" compile-also="SimpleRandom-cxx" extra-compiler-args="-std=c++20 -fmodules-ts">
 <xi:include href="../../programs/loops/random-1.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>The <term>seed</term> value is the value that is used to start the pseudo-random sequence. Normally we want the seed to be as random as possible (using something like the number of milliseconds on the system clock or random electrical noise for the randomness). But if you want a program to always generate the same sequence of values, perhaps because you are trying to debug it, you can specify a seed by calling <pf>seedRNG</pf> (Random Number Generator. You normally only do this ONCE when you first start using the random number generator. <idx><h>seed</h></idx></p>
 
   <p>This version of the same program seeds the number generator. Every time you run it you should get the same <q>random</q> sequence. If you change the seed you will get a new sequence.</p>
 
+  <listing>
   <program label="loops_random-numbers-program-2" interactive="activecode" compile-also="SimpleRandom-cxx" extra-compiler-args="-std=c++20 -fmodules-ts">
 <xi:include href="../../programs/loops/random-2.cpp" parse="text"/>
 </program>
+  </listing>
 
 
   <note><p>There is also a simpler way to make random numbers in C++ using the functions <pf>rand</pf> and <pf>srand</pf> from the <pf>cstdlib</pf>. Those functions have some significant limitations in terms of the quality of number they generate. So we will rely on the <pf>SimpleRandom</pf> library that makes the complex code easier to use for basic activities.</p></note>

@@ -48,6 +48,7 @@
       will store a pointer to a Point instead of a Point. A simplified version of this new Circle
       class might look like:</p>
 
+    <listing>
     <program label="pointers-aggregation_aggregation-implementation-program-1"
              interactive="activecode"
              highlight-lines="8, 14, 18, 27, 34, 37"
@@ -55,6 +56,7 @@
              compile-also="point-final-cxx">
 <xi:include href="../../programs/pointers-aggregation/aggregation-circle.cpp" parse="text"/>
   </program>
+    </listing>
 
     <p>Key things to note about this implementation: <ul>
         <li>The <pf>m_center</pf> is now a <pf>Point*</pf> (line 24).</li>

@@ -120,10 +120,12 @@ if (!isEven) {
       avoids that by testing <pf>b</pf> before dividing <pf>a</pf> by it. If <pf>a</pf> is 0, then the <pf>a != 0</pf> is false
       and the second clause which involves division never gets executed:</p>
 
+    <listing>
     <program label="conditionals-logic_logical-operators-program-1"
              interactive="codelens">
 <xi:include href="../../programs/conditionals-logic/logical-operators-5.cpp" parse="text"/>
   </program>
+    </listing>
 
     <p>Normally you don't have to worry about short circuit evaluation (other than possibly to use
       it as a guard). But if the second part of a conditional has a <term>side effect</term><mdash/>if

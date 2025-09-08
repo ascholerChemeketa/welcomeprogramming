@@ -64,10 +64,12 @@
     anymore. The program below tries to use <pf>p1</pf> and <pf>p2</pf> after the memory they point at
     has been freed. It may print out garbage values or crash.</p>
 
+  <listing>
   <program label="memory-management_leaks-program-1"
            interactive="activecode">
 <xi:include href="../../programs/memory-management/leaks-2.cpp" parse="text"/>
   </program>
+  </listing>
 
   <insight>
     <p><pf>delete</pf> does not delete a pointer. It only tells the operating system that the memory the

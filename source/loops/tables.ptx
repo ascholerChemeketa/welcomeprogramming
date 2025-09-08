@@ -75,11 +75,13 @@ int main() {
     1 to 14, this isn't really a counting loop. It is a sentinel value loop that is looking for the
     balance to become $100,000+. Here is what the program might look like:</p>
 
+  <listing>
   <program label="loops_tables-program-2"
            interactive="activecode"
            line-numbers="yes">
 <xi:include href="../../programs/loops/tables-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Key things to note: <ul>
       <li><pf>balance</pf> is the loop control variable. It is serving as an accumulator to store the
@@ -102,6 +104,7 @@ int main() {
       before or after the loop that handles the other items.</p>
     <p>Doing this is better than putting an <pf>if</pf> inside the loop to do something special only in the
       first or last iteration. We could move the final output inside the loop above by doing:</p>
+    <listing>
     <program><![CDATA[
         ...
         balance += interest;
@@ -111,6 +114,7 @@ int main() {
     }
     ]]>
     </program>
+    </listing>
     <p>That solution needless complicates every iteration of the loop to guard against the special
       case that we are actually now finished.</p>
   </insight>

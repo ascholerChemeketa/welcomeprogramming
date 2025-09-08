@@ -29,6 +29,7 @@
     (Normally we would not print the destructor message in a real program, that is done just for
     demonstration purposes.)</p>
 
+  <listing>
   <program xml:id="playerlist-v2"
            label="playerlist-v2"
            filename="PlayerList.cpp"
@@ -36,6 +37,7 @@
            line-numbers="yes">
 <xi:include href="../../programs/memory-management/playerlist-v2.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Note that the only thing it needs to do is delete the array that is being tracked by the
     pointer <pf>m_players</pf>. The memory for the PlayerList variables themselves is automatically managed
@@ -53,12 +55,14 @@
     destructor message should be printed when the <pf>PlayerList</pf> object is destroyed at the end of main.
     And AddressSanitizer should now not identify any leaks.</p>
 
+  <listing>
   <program label="memory-management_destructors-program-1"
            interactive="activecode"
            compile-also="playerlist-v2"
            extra-compiler-args="-fsanitize=address -g">
 <xi:include href="../../programs/memory-management/playerlist-use.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>The destructor ends whenever an object goes out of scope. In the program above, that was at the
     end of main. In the new program below, we have a separate function <pf>testPlayerList()</pf> that creates a <pf>PlayerList</pf>
@@ -66,12 +70,14 @@
     message. <pf>testPlayerList()</pf> is called twice from <pf>main</pf>, so you will see two destructor messages, one
     at the end of each function call.</p>
 
+  <listing>
   <program label="memory-management_destructors-program-2"
            interactive="activecode"
            compile-also="playerlist-v2"
            extra-compiler-args="-fsanitize=address -g">
 <xi:include href="../../programs/memory-management/playerlist-use-2.cpp" parse="text"/>
   </program>
+  </listing>
 
   <note>
     <p>Destructors should always be virtual in base classes to ensure proper cleanup of derived

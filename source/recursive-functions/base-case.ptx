@@ -72,9 +72,11 @@
 
   <p>For example, try running this program and then look at the output. Be patient while it runs.</p>
 
+  <listing>
   <program label="recursive-functions_stack-overflow_program" interactive="activecode" timelimit="1000" compiler-args="-Wno-infinite-recursion">
 <xi:include href="../../programs/recursive-functions/stack-overflow.cpp" parse="text"/>
 </program>
+  </listing>
 
   <p>Since there is no base case, the function does not stop when <pf>n == 0</pf>. It just keeps on counting! Eventually there is a segmentation fault, which stops the program.</p>
 

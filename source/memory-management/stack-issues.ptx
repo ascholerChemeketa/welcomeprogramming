@@ -23,10 +23,12 @@
     <p>Try this program, which tries to allocate a large block of 1,000,000,000 integers. (Don't
       worry about the syntax <pf>int data[1000000000];</pf>, it will be explained soon.)</p>
 
+    <listing>
     <program label="memory-management_stack-issues-program-1"
              interactive="activecode">
   <xi:include href="../../programs/memory-management/stack-issues-1.cpp" parse="text"/>
     </program>
+    </listing>
 
     <p>You should get a <q>segmentation fault</q>. Which is a runtime error indicated you went
       outside a segment of memory (the stack). Each integer takes 4 bytes and <m>1,000,000,000
@@ -46,20 +48,24 @@
 
     <p>The compiler knows this and will try to prevent you from making this mistake:</p>
 
+    <listing>
     <program label="memory-management_stack-issues-program-2"
              interactive="activecode"
              autorun="yes">
 <xi:include href="../../programs/memory-management/stack-issues-2.cpp" parse="text"/>
     </program>
+    </listing>
 
     <p>If you force the compiler to ignore the issue (this next example uses the compiler flag <pf>-Wno-return-local-addr</pf>
       to ignore warnings about returning local addresses), something bad will happen. Try it here:</p>
 
+    <listing>
     <program label="memory-management_stack-issues-program-3"
              interactive="activecode"
              compiler-args="-Wno-return-local-addr">
 <xi:include href="../../programs/memory-management/stack-issues-2.cpp" parse="text"/>
     </program>
+    </listing>
 
     <activity>
       <statement>

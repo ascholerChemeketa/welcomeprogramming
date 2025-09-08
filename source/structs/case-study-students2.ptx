@@ -15,6 +15,7 @@
 
     <p>The function to calculate an average doesn't even need to know about the entire student. It just needs access to the vector of scores. So it might look like:</p>
 
+<listing>
 <program>
 double calculateAverage(const vector&lt;double>&amp; scores) {
     double total = 0.0;
@@ -24,6 +25,7 @@ double calculateAverage(const vector&lt;double>&amp; scores) {
     return total / scores.size();
 }
 </program>
+</listing>
 
    <exercise label="structs_case-study-students2-ex-1">
     <statement>

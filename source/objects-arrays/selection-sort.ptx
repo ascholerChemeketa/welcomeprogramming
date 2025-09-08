@@ -14,18 +14,22 @@ During the <m>i</m>th iteration, we find the lowest card to the right of <m>i</m
 Here is pseudocode for selection sort:
 </p>
 
+<listing>
 <program label="objects-arrays_selection-sort-program-1" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/selection-sort-1.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 Again, the pseudocode helps with the design of the helper functions.
 For this algorithm, we can reuse <pf>swapCards</pf> from the previous section, so we need only a function to find the lowest card; we'll call it <pf>indexLowest</pf>:
 </p>
 
+<listing>
 <program label="objects-arrays_selection-sort-program-2" interactive="activecode">
 <xi:include href="../../programs/objects-arrays/selection-sort-2.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 One of the exercises at the end of the chapter asks you to write <pf>indexLowest</pf>, and then use it and <pf>swapCards</pf> to implement <pf>selectionSort</pf>.

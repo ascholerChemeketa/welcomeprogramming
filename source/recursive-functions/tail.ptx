@@ -27,9 +27,11 @@
 
   <p>Here is that function. Note that it does the work to calculate <pf>newAccumulator</pf> (<q>the answer so far</q>) before the recursive call and then hands that value off to the next call. We also have a non-recursive function to kick start the recursive process with an accumulator of 1.</p>
 
+  <listing>
   <program label="recursive-functions_tail-program-1" interactive="codelens" >
 <xi:include href="../../programs/recursive-functions/tail-3.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>It is harder to see what is getting returned from each level of recursion, as we do not store the result at each level before returning it to the next (that would not be tail recursive!). However, you can see that the base case returns the answer 24 and every recursive level just returns that same answer.</p>
 

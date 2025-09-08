@@ -6,6 +6,7 @@
     (square brackets) after the pointer that points to the array to specify the index of the element
     you wish to use. The index can be a literal or an expression that evaluates to an integer:</p>
 
+  <listing>
   <program>
     // Allocate an array of 3 integers - uninitialized
     int* data = new int[3];
@@ -18,6 +19,7 @@
     // print the first element
     cout &lt;&lt; "data[0]: " &lt;&lt; data[0] &lt;&lt; endl;
   </program>
+  </listing>
 
   <p>Diagramed, the result of this would look like:</p>
 
@@ -84,10 +86,12 @@
     use a loop to work with each element one at a time. This Codelens demonstrates making a copy of
     an array using a loop:</p>
 
+  <listing>
   <program label="memory-management_using-arrays-program-1"
            interactive="codelens">
 <xi:include href="../../programs/memory-management/using-arrays-loop.cpp" parse="text"/>
   </program>
+  </listing>
 
   <note>
     <p>The range-based for loop will not work on a dynamically allocated array. (There is no

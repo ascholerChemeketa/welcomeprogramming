@@ -13,6 +13,7 @@
     iterator to the next item in the collection. In fact, we can write a loop to walk through a
     vector using an iterator and <pf>++</pf>:</p>
 
+  <listing>
   <program>
     vector&lt;int> v = {1, 2, 3, 4, 5};
     // Get an iterator that points to the first item
@@ -23,6 +24,7 @@
       cout &lt;&lt; current &lt;&lt; endl;
     }
   </program>
+  </listing>
 
   <p>For this code to work, there must be a definition for what <pf>++</pf> means for the iterator. This
     definition is provided by an overload for the operator.</p>
@@ -46,11 +48,13 @@
 
   <p>Here is an implementation of <pf>operator++</pf> for <pf>Rational</pf>:</p>
 
+  <listing>
   <program include="RationalStart"
            interactive="activecode"
            label="operators_increment-1">
 <xi:include href="../../programs/operators/increment-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Note how the object returns itself: <pf>return *this;</pf>. Recall that <pf>this</pf> is the memory address of
     the current object. <pf>*this</pf> dereferences that pointer to get the actual <pf>Rational</pf> object which

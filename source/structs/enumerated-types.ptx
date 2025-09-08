@@ -32,9 +32,11 @@ Suit leadSuit = Suit::HEARTS;
 
   <p>Behind the scenes, each value of type <pf>Suit</pf> is represented by a different integer value. We can do a static cast to get the integer value of a Suit like this:</p>
 
+  <listing>
   <program label="structs_enumerated-types-program-1" interactive="activecode">
 <xi:include href="../../programs/structs/structs_enumerated-types-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>The values that are being used for each value come directly from the order they were declared in the <pf>Suit</pf> enum. <pf>CLUBS</pf> is the first option we listed, so it got the value 0. <pf>DIAMONDS</pf> was next, so it gets the value 1. And so on. Although the values are stored as integers, we can't use freely an enumerated value as an integer or an integer as an enumerated value. For example, the following code will not compile:</p>
 
@@ -54,9 +56,11 @@ cout << static_cast<int>(Suit::CLUBS);    // Prints 0
 
   <p>However, we can use our enumeration as a parameter or return type for a function. And we can compare enumerated types using any comparison operators that would work on numbers. This code sample demonstrates a function <pf>dominantSuit</pf> that compares two suits and returns the larger of the two (the one with the higher value as defined by our ordering). It then passes that Suit to <pf>suitToString</pf> which returns a string describing the suit:</p>
 
+  <listing>
   <program label="structs_enumerated-types-program-2" interactive="activecode">
 <xi:include href="../../programs/structs/structs_enumerated-types-2.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Key points to note:
   <ul>

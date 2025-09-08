@@ -37,9 +37,11 @@
   <subsection>
     <title>Assertions</title>
     <p>The first solution is not much of a solution. It is just giving up completely. An <term>assertion</term> is a check that if failed will cause the whole program to end. In C++ we can use include the <pf>&lt;cassert></pf> library and then make an assertion using <pf>assert</pf>. An <pf>assert</pf> takes a condition to check. If that condition is true, the program continues. If the condition is false, the entire program stops:</p>
+  <listing>
   <program label="references-exceptions_error-handling-program-1" interactive="activecode">
 <xi:include href="../../programs/references-exceptions/error-handling-2.cpp" parse="text"/>
 </program>
+  </listing>
     <p>Assertions can be useful in development to make sure a program stops instead of trying to coverup an issue and continue. And they can be useful to make 100% sure a program stops in some situation where continuing on could have undesirable consequences. But they aren't a good tool if want to have any chance to recover from the issue.</p>
   </subsection>
 

@@ -28,6 +28,7 @@
 
   <p>The new name and the old are interchangeable - they are just different names the same type of thing. So it is perfectly legal to mix and match the names when working with items of that type:</p>
 
+  <listing>
   <program><![CDATA[ 
   // IntTable is a type alias for vector<vector<int>>
   typedef vector<vector<int>> IntTable;
@@ -36,6 +37,7 @@
   // Use type alias to make a reference
   IntTable& table2 = table;
   ]]></program>
+  </listing>
 
   <p>It should be noted that overusing typedef can make code less readable. Especially if it is used to assign new names to simple types. Don't use typedef to make <pf>Decimal</pf> mean <pf>double</pf>!</p>
 

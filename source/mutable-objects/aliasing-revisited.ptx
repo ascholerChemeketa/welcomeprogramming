@@ -23,9 +23,11 @@ For example, the following code uses <pf>grow</pf> to make <pf>box1</pf> bigger 
 It decreases <pf>x</pf> and <pf>y</pf> by 50, and it increases <pf>height</pf> and <pf>width</pf> by 100:
 </p>
 
+<listing>
 <program label="mutable-objects_aliasing-revisited-program-1" interactive="activecode">
 <xi:include href="../../programs/mutable-objects/aliasing-revisited-2.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 The result is shown in <xref ref="fig_aliasing2">Figure</xref>.
@@ -38,17 +40,21 @@ The result is shown in <xref ref="fig_aliasing2">Figure</xref>.
 Now, if we print <pf>box1</pf>, we are not surprised to see that it has changed:
 </p>
 
+<listing>
 <program label="mutable-objects_aliasing-revisited-program-2" interactive="activecode">
 <xi:include href="../../programs/mutable-objects/aliasing-revisited-3.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
 And if we print <pf>box2</pf>, we should not be surprised to see that it has changed too, because it refers to the same object:
 </p>
 
+<listing>
 <program label="mutable-objects_aliasing-revisited-program-3" interactive="activecode">
 <xi:include href="../../programs/mutable-objects/aliasing-revisited-4.cpp" parse="text"/>
 </program>
+</listing>
 
 <p>
     <idx><h>aliasing</h></idx>

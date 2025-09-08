@@ -165,6 +165,7 @@ TEST_CASE("createStatus") {
     <p>Finally we need to parse the scores. We need to take the comma separated values and break them into individual values and store each into a vector. We can't use a stringstream for this since the tokens we want (the numbers) are separated by commas and not whitespace. So instead, we will have to use logic like this:
     </p>
 
+    <listing>
     <program language="natural">
 while there is a comma in the string
     get the text up to the comma
@@ -174,6 +175,7 @@ while there is a comma in the string
 turn the remaining text into a number
 add it to the vector
     </program>
+    </listing>
     
   <exercise label="structs_case-study-students-ex-3"
             numbered="yes"
@@ -232,6 +234,7 @@ add it to the vector
 
     <p>With those helper functions in place, it is easy to build a student. Given the three lines of data, we can call the three functions we have already written and assign their results into the right members of a Student struct:</p>
 
+    <listing>
     <program>
 Student createStudent(const string&amp; nameLine,
                       const string&amp; statusLine,
@@ -243,6 +246,7 @@ Student createStudent(const string&amp; nameLine,
     return student;
 }
     </program>
+    </listing>
   </subsection>
 
 </section>

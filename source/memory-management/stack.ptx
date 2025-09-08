@@ -27,10 +27,12 @@
     codelens simulations<mdash/>it shows the most recently added stack frames at the bottom of the
     display:</p>
 
+  <listing>
   <program label="memory-management_stack-program-1"
            interactive="codelens">
 <xi:include href="../../programs/memory-management/stack-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Each time <pf>main</pf> called <pf>bar</pf>, a stack frame is added below main. Despite where it is
     visually, we would say that <q>bar is on the top of the stack</q>. When <pf>bar</pf> in turn calls <pf>foo</pf>,

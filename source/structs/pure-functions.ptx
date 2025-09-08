@@ -12,23 +12,29 @@
 
   <p>First lets consider a pure version (named <pf>incrementPure</pf> just to clarify things once we have two versions):</p>
 
+    <listing>
     <program label="structs_pure-functions-program-1" interactive="codelens">
 <xi:include href="../../programs/structs/pure-functions-2.cpp" parse="text"/>
     </program>
+    </listing>
 
   <note><p>Codelens does not support <pf>format</pf>. Normally we would want to use <pf>format({:0>2}, time2.minute)</pf> to make a 0 minute value print as <pf>00</pf>.</p></note>
 
   <p>This version takes a <pf>Time</pf> by const reference and calls it <pf>t</pf>. It then makes a copy of the time, modifies the copy, and returns it. We could also write a pure function using pass by value. With pass by value, the parameter is already a copy of the argument that was passed in. So we don't need to explicitly make a copy of the parameter to modify:</p>
 
+    <listing>
     <program label="structs_pure-functions-program-2" interactive="codelens">
 <xi:include href="../../programs/structs/pure-functions-2b.cpp" parse="text"/>
     </program>
+    </listing>
 
   <p>Now lets consider a modifying version:</p>
 
+    <listing>
     <program label="structs_pure-functions-program-3" interactive="codelens">
 <xi:include href="../../programs/structs/pure-functions-3.cpp" parse="text"/>
     </program>
+    </listing>
 
   <p>This version takes a <pf>Time</pf> by reference and modifies it. It does not return anything new - the whole point of this function is it's <q>side effect</q> of changing the parameter.</p>
 
@@ -42,6 +48,7 @@
   </program>
 
   <p>And if the caller does not want to modify an existing time when they call the pure version, they can make their own copy before calling the function:</p>
+  <listing>
   <program>
     Time time = { 11, 59 };
     // Make a copy of the time and modify the copy
@@ -49,6 +56,7 @@
     incrementPure(newTime);
     // time is still 11:59, newTime is 12:00
   </program>
+  </listing>
 
   <p>So which is best? Pure functions help to maintain the abstraction of a function. When a function does nothing but give us an answer, we don't have to worry about what else might be going on behind the scenes. You do not ever have to worry about there possibly being hidden interactions between various functions because one function made some hidden change to the program's state that then changes how the next function behaves. In fact, there are programming languages, called <term>functional</term> programming
     languages, that only allow pure functions. These languages are designed to make it easier to write bug free code, and to write tests to prove that the code is correct by compltely eliminating the chance of side effects.</p>

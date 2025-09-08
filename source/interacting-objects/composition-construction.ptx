@@ -5,9 +5,11 @@
 
   <p>Lets use Codelens to take a closer look at the process by which a Circle is constructed. Run the code line by line. Pay close attention to what happens as it starts the Circle constructor on line 20:</p>
 
+  <listing>
   <program label="interacting-objects_composition-construction-program-1" interactive="codelens">
 <xi:include href="../../programs/interacting-objects/circle-construct-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Before the Circle is constructed, C++ needs to set up the memory it will use. It does this by reserving space for the m_radius and then letting the Point set up its own memory. The way that Point sets up the memory is by running the no-arg constructor. Thus as the code on line 21 starts running, <pf>m_center</pf> already exists with the values (0, 0). Then, inside the body, we call the 2-arg constructor to make a new Point and copy the data over the top of the old one.</p>
 
@@ -17,6 +19,7 @@
 
   <p>Another approach would be to not create a second point and instead just modify the one that was automatically created. We could do that by changing the constructor to:</p>
 
+<listing>
 <program>
 Circle(double radius, double x, double y) {
     m_radius = radius;
@@ -24,6 +27,7 @@ Circle(double radius, double x, double y) {
     m_center.setY(y);
 }
 </program>
+</listing>
 
   <p>But that method still depends on the default constructor existing. If we remove the <pf>Point()</pf> constructor from the Point class and try to compile the code, we will get this error:</p>
 
@@ -47,9 +51,11 @@ test.cpp:15:47: error: no matching function for call to ‘Point::Point()’
 
   <p>The <pf>:</pf> symbol indicates that we are starting the initializer list. The <pf>member1(data)</pf> part tells the compiler to set up <pf>member1</pf> using the data provided. Here is a real version using out Circle class. Try running it step by step. Again, focus on what happens right as the Circle constructor starts up:</p>
 
+  <listing>
   <program label="interacting-objects_composition-construction-program-2" interactive="codelens">
 <xi:include href="../../programs/interacting-objects/circle-construct-2.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Note that before the body of the constructor runs, execution jumps up to the 2-argument Point constructor. This is because <pf>m_center(x, y)</pf> says <q>initialize the m_center variable by calling its constructor with the x and y values I was given</q>. This version skips making the (0, 0) point by setting up the correct Point right off the bat.</p>
 
@@ -85,9 +91,11 @@ test.cpp:15:47: error: no matching function for call to ‘Point::Point()’
 
   <p>Here is a final version with all three constructors. They give a consumer of the Circle class (like the <pf>main</pf> function), a wide range of ways to make a Circle:</p>
 
+  <listing>
   <program label="interacting-objects_composition-construction-program-3" interactive="codelens">
 <xi:include href="../../programs/interacting-objects/circle-construct-3.cpp" parse="text"/>
   </program>
+  </listing>
 
 
 

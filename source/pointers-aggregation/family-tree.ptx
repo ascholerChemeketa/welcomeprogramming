@@ -82,12 +82,14 @@
   <p>The first program sets up this family tree in
   lines 9-25. It then prints out some of the Persons, changes one of their names, and prints again.</p>
 
+  <listing>
   <program label="pointers-aggregation_family-tree-program-1"
            compile-also="person-family-cxx"
            highlight-lines="32, 35"
            interactive="activecode">
 <xi:include href="../../programs/pointers-aggregation/person-family-user-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Notice
   that because we are using aggregation, when we change Fay's name to Fiona (line 32), the Henry
@@ -114,22 +116,26 @@
 
   <p>This program starts with the same family set up code. Skip past it and examine lines 28+. They set up some pointers to point to Henry and his ancestors.</p>
 
+  <listing>
   <program label="pointers-aggregation_family-tree-program-2"
            compile-also="person-family-cxx"
            interactive="activecode">
 <xi:include href="../../programs/pointers-aggregation/person-family-user-2.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Rather than write out each next step in accessing Henry's ancestors by hand, we could use a loop to <q>walk up</q> the family tree. The next program does exactly that. It reuse the <pf>currentPerson</pf> pointer to
   always store the person we are currently at. To <q>step up</q> the tree, we can change the <pf>currentPerson</pf> to be the mother of the old <pf>currentPerson</pf>. Once the <pf>currentPerson</pf> is null, we know we have run out
   of family members!</p>
 
+  <listing>
   <program label="pointers-aggregation_family-tree-program-3"
            compile-also="person-family-cxx"
            highlight-lines="30, 37, 40"
            interactive="activecode">
 <xi:include href="../../programs/pointers-aggregation/person-family-user-3.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>The tricky bit is the last line of the loop (40). We change the memory address stored in <pf>currentPerson</pf>
   to be a copy of the address stored in <pf>currentMother</pf>. This updates the <pf>currentPerson</pf> pointer to point at

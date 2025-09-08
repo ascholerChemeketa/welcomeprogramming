@@ -36,10 +36,12 @@
     from its use. Say I want to put the <pf>main</pf> function in my program at the top of my code file. I
     can do so by first declaring my functions, then writing main, then defining my other functions.</p>
 
+  <listing>
   <program label="functions-testing_declarations-program-1"
            interactive="activecode">
 <xi:include href="../../programs/functions-testing/declarations-3.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Try running the program above. Then comment out the declaration of <pf>doubleValue</pf> on line 5. That should produce a compile error on line 11. When the compiler gets to that line, it sees a call to <pf>doubleValue</pf>, but does not yet know about that function.</p>
 

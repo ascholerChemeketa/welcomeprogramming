@@ -16,9 +16,11 @@
 
   <p>In this sample, we use two functions to work with a multidimensional collection of numbers:</p>
 
+  <listing>
   <program label="multidimensional-vectors_functions-program-1" interactive="activecode">
 <xi:include href="../../programs/multidimensional-vectors/functions-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Note that these functions calculate the <pf>colCount</pf> for each row. Previous samples calculated one <pf>colCount</pf> based on the size of the first row. Calculating each row's length independently means these functions will work correctly on <q>jagged</q> structures. <term>Rectangular</term> data has the same number of columns in every row. In non-rectangular or jagged data, each row can have a different length.</p>
 

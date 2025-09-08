@@ -11,6 +11,7 @@
   <title>A first attempt</title>
   <p>Range-based loops feel like a natural way to traverse a two-dimensional vector. The outer vector is what we consider to be the rows, so we can loop over those and for each one, loop over its elements. Say I want to print a table of numbers in its natural structure. I would want to do something like:</p>
 
+  <listing>
   <program><![CDATA[
   for each row in table {
     for each element in row {
@@ -19,12 +20,15 @@
     end line
   }
   ]]></program>
+  </listing>
 
   <p>In C++, that will look like this:</p>
 
+  <listing>
   <program label="multidimensional-vectors_traversals-program-1" interactive="activecode">
 <xi:include href="../../programs/multidimensional-vectors/traversals-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Notice the type used for the first loop variable: <pf>const vector&lt;int>&amp; row</pf>. <pf>row</pf> is storing each element of <pf>matrix</pf> one at a time. And what matrix stores are <pf>vector&lt;int></pf>s. But we don't want to copy those vectors into the variable row. That would be a waste of time. So we make <pf>row</pf> be a const reference to the current element. If we changed like 15 to read <pf>for (vector&lt;int> row : matrix)</pf>, the code would work, but it would be making copies of each row.</p>
 
@@ -37,9 +41,11 @@
 
   <p>Our preferred way of looping over multidimensional arrays will be to use counting loops. For a row major traversal, our outer loop is based on the size of the top-level array - the number of rows. The inner loop is based on the number of columns, which is the length of one of the rows (assuming they all have the same length).</p>
 
+  <listing>
   <program label="multidimensional-vectors_traversals-program-2" interactive="activecode">
 <xi:include href="../../programs/multidimensional-vectors/traversals-2.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Because the inner loop (columns) runs completely with each step of the outer loop (rows), line 24 ends accessing the elements of the matrix in this order:</p>
 
@@ -57,9 +63,11 @@ matrix.at(2).at(0)  (start of new row)
 
   <p>This version is more flexible than the range-based approach. By switching the order of the two loops, we can iterate in column major order. Doing so will print out each column on a separate line of output:</p>
 
+  <listing>
   <program label="multidimensional-vectors_traversals-program-3" interactive="activecode">
 <xi:include href="../../programs/multidimensional-vectors/traversals-3.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>Note that all that is different about this version is that lines 21 and 23 (and the comments above them) have swapped places. We still specify the row first when accessing the matrix using <pf>matrix.at(row).at(col)</pf>. But, since we count through all the possible rows before changing the column, we end up accessing elements in this order:</p>
 

@@ -19,10 +19,12 @@
     number we get is called <term>rounding error</term>. For example, the following two statements
     should produce equivalent results, but do not:</p>
 
+  <listing>
   <program label="floatingpoint-math_rounding-errors-program-1"
            interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/rounding-errors-1.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>The problem is that <pf>0.1</pf> is a repeating fraction when converted into binary. So its
     floating-point representation stored in memory is only approximate. When we add up the
