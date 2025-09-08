@@ -63,4 +63,80 @@ int z = ++x;  // z is 4, x is now 4 - ++x happened first
 
   <p>There is no reason you ever have to use the various shortcut operators. But you are going to see them in code written by others, so it is important to recognize what they do.</p>
 
+  <exercise label="computer-programming_shortcut-operators-ex-1">
+    <statement>
+      <p>What is the final value of <pf>x</pf> at the end of the code below? <fillin mode="number"
+                answer="5"/></p>
+      <program>
+          int x = 2;
+          x *= 3;
+          x -= 1;
+      </program>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <exercise label="computer-programming_shortcut-operators-ex-2">
+    <statement>
+      <p>What is the final value of <pf>x</pf> at the end of the code below? <fillin mode="number"
+                answer="4"/></p>
+      <program>
+          int x = 2;
+          x++;
+          ++x;
+      </program>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <exercise label="computer-programming_shortcut-operators-ex-3">
+    <statement>
+      <p>What is the final value of <pf>x</pf> at the end of the code below? <fillin mode="number"
+                answer="8"/></p>
+      <program>
+          int w = 8;
+          int x = w++;
+      </program>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+          <feedback>Remember that <pf>w++</pf> means <q>use the current value of <pf>w</pf>, then increment it after that</q>.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+  
+  <exercise label="computer-programming_shortcut-operators-ex-4">
+    <statement>
+      <p>What is the final value of <pf>x</pf> at the end of the code below? <fillin mode="number"
+                answer="9"/></p>
+      <program>
+          int w = 8;
+          int x = ++w;
+      </program>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+          <feedback>Remember that <pf>++w</pf> means <q>increment <pf>w</pf>, then use the new value</q>.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+  
 </section>
