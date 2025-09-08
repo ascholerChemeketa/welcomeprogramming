@@ -38,7 +38,7 @@ class Student : public Person {
     The best way to picture this relationship is to imagine that every <pf>Student</pf> object has a <pf>Person</pf> object inside it. If we access <pf>s.m_age</pf> or <pf>s.m_major</pf>, we are actually accessing the <pf>m_age</pf> and <pf>m_major</pf> members of the <pf>Person</pf> object inside <pf>s</pf>:
   </p>
 
-  <figure xml-id="figure-inheritance-structure">
+  <figure xml:id="figure-inheritance-structure">
     <caption>How inheritance works in C++.</caption>
     <image source="images/inheritance-structure.svg" width="50%" >
       <shortdescription>Student object s has an anonymous Person object inside it.</shortdescription>
