@@ -11,7 +11,9 @@
     <caption>Stack diagram for the <pf>countdown</pf> program.</caption>
     <image width="25%"
            source="images/recursion-stack-1.png"
-           alt="There are 4 stack frame boxes for the countdown function. They have different values of n, from 3 to 0."/>
+           >
+      <shortdescription>There are 4 stack frame boxes for the countdown function. They have different values of n, from 3 to 0.</shortdescription>
+    </image>
   </figure>
 
   <p>The frame for <pf>main</pf> is empty because <pf>main</pf> does not have any variables. The next frame down is the original call to <pf>countdown</pf> and in it, <pf>n</pf> has the value 3. Each additional call to <pf>countdown</pf> creates a new stack frame with a new value of <pf>n</pf>. As we return from those function calls, the stack frames will be removed one by one.</p>

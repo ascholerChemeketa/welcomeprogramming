@@ -23,7 +23,11 @@
   <p>Here is what would result in memory:</p>
 
   <image source="images/copy-constructor-1.svg"
-         alt="Memory layout showing original and copy PlayerList objects. Both have the same memory address for the array they manage."/>
+         >
+
+    <shortdescription>Memory layout showing original and copy PlayerList objects. Both have the same memory address for the array they manage.</shortdescription>
+
+  </image>
 
   <p>This is a <term>shallow copy</term>. There is really only one array and it is shared by <pf>original</pf>
     and <pf>copy</pf>. This means changing one will change the other. It also means that we will have an
@@ -51,7 +55,11 @@
     each PlayerList object has its own separate copy of the data. Something like this:</p>
 
   <image source="images/copy-constructor-2.svg"
-         alt="Memory layout showing original and copy PlayerList objects. Both have their own arrays of player names."/>
+         >
+
+    <shortdescription>Memory layout showing original and copy PlayerList objects. Both have their own arrays of player names.</shortdescription>
+
+  </image>
 
   <p>To do this, we need to implement a <term>copy constructor</term>. A copy constructor is a
     special constructor that is called when an object is initialized with another object of the same

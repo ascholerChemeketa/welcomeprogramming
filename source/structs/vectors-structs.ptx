@@ -29,7 +29,9 @@ students.push_back(student2);
     <caption>The memory diagram for the <pf>students</pf> vector</caption>
       <image source="images/structs-vector-struct.svg"
              width="90%"
-             alt="A students vector with two student elements"/>
+             >
+        <shortdescription>A students vector with two student elements</shortdescription>
+      </image>
     </figure>
 
     <p>The memory diagram can be helpful to figure out how we reference a particular piece of information.</p>
@@ -57,7 +59,9 @@ s1.exams.at(0) = 100.0; // This modifies the copy only
     <caption>The memory diagram for the <pf>students</pf> vector and s1</caption>
       <image source="images/structs-vector-struct-copy.svg"
              width="90%"
-             alt="s1 is a copy of the first student element"/>
+             >
+        <shortdescription>s1 is a copy of the first student element</shortdescription>
+      </image>
     </figure>
 
 
@@ -78,7 +82,9 @@ s1.exams.at(0) = 100.0; // This modifies the student in the vector
     <caption>The memory diagram for the <pf>students</pf> vector and s1 as a reference</caption>
       <image source="images/structs-vector-struct-ref.svg"
              width="90%"
-             alt="s1 is a reference to the first student element"/>
+             >
+        <shortdescription>s1 is a reference to the first student element</shortdescription>
+      </image>
     </figure>
 
     <p>Now <pf>s1.exams.at(0) = 100.0</pf> correctly changes the score in the vector.</p>

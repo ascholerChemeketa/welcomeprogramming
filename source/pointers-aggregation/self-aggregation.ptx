@@ -61,7 +61,9 @@ test.cpp:5:7: note: definition of ‘class Person’ is not complete until the c
     <caption>Memory diagram at the start of <pf>anna.marry(&amp;brian)</pf>.</caption>
     <image source="images/aggregation-self-1.svg"
            width="60%"
-           alt="In marry, this has the address 0x400 (that of the anna object in main) and spouse has the address 0x6f0 (that of the brian object in main)."/>
+           >
+      <shortdescription>In marry, this has the address 0x400 (that of the anna object in main) and spouse has the address 0x6f0 (that of the brian object in main).</shortdescription>
+    </image>
   </figure>
 
   <p>The first line of the <pf>marry</pf> function - <pf>m_spouse = spouse;</pf> - changes <pf>anna</pf>'s <pf>m_spouse</pf> to be
@@ -74,7 +76,9 @@ test.cpp:5:7: note: definition of ‘class Person’ is not complete until the c
     <caption>Memory diagram at the end of <pf>anna.marry(&amp;brian)</pf>.</caption>
     <image source="images/aggregation-self-2.svg"
            width="60%"
-           alt="anna's m_spouse now has brian's address (0x6f0). brian's m_spouse now has anna's address (0x400)"/>
+           >
+      <shortdescription>anna's m_spouse now has brian's address (0x6f0). brian's m_spouse now has anna's address (0x400)</shortdescription>
+    </image>
   </figure>
 
   <exercise label="pointers-aggregation_self-aggregation-ex-1"

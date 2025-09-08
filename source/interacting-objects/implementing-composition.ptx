@@ -42,7 +42,9 @@
     <caption>A memory diagram of Circle c1.</caption>
     <image source="images/composition-circle-c1.svg"
           width="100%"
-          alt="Circle c1 contains a Point object m_center that has m_x and m_y"/>
+          >
+      <shortdescription>Circle c1 contains a Point object m_center that has m_x and m_y</shortdescription>
+    </image>
   </figure>
   
   <p>In this model, the x and y coordinates are the Point's responsibility. The <pf>m_center</pf> is used to store the values <pf>m_x</pf> and <pf>m_y</pf> and, as we will see soon, any time the Circle needs to work with the coordinates, it will rely on the <pf>m_center</pf> to access them.</p>

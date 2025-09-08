@@ -23,7 +23,11 @@
   <p>Right before the assignment, the memory layout looks like this:</p>
 
   <image source="images/assignment-operator-1.svg"
-         alt="Memory layout showing original and other PlayerList objects. Both are managing their own arrays."/>
+         >
+
+    <shortdescription>Memory layout showing original and other PlayerList objects. Both are managing their own arrays.</shortdescription>
+
+  </image>
 
   <p>Like the copy constructor, there is a default assignment operator that performs a shallow copy.
     It would copy the pointer to the array from <pf>original</pf> to <pf>other</pf>, rather than creating a new
@@ -31,7 +35,11 @@
     that other owned as well as the same problems we saw with the shallow copy constructor:</p>
 
   <image source="images/assignment-operator-2.svg"
-         alt="Memory layout showing original and other PlayerList objects. Both point at the array owned by original. The array that was owned by other is now leaked."/>
+         >
+
+    <shortdescription>Memory layout showing original and other PlayerList objects. Both point at the array owned by original. The array that was owned by other is now leaked.</shortdescription>
+
+  </image>
 
   <p>Instead, we need to delete the old array and then make a deep copy just like the copy
     constructor did.</p>

@@ -74,7 +74,9 @@
       <caption>Memory diagram of p1, c1, and c2 using aggregation.</caption>
       <image source="images/aggregation-circles.svg"
              width="80%"
-             alt="In Circles c1 and c2, the m_center holds the memory address of Point p1"/>
+             >
+        <shortdescription>In Circles c1 and c2, the m_center holds the memory address of Point p1</shortdescription>
+      </image>
     </figure>
 
     <p>This means, that any change to <pf>p1</pf> will be <q>seen</q> by the two Circle objects. We
@@ -90,7 +92,9 @@
         <caption>Memory diagram of p1, c1, and c2 using composition.</caption>
         <image source="images/composition-circles.svg"
                width="80%"
-               alt="In Circles c1 and c2, the m_center hold copies of the data from p1"/>
+               >
+          <shortdescription>In Circles c1 and c2, the m_center hold copies of the data from p1</shortdescription>
+        </image>
       </figure>
       <p>Given this structure in memory, future changes to <pf>p1</pf> would not affect either
         Circle's center point as those are different objects in memory.</p>

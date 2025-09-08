@@ -45,7 +45,11 @@
     the pointers (the two memory addresses), not the things they point at.</p>
 
   <image source="images/array-use-1.svg"
-         alt="data holds the address 0x40. At that address is an array that holds three integers: 1, 2, and 3. other holds the address 0x80. At that address is a different array that also holds three integers: 1, 2, and 3."/>
+         >
+
+    <shortdescription>data holds the address 0x40. At that address is an array that holds three integers: 1, 2, and 3. other holds the address 0x80. At that address is a different array that also holds three integers: 1, 2, and 3.</shortdescription>
+
+  </image>
 
   <p>This also means that something like <pf>int* copy = data;</pf> will not create a copy of the array, but rather
     another pointer to the same array. Given this code:</p>
@@ -60,7 +64,11 @@
   <p>The memory layout would look like:</p>
 
   <image source="images/array-use-2.svg"
-         alt="data holds the address 0x40. At that address is an array that holds three integers: 1, 2, and 3. copy holds the same address"/>
+         >
+
+    <shortdescription>data holds the address 0x40. At that address is an array that holds three integers: 1, 2, and 3. copy holds the same address</shortdescription>
+
+  </image>
 
   <p>There is really only one array, and both <pf>data</pf> and <pf>copy</pf> point to it. The assignment
     statement copied the memory address from data to copy. This is known as a <term>shallow copy</term>.

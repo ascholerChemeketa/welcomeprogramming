@@ -36,7 +36,11 @@
     something like this:</p>
 
   <image source="images/dynamic-memory-1.svg"
-         alt="Memory layout after dynamic allocation in foo()"/>
+         >
+
+    <shortdescription>Memory layout after dynamic allocation in foo()</shortdescription>
+
+  </image>
 
   <p>Notice that the <pf>5</pf> and <pf>Hello, world</pf> are stored on the heap, while <pf>x</pf> and <pf>y</pf>
     are stored on the stack in frames associated with <pf>main</pf> and <pf>foo</pf>, respectively. Also
@@ -51,7 +55,11 @@
     look like:</p>
 
   <image source="images/dynamic-memory-2.svg"
-         alt="Memory layout after foo returns"/>
+         >
+
+    <shortdescription>Memory layout after foo returns</shortdescription>
+
+  </image>
 
   <p>So how do we access the dynamically allocated memory if they do not have identifiers? The
     answer is to keep track of the pointers to the allocated memory. When we use <pf>new</pf>, it
@@ -71,7 +79,11 @@
   <p>This time, the memory layout at the end of <pf>foo()</pf> would look like:</p>
 
   <image source="images/dynamic-memory-3.svg"
-         alt="Memory layout with p1 and p2 that point at allocated heap memory"/>
+         >
+
+    <shortdescription>Memory layout with p1 and p2 that point at allocated heap memory</shortdescription>
+
+  </image>
 
   <p>Key things to note: <ul>
       <li>The values <pf>5</pf> and <pf>Hello, world</pf> are stored on the heap.</li>
@@ -93,7 +105,11 @@
       <p>Based on what you know about the stack and heap, what will happen when <pf>foo</pf> returns?</p>
 
       <image source="images/dynamic-memory-3.svg"
-             alt="Memory layout with p1 and p2 that point at allocated heap memory"/>
+             >
+
+        <shortdescription>Memory layout with p1 and p2 that point at allocated heap memory</shortdescription>
+
+      </image>
     </statement>
 
     <choices randomize="yes">

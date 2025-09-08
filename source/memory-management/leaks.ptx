@@ -5,7 +5,11 @@
   <p>When our program is in <pf>foo()</pf>, the memory looks like this:</p>
 
   <image source="images/dynamic-memory-3.svg"
-         alt="Memory layout with p1 and p2 that point at allocated heap memory"/>
+         >
+
+    <shortdescription>Memory layout with p1 and p2 that point at allocated heap memory</shortdescription>
+
+  </image>
 
   <p>When <pf>foo</pf> returns, its stack frame disappears. That means <pf>p1</pf> and <pf>p2</pf> will go
     away and so will our only record of where the memory allocated for <pf>5</pf> and <pf>"Hello World"</pf> is.
@@ -18,7 +22,11 @@
   <p>The memory diagram for this situation might look like:</p>
 
   <image source="images/leaks-1.svg"
-         alt="Leaked memory on the heap has no pointers that point to it"/>
+         >
+
+    <shortdescription>Leaked memory on the heap has no pointers that point to it</shortdescription>
+
+  </image>
 
   <p>However, in a long running program that keeps leaking memory, it will get harder and harder to
     find an empty block of space on the heap when a new allocation is made. Eventually, we will run
@@ -45,7 +53,11 @@
     memory diagram right before foo returns would look like:</p>
 
   <image source="images/leaks-2.svg"
-         alt="The memory allocated on the heap and pointed to by p1 and p2 was freed"/>
+         >
+
+    <shortdescription>The memory allocated on the heap and pointed to by p1 and p2 was freed</shortdescription>
+
+  </image>
 
   <p>Note that <pf>p1</pf> and <pf>p2</pf> still exist, but they no longer point to valid memory.
     Accessing them would result in undefined behavior - we don't know what might be at <pf>0x40</pf> or <pf>0x80</pf>
@@ -76,6 +88,10 @@
   <p>Now at the end of the <pf>foo()</pf> function, the memory layout looks like this:</p>
 
   <image source="images/leaks-3.svg"
-         alt="Setting pointers to nullptr ensures they don't point at deallocated memory."/>
+         >
+
+    <shortdescription>Setting pointers to nullptr ensures they don't point at deallocated memory.</shortdescription>
+
+  </image>
 
 </section>

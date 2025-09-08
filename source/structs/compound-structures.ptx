@@ -21,7 +21,9 @@
   <figure align="center">
     <image source="images/structs-compound-1.svg"
            width="50%"
-           alt="A student struct that contains a date struct"/>
+           >
+      <shortdescription>A student struct that contains a date struct</shortdescription>
+    </image>
   </figure>
 
   <p>In this diagram, the <pf>Student</pf> struct is shown as a box with three parts. Two parts are the <pf>name</pf> and <pf>email</pf> strings. The third part is a <pf>Date</pf> struct, which is itself a box with three parts. When we say <pf>s1.enrollmentDate</pf> we are talking about the entire date struct that is a part of that student. To talk about the members of that struct, we need to use the dot operator again. For example, to access the month of a <pf>student</pf>'s enrollment date, we would write <pf>s1.enrollmentDate.month</pf>.</p>
@@ -47,7 +49,9 @@
   <figure align="center">
     <image source="images/structs-compound-2.svg"
            width="50%"
-           alt="A Date d1 and Students s1 and s2"/>
+           >
+      <shortdescription>A Date d1 and Students s1 and s2</shortdescription>
+    </image>
   </figure>
   
   <exercise label="structs_compound-structures-ex-1">

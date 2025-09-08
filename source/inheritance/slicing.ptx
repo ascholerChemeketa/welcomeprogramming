@@ -19,7 +19,9 @@
   
   <figure>
     <caption>Student s <q>sliced</q> as it is copied into p.</caption>
-    <image source="images/inheritance-slice-1.svg" width="50%" alt="Person p has no space to store a m_major variable even though it is a copy of Student s that has one."/>
+    <image source="images/inheritance-slice-1.svg" width="50%" >
+      <shortdescription>Person p has no space to store a m_major variable even though it is a copy of Student s that has one.</shortdescription>
+    </image>
   </figure>
 
   <p>Thus if we rewrote the <pf>makeIntroduction</pf> function to use pass by value, it would no longer be able to produce polymorphic behavior. The object we are working with is just a <pf>Person</pf> and will never have extra information.</p>
@@ -36,7 +38,9 @@
 
   <figure>
     <caption>When <pf>person</pf> parameter is a reference, it retains access to all the data from the original object.</caption>
-    <image source="images/inheritance-slice-2.svg" width="50%" alt="person is a reference to the Student s. It thus has access to all the student information."/>
+    <image source="images/inheritance-slice-2.svg" width="50%" >
+      <shortdescription>person is a reference to the Student s. It thus has access to all the student information.</shortdescription>
+    </image>
   </figure>
 
   <p>The same basic idea applies to pointers. If we had a pointer <pf>p</pf> to a Person object, and the object it points to happens to be a Student, using <pf>p->introduce()</pf> will dynamically find the version of <pf>introduce()</pf> that is most appropriate for the actual object type.</p>
@@ -187,7 +191,9 @@
   
   <figure>
     <caption><pf>p</pf> and <pf>sPtr</pf> both point at the same Student. <pf>sPtr</pf> is known to be pointing at a Student. We don't know what type of object <pf>p</pf> is pointing to.</caption>
-    <image source="images/inheritance-dynamic-cast.svg" width="80%" alt="Both p and sPtr hold the memory address of the same Student."/>
+    <image source="images/inheritance-dynamic-cast.svg" width="80%" >
+      <shortdescription>Both p and sPtr hold the memory address of the same Student.</shortdescription>
+    </image>
   </figure>
 
   

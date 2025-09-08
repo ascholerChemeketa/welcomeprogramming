@@ -19,7 +19,9 @@ Point Circle::getCenter() const {
     <caption>A memory diagram of Circle c1 and Point p2.</caption>
     <image source="images/composition-center-return-1.svg"
           width="100%"
-          alt="Point p2 is a copy of the Point m_center that is part of Circle c1"/>
+          >
+      <shortdescription>Point p2 is a copy of the Point m_center that is part of Circle c1</shortdescription>
+    </image>
   </figure>
   
 
@@ -66,7 +68,9 @@ Point Circle::getCenter() const {
     <caption>A memory diagram of Circle c1 and Point&amp; p3.</caption>
     <image source="images/composition-center-return-2.svg"
           width="100%"
-          alt="Point p3 is a reference to the Point m_center that is part of Circle c1"/>
+          >
+      <shortdescription>Point p3 is a reference to the Point m_center that is part of Circle c1</shortdescription>
+    </image>
   </figure>
 
   <p>In this case, <pf>p3.setY(10)</pf> would actually change the <pf>m_y</pf> of the <pf>m_center</pf> of <pf>c1</pf> as <pf>p3</pf> is just another name for <pf>c1.m_center</pf>. Because the reference can be used to modify the Point (and thus the Circle's data), this version of <pf>getCenter</pf> is not (and can not be) const.</p>
