@@ -38,13 +38,13 @@
   </figure>
 
   <p>Notice that we have two variables related to the size of the ArrayList. <pf>m_capacity</pf> keeps track
-    of how much space is allocated for the array (the <pf><term>physical capacity</term>). It is the maximum number of items we currently can store. </pf>m_size<pf> keeps track of how many elements of that array are in use (the <term>logical size</term>). In this case, only 3 of the 5 elements in </pf>
-    m_arr<pf> are being used.</p>
+    of how much space is allocated for the array (the <term>physical capacity</term>). It is the maximum number of items we currently can store. <pf>m_size</pf> keeps track of how many elements of that array are in use (the <term>logical size</term>). In this case, only 3 of the 5 elements in <pf>
+    m_arr</pf> are being used.</p>
 
   <insight>
     <p>The ArrayList will usually not be using all of the memory it has allocated. Anytime we want
       to know how many elements are in the ArrayList (how many values in the array we consider to be
-      important) we should check the </pf>m_size<pf> variable.</p>
+      important) we should check the <pf>m_size</pf> variable.</p>
   </insight>
 
   <p>Recall that when we dynamically allocate an array, we have to specify how many elements we want
@@ -61,17 +61,16 @@ ArrayList<T>::ArrayList() {
 ]]></program>
 
   <note>
-    <p>Syntax tip: </pf>ArrayList&lt;T>::ArrayList()<pf> is the constructor for an ArrayList of type T. The </pf>ArrayList<pf> class is templated (</pf>
-      ArrayList&lt;T>::<pf>), but the function name (</pf>ArrayList()<pf>) is not.</p>
+    <p>Syntax tip: <pf>ArrayList&lt;T>::ArrayList()</pf> is the constructor for an ArrayList of type T. The <pf>ArrayList</pf> class is templated (<pf>ArrayList&lt;T>::</pf>), but the function name (<pf>ArrayList()</pf>) is not.</p>
   </note>
 
   <p>That constructor allocates an array big enough to hold 5 values. We do nothing to initialize
     the memory, so the contents are indeterminate (i.e., they could be anything). But we do not
-    consider those unused locations to be part of the ArrayList. Since the </pf>m_size<pf> is
+    consider those unused locations to be part of the ArrayList. Since the <pf>m_size</pf> is
     0, we think of the ArrayList as being empty.</p>
 
   <figure>
-    <caption></pf>intList<pf> after being constructed, before anything is added to it.</caption>
+    <caption><pf>intList</pf> after being constructed, before anything is added to it.</caption>
     <image source="images/array-list-empty.svg">
       <shortdescription>The intList variable contains an m_size of 0 and m_capacity of 5. It also
         has a pointer to an array named m_arr. That array contains [???, ???, ??? ???, ???].</shortdescription>
@@ -85,12 +84,11 @@ ArrayList<T>::ArrayList() {
     them, see <xref ref="templates-array-list_array-list-final-listing"/>.</p>
 
   <note>
-    <p>We are intentionally making something simpler than the </pf>std::vector<pf>. To make our ArrayList
-      more like </pf>vector<pf>, we might: <ul>
+    <p>We are intentionally making something simpler than the <pf>std::vector</pf>. To make our ArrayList
+      more like <pf>vector</pf>, we might: <ul>
         <li>Add a constructor that takes an initial capacity as a parameter so users can
       create an ArrayList with a specific size from the beginning.</li>
-        <li>Use </pf>
-      size_t<pf> instead of </pf>int` for size and index variables to better represent their non-negative
+        <li>Use <pf>size_t</pf> instead of <pf>int</pf> for size and index variables to better represent their non-negative
       nature.</li>
       </ul>
     </p>
