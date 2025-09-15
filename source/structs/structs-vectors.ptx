@@ -3,6 +3,8 @@
 
   <title>Structs and Vectors</title>
 
+  <introduction>
+
     <p>Structs and vectors are similar in that they allow us to store multiple values in a package with a single name. But there are some important differences:
     <ul>
       <li>Every member of a struct can be of any type, while all members of a vector must be of the same type.</li>
@@ -21,8 +23,10 @@
     </p>
 
     <p>So what if you need the strengths of booth? You can combine the two by using a vector inside of a struct, by making a vector of structs, or even by doing both at once.</p>
+    </introduction>
 
-    <title>Structs with Vectors</title>
+    <subsection>
+    <title>Structs containing Vectors</title>
 
     <p>Say we want to store students who have names and a list of exam scores. We would like to be able to loop through their scores to do things like calculate an average. We also need to be able to add scores. We could represent those scores as a vector of doubles within a <pf>Student</pf> struct:</p>
 
@@ -69,7 +73,7 @@ student1.exams.push_back(100.0);
 </program>
     </listing>
 
-  
+  </subsection>
   <exercise label="structs_vectors-ex-1">
     <statement>
       <p>Which statements are advantages of structs?</p>

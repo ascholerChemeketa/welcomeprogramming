@@ -3,10 +3,8 @@
 
   <title>Vectors of Structs</title>
 
-  <subsection>
-    <title>Basics</title>
-
-    <p>Now imagine we have a large number of those students. We would like to be able to loop though the students like a list. To accommodate this, we would want to make a vector of type <pf>Student</pf></p>
+  <introduction>
+    <p>Now imagine we have a large number of students and we would like to be able to write code that loops through all of the students to perform various calculations. To accommodate this, we would want to make a vector of type <pf>Student</pf>.</p>
 
     <listing>
     <program>
@@ -27,6 +25,8 @@ students.push_back(student2);
     </program>
     </listing>
 
+    <p>That code would result in memory that could be visualized as follows:</p>
+
     <figure align="center">
     <caption>The memory diagram for the <pf>students</pf> vector</caption>
       <image source="images/structs-vector-struct.svg"
@@ -36,29 +36,36 @@ students.push_back(student2);
       </image>
     </figure>
 
-    <p>The memory diagram can be helpful to figure out how we reference a particular piece of information.</p>
-
-    <p><pf>students</pf> is the top level name of the vector. The two elements of the vector are accessed using the <pf>at</pf> method. So to access the first student, we would use <pf>students.at(0)</pf>. At that point, we are talking about the entire <pf>Student</pf> struct. To access the name of that student, we would use <pf>students.at(0).name</pf>. To access the exam scores of that student, we would use <pf>students.at(0).exams</pf>. And to get a particular exam we would use <pf>.at</pf> on that. Thus <pf>students.at(0).exams.at(1)</pf> would get the second score of the first student.</p>
-  </subsection>
+    <p>That memory diagram can be helpful to figure out how we reference a particular piece of information.
+      <ul>
+        <li><pf>students</pf> is the top level name of the vector.</li>
+        <li>The two elements of the vector are accessed using the <pf>at</pf> method. So to access the first student, we would use <pf>students.at(0)</pf>. At that point, we are naming the box that is above 0. It is the entire <pf>Student</pf> struct for Beth.</li>
+        <li>To access a member of the struct, we use <pf>.fieldName</pf>. So to access the name of that student, we would use <pf>students.at(0).name</pf>.</li>
+        <li>To access the exam scores of that student, we would use <pf>students.at(0).exams</pf>. That names the entire vector of scores for that student. To get a particular exam we would use <pf>.at</pf> to index into the vector. Thus <pf>students.at(0).exams.at(1)</pf> would get the second score of the first student. (94.3)</li>
+      </ul></p>
+  </introduction>
 
   <subsection>
     <title>Avoiding Copies</title>
 
     <p>As we work with a collection of structs, we will want to be careful to avoid making unwanted copies of structs. If we are just reading data, making copies of data will be slightly inefficient, but should be otherwise harmless. However, when we are modifying data, copies can easily introduce bugs. If we by accident make a copy of an item and then modify the copy but expect the original to change, that will cause unexpected results in our code.</p>
 
-    <p>The key to remember is that assignment into a struct variable copies:</p>
+    <p>The key to remember is that assignment into a struct variable copies. Consider this failed attempt to set the first student's first exam score to 100:</p>
 
     <listing>
     <program>
 vector&lt;Student> students;
 // assume code here adds some students to the vector
+// the first student is "Beth Jones" and has exam scores of 84.2, 94.3, 96.7
 
 // This COPIES the first student
 Student s1 = students.at(0);
-s1.exams.at(0) = 100.0; // This modifies the copy only
+s1.exams.at(0) = 100.0;
     </program>
     </listing>
-    
+
+<p><pf>s1</pf> is a copy of the data from the vector. It is a duplicate of the <q>Beth Jones</q> Student struct:</p>
+
     <figure align="center">
     <caption>The memory diagram for the <pf>students</pf> vector and s1</caption>
       <image source="images/structs-vector-struct-copy.svg"
@@ -69,9 +76,9 @@ s1.exams.at(0) = 100.0; // This modifies the copy only
     </figure>
 
 
-    <p><pf>s1</pf> is an exact copy of the first student in the <pf>students</pf> vector. That is great if we wanted to copy the student. But in this case, we were just trying to make it easier to refer to that student. We didn't want to write out <pf>students.at(0).exams.at(0)</pf>, so <pf>s1</pf> was supposed to replace the <pf>students.at(0)</pf> part. But because we made a copy, the 100 score was not stored to the first exam of the first student in the vector as we expected.</p>
+    <p>That is great if we wanted to copy the student. But in this case, we were just trying to make it easier to refer to that student. We didn't want to write out <pf>students.at(0).exams.at(0)</pf>. <pf>s1</pf> was supposed to be a shorter alias for <pf>students.at(0)</pf>. But because <pf>s1</pf> is a copy, we never managed to change the score of the original <q>Beth Jones</q> struct.</p>
 
-    <p>To avoid making a copy, we can use a reference. Remember that a reference is an <term>alias</term> - another name for a thing that already exists. In this situation, that is what I really want. I want a new name for the existing struct. So I should declare a reference variable and use that to refer to the student:</p>
+    <p>To avoid making a copy, we can use a reference. Remember that a reference is an <term>alias</term> - another name for a thing that already exists. In this situation, that is what we really want<mdash/>a new name for the existing struct. So we should declare <pf>s1</pf> to be a reference variable and use that to refer to the student:</p>
 
     <listing>
     <program>
