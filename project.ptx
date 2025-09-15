@@ -6,24 +6,19 @@
 <project ptx-version="2">
   <targets>
     <target name="web" 
-            format="html"
-            />
-    <!-- <target name="web" 
-            format="html"
-            output-dir="published/tourcs"
-            publication="pretext/publication.xml"
-            source="pretext/main.xsl"
-            />
+            output-dir="out"
+            format="html">
+      <stringparams html.css.extra="external/css/custom-style.css" />
+    </target>
     <target name="print" 
             format="pdf"
-            output-dir="published/tourcs"
-            publication="pretext/publication.xml"
+            output-dir="out"
             source="pretext/main.xsl"/>
     <target name="runestone" 
             format="html"
             platform="runestone"
-            output-dir="out-print"
-            publication="pretext/publication-runestone.xml"
-            source="pretext/main.xsl"/> -->
+            publication="pretext/publication-runestone.xml">
+      <stringparams html.css.extra="external/css/custom-style.css" />
+    </target>
   </targets>
 </project>
