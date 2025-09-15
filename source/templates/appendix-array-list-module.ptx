@@ -1,0 +1,23 @@
+<section xml:id="templates-array-list_appendix-array-list-module"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Appendix - Array List Module Implementation</title>
+
+  <p>The final implementation of ArrayList as a module is shown below. Notice that the `export` keyword goes before the template definition. Technically, the template definition and class declaration are all one statement and could be written like this:</p>
+
+  <program>
+    export template&lt;typename T> class ArrayList {
+  </program>
+
+  <p>We want to export the entire templated class ArrayList.</p>
+
+  <p>But it is common to write the template declaration on a separate line. Either way, the `export` keyword must be used before the template definition. It can't be placed between that and the `class` keyword.</p>
+
+  <listing xml:id="templates-array-list_array-list-final-listing">
+    <caption>Final ArrayList Module Implementation</caption>
+  <program label="templates-array-list_array-list-final" xml:id="templates-array-list_array-list-final" filename="array-list-final.cxx">
+<xi:include href="../../programs/templates-array-list/array-list-final.cxx" parse="text"/>
+</program>
+  </listing>
+
+</section>

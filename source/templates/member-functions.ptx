@@ -1,0 +1,59 @@
+<section xml:id="templates-array-list_member-finctions"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Templated Member Functions</title>
+
+  <p>When we define a member function for a templated class, we need to include the template parameters when we write the member functions definitions. For example, if we rewrite our templated `Pair&lt;T>` to be a class instead of a struct, and we want to define a member function `getFirst` that returns the first element of the pair, we would do it like this:</p>
+
+  <listing>
+  <program line-numbers="yes" highlight-lines="8-9"><![CDATA[
+template<typename T>
+class Pair {
+  ...
+  T getFirst() const;
+  ...
+};
+
+template<typename T>
+T Pair<T>::getFirst() const {
+    return first;
+} ]]>
+</program>
+  </listing>
+
+  <p>The definition of `getFirst` must be preceded by the template parameter list (line 8). And the full formal name of the function must include the class name and the template parameter, so it is is `Pair&lt;T>::getFirst`. Given a mystery type T, this is the getFirst function for a Pair of type T.</p>
+
+  <p>Technically, any mention of `Pair` should be `Pair&lt;T>`:</p>
+
+  <program><![CDATA[
+// Constructor definition for making a Pair<T> from two T values
+template<typename T>
+Pair<T>::Pair<T>(T a, T b) {...}
+
+// Definition of equality operator for Pair<T>
+template<typename T>
+bool Pair<T>::operator==(const Pair<T>& other) const {...}
+    ]]></program>
+
+  <p>However, once we have established that we are writing code for a `Pair&lt;T&gt;`, the compiler will assume that any use of just `Pair` really means `Pair&lt;T&gt;`. Which means we could simplify our code by omitting the template parameter in certain contexts:</p>
+
+  <program><![CDATA[
+template<typename T>
+Pair<T>::Pair(T a, T b) {...}  // Note: no <T> after constructor name
+
+// Definition of equality operator for Pair<T>
+template<typename T>
+bool Pair<T>::operator==(const Pair& other) const {...} // Note: no <T> in parameter type
+    ]]></program>
+
+  <p>We still need to start the name of each member function with `Pair&lt;T&gt;`. That is what tells the compiler that this definition is for a Pair of type T. But once that context is set, we do not need to repeat the template parameter for other uses of Pair.</p>
+
+  <p>Here is the complete version of a templated Pair class with member functions:</p>
+
+  <listing>
+  <program label="templates-array-list_member-finctions-1">
+<xi:include href="../../programs/templates-array-list/types-pair-class.cpp" parse="text"/>
+</program>
+  </listing>
+
+</section>

@@ -1,0 +1,36 @@
+<section xml:id="templates-array-list_operators"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Operations in Templated Code</title>
+
+  <p>Although in theory a templated function can be used with any data type, instantiating the template only works if all of the operations used in the function are valid for the data type.</p>
+
+  <p>For example, if we write a templated function that uses the less-than operator (`&lt;`), then any data type we want to apply that template to must support the less-than operator. If we try to use the function with a type that does not support `&lt;`, we will get a compiler error. Consider the following sample that tries to use our `myMax` function on a `Time` struct:</p>
+
+  <listing>
+  <program label="templates-array-list_operators-1" interactive="activecode">
+<xi:include href="../../programs/templates-array-list/requirements-error.cpp" parse="text"/>
+</program>
+  </listing>
+
+  <p>The key part of the error message looks like this:</p>
+
+  <console>
+    <output>
+test.cpp:6:15: error: no match for ‘operator>’ (operand types are ‘Time’ and ‘Time’)
+    6 |     return (a > b) ? a : b;
+    </output>
+  </console>
+
+  <p>When the compiler tries to build a version of `myMax` for the `Time` struct, it looks for the `>` operator to compare two `Time` objects. Since we haven't defined this operator for `Time`, the compiler doesn't know how to compare them and generates an error.</p>
+
+  <p>To fix this, we need to define the `>` operator for the `Time` struct:</p>
+
+  <listing>
+  <program label="templates-array-list_operators-2" interactive="activecode">
+<xi:include href="../../programs/templates-array-list/requirements-fix.cpp" parse="text"/>
+</program>
+  </listing>
+
+  <p>This requirement is why operator overloading is an important part of C++ programming. By defining the `>` operator for the `Time` struct, we allow that struct to work in any templated code that requires `>`.</p>
+</section>

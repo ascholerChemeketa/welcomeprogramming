@@ -1,0 +1,72 @@
+<section xml:id="templates-array-list_array-list-access-remove"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Access and Removal</title>
+
+  <p>Accessing an item to either get the existing value or set a new one is straightforward. We
+    simply perform the desired operation on the corresponding index in the array.</p>
+
+  <program><![CDATA[
+template<typename T>
+T ArrayList<T>::get(int location) const {
+    return m_arr[location];
+}
+
+template<typename T>
+void ArrayList<T>::set(int location, const T& newValue) {
+    m_arr[location] = newValue;
+}
+]]></program>
+
+  <p>We likely want to sanity check the location to make sure it is valid before accessing the
+    array. To do so, we can add something like this to the start of each of those functions:</p>
+
+  <program><![CDATA[
+    if (location < 0 || location >= m_size) {
+        throw std::out_of_range("Index out of range");
+    }
+    ]]></program>
+
+  <p>That way asking for the item at location -1 or 4 in a four item ArrayList (where only 0-3 are
+    valid indexes) will throw an exception instead of accessing invalid memory.</p>
+
+  <note>
+    <p>Again, we are intentionally building a simplified version of `std::vector`. Although our ArrayList is conceptually the same as a vector, it doesn't provide exactly the same functionality. `std::vector` uses more complex code to handle element access.</p>
+    <p>`std::vector` does not have separate `set` and `get` functions. Instead, it provides an
+      `T&amp; ArrayList&lt;T>::at(int location)` function. Because this function returns a reference, it allow consumers
+      to write `myList.at(2) = 100;`. But it also provides a `const` version of exactly the same function: `const T&amp; ArrayList&lt;T>::at(int location) const`. The `const` version does not allow for assigning a new value, but can be used in contexts where we have said the vector itself is const.</p>
+    <p>It also provides an overridden `operator[]` that does the same thing as `.at()` but skips the
+      `out_of_range` check and just assume that the index is valid. </p>
+  </note>
+
+
+  <p>Removing an item from the end of the ArrayList is also straightforward. We simply decrease
+    `m_size` by 1. Doing so excludes the old last item from the range of valid indexes. The value
+    will still be in the array, but we no longer consider it part of the ArrayList!</p>
+
+  <program><![CDATA[
+template<typename T>
+void ArrayList<T>::removeEnd() {
+    m_size--;
+}
+    ]]></program>
+
+  <p>For example, if we call `intList.removeEnd()` after inserting 40, the ArrayList would look then
+    look like:</p>
+
+  <figure>
+    <caption>`intList` after removing the last item. The values that are not considered part of the
+      ArrayList (40 and ???) are shown in gray.</caption>
+    <image source="images/array-list-remove.svg">
+      <shortdescription>The intList variable contains an m_size of 3 and m_capacity of 5. It also
+        has a pointer to an array named m_arr. That array contains [10, 20, 30, 40, ???]. The 40 is
+        not considered part of the ArrayList anymore.</shortdescription>
+    </image>
+  </figure>
+
+  <p>Again, we might want to add some sanity checking. If there is nothing in the ArrayList and
+    `removeEnd()` is called, we should make sure not to set `m_size` to a negative value. We could
+    either choose to throw an exception or simply do nothing in that case. (The final version of our
+    code will throw an exception. See <xref ref="templates-array-list_array-list-final-listing"/>.)</p>
+
+</section>

@@ -1,0 +1,45 @@
+<section xml:id="templates-array-list_array-list-insert"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Insert End</title>
+
+  <p>We will always keep the values in our ArrayList packed together at the start of the array. That means if we have 10, 20, 30 in an ArrayList with `m_capacity` of 5, the contents of the array will always look like `[10, 20, 30, ???, ???]`. We will never skip a space in the array by storing the items like `[10, ???, 20, 30, ???]`.</p>
+
+  <p>Keeping the data compacted like this serves two important roles:
+    <ul>
+      <li>It makes it easy to locate elements in the ArrayList. When we want to access the element at index 2 of the ArrayList (the third item), we can just look at `m_arr[2]`. If we allowed a gap in the array, we would not know that the element at index 2 is actually the third item.</li>
+      <li>It makes it easy to find the next available location in the array. When `m_size` is 3, that means we have items at indexes 0-2 (size - 1). The next available index would be 3.</li>
+    </ul>
+  </p>
+
+  <insight><p>`m_size` is always the first location that is NOT currently in use. `m_size - 1` is the index of the last element.</p></insight>
+
+  <p>Given this design, we generally will insert items at the end of the ArrayList (similar to how in a vector we generally use `push_back()` to add items). A basic version of it might look like:</p>
+
+  <program><![CDATA[
+template<typename T>
+void ArrayList<T>::insertEnd(const T& newItem) {
+    m_arr[m_size] = newItem;  // place the new item in first unused location
+    m_size++;                 // increase size to reflect new item
+}
+]]></program>
+
+    <p>Given memory that looks like:</p>
+
+  <figure>
+    <caption>`intList` currently has an logical size of 3.</caption>
+    <image source="images/array-list-basic.svg">
+      <shortdescription>The intList variable contains an m_size of 3 and m_capacity of 5. It also has a pointer to an array named m_arr. That array contains [10, 20, 30, ???, ???]</shortdescription>
+    </image>
+  </figure>
+
+  <p>Let us imagine what would happen if `insertEnd(40)` was called on it. First, `insertEnd` would copy the new item into the location indicated by `m_size` (3). Then it will increase `m_size` to 4, telling us that elements 0-3 of the array are now valid indexes in the ArrayList.</p>
+
+  <figure>
+    <caption>`intList` after inserting 40.</caption>
+    <image source="images/array-list-insertEnd.svg">
+      <shortdescription>The intList variable contains an m_size of 4 and m_capacity of 5. It also has a pointer to an array named m_arr. That array contains [10, 20, 30, 40, ???]</shortdescription>
+    </image>
+  </figure>
+
+</section>

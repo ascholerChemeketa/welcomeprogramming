@@ -1,0 +1,52 @@
+<section xml:id="templates-array-list_parameter-use"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Using the Template Type</title>
+
+  <p>In addition to being used for specifying function parameters or return types, the type parameter can also be used within the function body to specify the type of local variables.</p>
+
+  <p>Our earlier version of `myMax` returned one of the parameters as its result (`a > b ? a : b`). However, we could also use the template type to declare a local variable to hold the maximum value:</p>
+
+  <listing>
+  <program line-numbers="yes" highlight-lines="3">
+template &lt;typename T>
+T myMax(T a, T b) {
+    T maxVal;  // Local variable of type T
+    if (a &gt; b) {
+        maxVal = a;
+    } else {
+        maxVal = b;
+    }
+    return maxVal;
+}
+  </program>
+  </listing>
+
+  <p>If we need to initialize a local variable of the template type, we can do so using the `{}` initializer syntax. If applied to a built-in type, this will initialize the variable to zero (or the equivalent for that type). For user-defined types, it will call the no-arg constructor:</p>
+
+  <listing>
+  <program line-numbers="yes" highlight-lines="3">
+template &lt;typename T>
+T getDefaultValue() {
+    T defaultValue{};  // Default-initialize a variable of type T
+    return defaultValue;
+}
+  </program>
+  </listing>
+
+  <p>We can also use the template parameter to specify type for other templated code. For example, to make a templated function that resets all of the elements of a vector to their default values, we could write:</p>
+
+  <listing>
+  <program label="templates-array-list_parameter-use-vector" interactive="activecode" highlight-lines="7, 9, 31, 39" line-numbers="yes">
+<xi:include href="../../programs/templates-array-list/parameter-use-vector.cpp" parse="text"/>
+</program>
+  </listing>
+
+  <p>Some key things to note:
+    <ul><li>On line 7, we specify that the parameter is a `vector&lt;T>&amp;`. So this function can be called with a vector of any type and that type will be what `T` is deduced to be.</li>
+    <li>On line 9, we create an anonymous default value of type `T` using the `{}` initializer syntax. That value gets assigned to each element of the vector.</li>
+    <li>When applied to the `vector&lt;Time>`, our `resetVector` function calls the default constructor of `Time` for each element, resulting in all times being reset to `12:0`.</li>
+  </ul>
+  </p>
+
+</section>

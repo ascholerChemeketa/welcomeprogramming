@@ -1,0 +1,45 @@
+<section xml:id="templates-array-list_files"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Using Templated Code Across Files</title>
+
+  <p>If you are using .h/.cpp file pairs to organize your code, there are some special restrictions about where you place your templated code. (If you are using modules, there is nothing new to consider.) When you are using header/cpp file pairs to organize your code, all of your templated code including function definitions should be placed directly into header files.</p>
+
+  <p>This is different than for non-templated code. A regular function will be declared in the .h file and defined in the .cpp file. The definition will be compiled as soon as the compiler sees it, and we want to make sure that only one instance of the function is created.</p>
+
+  <p>However, templated code is not compiled directly. It instead provides a blueprint for generating code. If you try to put the templated code in a separate file (call it `library.cpp`), the compiler will do the following:
+    <ul>
+      <li>Compile `library.cpp` and see something like `template&lt;typename T> myMax(T a, T b)...` but it won't know what types to build versions of that function for.</li>
+      <li>Compile `main.cpp` and try to use `myMax` with a specific type like `int`. But since the definition is not available, it won't be able to generate the code.</li>
+    </ul>
+  In the place the template definition is available, the compiler does not know what to build, and in the place where it knows what to build, the definition is not available!
+  </p>
+  
+  <figure>
+    <caption>A failed attempt to compile templated code.</caption>
+    <image source="images/compilation-templates-bad.svg">
+      <shortdescription>main.cpp includes library.h and thus only has the template declaration, not the definition. library.cpp has the template definition, but does not know what types to instantiate.</shortdescription>
+    </image>
+  </figure>
+
+  <p>To resolve this, we need to include the full definition of the templated function or class in the header file. That way, in whatever file we try to use the templated code, the compiler will have access to the full definition and can generate the appropriate code. To indicate that this header file contains templated code, some developers will name this file with a different extension, like `.hpp`.</p>
+
+  <figure>
+    <caption>Placing all the templated code in the header means the compiler has the needed template blueprint when it discovers a use of the template.</caption>
+    <image source="images/compilation-templates-good.svg" width="60%">
+      <shortdescription>main.cpp includes library.hpp and thus has the template definition available. There is no library.cpp file.</shortdescription>
+    </image>
+  </figure>
+
+  <p>This means that if you have a library of templated code, you will likely not even need a separate .cpp file for implementations as they all should be in the header. Instead of `myTemplatedLibrary.h` and `myTemplatedLibrary.cpp` you would likely just have `myTemplatedLibrary.h`.</p>
+
+  <listing>
+    <caption>MyTemplatedLibrary.hpp</caption>
+<program>
+<xi:include href="../../programs/templates-array-list/files-header.hpp" parse="text"/>
+</program>
+  </listing>
+
+  <warning><p>If you are using header/cpp file pairs to organize your code, all of your templated code including function definitions should be placed directly into header files.</p></warning>
+
+</section>

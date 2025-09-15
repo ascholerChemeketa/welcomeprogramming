@@ -1,0 +1,45 @@
+<section xml:id="templates-array-list_type-parameter"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Type Parameters</title>
+
+  <p>The name we use for the type parameter is arbitrary, but it is common practice to use a single uppercase letter, such as `T` as seen in the previous section. However, in more complex templates, we may want to use more descriptive names like `TKey` or `TValue`.</p>
+
+  <p>It is possible to have multiple type parameters in a template. For example, we can define a template for a function that takes two parameters of different types. Below is a function that has two type parameters:</p>
+
+  <program>
+template &lt;typename T1, typename T2>
+void printPair(T1 first, T2 second);
+  </program>
+
+  <p>Because there are two type parameters, we can pass in two different types of data to the function without any extra work. `printPair(10, 'c')` would cause the compiler to generate a version of `printPair` where `T1` is `int` and `T2` is `char`. To manually specify the types, we could write something like: `printPair&lt;int, double>(10, 2);`. That would tell the compiler that to use a version of `printPair` that treats the second parameter as a double.</p>
+
+  <p>Note that not all parameters to a function need to be templated. For example, we might want to write a function that prints a value `n` times. The value we want to print might be a string, an int, or a double. So we would want a templated function where the parameter representing what to print is templated, but the parameter representing how many times to print it is not. The number of times to print will always be an integer, so we can just use `int` for that parameter:</p>
+
+  <listing>
+  <program label="templates-array-list_parameter-use-2" interactive="activecode">
+<xi:include href="../../programs/templates-array-list/parameter-use-2.cpp" parse="text"/>
+</program>
+  </listing>
+
+  <p>Similarly, the return type can the template type (as we saw in `myMax`), or it can be a fixed type. If we wanted to write a function that returns true if two items of an arbitrary type are equal to each other, it would always return a `bool`, regardless of what type of item was being compared:</p>
+
+  <program>
+template &lt;typename T>
+bool areSame(T first, T second) {
+    return first == second;
+}
+  </program>
+
+  <p>In addition to using `T` as a type, it is possible to use modified versions of the templated type. We can make a reference to the templated type, or a pointer, and can declare a value to be `const`. Making parameters be const references instead of plain values is a common practice in C++ templates, as it avoids unnecessary copies when the template is applied to complex types. For example, a better version of `areSame` might look like:</p>
+
+  <program>
+template &lt;typename T>
+bool areSame(const T&amp; first, const T&amp; second) {
+    return first == second;
+}
+  </program>
+
+  <p>This version will produce the same answer as the earlier version. But if we have two large strings `book1` and `book2` and call `areSame(book1, book2)`, the const reference version will avoid making copies of the strings. For simple types like `int` or `char`, the performance difference is negligible, but for larger objects, avoiding these copies can be a significant optimization.</p>
+
+</section>

@@ -1,0 +1,71 @@
+<section xml:id="templates-array-list_array-list-basics"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Basic ArrayList</title>
+
+  <p>At its core, an array list needs to manage an array of elements, like the container classes we previously studied in <xref ref="memory-management_container-classes"/>. This involves keeping track of a dynamic array, its size, and its capacity. We want our `ArrayList` class to be able to store any type of element, so we will make it a templated class. The basic interface and member variables will look like this:</p>
+
+  <listing>
+  <program>
+<xi:include href="../../programs/templates-array-list/array-list-basics-1.cpp" parse="text"/>
+</program>
+  </listing>
+
+  <p>We will examine definitions for those functions soon. But given that interface, we might use the ArrayList with this code:</p>
+
+  <listing>
+  <program label="templates-array-list_array-list-basics-use" interactive="activecode" compile-also="templates-array-list_array-list-final">
+<xi:include href="../../programs/templates-array-list/array-list-basics-use.cpp" parse="text"/>
+</program>
+  </listing>
+
+  <p>A memory diagram of `main` might looks like this:</p>
+
+  <figure>
+    <caption>`intList` has a pointer to an array with space for 5 integers. Currently only 3 are used. ??? indicates uninitialized/unused space.</caption>
+    <image source="images/array-list-basic.svg">
+      <shortdescription>The intList object contains a pointer to an array. That array contains [10, 20, 30, ???, ???]</shortdescription>
+    </image>
+  </figure>
+
+  <p>Notice that we have two variables related to the size of the ArrayList. `m_capacity` keeps track of how much space is allocated for the array (the `<term>physical capacity</term>). It is the maximum number of items we currently can store. `m_size` keeps track of how many elements of that array are in use (the <term>logical size</term>). In this case, only 3 of the 5 elements in `m_arr` are being used.</p>
+
+  <insight><p>The ArrayList will usually not be using all of the memory it has allocated. Anytime we want to know how many elements are in the ArrayList (how many values in the array we consider to be important) we should check the `m_size` variable.</p></insight>
+
+  <p>Recall that when we dynamically allocate an array, we have to specify how many elements we want to allocate. So the constructor needs to pick some initial capacity for the array and allocate that much storage on the heap:</p>
+
+  <program><![CDATA[
+template<typename T>
+ArrayList<T>::ArrayList() {
+    m_size = 0;
+    m_capacity = 5;  //default to space for 5 items
+    m_arr = new T[m_capacity]; // Allocate storage on heap
+}
+]]></program>
+
+  <note><p>Syntax tip: `ArrayList&lt;T>::ArrayList()` is the constructor for an ArrayList of type T. The `ArrayList` class is templated (`ArrayList&lt;T>::`), but the function name (`ArrayList()`) is not.</p></note>
+
+  <p>That constructor allocates an array big enough to hold 5 values. We do nothing to initialize the memory, so the contents are indeterminate (i.e., they could be anything). But we do not consider those unused locations to be part of the ArrayList. Since the `m_size` is 0, we think of the ArrayList as being empty.</p>
+
+  <figure>
+    <caption>`intList` after being constructed, before anything is added to it.</caption>
+    <image source="images/array-list-empty.svg"
+           >
+      <shortdescription>The intList variable contains an m_size of 0 and m_capacity of 5. It also has a pointer to an array named m_arr. That array contains [???, ???, ??? ???, ???].</shortdescription>
+    </image>
+  </figure>
+
+  <p>Because the class manages dynamic memory, it needs the rule of three functions: a copy constructor, copy assignment operator, and destructor. Other than being templated, they all follow the same pattern we saw in <xref ref="memory-management_rule-of-three"/>. Their implementations are shown in the final version of the ArrayList code. If you want to examine them, see <xref ref="templates-array-list_array-list-final-listing"/>.</p>
+
+  <note>
+    <p>We are intentionally making something simpler than the `std::vector`. To make our ArrayList
+      more like `vector`, we might: <ul>
+        <li>Add a constructor that takes an initial capacity as a parameter so users can
+      create an ArrayList with a specific size from the beginning.</li>
+        <li>Use `size_t` instead of `int` for size and index variables to better represent
+      their non-negative nature.</li>
+      </ul>
+    </p>
+  </note>
+
+</section>

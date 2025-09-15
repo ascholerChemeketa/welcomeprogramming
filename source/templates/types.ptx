@@ -1,0 +1,32 @@
+<section xml:id="templates-array-list_types"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Templated Data Types</title>
+
+  <p>In addition to writing templated functions, we can also write templated data types<mdash/>structs or objects whose members can be of any type. For example, we might want to be able to group two pieces of data into a <q>pair</q>. Rather than write a struct `IntPair` that only works with integers, or a `DoublePair` that only works with doubles, we can write a templated struct:</p>
+
+  <listing>
+  <program>
+<xi:include href="../../programs/templates-array-list/types-pair.cpp" parse="text"/>
+</program>
+  </listing>
+
+  <p>This definition says that a `Pair&lt;T>` has two member variables of type `T`. To use this templated data type, we generally must specify the type when declaring a variable of that type. `Pair&lt;int>` for a pair of ints, `Pair&lt;double>` for a pair of doubles, and so on. (The compiler may be able to guess the type in some cases, meaning that in those cases we could just write `Pair`, but it is best to always be explicit.)</p>
+
+  <p>The program below demonstrates using our `Pair` struct with different types:</p>
+
+  <listing>
+  <program label="templates-array-list_types-1" interactive="activecode" highlight-lines="12,17">
+<xi:include href="../../programs/templates-array-list/types-pair-sample.cpp" parse="text"/>
+</program>
+  </listing>
+
+  <p>Of course, any function that was going to work on `Pair`s would need to be templated as well so that it can handle any type of `Pair`. For example, a function to compare two `Pair`s might look like:</p>
+
+  <listing>
+  <program>
+<xi:include href="../../programs/templates-array-list/types-pair-function.cpp" parse="text"/>
+</program>
+  </listing>
+
+</section>
