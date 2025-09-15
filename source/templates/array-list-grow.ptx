@@ -3,15 +3,22 @@
 
   <title>Growing</title>
 
-  <p>What happens if we want to add another element to the ArrayList, but we are already using all of the available space in the array? In that case, we need to <q>grow the array</q>.</p>
+  <p>What happens if we want to add another element to the ArrayList, but we are already using all
+    of the available space in the array? In that case, we need to <q>grow the array</q>.</p>
 
-  <p>We can't actually change the size of an allocated array. So we need to do some slight of hand. Instead, we will allocate a new array with a larger capacity, copy the existing elements over to the new array, and then delete the old array.</p>
+  <p>We can't actually change the size of an allocated array. So we need to do some slight of hand.
+    Instead, we will allocate a new array with a larger capacity, copy the existing elements over to
+    the new array, and then delete the old array.</p>
 
-  <p>We will know we need to grow the array when `m_size` is equal to `m_capacity`, as in the figure below. In it, we are imagining that the originally allocated array was only size 3. Thus `m_capacity` is 3. We are already storing 10, 20, 30 in the array, so if we want to add another value, we need to <q>grow</q>.</p>
-  
-  <p>Growing consists of the following steps:
-    <ol>
-      <li>Double our current capacity `m_capacity`. We will cover in detail why doubling is a good strategy later on. But the short version is that growing is expensive. So if we are bothering to grow, we want to make sure we don't have to do it again right away.</li>
+  <p>We will know we need to grow the array when <pf>m_size</pf> is equal to <pf>m_capacity</pf>, as in the figure
+    below. In it, we are imagining that the originally allocated array was only size 3. Thus <pf>m_capacity</pf>
+    is 3. We are already storing 10, 20, 30 in the array, so if we want to add another value, we
+    need to <q>grow</q>.</p>
+
+  <p>Growing consists of the following steps: <ol>
+      <li>Double our current capacity <pf>m_capacity</pf>. We will cover in detail why doubling is a good
+    strategy later on. But the short version is that growing is expensive. So if we are bothering to
+    grow, we want to make sure we don't have to do it again right away.</li>
       <li>Allocating a new array with the larger capacity.</li>
       <li>Copying the existing elements over to the new array.</li>
       <li>Delete the old array and point at the new array.</li>
@@ -20,7 +27,7 @@
 
   <p>Here is one possible implementation:</p>
 
-<program><![CDATA[
+  <program><![CDATA[
 template<typename T>
 void ArrayList<T>::grow() {
     // double the capacity and allocate a new array of that size
@@ -40,9 +47,11 @@ void ArrayList<T>::grow() {
 
   <investigation>
     <task>
-      <p>Our initial state. We are in the stack frame of the grow function. `this` is the current ArrayList instance that is growing. Its size currently matches its capacity.</p>
+      <p>Our initial state. We are in the stack frame of the grow function. <pf>this</pf> is the current
+        ArrayList instance that is growing. Its size currently matches its capacity.</p>
       <image source="images/array-list-grow-1.svg">
-        <shortdescription>The intList variable contains an m_size of 3 and m_capacity of 3. It also has a pointer to an array named m_arr. That array contains [10, 20, 30]</shortdescription>
+        <shortdescription>The intList variable contains an m_size of 3 and m_capacity of 3. It also
+          has a pointer to an array named m_arr. That array contains [10, 20, 30]</shortdescription>
       </image>
     </task>
     <task>
@@ -53,48 +62,66 @@ void ArrayList<T>::grow() {
       </image>
     </task>
     <task>
-      <p>We allocate a new array with the larger capacity. `newArr` is a temporary local variable that points to the newly allocated array.</p>
+      <p>We allocate a new array with the larger capacity. <pf>newArr</pf> is a temporary local variable
+        that points to the newly allocated array.</p>
       <program><![CDATA[T* newArr = new T[m_capacity];]]></program>
       <image source="images/array-list-grow-3.svg">
-        <shortdescription>Now there is a local variable newArr that points to the newly allocated array of size 6. It is uninitialized.</shortdescription>
+        <shortdescription>Now there is a local variable newArr that points to the newly allocated
+          array of size 6. It is uninitialized.</shortdescription>
       </image>
     </task>
-    <task><p>We copy the existing elements over to the new array. Note that we need to use `m_size` (the old size) to copy the correct number of elements.</p>
+    <task>
+      <p>We copy the existing elements over to the new array. Note that we need to use <pf>m_size</pf>
+        (the old size) to copy the correct number of elements.</p>
       <program><![CDATA[
         for (int i = 0; i < m_size; ++i) {
             newArr[i] = m_arr[i];
         }
       ]]></program>
       <image source="images/array-list-grow-4.svg">
-        <shortdescription>Now the newArr variable contains the three elements from the old array. The last three elements are still uninitialized. It looks like [10, 20, 30, ???, ???, ???].</shortdescription>
+        <shortdescription>Now the newArr variable contains the three elements from the old array.
+          The last three elements are still uninitialized. It looks like [10, 20, 30, ???, ???,
+          ???].</shortdescription>
       </image>
     </task>
-    <task><p>Delete the old array. At this point, `m_arr` points at a bad address.</p>
+    <task>
+      <p>Delete the old array. At this point, <pf>m_arr</pf> points at a bad address.</p>
       <program><![CDATA[
         delete[] m_arr;
       ]]></program>
       <image source="images/array-list-grow-5.svg">
-        <shortdescription>Now the newArr variable contains the three elements from the old array. The last three elements are still uninitialized. It looks like [10, 20, 30, ???, ???, ???].</shortdescription>
+        <shortdescription>Now the newArr variable contains the three elements from the old array.
+          The last three elements are still uninitialized. It looks like [10, 20, 30, ???, ???,
+          ???].</shortdescription>
       </image>
     </task>
-    <task><p>Set the member variable `m_arr` to point at the new array.</p>
+    <task>
+      <p>Set the member variable <pf>m_arr</pf> to point at the new array.</p>
       <program><![CDATA[
         m_arr = newArr;
       ]]></program>
       <image source="images/array-list-grow-6.svg">
-        <shortdescription>Now the m_arr variable of the ArrayList points at the array containing [10, 20, 30, ???, ???, ???].</shortdescription>
+        <shortdescription>Now the m_arr variable of the ArrayList points at the array containing
+          [10, 20, 30, ???, ???, ???].</shortdescription>
       </image>
     </task>
-    <task><p>As we leave the `grow` function, `newArr` will go out of scope and disappear. But the member variable `m_arr` now points to the new array. (A pointer going out of scope does not delete the memory it points to!)</p>
+    <task>
+      <p>As we leave the <pf>grow</pf> function, <pf>newArr</pf> will go out of scope and disappear. But the
+        member variable <pf>m_arr</pf> now points to the new array. (A pointer going out of scope does
+        not delete the memory it points to!)</p>
       <image source="images/array-list-grow-7.svg">
         <shortdescription>The newArr pointer disappears, but the memory it points to is still valid.</shortdescription>
       </image>
     </task>
   </investigation>
 
-  <p>With this `grow` logic in place, we can now dynamically resize our array as needed. Any time we go to insert a new element and find that we are at capacity, we can call `grow` to increase the size of the underlying array. After doing so, we know there will be room to add new elements.</p>
+  <p>With this <pf>grow</pf> logic in place, we can now dynamically resize our array as needed. Any time
+    we go to insert a new element and find that we are at capacity, we can call <pf>grow</pf> to
+    increase the size of the underlying array. After doing so, we know there will be room to add new
+    elements.</p>
 
-  <program line-numbers="yes" highlight-lines="3-5"><![CDATA[
+  <program line-numbers="yes"
+           highlight-lines="3-5"><![CDATA[
 template<typename T>
 void ArrayList<T>::insertEnd(const T& newItem) {
     if (m_size == m_capacity) {
@@ -106,8 +133,13 @@ void ArrayList<T>::insertEnd(const T& newItem) {
 }
 ]]></program>
 
-  <p>We will never <q>shrink</q> the array back down. We can't reduce the size of an allocated array, so to shrink the storage being used, we would have to allocate a new smaller array and copy everything to it before deleting the old array. Generally, doing that work is not worth saving a small amount of memory.</p>
+  <p>We will never <q>shrink</q> the array back down. We can't reduce the size of an allocated
+    array, so to shrink the storage being used, we would have to allocate a new smaller array and
+    copy everything to it before deleting the old array. Generally, doing that work is not worth
+    saving a small amount of memory.</p>
 
-  <p>If the programmer knew they were going to insert a large number of elements, then remove most of them and keep working with that smaller number of elements, they could always choose to make a new smaller ArrayList once they are down to the final size.</p>
+  <p>If the programmer knew they were going to insert a large number of elements, then remove most
+    of them and keep working with that smaller number of elements, they could always choose to make
+    a new smaller ArrayList once they are down to the final size.</p>
 
 </section>

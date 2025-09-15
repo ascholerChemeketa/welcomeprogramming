@@ -3,58 +3,93 @@
 
   <title>Templates</title>
 
-  <p>In C++, <term>templates</term> allow us to write code that works with different data types without duplicating the same logic. A template defines a general form of a function (or classes or variables), and the compiler automatically generates the specific versions when the function is used.<idx>template</idx></p>
+  <p>In C++, <term>templates</term> allow us to write code that works with different data types
+    without duplicating the same logic. A template defines a general form of a function (or classes
+    or variables), and the compiler automatically generates the specific versions when the function
+    is used.<idx>template</idx></p>
 
-  <p>Suppose we want to write a function that finds the maximum of two values. Without templates, we would need to write separate functions for each data type that we want to work with:</p>
+  <p>Suppose we want to write a function that finds the maximum of two values. Without templates, we
+    would need to write separate functions for each data type that we want to work with:</p>
 
   <listing>
-  <program label="templates-array-list_functions-1">
+    <program label="templates-array-list_functions-1">
 <xi:include href="../../programs/templates-array-list/functions-1.cpp" parse="text"/>
 </program>
   </listing>
 
-  <p>Other than the return types and parameter types, the logic inside the functions is identical. Writing the same code multiple times violates the <term>DRY</term> (Don't Repeat Yourself) principle. To avoid this repetition, we can use templates:</p>
+  <p>Other than the return types and parameter types, the logic inside the functions is identical.
+    Writing the same code multiple times violates the <term>DRY</term> (Don't Repeat Yourself)
+    principle. To avoid this repetition, we can use templates:</p>
 
   <listing>
-  <program label="templates-array-list_functions-2" line-numbers="yes">
+    <program label="templates-array-list_functions-2"
+             line-numbers="yes">
 <xi:include href="../../programs/templates-array-list/functions-2.cpp" parse="text"/>
 </program>
   </listing>
 
-  <p>Before the function prototype is the template declaration. It specifies that the following function is a <term>template</term> function and can operate on different data types. It also specifies the <term>type parameter</term> `T`, which will be replaced with the actual data type when the function is called. You can think of `&lt;typename T>` as saying <q> this template works with any one data type that we will refer to as <code>T</code></q>.</p>
+  <p>Before the function prototype is the template declaration. It specifies that the following
+    function is a <term>template</term> function and can operate on different data types. It also
+    specifies the <term>type parameter</term> <pf>T</pf>, which will be replaced with the actual data
+    type when the function is called. You can think of <pf>&lt;typename T></pf> as saying <q> this template works
+    with any one data type that we will refer to as <code>T</code></q>.</p>
 
-  <aside><p>You can also write `&lt;class T>` instead of `&lt;typename T>`. However, as that raises some subtle issues and confusion with other uses of `class`, we will stick to `typename`.</p></aside>
+  <aside>
+    <p>You can also write <pf>&lt;class T></pf> instead of <pf>&lt;typename T></pf>. However, as that raises some subtle issues
+      and confusion with other uses of <pf>class</pf>, we will stick to <pf>typename</pf>.</p>
+  </aside>
 
-  <p>Then in the function definition itself, we use `T` as the type for the parameters and the return value. This says <q>whatever type `T` is, use that as the return type and parameter types</q>.</p>
+  <p>Then in the function definition itself, we use <pf>T</pf> as the type for the parameters and the
+    return value. This says <q>whatever type <pf>T</pf> is, use that as the return type and parameter
+    types</q>.</p>
 
-  <p>When we call the function, the compiler automatically generates the appropriate version based on the argument types. For example, if we call `myMax(3, 5)`, the compiler creates a version of `myMax` where `T` is `int`. If we call `myMax(3.5, 2.1)`, it creates a version where `T` is `double`.</p>
+  <p>When we call the function, the compiler automatically generates the appropriate version based
+    on the argument types. For example, if we call <pf>myMax(3, 5)</pf>, the compiler creates a version of <pf>myMax</pf>
+    where <pf>T</pf> is <pf>int</pf>. If we call <pf>myMax(3.5, 2.1)</pf>, it creates a version where <pf>T</pf> is <pf>double</pf>
+    .</p>
 
-  <p>In this code sample, the templated version of `myMax` will be used to generate three different concrete versions of the code, one each for `int`, `double`, and `char`:</p>
+  <p>In this code sample, the templated version of <pf>myMax</pf> will be used to generate three
+    different concrete versions of the code, one each for <pf>int</pf>, <pf>double</pf>, and <pf>char</pf>:</p>
 
   <listing>
-  <program label="templates-array-list_functions-3" interactive="activecode">
+    <program label="templates-array-list_functions-3"
+             interactive="activecode">
 <xi:include href="../../programs/templates-array-list/functions-myMax.cpp" parse="text"/>
 </program>
   </listing>
 
-  <insight><p>Templates are not compiled directly. They are a blueprint for generating code. When you use templated code, the compiler uses that blueprint to create the specific versions needed for the types you use.</p></insight>
+  <insight>
+    <p>Templates are not compiled directly. They are a blueprint for generating code. When you use
+      templated code, the compiler uses that blueprint to create the specific versions needed for
+      the types you use.</p>
+  </insight>
 
-  <p>If the compiler can't determine what type `T` is supposed to be, it will result in a compilation error. For example, if we try to call `myMax` with an `int` and a `double`, the compiler won't know if it should use `int` or `double` for `T`:</p>
+  <p>If the compiler can't determine what type <pf>T</pf> is supposed to be, it will result in a
+    compilation error. For example, if we try to call <pf>myMax</pf> with an <pf>int</pf> and a <pf>double</pf>,
+    the compiler won't know if it should use <pf>int</pf> or <pf>double</pf> for <pf>T</pf>:</p>
 
   <listing>
-  <program label="templates-array-list_functions-4" interactive="activecode">
+    <program label="templates-array-list_functions-4"
+             interactive="activecode">
 <xi:include href="../../programs/templates-array-list/functions-myMax-bad.cpp" parse="text"/>
 </program>
   </listing>
 
-  <p>To resolve this ambiguity, we can explicitly specify the type when calling the function by placing `&lt;TYPENAME&gt;` after the function name. When we do this, the compiler knows exactly which type to use for `T`. It will try to convert any other types will be converted to the specified type:</p>
+  <p>To resolve this ambiguity, we can explicitly specify the type when calling the function by
+    placing <pf>&lt;TYPENAME&gt;</pf> after the function name. When we do this, the compiler knows exactly which
+    type to use for <pf>T</pf>. It will try to convert any other types will be converted to the
+    specified type:</p>
 
   <listing>
-  <program label="templates-array-list_functions-5" interactive="activecode">
+    <program label="templates-array-list_functions-5"
+             interactive="activecode">
 <xi:include href="../../programs/templates-array-list/functions-myMax-fixed.cpp" parse="text"/>
 </program>
   </listing>
 
-  <note><p>The name&lt;TYPENAME&gt; syntax should look familiar from working with vectors. That is not a coincidence<mdash/>vectors are a templated type!</p></note>
+  <note>
+    <p>The name&lt;TYPENAME&gt; syntax should look familiar from working with vectors. That is not a
+      coincidence<mdash/>vectors are a templated type!</p>
+  </note>
 
 </section>

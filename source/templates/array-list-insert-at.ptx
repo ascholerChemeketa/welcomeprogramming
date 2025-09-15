@@ -3,40 +3,55 @@
 
   <title>Insert At</title>
 
-  <p>Although the normal use case for an ArrayList is to insert items at the end, we may also want to insert items at specific positions. However, doing so will be much more complex than simply appending to the end.</p>
+  <p>Although the normal use case for an ArrayList is to insert items at the end, we may also want
+    to insert items at specific positions. However, doing so will be much more complex than simply
+    appending to the end.</p>
 
-  <p>Imagine we have an ArrayList that contains `10, 20, 30, 40` and we decide that we want to insert 15 at index 1 (between 10 and 20). We don't want to replace the value at index 1, we still want 20 to be in the list, so that means we need to shift it over to index 2. Which means 30 needs to move to index 3. And 40 needs to move to index 4... Anything after the insertion point will have to shift over so that we end up with `10, 15, 20, 30, 40`.</p>
+  <p>Imagine we have an ArrayList that contains <pf>10, 20, 30, 40</pf> and we decide that we want to insert 15 at
+    index 1 (between 10 and 20). We don't want to replace the value at index 1, we still want 20 to
+    be in the list, so that means we need to shift it over to index 2. Which means 30 needs to move
+    to index 3. And 40 needs to move to index 4... Anything after the insertion point will have to
+    shift over so that we end up with <pf>10, 15, 20, 30, 40</pf>.</p>
 
-  <p>To do this, we will need to start at the end of the list and work backwards, moving each item over one index until we reach the insertion point. Then we can place the new item in the now-empty spot.</p>
+  <p>To do this, we will need to start at the end of the list and work backwards, moving each item
+    over one index until we reach the insertion point. Then we can place the new item in the
+    now-empty spot.</p>
 
-  
+
   <investigation>
     <task>
       <p>Our initial state. We want to insert 15 at index 1.</p>
       <image source="images/array-list-insert-at-1.svg">
-        <shortdescription>The intList variable contains an m_size of 4 and m_capacity of 5. It also has a pointer to an array named m_arr. That array contains [10, 20, 30, 40, ???]</shortdescription>
+        <shortdescription>The intList variable contains an m_size of 4 and m_capacity of 5. It also
+          has a pointer to an array named m_arr. That array contains [10, 20, 30, 40, ???]</shortdescription>
       </image>
     </task>
     <task>
-      <p>We work backwards using the loop counter `i` which starts at `m_size`. At each location, we copy the value from `m_arr[i - 1]` to `m_arr[i]`. First we copy 40 from index 3 to index 4.</p>
+      <p>We work backwards using the loop counter <pf>i</pf> which starts at <pf>m_size</pf>. At each
+        location, we copy the value from <pf>m_arr[i - 1]</pf> to <pf>m_arr[i]</pf>. First we copy 40 from index 3 to
+        index 4.</p>
       <image source="images/array-list-insert-at-2.svg">
-        <shortdescription>i is 4. We copy 40 from index 3 to index 4. The array is now [10, 20, 30, 40, 40]</shortdescription>
+        <shortdescription>i is 4. We copy 40 from index 3 to index 4. The array is now [10, 20, 30,
+          40, 40]</shortdescription>
       </image>
     </task>
     <task>
       <p>Now i is 3. We copy 30 from index 2 to index 3.</p>
       <image source="images/array-list-insert-at-3.svg">
-        <shortdescription>i is 3. We copy 30 from index 2 to index 3. The array is now [10, 20, 30, 30, 40]</shortdescription>
+        <shortdescription>i is 3. We copy 30 from index 2 to index 3. The array is now [10, 20, 30,
+          30, 40]</shortdescription>
       </image>
     </task>
     <task>
       <p>Now i is 2. We copy 20 from index 1 to index 2.</p>
       <image source="images/array-list-insert-at-4.svg">
-        <shortdescription>i is 2. We copy 20 from index 1 to index 2. The array is now [10, 20, 20, 30, 40]</shortdescription>
+        <shortdescription>i is 2. We copy 20 from index 1 to index 2. The array is now [10, 20, 20,
+          30, 40]</shortdescription>
       </image>
     </task>
     <task>
-      <p>Now i is 1. That is the location we want to insert at. So we can stop our loop and place the new item (15) in this location.</p>
+      <p>Now i is 1. That is the location we want to insert at. So we can stop our loop and place
+        the new item (15) in this location.</p>
       <image source="images/array-list-insert-at-5.svg">
         <shortdescription>i is 1. We place 15 at index 1. The array is now [10, 15, 20, 30, 40]</shortdescription>
       </image>
@@ -52,7 +67,7 @@
   <p>The core logic will look like this:</p>
 
   <listing>
-  <program><![CDATA[
+    <program><![CDATA[
 template<typename T>
 void ArrayList<T>::insertAt(int location, const T& insertItem) {
     // Shift elements up to make room for the new item
@@ -63,12 +78,16 @@ void ArrayList<T>::insertAt(int location, const T& insertItem) {
     ++m_size;
 }
 ]]></program>
-</listing>
+  </listing>
 
-  <p>We will want to sanity check the `location` we are given. Inserting at a negative index makes no sense. Nor does inserting at an index greater than `m_size` as that would leave a gap. (It does make sense to insert at `m_size`, even though there is nothing currently there, as that is the location just past the last element.) We also would want to ensure that we have enough capacity to accommodate the new item. So the complete version of the function would look like:</p>
+  <p>We will want to sanity check the <pf>location</pf> we are given. Inserting at a negative index makes no
+    sense. Nor does inserting at an index greater than <pf>m_size</pf> as that would leave a gap. (It does
+    make sense to insert at <pf>m_size</pf>, even though there is nothing currently there, as that is the
+    location just past the last element.) We also would want to ensure that we have enough capacity
+    to accommodate the new item. So the complete version of the function would look like:</p>
 
   <listing>
-  <program><![CDATA[
+    <program><![CDATA[
 template<typename T>
 void ArrayList<T>::insertAt(int location, const T& insertItem) {
     if (location < 0 || location > m_size) {
@@ -85,6 +104,6 @@ void ArrayList<T>::insertAt(int location, const T& insertItem) {
     ++m_size;
 }
 ]]></program>
-</listing>
+  </listing>
 
 </section>

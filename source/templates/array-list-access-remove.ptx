@@ -31,18 +31,22 @@ void ArrayList<T>::set(int location, const T& newValue) {
     valid indexes) will throw an exception instead of accessing invalid memory.</p>
 
   <note>
-    <p>Again, we are intentionally building a simplified version of `std::vector`. Although our ArrayList is conceptually the same as a vector, it doesn't provide exactly the same functionality. `std::vector` uses more complex code to handle element access.</p>
-    <p>`std::vector` does not have separate `set` and `get` functions. Instead, it provides an
-      `T&amp; ArrayList&lt;T>::at(int location)` function. Because this function returns a reference, it allow consumers
-      to write `myList.at(2) = 100;`. But it also provides a `const` version of exactly the same function: `const T&amp; ArrayList&lt;T>::at(int location) const`. The `const` version does not allow for assigning a new value, but can be used in contexts where we have said the vector itself is const.</p>
-    <p>It also provides an overridden `operator[]` that does the same thing as `.at()` but skips the
-      `out_of_range` check and just assume that the index is valid. </p>
+    <p>Again, we are intentionally building a simplified version of <pf>std::vector</pf>. Although our
+      ArrayList is conceptually the same as a vector, it doesn't provide exactly the same
+      functionality. <pf>std::vector</pf> uses more complex code to handle element access.</p>
+    <p><pf>std::vector</pf> does not have separate <pf>set</pf> and <pf>get</pf> functions. Instead, it provides an <pf>T&amp; ArrayList&lt;T>::at(int location)</pf>
+      function. Because this function returns a reference, it allow consumers to write <pf>myList.at(2) = 100;</pf>.
+      But it also provides a <pf>const</pf> version of exactly the same function: <pf>const T&amp; ArrayList&lt;T>::at(int location) const</pf>. The <pf>const</pf>
+      version does not allow for assigning a new value, but can be used in contexts where we have
+      said the vector itself is const.</p>
+    <p>It also provides an overridden <pf>operator[]</pf> that does the same thing as <pf>.at()</pf> but skips the <pf>out_of_range</pf>
+      check and just assume that the index is valid. </p>
   </note>
 
 
-  <p>Removing an item from the end of the ArrayList is also straightforward. We simply decrease
-    `m_size` by 1. Doing so excludes the old last item from the range of valid indexes. The value
-    will still be in the array, but we no longer consider it part of the ArrayList!</p>
+  <p>Removing an item from the end of the ArrayList is also straightforward. We simply decrease <pf>m_size</pf>
+    by 1. Doing so excludes the old last item from the range of valid indexes. The value will still
+    be in the array, but we no longer consider it part of the ArrayList!</p>
 
   <program><![CDATA[
 template<typename T>
@@ -51,11 +55,10 @@ void ArrayList<T>::removeEnd() {
 }
     ]]></program>
 
-  <p>For example, if we call `intList.removeEnd()` after inserting 40, the ArrayList would look then
-    look like:</p>
+  <p>For example, if we call <pf>intList.removeEnd()</pf> after inserting 40, the ArrayList would look then look like:</p>
 
   <figure>
-    <caption>`intList` after removing the last item. The values that are not considered part of the
+    <caption><pf>intList</pf> after removing the last item. The values that are not considered part of the
       ArrayList (40 and ???) are shown in gray.</caption>
     <image source="images/array-list-remove.svg">
       <shortdescription>The intList variable contains an m_size of 3 and m_capacity of 5. It also
@@ -64,9 +67,9 @@ void ArrayList<T>::removeEnd() {
     </image>
   </figure>
 
-  <p>Again, we might want to add some sanity checking. If there is nothing in the ArrayList and
-    `removeEnd()` is called, we should make sure not to set `m_size` to a negative value. We could
-    either choose to throw an exception or simply do nothing in that case. (The final version of our
-    code will throw an exception. See <xref ref="templates-array-list_array-list-final-listing"/>.)</p>
+  <p>Again, we might want to add some sanity checking. If there is nothing in the ArrayList and <pf>removeEnd()</pf>
+    is called, we should make sure not to set <pf>m_size</pf> to a negative value. We could either choose
+    to throw an exception or simply do nothing in that case. (The final version of our code will
+    throw an exception. See <xref ref="templates-array-list_array-list-final-listing"/>.)</p>
 
 </section>

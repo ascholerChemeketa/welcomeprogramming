@@ -3,16 +3,45 @@
 
   <title>What is an Array List?</title>
 
-  <p>The term <term>data structure</term> refers to a system for organizing and storing data in a computer. We are already quite familiar with one data structure - the `vector`<idx>data structure</idx>. Vectors are objects that store a set of data elements that can be accessed via an index. But there are other ways to organize data. A <term>stack</term> is a data structure that stores a set of data elements in a way that only gives us access to the most recently added element. A <term>map</term> is a data structure that associates keys with values, allowing us to create a mapping from one set of elements (like `"OR"` and `"CA"`) and to elements in another set (like `"Oregon"` and `"California"`).</p>
+  <p>The term <term>data structure</term> refers to a system for organizing and storing data in a
+    computer. We are already quite familiar with one data structure - the <pf>vector</pf><idx>data
+    structure</idx>. Vectors are objects that store a set of data elements that can be accessed via
+    an index. But there are other ways to organize data. A <term>stack</term> is a data structure
+    that stores a set of data elements in a way that only gives us access to the most recently added
+    element. A <term>map</term> is a data structure that associates keys with values, allowing us to
+    create a mapping from one set of elements (like <pf>"OR"</pf> and <pf>"CA"</pf>) and to elements in
+    another set (like <pf>"Oregon"</pf> and <pf>"California"</pf>).</p>
 
-  <p>In previous chapters, we learned how to create a fixed sized block of memory in the form of a C-style array (<xref ref="memory-management_arrays"/>) as well as how to work with pointers (<xref ref="pointers-aggregation_pointers"/>). At a low level, those are the only two building blocks available for building data structures. We can allocate a block of memory to hold data and we can use pointers to track that memory. Every data structure is essentially a combination of these two elements.</p>
+  <p>In previous chapters, we learned how to create a fixed sized block of memory in the form of a
+    C-style array (<xref ref="memory-management_arrays"/>) as well as how to work with pointers (<xref ref="pointers-aggregation_pointers"/>).
+    At a low level, those are the only two building blocks available for building data structures.
+    We can allocate a block of memory to hold data and we can use pointers to track that memory.
+    Every data structure is essentially a combination of these two elements.</p>
 
-  <p>For example, a vector is typically implemented as a single block of memory (an array) that is tracked by a pointer. When we insert values into a vector, they are added to the next available location in that block of memory. When the block of memory is full, a new larger block of memory is allocated, the data is shifted to that block, and the vector updates its pointer to track that new block.</p>
+  <p>For example, a vector is typically implemented as a single block of memory (an array) that is
+    tracked by a pointer. When we insert values into a vector, they are added to the next available
+    location in that block of memory. When the block of memory is full, a new larger block of memory
+    is allocated, the data is shifted to that block, and the vector updates its pointer to track
+    that new block.</p>
 
-  <p>The generic name for this kind of data structure is an <term>array-based list</term> or <term>array list</term>. A <term>list</term> is a structure that allows us to add (and remove) an arbitrary number of items that are accessed via their index. In a list, we identify the elements as item 0, item 1, item 2, and so on. An <term>array list</term> is a list that is implemented using an array. The C++ `vector` is an example of an array list. <idx>list</idx><idx>array-based list</idx><idx>array list</idx></p>
+  <p>The generic name for this kind of data structure is an <term>array-based list</term> or <term>array
+    list</term>. A <term>list</term> is a structure that allows us to add (and remove) an arbitrary
+    number of items that are accessed via their index. In a list, we identify the elements as item
+    0, item 1, item 2, and so on. An <term>array list</term> is a list that is implemented using an
+    array. The C++ <pf>vector</pf> is an example of an array list. <idx>list</idx><idx>array-based list</idx><idx>array
+    list</idx></p>
 
-  <p>In the next few sections, we will be building an `ArrayList` data structure. Our class will essentially be a simplified version of the C++ `vector` class. Normally, programmers would not bother writing their own version of a standard library class. The code in `vector` is highly optimized and tested, making it a reliable choice for most applications. There are however times when a programmer needs a specialized version of a standard structure, or is programming in an environment where the standard library is not available. In those situations, writing a custom data structure may be called for.</p>
-  
-  <p>Another good reason to write a custom version is to develop a deeper understanding of how a given data structure actually works. That is why we will be building our own `ArrayList`. Understanding the code behind something like vector will equip us to analyze the efficiency of various operations and when it is a good (or bad) choice for a particular task.</p>
+  <p>In the next few sections, we will be building an <pf>ArrayList</pf> data structure. Our class will
+    essentially be a simplified version of the C++ <pf>vector</pf> class. Normally, programmers would not
+    bother writing their own version of a standard library class. The code in <pf>vector</pf> is highly
+    optimized and tested, making it a reliable choice for most applications. There are however times
+    when a programmer needs a specialized version of a standard structure, or is programming in an
+    environment where the standard library is not available. In those situations, writing a custom
+    data structure may be called for.</p>
+
+  <p>Another good reason to write a custom version is to develop a deeper understanding of how a
+    given data structure actually works. That is why we will be building our own <pf>ArrayList</pf>.
+    Understanding the code behind something like vector will equip us to analyze the efficiency of
+    various operations and when it is a good (or bad) choice for a particular task.</p>
 
 </section>

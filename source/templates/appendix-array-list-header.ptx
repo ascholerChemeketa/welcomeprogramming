@@ -3,13 +3,20 @@
 
   <title>Appendix - Array List Header Implementation</title>
 
-  <p>The final implementation of ArrayList as a header file is shown below. Note that all the code for the ArrayList class is included in this file. There will not be an `ArrayList.cpp` file.</p>
+  <p>The final implementation of ArrayList as a header file is shown below. Note that all the code
+    for the ArrayList class is included in this file. There will not be an <pf>ArrayList.cpp</pf> file.</p>
 
-  <p>Other than the lack of module/export definitions, and the inclusion of a header guard, the primary difference between the header version and module version is the lack of `using namespace std` in the header version. Whereas a module can use `using` without polluting the namespace of code that `imports` the module, a header file should avoid using `using` directives to prevent potential naming conflicts.</p>
+  <p>Other than the lack of module/export definitions, and the inclusion of a header guard, the
+    primary difference between the header version and module version is the lack of <pf>using namespace std</pf> in the
+    header version. Whereas a module can use <pf>using</pf> without polluting the namespace of code that <pf>imports</pf>
+    the module, a header file should avoid using <pf>using</pf> directives to prevent potential naming
+    conflicts.</p>
 
   <listing xml:id="templates-array-list_array-list-final-header-listing">
     <caption>Final ArrayList Header Implementation</caption>
-  <program label="templates-array-list_array-list-final-header" xml:id="templates-array-list_array-list-final-header" filename="array-list-final.hpp">
+    <program label="templates-array-list_array-list-final-header"
+             xml:id="templates-array-list_array-list-final-header"
+             filename="array-list-final.hpp">
 <xi:include href="../../programs/templates-array-list/array-list-final.hpp" parse="text"/>
 </program>
   </listing>
