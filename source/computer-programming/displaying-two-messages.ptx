@@ -111,8 +111,18 @@ int main() {
             indentation="hide">
     <statement>
       <p>Construct a main function that prints <q>Snap!</q> on the first line, <q>Crackle!</q> on
-        the third line, and <q>Pop!</q> on the sixth line. You might not use all of endl blocks
+        the third line, and <q>Pop!</q> on the seventh line. You might not use all of endl blocks
         provided.</p>
+
+      <p>Desired output:</p>
+      <pre>
+Snap!
+
+Crackle!
+
+
+Pop!
+      </pre>
     </statement>
     <program-preamble>
       #include &lt;iostream&gt;
@@ -161,7 +171,7 @@ int main() {
             indentation="hide">
     <statement>
       <p>Construct a main function that prints <q>Hello, world!</q> so that <q>Hello,</q> and <q>
-        world!</q> are printed on two separate lines.</p>
+        world!</q> are printed on two separate lines. You will not use all of the blocks.</p>
     </statement>
     <program-preamble>
       #include &lt;iostream&gt;
@@ -173,16 +183,17 @@ int main() {
         <cline>int main() {</cline>
       </block>
       <block>
-        <cline><![CDATA[ cout << "Hello," << endl; cout << "world!";]]></cline>
+        <cline><![CDATA[ cout << "Hello," << endl << "world!";]]></cline>
       </block>
       <block correct="no">
-        <cline><![CDATA[ cout << "Hello," << "world!" << endl; ]]></cline>
+        <cline><![CDATA[ cout << "Hello," << cout << "world!" << endl; ]]></cline>
       </block>
       <block correct="no">
-        <cline> cout &gt;&gt; "Hello," &gt;&gt; endl; cout &gt;&gt; "world!"; </cline>
+        <cline><![CDATA[ cout << "Hello,"; ]]></cline>
+        <cline><![CDATA[ cout << "world!" << endl; ]]></cline>
       </block>
       <block correct="no">
-        <cline> cout &gt;&gt; "Hello," &gt;&gt; "world!" &gt;&gt; endl; </cline>
+        <cline><![CDATA[ cout << endl <<"Hello," << "world!" << endl;]]></cline>
       </block>
       <block>
         <cline>}</cline>
