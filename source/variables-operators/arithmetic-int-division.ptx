@@ -23,7 +23,7 @@
     <idx>
       <h>integer division</h>
     </idx> The reason this program behaves the way it does is that C++ performs <term>integer
-    division</term> when both operands are integers. Integer division produces an integer answer by <term>truncating</term> the answer. <term>Truncating</term> a value means dropping the decimal portion. Note that this is different than rounding the value - 0.75 becomes 0, not 1.</p>
+    division</term> when both operands are integers. Integer division always results in a whole number (integer) answer. The division produces an integer answer by <term>truncating</term> the result of the division. <term>Truncating</term> a value means dropping the decimal portion. Here, <pf>45 / 60</pf> produces <pf>0.75</pf> and that is truncated to <pf>0</pf>. Note that truncation does not mean rounding the value - 0.75 becomes 0, not 1.</p>
 
   <insight>
     <p>When dividing integers, C++ does whole number division. <pf>7 / 3</pf> asks <q>how

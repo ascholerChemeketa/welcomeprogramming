@@ -1,27 +1,38 @@
 <section xml:id="variables-operators_values"
          xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Values</title>
-  <p>A <term>value</term> is one of the fundamental things<mdash/>like a letter or a number<mdash/>that
-    a program manipulates. The only values we have manipulated so far are the string values we have
-    been outputting, like <q>Hello, world.</q>. You (and the compiler) can identify <pf>string</pf> values
-    because they are enclosed in quotation marks. <idx>
+  <title>Values and Literals</title>
+  <p>A <term> value</term> is one of the fundamental things<mdash/>like a letter or a number<mdash/>that
+    a program manipulates. A <term>literal value</term> is a value that is written directly in the code
+    instead of being calculated in some way.<idx>
       <h>value</h>
+      <h>literal value</h>
     </idx></p>
-  <p>But there many different kinds of values other than strings. Another basic type of values are
-    whole numbers, like 1 or 17. These are called <term>integer</term>s. You can output these values
-    the same way you output strings:</p>
+
+  <p>
+    The only values we have manipulated so far are the string literal values we have
+    been outputting, like <q>Hello, world.</q>. You (and the compiler) can identify <pf>string</pf> literal values
+    because they are enclosed in quotation marks.</p>
+
+  <p>But there many different kinds of values other than strings. Another basic type of value are
+    whole numbers, like 1 or 17. These are called <term>integer</term>s. We can write integer literal values
+    as numbers without quotation marks. To print the number 17 in C++ we could write:</p>
   <program>
 cout &lt;&lt; 17 &lt;&lt; endl;
 </program>
-  <p>The kind of thing a value is known as its <term>type</term>. A value's type determines what you
-    can do with it. For example, you can multiply two integers together, but you cannot multiply two
-    strings (what would <pf>"Hello" * "World"</pf> even mean???).</p>
+    
+  <p>The kind of thing a value is known as its <term>type</term>. The <term>type</term> of <pf>17</pf> is
+    <q>integer</q> (or <pf>int</pf> for short). The type of <pf>"Hello, world."</pf> is <q>string</q>.
+    A value's type determines what you can do with it. For example, you can multiply two integers together,
+    but you cannot multiply two strings (what would <pf>"Hello" * "World"</pf> even mean???).</p>
+
   <p> It is easy to confuse different types of values, like <pf>"5"</pf> and <pf>5</pf>, but if you pay
     attention to the punctuation, it should be clear that the first is a string and the second is an
-    integer.</p>
+    integer. Multiplying <pf>5</pf> by 2 makes sense, but multiplying <pf>"5"</pf> by 2 does not. It may
+  look like a number, but it is actually a string.</p>
+
   <exercise label="variables-operators_values-ex-1">
     <statement>
-      <p>Click on all integer VALUES. Don't worry about code you haven't seen yet, just find all the
+      <p>Click on all integer <term>literal values</term>. Don't worry about code you haven't seen yet, just find all the
         integers values.</p>
     </statement>
     <feedback>
@@ -43,10 +54,10 @@ cout &lt;&lt; 17 &lt;&lt; endl;
   </exercise>
   <exercise label="variables-operators_values-ex-2">
     <statement>
-      <p>Click on all string VALUES.</p>
+      <p>Click on all string <term>literal values</term>.</p>
     </statement>
     <feedback>
-      <p>Try again! String values are pieces of text surrounded by quotation marks.</p>
+      <p>Try again! string literal values are pieces of text surrounded by quotation marks.</p>
     </feedback>
     <areas>
       <cline>int main() {</cline>
