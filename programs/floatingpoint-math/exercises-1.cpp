@@ -6,5 +6,3 @@ using namespace std;
 int main() {
     double value;
     cin >> value;
-
-

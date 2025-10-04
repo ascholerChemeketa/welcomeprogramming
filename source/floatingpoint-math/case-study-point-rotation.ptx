@@ -95,7 +95,7 @@
       symbol, so I have spelled out its name.</p>
 
     <p>When I run this program, I get <pf>sinValue: 0.850904</pf>. That does not look right. I expected to get
-      something like 0.707.</p>
+      approximately 0.707.</p>
 
     <p>The <pf>sin</pf> function in C++ expects the angle to be in radians, not degrees. So I need to
       convert the degrees to radians before I can use the <pf>sin</pf> function. I can do that by
@@ -208,8 +208,7 @@
     <p>We might also choose to condense the code a bit. We could avoid storing the variables <pf>sinValue</pf>
       and <pf>cosValue</pf> by calculating sin and cos of theta where they are needed like this:</p>
     <listing>
-    <program label="floatingpoint-math_case-study-point-rotation-program-5"
-             interactive="activecode">
+    <program >
 <xi:include href="../../programs/floatingpoint-math/case-study-point-rotation-6.cpp" parse="text"/>
       </program>
     </listing>

@@ -23,14 +23,14 @@
 
   <p>Once we have a <pf>double</pf> variable, we can do math with it. All of the operations work as you would expect:</p>
 
-  <listing>
+  <listing xml:id="floatingpoint-math_floatingpoint-numbers-listing-1">
   <program label="floatingpoint-math_floatingpoint-numbers-program-1"
            interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/floatingpoint-numbers-2.cpp" parse="text"/>
 </program>
   </listing>
 
-  <p>When printed, floating point values will be printed rounded to six significant digits. If the value is very large or small, it will be printed in scientific notation like <pf>3.12345E12</pf> indicating <m>3.12345 \times {10}^{12}</m>. (We will learn how to change that formatting later.)</p>
+  <p>When printed, floating point values will be printed rounded to six significant digits. If the value is very large or small, it will be printed in scientific notation like <pf>3.12345e+12</pf> indicating <m>3.12345 \times {10}^{12}</m>. (We will learn how to change that formatting later.)</p>
 
   <note>
   <p>All the operations we have seen<mdash/>addition, subtraction, multiplication,
@@ -40,4 +40,36 @@
     performing floating-point operations. It generally takes longer to perform a given calculation
     using floating point hardware <mdash/> <pf>1/3</pf> is quicker to compute than <pf>1.0/3.0</pf>. That is one of the reasons why we have two different basic numeric types.</p>
   </note>
+
+  <exercise label="floatingpoint-math_floatingpoint-numbers-ex-1">
+    <statement>
+      <p>A <pf>double</pf> is the C++ type used to store a <fillin mode="string"
+                answer="floating point"/> value.</p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>floating[ \-]point</strcmp>
+        </test>
+        <test>
+          <feedback>
+            <p>We are looking for a two-word answer.</p>
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <exercise label="floatingpoint-math_floatingpoint-numbers-ex-2">
+    <statement>
+      <p>If you store the value 1,500,000 in a double, how will it be printed? (You can use <xref ref="floatingpoint-math_floatingpoint-numbers-listing-1"/> to check by setting a variable to <pf>1500000</pf> and printing it.)</p>
+    </statement>
+    <choices randomize="yes">
+      <choice><statement><pf>15e+08</pf></statement></choice>
+      <choice correct="yes"><statement><pf>1.5e+09</pf></statement></choice>
+      <choice><statement><pf>15 x 10^8</pf></statement></choice>
+      <choice><statement><pf>1.5 x 10^9</pf></statement></choice>
+      <choice><statement><pf>1500000</pf></statement></choice>
+    </choices>
+  </exercise>
 </section>

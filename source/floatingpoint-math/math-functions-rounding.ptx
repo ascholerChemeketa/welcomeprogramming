@@ -3,10 +3,17 @@
 
   <title>Rounding Functions</title>
 
+  <p>At this point, you should take a minutes to scan the <url href="https://en.cppreference.com/w/cpp/header/cmath">list
+    of functions offered in the cmath library</url>. You do not need to memorize them, but it is
+    useful to be aware of what is there so you can go look up the exact syntax when you need to do
+    some math.</p>
+
+  <p>Notice that the functions are listed in categories. One of the categories is named <term>Nearest integer floating-point operations</term>, which is a long-winded way of saying <q>rounding</q>.</p>
+
   <p>If you have a floating-point value and want to convert it to a whole number, one way you can do
     so is to cast it into an int. But that always drops the decimal portion. So something like
-    7.9999 will become 7. Often times, what you want to do is to round to the nearest integer value.
-    Other times, you might want to round up <mdash/> if you calculate that a print job takes 7.2
+    7.9999 will become 7. Often times, what you want to do is to round to the nearest integer value (8).
+    Other times, you might want to round up to the next nearest value <mdash/> if you calculate that a print job takes 7.2
     pages, the actual number of pages printed will be 8.</p>
 
   <p>For rounding in this way, the <pf>cmath</pf> library provides these rounding functions: <pf>floor</pf>, <pf>ceil</pf>
@@ -40,9 +47,8 @@
 
   <p>If you look at the <url href="https://en.cppreference.com/w/cpp/numeric/math/round">
     documentation for the round function</url> (or any of the others), you will see that despite the
-    output being a whole number, it is returned as a double and not as an int. (In case you want to
-    keep doing more floating-point calculations with it.) So it you want to store the result into an
-    int variable, you would still need a cast, like this:</p>
+    output being a whole number, it is returned as a <pf>double</pf>. This makes it easy to continue
+    doing more floating-point calculations with the value. But it means that to store the result as an <pf>int</pf>, you need to cast the result:</p>
 
   <program>
 <xi:include href="../../programs/floatingpoint-math/math-functions-rounding-2.cpp" parse="text"/>
@@ -51,8 +57,8 @@
   <p>You also may notice that round only rounds to the nearest whole number. But you can use it to
     round to a specific number of decimal places by multiplying the original number by a power of 10
     to shift the digits, then rounding, and then dividing by the same number to shift the digits
-    back. For example, to round to two decimal places, you can multiply by 100, round, and then
-    divide by 100:</p>
+    back. For example, to round to two decimal places, you can multiply by 100 to shift the decimal point over 
+    2 digits, round, and then divide by 100 to move the decimal point back:</p>
 
   <listing>
   <program label="floatingpoint-math_math-functions-rounding-program-2"

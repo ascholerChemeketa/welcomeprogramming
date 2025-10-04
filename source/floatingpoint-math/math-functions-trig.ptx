@@ -3,11 +3,6 @@
 
   <title>Trigonometric Functions</title>
 
-  <p>At this point, you should take a few minutes to scan the <url href="https://en.cppreference.com/w/cpp/header/cmath">list
-    of functions offered in the cmath library</url>. You do not need to memorize them, but it is
-    useful to be aware of what is there so you can go look up the exact syntax when you need to do
-    some math.</p>
-
   <p>
     <idx>
       <h>degrees</h>
@@ -17,17 +12,45 @@
     </idx>
     <idx>
       <h>pi</h>
-    </idx> One thing that can cause confusion is the units used for trigonometric
-    functions <mdash/> <pf>sin</pf>, <pf>cos</pf>, and <pf>tan</pf>. Angle measurements must be in <term>radians</term>.
-    To convert from degrees to radians, you divide by 180 and multiply by <m>\pi</m>. To get the value of <m>\pi</m>, you can use <pf>std::numbers::pi</pf> (or if you have said <pf>using namespace std;</pf> just <pf>numbers::pi</pf>).</p>
+    </idx> One aspect of the <pf>cmath</pf> library that can cause confusion is the units used for trigonometric
+    functions <mdash/> <pf>sin</pf>, <pf>cos</pf>, and <pf>tan</pf>. These functions use <term>radians</term> to measure angles, not degrees.</p>
 
-  <listing>
+    <p>You may be more most familiar with measuring angles in degrees. But there is another way to measure angles: <term>radians</term>. Just as we can measure distance in inches or in centimeters, we can measure angles in degrees or radians. Radians are the preferred unit for advanced mathematics and for computation. When calculating angles to solve math problems, draw computer graphics, or do other tasks with C++, we need to convert any degree measurements to radians before working with them</p>
+
+    <p>In degrees, a full revolution is defined as 360. Radian units are based on <m>\pi</m> (pi). In radians, a full revolution is defined as <m>2\pi</m> radians. Because pi is approximately 3.14159, an approximate way of writing <m>2\pi</m> radians is 6.28318 radians. In math, we generally write values in terms of <m>\pi</m> like <m>2\pi</m> or <m>\frac{\pi}{2}</m>. But in code, those values will be expressed as the decimals ~6.28 or ~1.57.</p>
+
+    <figure>
+    <caption>Degrees and angles are just different ways of measuring angles.</caption>
+    <image source="images/radians.svg" width="80%"
+           >
+      <shortdescription>A full circle is 360 degrees or 2 pi radians. A quarter circle is 90 degrees or 0.5 pi radians.</shortdescription>
+    </image>
+  </figure>
+
+    <p>Because <m>360\text{ degrees } = 2\pi \text{ radians}</m> we can use the ratio <m>\frac{2\pi \text{ radians}}{360\text{ degrees}}</m> to convert between them. That ratio simplifies to <m>\frac{\pi \text{ radians}}{180\text{ degrees}}</m>. Thus:
+      <ul>
+        <li><p>To convert from degrees to radians, you divide by 180 and multiply by <m>\pi</m>. For example, to convert 90 degrees, we do:</p>
+          <p>
+        <me>90 \cancel{\text{ degrees }} \cdot \frac{\pi \text{ radians}}{180\cancel{\text{ degrees}}} = \frac{\pi}{2} \text{ radians} = ~1.5708 \text{ radians}</me></p></li>
+        <li><p>To convert from radians to degrees, you do the opposite: divide by <m>\pi</m> and multiply by 180. For example, to convert 1.2 radians, we do:</p>
+          <p>
+        <me>1.2 \cancel{\text{ radians}} \cdot \frac{180\text{ degrees}}{\pi \cancel{\text{ radians}}} = 68.7549 \text{ degrees}</me></p></li>
+      </ul>
+    </p>
+    <p>In C++, to get the value of <m>\pi</m>, you can write <pf>std::numbers::pi</pf> (or if you have used <pf>using namespace std;</pf> just <pf>numbers::pi</pf>).</p>
+    
+
+  <listing xml:id="floatingpoint-math_math-functions-trig-program-1-listing">
   <program label="floatingpoint-math_math-functions-trig-program-1" interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/math-functions-trig-1.cpp" parse="text"/>
   </program>
   </listing>
+  
+  <p>Notice that when we call the <pf>sin</pf> function, we give it the angle in radians, not the value in degrees. The correct value for the sine of 90 degrees is 1. But if you pass 90 to <pf>sin</pf> you will not get that answer because the <pf>sin</pf> function will interpret it as 90 radians.</p>
 
-  <p>Similarly, you can convert from radians to degrees by multiplying by 180 and then dividing by <m>\pi</m>. The following program demonstrates this:</p>
+  <note><p><pf>numbers::pi</pf> is a new feature as of C++20. For older compilers, you need to define your own constant for pi, or calculate a value for it using an expression that should result in the value <m>1\pi</m> like <pf>pi = acos(-1)</pf>.</p></note>
+
+  <p>If you use the inverse trigonometric functions (<pf>asin</pf>, <pf>acos</pf>, <pf>atan</pf>) to calculate an angle's size, the answer will be returned in radians. So, to get the measure in degrees, you need to multiply by 180 and then divide by <m>\pi</m>:</p>
 
   <listing>
   <program label="floatingpoint-math_math-functions-trig-program-2" interactive="activecode">
@@ -35,6 +58,21 @@
 </program>
   </listing>
 
-  <note><p><pf>numbers::pi</pf> is a new feature as of C++20. For older compilers, you need to define your own constant for pi, or calculate a value for it using <m>acos(-1) = \pi</m>.</p></note>
+  <insight><p>If you are given degrees to work with in C++, start by converting them to radians. Then work with that value in your calculations. Don't convert back to degrees until you are done with your math. It can help to name your variables using the units of the values you are storing (like <pf>angleADegrees</pf>).</p></insight>
+
+  <exercise label="floatingpoint-math_math-functions-trig-ex-1">
+    <statement>
+      <p>Use <xref ref="floatingpoint-math_math-functions-trig-program-1-listing"/> to convert 45 degrees to radians. What is the value (to six decimal places as printed)?</p>
+      <fillin mode="string"
+                answer="0.785398"/>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
 
 </section>

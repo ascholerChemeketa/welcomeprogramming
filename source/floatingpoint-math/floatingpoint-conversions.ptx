@@ -21,77 +21,58 @@
 
   <listing>
   <program label="floatingpoint-math_floatingpoint-conversions-program-2"
+           extra-compiler-args=" -Wconversion"
            interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/floatingpoint-conversions-2.cpp" parse="text"/>
   </program>
   </listing>
 
-  <p>Turning a decimal number into an integer can be done by dropping the decimal part. But doing so does change the value you are representing. So the compiler warns that there may be an issue before going ahead and doing the conversion. When you runt he code, you will see a warning that looks something like this:</p>
-
-  <console>
-  <output>
-    incompatible types: possible lossy conversion from double to int
-  </output>
-  </console>
+  <p>Turning a decimal number into an integer can be done by dropping the decimal part. But doing so does change the value you are representing. So the compiler generates a warning. Here in the book, that warning is a fatal error that prevents the program from compiling.</p>
 
   <warning>
-    <p>Remember that you should consider warnings to be just as important as errors. (Because they often are!)</p>
-    <p>Losing the decimal part of a number because you stored it into an <pf>int</pf> variable is likely going to be a <term>logic error</term>.</p>
+    <p>Depending on your environment, the compiler may or may not issue a warning for conversions from double to int. And, it may or may not treat that warning as an error and refuse to build the program.</p>
+    <p>Even if your compiler just warns you and continues. You should consider the code to be a bug. Losing the decimal part of a number because you stored it into an <pf>int</pf> variable is likely going to be a <term>logic error</term>.</p>
   </warning>
 
   <exercise label="floatingpoint-math_floatingpoint-conversions-ex-1">
     <statement>
-      <p>In the lab, we measured a temperature of 7.99999999 degrees C, using
-        an extremely precise measuring device. Now we are writing a program
-        to perform some calculations with our data. Consider the following C++
-        code.</p>
-      <program>double temp = 7.99999999;
-int tempInt = temp;
-double tempDouble = tempInt;
-cout &lt;&lt; tempDouble;</program>
-      <p>What is the value of <pf>tempDouble</pf> that is printed to the terminal?</p>
+      <p>Consider the following C++
+        code:</p>
+      <program>double a = 7.01;
+int b = 7;</program>
+      <p>Which of the following are safe operations?</p>
     </statement>
     <choices randomize="yes">
-      <choice>
-        <statement>
-          <p>tempDouble</p>
-        </statement>
-        <feedback>
-          This is the name of a variable. Only the value of a variable will print with cout.
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>8</p>
-        </statement>
-        <feedback>
-          Converting to an int always rounds down.
-        </feedback>
-      </choice>
       <choice correct="yes">
         <statement>
-          <p>7</p>
+          <p><pf>double c = b;</pf></p>
         </statement>
         <feedback>
-          When we converted temp to an int, it was rounded down to 7. When we converted tempInt to
-            tempDouble, the decimal places from temp were lost, and the value of temp_double is 7.
+          This sets c to 7.0. It is safe because no information is lost.
         </feedback>
       </choice>
       <choice>
         <statement>
-          <p>8.0</p>
+          <p><pf>int c = a;</pf></p>
         </statement>
         <feedback>
-          Converting to an int always rounds down.
+          This sets c to 7. It is not safe because information is lost.
         </feedback>
       </choice>
       <choice>
         <statement>
-          <p>7.99999999</p>
+          <p><pf>int c = a + b;</pf></p>
         </statement>
         <feedback>
-          When we converted temp to an int, all the decimal places were lost. Turning temp_int into a double
-            does not bring them back.
+          This sets c to 14. It is not safe because information is lost.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf>double c = a + b;</pf></p>
+        </statement>
+        <feedback>
+          This sets c to 14.01. It is safe because no information is lost.
         </feedback>
       </choice>
     </choices>

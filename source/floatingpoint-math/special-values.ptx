@@ -22,11 +22,16 @@
     itself, so the only way to check if a value is <q>Not a Number</q> is to use the <pf>isnan</pf>
     function from the <pf>cmath</pf> library. </p>
 
+    
+  <program interactive="activecode">
+<xi:include href="../../programs/floatingpoint-math/special-values-1.cpp" parse="text"/>
+</program>
+
   <p>Once you have a value that is one of these special values, doing more math with it will
     generally just result in the same special value. Any number + <pf>INFINITY</pf> is <pf>INFINITY</pf>. <pf>NAN</pf> +
     a number is still <pf>NAN</pf>. So they are mostly useful as indicators that some bit of math has gone
     wrong. In this book we will never attempt to calculate either of these or rely on doing anything
-    with these values. But if you ever see <pf>NAN</pf> or <pf>INF</pf> as the result of outputting a
-    floating-point number, you will know what they mean. </p>
+    with these values. So if you ever see <pf>nan</pf> or <pf>inf</pf> as the result of outputting a
+    floating-point number, go double check your math! </p>
 
 </section>

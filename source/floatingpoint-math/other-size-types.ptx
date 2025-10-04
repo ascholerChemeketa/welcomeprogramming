@@ -3,13 +3,11 @@
   <title>Other Size Types</title>
 
   <introduction>
+
     <note>
-      <p>This section includes some of <q>fiddly bits</q> related to integer and floating point data
-        types. Most of the time you will not need to worry about them. But, they do help explain
-        some possible errors you will run into as well as material you will encounter later.</p>
       <p>Unless you are reading this book as part of a class that instructs you otherwise, you
-        likely just want to skim this section for understanding of the basic concepts without
-        worrying about trying to memorize all the different types.</p>
+        should not worry about memorizing the different numeric types and their sizes. It is important to
+      understand that there are </p>
     </note>
 
     <p>All data needs to be stored as bits (as a sequence of 0's and 1's). Those sequences are
@@ -27,7 +25,7 @@
       stored. Exceeding this range leads to integer overflow or underflow, resulting in incorrect
       calculations or unexpected behavior as seen in this program:</p>
 
-    <listing>
+    <listing xml:id="floatingpoint-math_other-size-types-program-1-listing">
       <program label="floatingpoint-math_other-size-types-program-1"
                interactive="activecode">
 <xi:include href="../../programs/floatingpoint-math/other-size-types-1.cpp" parse="text"/>
@@ -82,6 +80,10 @@
         </row>
       </tabular>
     </table>
+
+    <p>Try changing the type of the variable <pf>x</pf> in <xref ref="floatingpoint-math_other-size-types-program-1-listing"/> to <pf>int64_t</pf> and see what happens. Since the variable can now safely store 4,000,000,000, the program should produce the correct result.</p>
+
+    <p>The smaller types, such as <pf>int8_t</pf> and <pf>int16_t</pf>, are useful when you want to save memory or when you know the values will not exceed their range. In a short program storing a few values, there is no real advantage to storing a value as an <pf>int8_t</pf> instead of an <pf>int</pf>. But if you were storing millions of values, the smaller types could save a significant amount of memory.</p>
 
     <note>
       <p>The intXX_t types are relatively new in C++. There are also older types like <pf>short</pf>, <pf>long</pf>,
@@ -139,6 +141,8 @@
         </row>
       </tabular>
     </table>
+
+    <p>The unsigned types are useful for squeezing more positive range out of the same number of bits. They are also useful in situations where we want to prevent a negative value from being stored.</p>
   </subsection>
 
   <subsection>
@@ -150,16 +154,47 @@
       10^{308}</m> with about 15 digits of precision.</p>
 
     <p>It should be clear that there is much less risk of <q>running out of room</q> when using a
-      double. But if you need to represent larger values or have more precision, there is the <pf>long double</pf>
-      which may, depending on the platform use more bits to represent a floating point value.</p>
+      double. <m>1.7 ×
+      10^{308}</m> is a very large number. However, a <pf>double</pf> also has the limit of ~15 digits of precision and that might be a concern. If you need to represent larger values or have more precision, there is the <pf>long double</pf>
+      which may, depending on the platform use more bits to represent a floating point value and thus have more accuracy.</p>
     <p>Occasionally, if your program is storing large numbers of floating point values (thousands of
       them) and does not need the full accuracy of a <pf>double</pf>, you might chose to use <pf>single</pf>s
-      instead. A <pf>single</pf> which will generally use 32 bits and provide about 7 digits of accuracy.</p>
+      instead. A <pf>single</pf> which will generally use 32 bits and provide about 7 digits of accuracy. As with the integer type <pf>int8_t</pf>, this is mostly useful when storing large numbers of values that are known to be within a limited range.</p>
 
     <note>
       <p>The C++23 standard introduced standardized floating point types with fixed sizes from 8 to
         64 bits, but we will not discuss them.</p>
     </note>
   </subsection>
+
+  
+  <exercise label="floatingpoint-math_other-size-types-ex-1">
+    <statement>
+      <p>What is the largest value that can be stored in a 32 bit signed (normal) integer? Give the answer with commas in the number. <fillin mode="string"
+                answer="2,147,483,647"/>? </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+  
+  <exercise label="floatingpoint-math_other-size-types-ex-2">
+    <statement>
+      <p>What is the largest value that can be stored in an 8 bit unsigned integer? <fillin mode="string"
+                answer="255"/>? </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
 
 </section>

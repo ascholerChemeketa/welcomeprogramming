@@ -50,7 +50,12 @@
   <program>
   sqrt(pow(hypot(x2 - x1, y2 - y1), 2) + pow(hypot(x4 - x3, y4 - y3), 2) - 2 * hypot(x2 - x1, y2 - y1) * hypot(x4 - x3, y4 - y3) * cos(angleC));
   </program>
-  <p>But it is hard to read and will be even harder to debug if you make a mistake somewhere on the line. It also redoes the same work in multiple spots. It would be much better to write that code as a series of steps that calculate the desired value.</p>
+  <p>But it is hard to read and will be even harder to debug if you make a mistake somewhere on the line. It also redoes the same work in multiple spots. A better approach would be to write the code as a series of steps that calculate the desired value.</p>
+  <program>
+  double sideA = hypot(x2 - x1, y2 - y1);
+  double sideB = hypot(x4 - x3, y4 - y3);
+  ...
+  </program>
   </warning>
 
   

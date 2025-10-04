@@ -103,7 +103,9 @@
   
   <exercise label="floatingpoint-math_exercises-ex-3">
     <statement>
-      <p>The code below reads in a decimal value. Print out the two integers it is between, smaller value first, with exactly one space in between them. If it is an integer value already, your program should print out the integer twice. </p>
+      <p>The code below reads in a decimal value. Print out the two integers it is between, smaller value first, with exactly one space in between them. For example, given 1.4 you should print <pf>1 2</pf>. Given -2.6 you should print <pf>-3 -2</pf>.
+      </p>
+      <p>If it is an integer value already, your program should print out the integer twice. </p>
     </statement>
       <program
               interactive="activecode">
@@ -173,14 +175,14 @@
   
   <exercise label="floatingpoint-math_exercises-ex-5">
     <statement>
-      <p>Your friend is getting sick of solving quadratic equations by hand. Finish the program below that will take a, b, and c from a quadratic in the form <m>ax^2 + bx + c = 0</m> and output the solutions. Your program only has two work for problems that have two solutions.</p>
-      <p>Print the two solutions separated by a space.</p>
-      <p>The two solutions to a quadratic are given by <m>x = \frac{-b + \sqrt{b^{2} - 4ac}}{2a}</m> and <m>x = \frac{-b - \sqrt{b^{2} - 4ac}}{2a}</m>. Do your best to avoid doing the same calculation multiple times <mdash/> use a variable to old the result <m>\sqrt{b^{2} - 4ac}</m> (known as the discriminant).</p>
+      <p>Your friend is getting sick of solving quadratic equations by hand. Finish the program below that will take a, b, and c from a quadratic in the form <m>ax^2 + bx + c = 0</m> and output the two solutions separated by a space.</p>
+      <p>The two solutions to a quadratic are given by <m>x = \frac{-b + \sqrt{b^{2} - 4ac}}{2a}</m> and <m>x = \frac{-b - \sqrt{b^{2} - 4ac}}{2a}</m>. Do your best to avoid doing the same calculation multiple times <mdash/> use a variable to hold the result <m>\sqrt{b^{2} - 4ac}</m> (known as the discriminant).</p>
+      <p>Note: Some quadratics only have one solution or no solutions. But you can assume the quadratic will always have two solutions.</p>
     </statement>
       <program
               interactive="activecode" language="python">
         <preamble>
-<xi:include href="../../programs/floatingpoint-math/exercises-2.cpp" parse="text"/>
+<xi:include href="../../programs/floatingpoint-math/exercises-5.cpp" parse="text"/>
         </preamble>
         <code>
     //Your code here

@@ -6,7 +6,7 @@ int main() {
     int inches;
     cin >> inches;
 
-    double CM_PER_INCH = 2.54;
+    const double CM_PER_INCH = 2.54;
     double cm = inches * CM_PER_INCH;
     cout << "That is " << cm << " centimeters." << endl;
 }

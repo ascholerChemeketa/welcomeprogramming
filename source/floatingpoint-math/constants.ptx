@@ -1,6 +1,6 @@
 <section xml:id="floatingpoint-math_constants"
          xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Literals and Constants</title>
+  <title>Constants</title>
 
   <p> Although most of the world has adopted the metric system for weights and measures, some
     countries are stuck with imperial units. For example, when talking with friends in Europe about
@@ -11,7 +11,7 @@
   <listing>
   <program label="floatingpoint-math_constants-program-1"
            interactive="activecode">
-<xi:include href="../../programs/input-output/literals-constants-1.cpp" parse="text"/>
+<xi:include href="../../programs/floatingpoint-math/literals-constants-1.cpp" parse="text"/>
 </program>
   </listing>
 
@@ -27,16 +27,17 @@
   <p>
     <idx>
       <h>magic number</h>
-    </idx> Values like 2.54 are sometimes called <term>magic numbers</term>
-    (with the implication that being magic is not a good thing). A good practice is to assign magic
-    numbers to variables with meaningful names, like this: </p>
+    </idx> Values like 2.54 are sometimes called <term>magic numbers</term>. The implication is that <q>magic</q> is not a good thing. A reader who doesn't already know the conversion will look at the value 2.54 and feel like it appeared as if by magic.</p> 
+
+    <p>A good practice is to avoid using magic numbers directly in calculations. Instead, assign them to variables with meaningful names and use those names in calculations:</p>
 
   <program>
-<xi:include href="../../programs/input-output/literals-constants-2.cpp" parse="text"/>
+<xi:include href="../../programs/floatingpoint-math/literals-constants-2.cpp" parse="text"/>
 </program>
 
-  <p>Now it is hopefully a little more clear what we are multiplying <pf>inches by</pf>, but it still has a
-    problem. Variables can vary (hence the term), but the number of centimeters in an inch does not.
+  <p>Now it is hopefully a little more clear what we are multiplying <pf>inches</pf> by and why. In addition, imagine we needed to use that value in 100's of places in our code. If we ever need to change the value, we now only have to change it once where <pf>cmPerInch</pf> is set.</p> 
+  
+  <p>But we still have another problem. Variables can vary (hence the term), but the number of centimeters in an inch does not.
     Once we assign a value to <pf>cmPerInch</pf>, it should never change.</p>
 
   <p>C++ provides the keyword <pf>const</pf>, a language feature that enforces this rule. When declaring a
@@ -50,7 +51,7 @@
   <listing>
   <program label="floatingpoint-math_constants-program-2" 
            interactive="activecode">
-<xi:include href="../../programs/input-output/literals-constants-3.cpp" parse="text"/>
+<xi:include href="../../programs/floatingpoint-math/literals-constants-3.cpp" parse="text"/>
 </program>
   </listing>
 
@@ -67,8 +68,28 @@
   <listing>
   <program label="floatingpoint-math_constants-program-3"
            interactive="activecode">
-<xi:include href="../../programs/input-output/literals-constants-4.cpp" parse="text"/>
+<xi:include href="../../programs/floatingpoint-math/literals-constants-4.cpp" parse="text"/>
 </program>
   </listing>
+
+  
+  
+  <exercise label="floatingpoint-math_constants-ex-1"
+            language="cpp">
+    <statement>
+      <p>Arrange the code to define a constant for the number of feet in a mile. Use the standard naming style for the name of the constant. You will not use all of the blocks.</p>
+    </statement>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>const</c></block>
+      <block><c>int</c></block>
+      <block><c>FEET_PER_MILE</c></block>
+      <block correct="no"><c>feet_per_mile</c></block>
+      <block correct="no"><c>feetPerMile</c></block>
+      <block><c>=</c></block>
+      <block><c>5280</c></block>
+      <block><c>;</c></block>
+    </blocks>
+  </exercise>
 
 </section>
