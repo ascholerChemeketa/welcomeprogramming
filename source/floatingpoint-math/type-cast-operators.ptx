@@ -46,11 +46,13 @@
     useful to cast an integer to a double in order to force floating-point math. The following
     example does this to get a decimal answer for 1/3 in the second line of output:</p>
 
+    <listing>
   <program interactive="activecode"
             label="floatingpoint-math_type-cast-operators-program-2"
            line-numbers="yes">
 <xi:include href="../../programs/floatingpoint-math/type-cast-operators-2.cpp" parse="text"/>
   </program>
+  </listing>
 
   <p>As the line is evaluated, the <pf>static_cast</pf> happens first. It converts <pf>1</pf> to <pf>1.0</pf>. Then the
     division takes place and it now says <pf>1.0 / 3</pf>. Since there is at least one floating-point value
