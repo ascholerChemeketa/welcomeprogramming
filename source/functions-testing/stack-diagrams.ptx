@@ -1,226 +1,62 @@
 <section xml:id="functions-testing_stack-diagrams"
          xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Stack Frames and Scope</title>
+  <title>Stack Frames</title>
 
-  <subsection>
-    <title>Stack Frames</title>
-    <p>When running the Codelens tool, it creates a diagram like this one:</p>
+  <p>When running the Codelens tool, it creates a diagram like this one:</p>
 
-    <figure>
-      <caption>Stack diagram for doubleValue</caption>
-      <image width="25%"
-             source="images/doubleValue-stack.jpg"/>
-    </figure>
+  <figure>
+    <caption>Stack diagram for doubleValue</caption>
+    <image width="25%"
+           source="images/doubleValue-stack.jpg"/>
+  </figure>
 
-    <p>
-      <idx>
-        <h>stack diagram</h>
-      </idx>
+  <p>
     <idx>
-        <h>diagram</h>
-        <h>stack</h>
-      </idx>
+      <h>stack diagram</h>
+    </idx>
     <idx>
-        <h>frame</h>
-      </idx> This is known as a <term>stack diagram</term>, which shows the
-      state of a program's functions and variables. For each function there is a box, called a <term>
-      frame</term> or <term>stack frame</term>, that contains the function's parameters and
-      variables. </p>
-
-    <p>The stack starts in the box for <pf>main</pf>. I can see that at the point we were at in main, <pf>x</pf>
-      and <pf>y</pf> have been set, but <pf>z</pf> has not been initialized yet. We have not initialized <pf>z</pf>
-      yet, because the <pf>doubleValue</pf> function was called, and now it is executing. There is a stack frame
-      for <pf>doubleValue</pf> right below main. It is highlighted in blue to indicate that it is where execution
-      currently is.</p>
-
-    <note>
-      <p>Depending on the diagram, the stack may grow up or down from main. The ones in Codelens
-        grow down from <pf>main</pf>. </p>
-    </note>
-
-    <p> As with other memory diagrams, stack diagrams show variables and functions at a particular point
-      in time. If you go back and run the program again in Codelens, you will see the stack diagram
-      change as the program runs. </p>
-  </subsection>
-
-  <subsection>
-    <title>Scope</title>
-    <p>
-      <idx>
-        <h>scope</h>
-      </idx> Stack diagrams help you to visualize the <term>scope</term> of a
-      variable, which is the area of a program where a variable can be used. Only the values in the
-      current stack frame are visible to the code that is running. In other words, <pf>main</pf> can see <pf>x</pf>
-      , <pf>y</pf>, and <pf>z</pf>, but not <pf>num</pf> or <pf>result</pf>. <pf>doubleValue</pf> can only see <pf>num</pf> and <pf>result</pf>. </p>
-
-    <p>If <pf>main</pf> tries to directly use <pf>result</pf>, or <pf>doubleValue</pf> tries to directly use <pf>x</pf>, it is a
-      compile error. The compiler will say that those variables are not defined. Which is true -
-      they are not defined in that location, they are defined elsewhere and are out of scope where
-      we are trying to use them. We call variables that are only visible in a particular function <term>local
-      variables</term>. <idx>
-        <h>local variable</h>
-      </idx>
+      <h>diagram</h>
+      <h>stack</h>
+    </idx>
     <idx>
-        <h>variable</h>
-        <h>local</h>
-      </idx>
-    </p>
+      <h>frame</h>
+    </idx> This is known as a <term>stack diagram</term>, which shows the state of
+    a program's functions and variables. For each function there is a box, called a <term> frame</term>
+    or <term>stack frame</term>, that contains the function's parameters and variables. </p>
 
-    <listing>
-    <program label="functions-testing_stack-diagrams-program-1"
-             interactive="activecode">
-<xi:include href="../../programs/functions-testing/scope-1.cpp" parse="text"/>
-</program>
-    </listing>
+  <p>The stack starts in the box for <pf>main</pf>. I can see that at the point we were at in main, <pf>x</pf>
+    and <pf>y</pf> have been set, but <pf>z</pf> has not been initialized yet. We have not initialized <pf>z</pf>
+    yet, because the <pf>doubleValue</pf> function was called, and now it is executing. There is a stack frame
+    for <pf>doubleValue</pf> right below main. It is highlighted in blue to indicate that it is where execution
+    currently is.</p>
 
-    <p>This idea of scope helps enforce the abstraction of functions. The parameters and local
-      variables in <pf>doubleValue</pf> are not visible to <pf>main</pf>, and vice versa. This mean that the code in
-      one place can't directly affect the code in another. All the different parts can do is
-      communicate via the clear channels provided by the parameters and return values.</p>
+  <note>
+    <p>Depending on the diagram, the stack may grow up or down from main. The ones in Codelens grow
+      down from <pf>main</pf>. </p>
+  </note>
 
-    <p>It is possible for different stack frames to have variables with the same name. Below is a
-      stack diagram for a program with three functions, all of which have a variable <pf>x</pf>:</p>
+  <p>As with other memory diagrams, stack diagrams show variables and functions at a particular
+    point in time. If you go back and run the program again in Codelens, you will see the stack
+    diagram change as the program runs. </p>
 
-    <figure>
-      <caption>Stack diagram for doubleValue</caption>
-      <image width="15%"
-             source="images/doubleValue-stack-2.jpg"/>
-    </figure>
-
-    <p>Note that the different <pf>x</pf>s can have different values, like <pf>bar</pf>'s <pf>x</pf> and <pf>foo</pf>
-      's <pf>x</pf>. Or they can have the same value, like <pf>main</pf>'s <pf>x</pf> and <pf>bar</pf>'s <pf>x</pf>. The
-      three <pf>x</pf>'s are all different variables - you can not assume that they are related in any
-      way. (You might know three people all named <q>John</q>. That does not mean they are all
-      related. It is possible, but there is no reason to assume so.)</p>
-
-    <insight>
-      <p>It can help to think of there being two programmers involved in writing code involving a
-        function. There is one programmer who writes the function. They don't know anything about
-        what is going on in the rest of the program. There is another programmer who is using the
-        function. They don't know anything about what happens inside the function (other than the
-        information they are passing in and what should come back). </p>
-      <p>This is literally the case when you use a function from a library. You don't know how <pf>cos</pf>
-        works and the person who wrote the function has no idea what programs you are going to use
-        it in.</p>
-      <p>But even if you are the person who is writing and using the function, do your best to
-        pretend there are two different <q>you</q>s <mdash/> one working on the function and one who
-        works on the rest of the code. Don't assume that either you knows much about what they other
-        is doing!</p>
-    </insight>
-
-    <exercise label="functions-testing_stack-diagrams-ex-1">
-      <statement>
-        <p>Local variables are visible in:</p>
-      </statement>
-      <choices randomize="yes">
-        <choice correct="yes">
-          <statement>
-            <p>The function where they are defined</p>
-          </statement>
-        </choice>
-        <choice>
-          <statement>
-            <p>All functions in the program</p>
-          </statement>
-        </choice>
-        <choice>
-          <statement>
-            <p>The function where they are defined and functions it calls</p>
-          </statement>
-        </choice>
-        <choice>
-          <statement>
-            <p>The function where they are defined and the functions that call that function</p>
-          </statement>
-        </choice>
-      </choices>
-    </exercise>
-  </subsection>
-
-  <subsection xml:id="functions-testing_stack-diagrams_global-variables">
-    <title>Global Variables</title>
-
-    <p>There is one exception to the rule that variables are local to a function: <term>global
-      variables</term>. These are variables that are defined outside of any function. They are
-      visible to all functions in the program. Global variables are generally discouraged because
-      they can make it difficult to understand how a program works. Imagine a program with 100
-      functions and 50 global variables. If you see a variable being used, you have to search
-      through all 100 functions to see all the places it might be changed. <idx>
-        <h>global variable</h>
-      </idx>
-    </p>
-
-    <p>The one exception to the rule <q>avoid global variables</q> is for constants. Because we never have to worry about where a constant is being changed, it is considered OK to make constants be global. If you do, you can use them anywhere after that point.</p>
-    
-    <listing>
-    <program label="functions-testing_stack-diagrams-program-2"
-             interactive="activecode">
-<xi:include href="../../programs/functions-testing/global-1.cpp" parse="text"/>
-</program>
-    </listing>
-
-    <warning>
-      <p>Using global variables to store information is considered a very bad idea in all but the most simple programs or in situations where all the other available options for solving the problem are an even worse idea. In the context of programs you write while using this book, there will never be a good reason to use global variables.</p>
-    </warning>
-  </subsection>
-  
-  <exercise label="functions-testing_stack-diagrams-ex-2">
+  <exercise label="functions-testing_stack-diagrams-ex-0">
     <statement>
-      <p>Why are we allowed to use the variable <pf>x</pf> in both <pf>main</pf> and in the function
-        definition of <pf>superSecretFunction</pf>?</p>
-      <program language="cpp"
-               line-numbers="yes">
-        <code><![CDATA[
-int superSecretFunction(int n) {
-  int x = 0;
-  return (2 + (n * n) - 5 * n / 7) * x;
-}
-
-int main() {
-  int x = 1;
-  cout << "After using the super secret function, we get " << superSecretFunction (x);
-}
-]]></code>
-      </program>
+      <p>Run the codelens and answer the questions it asks you about the stack diagram.</p>
     </statement>
-    <choices randomize="yes">
-      <choice>
-        <statement>
-          <p>We're using the same variable, but just reassigning the value from 0 to 1.</p>
-        </statement>
-        <feedback>
-          We are actually using two different variables that happen to have the same name.
-        </feedback>
-      </choice>
-      <choice correct="yes">
-        <statement>
-          <p>Although the name of both variables is <pf>x</pf>, they represent different locations in
-            memory, and thus are different variables.</p>
-        </statement>
-        <feedback>
-          One <pf>x</pf> is a local variable of <pf>superSecretFunction</pf> while the other is a local variable of <pf>main</pf>
-            .
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>We can assign them different values but not the same value. Thus, if both were
-            initialized to 0, then we'd get an error.</p>
-        </statement>
-        <feedback>
-          Since they are not in the same storage location, they can store any value, including
-            the same value.
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>We're not allowed to do this. The code will result in an error.</p>
-        </statement>
-        <feedback>
-          The code does not produce an error.
-        </feedback>
-      </choice>
-    </choices>
+    <program interactive="codelens">
+    <code>
+<xi:include href="../../programs/functions-testing/stack-diagram-trace.cpp" parse="text"/>
+</code>
+    <checkpoint line="10" answer="foo">
+      <prompt>What stack frame does <pf>x</pf> belong to at this point? (foo, bar, or main)</prompt>
+    </checkpoint>
+    <checkpoint line="11" answer="10">
+      <prompt>What is the value of x in the current stack frame?</prompt>
+    </checkpoint>
+    <checkpoint line="17" answer="main">
+      <prompt>What stack frame does <pf>x</pf> belong to at this point? (foo, bar, or main)</prompt>
+    </checkpoint>
+</program>
   </exercise>
 
 </section>

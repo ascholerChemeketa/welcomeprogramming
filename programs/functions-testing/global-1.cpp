@@ -2,8 +2,8 @@
 using namespace std;
 
 //global variables:
-const double PI = acos(-1.0);  // an accurate value of PI available everywhere
-int badGlobalVariable = 5;     // non-const variables should NOT be global
+const double PI = 3.14;  // a constant value of PI available everywhere
+int badGlobalVariable = 5;     // NO NO NO!!! non-const variables should NOT be global
 
 double timesPI(double num) {
     // we can use the global constant PI here:

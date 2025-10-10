@@ -53,9 +53,9 @@
 
   <exercise label="functions-testing_unit-testing-ex-1">
     <statement>
-      <p> The formula we are trying to use in that function looks like <m>area =
-        \sqrt{s(s-a)(s-b)(s-c)}</m>. Compare that to the code we have so far, then try to fix the
-        function.</p>
+      <p> The formula we are trying to use on line 17 looks like <m>area =
+        \sqrt{s(s-a)(s-b)(s-c)}</m>. Compare that to the code we have, then try to fix the
+        function so it passes the tests.</p>
     </statement>
 
     <program
@@ -86,7 +86,15 @@
   </program>
   </exercise>
 
-  <note><p>The cost of fixing a bug depends on where it is caught. A bug that a programmer notices while typing is very cheap to fix - just a few seconds of programmer time. A bug revealed by unit testing costs more - it likely takes a few minutes to write the tests that reveal the bug. But it is likely easy to identify and fix that bug. When a bug is not caught until the entire program is tested, it will be much harder to identify the root cause, make a fix, and then retest the program. And if the bug makes it into the finished program, it will cost lots of time, money, and/or reputation to make a fix to the program already released to users.</p>
-  <p>Testing will never be perfect, and it is possible to spend so much time testing code that you do not create the code you want fast enough. But unit testing is a technique that many teams find indispensable in delivering quality code.</p></note>
+  <p>Writing tests as you write code may feel slower than just writing code. But by helping you catch and fix bugs early, it can save you lots of time trying to fix those bugs in the context of a larger program where it is more difficult to identify and fix them.</p>
+
+  <note><p>The <q>cost</q> of fixing a bug depends on where it is caught.
+    <ul>
+      <li>A bug that a programmer notices while typing is very cheap to fix - just a few seconds of programmer time.</li>
+      <li>A bug revealed by unit testing costs more - it likely takes a few minutes to write the tests that reveal the bug. But it is likely easy to identify and fix that bug.</li>
+      <li>A bug caught only during final testing of a large program costs even more. It may take hours to identify the root cause of the bug, make a fix, and then retest the program.</li>
+      <li>A bug that makes it into the finished program costs the most - it will cost lots of time, money, and/or reputation to make a fix to the program already released to users.</li>
+    </ul>
+  </p></note>
 
 </section>

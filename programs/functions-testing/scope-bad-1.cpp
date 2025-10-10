@@ -2,7 +2,7 @@
 using namespace std;
 
 int doubleValue(int num) {
-    int result = 2 * num;
+    int result = 2 * x;   // Error: 'x' is not defined in this scope
     return result;
 }
 

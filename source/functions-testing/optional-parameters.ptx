@@ -10,9 +10,8 @@
       new. These bits of syntax are sometimes called <term>syntactic sugar</term> <mdash/> they makes
       the code <q>taste</q> better, but do not add any <q>nutritional value</q>.</p>
     <p>This section contains two bits of syntactical sugar that make it possible to write and call
-      functions more flexibly. You can write programs without ever using the techniques discussed
-      here. But they can be handy, and you are likely to see them in code written by others
-      (especially in languages other than C++), and are thus worth at least being aware of.</p>
+      functions more flexibly. You could write any program you wanted without using these concepts,
+      but they can be handy, and you are likely to see them in code written by others.</p>
   </note>
 
   <subsection>
@@ -42,8 +41,8 @@
     <p>If you are going to use this trick, you do have to make sure all the functions have different
       lists of parameters. All that matters is the types and number of parameters, not the names of
       the parameters. So you can't write both <pf>void doThing(int inches)</pf> and <pf>void doThing(int cm)</pf>. Those both have the same
-      parameter list - <pf>(int)</pf>. If you made the call <pf>doThing(10)</pf>, there would be no way to tell which
-      version of the function you were trying to use.</p>
+      parameter list - <pf>(int)</pf>. If you made the call <pf>doThing(10)</pf>, there would be no way to tell
+      which version of the function you were trying to use.</p>
 
 
     <exercise label="functions-testing_optional-parameters-ex-1">
@@ -117,37 +116,36 @@ int func(double x, int y);
       appropriate parameter. Like overloading, this trick can make functions more flexible - one
       function can respond to multiple different kinds of call. Here is an example of the syntax:</p>
 
-    <program
-             highlight-lines="1"
+    <program highlight-lines="1"
              line-numbers="yes">
 <xi:include href="../../programs/functions-testing/default-parameters-1.cpp" parse="text"/>
 </program>
 
-    <p>Notice the <pf> = 0</pf> after <pf>yards</pf> and <pf>miles</pf>. Those are the default values - they will be
-      used if the caller leaves out the miles and or yards. To call the function, you can specify
-      either one <pf>int</pf> (feet), two <pf>int</pf>s (feet and yards), or three <pf>int</pf>s (feet, yards,
-      miles) as shown in this program. Note that </p>
+    <p>Notice the <pf> = 0</pf> after <pf>yards</pf> and <pf>miles</pf>. Those are the default values - they will
+      be used if the caller leaves out the miles and or yards. To call the function, you can specify
+      either one <pf>int</pf> (feet), two <pf>int</pf>s (feet and yards), or three <pf>int</pf>s (feet,
+      yards, miles) as shown in this program. Note that </p>
 
     <listing>
-    <program label="functions-testing_optional-parameters-program-1"
-             interactive="codelens">
+      <program label="functions-testing_optional-parameters-program-1"
+               interactive="codelens">
 <xi:include href="../../programs/functions-testing/default-parameters-2.cpp" parse="text"/>
 </program>
     </listing>
 
     <p>Although when calling the function we can skip providing values for either <pf>miles</pf> or <pf>yards</pf>
-      and <pf>miles</pf>, we cannot skip over <pf>yards</pf> and provide a value for <pf>miles</pf>. If skipping were
-      allowed, something like <pf>toFeet(5, 2)</pf> would be ambiguous - the compiler would not know if the 2 was
-      for <pf>yards</pf> or <pf>miles</pf>. </p>
+      and <pf>miles</pf>, we cannot skip over <pf>yards</pf> and provide a value for <pf>miles</pf>. If skipping
+      were allowed, something like <pf>toFeet(5, 2)</pf> would be ambiguous - the compiler would not know if the
+      2 was for <pf>yards</pf> or <pf>miles</pf>. </p>
 
     <p>To prevent this kind of confusion, default parameters have to follow these rules: <ul>
         <li>In the function definition, parameters with default values must come after ones that do
       not have defaults. We could NOT write the function above as <pf>int toInches(int miles = 0, int yards = 0, int feet)</pf>.</li>
         <li>When calling the function, you can stop providing values at any point you like and rely
       on default values for the remaining parameters. But you can not skip some parameters and then
-      start providing values for later ones. If I want to call the function above with 5 <pf>feet</pf> and
-      1 <pf>miles</pf>, you would have to use <pf>toInches(5, 0, 1)</pf>. Since we are specifying a <pf>miles</pf> value, we also
-      must specify the yards.</li>
+      start providing values for later ones. If I want to call the function above with 5 <pf>feet</pf>
+      and 1 <pf>miles</pf>, you would have to use <pf>toInches(5, 0, 1)</pf>. Since we are specifying a <pf>miles</pf> value,
+      we also must specify the yards.</li>
       </ul>
     </p>
 
@@ -162,5 +160,27 @@ int func(double x, int y);
       completely different lists of parameters like <pf>writeToLog(int num)</pf> and <pf>writeToLog(double num, int numDigit)</pf>, but you could not
       reasonably combine those completely different functions into one version using default
       parameters.</p>
+
+    <exercise label="functions-testing_default-parameters-ex-1"
+              language="cpp">
+      <statement>
+        <p>Arrange the code to make the header for a function <pf>printTime</pf> that takes two parameters:
+          hours, minutes. Hours should be required and minutes should be optional with a default
+          value of 0. You will not use all the blocks</p>
+      </statement>
+      <blocks layout="horizontal"
+              randomize="yes">
+        <block><c>void printTime</c></block>
+        <block><c>(</c></block>
+        <block><c>int hours</c></block>
+        <block correct="no"><c>int hours = 0;</c></block>
+        <block><c>,</c></block>
+        <block correct="no"><c>int minutes</c></block>
+        <block correct="yes"><c>int minutes = 0</c></block>
+        <block correct="no"><c>minutes = 0</c></block>
+        <block><c>)</c></block>
+      </blocks>
+    </exercise>
+
   </subsection>
 </section>

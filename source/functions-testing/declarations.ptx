@@ -2,12 +2,13 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Declaring vs Defining Functions</title>
 
-  <p>Up until now, we have been <term>declaring</term> functions at the same time we have <term>defined</term> them. But it is possible to declare a function without defining it right away.</p>
+  <p>Up until now, we have been <term>declaring</term> functions at the same time we have <term>
+    defined</term> them. But it is possible to declare a function without defining it right away.</p>
 
 
   <p>A <term>function declaration</term> is a statement that tells the compiler about a function's
-    name, return type, and parameters. To write a function declaration with a definition, we write its prototype, but instead of providing
-    the body, we just place a <pf>;</pf> at the end:<idx>
+    name, return type, and parameters. To write a function declaration with a definition, we write
+    its prototype, but instead of providing the body, we just place a <pf>;</pf> at the end:<idx>
       <h>function</h>
       <h>declaration</h>
     </idx></p>
@@ -16,13 +17,16 @@
 <xi:include href="../../programs/functions-testing/declarations-1.cpp" parse="text"/>
   </program>
 
-  <p>When we <term>declare</term> a function, we are telling the compiler that the function exists and that it
-    will be <term>defined</term> later. The declaration lets the compiler know <q>there will be a function called
-    doubleValue that takes in an int and returns an int</q>. With that information, the compiler can look at a call to the function like <pf>int x = doubleValue(3);</pf> and decide if it
-    makes sense or not. Later on, when the declaration is provided, the compiler can link that call to the code in the function.</p>
+  <p>When we <term>declare</term> a function, we are telling the compiler that the function exists
+    and that it will be <term>defined</term> later. The declaration lets the compiler know <q>there
+    will be a function called doubleValue that takes in an int and returns an int</q>. With that
+    information, the compiler can look at a call to the function like <pf>int x = doubleValue(3);</pf> and decide if it
+    makes sense or not. Later on, when the declaration is provided, the compiler can link that call
+    to the code in the function.</p>
 
   <p>A <term>function definition</term> is the actual implementation of the function. It is what we
-    have seen up to now - the prototype plus the body of the function. (A definition always declares the function as well.)<idx>
+    have seen up to now - the prototype plus the body of the function. (A definition always declares
+    the function as well.)<idx>
       <h>function</h>
       <h>definition</h>
     </idx></p>
@@ -31,22 +35,28 @@
 <xi:include href="../../programs/functions-testing/declarations-2.cpp" parse="text"/>
   </program>
 
-  <p>This distinction allows us to write code where a function call comes before the definition of that function. This flexibility is useful when we have multiple
-    functions that call each other, or when we want to separate the implementation of a function
-    from its use. Say I want to put the <pf>main</pf> function in my program at the top of my code file. I
-    can do so by first declaring my functions, then writing main, then defining my other functions.</p>
+  <p>This distinction allows us to write code where a function call comes before the definition of
+    that function. This flexibility is useful when we have multiple functions that call each other,
+    or when we want to separate the implementation of a function from its use. Say I want to put the <pf>main</pf>
+    function in my program at the top of my code file. I can do so by first declaring my functions,
+    then writing main, then defining my other functions.</p>
 
   <listing>
-  <program label="functions-testing_declarations-program-1"
-           interactive="activecode">
+    <program label="functions-testing_declarations-program-1"
+             line-numbers="yes"
+             highlight-lines="5 ,11, 16"
+             interactive="activecode">
 <xi:include href="../../programs/functions-testing/declarations-3.cpp" parse="text"/>
   </program>
   </listing>
 
-  <p>Try running the program above. Then comment out the declaration of <pf>doubleValue</pf> on line 5. That should produce a compile error on line 11. When the compiler gets to that line, it sees a call to <pf>doubleValue</pf>, but does not yet know about that function.</p>
+  <p>Try running the program above. Then comment out the declaration of <pf>doubleValue</pf> on line 5. That
+    should produce a compile error on line 11. When the compiler gets to that line, it sees a call
+    to <pf>doubleValue</pf>, but does not yet know about that function.</p>
 
-  <p>Think of a declaration as you making a promise to the compiler <q>this function will exist</q>. When you define the function, you are fulfilling that promise. Here is a brief summary of when definitions and declarations must
-    occur: <ul>
+  <p>Think of a declaration as you making a promise to the compiler <q>this function will exist</q>.
+    When you define the function, you are fulfilling that promise. Here is a brief summary of when
+    definitions and declarations must occur: <ul>
       <li>A function declaration must occur before the function is used. Although you would not want
     to on purpose, it is OK to declare a function multiple times. (You are just making the same
     promise multiple times.)</li>
@@ -62,8 +72,9 @@
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Put these blocks of code into a valid order where the definition of main comes before any
-        other function definition. There are many possible correct orderings.</p>
+      <p>Put these blocks of code into a valid order where the <term>definition</term> of main comes
+        before any other function <term>definition</term>. Remember that a function must be <term>declared</term>
+        before it is used. There are many possible correct orderings.</p>
     </statement>
     <blocks>
       <block name="foo_declare">
@@ -94,60 +105,43 @@
   </exercise>
   <exercise label="functions-testing_declarations-ex-2">
     <statement>
-      <p>If we wanted to create a function called <pf>isPrime</pf>, which takes an <pf>int input</pf> as a
-        parameter and returns either true or false, which of the following would be the correct function declaration?</p>
+      <p>If we wanted to create a function called <pf>divideByTwo</pf>, which takes an <pf>int input</pf> as a parameter
+        and returns a decimal value, which of the following would be the correct function
+        declaration?</p>
     </statement>
     <choices randomize="yes">
-      <choice>
-        <statement>
-          <p>
-            <pf>boolean isPrime(int input);</pf>
-          </p>
-        </statement>
-        <feedback>
-          In C++, use the <pf>bool</pf> keyword for a boolean.
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>
-            <pf>bool isPrime (input);</pf>
-          </p>
-        </statement>
-        <feedback>
-          In a function header, the type of each variable must be specified in the parameter
-            list.
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>
-            <pf>int isPrime (input);</pf>
-          </p>
-        </statement>
-        <feedback>
-          The function should return true or false, not an integer.
-        </feedback>
-      </choice>
       <choice correct="yes">
         <statement>
           <p>
-            <pf>bool isPrime(int input);</pf>
+            <pf>double divideByTwo(int input);</pf>
           </p>
         </statement>
-        <feedback>
-          This is the correct function header for the function.
-        </feedback>
+        <feedback> Correct. </feedback>
       </choice>
       <choice>
         <statement>
           <p>
-            <pf>int isPrime(bool input);</pf>
+            <pf>double divideByTwo (input);</pf>
           </p>
         </statement>
-        <feedback>
-          Take a closer look at what the return type is.
-        </feedback>
+        <feedback> In a function declaration, the type of each variable must be specified in the
+          parameter list. </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            <pf>int divideByTwo(input);</pf>
+          </p>
+        </statement>
+        <feedback> The function should return a double. </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            <pf>divideByTwo(int input);</pf>
+          </p>
+        </statement>
+        <feedback> A function declaration must include the return type. </feedback>
       </choice>
     </choices>
   </exercise>

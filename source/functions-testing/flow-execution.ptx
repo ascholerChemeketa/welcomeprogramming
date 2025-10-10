@@ -30,7 +30,8 @@
 
   <exercise label="functions-testing_flow-execution-ex-1" language="natural">
     <statement>
-      <p>What order will the letters be printed in the program below? Arrange the blocks in the correct order</p>
+      <p>What order will the letters be printed in the program below? Trace the execution by hand and arrange the blocks in the order the output would be printed.</p>
+      <p>Start in <pf>main</pf>.  Every time you encounter a function call, remember where you are so you can return there when you are done with the function.</p>
       <program>
 <xi:include href="../../programs/functions-testing/execution-flow-2.cpp" parse="text"/>
       </program>
@@ -59,7 +60,9 @@
 
   <exercise label="functions-testing_flow-execution-ex-2">
     <statement>
-      <p>How many calls to <pf>hi</pf> are made during the execution of the entire program?</p>
+      <p>Manually trace the code. How many calls to <pf>hi</pf> are made during the execution of the entire program?</p>
+      <p>Start in <pf>main</pf>.  Every time you encounter a function call, remember where you are so you can
+      return there when you are done with the function.</p>
       <program>
 void hi() {
   cout &lt;&lt; "hiii !"&lt;&lt; endl;
@@ -92,7 +95,7 @@ int main () {
           <p>4 calls</p>
         </statement>
         <feedback>
-          <p>Correct!</p>
+          <p>Correct! main calls hi() twice, and calls printGreeting() once. printGreeting() calls hi() two times.</p>
         </feedback>
       </choice>
       <choice>
@@ -100,7 +103,7 @@ int main () {
           <p>2 calls</p>
         </statement>
         <feedback>
-          <p>hi( ) is called from multiple functions.</p>
+          <p>hi( ) is called twice from main, but it is also called from printGreeting( ). And printGreeting( ) is called once from main.</p>
         </feedback>
       </choice>
       <choice>
@@ -108,7 +111,7 @@ int main () {
           <p>3 calls</p>
         </statement>
         <feedback>
-          <p>Two calls from one function are indeed two seperate calls.</p>
+          <p>printGreeting() calls hi() two times.</p>
         </feedback>
       </choice>
     </choices>

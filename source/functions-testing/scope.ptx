@@ -1,0 +1,248 @@
+<section xml:id="functions-testing_scope"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Scope</title>
+
+  <introduction>
+    <p>In the previous section, we saw how stack diagrams visualize the state of a program's
+      functions and variables. At different points in the program, different variables were
+      available. And, at different points in time, a name like <pf>x</pf> could refer to different
+      variables in different stack frames.</p>
+
+    <p><term>Scope</term> is the term used to describe the area of a program where a given variable
+      can be used. Only the values in the current stack frame are <term>in scope</term> and useable
+      by the code that is running. <idx>
+        <h>scope</h>
+      </idx></p>
+
+  </introduction>
+
+  <subsection>
+    <title>Local Scope</title>
+    <p>The scope of a variable in C++ is controlled by the block of code in which it is declared.
+      Each function is a block of code and thus defines its own scope. Variables declared in that
+      function can only be used in that function. We call variables that are only visible in a
+      particular function <term>local variables</term>. <idx>
+        <h>local variable</h>
+      </idx>
+    <idx>
+        <h>variable</h>
+        <h>local</h>
+      </idx></p>
+
+    <p>For example, consider the program below. The variables that are in scope in <pf>main</pf> are <pf>x</pf>
+      , <pf>y</pf>, and <pf>z</pf>, but not <pf>num</pf> or <pf>result</pf>. In <pf>doubleValue</pf> the only things in
+      scope are <pf>num</pf> and <pf>result</pf>.</p>
+
+    <listing>
+      <program label="functions-testing_scope-program-1">
+<xi:include href="../../programs/functions-testing/scope-1.cpp" parse="text"/>
+</program>
+    </listing>
+
+    <p>If <pf>main</pf> tries to directly use <pf>result</pf>, or <pf>doubleValue</pf> tries to directly use <pf>x</pf>,
+      it is a compile error. The compiler will say that those variables are not defined. Which is
+      true - they are not defined in that location, they are defined elsewhere and are out of scope
+      where we are trying to use them. Here is a broken version of the program above that tries to
+      access <pf>x</pf> outside of its scope: </p>
+
+    <listing>
+      <caption><pf>doubleValue</pf> tries to access <pf>x</pf> which is not in scope</caption>
+      <program label="functions-testing_scope-program-1"
+               interactive="activecode"
+               line-numbers="yes"
+               highlight-lines="5">
+<xi:include href="../../programs/functions-testing/scope-bad-1.cpp" parse="text"/>
+</program>
+    </listing>
+
+    <p>Scope also is usually linked to the lifetime of a variable. If a variable has local scope, it
+      is created when the function is called and destroyed when the function returns. Each time the
+      function is called, a new instance of the variable is created.</p>
+
+    <p>This idea of scope helps enforce the abstraction of functions. The parameters and local
+      variables in <pf>doubleValue</pf> are not visible to <pf>main</pf>, and vice versa. This mean that the code
+      in one place can't directly affect the code in another. All the different parts can do is
+      communicate via the clear channels provided by the parameters and return values.</p>
+
+    <p>It is possible for different stack frames to have variables with the same name. Below is a
+      stack diagram for a program with three functions, all of which have a variable <pf>x</pf>:</p>
+
+    <figure>
+      <caption>Stack diagram for doubleValue</caption>
+      <image width="15%"
+             source="images/doubleValue-stack-2.jpg"/>
+    </figure>
+
+    <p>Note that the different <pf>x</pf>s can have different values, like <pf>bar</pf>'s <pf>x</pf> and <pf>foo</pf>
+      's <pf>x</pf>. Or they can have the same value, like <pf>main</pf>'s <pf>x</pf> and <pf>bar</pf>'s <pf>x</pf>.
+      The three <pf>x</pf>'s are all different variables - you can not assume that they are related
+      in any way. (You might know three people all named <q>John</q>. That does not mean they are
+      all related. It is possible, but there is no reason to assume so.)</p>
+
+    <insight>
+      <p>It can help to think of there being two programmers involved in writing code involving a
+        function. There is one programmer who writes the function. They don't know anything about
+        what is going on in the rest of the program. There is another programmer who is using the
+        function. They don't know anything about what happens inside the function (other than the
+        information they are passing in and what should come back). </p>
+      <p>This is literally the case when you use a function from a library. You don't know how <pf>cos</pf>
+        works and the person who wrote the function has no idea what programs you are going to use
+        it in.</p>
+      <p>But even if you are the person who is writing and using the function, do your best to
+        pretend there are two different <q>you</q>s <mdash/> one working on the function and one who
+        works on the rest of the code. Don't assume that either you knows much about what they other
+        is doing!</p>
+    </insight>
+
+    <exercise label="functions-testing_scope-ex-1">
+      <statement>
+        <p>Local variables are visible in:</p>
+      </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>
+            <p>The function where they are defined</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>All functions in the program</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>The function where they are defined and functions it calls</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>The function where they are defined and the functions that call that function</p>
+          </statement>
+        </choice>
+      </choices>
+    </exercise>
+
+    <exercise label="functions-testing_scope-ex-2">
+      <statement>
+        <p>Why are we allowed to use the variable <pf>x</pf> in both <pf>main</pf> and in the function
+          definition of <pf>superSecretFunction</pf>?</p>
+        <program language="cpp"
+                 line-numbers="yes"
+                 highlight-lines="2,7">
+        <code><![CDATA[
+int superSecretFunction(int n) {
+  int x = 0;
+  return (2 + (n * n) - 5 * n / 7) * x;
+}
+
+int main() {
+  int x = 1;
+  cout << "After using the super secret function, we get " << superSecretFunction (x);
+}
+]]></code>
+      </program>
+      </statement>
+      <choices randomize="yes">
+        <choice>
+          <statement>
+            <p>We're using the same variable.</p>
+          </statement>
+          <feedback> We are actually using two different variables that happen to have the same
+            name. </feedback>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p>Although the name of both variables is <pf>x</pf>, they represent different locations
+              in memory, and thus are different variables.</p>
+          </statement>
+          <feedback> One <pf>x</pf> is a local variable of <pf>superSecretFunction</pf> while the other is a local
+            variable of <pf>main</pf> . </feedback>
+        </choice>
+        <choice>
+          <statement>
+            <p>We assign them different values. If both were initialized to 0, then we'd get an
+              error.</p>
+          </statement>
+          <feedback> Since they are not in the same storage location, they can store any value,
+            including the same value. </feedback>
+        </choice>
+        <choice>
+          <statement>
+            <p>We're not allowed to do this. The code will result in an error.</p>
+          </statement>
+          <feedback> The code does not produce an error. </feedback>
+        </choice>
+      </choices>
+    </exercise>
+  </subsection>
+
+  <subsection xml:id="functions-testing_scope_global-variables">
+    <title>Global Variables</title>
+
+    <p>A variable that is declared outside of any functions is called a <term>global variable</term>.
+      Global variables have <term>global</term> scope. That means they are visible in all functions
+      in the program and last as long as the program is running.</p>
+
+    <p>It may sound useful to have a variable that is available everywhere, but using global
+      variables is almost always a bad idea. They make it so any function can make a change that
+      affects all the other code in the program. This makes it much harder to understand how the
+      parts of the program interact. <idx>
+        <h>global variable</h>
+      </idx>
+    </p>
+
+    <p>One exception to the rule <q>avoid global variables</q> is for constants. Because we never
+      have to worry about where a constant is being changed, it is considered OK to make constants
+      be global. If you do, you can use them in any function.</p>
+
+    <listing>
+      <program label="functions-testing_scope-program-2"
+               line-numbers="yes"
+               highlight-lines="5,6"
+               interactive="activecode">
+<xi:include href="../../programs/functions-testing/global-1.cpp" parse="text"/>
+</program>
+    </listing>
+
+    <warning>
+      <p>You should never use global variables to solve problems in this book. There will never be a
+        situation where they are required.</p>
+    </warning>
+
+    <exercise label="functions-testing_scope-ex-4">
+      <statement>
+        <p>Which rule best describes the use of global variables?.</p>
+      </statement>
+      <choices randomize="yes">
+        <choice>
+          <statement>
+            <p>Global variables are good for storing information that many functions need to access.</p>
+          </statement>
+          <feedback> Global variables make it hard to understand how different parts of a program
+            interact. </feedback>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p>You should only make a variable global if it is a constant.</p>
+          </statement>
+          <feedback> Correct. </feedback>
+        </choice>
+      </choices>
+      <choice>
+        <statement>
+          <p>You should use global variables to pass information to functions.</p>
+        </statement>
+        <feedback> Use parameters to pass information to functions, not global variables. </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>You should use global variables to return information from functions.</p>
+        </statement>
+        <feedback> Use return values to return information from functions, not global variables. </feedback>
+      </choice>
+    </exercise>
+
+  </subsection>
+
+
+</section>

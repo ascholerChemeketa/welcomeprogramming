@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 void printAsMoney(double dollars) {
@@ -8,6 +9,7 @@ void printAsMoney(double dollars) {
     dollars = cents / 100.0;
     // then print
     cout << "$" << dollars << endl;
+    return;  //optional in a void function - we could leave this out
 }
 
 int main() {
