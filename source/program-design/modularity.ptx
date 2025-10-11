@@ -5,7 +5,7 @@
 
   <p><term>Modularity</term> is the degree to which a system's components may be separated and recombined. In programming, this often refers to the organization of code into distinct functions or modules that can be developed, tested, and maintained independently. One important way to make functions modular is to follow the single responsibility pattern. But another is to limit a functions communication with other code to parameters and return values.</p>
 
-  <p>In <xref ref="functions-testing_stack-diagrams_global-variables"/>, we discussed global variables. Global variables make functions less modular because it ties their behavior to the global state of the program. If you see the code: <pf>getTriangleArea(side1, side2, side3)</pf>, it is pretty clear that the function is going to calculate the area of a triangle with those three sides. We could write a version of that function that instead uses global variables to store the data needed:</p>
+  <p>In <xref ref="functions-testing_scope_global-variables"/>, we discussed global variables. Global variables make functions less modular because it ties their behavior to the global state of the program. If you see the code: <pf>getTriangleArea(side1, side2, side3)</pf>, it is pretty clear that the function is going to calculate the area of a triangle with those three sides. We could write a version of that function that instead uses global variables to store the data needed:</p>
 
   <program line-numbers="yes" highlight-lines="2,3,6-11,24" >
 <xi:include href="../../programs/program-design/area-calculation-awful.cpp" parse="text"/>
