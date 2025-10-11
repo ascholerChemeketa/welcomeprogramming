@@ -7,7 +7,8 @@
   <targets>
     <target name="web" 
             output-dir="out"
-            format="html">
+            format="html"
+            xsl="custom.xsl">
       <stringparams html.css.extra="external/css/custom-styles.css" />
     </target>
     <target name="print" 
@@ -17,7 +18,8 @@
     <target name="runestone" 
             format="html"
             platform="runestone"
-            publication="publication-runestone.xml">
+            publication="publication-runestone.xml"
+            xsl="custom.xsl">
       <stringparams html.css.extra="external/css/custom-styles.css" />
     </target>
   </targets>
