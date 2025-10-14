@@ -161,9 +161,9 @@ using namespace std;]]>
 
 TEST_CASE("windChillTemp") {
   // 10 mph wind with 50 degree temp
-  CHECK(windChillTemp(10.0, 50) == doctest::Approx(45.5868));
+  CHECK(windChillTemp(10.0, 50) == doctest::Approx(46.0368));
   // 15.25 mph wind with 32.6 degree temp
-  CHECK(windChillTemp(15.25, 32.6) == doctest::Approx(21.975));
+  CHECK(windChillTemp(15.25, 32.6) == doctest::Approx(22.2684));
 }
 ]]>
         </tests>
