@@ -1,0 +1,56 @@
+<section xml:id="conditionals-logic_testing-floats"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Testing Floating Point Numbers</title>
+
+  <p>
+    There is an important and potentially confusing aspect of writing conditionals that
+    involve floating point numbers. Recall that floating point numbers are only approximations
+    of real numbers. This means that two floating point numbers that we expect to be equal may
+    not be exactly equal. For example, the result of this computation might be surprising:
+  </p>
+
+  <listing>
+  <program label="conditionals-logic_testing-floats-program-1" interactive="activecode">
+<xi:include href="../../programs/conditionals-logic/floating-point-equality-1.cpp" parse="text"/>
+</program>
+</listing>
+
+  <p>The calculation that produces <pf>b</pf> doesn't end up making exactly 5.03 due to the way floating point numbers are represented in memory. So, the comparison <pf>a == b</pf> return false. We can ask the compiler to warn us about this, which is what this second version of the same program does:</p>
+
+    <listing>
+  <program label="conditionals-logic_testing-floats-program-1b" interactive="activecode" extra-compiler-args="-Wfloat-equal">
+<xi:include href="../../programs/conditionals-logic/floating-point-equality-1.cpp" parse="text"/>
+</program>
+</listing>
+
+  <p>To properly compare floating point numbers, we need to check if they are "close enough" rather than exactly equal. This is typically done by checking if the absolute difference between the two numbers is less than a small threshold value (often called epsilon). Here is an example of how to do this:</p>
+
+  <listing>
+  <program label="conditionals-logic_testing-floats-program-2" interactive="activecode">
+<xi:include href="../../programs/conditionals-logic/floating-point-equality-2.cpp" parse="text"/>
+</program>
+</listing>
+
+  <p>The exact value of <pf>epsilon</pf> we should use depends on the precision we require and on the magnitude of the numbers being compared. (The accuracy of floating point numbers is limited to a certain number of digits, not a certain number of decimal places.)</p>
+
+  <p>Although this is awkward, it should also be relatively rare. If you expect a floating point number to be exactly equal to a whole number, you can use an integer comparison instead. And you can safely use less than or greater than comparisons with doubles. You will not get a warning about checking something like <pf>temp &lt;= 212.0</pf> even though you are comparing two doubles. It is only checking to see if values are exactly <pf>==</pf> or <pf>!=</pf> that is problematic.</p>
+
+  <exercise label="conditionals-logic_testing-floats-ex-1">
+    <statement>
+      <p>We want to check if <pf>x</pf> and <pf>y</pf> are close enough to be considered equal. We will consider within 0.01 to be <q>close enough</q>. Build the code to do this check. You will not need all of the blocks</p>
+    </statement>
+        <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>if (</c></block>
+      <block><c>abs(</c></block>
+      <block><c>x - y</c></block>
+      <block correct="no"><c>x</c></block>
+      <block correct="no"><c> == </c></block>
+      <block correct="no"><c>y</c></block>
+      <block><c>)</c></block>
+      <block><c> &lt; </c></block>
+      <block><c> 0.01</c></block>
+      <block><c>) {...</c></block>
+    </blocks>
+  </exercise>
+</section>

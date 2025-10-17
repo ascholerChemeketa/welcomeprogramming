@@ -2,12 +2,8 @@
 using namespace std;
 
 int main() {
-    double hours;
-    cout << "Enter hours worked: ";
-    cin >> hours;
-
-    // Assume $18.50 per hour
-    double rate = 18.5;
+    double hours = 45.5; // example input
+    double rate = 18.5;  // Assume $18.50 per hour
 
     double pay = 0; // pay is created here and is accessible throughout the function
     if (hours > 40) {

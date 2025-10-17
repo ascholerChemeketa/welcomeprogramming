@@ -2,12 +2,8 @@
 using namespace std;
 
 int main() {
-    double hours;
-    cout << "Enter hours worked: ";
-    cin >> hours;
-
-    // Assume $18.50 per hour
-    double rate = 18.5;
+    double hours = 45.5; // example input
+    double rate = 18.5;  // Assume $18.50 per hour
 
     if (hours > 40) {
         // normal pay for 40 hours, then 1.5x pay for overtime

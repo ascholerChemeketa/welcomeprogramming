@@ -2,7 +2,7 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Branches and Scope</title>
 
-  <p>It is important to note that each block has its own scope. That means a local variable declared in a branch is not available outside that branch. For example, here is a broken program to compute someone's pay, possibly including extra pay for overtime (over 40 hours):</p>
+  <p>It is important to note that each block has its own scope. That means a local variable declared in a branch is not available outside that branch. For example, here is a broken program to compute someone's pay, possibly including extra pay for overtime (over 40 hours). Try running it and then inspect the error message.</p>
 
   <listing>
   <program label="conditionals-logic_scope-program-1" interactive="activecode">
@@ -13,9 +13,11 @@
 </program>
   </listing>
 
-  <p>Recall that scope is a tool for managing complexity. It allows us to use the same variable name in different parts of a program without worrying about conflicts. We already know that each function has its own scope, but so do different blocks in a function.</p>
+  <p>If you try running that program, the compiler will tell you that <pf>pay</pf> is not defined at the end of <pf>main</pf>. That is because when a variable is declared inside a block, it is scoped only for that block. Either <pf>pay</pf> gets created in the <pf>if</pf> and goes out of scope (is no longer available) at the end of the <pf>if</pf>, or it gets created in the <pf>else</pf> and is only available there.</p>
 
-  <p>If you try running that program, the compiler will tell you that <pf>pay</pf> is not defined at the end of <pf>main</pf>. That is because when a variable is declared inside a block, it is scoped only for that block. Either <pf>pay</pf> gets created in the <pf>if</pf> and goes out of scope (is no longer available) at the end of the <pf>if</pf>, or it gets created in the <pf>else</pf> and is only available there. To fix the program, we need to declare <pf>pay</pf> before the if/else structure:</p>
+  <p>This is a feature, not a bug. Recall that scope is a tool for managing complexity. It allows us to use the same variable name in different parts of a program without worrying about conflicts. We already know that each function has its own scope, but so do different blocks in a function.</p>
+
+  <p>To fix the program, we need to declare <pf>pay</pf> before the if/else structure:</p>
 
   <listing>
   <program label="conditionals-logic_scope-program-2" interactive="activecode">
@@ -55,7 +57,7 @@
       Try again!
     </feedback>
     <areas>
-      <cline><area>int</area> main() {</cline>
+      <cline>int main() {</cline>
       <cline>    <area correct="no">// location A</area></cline>
       <cline>    double x = 1.0;</cline>
       <cline>    int y = 5;</cline>
@@ -76,7 +78,7 @@
       Try again!
     </feedback>
     <areas>
-      <cline><area>int</area> main() {</cline>
+      <cline>int main() {</cline>
       <cline>    <area correct="no">// location A</area></cline>
       <cline>    int y = 5;</cline>
       <cline>    <area correct="no">// location B</area></cline>

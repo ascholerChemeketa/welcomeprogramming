@@ -57,11 +57,38 @@
     <p>If our goal is to have the one statement depend on testing both x and y, this version using
       <pf>&amp;&amp;</pf> is shorter and more clearly communicates our intent.</p>
 
+    <p>We can even chain more than two conditions together using <pf>&amp;&amp;</pf>. For example:</p>
+
+    <program>
+if (x == 3 &amp;&amp; y >= 0 &amp;&amp; y &lt;= 10) {
+  // do something because x is 3 and y is between 0 and 10
+}
+</program>
+
     <warning>
-    <p>C++ does not allow compound conditions like you would write in math. In C++, <pf>0 &lt; x &lt; 10</pf> does NOT test to see if if x is between 0 and 10. Instead, it tests if 0 is less than x, and produces a result of 0 or 1 (true or false). It then tests that value to see if it is less than 10, which will always be true. You MUST write this as two conditions combined with <pf>&amp;&amp;: </pf>0 &lt; x &amp;&amp; x &lt; 10`.
+    <p>C++ does not allow compound conditions like you would write in math. In C++, <pf>0 &lt; x &lt; 10</pf> does NOT test to see if if x is between 0 and 10. Instead, it tests if 0 is less than x, and produces a result of 0 or 1 (true or false). It then tests that value to see if it is less than 10, which will always be true. You MUST write this as two conditions combined with &amp;&amp; like <pf>0 &lt; x &amp;&amp; x &lt; 10</pf>.
     </p></warning>
 
-  </subsection>
+    <exercise label="conditionals-logic_logical-operators-ex-0">
+      <statement>
+        <p>What is the correct way to test if <pf>age</pf> is between 13 and 19?</p>
+        </statement>
+      <choices randomize="yes">
+        <choice>
+          <statement>
+            <p><pf>13 &lt; age &lt; 19</pf></p></statement>
+        </choice>
+        <choice>
+          <statement>
+            <p><pf>age == 13-19</pf></p></statement>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p><pf>13 &lt; age &amp;&amp; age &lt; 19</pf></p></statement>
+        </choice>
+      </choices>
+  </exercise>
+</subsection>
   <subsection>
     <title>Or</title>
 
@@ -87,6 +114,27 @@
 
     <insight><p>The expression on each side of <pf>||</pf> or <pf>&amp;&amp;</pf> MUST be a complete boolean expression that will evaluate to <pf>true</pf> or <pf>false</pf>.</p></insight>
 
+    <exercise label="conditionals-logic_logical-operators-ex-1">
+      <statement>
+        <p>What is the correct way to test if <pf>age</pf> is either 18, 19, or 20?</p>
+        </statement>
+      <choices randomize="yes">
+        <choice>
+          <statement correct="yes">
+            <p><pf>age == 18 || age == 19 || age == 20</pf></p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p><pf>age == 18 || 19 || 20</pf></p></statement>
+        </choice>
+        <choice>
+          <statement>
+            <p><pf>age == 18-20</pf></p></statement>
+        </choice>
+      </choices>
+  </exercise>
+
   </subsection>
 
 
@@ -101,7 +149,9 @@ if (!isEven) {
     // we know it's odd...
 </program>
 
-  <p>That if statement is equivalent to <pf>if (isEven == false)</pf>, but most programmers prefer the version using <pf>!</pf>. It can also be used to reverse the value calculated by some other logical operation. For example, to test if <pf>health</pf> is not less than 0 we could do: <pf>!(health &lt; 0)</pf>. Notice that we need the parentheses to make it clear that we want to FIRST calculate <q>is health less than 0</q> and then calculate the opposite of that value. Of course we could also write that expression as <pf>(health &gt;= 0)</pf> which more clearly expresses what we are looking for.</p>
+  <p>That if statement is equivalent to <pf>if (isEven == false)</pf>, but most programmers prefer the version using <pf>!</pf>.
+  </p>
+  <p>It can also be used to reverse the value calculated by some other logical operation. For example, to test if <pf>health</pf> is not less than 0 we could do: <pf>!(health &lt; 0)</pf>. Notice that we need the parentheses to make it clear that we want to FIRST calculate <q>is health less than 0</q> and then calculate the opposite of that value. Of course we could also write that expression as <pf>(health &gt;= 0)</pf> which might more clearly express what we are looking for.</p>
   </subsection>
 
   <subsection>
@@ -114,16 +164,23 @@ if (!isEven) {
       the expression <pf>anything</pf>. Likewise, <pf>false &amp;&amp; anything</pf> is always false. </p>
 
     <p>Ignoring the second operand, when possible, is called <term>short-circuit</term> evaluation,
-      by analogy with an electrical circuit. Short-circuit evaluation can save time, especially if <pf>anything</pf>
-      takes a long time to evaluate. It can also avoid unnecessary errors, if <pf>anything</pf> might fail.
+      by analogy with an electrical circuit. Short-circuit evaluation can save time, especially if <pf>anything</pf> (the second operand)
+      takes a long time to evaluate.</p>
+    
+      <p>It can also avoid unnecessary errors, if <pf>anything</pf> might fail.
       For example, dividing an integer by 0 is a runtime error that will stop a program. This code
-      avoids that by testing <pf>b</pf> before dividing <pf>a</pf> by it. If <pf>a</pf> is 0, then the <pf>a != 0</pf> is false
-      and the second clause which involves division never gets executed:</p>
+      avoids that by testing <pf>b</pf> before dividing <pf>a</pf> by it. If <pf>b</pf> is 0, then the <pf>b != 0</pf> is false
+      and the second clause which involves division never gets executed.</p>
+
+      <p>Try running the program (it is set to use inputs of 3 and 0 for a and b). Then delete the <pf>b != 0 &amp;&amp; </pf> part of the condition. Now there is nothing that prevents dividing by 0! Try running the program again to see the error that results.</p>
 
     <listing>
     <program label="conditionals-logic_logical-operators-program-1"
-             interactive="codelens">
+             interactive="activecode">
+<code>
 <xi:include href="../../programs/conditionals-logic/logical-operators-5.cpp" parse="text"/>
+</code>
+<stdin>3 0</stdin>
   </program>
     </listing>
 
@@ -247,5 +304,6 @@ if (x &gt; 0 || y++ &gt; 0) {
         </test>
       </evaluate>
     </evaluation>
+    <hint>We want the opposite of the condition that is listed - <q>NOT (x &lt; 50)</q>.</hint>
   </exercise>
 </section>
