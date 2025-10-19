@@ -126,6 +126,7 @@
       <p>Write the function <pf>printStars</pf>. It that takes in an integer and should print <pf>*</pf> that many times, all on one line (no <pf>endl</pf>s). If the function is passed 3 it should print <pf>***</pf>. If it is passed 8 it should print <pf>********</pf>.
       An argument of less than 1 should print no stars.</p>
       <p>Includes and tests are present but hidden.</p>
+    </statement>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
 #include <iostream>
@@ -168,7 +169,6 @@ int main() {
         </tests>
     </program>
     <hint><p>You should focus on printing the right number of single <pf>*</pf>'s one at a time, not trying to figure out how to print a line of stars all at one time.</p></hint>
-    </statement>
   </exercise>
 
   
@@ -184,6 +184,7 @@ int main() {
       <p>Write a function <pf>collatz</pf> that accepts an integer and prints the Collatz sequence for that number. Print a space after each number in the sequence, including the final 1.</p>
       <p>Example: An input of 13 should make the sequence: <pf>13 40 20 10 5 16 8 4 2 1 </pf></p>
       <p>Includes and tests are present but hidden.</p>
+    </statement>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
 #include <iostream>
@@ -222,7 +223,6 @@ int main() {
         </tests>
     </program>
     <hint><p>Remember that to check if a number is even you can mod by 2 and check if value is 0: <pf>x % 2 == 0</pf></p></hint>
-    </statement>
   </exercise>
 
   
@@ -238,6 +238,7 @@ int main() {
       </ul>
       </p>
       <p>Includes and tests are present but hidden.</p>
+    </statement>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
 #include <iostream>
@@ -263,7 +264,6 @@ TEST_CASE("findPower") {
 ]]>
         </tests>
     </program>
-    </statement>
     <hint><p>First focus on generating the powers of X with a loop. Stop when you exceed 1000.</p></hint>
     <hint><p>Your loop may go one step too far. You will need to return the value that came before the first one that was too large. You can use a variable to keep track of the last valid power or calculate it from the <q>one step too big</q> value.</p></hint>
   </exercise>
@@ -283,6 +283,7 @@ TEST_CASE("findPower") {
 *****
 *****</pre>
       <p>Includes and tests are present but hidden.</p>
+    </statement>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
 #include <iostream>
@@ -323,7 +324,7 @@ int main() {
         </tests>
     </program>
     <hint><p>This problem is best solved with nested loops. First just worry about using a loop to print one row of <pf>*</pf>s. Then add a loop around that one to repeat that row <pf>size</pf> number of times.</p></hint>
-    </statement>
+
   </exercise>
 
 
@@ -342,6 +343,7 @@ int main() {
 ****
 *****</pre>
       <p>Includes and tests are present but hidden.</p>
+    </statement>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
 #include <iostream>
@@ -387,7 +389,6 @@ int main() {
 3</pre>
       <p>Then make an inner loop to print that many stars.</p>
     </hint>
-    </statement>
   </exercise>
 
 
@@ -406,6 +407,7 @@ int main() {
  *******
 *********</pre>
       <p>Includes and tests are present but hidden.</p>
+    </statement>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
 #include <iostream>
@@ -470,7 +472,6 @@ int main() {
 ...</pre>
     <p>Then use </p>
     </hint>
-    </statement>
   </exercise>
 
 </exercises>
