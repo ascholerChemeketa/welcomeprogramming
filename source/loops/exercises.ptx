@@ -229,11 +229,12 @@ int main() {
 
   <exercise label="loops_exercises-ex-5">
     <statement>
-      <p>Write a function <pf>powerSum</pf> that takes a single integer <pf>X</pf> as a parameter; you can assume it will be greater than 1. Add up all the numbers from 1 to 1000 (inclusive) that can be made by raising <pf>X</pf> to a power 1 or greater. Return the sum.</p>
+      <p>Write a function <pf>findPower</pf> that takes a single integer <pf>X</pf> as a parameter; you can assume it will be greater than 1. Find the largest power of <pf>X</pf> that is less than or equal to 1000.</p>
       <p>For example:
       <ul>
-      <li><p>The powers of 5 that are less than or equal to 1000 are 5, 25, 125, 625. So an input of <pf>5</pf> would return <pf>780</pf>.</p></li>
-      <li><p>The powers of 10 that are less than or equal to 1000 are 10, 100, 1000. So an input of <pf>10</pf> would return <pf>1110</pf>.</p></li>
+      <li><p>The powers of 2 that are less than or equal to 1000 are 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024. So an input of <pf>2</pf> would return <pf>512</pf>.</p></li>
+      <li><p>The powers of 5 that are less than or equal to 1000 are 5, 25, 125, 625, 3125. So an input of <pf>5</pf> would return <pf>625</pf>.</p></li>
+      <li><p>The powers of 10 that are less than or equal to 1000 are 10, 100, 1000. So an input of <pf>10</pf> would return <pf>100</pf>.</p></li>
       </ul>
       </p>
       <p>Includes and tests are present but hidden.</p>
@@ -250,18 +251,21 @@ using namespace std;]]>
         </code>
         <tests visible="no">
 <![CDATA[
+
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
-TEST_CASE("orderCost") {
-  CHECK(powerSum(5) == doctest::Approx(780));
-  CHECK(powerSum(10) == doctest::Approx(1110));
-  CHECK(powerSum(2) == doctest::Approx(1022));
+TEST_CASE("findPower") {
+  CHECK(findPower(5) == doctest::Approx(625));
+  CHECK(findPower(10) == doctest::Approx(1000));
+  CHECK(findPower(2) == doctest::Approx(512));
 }
 ]]>
         </tests>
     </program>
     </statement>
+    <hint><p>First focus on generating the powers of X with a loop. Stop when you exceed 1000.</p></hint>
+    <hint><p>Your loop may go one step too far. You will need to return the value that came before the first one that was too large. You can use a variable to keep track of the last valid power or calculate it from the <q>one step too big</q> value.</p></hint>
   </exercise>
 
   <exercise label="loops_exercises-ex-6">
@@ -318,7 +322,7 @@ int main() {
           </iotest>
         </tests>
     </program>
-    <hint><p>This problem is best solved with nested loops. First just worry about using a loop to print one row of <pf>*</pf>s. Then add a loop to repeat that row <pf>size</pf> number of times.</p></hint>
+    <hint><p>This problem is best solved with nested loops. First just worry about using a loop to print one row of <pf>*</pf>s. Then add a loop around that one to repeat that row <pf>size</pf> number of times.</p></hint>
     </statement>
   </exercise>
 

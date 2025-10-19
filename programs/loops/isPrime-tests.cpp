@@ -1,3 +1,9 @@
+
+
+// Bring in unit testing code and tell it to build a main function
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
 // The tests
 TEST_CASE("isPrime") {
     CHECK(isPrime(3) == true);

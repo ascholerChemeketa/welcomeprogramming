@@ -21,7 +21,12 @@
 
   <p>We introduced these <q>shortcut operators</q> back in <xref ref="variables-operators_shortcut-operators"/>. There, we said there is no reason you have to use them, but you should learn to recognize them as they are commonly used. Loops are the most important example of this. Programmers will almost always write <pf>i++</pf> or <pf>++i</pf></p>
 
-  <note><p>In C++, there are some differences between <pf>i++</pf> and <pf>++i</pf> that can make the choice of which to use important. If you are using them as part of a larger expression, the placement of the <pf>++</pf> changes when the increment happens. If you are using <pf>++</pf> on more complex structures, the preincrment version - <pf>++i</pf> - can be more efficient than the post increment version. When used on their own with integer variables it does not matter which you use. But it is not a bad habit to get used to writing <pf>++i</pf> by default.</p></note>
+  <note><p>In C++, there are some differences between <pf>i++</pf> and <pf>++i</pf> that can make the choice of which to use important:
+    <ul>
+      <li>If you are using them as part of a larger expression, the placement of the <pf>++</pf> changes when the increment happens.</li>
+      <li>If you are using <pf>++</pf> on more complex structures, the preincrment version - <pf>++i</pf> - can be more efficient than the post increment version.</li>
+    </ul>
+    When used on their own with integer variables it does not matter which version you use. But it is not a bad habit to get used to writing <pf>++i</pf> by default. Many complex structures only provide the preincrement version.</p></note>
 
   <p>If you want to increment or decrement a variable by an amount other than <pf>1</pf>, you can use <pf>+=</pf>
     and <pf>-=</pf>. For example, <pf>i += 2</pf> increments <pf>i</pf> by <pf>2</pf>: </p>
