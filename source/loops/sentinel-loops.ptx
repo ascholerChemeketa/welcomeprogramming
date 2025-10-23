@@ -18,11 +18,9 @@
 </program>
   </listing>
 
-  <p>Codelens doesn't handle input, so we are printing out information inside the loop about what is going on. This can be a useful way to debug loops even if you have a debugger that you can use to step through the code. It can be useful to see all the iterations of a loop at once so you can track patterns in what happens from one iteration to the next. Here, each iteration starts by printing <pf>--------------</pf>, and then updates us about what each line did.</p>
-
   <p>Notice that the loop variable update - where we read in the next value for <pf>number</pf> - separates the body of the loop into two parts. The part above the update where we are using the current value of the variable, and the part after where we are using the <q>next</q> value.</p>
 
-  <p>Later on, we will often see this strategy implemented with a <pf>bool</pf> value or function call that returns a <pf>bool</pf> as the sentinel. Loops like this are very common:</p>
+  <p>Sometimes, the sentinel is a <pf>bool</pf> value or function call that returns a <pf>bool</pf> as the sentinel. Loops like this are very common:</p>
 
   <program>
 while ( !atEndOfFile() ) {
@@ -31,6 +29,19 @@ while ( !atEndOfFile() ) {
   </program>
 
   <p>Here, the <pf>atEndOfFile</pf> function returns <pf>true</pf> or <pf>false</pf> and is serving as our sentinel.  As long as there are more lines, <pf>atEndOfFile()</pf> will be <pf>false</pf>. That means <pf>!atEndOfFile()</pf> will be <pf>true</pf> and the loop executes again.</p>
+
+  <p>It is important to make sure that the loop eventually reaches the sentinel condition to avoid infinite loops. If our loop control variable might skip past the sentinel value, the loop may never terminate. The program below has this kind of bug. It keep multiplying the loop control variable by 2 and tries to stop when we reach 1000.</p>
+
+  <listing>
+  <program label="loops_sentinel-loops-program-2" interactive="activecode">
+<code>
+<xi:include href="../../programs/loops/sentinel-loops-2.cpp" parse="text"/>
+</code>
+</program>
+  </listing>
+
+  <p>If you run the program, it will enter an infinite loop because the value of <pf>number</pf> will never be exactly 1000. It will go from 512 to 1024 without ever equaling 1000. To fix this, we would need to rewrite the condition as something like <pf>number &lt; 1000</pf>. That way, reaching 1000 will stop the loop, even if we blow right past the sentinel value.</p>
+
 
   <exercise label="loops_sentinel-loops-ex-1"
             numbered="yes"

@@ -2,53 +2,137 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Counting Loops</title>
 
-  <p>Every loop has the same conceptual structure:</p>
+  <subsection>
+    <title>Counting by Ones</title>
+    <p>Every loop has the same conceptual structure:</p>
 
-  <pre>
+    <pre>
 INITIALIZE LOOP VARIABLE
 WHILE CONDITION IS TRUE
-    DO SOMETHING
-    UPDATE LOOP VARIABLE
+    DO SOMETHING AND UPDATE LOOP VARIABLE
   </pre>
 
-  <p>But there are some different ways to apply that basic pattern that are worth learning. The first in the <term>counting loop</term>. A counting loop does what the title advertises: it counts. It starts at a number, and then counts up or down to another number. Like this loop that counts from 1 to 5:
-    <idx>
-      <h>loop</h>
-      <h>counting</h>
-    </idx></p>
+    <p>But there are some different ways to apply that basic pattern that are worth learning. The
+      first in the <term>counting loop</term>. A counting loop does what the title advertises: it
+      counts. We have already seen a number of counting loops, like this one that counts from 1 to
+      5: <idx>
+        <h>loop</h>
+        <h>counting</h>
+      </idx></p>
 
-  <listing>
-  <program label="loops_counting-program-1" interactive="activecode">
+    <listing>
+      <program label="loops_counting-program-1"
+               interactive="activecode">
 <xi:include href="../../programs/loops/counting-1.cpp" parse="text"/>
 </program>
-  </listing>
+    </listing>
 
-  <p>Note that to get 5 repetitions when starting from 1, we need to count up to and including 5. For reasons that will become clear when we introduce arrays and strings, computer scientists often number things starting from 0. So often times, we count from 0. Most programmers would write a loop that repeats 5 times as starting from 0 and counting up to but not including 5, like this:</p>
+    <p>
+      <idx>
+        <h>increment</h>
+      </idx>
+    <idx>
+        <h>decrement</h>
+      </idx> Although we could count by one's using <pf>i = i + 1</pf> most
+      programmers use the <pf>++</pf> or <term> increment</term> operator to increase a value by
+      one. And they use <pf>--</pf> to <term>decrement</term> a value (decrease it by one). When we
+      introduced these operators back in <xref ref="variables-operators_shortcut-operators"/>, we
+      discussed the difference between <pf>i++</pf> and <pf>++i</pf> But it is worth quickly
+      reviewing and expanding on what we learned there.</p>
 
-  <listing>
-  <program label="loops_counting-program-2" interactive="activecode">
+    <p>When used on their own with integer variables, they do the same thing - they increase the
+      variable by one. However, if you mix them with other logic, the order of <pf>++</pf> and the
+      variable determines when the variable in increased:</p>
+
+    <program>
+      int j = i++;  // set j to have i's current value, then increment i
+      int j = ++i;  // increment i, then set j to have i's new value
+    </program>
+
+    <p>Normally you do not need to remember that - when we use <pf>++</pf> or <pf>--</pf> in a loop,
+      it is generally on their own:</p>
+
+    <program>
+      i++;  // increase i by 1. It would happen after any other code in the statement
+      ++i;  // increase i by 1. It would happen before any other code in the statement
+    </program>
+
+    <p>As we will learn later, for more complex data, the preincrement version can be more
+      efficient. So it is generally a good habit to use <pf>++i</pf>.</p>
+
+    <p>Although we generally count by ones, we can also write a loop that counts by 2's or 5's or
+      any other number:</p>
+
+    <listing>
+      <program label="loops_counting-program-1by5s"
+               interactive="activecode">
+<xi:include href="../../programs/loops/counting-1by5s.cpp" parse="text"/>
+</program>
+    </listing>
+
+  </subsection>
+
+  <subsection>
+    <title>Where to Start Counting</title>
+
+    <p>The loop above repeats 5 times by counting from 1 to 5. Most programmers would write a loop
+      that repeats 5 times as starting from 0 and counting up to but not including 5, like this:</p>
+
+    <listing>
+      <program label="loops_counting-program-2"
+               interactive="activecode">
 <xi:include href="../../programs/loops/counting-2.cpp" parse="text"/>
 </program>
-  </listing>
+    </listing>
 
-  <p>Note that the program repeats the body 5 times, but the output is now 0, 1, 2, 3, 4. If we care about the numbers being printed, that would be a problem. But often, we aren't doing much with the loop control variable other than tracking the progress of the loop. Say I want to print out <pf>"Hello"</pf> 5 times. It doesn't matter what my counter is doing, as long as it causes the loop to repeat 5 times:</p>
+    <p>The program repeats the body 5 times, but the output is now 0, 1, 2, 3, 4. If we care about
+      the numbers being printed, that would be a problem. But often, we aren't doing much with the
+      loop control variable other than tracking the progress of the loop. Say I want to print out <pf>
+      "Hello"</pf> 5 times. It doesn't matter what my counter is doing, as long as it causes the
+      loop to repeat 5 times:</p>
 
-  <listing>
-  <program label="loops_counting-program-3" interactive="activecode">
+    <listing>
+      <program label="loops_counting-program-3"
+               interactive="activecode">
 <xi:include href="../../programs/loops/counting-3.cpp" parse="text"/>
 </program>
-  </listing>
+    </listing>
 
-  <p>That sample could initialize <pf>line</pf> to 1 and count up to 5. It could initialize line to 5 and count down (<pf>--line</pf>) while line was greater than 0. It could even start from 0, count by 10s (<pf>line += 10</pf>) and stop at 50. (That would probably be confusing however... <q>wait, why is this loop counting by 10s? Is that important?</q>)</p>
+    <p>That program will behave exactly the same if we count from 0-4 or if we count from 1-5. We
+      just need to make sure that we count the right number of things. If we start from 0 and count
+      up to and including 5, we would repeat 6 times. If we start counting from 1 and count up to
+      but not including 5, we would only repeat 4 times.</p>
 
-  <p>Because the loop control variable has no meaning other than <q>the variable that is controlling the loop</q>, programmers have developed the convention of naming an otherwise meaningless loop counter <pf>i</pf>. If we need a second loop counter somewhere that <pf>i</pf> is already in use, we use <pf>j</pf>, then <pf>k</pf>, etc...</p>
+    <warning>
+      <p><term>Off by one</term> errors are one of the most common types of errors in programs. An
+        off by one error occurs when a loop goes one step too far or stops one step too early. Think
+        carefully about whether to use <pf>&lt;</pf> or <pf>&lt;=</pf> in a particular loop so that
+        it repeats the right number of times.</p>
+    </warning>
+  </subsection>
 
-  <p>You should get used to seeing <pf>i</pf> used in this way, but don't interpret that as meaning it is now OK to name variables using single letters. Variables should still have meaningful names. It is just that for programmers who are used to thinking of <pf>i</pf> as always being <q>loop counter</q>, it is a meaningful name.</p>
+  <subsection>
+    <title>Naming the Counter</title>
 
-  <p>Also, if the loop counter has a meaning beyond <q>loop counter</q>, you should consider giving it a real name, not just <pf>i</pf>. Say you are counting off the months of the year 1-12. When written like this, even if you only see the tail end of the loop on your screen, it is clear that we are printing out the month:</p>
+    <p>Because the loop control variable has no meaning other than <q>the variable that is
+      controlling the loop</q>, programmers have developed the convention of naming an otherwise
+      meaningless loop counter <pf>i</pf>. If we need a second loop counter somewhere that <pf>i</pf>
+      is already in use, we use <pf>j</pf>, then <pf>k</pf>, etc...</p>
 
-  <listing>
-  <program><![CDATA[
+    <p>You should get used to seeing <pf>i</pf> used in this way, but don't assume that it always
+      means it is now OK to name variables using single letters. Variables should always have
+      meaningful names. However, for programmers who are used to thinking of <pf>i</pf> as
+      always being <q>loop counter</q>, it is a meaningful name. It means <q>loop counter</q>.</p>
+
+    <p>Also, if the loop counter has a meaning beyond <q>loop counter</q>, you should consider
+      giving it a real name, not just <pf>i</pf>. Say you are counting off the months of the year
+      (1-12). Code inside the loop that works with the variable, like the print statement, makes
+      more sense if it is clear that the thing we are counting is actually the months:</p>
+
+      <sidebyside>
+    <listing>
+      <caption>Clear that we are counting months</caption>
+      <program><![CDATA[
 int month = 1;
 while (month <= 12) {
     //lots of other code
@@ -58,20 +142,32 @@ while (month <= 12) {
     month++;
 }]]>
   </program>
-  </listing>
+    </listing>
+    <listing>
+      <caption>Using i makes it less clear</caption>
+      <program><![CDATA[
+int i = 1;
+while (i <= 12) {
+    //lots of other code
+    //...
+    //lots of other code
+    cout << i << endl;
+    i++;
+}]]>
+  </program>
+    </listing>
+      </sidebyside>
+      
+  </subsection>
 
-  <p>If we used <pf>i</pf> it would be easier to lose sight of the fact that <pf>i</pf> really means <q>month number</q> in this loop.</p>
-
-  <warning><p><term>Off by one</term> errors are one of the most common types of errors in programs. An off by one error occurs when a loop goes one step too far, or stops one step too early, or counts from 1-5 when it should count from 0-4. Pay close attention to whether you should use <pf>&lt;</pf> or <pf>&lt;=</pf> in loops.</p></warning>
 
   <exercise label="loops_counting-ex-1"
             numbered="yes"
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>The program below should print out the even numbers between 20 and 40, inclusive,
-        but the code is mixed up and contains extra blocks. Put the necessary blocks
-        in the correct order.</p>
+      <p>The program below should print out the even numbers between 20 and 40, inclusive (including 20 and 40), but the
+        code is mixed up and contains extra blocks. Put the necessary blocks in the correct order.</p>
     </statement>
     <blocks>
       <block>
@@ -122,9 +218,8 @@ while (month <= 12) {
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>The program below should count down from 100 to 0 in decrements of
-        10 but the code is mixed up and contains extra blocks. Put the necessary blocks
-        in the correct order.</p>
+      <p>The program below should count down from 100 to 0 by 10 but the code is mixed
+        up and contains extra blocks. Put the necessary blocks in the correct order.</p>
     </statement>
     <blocks>
       <block>

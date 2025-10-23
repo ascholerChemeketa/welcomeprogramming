@@ -33,7 +33,7 @@
 </program>
   </listing>
 
-  <p> Reading the code in English sounds like this: <q>Set with <pf>n</pf> set to 3. While <pf>n</pf> is
+  <p> Reading the code in English sounds like this: <q>Set <pf>n</pf> to 3. While <pf>n</pf> is
     greater than 0, print the value of <pf>n</pf>, and reduce the value of <pf>n</pf> by 1. After n is 0, print Blastoff!</q>
   </p>
 
@@ -215,5 +215,51 @@ cout << x;
       </choice>
     </choices>
   </exercise>
+  
+  <exercise label="loops_while-statement-ex-3">
+    <statement>
+      <p>A friend tries writing this code to print out a greeting 5 times. Why does it not work correctly?</p>
+      <program language="cpp"
+               line-numbers="yes">
+        <code><![CDATA[
+int main() {
+  int n = 0;
+  while (n > 5) {
+    cout << "Hello, how may I help you? ";
+    ++n;
+  }
+}
+]]></code>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p><pf>n &gt; 5</pf> is not a valid conditional, so the <pf>while</pf> loop doesn't execute.</p>
+        </statement>
+        <feedback>
+          <pf>n &gt; 5</pf> is a boolean statement and thus is a valid conditional.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>The value of <pf>n</pf> never gets modified in the <pf>while</pf> loop.</p>
+        </statement>
+        <feedback>
+          <pf>n</pf> is incremented in the <pf>while</pf> loop after the <pf>cout</pf> statement.
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>The conditional for the <pf>while</pf> loop is not met.</p>
+        </statement>
+        <feedback>
+          <pf>n</pf> is declared to be 0, and 0 is not greater than 5, so the <pf>while</pf> loop does
+            not execute.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
 
 </section>

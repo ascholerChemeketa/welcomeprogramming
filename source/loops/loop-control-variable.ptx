@@ -1,0 +1,131 @@
+<section xml:id="loops_loop-control-variable"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Loop Control Variables</title>
+
+  <p>The condition for a loop almost always has a variable:</p>
+
+  <program>
+    while (count &lt; 10)
+  </program>
+
+  <program>
+    while (money > 0)
+  </program>
+
+  <p>That variable is called the <term>loop control variable</term> because it controls how many times the loop runs. In order for the loop to eventually stop, the loop control variable must be changed inside the body of the loop so that the condition will eventually become false. <idx><h>loop control variable</h></idx></p>
+
+  <p>Here are two loops that both attempt to count by 1. In both, the loop control variable is <pf>i</pf>. Our goal is to print 1-5.</p>
+
+  <sidebyside>
+  <program label="loops_loop-control-variable-1" interactive="activecode">
+<xi:include href="../../programs/loops/increment-decrement-1.cpp" parse="text"/>
+</program>
+  <program label="loops_loop-control-variable-1b" interactive="activecode">
+<xi:include href="../../programs/loops/increment-decrement-1b.cpp" parse="text"/>
+</program>
+</sidebyside>
+
+  <p>Note that the programs print different lists of numbers. This is because one of them updates the loop control variable and then prints it, while the other prints it and then updates it.</p> 
+
+  <insight>
+    <p>The location we change the loop control variable splits the code inside a loop into part that works with the current value (that was tested in the condition) and part that works with the next value.</p>
+    <program>
+      while (i &lt; 5) {
+        // i still has the old value we tested in the condition
+        i = i + 1;   // update to next value
+        // i now has the new value
+      }
+    </program>
+  </insight>
+
+  <p>Usually, loop logic is clearest if the change to the loop control variable is the last statement in the loop body. Look at the two example loops above. Note that the version that increments the loop control variable at the end of the loop counts from 1 to 5, which is what you would likely expect looking at the initial value of i and the loop's condition. The one that increments at the start of the loop body counts from 2 to 6!</p>
+
+  <p>Although there are times when you might change the loop control variable at another point, you should default to only changing it at the end of the loop body. The logic is something like this:</p>
+
+    <pre>
+INITIALIZE LOOP VARIABLE
+AS LONG AS LOOP VARIABLE STILL MEETS CONDITION
+    DO SOMETHING WITH CURRENT VALUE OF LOOP VARIABLE
+    UPDATE LOOP VARIABLE TO NEXT VALUE
+  </pre>
+
+  <p>After updating the loop variable, we immediately return back to the test and get to decide <q>Should we actually run the loop with this value? Or should we stop?</q>.</p>
+
+  <p>It is possible to have a variable that is part of our condition that is not the loop control variable. Consider this sample:</p>
+  <program> <![CDATA[
+    double goal = 10000;
+    double current = 1000;
+    while (current < goal) {
+        cout << current << endl;
+        current = current * 1.1;
+    }
+]]>
+  </program>
+
+  <p>Here, <pf>goal</pf> is part of the condition, but it is not the loop control variable. The loop control variable is <pf>current</pf> because it is the variable that is changing inside the loop body and will eventually make the condition false.</p>
+
+  <exercise label="loops_loop-control-variable-ex-1">
+    <statement>
+      <p>What is the name of the loop control variable in this program? <fillin mode="string" answer="x"/></p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+int w = 0;
+int x = 1;
+int y = 10;
+while (x < 100) {
+    w = w + x;
+    x = x * 2;
+}
+        ]]></code>
+        </program>
+      <evaluation>
+        <evaluate>
+          <test>
+            <strcmp use-answer="yes"/>
+          </test>
+        </evaluate>
+        <evaluate>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              What variable is tested in the loop condition?
+            </feedback>
+          </test>
+        </evaluate>
+      </evaluation>
+    </statement>
+  </exercise>
+
+  
+  <exercise label="loops_loop-control-variable-ex-2">
+    <statement>
+      <p>What is the name of the loop control variable in this program? <fillin mode="string" answer="b"/></p>
+      <program line-numbers="yes">
+        <code><![CDATA[
+int a = 0;
+int b = 100;
+int c = 10;
+while (a < b) {
+    b = b - c;
+}
+        ]]></code>
+        </program>
+      <evaluation>
+        <evaluate>
+          <test>
+            <strcmp use-answer="yes"/>
+          </test>
+        </evaluate>
+        <evaluate>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              What variable is tested in the loop condition and is changed inside the loop body?
+            </feedback>
+          </test>
+        </evaluate>
+      </evaluation>
+    </statement>
+  </exercise>
+
+</section>
