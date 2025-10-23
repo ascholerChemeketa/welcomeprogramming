@@ -14,7 +14,6 @@ double calculateTax(double income, bool isMarried) {
         } else {
           tax = 12000 + (income - 70000) * 0.25;
         }
-      }
     }
 
     return tax;
