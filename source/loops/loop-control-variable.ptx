@@ -14,33 +14,35 @@
 
   <p>That variable is called the <term>loop control variable</term> because it controls how many times the loop runs. In order for the loop to eventually stop, the loop control variable must be changed inside the body of the loop so that the condition will eventually become false. <idx><h>loop control variable</h></idx></p>
 
-  <p>Here are two loops that both attempt to count by 1. In both, the loop control variable is <pf>i</pf>. Our goal is to print 1-5.</p>
+  <p>Here are two loops that both attempt to count by 1. In both, the loop control variable is <pf>i</pf> - it is the variable that is being tested to determine if the loop should continue.</p>
 
-  <sidebyside>
+  <listing>
   <program label="loops_loop-control-variable-1" interactive="activecode">
 <xi:include href="../../programs/loops/increment-decrement-1.cpp" parse="text"/>
 </program>
-  <program label="loops_loop-control-variable-1b" interactive="activecode">
+</listing>
+
+<listing>
+<program label="loops_loop-control-variable-1b" interactive="activecode">
 <xi:include href="../../programs/loops/increment-decrement-1b.cpp" parse="text"/>
 </program>
-</sidebyside>
+</listing>
 
-  <p>Note that the programs print different lists of numbers. This is because one of them updates the loop control variable and then prints it, while the other prints it and then updates it.</p> 
+  <p>Try running the two programs. Which one produces output that is most intuitive?</p>
 
-  <insight>
-    <p>The location we change the loop control variable splits the code inside a loop into part that works with the current value (that was tested in the condition) and part that works with the next value.</p>
-    <program>
-      while (i &lt; 5) {
-        // i still has the old value we tested in the condition
-        i = i + 1;   // update to next value
-        // i now has the new value
-      }
-    </program>
-  </insight>
+  <p>The first version increments the loop control variable at the end. It displays the values 1 to 5, which is what you would likely expect looking at the initial value of <pf>i</pf> and the loop's condition. The second version increments the loop control variable at the start of the loop. Because of this, it displays the values 2 to 6.</p>
 
-  <p>Usually, loop logic is clearest if the change to the loop control variable is the last statement in the loop body. Look at the two example loops above. Note that the version that increments the loop control variable at the end of the loop counts from 1 to 5, which is what you would likely expect looking at the initial value of i and the loop's condition. The one that increments at the start of the loop body counts from 2 to 6!</p>
+  <p>The location we change the loop control variable splits the code inside a loop into part that works with the current value (that was tested in the condition) and part that works with the next value.</p>
 
-  <p>Although there are times when you might change the loop control variable at another point, you should default to only changing it at the end of the loop body. The logic is something like this:</p>
+  <program>
+    while (i &lt; 5) {
+      // i still has the old value we tested in the condition
+      i = i + 1;   // update to next value
+      // i now has the new value
+    }
+  </program>
+
+  <p>Usually, we want to use the value we just tested in the condition. Then, after we are done using that value, we update it to the next value for the next iteration of the loop. The logic is something like this:</p>
 
     <pre>
 INITIALIZE LOOP VARIABLE
@@ -50,6 +52,12 @@ AS LONG AS LOOP VARIABLE STILL MEETS CONDITION
   </pre>
 
   <p>After updating the loop variable, we immediately return back to the test and get to decide <q>Should we actually run the loop with this value? Or should we stop?</q>.</p>
+
+  <p>Although there are times when you might change the loop control at the start of the loop, or even in the middle of the loop, the logic for those situations tends to be more complex. Any code that is after the change to the loop control variable is working with the <q>next</q> value. We will not yet have even tested that value to see if we want to continue working with it.</p>
+
+<insight>
+  <p>Modify the loop control variable at the end of the loop unless you have a specific reason to do otherwise. All of your work should be done with the <q>current</q> value, not the <q>next</q> one.</p>
+  </insight>
 
   <p>It is possible to have a variable that is part of our condition that is not the loop control variable. Consider this sample:</p>
   <program> <![CDATA[
