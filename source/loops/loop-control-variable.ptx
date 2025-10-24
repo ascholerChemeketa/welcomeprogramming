@@ -12,6 +12,8 @@
     while (money > 0)
   </program>
 
+  <p>Try running the two programs. Which one produces output that is most intuitive?</p>
+
   <p>That variable is called the <term>loop control variable</term> because it controls how many times the loop runs. In order for the loop to eventually stop, the loop control variable must be changed inside the body of the loop so that the condition will eventually become false. <idx><h>loop control variable</h></idx></p>
 
   <p>Here are two loops that both attempt to count by 1. In both, the loop control variable is <pf>i</pf> - it is the variable that is being tested to determine if the loop should continue.</p>
@@ -28,9 +30,10 @@
 </program>
 </listing>
 
-  <p>Try running the two programs. Which one produces output that is most intuitive?</p>
 
-  <p>The first version increments the loop control variable at the end. It displays the values 1 to 5, which is what you would likely expect looking at the initial value of <pf>i</pf> and the loop's condition. The second version increments the loop control variable at the start of the loop. Because of this, it displays the values 2 to 6.</p>
+  <p>The first version displays the values 1 to 5, which is what you would likely expect looking at the initial value of <pf>i</pf> and the loop's condition. Notice that it increments the loop control variable (<pf>i</pf>) at the end of the loop. The second version increments the loop control variable at the start of the loop. Because of this, the 1 we start with is changed to 2 before it is printed. And when <pf>i</pf> is 5, it makes the condition true, but then is changed to 6 (which would have stopped the loop) before we use it.</p>
+
+  <insight><p>Once we start the loop body, changing the loop control variable can't stop the loop until we reach the end of the loop body and redo the condition check.</p></insight>
 
   <p>The location we change the loop control variable splits the code inside a loop into part that works with the current value (that was tested in the condition) and part that works with the next value.</p>
 

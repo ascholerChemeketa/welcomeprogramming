@@ -1,7 +1,7 @@
 
 // PASTE YOUR isPrime FUNCTION HERE
 
-bool countPrimes(int n) {
+int countPrimes(int n) {
     cout << "Counting primes up to " << n << endl;
 
     int numPrimes = 0;
