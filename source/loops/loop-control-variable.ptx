@@ -77,7 +77,7 @@ AS LONG AS LOOP VARIABLE STILL MEETS CONDITION
 
   <exercise label="loops_loop-control-variable-ex-1">
     <statement>
-      <p>What is the name of the loop control variable in this program? <fillin mode="string" answer="x"/></p>
+      <p>What is the name of the loop control variable in the program below? <fillin mode="string" answer="x"/></p>
       <program line-numbers="yes">
         <code><![CDATA[
 int w = 0;
@@ -89,28 +89,26 @@ while (x < 100) {
 }
         ]]></code>
         </program>
+    </statement>
       <evaluation>
         <evaluate>
           <test>
             <strcmp use-answer="yes"/>
           </test>
-        </evaluate>
-        <evaluate>
           <test>
             <strcmp>.*</strcmp>
             <feedback>
-              What variable is tested in the loop condition?
+              <p>What variable is tested in the loop condition?</p>
             </feedback>
           </test>
         </evaluate>
       </evaluation>
-    </statement>
   </exercise>
 
   
   <exercise label="loops_loop-control-variable-ex-2">
     <statement>
-      <p>What is the name of the loop control variable in this program? <fillin mode="string" answer="b"/></p>
+      <p>What is the name of the loop control variable in the program below? <fillin mode="string" answer="b"/></p>
       <program line-numbers="yes">
         <code><![CDATA[
 int a = 0;
@@ -121,22 +119,20 @@ while (a < b) {
 }
         ]]></code>
         </program>
+    </statement>
       <evaluation>
         <evaluate>
           <test>
             <strcmp use-answer="yes"/>
           </test>
-        </evaluate>
-        <evaluate>
           <test>
             <strcmp>.*</strcmp>
             <feedback>
-              What variable is tested in the loop condition and is changed inside the loop body?
+              <p>What variable is tested in the loop condition and is changed inside the loop body?</p>
             </feedback>
           </test>
         </evaluate>
       </evaluation>
-    </statement>
   </exercise>
 
 </section>
