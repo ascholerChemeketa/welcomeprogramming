@@ -18,8 +18,8 @@
     <li><title>Start inside the parens</title> <pf>bool beforeChristmas = month &lt; 12 || (<em>month == 12 &amp;&amp; day &lt; 25</em>);</pf></li>
     <li><title>Do the comparisons in the parens</title> <pf>bool beforeChristmas = month &lt; 12 || (<em>true</em> &amp;&amp; <em>false</em>);</pf></li>
     <li><title>Do the logical operator in the paren</title> <pf>bool beforeChristmas = month &lt; 12 || (<em>false</em>);</pf></li>
-    <li><title>Do the comparison not in the parens</title> <pf>bool beforeChristmas = <em>true</em> || (false);</pf></li>
-    <li><title>Do the logical operator</title> <pf>bool beforeChristmas = <em>true</em>;</pf></li>
+    <li><title>Do the comparison not in the parens</title> <pf>bool beforeChristmas = <em>false</em> || (false);</pf></li>
+    <li><title>Do the logical operator</title> <pf>bool beforeChristmas = <em>false</em>;</pf></li>
     <li><title>Do the assignment</title></li>
     </ol>
 
@@ -28,7 +28,7 @@
     <p>Within each category of operator, there may be a sub-hierarchy with its own order. We know that <pf>*</pf> comes before <pf>+</pf>. But it is also true that <pf>&amp;&amp;</pf> always comes before <pf>||</pf>. That means that we could write the expression above as <pf>month &lt; 12 || month == 12 &amp;&amp; day &lt; 25</pf>. The comparisons would happen first, then the <pf>&amp;&amp;</pf>, then the <pf>||</pf>. But the expression is much easier to read when the parentheses are there.</p>
 
     <insight>
-      <p>When in doubt, use parentheses. They make your code easier to read and understand. Code that depends on every reader and editor correctly remembering every detail of the order of operations can easily hide bugs.</p>
+      <p>When in doubt, use parentheses. They make your code easier to read and understand. Code that depends on every programmer correctly remembering each detail of the order of operations can easily result in bugs and make those bugs harder to spot.</p>
     </insight>
 
     <exercise label="conditionals-logic_extended-order-of-operations-ex-1">
