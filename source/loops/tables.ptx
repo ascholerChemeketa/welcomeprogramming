@@ -162,14 +162,13 @@ int main() {
     <statement>
       <p>How would you write a tab character? <fillin mode="string"
                 case="insensitive"
-                answer=".*\\t.*"/>
+                answer="\t"/>
       </p>
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"
-                  strip="no"/>
+        <test correct="yes">
+          <strcmp>\\t</strcmp>
         </test>
       </evaluate>
     </evaluation>
