@@ -28,7 +28,7 @@
         </choice>
       </block>
       <block>
-        <cline><![CDATA[   while (i < input.length()) {]]></cline>
+        <cline><![CDATA[   while (i < input.size()) {]]></cline>
       </block>
       <block>
         <choice correct="yes">
@@ -89,11 +89,11 @@
       <block>
         <choice correct="yes">
           <cline>   size_t front = 0;</cline>
-          <cline>   size_t front = back = input.length() - 1;</cline>
+          <cline>   size_t front = back = input.size() - 1;</cline>
         </choice>
         <choice>
           <cline>   size_t front = 0; </cline>
-          <cline>   size_t back = input.length(); </cline>
+          <cline>   size_t back = input.size(); </cline>
         </choice>
       </block>
       <block>
@@ -165,7 +165,7 @@ int main() {
           </iotest>
         </tests>
     </program>
-    <hint><p>Use <pf>.length()</pf> to figure out the length of the string. You can use that to figure out the middle and end position.</p></hint>
+    <hint><p>Use <pf>.size()</pf> to figure out the length of the string. You can use that to figure out the middle and end position.</p></hint>
     </statement>
   </exercise>
 
