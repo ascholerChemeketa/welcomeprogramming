@@ -19,6 +19,8 @@
 
   <p>Instead, we use <pf>to_string</pf>, <pf>stoi</pf>, and <pf>stod</pf>. <pf>to_string</pf> takes any numeric value and returns a string representation of it. <pf>stoi</pf> (string to integer) takes a string and tries to produce the integer value it represents. <pf>stod</pf> (string to double) does the same thing with a double value.</p>
 
+  <warning><p>If you use pass a non-numeric string to <pf>stoi</pf> or <pf>stod</pf>, like <pf>"hello"</pf>, the program will throw an exception. For now, that means it will crash. We will learn how to handle exceptions soon.</p></warning>
+
   <p><pf>to_string</pf> is useful if you want to build up a string that contains a numeric value:</p>
 
   <listing>
@@ -42,4 +44,17 @@
   </program>
   </listing>
 
+  <exercise label="strings_string-conversion-ex-1">
+    <statement>
+      <p>What is the function that takes a string, attempts to determine what integer it represents, converts it into an integer, and if successful returns that integer? (Don't include parentheses, just the function name.)</p>
+      <p><fillin mode="string" answer="stoi"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
 </section>

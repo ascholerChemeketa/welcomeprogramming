@@ -25,4 +25,39 @@
 
   <note><p>The <pf>cctype</pf> library works with regular <pf>char</pf>s and returns results that make sense for English. If using wide characters (<pf>wchar_t</pf>) and/or programming fo a language that uses another alphabet, there is a <pf>cwctype</pf> that works with wide characters and allows you to specify what <q>locale</q> to use for functions like <pf>isalpha</pf>. See <url href="https://en.cppreference.com/w/cpp/header/cwctype">CPPReference.com's csctype docs</url> if you are interested in details.</p></note>
 
+  <exercise label="strings_character-functions-ex-1">
+    <statement>
+      <p>Write a line of code that decides if a character <pf>c</pf> is a letter using the <pf>isalpha</pf> function. You will not need all of the blocks.</p>
+    </statement>
+      <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>bool</c></block>
+      <block><c>isLetter</c></block>
+      <block><c> = </c></block>
+      <block><c>isalpha</c></block>
+      <block><c>(</c></block>
+      <block><c>c</c></block>
+      <block><c>)</c></block>
+      <block><c>;</c></block>
+      <block correct="no"><c> == </c></block>
+    </blocks>
+  </exercise>
+  
+  <exercise label="strings_character-functions-ex-2">
+    <statement>
+      <p>Write a line of code that makes a character <pf>c</pf> uppercase using the <pf>toupper</pf> function and stores the result back into <pf>c</pf>. You will not need all of the blocks.</p>
+    </statement>
+      <blocks layout="horizontal"
+            randomize="yes">
+      <block xml:id="strings_character-functions-ex-2-c"><c>c</c></block>
+      <block><c> = </c></block>
+      <block><c>static_cast&lt;char&gt;(</c></block>
+      <block correct="no"><c>static_cast&lt;int&gt;(</c></block>
+      <block><c>toupper(</c></block>
+      <block ref="strings_character-functions-ex-2-c"/>
+      <block><c>)</c></block>
+      <block><c>);</c></block>
+    </blocks>
+  </exercise>
+
 </section>

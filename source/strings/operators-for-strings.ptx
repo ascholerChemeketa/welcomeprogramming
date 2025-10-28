@@ -20,7 +20,9 @@
 
     <p>The equality tests are straightforward. <pf>"apple"</pf> is the same as itself, but not the same as <pf>"Banana"</pf>. Looking at the comparison between <pf>"apple"</pf> and <pf>"Apple"</pf>, it is clear that comparisons are <term>case sensitive</term><mdash/>they care about the difference between <pf>a</pf> and <pf>A</pf>.</p>
     
-    <p>The <q>less than</q> tests are a little less obvious. But they make sense when you recall that characters have numeric values based on their position in the ASCII table (or Unicode table for wide characters). Why is <pf>"Apple"</pf> less than <pf>"Banana"</pf>? Because <pf>A</pf> comes before <pf>B</pf> on the ASCII table. Why is <pf>"Banana" less than </pf>"apple"<pf>? Because </pf>B<pf> comes before </pf>a<pf> on the ASCII table. If the first <m>n</m> characters of two strings match, the <m>n + 1</m> characters will determine their order </pf>"pear" &lt; "peer"<pf> is true because both start with </pf>pe<pf> and the third character in pear - </pf>a<pf> - is <q>less than</q> the 3rd character in peer - </pf>e`.</p>
+    <p>The <q>less than</q> tests are a little less obvious. But they make sense when you recall that characters have numeric values based on their position in the ASCII table (or Unicode table for wide characters). Why is <pf>"Apple"</pf> less than <pf>"Banana"</pf>? Because <pf>A</pf> comes before <pf>B</pf> on the ASCII table. Why is <pf>"Banana"</pf> less than <pf>"apple"</pf>? Because <pf>B</pf> comes before <pf>a</pf> on the ASCII table.</p>
+    
+    <p>If the first <m>n</m> characters of two strings match, the <m>n + 1</m> characters will determine their order. <pf>"pear" &lt; "peer"</pf> is true because both start with <pf>pe</pf> and the third character in pear - <pf>a</pf> - is <q>less than</q> the 3rd character in peer - <pf>e</pf>.</p>
 
     <insight><p>Because string comparisons depend on case, it is common to convert strings to all lower or all upper case before comparing them.</p></insight>
 

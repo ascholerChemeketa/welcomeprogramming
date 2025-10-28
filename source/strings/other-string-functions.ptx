@@ -108,5 +108,45 @@ size_t firstVowelLocation = s.find_first_of("aeiouAEIOU");
 
   </subsection>
 
+  
+  <exercise label="strings_other-string-functions-ex-1"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>We have a string <c>s</c> that might be an email address with an <c>@</c>. Write code to detect if it has an <c>@</c>. If so, remove everything from the <c>@</c> symbol on. If not, print an error message.</p>
+    </statement>
+    <blocks>
+      <block>
+        <cline>size_t atIndex = s.find('@');</cline>
+      </block>
+      <block>
+        <cline>if (atIndex != string::npos) {</cline>
+      </block>
+      <block>
+        <choice correct="yes">
+          <cline>  s.erase(atIndex);</cline>
+        </choice>
+        <choice>
+          <cline>  s.remove(atIndex);</cline>
+        </choice>
+        <choice>
+          <cline>  s.erase('@');</cline>
+        </choice>
+        <choice>
+          <cline>  s.remove('@');</cline>
+        </choice>
+      </block>
+      <block>
+        <cline>} else {</cline>
+      </block>
+      <block>
+        <cline>  cout &lt;&lt; "Error no @" &lt;&lt; endl;</cline>
+      </block>
+      <block>
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
 
 </section>

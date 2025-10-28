@@ -29,8 +29,10 @@ string substr (size_t pos = 0, size_t len = npos) const;
     string. Not as a char.</p>
 
   <insight>
+    <p>A string with one letter like <pf>"a"</pf> is still a string. It is a container that holds characters and can execute functions. It just currently holds only one character.</p>
+    <p>The character <pf>'a'</pf> is a single character which is a very different thing.</p>
     <p>If you want to get the one character at position <pf>x</pf> from a string as a <pf>char</pf>, use
-      <pf>s.at(x)</pf>. If you want to work with the single character as a <pf>string</pf>, use <pf>s.find(x, 1)</pf>.</p>
+      <pf>s.at(x)</pf>. If you want to work with the single character as a <pf>string</pf>, use <pf>s.substr(x, 1)</pf>.</p>
   </insight>
 
   <p>If you set an invalid <pf>pos</pf> for <pf>substr</pf> start from, a run time error will be generated (try
