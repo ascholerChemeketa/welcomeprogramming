@@ -9,7 +9,7 @@ RegularPolygon(int nsides, int radius, string color) {
     double theta = 2.0 * M_PI / nsides;
 
     // compute x and y coordinates, centered at the origin
-    for (int i = 0; i < nsides; i++) {
+    for (int i = 0; i < nsides; ++i) {
         double x = radius * cos(i * theta);
         double y = radius * sin(i * theta);
         xpoints[i] = static_cast<int>(round(x));

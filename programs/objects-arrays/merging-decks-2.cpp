@@ -100,15 +100,15 @@ class Deck {
         int i = 0, j = 0, k = 0;
         while (i < d1.getSize() && j < d2.getSize()) {
             if (d1.getCard(i) < d2.getCard(j)) {
-                d3.addCard(d1.getCard(i++));
+                d3.addCard(d1.getCard(++i));
             } else {
-                d3.addCard(d2.getCard(j++));
+                d3.addCard(d2.getCard(++j));
             }
         }
         while (i < d1.getSize())
-            d3.addCard(d1.getCard(i++));
+            d3.addCard(d1.getCard(++i));
         while (j < d2.getSize())
-            d3.addCard(d2.getCard(j++));
+            d3.addCard(d2.getCard(++j));
         return d3;
     }
 

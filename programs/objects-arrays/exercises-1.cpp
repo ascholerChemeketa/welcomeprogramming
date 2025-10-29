@@ -71,15 +71,15 @@ class Deck {
         int i = 0, j = 0, k = 0;
         while (i < left.capacity && j < right.capacity) {
             if (left.cards[i] < right.cards[j]) {
-                result.cards[k++] = left.cards[i++];
+                result.cards[k++] = left.cards[++i];
             } else {
-                result.cards[k++] = right.cards[j++];
+                result.cards[k++] = right.cards[++j];
             }
         }
         while (i < left.capacity)
-            result.cards[k++] = left.cards[i++];
+            result.cards[k++] = left.cards[++i];
         while (j < right.capacity)
-            result.cards[k++] = right.cards[j++];
+            result.cards[k++] = right.cards[++j];
         return result;
     }
 
