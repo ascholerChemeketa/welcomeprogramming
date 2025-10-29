@@ -341,12 +341,9 @@ TEST_CASE("initials") {
 
   <exercise label="strings_exercises-ex-8">
     <statement>
-      <p>Write a function <pf>int countQuotes(string s)</pf>. It should count how many quotation marks (either <pf>"</pf> or <pf>'</pf>) there are in the string and return the total. Don't forget you need to use escape codes to represent the characters <pf>"</pf> and <pf>'</pf>. For example:
+      <p>Write a function <pf>int countQuotes(string s)</pf>. It should count how many quotation marks (either <pf>"</pf> or <pf>'</pf>) there are in the string and return the total.</p>
+      <p>For example: if your function is given the input <pf>Hello "world" 'this' is "a" test</pf> it should return <pf>6</pf> because there are six quotation marks in that string (three double quotes and three single quotes). Similarly, if given the input <pf>It's a "small" world</pf> it should return <pf>3</pf> (one single quote and two double quotes).
       </p>
-      <pre>
-Input: Hello "world" 'this' is "a" test
-Output: 6
-      </pre>
     </statement>
       <program interactive="activecode">
         <preamble visible="no"><![CDATA[
@@ -414,7 +411,7 @@ TEST_CASE("leetspeak") {
     <hint><p>You will need to loop to iterate through the string. You can either modify the string you start with or build up a new string from scratch.</p></hint>
   </exercise>
 
-  
+
   <exercise label="strings_exercises-ex-10">
     <statement>
       <p>Write a function <pf>string stringCompactor(string s)</pf>. It should take the input string and create a <q>compacted</q> version where only ever other character is kept (1st, 3rd, 5th,...). For example:
