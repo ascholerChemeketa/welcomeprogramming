@@ -29,7 +29,7 @@
   </subsection>
 
   <subsection>
-    <title>Implementing <pf>getMonth</pf></title>
+    <title>Implementing getMonth</title>
 
     <p>We need to pick somewhere to start. It makes sense to pick a  <pf>getMonth</pf> function first, as it is a simple function that does not depend on anything else.</p>
 
@@ -130,7 +130,7 @@
   </subsection>
 
   <subsection>
-    <title>Fixing <pf>getMonth</pf></title>
+    <title>Fixing getMonth</title>
     <p>Before going on to other functions, we should fix <pf>getMonth</pf>. It appears we will need to scan the <pf>monthNum</pf> string to make sure that each character is a digit.</p>
     <p>We can do this by using a loop to check each character in the string. Something like:</p>
     <listing>
@@ -175,7 +175,7 @@
   </subsection>
 
   <subsection>
-    <title>Using <pf>getMonth</pf> in the real program</title>
+    <title>Using getMonth in the real program</title>
 
     <p>Now that we have implemented and tested <pf>getMonth</pf>, we could use it in our main program. According to our design (<xref ref="top-down-design-example"/>), we won't actually call <pf>getMonth</pf> from <pf>main</pf>. It will be used by <pf>dateToDays</pf>, which is called by <pf>daysBetween</pf>, which is called from <pf>main</pf>. So the only reason to work on <pf>main</pf> at this point would be if we wanted to do some manual testing using real user input.</p>
 
