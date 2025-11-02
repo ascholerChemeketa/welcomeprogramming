@@ -3,35 +3,52 @@
 
   <title>Writing Functions With String</title>
 
-  <p>Although string objects have some useful built in functions, there will often be times you want to do some work that they do not handle. In these cases, you may want to write your own function to build, parse, or modify a string.</p>
+  <p>Although string objects have some useful built in functions, there will often be times you want
+    to do some work that they do not handle. In these cases, you may want to write your own function
+    to build, parse, or modify a string.</p>
 
-  <p>For the most part, strings work with functions in the same ways as other data types. We can use strings as parameters and/or return types. Here is a function that takes two strings like <pf>"Ada"</pf> and <pf>"Lovelace"</pf> and returns a new string that combines them with a space:</p>
+  <p>For the most part, strings work with functions in the same ways as other data types. We can use
+    strings as parameters and/or return types. Here is a function that takes two strings like <pf>
+    "Ada"</pf> and <pf>"Lovelace"</pf> and returns a new string that combines them with a space:</p>
 
-<program>
+  <program>
 string fullName(string first, string last) {
     string fullName = first + " " + last;
     return fullName;
 }
 </program>
 
-  <p>Sometimes, doing a job with a string like <q>check if there is a vowel</q> or <q>make this all uppercase</q> actually means working character by character to do the work. Here is an example which makes an upper case version of a string by calling <pf>toupper</pf> with each character in the original string and using those to build up a new string:</p>
+  <p>Sometimes, doing a job with a string like <q>check if there is a vowel</q> or <q>make this all
+    uppercase</q> actually means working character by character to do the work. Here is an example
+    which makes an upper case version of a string by calling <pf>toupper</pf> with each character in
+    the original string and using those to build up a new string:</p>
 
   <listing>
-  <program label="strings_strings-and-functions-program-1" interactive="activecode">
+    <program label="strings_strings-and-functions-program-1"
+             interactive="activecode">
 <xi:include href="../../programs/strings/strings-and-functions-1.cpp" parse="text"/>
   </program>
   </listing>
 
-  <note><p>Our current syntax for string parameters, <pf>(string s)</pf>, is inefficient. <pf>(string s)</pf> makes a copy of whatever string is passed and stores that value in the function's parameter. If you pass a very large string to a function, making that copy can be expensive.</p>
-    <p>Instead, we could use the syntax <pf>(const string&amp; s)</pf>. That tells the compiler to skip the copy and work with the original string (<pf>&amp;</pf>) while making sure it does not get altered by accident (<pf>const</pf>).</p>
-  <p>We will learn about using references (<pf>&amp;</pf>) later. For now, we will just live with making copies every time we pass a string. But if you like, you can skip ahead to learn about references (see <xref ref="references-exceptions_references"/>and start using them now.</p></note>
+  <note>
+    <p>Our current syntax for string parameters, <pf>(string s)</pf>, is inefficient. <pf>(string s)</pf>
+      makes a copy of whatever string is passed and stores that value in the function's parameter.
+      If you pass a very large string to a function, making that copy can be expensive.</p>
+    <p>Instead, we could use the syntax <pf>(const string&amp; s)</pf>. That tells the compiler to
+      skip the copy and work with the original string (<pf>&amp;</pf>) while making sure it does not
+      get altered by accident (<pf>const</pf>).</p>
+    <p>We will learn about using references (<pf>&amp;</pf>) later. For now, we will just live with
+      making copies every time we pass a string. But if you like, you can skip ahead to learn about
+      references (see <xref ref="references-exceptions_references"/>and start using them now.</p>
+  </note>
 
   <exercise label="strings_strings-and-functions-ex-1"
             numbered="yes"
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Build the function <pf>countLetter</pf>. It accepts a string and the letter to count as arguments. It should return the number of times the letter appears in the string.</p>
+      <p>Build the function <pf>countLetter</pf>. It accepts a string and the letter to count as
+        arguments. It should return the number of times the letter appears in the string.</p>
     </statement>
     <blocks>
       <block>
@@ -41,12 +58,12 @@ string fullName(string first, string last) {
         <cline> int count = 0;</cline>
       </block>
       <block>
-      <choice correct="yes">
-        <cline> <![CDATA[for (size_t i = 0; i < s.length(); ++i) {]]></cline>
-      </choice>
-      <choice>
-        <cline> <![CDATA[for (size_t i = 0; i < letter.length(); ++i) {]]></cline>
-      </choice>
+        <choice correct="yes">
+          <cline> <![CDATA[for (size_t i = 0; i < s.size(); ++i) {]]></cline>
+        </choice>
+        <choice>
+          <cline> <![CDATA[for (size_t i = 0; i < letter.size(); ++i) {]]></cline>
+        </choice>
       </block>
       <block>
         <cline>  if (s.at(i) == letter) {</cline>

@@ -9,7 +9,7 @@
     <input>g++ main.cpp dateFunctions.cpp -o program.exe</input>
   </console>
 
-  <listing><title><pf>main.cpp</pf> for use with .h/.cpp date functions libarary</title>
+  <listing><title>main.cpp for use with .h/.cpp date functions libarary</title>
   <program label="program-design_case-study-program-final-include-main"
            compile-also="program-design_case-study-program-final-include-cpp"
            add-files="program-design_case-study-program-final-include-h"
@@ -30,7 +30,7 @@
     <input>g++ dateTests.cpp dateFunctions.cpp -o test-program.exe</input>
   </console>
 
-  <listing><title><pf>dateTests.cpp</pf> for use with module</title>
+  <listing><title>dateTests.cpp for use with module</title>
   <program label="program-design_case-study-test-final-include"
            compile-also="program-design_case-study-program-final-include-cpp"
            add-files="program-design_case-study-program-final-include-h"
@@ -41,7 +41,7 @@
 
   <p>Both of those files include our .h file. The .h file can not be compiled, so there is no activecode for this listing. The .h file is just included into the .cpp files that need the definitions from it.</p>
 
-  <listing><title><pf>dateFunctions.h</pf></title>
+  <listing><title>dateFunctions.h</title>
   <program xml:id="program-design_case-study-program-final-include-h"
             label="program-design_case-study-program-final-include-h"
             filename="dateFunctions.h">
@@ -53,7 +53,7 @@
 
   <console><output>g++ -c dateFunctions.cpp -o dateFunctions.o</output></console>
 
-  <listing><title><pf>dateFunctions.cpp</pf></title>
+  <listing><title>dateFunctions.cpp</title>
   <program xml:id="program-design_case-study-program-final-include-cpp"
             label="program-design_case-study-program-final-include-cpp"
             extra-compiler-args="-c"

@@ -66,15 +66,15 @@ class Deck {
         int i = 0, j = 0, k = 0;
         while (i < d1.cards.size() && j < d2.cards.size()) {
             if (d1.cards[i] < d2.cards[j]) {
-                d3.cards.push_back(d1.cards[i++]);
+                d3.cards.push_back(d1.cards[++i]);
             } else {
-                d3.cards.push_back(d2.cards[j++]);
+                d3.cards.push_back(d2.cards[++j]);
             }
         }
         while (i < d1.cards.size())
-            d3.cards.push_back(d1.cards[i++]);
+            d3.cards.push_back(d1.cards[++i]);
         while (j < d2.cards.size())
-            d3.cards.push_back(d2.cards[j++]);
+            d3.cards.push_back(d2.cards[++j]);
         return d3;
     }
 };

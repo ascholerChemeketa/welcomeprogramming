@@ -5,7 +5,7 @@
 
   <introduction>
     <p>Any task you need to be done with strings can be done with the tools we have learned so far:
-      <pf>.length()</pf>, <pf>.find()</pf>, and <pf>.substr()</pf>. But if you check out a <url href="https://en.cppreference.com/w/cpp/string/basic_string">reference
+      <pf>.size()</pf>, <pf>.find()</pf>, and <pf>.substr()</pf>. But if you check out a <url href="https://en.cppreference.com/w/cpp/string/basic_string">reference
       for the <pf>&lt;string></pf> library</url>, you will find many other functions. These other functions
       can make some jobs easier than trying to do the work with just the three member functions we
       have learned about. This section introduces a few of them but does not cover all of the
@@ -48,7 +48,7 @@ while (nextSlash != string::npos) {
     <program><![CDATA[
 // assume string s is defined
 size_t firstVowelLocation = string::npos;  // assume no vowel
-for (int i = 0; i < s.length(); ++i) {
+for (int i = 0; i < s.size(); ++i) {
     // get current letter, make it lower case, cast result to char
     char c = static_cast<char>( tolower( s.at(i) ) );  
     if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
@@ -108,5 +108,45 @@ size_t firstVowelLocation = s.find_first_of("aeiouAEIOU");
 
   </subsection>
 
+  
+  <exercise label="strings_other-string-functions-ex-1"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>We have a string <c>s</c> that might be an email address with an <c>@</c>. Write code to detect if it has an <c>@</c>. If so, remove everything from the <c>@</c> symbol on. If not, print an error message.</p>
+    </statement>
+    <blocks>
+      <block>
+        <cline>size_t atIndex = s.find('@');</cline>
+      </block>
+      <block>
+        <cline>if (atIndex != string::npos) {</cline>
+      </block>
+      <block>
+        <choice correct="yes">
+          <cline>  s.erase(atIndex);</cline>
+        </choice>
+        <choice>
+          <cline>  s.remove(atIndex);</cline>
+        </choice>
+        <choice>
+          <cline>  s.erase('@');</cline>
+        </choice>
+        <choice>
+          <cline>  s.remove('@');</cline>
+        </choice>
+      </block>
+      <block>
+        <cline>} else {</cline>
+      </block>
+      <block>
+        <cline>  cout &lt;&lt; "Error no @" &lt;&lt; endl;</cline>
+      </block>
+      <block>
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
 
 </section>

@@ -15,7 +15,7 @@
 </program>
     </listing>
 
-    <p>The loop counts from 0 to <pf>size() - 1</pf> (note that we use <pf>&lt; size()</pf> in the test). For each of
+    <p>The loop counts from 0 to <pf>size() - 1</pf> (<pf>&lt; size()</pf>). For each of
       those values, it asks for the character at that index and then prints it. Notice that the
       counter for this loop is of type <pf>size_t</pf>. If we try to make it an <pf>int</pf>, the compiler
       will likely produce an error or warning when we try to compare it to <pf>size()</pf>, which is a <pf>size_t</pf>.
@@ -99,7 +99,7 @@
       </p>
       <program>
 string s = "coding rocks";
-for (size_t i = 0; i &lt; s.length(); i += 2) {
+for (size_t i = 0; i &lt; s.size(); i += 2) {
   cout &lt;&lt; s.at(i);
 }
       </program>
@@ -125,12 +125,12 @@ for (size_t i = 0; i &lt; s.length(); i += 2) {
   <exercise label="strings_string-iteration-ex-2">
     <statement>
       <p>What would be printed by this code? (Hint: pay attention to the loop start and end). <fillin mode="string"
-                answer="cdn ok"/>
+                answer="hell"/>
         .
       </p>
       <program>
-string s = "hello;
-for (size_t i = 1; i &lt; s.length() - 1; ++i) {
+string s = "hello";
+for (size_t i = 1; i &lt; s.size() - 1; ++i) {
   cout &lt;&lt; s.at(i);
 }
       </program>

@@ -8,7 +8,7 @@ int main() {
     inFile.open("Numbers2.txt");
 
     // Read 6 numbers
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6; ++i) {
         int number = 0;
         inFile >> number;
         if (inFile.fail()) {

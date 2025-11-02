@@ -14,7 +14,7 @@ int main() {
     int* copy = new int[3];
 
     // Copy the contents of data to copy
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 3; ++i) {
         copy[i] = data[i];
     }
 

@@ -85,6 +85,8 @@ int main() {
   <p>Functions that are a part of an object are often referred to as <term>methods</term> or <term>member functions</term>. You should think of <pf>fruit.size()</pf> as saying <q>call the size method of <pf>fruit</pf></q> or <q>ask fruit to run its <pf>size</pf> method</q>. <idx><h>method</h></idx> <idx><h>member function</h></idx>
   </p>
 
+  <note><p>Instead of <pf>s.size()</pf> on a string <pf>s</pf>, you can also use <pf>s.length()</pf>. They do the same thing.</p></note>
+
   <p>When using methods, we always have to specify which object is going to be running the method using dot notation. Which string exactly are we asking about its size? Trying to use <pf>size()</pf> without <pf>someStringName.</pf> before it would be a syntax error:</p>
 
     <listing>
@@ -152,7 +154,7 @@ cout << s.size() << endl;
       <program line-numbers="yes">
         <code><![CDATA[
 string s = "coding rocks";
-cout << s.at( s.length() - 5 ) << endl;
+cout << s.at( s.size() - 5 ) << endl;
 ]]></code>
       </program>
     </statement>
@@ -162,7 +164,7 @@ cout << s.at( s.length() - 5 ) << endl;
           <p>o</p>
         </statement>
         <feedback>
-          Take a look at the index calculation again, s.length()-5.
+          Take a look at the index calculation again, s.size()-5.
         </feedback>
       </choice>
       <choice correct="yes">
@@ -170,7 +172,7 @@ cout << s.at( s.length() - 5 ) << endl;
           <p>r</p>
         </statement>
         <feedback>
-          Yes, s.length() is 12 and 12-5 is 7. Use 7 as index and remember to start counting with
+          Yes, s.size() is 12 and 12-5 is 7. Use 7 as index and remember to start counting with
             0.
         </feedback>
       </choice>
@@ -184,7 +186,7 @@ cout << s.at( s.length() - 5 ) << endl;
       </choice>
       <choice>
         <statement>
-          <p>Error, s.length() is 12 and there is no index 12.</p>
+          <p>Error, s.size() is 12 and there is no index 12.</p>
         </statement>
         <feedback>
           You subtract 5 before using the index operator so it will work.
@@ -214,7 +216,7 @@ cout << s.at( s.length() - 5 ) << endl;
       </block>
       <block  name="set_num_chars" depends="course num_chars">
         <choice correct="yes">
-          <cline> num_chars = course.length();</cline></choice>
+          <cline> num_chars = course.size();</cline></choice>
         <choice  name="bad2">
           <cline> num_chars = length(course); </cline></choice>
       </block>

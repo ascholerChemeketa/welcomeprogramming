@@ -58,7 +58,7 @@
         <cline><![CDATA[vector<int> numbers = {1, 2, 3, 4, 5};]]></cline>
       </block>
       <block>
-        <cline><![CDATA[for (size_t i = 0; i < numbers.size(); i++) {]]></cline>
+        <cline><![CDATA[for (size_t i = 0; i < numbers.size(); ++i) {]]></cline>
       </block>
       <block>
         <cline> numbers.at(i) = numbers.at(i) * 2;</cline>
@@ -73,7 +73,7 @@
         <cline><![CDATA[for (size_t i = 1; i <= numbers.size(); ++i) { ]]></cline>
       </block>
       <block correct="no">
-        <cline><![CDATA[for (int i = 0; i < numbers.size(); i++) { ]]></cline>
+        <cline><![CDATA[for (int i = 0; i < numbers.size(); ++i) { ]]></cline>
       </block>
       <block correct="no">
         <cline>numbers.at(i) * 2; </cline>

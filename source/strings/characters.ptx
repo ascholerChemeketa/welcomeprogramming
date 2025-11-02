@@ -4,7 +4,7 @@
   <title>Characters</title>
 
   <subsection>
-    <title><pf>char</pf> data type</title>
+    <title>The char data type</title>
       <p>C++ has two different data types that are used to store text. The first is the <term>char</term> data type, which stores a single character. The second is the <term>string</term> data type, which stores a sequence of characters. In this chapter we will start with the <term>char</term> data type before learning about <term>strings</term>.
         <idx>
           <h>char</h>
@@ -121,6 +121,41 @@
         </feedback>
       </choice>
 
+    </choices>
+  </exercise>
+
+
+  <exercise label="strings_characters-ex-2">
+    <statement>
+      <p>Which statements are legal ways to assign a <pf>char c</pf> a new value?</p>
+    </statement>
+    <choices multiple-correct="yes">
+      <choice correct="yes">
+        <statement>
+          <p><pf>c = 97;</pf></p>
+        </statement>
+        <feedback>
+          That is legal, but not good practice. No one should have to remember that 97 is the ASCII code for 'a'.
+        </feedback>
+      </choice>
+
+      <choice correct="yes">
+        <statement>
+          <p><pf>c = 'a';</pf></p>
+        </statement>
+        <feedback>
+          That is the preferred way to assign a character literal.
+        </feedback>
+      </choice>
+
+      <choice>
+        <statement >
+          <p><pf>c = "a";</pf></p>
+        </statement>
+        <feedback>
+          Double quotes make a string literal, not a char literal.
+        </feedback>
+      </choice>
     </choices>
   </exercise>
 

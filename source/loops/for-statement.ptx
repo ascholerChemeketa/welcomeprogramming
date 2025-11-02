@@ -11,7 +11,7 @@
 int i = 0;              //initialize
 while (i < 5) {         //test
     cout << i << endl;
-    i++;                //update
+    ++i;                //update
 }
 ]]></program>
 </listing>
@@ -93,7 +93,7 @@ for (initializer; test; update) {
 <listing>
 <program>
 // empty initialize
-for ( ; i &lt; 5; i++) { ...
+for ( ; i &lt; 5; ++i) { ...
 
 // empty update
 for (int i = 0; i &lt; 5;  ) { ...
