@@ -13,13 +13,13 @@
     find multiple declarations: </p>
 
   <program>
-  size_t find (const string&amp; str, size_t pos = 0) const;
-  size_t find (char c, size_t pos = 0) const;
+  size_t find(const string&amp; str, size_t pos = 0) const;
+  size_t find(char c, size_t pos = 0) const;
 </program>
 
   <p>The first one takes a string as a parameter, and the second one takes a character. Both have an
-    optional second parameter <pf>pos</pf>, which sets a start point for the search. (Recall that the <pf>= 0</pf> is the default value, making that parameter optional. See <xref ref="functions-testing_optional-parameters"/>.). Thus `myString.find('e',
-    10)<pf> says <q>find the first 'e' in myString at or after index 10</q> while </pf>myString.find('e')` means <q>start from 0</q>. Both functions return the
+    optional second parameter <pf>pos</pf>, which sets a start point for the search. (Recall that the <pf>= 0</pf> is the default value, making that parameter optional. See <xref ref="functions-testing_optional-parameters"/>.). Thus <pf>yString.find('e',
+    10)</pf> says <q>find the first 'e' in myString at or after index 10</q> while <pf>myString.find('e')</pf> means <q>start from 0</q>. Both functions return the
     index where they find item being searched from. Because they are returning a location in a
     string, they return that value as a <pf>size_t</pf> and not as an <pf>int</pf>. </p>
 
@@ -113,7 +113,7 @@
 
   <p>You can try changing the <pf>target</pf> to some character to see the behavior when the value is found.</p>
 
-  <insight><p>This is how you check if a string contains some other string. Do a <pf>find()</pf> and see if the value is <pf>!= string::npos</pf>.</p></insight>
+  <insight><p>This is how you check if a string contains some other string: Do a <pf>find()</pf> and see if the value is <pf>!= string::npos</pf>.</p></insight>
 
   <note>
   <p>If you store attempt to store <pf>string::npos</pf> to an int, it will have the value -1. This is because <pf>string::npos</pf> is the binary value <pf>111111...1</pf>. That value as a signed <pf>int</pf> is <pf>-1</pf>.</p>
