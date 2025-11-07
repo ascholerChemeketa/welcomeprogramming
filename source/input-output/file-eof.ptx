@@ -7,7 +7,7 @@
     <p>In that case we can keep reading until we encounter the end of the file. One way to detect if we have reached the end of the file is to just wait for an error. Trying to read another token once reach the end will produce an error! But we can also use the <pf>.eof()</pf> method to ask <q>are we at the End Of File yet?</q>. It returns <pf>true</pf> if the end has been reached. So <pf>!streamName.eof()</pf> checks <q>is there more to read?</q></p>
 
   <listing>
-  <program label="input-output_file-eof-program-1" add-files="datafile-numbers"  interactive="activecode">
+  <program label="input-output_file-eof-program-1" add-files="datafile-numbers"  interactive="activecode" line-numbers="yes" highlight-lines="9">
 <xi:include href="../../programs/input-output/file-input-eof-1.cpp" parse="text"/>
 </program>
   </listing>
@@ -37,12 +37,22 @@
   <p>To handle either case, we can just check for an error after reading in our data. Once we get past the 60, doing <pf>inFile >> number</pf> will fail if there is no more data to read. So if we have a failure, it might just mean we reached the end of the file. (Of course it could be some other issue. If we wanted to differentiate between the two we would have to check both <pf>inFile.eof()</pf> and <pf>inFile.fail()</pf>). This version uses that strategy:</p>
 
   <listing>
-  <program label="input-output_file-eof-program-1b" add-files="datafile-numbers"  interactive="activecode">
+  <program label="input-output_file-eof-program-1b" add-files="datafile-numbers"  interactive="activecode" line-numbers="yes" highlight-lines="12-14">
 <xi:include href="../../programs/input-output/file-input-eof-1b.cpp" parse="text"/>
 </program>
   </listing>
 
   <insight><p>It is a good idea to check for errors after attempting to read data anyway. So <pf>inFile.fail()</pf> is both handling a possible blank line at the end of the file and it will handle any other read errors (like trying to read <pf>"cat"</pf> as an integer).</p></insight>
+
+  <p>There is a C++ idiom that can let us simplify our error checking. When we do <pf>inFile >> variable</pf>, it attempts to read the data and then evaluates to true if the read was successful, or false if it failed. So we can use that expression as the test in a loop:</p>
+
+  <listing>
+  <program label="input-output_file-eof-program-1c" add-files="datafile-numbers"  interactive="activecode" line-numbers="yes" highlight-lines="11">
+<xi:include href="../../programs/input-output/file-input-eof-1c.cpp" parse="text"/>
+</program>
+  </listing>  
+
+  <p>Each time we do the while's test, we attempt to read in a value. If that works, the loop body executes. Once the input fails, the expression <pf>inFile >> variable</pf> evaluates to false, and the loop terminates. This structure is less flexible - it does not easily allow for handling errors that we want to try to recover from. But it does simplify the basic version of reading in from a file.</p>
 
   <exercise label="input-output_file-eof-ex-1">
     <statement>
