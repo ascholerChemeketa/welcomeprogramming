@@ -1,0 +1,139 @@
+<section xml:id="input-output_file-getline"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Getline</title>
+
+  <p>Let's try the same logic on a list of names:</p>
+
+  <datafile label="datafile-names" xml:id="datafile-names" filename="Names.txt"><pre>John Doe Jr.
+Maria Cruz
+Alice Johnson
+Robert Brown
+Emily K. Davis</pre></datafile>
+
+  <listing>
+  <program label="input-output_file-getline-program-2" add-files="datafile-names"  interactive="activecode">
+<xi:include href="../../programs/input-output/file-input-eof-2.cpp" parse="text"/>
+</program>
+  </listing>
+
+  <p>Notice that when we read into strings, whitespace still breaks up the tokens. Thus we do not get entire names, we get <pf>John</pf>, <pf>Doe</pf>, <pf>Jr.</pf>,...</p>
+
+  <p>To handle this better, we can use the <pf>getline</pf> function to read an entire line of text into a string variable. The <pf>getline</pf> function is part of <pf>iostream</pf> and takes two parameters: the stream and the string variable to read into. Here is an example:</p>
+
+  <listing>
+  <program label="input-output_file-getline-program-3" add-files="datafile-names"  interactive="activecode">
+<xi:include href="../../programs/input-output/file-input-eof-3.cpp" parse="text"/>
+</program>
+  </listing>
+
+  <note><p>You can use getline to read an entire line from any stream, including <pf>cin</pf>. To use it on <pf>cin</pf> you would do something like <pf>getline(cin, stringVariable)</pf>.</p></note>
+
+  <p>Just because a file has lines does not mean you need to use <pf>getline</pf> to read them. If every line has the same number of pieces of data and those pieces are separated by whitespace, it is likely easier to read in each part directly. For example, consider this data:</p>
+
+  <datafile label="datafile-cars" xml:id="datafile-cars" filename="Cars.txt"><pre>
+Honda Acura 2005
+Toyota Camry 2010
+Ford Focus 2015
+</pre></datafile>
+
+  <p>We want to read in each line and have the make, model and year stored in separate variables. We could write an algorithm like:</p>
+  
+  <program langauge="natural">
+    while not at end of file
+      read a line of the file into Line
+      find the first space
+      set Make to the part of Line before the space
+      remove the part of Line before the space
+      find the next space
+      set Model to the part of Line before the space
+      remove the part of Line before the space
+      turn the rest of Line into an integer and
+      set Year to that integer
+  </program>
+
+  <p>But it would be much easier to read it the date directly into variables like this:</p>
+
+  <listing>
+  <program label="input-output_file-getline-program-4" add-files="datafile-cars"  interactive="activecode">
+<xi:include href="../../programs/input-output/file-input-eof-4.cpp" parse="text"/>
+</program>
+  </listing>
+
+  <p>This way, we don't have to worry about finding spaces because <pf>>></pf> automatically does that! We also don't have to worry about converting the string <pf>"2005"</pf> into the integer 2005 before trying to do math with it. We do not even have to worry about where lines end! <pf>>></pf> automatically skips over any newlines in the same way it skips over spaces.</p>
+
+  <warning><p>Mixing <pf>getline</pf> and <pf>>></pf> can cause confusing issues. <pf>>></pf> will read the last thing on a line and leave the newline there to be read (or skipped) by the next input instruction. If <pf>getline</pf> is used next, it will read that newline as an empty line.</p>
+    
+    <p>Try to stick to one method or the other when reading a file. Either read each line and then chop it up manually, or use <pf>>></pf> to get one token at a time.</p></warning>
+
+  <exercise label="input-output_file-getline-ex-1"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>You are given a file but it appears that someone's capslock key was stuck because
+        everything is in uppercase.</p>
+        
+        <p>Build a definition for the function <pf>upperToLower</pf> first. Below that, build a program that takes the input from the file <q>UPPER.txt</q>
+        and converts all the text to lower case.</p>
+
+        <p>Note that <pf>upperToLower</pf> intentionally uses pass by value to work with a copy of <pf>upper</pf> that it can freely modify.</p>
+    </statement>
+    <blocks>
+      <block>
+        <cline>string upperToLower(string upper) {</cline>
+        <cline><![CDATA[   for (char& c : upper) {]]></cline>
+      </block>
+      <block>
+        <cline>      c = static_cast&lt;char>(tolower(c));</cline>
+      </block>
+      <block>
+        <cline>   }</cline>
+        <cline>   return upper;</cline>
+        <cline>}</cline>
+      </block>
+      <block>
+        <cline>int main() {</cline>
+      </block>
+      <block>
+        <cline>   ifstream myFile("UPPER.txt");</cline>
+      </block>
+      <block>
+        <cline>   if (!myFile) {</cline>
+        <cline><![CDATA[      cout << "Unable to open a file." << endl;]]></cline>
+        <cline>      return 1;</cline>
+        <cline>   }</cline>
+      </block>
+      <block>
+        <cline>   while (!myFile.eof()) {</cline>
+      </block>
+      <block>
+        <choice correct="yes">
+        <cline>      string line;</cline>
+        <cline><![CDATA[      getline(myFile, line);]]></cline>
+        </choice>
+        <choice>
+        <cline>      string line;</cline>
+        <cline><![CDATA[      line = getline(myFile);]]></cline>
+        </choice>
+      </block>
+      <block>
+        <cline>      if (myFile.fail()) {</cline>
+        <cline><![CDATA[        cout << "Unable to open a file." << endl;]]></cline>
+        <cline>      break;</cline>
+        <cline>      }</cline>
+      </block>
+      <block>
+        <cline>      line = upperToLower(line);</cline>
+      </block>
+      <block>
+        <cline><![CDATA[      cout << line << endl;]]></cline>
+      </block>
+      <block>
+        <cline>   }</cline>
+        <cline>}</cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

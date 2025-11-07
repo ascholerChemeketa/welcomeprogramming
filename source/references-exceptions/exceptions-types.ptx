@@ -10,6 +10,9 @@
     <li><pf>logic_error</pf> Some violation of the internal logic of the program.</li>
   </ul>
   </p>
+  
+
+  <insight><p><pf>logic_error</pf> is a good catchall for <q>something does not make sense here</q>. There may be times when some other type of exception makes more sense, but we will generally just throw a <pf>logic_error</pf> when throwing exceptions in this book.</p></insight>
 
   <p>When you catch an <pf>exception</pf>, it includes all of those different types. But it is possible to catch more specific types. It is also possible to catch multiple different types of exception and respond differently to each:</p>
 

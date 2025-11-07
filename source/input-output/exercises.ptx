@@ -4,6 +4,7 @@
   <introduction>
     <p>The exercises in this chapter make use of the following datafiles.</p>
     <listing xml:id="datafile-poem-listing">
+  </listing>
     <datafile label="datafile-poem"
               xml:id="datafile-poem"
               filename="poem.txt">
@@ -28,9 +29,9 @@ Two roads diverged in a wood, and I,
 I took the one less traveled by,
 And that has made all the difference.</pre>
     </datafile>
-  </listing>
 
   <listing xml:id="datafile-class-listing">
+    </listing>
     <datafile label="datafile-class"
               xml:id="datafile-class"
               filename="class.txt">
@@ -42,14 +43,13 @@ Ethan    Brooks     11       3.9    17
 Faith    Flemmings  10       3.0    15
 Gigi     Guerro     9        3.2    14</pre>
     </datafile>
-    </listing>
   </introduction>
 
   <exercise label="input-output_exercises-ex-1">
     <statement>
       <p>Write a program that reads the first <pf>skipWords</pf> number of words from <xref ref="datafile-poem-listing"
               text="custom">
-        poem.txt</xref> without printing them and prints the next word to <pf>cout</pf>.</p>
+        poem.txt</xref> without printing them, then reads one more word and prints that to <pf>cout</pf>.</p>
     </statement>
     <program add-files="datafile-poem"
              interactive="activecode">
@@ -144,7 +144,8 @@ int main() {
               text="custom">class.txt</xref> has lines that look
         like this:</p>
       <pre>First      Last     Grade        GPA    Age</pre>
-      <p>Hidden code will open the file and read past some number of the lines (determined by the input). You should add code
+      <p>Hidden code will open the file and read past some number of the lines (determined by the input).
+      </p><p>You should add code
         to continue reading from <pf>inFile</pf> and print the first name from the next line in the
         file. (It is safe to use <pf>>></pf> for your input even though the hidden code uses <pf>getline</pf>).</p>
     </statement>

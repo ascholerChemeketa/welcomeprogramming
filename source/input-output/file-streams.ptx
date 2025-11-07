@@ -5,7 +5,7 @@
   <subsection><title>Files</title>
   <p>Programs need ways to store information in a way that is accessible to other programs and that will persist after the program ends. The most common way to do this is to write information to a file.</p>
 
-    <p>Files come in two main flavors, binary and text based. In reality, all files are binary - they are all just a sequence of 1s and 0s. But in text based files, all of the content is ASCII  encoded (or Unicode or some similar encoding) text. Text files are designed to be easy for humans to open and read. All of our source code files in C++ are written as text files. They also are often used for things like configuration files, log files, etc...
+    <p>Files come in two main flavors, <term>binary</term> and <term>text</term> based. In reality, all files are binary - they are all just a sequence of 1s and 0s. But in text based files, all of the content is ASCII  encoded (or Unicode or some similar encoding) text. Text files are designed to be easy for humans to open and read. All of our source code files in C++ are written as text files. They also are often used for things like configuration files, log files, etc...
     <idx>
       <h>file</h>
       <h>text</h>
@@ -27,7 +27,7 @@
   <p>In a program we can refer to <pf>"Numbers.txt"</pf> to specify that file.</p>
 
   <warning>
-  <p>You will only be able to use datafiles in programs that are set up to include them. Make sure to check the instructions for any exercises as to what datafiles are available for use in that program.</p></warning>
+  <p>In the book, you will only be able to use datafiles in programs that are set up to include them. Make sure to check the instructions for any exercises as to what datafiles are available for use in that program.</p></warning>
 
   <note>
   <title>The working directory</title>
@@ -66,9 +66,11 @@
 </subsection>
 <subsection>
 <title>Streams</title>
-    <p>The tools we will use to work with files in C++ are called <pf>ofstream</pf> and <pf>ifstream</pf>. The <term>stream</term> part of the name refers to a general idea - a <q>stream</q> of data that is produced by one thing and consumed by another.</p>
+    <p>The tools we will use to work with files in C++ are called <term>stream</term>s. A <q>stream</q> is a representation of data that is produced by one thing and consumed by another<mdash/>it <q>streams</q> from one place to another.</p>
 
     <p>We have already encountered some streams. <pf>cin</pf> and <pf>cout</pf> are streams that send data between the console and a program. <pf>cin</pf> is an input stream, it bring information from the console to the program. <pf>cout</pf> on the other hand is an output stream that sends data from the program to the console. Each time we use <pf>>></pf> or <pf>&lt;&lt;</pf> we are either removing some data from a stream or inserting some data into it.</p>
+
+    <p>To work with files, we will use <pf>ifstream</pf> and <pf>ofstream</pf>. They are similar to <pf>cin</pf> and <pf>cout</pf> in that they are also streams, but they stream information to or from a file instead of the console.</p>
 
     <p>As you will see, working with files is not that different than working with the console. That is the power of an abstraction. By thinking of both working with files and the console as examples of <q>sending information to/from the program</q>, we can develop and use one set of techniques that lets us solve both problems.</p>
   <exercise label="input-output_file-output-ex-2">
@@ -121,11 +123,11 @@
     <cardsort>
       <match>
         <premise>cin</premise>
-        <response>ifstream</response>
+        <response>input stream</response>
       </match>
       <match>
         <premise>cout</premise>
-        <response>ofstream</response>
+        <response>output stream</response>
       </match>
     </cardsort>
   </exercise>

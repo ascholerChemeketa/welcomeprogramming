@@ -8,7 +8,7 @@
   <p>The <pf>stringstream</pf> data type is defined in the <pf>&lt;sstream></pf> library. Once we create a variable of type <pf>stringstream</pf> we can then immediately write to it using <pf>&lt;&lt;</pf> (there is no file to open). Once we are done writing, we can use the <pf>.str()</pf> method to ask the string stream for the string that was built up:</p>
 
   <listing>
-  <program label="input-output_string-streams-program-1"  interactive="activecode">
+  <program label="input-output_string-streams-program-1"  interactive="activecode" line-numbers="yes" highlight-lines="2,7,16">
 <xi:include href="../../programs/input-output/string-streams-1.cpp" parse="text"/>
 </program>
   </listing>
@@ -16,12 +16,12 @@
   <p>It is also possible to read from a string stream. This is done by using the <pf>.str()</pf> method to set the string that we want to read from. Once we have set the string, we can use <pf>>></pf> to read from it just like we would from a file or the console:</p>
 
   <listing>
-  <program label="input-output_string-streams-program-2"  interactive="activecode">
+  <program label="input-output_string-streams-program-2"  interactive="activecode" line-numbers="yes" highlight-lines="2,10, 12, 15, 17-18">
 <xi:include href="../../programs/input-output/string-streams-2.cpp" parse="text"/>
 </program>
   </listing>
 
-  <p>Notice that everything after setting up the stringstream looks just like reading from a file. We even still use <pf>eof()</pf> even though there isn't really a file that we are reading from - when working with a <pf>stringstream</pf>, <pf>eof()</pf> means <q>end of the stringstream</q>.</p>
+  <p>Notice that once we are done setting up the stringstream, all the rest of the code looks just like reading from a file. We even still use <pf>eof()</pf> even though there isn't really a file that we are reading from. This is the advantage of using the <q>stream</q> abstraction<mdash/>we can use one set of tools to read from the console, a file, or a stringstream all in the same way.</p>
 
   
   <exercise label="input-output_string-streams-ex-1"

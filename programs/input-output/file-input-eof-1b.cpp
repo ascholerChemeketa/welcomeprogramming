@@ -1,19 +1,19 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 using namespace std;
 
 int main() {
     ifstream inFile;
-    inFile.open("Names.txt");
+    inFile.open("Numbers.txt");
 
     while (!inFile.eof()) {
-        string name;
-        inFile >> name;
+        int number;
+        inFile >> number;
         if (inFile.fail()) {
             break;  //oops, too far, exit loop
         }
-        cout << "The next number in the file is: " << name << endl;
+        cout << "The next number in the file is: " << number << endl;
     }
+    cout << "Reached the end of the file." << endl;
 }
 

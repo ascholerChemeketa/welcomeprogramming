@@ -31,12 +31,12 @@
 
   <p>My columns look like:
   <ul>
-    <li>hour 2 digits, right justified</li>
-    <li>minutes 2 digits, right justified, fill with 0s (so 2 becomes 02)</li>
+    <li>hour: 2 digits, right justified</li>
+    <li>minutes: 2 digits, right justified, fill with 0s (so 2 becomes 02)</li>
     <li>A bar with spaces on either side</li>
-    <li>name left justified, with 16 characters of space</li>
+    <li>name: left justified, with 16 characters of space</li>
     <li>A bar with spaces</li>
-    <li>money, right justified, 12 spaces with 2 digits after the decimal point</li>
+    <li>money: right justified, 12 spaces with 2 digits after the decimal point</li>
   </ul>
   </p>
   <p>To do this, I might try using the following format string:</p>
@@ -87,7 +87,7 @@
 
   <exercise label="input-output_format-spacing-ex-2">
     <statement>
-      <p>What should replace the <pf>???</pf> so the code prints <pf>hello===</pf>? </p>
+      <p>What should replace the <pf>???</pf> so the code prints <pf>hello===</pf> by left justifying the content within an 8 space <q>column</q> and filling the extra space with <c>=</c>?</p>
       <p>
         <fillin mode="string" answer="{:=&lt;8}"/>
       </p>

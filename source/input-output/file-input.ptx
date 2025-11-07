@@ -48,6 +48,9 @@ ifstream inFile;
 
 
     <p>The streams provided by <pf>&lt;fstream></pf> are a bit frustrating in that they do not automatically report errors.
+      When something bad happens (like trying to open a file that does not exist), the stream simply goes into a failure state and refuses to do anything more.
+      In the case of the program above, it never even tries to read in values when we do <pf>inFile >> input;</pf>. The variable just keeps its existing value.</p>
+      <p>
     If you want to know if the stream is OK, you have to use one of these checks:</p>
 
   <listing>
@@ -62,7 +65,7 @@ if (inFile) {
 }
 
 // Check for errors
-if (inFile.error()) {
+if (inFile.fail()) {
   // stream is NOT OK
 }
 // Or short version:
@@ -80,37 +83,36 @@ if (!inFile) {
 </program>
   </listing>
 
-  <p>Try changing the filename this program is opening to see that it catches the issue. By returning from main, we end the program early when there was a failure opening the file. (Returning a non-zero value is the convention for <q>there was an error in the program</q>). We could instead throw an exception, try opening a different file, etc...</p>
+  <p>Try changing the filename this program is opening to see that it catches the issue. If there is an error, the code returns from main, which ends the program. (Returning a non-zero value is the convention for <q>there was an error in the program</q>). There is no point in trying to read data if we could not open the file!
+    We could instead throw an exception, try opening a different file, etc...</p>
 
   <exercise label="input-output_file-input-ex-2">
     <statement>
       <p>Consider this code snippet:
 
-        <program>ifstream myFile;
-myFile.open("file-name");
-        </program>
+        <program>ifstream myFile.open("foo.txt");</program>
 
-        Finish each sentence.</p>
+        Finish each sentence by dragging the items on the left into the correct blanks.</p>
     </statement>
     <feedback>
       Try again!
     </feedback>
     <cardsort>
       <match>
-        <premise>The data type is</premise>
-        <response>ifstream.</response>
+        <response>The data type of the resulting object is</response>
+        <premise>ifstream.</premise>
       </match>
       <match>
-        <premise>The name of the file you want to open is</premise>
-        <response>"file-name".</response>
+        <response>The name of the file you want to open is</response>
+        <premise>"foo.txt".</premise>
       </match>
       <match>
-        <premise>The result of this code snippet is an object named</premise>
-        <response>myFile.</response>
+        <response>The result of this code snippet is an object named</response>
+        <premise>myFile.</premise>
       </match>
       <match>
-        <premise>The result of this code snippet supports the same operators as</premise>
-        <response>cin.</response>
+        <response>The result of this code snippet supports the same operators as</response>
+        <premise>cin.</premise>
       </match>
     </cardsort>
   </exercise>
@@ -119,7 +121,7 @@ myFile.open("file-name");
     <statement>
       <p>The <pf>ifstream</pf> member function called <fillin mode="string"
                 case="insensitive"
-                answer="^(\\.)?error(\\(\\))?"/>
+                answer="^(\\.)?fail(\\(\\))?"/>
         checks to see if there has been an error while using the stream.</p>
     </statement>
     <evaluation>
@@ -180,7 +182,7 @@ int main() {
           <p>There are no errors with this code.</p>
         </statement>
         <feedback>
-          Take another look at the code. Are we reading the input correctly into <pf>input</pf>?
+          Take another look at the code. What does the last line try to read data from?
         </feedback>
       </choice>
     </choices>

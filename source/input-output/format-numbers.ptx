@@ -14,15 +14,15 @@
 
     <p>Don't panic! Each part is optional and most of the time you only need to specify one or two
       parts. We won't worry about covering every possible option or every possible value for the
-      options. If you ever need to, you can look up a <url hrref="https://github.com/paulkazusek/std_format_cheatsheet">std::format
+      options. If you ever need to, you can look up a <url href="https://github.com/paulkazusek/std_format_cheatsheet">std::format
       cheat sheet</url> on the web.</p>
   </introduction>
 
   <subsection>
     <title>sign</title>
     <p>By default, the sign of a number is only printed if it is negative. If you want to always
-      print the sign, you can specify a <pf>+</pf> or <pf> </pf> in the <pf>[sign]</pf> location. Examine the spacing in
-      this next program. <pf>_</pf> is used around items to make it clear where spaces are being added by
+      print the sign, you can put a plus or space in the <pf>[sign]</pf> location. Examine the spacing in
+      this next program and notice how the lower two lines put either a + or blank space where the number is positive. <pf>_</pf> is used around items to make it clear where spaces are being added by
       <pf>format</pf>:</p>
 
     <listing>
@@ -38,7 +38,7 @@
     <p>In the <pf>[precision]</pf> spot, a <pf>.</pf> followed by a number specifies a number of digits to
       include. By default, this is a count of significant digits (those to the left and right of the
       decimal place). When formatting 123.456789, an attempt to format to 2 decimal places will
-      force the number to be written in scientific notation using just <pf>1.2</pf>. 3 digits will result
+      force the number to be written in scientific notation using just 1.2. 3 digits will result
       in no decimal. 4+ will allow for some decimal places:</p>
 
     <listing>

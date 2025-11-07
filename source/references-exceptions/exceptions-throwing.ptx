@@ -3,23 +3,24 @@
 
   <title>Exception Throwing</title>
 
-  <p>When using exceptions, code that detects a problem which it cannot handle should <pf>throw</pf> an exception. You can do so by using the <pf>throw</pf> keyword followed by what you want to throw. Although you can thrown anything (an int, string, etc...). It is generally best to throw some type of <pf>exception</pf>.</p>
+  <p>When using exceptions, code that detects a problem which it cannot handle should <pf>throw</pf> an exception. You can do so by using the <term>throw</term> keyword followed by what you want to throw. Although you can thrown anything (an int, string, etc...). It is generally best to throw some type of <pf>exception</pf>.<idx>throw</idx></p>
 
-  <p><pf>exception</pf> itself is what is known as an <term>abstract</term> data type. It is a type that describes many more specific types, but nothing is just an <pf>exception</pf>. (Similar to <q>animal</q>. <q>animal</q> describes many different types of creature, but nothing is just an <q>animal</q>. Each particular animal is a dog, or a cat, or a horse.)</p>
+  <p><pf>exception</pf> itself is what is known as an <term>abstract</term> data type. It is a type that describes many more specific types, but nothing is just an <pf>exception</pf>. (Like the concept of <q>animal</q>. <q>animal</q> describes many different types of creature, but nothing is just an <q>animal</q>. Each particular animal is a dog, or a cat, or a horse.)</p>
 
   <p>Thus we need to throw something more specific like a <pf>logic_error</pf>. To do that, we say <pf>throw logic_error(STRING);</pf>. The <pf>STRING</pf> should be a string that describes what went wrong. This sample shows mediumJob throwing a <pf>logic_error</pf>:</p>
 
   <listing>
-  <program label="references-exceptions_exceptions-throwing-program-1" interactive="activecode">
+  <program label="references-exceptions_exceptions-throwing-program-1" interactive="activecode"  highlight-lines="10" line-numbers="yes">
 <xi:include href="../../programs/references-exceptions/exceptions-throwing-1.cpp" parse="text"/>
 </program>
   </listing>
 
   <p>In this version of the program, the author of <pf>mediumJob</pf> wrote logic to check for the conditions that would lead to an error. If things do not look good, the function throws the exception (line 10). This ends execution of <pf>mediumJob</pf> and immediately jumps back to <pf>bigJob</pf> to see if the exception is caught there.</p>
 
-  <note><p>One a function throws an exception, no more code will run and no value will be returned via any <pf>return</pf> statements. A <pf>throw</pf> represents a function completely giving up on its job.</p></note>
+  <p>One a function throws an exception, no more code will run and no value will be returned via any <pf>return</pf> statements. A <pf>throw</pf> represents a function completely giving up on its job.</p>
+  <p>You can think of exceptions as a separate communication path a function can use: a function can either return a normal value, or it can choose to throw an exception. It will never do both.</p>
+  
 
-  <insight><p><pf>logic_error</pf> is a good catchall for <q>something does not make sense here</q>. There may be times when some other type of exception makes more sense, but we will generally just throw a <pf>logic_error</pf> when throwing exceptions in this book.</p></insight>
 
   <exercise label="references-exceptions_exceptions-throwing-ex-1">
     <statement>

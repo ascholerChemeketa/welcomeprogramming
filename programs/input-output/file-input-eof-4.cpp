@@ -16,5 +16,6 @@ int main() {
           break; // Exit the loop if we could not read
       }
       cout << format("The next car is a {} {} {}", year, make, model) << endl;
+      cout << "In 2035, it will be " << (2035 - year) << " years old." << endl;
   }
 }

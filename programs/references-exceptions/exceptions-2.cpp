@@ -1,13 +1,13 @@
+#include <exception>
 #include <iostream>
 #include <string>
-#include <exception>
 
 using namespace std;
 
 string mediumJob(const string& s) {
     string mediumResult;
     try {
-      // get a string of length 1 starting at index 50
+        // get a string of length 1 starting at index 50
         string substrResult = s.substr(50, 1);
         mediumResult = "mediumJob(" + s + ")";
     } catch (const exception& e) {

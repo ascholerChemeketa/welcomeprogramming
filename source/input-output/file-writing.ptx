@@ -2,7 +2,7 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>File Output</title>
 
-  <p>To write to a file, we need to create a <pf>std::ofstream</pf> object and then use its <pf>.open()</pf> method to open a file. Once that is done, we can write to the file using <pf>&lt;&lt;</pf>.</p>
+  <p>To write to a file, we need to create a <pf>std::ofstream</pf> object and then use its <pf>.open()</pf> method to open a file. (<pf>ostream</pf> is in the <pf>fstream</pf> library, so you must have that included.) Once that is done, we can write to the file using <pf>&lt;&lt;</pf>.</p>
   
   <p>In this book, you will have no way to see the data in files that you write other than to try to open them and read the data. So that is what this program does. After it finishes writing some numbers to the file <pf>data.txt</pf>, it closes the file to make sure that it is available to open for reading, and then opens it with an <pf>ifstream</pf> to read the data back in:</p>
 
@@ -12,40 +12,42 @@
 </program>
   </listing>
 
-  <p>When you open a file name that does not exist, it is automatically created in the working directory. If a file with that name already exists, it is <term>truncated</term> on opening. That means any existing data is wiped out. If you would rather add to the existing contents of the file, you can choose to <term>append</term> to the file. The open command can take an optional second parameter specifying the mode to use for writing. The mode <pf>ios::app</pf> says to append new output to the end of the file instead of truncating the file:
+  <note><p>Try running this program in a real development environment so you can see that the code creates a new file!</p></note>
+
+  <p>When you open a file name that does not exist, it is automatically created in the working directory. If a file with that name already exists, it is <term>truncated</term> on opening. That means any existing data is wiped out. If you would rather add to the existing contents of the file, you can choose to <term>append</term> to the file. To specify this, the open command can take an optional second parameter with the mode to use. The mode <pf>ios::app</pf> says to append new output to the end of the file instead of truncating the file:
   <idx><h>truncate</h></idx></p>
 
-  <program>myOutFile.open("data.txt", ios::app)</program>
+  <program>myOutFile.open("data.txt", ios::app); // add to existing data in the file</program>
 
   
   <exercise label="input-output_file-writing-ex-1">
     <statement>
       <p>You create an <fillin mode="string"
                 case="insensitive"
-                answer="(std::)?ostream"/> object to write
+                answer="ofstream"/> object to write
         data to a file, and a <fillin mode="string"
                 case="insensitive"
-                answer="(std::)?istream"/> object to
+                answer="ifstream"/> object to
         read data from a file. In order to define objects to input from a file or send output to a
         file, you must include the <pf>&lt;</pf> <fillin mode="string"
                 case="insensitive"
                 answer="fstream"/> <pf>&gt;</pf>
-        header file. </p>
+        library. </p>
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp>(std::)?ofstream</strcmp>
         </test>
       </evaluate>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp>(std::)?ifstream</strcmp>
         </test>
       </evaluate>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp>(std::)?fstream</strcmp>
         </test>
       </evaluate>
     </evaluation>
@@ -63,7 +65,7 @@ using namespace std;
 int main() {
   ofstream outfile("output.txt");
 
-  if (!outfile.good()) {
+  if (!outfile) {
     cout << "Unable to open file" << endl;
   }
 
@@ -87,7 +89,7 @@ int main() {
           <p>Powers of 2: 2 4 8 16 31 64</p>
         </statement>
         <feedback>
-          Take another look at the stream objects used in the code.
+          Take another look at the stream objects used in the code. Not all the output goes to the file!
         </feedback>
       </choice>
       <choice>
@@ -95,7 +97,7 @@ int main() {
           <p>Powers of 2:</p>
         </statement>
         <feedback>
-          This is printed to standard output, not the output file.
+          This is printed to standard (console) output, not the output file.
         </feedback>
       </choice>
       <choice>
@@ -187,8 +189,6 @@ int main() {
       </block>
       <block>
         <cline><![CDATA[   cout << "Enter the name of the file: ";]]></cline>
-      </block>
-      <block>
         <cline>   cin &gt;&gt; filename;</cline>
       </block>
       <block>
@@ -206,10 +206,11 @@ int main() {
         <cline><![CDATA[      cout << "Unable to open the file." << endl;]]></cline>
       </block>
       <block>
-        <cline>      exit(1);</cline>
+        <cline>      return 1;</cline>
       </block>
       <block>
         <cline>   }</cline>
+        <cline>   // use the file</cline>
       </block>
       <block>
         <cline>}</cline>

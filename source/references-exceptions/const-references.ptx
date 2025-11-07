@@ -14,16 +14,17 @@
     that function to be able to modify the data. Say we have a function <pf>countEs</pf> that will count
     the number of <pf>E</pf>s that appear in the string. We don't want the function to change the string,
     which <pf>countEs(string&amp; s)</pf> would allow. But we also don't want to copy the parameter, which
-    `countEs(string s) would do.</p>
+    <pf>countEs(string s)</pf> would do.</p>
 
   <p>The solution is to use a <term>const reference</term>. A <term>const reference</term> is a
-    reference that promises not to change the data that is being pointed to: `add(const int&amp;
-    x)`. Remember that it helps to read declarations backwards <q>x is a reference to an int that
+    reference that promises not to change the data that is being pointed to: <pf>add(const int&amp;
+    x)</pf>. Remember that it helps to read declarations backwards. In this case, we would read <pf>const int&amp;
+    x</pf> as<q>x is a reference to an int that
     shall remain constant</q>. The compiler will treat that declaration as a promise. If you write
     any code that tries to modify what the const reference points at, it will be a compile error:</p>
 
   <listing>
-  <program label="references-exceptions_constant-references-program-1"
+  <program label="references-exceptions_constant-references-program-1" highlight-lines="4" line-numbers="yes"
            interactive="activecode">
 <xi:include href="../../programs/references-exceptions/const-references-1.cpp" parse="text"/>
 </program>

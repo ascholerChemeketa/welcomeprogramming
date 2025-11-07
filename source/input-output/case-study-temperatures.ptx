@@ -4,17 +4,19 @@
   <title>Case Study: Temperature Ranges</title>
 
   <introduction>
-    <p>We have a long list of weather data for a number of US cities in a datafile. Each line of the contains:
-    <ul>
-    <li>city name</li>
-    <li>state</li>
-    <li>average January temperature</li>
-    <li>average July temperature</li>
-    <li>average annual rainfall</li>
-    </ul></p>
+    <p>We have a long list of weather data for a number of US cities in a datafile. Each line of the
+      contains: <ul>
+        <li>city name</li>
+        <li>state</li>
+        <li>average January temperature</li>
+        <li>average July temperature</li>
+        <li>average annual rainfall</li>
+      </ul></p>
 
-    <datafile label="datafile-temps" xml:id="datafile-temps" filename="Temps.txt">
-    <pre>Albany	NY	22.2	71.1	38.6
+    <datafile label="datafile-temps"
+              xml:id="datafile-temps"
+              filename="Temps.txt">
+      <pre>Albany	NY	22.2	71.1	38.6
 Albuquerque	NM	35.7	78.5	9.47
 Anchorage	AK	15.8	58.4	16.08
 Atlanta	GA	42.7	80	50.2
@@ -26,73 +28,136 @@ Dallas	TX	44.1	85	34.73
 Denver	CO	29.2	73.4	15.81
 Duluth	MN	8.4	65.5	31
 Portland	OR	39.9	68.1	37.07
-    </pre></datafile>
+    </pre>
+    </datafile>
 
-    <p>We would like to read the file, for each city print out the range of temperatures seen, and find the one city with the largest difference between the average January and July temperatures.</p>
+    <p>We would like to read the file, for each city print out the range of temperatures seen, and
+      find the one city with the largest difference between the average January and July
+      temperatures.</p>
   </introduction>
 
   <subsection>
     <title>Understanding the problem</title>
-    <p>We can break this problem into a few key parts:
-    <ul>
-      <li>Read the file</li>
-      <li>For each city, calculate the range of temperatures</li>
-      <li>Figuring out which city has the largest differential</li>
-    </ul>
-    The second part depends on having data to work with, and the third part depends on the second part, so we will need to tackle them in order.
-    </p>
-    <p>We don't need to store the data for very long. As we read each line, we can calculate the temperature range for that city and decide <q>is this a bigger difference than I have seen so far?</q>. If so, we will remember this new city.</p>
+    <p>We can break this problem into a few key parts: <ul>
+        <li>Read the file</li>
+        <li>For each city, calculate the range of temperatures</li>
+        <li>Figuring out which city has the largest differential</li>
+      </ul> The second part
+      depends on having data to work with, and the third part depends on the second part, so we will
+      need to tackle them in order. </p>
+    <p>We don't need to store the data for very long. As we read each line, we can calculate the
+      temperature range for that city and decide <q>is this a bigger difference than I have seen so
+      far?</q>. If so, we will remember this new city.</p>
   </subsection>
 
   <subsection>
     <title>Reading Data</title>
 
-    <p>Our data looks like it should be easy to read using <pf>>></pf>. Every piece of data is separated by whitespace and each line has exactly the same number of tokens. (If some of the cities had two word names like <pf>San Francisco</pf> that would make things much harder!)</p>
+    <p>Our data looks like it should be easy to read using <pf>>></pf>. Every piece of data is
+      separated by whitespace and each line has exactly the same number of tokens. (If some of the
+      cities had two word names like <pf>San Francisco</pf> that would make things much harder!)</p>
 
-    <p>Rather than trying to read all the data at once, let's just try to read the first line. There isn't an easy way to <q>skip</q> tokens in a text file. We have to read all the data in the file, even if we don't care about what is there. So on each line, we need to read all five pieces of data. Here is an attempt to do that for just the first line:</p>
+    <p>Rather than trying to read all the data at once, let's just try to read the first line. There
+      isn't an easy way to <q>skip</q> tokens in a text file. We have to read all the data in the
+      file, even if we don't care about what is there. So on each line, we need to read all five
+      pieces of data. Here is an attempt to do that for just the first line:</p>
 
-  <listing>
-  <program label="input-output_case-study-temperatures-program-1" add-files="datafile-temps"  interactive="activecode">
+    <listing>
+      <program label="input-output_case-study-temperatures-program-1"
+               add-files="datafile-temps"
+               interactive="activecode">
 <xi:include href="../../programs/input-output/case-study-temperature-1.cpp" parse="text"/>
 </program>
-  </listing>
+    </listing>
 
-    <p>Next up, we can loop to read and print all of the data. Complete the logic for doing so:</p>
+    <p>Next up, we can loop to read and print all of the data. Complete the logic for doing so below.</p>
+
+
+    <exercise label="input-output_case-study-temperatures-ex-0"
+              numbered="yes"
+              adaptive="yes"
+              indentation="hide">
+      <statement>
+        <p>Construct the algorithm to read and print all the lines. Assume <pf>inFile</pf> is already
+          open.</p>
+        <p>Note that just like we can split up long <pf>cout</pf> statements into multiple lines, we
+          can also split up long file input  or output statements using <pf>&lt;&lt;</pf> or <pf>>></pf> into multiple lines for
+          readability. Just because we have <pf>inFile >>...</pf> on two different lines does not mean the data needs to be on
+        different lines. <pf>>></pf> considers a line break to be the same as a space!</p>
+      </statement>
+      <blocks>
+        <block>
+        <cline>while (!inFile.eof()) {</cline>
+      </block>
+        <block>
+      <cline> string city, state;</cline>
+<cline> double janTemp, julyTemp, rainfall;</cline>
+      </block>
+        <block>
+<cline> inFile >> city >> state;</cline>
+      </block>
+        <block>
+<cline> inFile >> janTemp >> julyTemp >> rainfall;</cline>
+      </block>
+        <block>
+<cline> if (inFile.fail()) {</cline>
+<cline>   break;</cline>
+<cline> }</cline>
+      </block>
+        <block>
+<cline> <![CDATA[cout << city << " " << state << " " << janTemp;]]></cline>
+<cline> <![CDATA[cout << julyTemp << " " << rainfall << endl;]]></cline>
+      </block>
+      <block>
+        <cline>}</cline>
+        </block>
+      </blocks>
+    </exercise>
   </subsection>
 
   <subsection>
     <title>Calculating Differences</title>
 
-    <p>Now let's calculate the temperature range for each city. We can do this by subtracting the average January temperature from the average July temperature. For now, we will just print out those values, along with the two temperatures.</p>
+    <p>Now let's calculate the temperature range for each city. We can do this by subtracting the
+      average January temperature from the average July temperature. For now, we will just print out
+      those values, along with the two temperatures.</p>
 
-  <listing>
-  <program label="input-output_case-study-temperatures-program-2" add-files="datafile-temps"  interactive="activecode">
+    <listing>
+      <program label="input-output_case-study-temperatures-program-2"
+               add-files="datafile-temps"
+               interactive="activecode">
 <xi:include href="../../programs/input-output/case-study-temperature-2.cpp" parse="text"/>
 </program>
-  </listing>
+    </listing>
   </subsection>
 
   <subsection>
     <title>Finding the Max</title>
 
-    <p>Now we can worry about identifying which town has the largest difference. To do this, we need to keep track of two pieces of information: which town has the biggest difference so far (a string) and what that difference is (a double). Each time we see a new city, we will check to see if it's difference is greater than the max difference we have seen. If so, we will update both values.</p>
+    <p>Now we can worry about identifying which town has the largest difference. To do this, we need
+      to keep track of two pieces of information: the name of the town that has the biggest
+      difference so far (a string) and what that difference is (a double). Each time we see a new
+      city, we will check to see if the difference between its July and January temperatures is
+      greater than the max difference we have seen. If so, we will update both the maxDiff and the
+      maxCity values.</p>
 
-  <exercise label="input-output_case-study-temperatures-ex-1"
-            numbered="yes"
-            adaptive="yes"
-            indentation="hide">
-    <statement>
-      <p>Construct the algorithm to find the largest difference. Assume <pf>inFile</pf> is already open.</p>
-    </statement>
-    <blocks>
-      <block>
+    <exercise label="input-output_case-study-temperatures-ex-1"
+              numbered="yes"
+              adaptive="yes"
+              indentation="hide">
+      <statement>
+        <p>Construct the algorithm to find the largest difference. Assume <pf>inFile</pf> is already open.</p>
+      </statement>
+      <blocks>
+        <block>
+        <cline>//variables to keep track of the city with the max difference</cline>
         <cline>double maxDiff = 0;</cline>
         <cline>string maxCity = "???";</cline>
       </block>
-      <block>
+        <block>
 <cline>while (!inFile.eof()) {</cline>
       </block>
-      <block>
+        <block>
       <cline> string city, state;</cline>
 <cline> double janTemp, julyTemp, rainfall;</cline>
 <cline> inFile >> city >> state;</cline>
@@ -101,41 +166,28 @@ Portland	OR	39.9	68.1	37.07
 <cline>   break; // Exit the loop if we could not read</cline>
 <cline> }</cline>
       </block>
-      <block>
+        <block>
 <cline> double tempDiff = julyTemp - janTemp;</cline>
       </block>
-      <block>
+        <block>
+<cline> // check if this city has a larger difference</cline>
 <cline> if (tempDiff > maxDiff) {</cline>
       </block>
-      <block>
+        <block>
 <cline>   maxDiff = tempDiff;</cline>
 <cline>   maxCity = city;</cline>
       </block>
-      <block>
+        <block>
 <cline> }</cline>
       </block>
-      <block>
+        <block>
 <cline>}</cline>
 <cline>cout &lt;&lt; town;</cline>
 <cline>cout &lt;&lt; " has the largest temp differential: ";</cline>
 <cline>cout &lt;&lt; maxCity &lt;&lt; " degrees";</cline>
       </block>
-    </blocks>
-    <program-preamble><![CDATA[#include <iostream>
-#include <fstream>
-#include <format>
-#include <string>
-using namespace std;
-
-int main() {
-    ifstream inFile;
-    inFile.open("Temps.txt");
-    
-    ]]></program-preamble>
-    <program add-files="datafile-temps">
-    </program>
-    <program-postamble>}</program-postamble>
-  </exercise>
+      </blocks>
+    </exercise>
 
   </subsection>
 
