@@ -20,78 +20,74 @@
       <p>A bottom-up design for our date program would start by trying to identify small bits of work that we think will need to get done. Maybe we don't initially think of turning each date into a number of days since 0/0/0. But we do realize that we will need to break a string like <pf>"3/4/2023"</pf> into its component parts. So we might start with:
         <ul>
           <li>
-            <p>★ Get the month as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an integer
-representing the month (3 in this case). <pf>int getMonth(string date)</pf></p>
+            <p><pf>int getMonth(string date)</pf> Get the month as an integer.</p>
+              
+            <ul>
+              <li><term>Precondition:</term> a string like <pf>"3/4/2023"</pf>.</li>
+              <li><term>Postcondition:</term> an integer representing the month.</li>
+            </ul>
+
           </li>
           <li>
-            <p>★ Get the day as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an integer
-representing the day (4 in this case). <pf>int getDay(string date)</pf></p>
+            <p> <pf>int getDay(string date)</pf> Get the day as an integer.</p>
+
+            <ul>
+              <li><term>Precondition:</term> a string like <pf>"3/4/2023"</pf>.</li>
+              <li><term>Postcondition:</term> an integer representing the day.</li>
+            </ul>
+
           </li>
           <li>
-            <p>★ Get the year as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an integer
-representing the year (2023 in this case). <pf>int getYear(string date)</pf></p>
-          </li>
-        </ul>
-      </p>
-      <p>Once we have those functions, we maybe get a sense of what we could do with them. It feels pretty clear that we are going to need to figure out how many days are in a given month. So we might add a function to handle that:
-        <ul>
-          <li>
-            <p>Get the month as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an integer
-representing the month (3 in this case). <pf>int getMonth(string date)</pf></p>
-          </li>
-          <li>
-            <p>Get the day as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an integer
-representing the day (4 in this case). <pf>int getDay(string date)</pf></p>
-          </li>
-          <li>
-            <p>Get the year as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an integer
-representing the year (2023 in this case). <pf>int getYear(string date)</pf></p>
-          </li>
-          <li>
-            <p>★ Get the number of days in the given month. Inputs: an integer month; Output: an integer representing the number of days in the given month. <pf>int daysInMonth(int month)</pf></p>
-          </li>
-        </ul>
-      </p>
-      <p>Then, maybe we realize it would be good to combine the month/day into a single total number of days. So 1/3 would be 3 days, 2/1 would be 32 days (31 for January plus one in February), etc... That might lead us to adding a <pf>totalDays</pf> function that takes the month and day. It is seems like that function will rely on <pf>daysInMonth</pf>, so we will consider that older function a building block for the new function:
-        
-        <ul>
-          <li>
-            <p>Get the month as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an integer
-representing the month (3 in this case). <pf>int getMonth(string date)</pf></p>
-          </li>
-          <li>
-            <p>Get the day as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an integer
-representing the day (4 in this case). <pf>int getDay(string date)</pf></p>
-          </li>
-          <li>
-            <p>Get the year as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an integer
-representing the year (2023 in this case). <pf>int getYear(string date)</pf></p>
-          </li>
-          <li>
-            <p>★ Get the total number of days represented by a given month/day combo. Inputs: an integer month, an integer day; Output: an integer representing the total number of days. <pf>int totalDays(int month, int day)</pf>
-              <ul>
-                <li>
-                  <p>Get the number of days in the given month. Inputs: an integer month; Output: an integer representing the number of days in the given month. <pf>int daysInMonth(int month)</pf></p>
-                </li>
-              </ul>
-            </p>
+            <p><pf>int getYear(string date)</pf> Get the year as an integer. </p>
+            <ul>
+              <li><term>Precondition:</term> a string like <pf>"3/4/2023"</pf>.</li>
+              <li><term>Postcondition:</term> an integer representing the year.</li>
+            </ul>
           </li>
         </ul>
       </p>
 
-      <p>At this point we will stop the process. Another step might mix the year value in with the total from the month/day. And eventually we would need to get the user input.</p>
+      <p>At this point, we could stop and build all three of these functions and test them out. Doing this will help us test out our understanding of the problem.</p>
 
+      <note><p>We arrived at a point where we could start writing code much sooner by focusing on concrete details initially instead of the big picture.</p></note>
+  
+      <p>Once we have those functions, we maybe get a sense of what we could do with them. It feels like we might need to know how many days are in a given month. So we might add a function to handle that:
+        <ul>
+          <li>
+            <p><pf>int daysInMonth(int month)</pf> </p>
+            <ul>
+              <li><term>Precondition:</term> an integer month like 3.</li>
+              <li><term>Postcondition:</term> the number of days in that month.</li>
+            </ul>
+          </li>
+        </ul>
+      </p>
+
+      <p>So maybe we build that function.</p>
+
+      <p>Then, maybe we realize it would be good to combine the month/day into a single total number of days. So 1/3 would be 3 days, 2/5 would be 36 days (31 for January plus 5 in February), etc... That might lead us to adding a <pf>totalDays</pf> function that takes the month and day.
+        <ul>
+          <li>
+            <p><pf>int totalDays(int month, int day)</pf> Get the total number of days represented by a given month/day combo.</p>
+            <ul>
+              <li><term>Precondition:</term> an integer month and day.</li>
+              <li><term>Postcondition:</term> the number of days up to and including that day of the year.</li>
+            </ul>
+          </li>
+        </ul>
+      </p>
+
+      <p>As we start to implement that function, we might realize that our <pf>daysInMonth</pf> is not as helpful as we thought. Instead, what we really need is a function that tells us how many days have passed before a given month. It is less valuable to know that there are 31 days in March than it is to know there are 59 days <em>before</em> March starts. So we might need to go write a new function <pf>int daysBeforeMonth(int month)</pf>. (It would look like the version we designed in the top-down approach).</p>
+
+      <note><p>We may not even need the <pf>daysInMonth</pf> function at all if we have <pf>daysBeforeMonth</pf>. This is the danger of starting with low-level details - it is easier to build things that seem like they make sense only to later realize that they don't actually help solve your high-level problem.</p></note>
+
+      <p>Once we have those functions, the next step might be to decide to write a function to compute the total number of days for the month/day and year. And eventually we would need to get the user input.</p>
 
     </example>
   
       <insight>
-        <p>The benefit and challenge of bottom up design both stem from starting from the details. We need less big-picture understanding to make progress, but because of that we are more likely to build functions that do not end up being useful in the final program.</p>
+        <p>The pros and cons of bottom-up design both stem from starting from the details. We need less big-picture understanding to make progress, but because of that we are more likely to build functions that do not end up being useful in the final program.</p></insight>
 
-        <p>You can see that our first steps did not require fully understanding the problem. We just needed to identify some bit of work that needed to be done.</p>
-
-        <p>However, because we were looking for easy building blocks, we ended up taking an indirect route to where we needed to go. The <pf>daysInMonth</pf> function can be used to help build the program, but it might not be strictly necessary.</p></insight>
-
-        
 
   <exercise label="program-design_program-design2-ex-1">
     <statement>
@@ -99,9 +95,10 @@ representing the year (2023 in this case). <pf>int getYear(string date)</pf></p>
     </statement>
     <matching>
         <premise ref="program-design_program-design2-ex-1-td"><p>We need to have a good high level understanding of the problem to start.</p></premise>
-        <premise ref="program-design_program-design2-ex-1-td">The design is very focused on our final goal.</premise>
+        <premise ref="program-design_program-design2-ex-1-td">The process is very focused on our overall goal.</premise>
         <premise ref="program-design_program-design2-ex-1-bu">We need to understand some concrete details of the problem to start.</premise>
-        <premise ref="program-design_program-design2-ex-1-td">More design work may be required before we are ready to implement parts.</premise>
+        <premise ref="program-design_program-design2-ex-1-td">More design work may be required before we are ready to implement any part.</premise>
+        <premise ref="program-design_program-design2-ex-1-bu">We can start implementing once we find a single concrete task.</premise>
         <!--  -->
         <response xml:id="program-design_program-design2-ex-1-td">Top Down</response>
         <response xml:id="program-design_program-design2-ex-1-bu">Bottom Up</response>
