@@ -9,142 +9,510 @@
   <p>As we discuss each, we will consider how they might be used to design a program that calculates
     the number of days between two dates like 3/4/2023 and 4/5/2024. The program will ask the user
     to enter two dates, then calculate the number of days between them, and finally display the
-    result. In these samples of the process, we will not worry about leap years just to reduce the
-    complexity and allow us to focus more on the process than the mathematical details.</p>
+    result.</p>
 
   <p>The first approach we will consider is <term>top-down design</term>. This method involves
     starting with the highest-level function, which outlines the overall structure of the program,
     and then breaking it down into smaller functions that handle specific tasks. Each function
     should be designed to perform a single task or a closely related set of tasks.</p>
+
   <p>As new functions are identified, we should try to clearly specify what inputs they take and
     what outputs they produce. If we are fairly certain a given function can be implemented with a
     short amount of code, we can consider that part of the design finalized. That function will be a
     base-level function that we can implement directly and then use to build higher-level functions.
     If it seems like a given function is too complex to implement easily, we should stop and
     identify parts of the task that can be further broken up.</p>
+
   <p>The strength of top-down design is that we start from the problem we want to solve and use that
     to identify the necessary building blocks. This reduces the chances that we design functions
     that are not actually necessary for the program.</p>
+
   <p>However, top-down design works best when the programmer clearly understands the problem being
     solved and can easily identify the necessary steps to produce a solution. It can be difficult to
     use this approach effectively if the problem is not well understood or the high level task is so
     complex that each piece must be broken down many times before we get to something simple enough
     to consider a base-level function.</p>
+
   <example xml:id="top-down-design-example">
     <title>A Top-Down Design</title>
-    <p>A top-down design for our date program would start by identifying the high-level tasks: <ul>
-        <li>★ Get user input for two dates.</li>
-        <li>
-          <p>★ Calculate the number of days between two dates. Inputs: two strings (like <pf>"3/4/2023"</pf>
-      and "4/5/2024"); Output: an integer representing the number of days between the two dates. <pf>int daysBetween(string date1, string date2)</pf></p>
-        </li>
-      </ul>
-    </p>
-    <note>
-      <p>We will use ★ to mark new functions at each step of the process. Each time you see a list
-        of function ideas, look for that symbol to find the new functions. Anything without that
-        symbol is a function we already identified in a previous step.</p>
-    </note>
-    <p>That sounds too complicated to implement in a few lines of code. So let's break it down.</p>
+    <introduction>
+      <p>We want to calculate the number of days between two dates. We will ignore leap years so we
+        can focus on the process and not on special case logic for handling those.</p>
+      <p>As we identify tasks, we will think of them in terms of <term>precondition</term>
+        (information required to start that task) and <term>postcondition</term> (information
+        produced by that task).</p>
 
-    <p>If
-      we can convert each date into a number of days since the start of year 0000, we can then find
-      the difference between those two numbers. So we will need a function that converts a date
-      string into a number of days. That function will take a string like <pf>"3/4/2023"</pf> and return an
-      integer representing the number of days since 0/0/0. Let's call it <pf>dateToDays</pf>. The existing <pf>daysBetween</pf> function will
-      use <pf>dateToDays</pf> to help do its job. <ul>
-        <li>Get user input for two dates.</li>
-        <li>
-          <p>Calculate the number of days between two dates. Inputs: two strings (like <pf>"3/4/2023"</pf> and
-      <pf>"4/5/2024"</pf>); Output: an integer representing the number of days between the two dates. <pf>int daysBetween(string date1, string date2)</pf> <ul>
+      <note>
+        <p>We will use ★ to mark new chunks of code at each step of the process. Each time you see a
+          list of function ideas, look for that symbol to find the new functions. Anything without
+          that symbol is a function we already identified in a previous step.</p>
+      </note>
+    </introduction>
+
+    <task>
+      <title>Getting Started</title>
+      <p>A top-down design for our date program would start by identifying the high-level tasks: <ul>
+          <li>
+            <p>★ Get dates from the console.</p>
+            <ul>
+              <li><term>Precondition:</term> none. There is no data we need before we can do this
+        job.</li>
+              <li><term>Postcondition:</term> two strings representing the dates entered by the user
+        like <pf>"3/4/2023"</pf>.</li>
+            </ul>
+          </li>
+          <li>
+            <p>★ Calculate the number of days between two dates.</p>
+            <ul>
+              <li><term>Precondition:</term> two strings like <pf>"3/4/2023"</pf> and <pf>"4/5/2024"</pf></li>
+              <li><term>Postcondition:</term> an integer representing the number of days between the
+        two dates.</li>
+            </ul>
+          </li>
+          <li>
+            <p>★ Print result</p>
+            <ul>
+              <li><term>Precondition:</term> number of days.</li>
+              <li><term>Postcondition:</term> none.</li>
+            </ul>
+          </li>
+        </ul>
+      </p>
+      <p>The first and third tasks sound pretty simple - a few lines of code each. The second task
+        sounds too complicated to implement in a few lines of code. So let's turn it into a
+        function. We will call the function <pf>int daysBetween(string date1, string date2)</pf>. It will take the two strings and produce the
+        integer.</p>
+    </task>
+
+    <task>
+      <title>Refining daysBetween</title>
+      <p>We need to think through the <pf>daysBetween</pf> function.</p>
+      <p>If we can convert both dates into a number of days since the start of year 0000, we can
+        then find the difference between those two numbers. That is how we will do the work for <pf>daysBetween</pf>
+        .</p>
+        
+      <note>
+        <p>Remember - the new parts are marked with a ★. Just focus on them.</p>
+      </note>
+
+      <p>So our design now looks like: <ul>
+          <li>
+            <p>Get dates from the console.</p>
+            <ul>
+              <li><term>Precondition:</term> none. There is no data we need before we can do this
+        job.</li>
+              <li><term>Postcondition:</term> two strings representing the dates entered by the user
+        like <pf>"3/4/2023"</pf>.</li>
+            </ul>
+          </li>
+          <li>
+            <p>Calculate the number of days between two dates.</p>
+            <ul>
+              <li><term>Precondition:</term> two strings like <pf>"3/4/2023"</pf> and <pf>"4/5/2024"</pf></li>
+              <li><term>Postcondition:</term> an integer representing the number of days between the
+        two dates.</li>
               <li>
-                <p>★ Convert each date string into a number of days since 0/0/0. Inputs: a string
-      like <pf>"3/4/2023"</pf>; Output: an integer representing the number of days since 0/0/0. <pf>int
-      dateToDays(string date)</pf></p>
+                <p>★ How: <pf>int daysBetween(string date1, string date2)</pf></p>
+                <ul>
+                  <li>
+                    <p>★ Turn date1 into a number of days.</p>
+                    <ul>
+                      <li><term>Precondition:</term> date1 is a string like <pf>"3/4/2023"</pf>.</li>
+                      <li><term>Postcondition:</term> an integer representing the number of days
+        since 0/0/0.</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p>★ Turn date2 into a number of days.</p>
+                    <ul>
+                      <li><term>Precondition:</term> date2 is a string like <pf>"3/4/2023"</pf>.</li>
+                      <li><term>Postcondition:</term> an integer representing the number of days
+        since 0/0/0.</li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p>★ Find the difference between the two numbers.</p>
+                    <ul>
+                      <li><term>Precondition:</term> two integers representing the number of days
+        since 0/0/0 for each date.</li>
+                      <li><term>Postcondition:</term> an integer representing the number of days
+        between the two dates.</li>
+                    </ul>
+                  </li>
+                </ul>
               </li>
             </ul>
-          </p>
-        </li>
-      </ul>
-    </p>
-    <p>The <pf>dateToDays</pf> function is going to need to work with the month, day and year as numbers. So
-      maybe we should write functions to get those parts of the string as integers: <ul>
-        <li>Get user input for two dates.</li>
-        <li>
-          <p>Calculate the number of days between two dates. Inputs: two strings (like <pf>"3/4/2023"</pf> and
-      "4/5/2024"); Output: an integer representing the number of days between the two dates. <pf>int daysBetween(string date1, string date2)</pf> <ul>
+          </li>
+          <li>
+            <p>Print result</p>
+            <ul>
+              <li><term>Precondition:</term> number of days.</li>
+              <li><term>Postcondition:</term> none.</li>
+            </ul>
+          </li>
+        </ul>
+      </p>
+
+      <p>The last new step, finding the difference, sounds easy. But turning a date into an integer
+        number of days sounds complex. So let's give that a name: <pf>dateToDays</pf>. We will make it into a
+        function that takes a string and produces an integer: <pf>int dateToDays(string date)</pf>. We can use the same function to handle both dates. </p>
+    </task>
+
+    <task>
+      <title>Refining dateToDays</title>
+      <p> We now need to design the function <pf>dateToDays</pf>. If we take <pf>"3/4/2023"</pf> and break it up into 3
+        (month), 4 (day), and 2023 (year), we can use these values to calculate the total number of
+        days.</p>
+
+      <p>So our design now looks like: <ul>
+          <li>
+            <p>Get dates from the console.</p>
+            <ul>
+              <li><term>Precondition:</term> none. There is no data we need before we can do this
+        job.</li>
+              <li><term>Postcondition:</term> two strings representing the dates entered by the user
+        like <pf>"3/4/2023"</pf>.</li>
+            </ul>
+          </li>
+          <li>
+            <p>Calculate the number of days between two dates.</p>
+            <ul>
+              <li><term>Precondition:</term> two strings like <pf>"3/4/2023"</pf> and <pf>"4/5/2024"</pf></li>
+              <li><term>Postcondition:</term> an integer representing the number of days between the
+        two dates.</li>
               <li>
-                <p>Convert each date string into a number of days since 0/0/0. Inputs: a string like <pf>"3/4/2023"</pf>;
-      Output: an integer representing the number of days since 0/0/0. <pf>int dateToDays(string date)</pf> <ul>
-                    <li>
-                      <p>★ Get the month as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an
-      integer representing the month (3 in this case). <pf>int getMonth(string date)</pf></p>
-                    </li>
-                    <li>
-                      <p>★ Get the day as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an
-      integer representing the day (4 in this case). <pf>int getDay(string date)</pf></p>
-                    </li>
-                    <li>
-                      <p>★ Get the year as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an
-      integer representing the year (2023 in this case). <pf>int getYear(string date)</pf></p>
-                    </li>
-                  </ul>
-                </p>
+                <p>How: <pf>int daysBetween(string date1, string date2)</pf></p>
+                <ul>
+                  <li>
+                    <p>Turn date1 into a number of days.</p>
+                    <ul>
+                      <li><term>Precondition:</term> date1 is a string like <pf>"3/4/2023"</pf>.</li>
+                      <li><term>Postcondition:</term> an integer representing the number of days
+        since 0/0/0.</li>
+                      <li>
+                        <p>★ How: <pf>int dateToDays(string date)</pf></p>
+                        <ul>
+                          <li>
+                            <p>★ Get the month</p>
+                            <ul>
+                              <li><term>Precondition:</term> date is a string like <pf>"3/4/2023"</pf>.</li>
+                              <li><term>Postcondition:</term> an integer representing the month
+        part.</li>
+                            </ul>
+                          </li>
+                          <li>
+                            <p>★ Get the day</p>
+                            <ul>
+                              <li><term>Precondition:</term> date is a string like <pf>"3/4/2023"</pf>.</li>
+                              <li><term>Postcondition:</term> an integer representing the day part.</li>
+                            </ul>
+                          </li>
+                          <li>
+                            <p>★ Get the year</p>
+                            <ul>
+                              <li><term>Precondition:</term> date is a string like <pf>"3/4/2023"</pf>.</li>
+                              <li><term>Postcondition:</term> an integer representing the year part.</li>
+                            </ul>
+                          </li>
+                          <li>
+                            <p>★ Calculate the total number of days</p>
+                            <ul>
+                                <li><term>Precondition:</term> number values for month, day, and year.</li>
+                                <li><term>Postcondition:</term> an integer representing the number of days
+                  since 0/0/0.</li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p>Turn date2 into a number of days.</p>
+                    <ul>
+                      <li><term>Precondition:</term> date2 is a string like <pf>"3/4/2023"</pf>.</li>
+                      <li><term>Postcondition:</term> an integer representing the number of days
+        since 0/0/0.</li>
+                      <li>
+                        <p>★ How: use <pf>int dateToDays(string date)</pf> described above</p>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p>Find the difference between the two numbers.</p>
+                    <ul>
+                      <li><term>Precondition:</term> two integers representing the number of days
+        since 0/0/0 for each date.</li>
+                      <li><term>Postcondition:</term> an integer representing the number of days
+        between the two dates.</li>
+                    </ul>
+                  </li>
+                </ul>
               </li>
             </ul>
-          </p>
-        </li>
-      </ul></p>
-    <p>Those all sound easy enough to implement, they don't need any more refinement.</p>
-    
-    <p>However,
-      calculating the total number of days still sounds a bit complex. Working with the days and
-      years should be easy. We know each year is 365 days (recall that we are cheating a little and
-      ignoring leap years) and that each day is 1 day. But the months will complicate things.</p>
+          </li>
+          <li>
+            <p>Print result</p>
+            <ul>
+              <li><term>Precondition:</term> number of days.</li>
+              <li><term>Postcondition:</term> none.</li>
+            </ul>
+          </li>
+        </ul>
+      </p>
+      <p>How hard is it to take <pf>"3/4/2023"</pf> and get the day part, or the month part as an integer? Not too hard. We can probably write that in a few lines of code (find the right part of the string, then use <pf>stoi</pf> on that part). But if we make those tasks into functions, it will be easier to test that they are working correctly. So let's do that.</p>
+    </task>
 
-      <p>What would make the job easier? Well, what if I could ask someone <q>how many days are there before month X starts?</q>. If I could ask <q>how many days were there before the start of March</q> and get the answer 59 (31 for Jan + 28 for Feb), it would be easy to do the rest of <pf>dateToDays</pf>. </p>
+    <task>
+      <title>Adding dateToDays helpers</title>
 
-      <p>So let's add a function <pf>daysBeforeMonth</pf> that answers that question. Our design now looks like:<ul>
-
-        <li>Get user input for two dates.</li>
-        <li>
-          <p>Calculate the number of days between two dates. Inputs: two strings (like <pf>"3/4/2023"</pf> and
-      "4/5/2024"); Output: an integer representing the number of days between the two dates. <pf>int daysBetween(string date1, string date2)</pf> <ul>
+      <p>We are going to turn the three tasks that get parts of the date string into functions. So our design now will be: <ul>
+          <li>
+            <p>Get dates from the console.</p>
+            <ul>
+              <li><term>Precondition:</term> none. There is no data we need before we can do this
+        job.</li>
+              <li><term>Postcondition:</term> two strings representing the dates entered by the user
+        like <pf>"3/4/2023"</pf>.</li>
+            </ul>
+          </li>
+          <li>
+            <p>Calculate the number of days between two dates.</p>
+            <ul>
+              <li><term>Precondition:</term> two strings like <pf>"3/4/2023"</pf> and <pf>"4/5/2024"</pf></li>
+              <li><term>Postcondition:</term> an integer representing the number of days between the
+        two dates.</li>
               <li>
-                <p>Convert each date string into a number of days since 0/0/0. Inputs: a string like <pf>"3/4/2023"</pf>;
-      Output: an integer representing the number of days since 0/0/0. <pf>int dateToDays(string date)</pf> <ul>
-                    <li>
-                      <p>Get the month as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an
-      integer representing the month (3 in this case). <pf>int getMonth(string date)</pf></p>
-                    </li>
-                    <li>
-                      <p>Get the day as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an
-      integer representing the day (4 in this case). <pf>int getDay(string date)</pf></p>
-                    </li>
-                    <li>
-                      <p>Get the year as an integer. Inputs: a string like <pf>"3/4/2023"</pf>; Output: an
-      integer representing the year (2023 in this case). <pf>int getYear(string date)</pf></p>
-                    </li>
-                    <li>
-                      <p>★ Get the number of days before the given month. Inputs: an integer month;
-      Output: an integer representing the number of days before the given month started. <pf>int daysBeforeMonth(int month)</pf></p>
-                    </li>
-                  </ul>
-                </p>
+                <p>How: <pf>int daysBetween(string date1, string date2)</pf></p>
+                <ul>
+                  <li>
+                    <p>Turn date1 into a number of days.</p>
+                    <ul>
+                      <li><term>Precondition:</term> date1 is a string like <pf>"3/4/2023"</pf>.</li>
+                      <li><term>Postcondition:</term> an integer representing the number of days
+        since 0/0/0.</li>
+                      <li>
+                        <p>How: <pf>int dateToDays(string date)</pf></p>
+                        <ul>
+                          <li>
+                            <p>Get the month</p>
+                            <ul>
+                              <li><term>Precondition:</term> date is a string like <pf>"3/4/2023"</pf>.</li>
+                              <li><term>Postcondition:</term> an integer representing the month
+        part.</li>
+                              <li><p>★ How: <pf>int getMonth(string date)</pf></p>
+                              </li>
+                            </ul>
+                          </li>
+                          <li>
+                            <p>Get the day</p>
+                            <ul>
+                              <li><term>Precondition:</term> date is a string like <pf>"3/4/2023"</pf>.</li>
+                              <li><term>Postcondition:</term> an integer representing the day part.</li>
+                              <li><p>★ How: <pf>int getDay(string date)</pf></p></li>
+                            </ul>
+                          </li>
+                          <li>
+                            <p>Get the year</p>
+                            <ul>
+                              <li><term>Precondition:</term> date is a string like <pf>"3/4/2023"</pf>.</li>
+                              <li><term>Postcondition:</term> an integer representing the year part.</li>
+                              <li><p>★ How: <pf>int getYear(string date)</pf></p></li>
+                            </ul>
+                          </li>
+                          <li>
+                            <p>Calculate the total number of days</p>
+                            <ul>
+                                <li><term>Precondition:</term> number values for month, day, and year.</li>
+                                <li><term>Postcondition:</term> an integer representing the number of days
+                  since 0/0/0.</li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p>Turn date2 into a number of days.</p>
+                    <ul>
+                      <li><term>Precondition:</term> date2 is a string like <pf>"3/4/2023"</pf>.</li>
+                      <li><term>Postcondition:</term> an integer representing the number of days
+        since 0/0/0.</li>
+                      <li>
+                        <p>How: use <pf>int dateToDays(string date)</pf> described above</p>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p>Find the difference between the two numbers.</p>
+                    <ul>
+                      <li><term>Precondition:</term> two integers representing the number of days
+        since 0/0/0 for each date.</li>
+                      <li><term>Postcondition:</term> an integer representing the number of days
+        between the two dates.</li>
+                    </ul>
+                  </li>
+                </ul>
               </li>
             </ul>
-          </p>
-        </li>
-      </ul></p>
+          </li>
+          <li>
+            <p>Print result</p>
+            <ul>
+              <li><term>Precondition:</term> number of days.</li>
+              <li><term>Postcondition:</term> none.</li>
+            </ul>
+          </li>
+        </ul>
+      </p>
 
-    <p>At this point, each of the listed functions seems simple enough to implement on its own. (The new function could just be a big if/else chain (if the month is 0, return 0; if the month is 1, return 31; if the month is 2, return 59; etc...). So now we can start implementation.</p>
+      <p>Those three new functions sound easy enough to implement in a few lines of code. So we don't need to refine them any more.</p>
+    </task>
 
+    <task>
+      <title>Finish dateToDays</title>
+
+      <p>Reviewing our design, the only part that we haven't thought through is <q>Calculate the total number of days</q>.</p>
+
+    <p>Using the
+      days and years should be easy. We know each year is 365 days (recall that we are ignoring leap years) and each day is 1 day. 
+      But the months will be more complicated.</p>
+
+    <p>What would make the job easier? Well, what if I could ask someone <q>how many days are there
+      before month X starts?</q>. If I could ask <q>how many days were there before the start of
+      March</q> and get the answer 59 (31 for Jan + 28 for Feb), it would be easy to do the rest of <pf>dateToDays</pf>. My math could just look like:
+    <pf>totalDays = daysBeforeMonth(month) + (day) + (year * 365)</pf></p>
+
+    <p>So let's add a function <pf>daysBeforeMonth</pf> that answers that question.</p>
+
+      <p>Focusing just in on the new part of our design, we now have: <ul>
+          <li>
+            <p>Get dates from the console...</p>
+          </li>
+          <li>
+            <p>Calculate the number of days between two dates.</p>
+            <ul>
+              <li><term>Precondition:</term> two strings like <pf>"3/4/2023"</pf> and <pf>"4/5/2024"</pf></li>
+              <li><term>Postcondition:</term> an integer representing the number of days between the
+        two dates.</li>
+              <li>
+                <p>How: <pf>int daysBetween(string date1, string date2)</pf></p>
+                <ul>
+                  <li>
+                    <p>Turn date1 into a number of days.</p>
+                    <ul>
+                      <li><term>Precondition:</term> date1 is a string like <pf>"3/4/2023"</pf>.</li>
+                      <li><term>Postcondition:</term> an integer representing the number of days
+        since 0/0/0.</li>
+                      <li>
+                        <p>How: <pf>int dateToDays(string date)</pf></p>
+                        <ul>
+                          <li>
+                            <p>Get the month...</p>
+                          </li>
+                          <li>
+                            <p>Get the day...</p>
+                          </li>
+                          <li>
+                            <p>Get the year...</p>
+                          </li>
+                          <li>
+                            <p>★ Get the number of days before the start of a given month.</p>
+                            <ul>
+                                <li><term>Precondition:</term> number value for month</li>
+                                <li><term>Postcondition:</term> an integer representing the number of days before the start of the month</li>
+                                <li>★ How: <pf>int daysBeforeMonth(int month)</pf></li>
+                            </ul>
+                          </li>
+                          <li>
+                            <p>Calculate the total number of days</p>
+                            <ul>
+                                <li>★ <term>Precondition:</term> number values for day, year, and number of days before the month.</li>
+                                <li><term>Postcondition:</term> an integer representing the number of days
+                  since 0/0/0.</li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p>Turn date2 into a number of days...</p>
+                  </li>
+                  <li>
+                    <p>Find the difference between the two numbers...</p>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <p>Print result...</p>
+          </li>
+        </ul>
+      </p>
+
+      <p>Note that we adjusted the precondition for the last task in <pf>dateToDays</pf> to assume that it will use
+      the value produced by our new <pf>daysBeforeMonth</pf> function.</p>
+
+      <p>How hard is it to implement <pf>daysBeforeMonth</pf>? It just needs to return a fixed value
+      for each month. So it seems simple enough to implement using something like a big if/else
+      chain (if the month is 0, return 0; if the month is 1, return 31; if the month is 2, return 59; etc...).</p>
+
+    <p>At this point, each of the listed functions seems simple enough to implement on its own.
+      So now we can start implementation!</p>
+
+    </task>
   </example>
 
-    <insight>
-      <p>While reading the steps, you might have noticed that this method depends on <q>seeing</q>
-        the solution clearly before we get down to the details. We need to have a strong sense of how
-        we are going to solve each part of the problem to identify the functions we need to build.</p>
-      <p>Faced with a new problem, you may have to try to solve it by hand first to get a better sense of the path you want to take before you start designing a solution.</p>
-    </insight>
+  <insight>
+    <p>While reading the steps, you might have noticed that this method depends on <q>seeing</q> the
+      solution clearly before we get down to the details. We need to have a strong sense of how we
+      are going to solve each part of the problem to identify the functions we need to build.</p>
+    <p>Faced with a new problem, you may have to try to solve it by hand first to get a better sense
+      of the path you want to take before you start designing a solution.</p>
+  </insight>
+
+  <exercise label="program-design_top-down-design-exercise-1" indentation="hide">
+    <title>Top-Down Design Exercise</title>
+    <statement>
+    <p>Arrange the final blocks representing tasks in the correct order. Use indentation to show what are subtasks.</p></statement>
+  <blocks>
+    <block order="3" name="a" depends="">
+        <cline>Get user inputs</cline>
+    </block>
+    <block order="2" name="b" depends="a">
+        <cline>Calculate the number of days between the dates</cline>
+    </block>
+    <block order="6" name="c" depends="b">
+        <cline> Turn the first date into a number of days</cline>
+    </block>
+    <block order="9" name="d" depends="c">
+        <cline>  Get the month number from the first date</cline>
+    </block>
+    <block order="5" name="e" depends="c">
+        <cline>  Get the day number from the first date</cline>
+    </block>
+    <block order="4" name="f" depends="c">
+        <cline>  Get the year number from the first date</cline>
+    </block>
+    <block order="11" name="g" depends="d">
+        <cline>  Get the number of days before the month</cline>
+    </block>
+    <block order="8" name="h" depends="f g e">
+        <cline>  Compute the number of days</cline>
+    </block>
+    <block order="12" name="i" depends="b">
+        <cline> Turn the second date into a number of days</cline>
+    </block>
+    <block order="7" name="j" depends="i">
+        <cline>  Use the same logic as we did for first date</cline>
+    </block>
+    <block order="10" name="k" depends="c i">
+        <cline> Find the difference between the two numbers</cline>
+    </block>
+    <block order="1" name="l" depends="b">
+        <cline>Print number of days</cline>
+    </block>
+  </blocks>
+    </exercise>
 </section>

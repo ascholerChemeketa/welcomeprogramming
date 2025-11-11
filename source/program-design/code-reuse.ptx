@@ -15,11 +15,20 @@
 
   <p>To do this, we need to identify a group of lines that works together to calculate a single value and is then repeated multiple times. In this case, we have three repetitions of <q>Print prompt, read in value, print to confirm</q>. Each of those repetitions results in a single piece of information, a double represent a side length. So we can break that code out into a function <pf>double getDoubleInput</pf> that will perform the three steps and return the side length.</p>
 
-  <p>We will need to call the function three times. Anything that needs to change from one repetition to the next can be passed in as a parameter to the function. In this case, we need to print a different message each time we get input. So we will make the <pf>prompt</pf> a parameter. That way, we can customize the message for each side of the triangle. We now have a function <pf>double getDoubleInput(const string&amp; prompt)</pf>:</p>
+  <p>Anything that needs to change from one repetition to the next can be passed in as a parameter to the function. In this case, we need to print a different message each time we get input. So we will make the <pf>prompt</pf> a parameter. That way, we can customize the message for each side of the triangle. We now have a function <pf>double getDoubleInput(const string&amp; prompt)</pf>:</p>
 
-  <program linenumbers="yes" line-numbers="yes" highlight-lines="7-13,22-24">
+<listing>  
+  <program label="program-design_code-reuse-program-1" linenumbers="yes" line-numbers="yes" highlight-lines="7-13,22-24" interactive="activecode">
+    <code>
 <xi:include href="../../programs/program-design/area-calculation-best.cpp" parse="text"/>
+  </code>
+    <stdin>
+3
+4
+5
+    </stdin>
 </program>
+ </listing>
 
   <p>Not only have we eliminated duplication, we have made it easier to make future changes to the input. Say we want to add a check for negative input<mdash/>if the user enters a negative value, we will ask for new input. In this new version of the program, we can modify the <pf>getDoubleInput</pf> function and all three inputs will then take advantage of the new code.</p>
 

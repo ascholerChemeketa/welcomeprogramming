@@ -1,17 +1,17 @@
 <section xml:id="program-design_modularity"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <title>Modularity</title>
+  <title>Modularity and Pure Functions</title>
 
   <p><term>Modularity</term> is the degree to which a system's components may be separated and recombined. In programming, this often refers to the organization of code into distinct functions or modules that can be developed, tested, and maintained independently. One important way to make functions modular is to follow the single responsibility pattern. But another is to limit a functions communication with other code to parameters and return values.</p>
 
-  <p>In <xref ref="functions-testing_scope_global-variables"/>, we discussed global variables. Global variables make functions less modular because it ties their behavior to the global state of the program. If you see the code: <pf>getTriangleArea(side1, side2, side3)</pf>, it is pretty clear that the function is going to calculate the area of a triangle with those three sides. We could write a version of that function that instead uses global variables to store the data needed:</p>
+  <p>In <xref ref="functions-testing_scope_global-variables"/>, we discussed global variables. Global variables make functions less modular because it ties their behavior to the global state of the program. If you see the code: <pf>calculateTriangleArea(side1, side2, side3)</pf>, it is pretty clear that the function is going to calculate the area of a triangle with those three sides. We could write a version of that function that instead uses global variables to store the data needed:</p>
 
   <program line-numbers="yes" highlight-lines="2,3,6-11,24" >
 <xi:include href="../../programs/program-design/area-calculation-awful.cpp" parse="text"/>
 </program>
 
-  <p>Looking at the function call <pf>getTriangleArea()</pf> on line 24, it is completely unclear what data is going to be worked on. It is also unclear what answer is produced. The caller has to know that they need to set the special variables <pf>side1</pf>, <pf>side2</pf>, and <pf>side3</pf> before calling the function. And they need to know that the result will be stored in the global variable <pf>area</pf>. This function communicates with the rest of this program via the secret back channel of global variables.</p>
+  <p>Looking at the function call <pf>calculateTriangleArea()</pf> on line 24, it is completely unclear what data is going to be worked on. This function communicates with the rest of this program via the secret back channel of global variables. The caller has to know that they need to set the special variables <pf>side1</pf>, <pf>side2</pf>, and <pf>side3</pf> before calling the function. And they need to know that the result will be stored in the global variable <pf>area</pf>.</p>
 
   <p>A call to the original version of the function looked like this:</p>
 
@@ -19,7 +19,11 @@
     double area = getTriangleArea(side1, side2, side3);
   </program>
 
-  <p>It is clear exactly what information is being passed to the function and what result is produced. It is an example of a <term>pure function</term>, one that does not have side effects and always produces the same output for the same input. <pf>getTriangleArea(3,4,5)</pf> will always produce the same answer (unlike the bad <pf>getTriangleArea()</pf> that can produce a different answer if the global variables change). And calling that function will not change the behavior of any code that comes after it. We could insert <pf>getTriangleArea(3,4,5)</pf> after each line of main and the only effect would be some wasted time doing math that then was ignored. Pure functions like that are much more modular than functions that rely on global state or side effects.</p>
+  <p>It is clear exactly what information is being passed to the function and what result is produced. It is an example of a <term>pure function</term>, one that does not have side effects and always produces the same output for the same input. The call <pf>getTriangleArea(3, 4, 5)</pf> is <term>pure</term> because it always produce the same answer: 6.0. Furthermore, calling the function will not change the behavior of anything else in the program.</p>
+  
+  <p>Now consider the version of <pf>getTriangleArea()</pf> that relies on global variables again. We can't predict the answer without knowing what value global variables have. Its behavior thus relies on the overall state of the program (whether or not other code set the global variables). Furthermore, the function changes a global variable, which may cause non-obvious changes to the behavior of code that comes after it.</p>
+
+  <p>Pure functions like <pf>double calculateTriangleArea(double side1, double side2, double side3)</pf> are inherently more modular than functions that rely on global state or side effects. Changes to other code can't affect the behavior of this version of <pf>calculateTriangleArea</pf> unless they change the parameter values passed into a call. And calling the function can't change the behavior of other code.</p>
 
   <insight>
     <p>Functions should take input via parameters. They should return results via return values. All <q>communication</q> with the rest of the program should happen through these mechanisms.</p>
@@ -59,7 +63,7 @@
 
   <p>To use that function we would call: <pf>capitalize(original);</pf></p>
 
-  <p>The advantage here is there is only one string. We never make a copy of the original. The downside is the behavior of that call is less clear. The reader can't necessarily tell that the original string is being modified. They might assume the function is printing the modified version and not changing the original.</p>
+  <p>The advantage here is there is only one string. We never make a copy of the original. The downside is that the function is no longer <term>pure</term><mdash/>whatever string variable was passed into the function has been changed. This changes the state of calling function. Looking at the function call <pf>capitalize(original);</pf>, a reader can't necessarily tell that the original string is being modified.</p>
 
   <p>For a function we expect to only work on small pieces of text, the less efficient approach of returning a modified copy is probably the better design. However, if we expect to work with larger strings where performance is a concern, modifying the original in place may be justified. (Remember, design is about trade-offs!)</p>
 

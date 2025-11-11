@@ -31,17 +31,17 @@
 
       <listing>
       <program>
-        // (chunk 1)
+        // Get inputs (chunk 1)
         cin >> variable1;
         cin >> variable2;
         cin >> variable3;
 
-        // (chunk 2)
+        // Calculate values (chunk 2)
         variable4 = variable1 + variable2;
         variable5 = variable2 * variable3;
         variable6 = variable4 + variable5;
 
-        // (chunk 3)
+        // Output results (chunk 3)
         cout &lt;&lt; "The result is: " &lt;&lt; endl;
         cout &lt;&lt; variable6 &lt;&lt; endl;
       </program>
@@ -76,12 +76,35 @@
     <p>Look for groups of lines in the function that work together to produce a single
       value or perform a single task. Consider breaking each of those groups into their own functions.</p>
       
-    <p>For example, maybe inside a 20 line function you do 5 lines of calculations to get <pf>triangleArea</pf>. All the code after those 5 lines only depends on final value for <pf>triangleArea</pf> and not any of the work done to calculate it. Those 5 lines would be a good candidate to <q>chunk</q> into a separate function <pf>getTriangleArea</pf> would make the code clearer and easier to read. The main function would then just call <pf>getTriangleArea</pf> and use the result.</p>
-      
-    <p>There are
-      algorithms that involve a significant number of steps which are all tightly interrelated. In
+    <p>For example, maybe inside a 15 line function you do 5 lines of calculations to get <pf>triangleArea</pf>:</p>
+    
+      <program>
+        ... 5 lines of code that set x1, y1, x2, y2, x3, y3 ...
+
+        double side1 = sqrt(x1, y1, x2, y2);
+        double side2 = sqrt(x1, y1, x3, y3);
+        double side3 = sqrt(x2, y2, x3, y3);
+        double s = (side1 + side2 + side3) / 2;
+        double triangleArea = sqrt(s * (s - side1) * (s - side2) * (s - side3));
+
+        ... 5 lines of code that use triangleArea ...
+      </program>
+
+    <p>The shown lines only depend on the x and y variables. The lines after them only depend on the final value of <pf>triangleArea</pf>. So we could <q>chunk</q> them into a separate function <pf>getTriangleArea</pf>. Then the 15 line function could be shorted to:</p>
+
+      <program>
+        ... 5 lines of code that set x1, y1, x2, y2, x3, y3 ...
+
+        double triangleArea = getTriangleArea(x1, y1, x2, y2, x3, y3);
+
+        ... 5 lines of code that use triangleArea ...
+      </program>
+
+    <p>Occasionally, there are
+      algorithms that involve a significant number of tightly interrelated steps. In
       those cases you may not be able to cleanly break out parts of the logic. But in many cases, there will
       be opportunities to simplify and clarify the code by breaking it into smaller pieces.</p>
+
   </subsection>
 
   <subsection>
@@ -99,8 +122,10 @@
 
     <p>However, compilers do all kinds of optimizations that can eliminate that overhead. Any modern
       compiler will likely generate the same machine code for <pf>int area =
-      calculateRectangleArea(length, width);</pf> as it would for the code <pf>int area = length * width;</pf>.
-      So in practice, there is likely no performance difference, and the benefits of using functions
+      calculateRectangleArea(length, width);</pf> as it would for the code <pf>int area = length * width;</pf>.</p>
+
+      <p>
+      So, in practice, there is likely no performance difference. Thus the benefits of using functions
       (like improved readability and maintainability) far outweigh the costs. The reader who sees
       <pf>calculateRectangleArea</pf> will immediately understand what it does, without having to mentally
       parse the implementation details (<q>hrmmm, <pf>length * width</pf>, oh that is just calculating the
