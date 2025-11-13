@@ -11,8 +11,8 @@ int main() {
     cout << format("_{:2}_", b) << endl;
     cout << "5 chars space:" << endl;
     cout << format("_{:5}_", a) << endl;
-    cout << format("_{:5}_", a) << endl;
+    cout << format("_{:5}_", b) << endl;
     cout << "10 chars space:" << endl;
     cout << format("_{:10}_", a) << endl;
-    cout << format("_{:10}_", a) << endl;
+    cout << format("_{:10}_", b) << endl;
 }
