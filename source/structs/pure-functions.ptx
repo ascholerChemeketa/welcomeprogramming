@@ -63,7 +63,7 @@
 
   <p>However, pure functions can be less efficient. Our pure <pf>increment</pf> function must make a new <pf>Time</pf> struct each time we call it. This is more work than just changing a number or two in an existing struct, which the modifying version does. In situations where we have a large struct with many member variables and want to have a function that only changes one of the variables, it can be wasteful to make a copy.</p>
 
-  <p>In general, you should favor pure functions for smaller structs (where the efficiency differences aren't as extreme) or situations that clearly imply that a new value or copy are being made. Favor modifying functions when you make are making small changes to a large existing struct or the situation clearly involves changing an existing value and then not caring about the old value. Do try to stick to one approach or another. Writing a function that modifies the input and returns a new value</p>
+  <p>In general, you should favor pure functions for smaller structs (where the efficiency differences aren't as extreme) or situations that clearly imply that a new value or copy are being made. Favor modifying functions when you make are making small changes to a large existing struct or the situation clearly involves changing an existing value and then not caring about the old value. Do try to stick to one approach or another. You should not both modify the input and return a new value in the same function.</p>
 
   <exercise label="structs_pure-functions-ex-1">
     <statement>

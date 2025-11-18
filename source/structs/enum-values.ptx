@@ -59,20 +59,27 @@
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Construct a <pf>Class</pf> enum and a Student struct with a string name and Class classStanding.
-        Put the enum before the struct:</p>
+      <p>Construct a <pf>Standing</pf> enum with values for FRESHMAN, SOPHOMORE, JUNIOR, and SENIOR such that they have the values 9, 10, 11, and 12.</p>
     </statement>
     <blocks>
       <block>
         <choice correct="yes">
-          <cline>enum class Class {</cline>
+          <cline>enum class Standing {</cline>
         </choice>
         <choice>
-          <cline>struct Class {</cline>
+          <cline>struct Standing {</cline>
+        </choice>
+        <choice>
+          <cline>enum Standing {</cline>
         </choice>
       </block>
       <block>
-        <cline>  FRESHMEN = 9,</cline>
+        <choice correct="yes">
+          <cline>  FRESHMAN = 9,</cline>
+        </choice>
+        <choice>
+          <cline>  FRESHMAN,</cline>
+        </choice>
       </block>
       <block>
         <cline>  SOPHOMORE,</cline>
@@ -84,6 +91,17 @@
         <cline>  SENIOR</cline>
         <cline>};</cline>
       </block>
+    </blocks>
+  </exercise>
+
+  
+  <exercise label="structs_enum-values-ex-2"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Define a Student struct with a string name and Standing (from <xref ref="structs_enum-values-ex-1"/>) classStanding.</p>
+    </statement>
+    <blocks>
       <block>
         <choice correct="yes">
           <cline>struct Student {</cline>
@@ -97,10 +115,10 @@
       </block>
       <block>
         <choice correct="yes">
-          <cline>  Class classStanding;</cline>
+          <cline>  Standing classStanding;</cline>
         </choice>
         <choice>
-          <cline>  Class::classStanding;</cline>
+          <cline>  Standing::classStanding;</cline>
         </choice>
       </block>
       <block>

@@ -71,7 +71,7 @@ cout << static_cast<int>(Suit::CLUBS);    // Prints 0
 
   <insight><p>Enumerated values are a great use case for <pf>switch</pf> statements. We have a finite list of items that all have unique integer values. We could write <pf>suitToString</pf> with if/else logic, but the switch is a little more succinct.</p></insight>
 
-  <note><p>C++ has an older, similar syntax for making an enum that skips the word <pf>class</pf>. That syntax is considered more dangerous as the values defined become the values freely <q>decay</q> into integers and become part of the global namespace, which can easily lead to name collisions (situations where the same name could mean multiple things - like <pf>BLACK</pf> referring to both a font color and a background color).</p></note>
+  <note><p>C++ has an older, similar syntax for making an enum that skips the word <pf>class</pf>. That syntax is considered more dangerous as the values defined that way a) freely <q>decay</q> into integers; and b) become part of the global namespace, which can easily lead to name collisions (situations where the same name could mean multiple things - like <pf>BLACK</pf> referring to both a font color and a background color).</p></note>
 
 
   <exercise label="structs_enumerated-types-ex-1">
