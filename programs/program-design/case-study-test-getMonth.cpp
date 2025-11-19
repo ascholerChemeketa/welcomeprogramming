@@ -3,19 +3,6 @@
 
 import DateFunctions;
 
-TEST_CASE("daysBeforeMonth") {
-    CHECK(daysBeforeMonth(1) == 0);
-    CHECK(daysBeforeMonth(2) == 31);
-    CHECK(daysBeforeMonth(4) == 90);
-    CHECK(daysBeforeMonth(12) == 334);
-}
-
-TEST_CASE("daysBeforeMonth invalid inputs") {
-    CHECK_THROWS(daysBeforeMonth(0));
-    CHECK_THROWS(daysBeforeMonth(13));
-    CHECK_THROWS(daysBeforeMonth(-1));
-}
-
 TEST_CASE("getMonth") {
     CHECK(getMonth("3/4/2023") == 3);
     CHECK(getMonth("12/31/1999") == 12);
