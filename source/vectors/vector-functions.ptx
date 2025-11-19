@@ -17,10 +17,10 @@
 <xi:include href="../../programs/vectors/vector-functions-2.cpp" parse="text"/>
 </program>
 
-  <p>To return a vector, we can declare the return type to be a <pf>vector&lt;T></pf> and then make sure to return an appropriate type of vector. (A returned value is always copied, though the compiler may do some tricks to avoid actually copying the data). This function returns a new vector that is a copy of the one passed in which every element gets doubled:</p>
+  <p>To return a vector, we can declare the return type to be a <pf>vector&lt;T></pf> and then make sure to return an appropriate type of vector. (A returned value is potentially always copied, though the compiler may do some tricks to avoid actually copying the data). This function returns a new vector that is a copy of the one passed in which every element gets doubled:</p>
 
   <listing>
-  <program label="vectors_vector-functions-program-1" interactive="activecode">
+  <program label="vectors_vector-functions-program-1" interactive="activecode" line-numbers="yes" highlight-lines="6,8,10,12,18">
 <xi:include href="../../programs/vectors/vector-functions-3.cpp" parse="text"/>
 </program>
   </listing>
@@ -28,7 +28,7 @@
   <p>Note that we could write the function so that instead of making a new vector and returning that we modified the vector that was passed in:</p>
 
   <listing>
-  <program label="vectors_vector-functions-program-2" interactive="activecode">
+  <program label="vectors_vector-functions-program-2" interactive="activecode" line-numbers="yes" highlight-lines="7,9,10,17">
 <xi:include href="../../programs/vectors/vector-functions-4.cpp" parse="text"/>
 </program>
   </listing>
@@ -93,67 +93,5 @@
     </blocks>
   </exercise>
 
-
-  <exercise label="vectors_vector-functions-ex-2">
-    <statement>
-      <p>Suppose the following code is run:</p>
-      <program>
-vector&lt;string&gt; lauren = {"happy", "to", "you", "September", "birthday", "girl"}
-</program>
-      <p>How would you save the string <pf>"birthday"</pf> from <pf>lauren</pf> to the variable <pf>nurse</pf>?</p>
-    </statement>
-    <choices randomize="yes">
-      <choice correct="yes">
-        <statement>
-          <p>
-            <pf>nurse = lauren.at(4)</pf>
-          </p>
-        </statement>
-        <feedback>
-          Vectors are zero-indexed, so the fifth element is the fourth index.
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>
-            <pf>nurse = lauren.at(5)</pf>
-          </p>
-        </statement>
-        <feedback>
-          Remember, vectors are zero-indexed!
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>
-            <pf>nurse = lauren.at(6)</pf>
-          </p>
-        </statement>
-        <feedback>
-          Remember, vectors are zero-indexed!
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>
-            <pf>nurse = lauren(4)</pf>
-          </p>
-        </statement>
-        <feedback>
-          This is not proper vector indexing.
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>
-            <pf>nurse = lauren(5)</pf>
-          </p>
-        </statement>
-        <feedback>
-          This is not proper vector indexing. Also, vectors are zero-indexed.
-        </feedback>
-      </choice>
-    </choices>
-  </exercise>
 
 </section>

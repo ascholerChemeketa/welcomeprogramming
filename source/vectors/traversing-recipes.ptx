@@ -32,19 +32,15 @@
       </idx> Our first common pattern is a <term>search</term>, which involves
       traversing an vector while <q>searching</q> for a particular element.</p>
 
+      <p>Our strategy will be to assume the value is not present. We will do that by setting a variable <pf>location</pf> to be
+      the size of the vector. That location can't possibly be valid as there never is an index <pf>size()</pf> in a vector. Then we will use a loop to look for the item. If we find it, we will change the location. After that is done, we can check the location to see if it is still the invalid value.</p>
+
     <listing>
-    <program label="vectors_traversing-recipes-program-1"
+    <program label="vectors_traversing-recipes-program-1" highlight-lines="10,13,17" line-numbers="yes"
              interactive="activecode">
 <xi:include href="../../programs/vectors/traversing-recipes-1.cpp" parse="text"/>
 </program>
     </listing>
-
-    <p>We start by assuming the value we are looking for is not present. This is done on line 10
-      where we set the <pf>location</pf> to the size of the array. If the size is 4, the only valid values
-      are 0-3, so we know <pf>size()</pf> represents an impossible value. Then, we traverse the vector to
-      check each element. If we find the target value in the vector, we change the <pf>location</pf> and
-      break out of the loop. When the loop is done, if <pf>location</pf> still matches the <pf>size()</pf>, we
-      know the value was not found.</p>
   </subsection>
 
   <subsection xml:id="vectors_traversing-recipes-reduction">
@@ -61,7 +57,7 @@
     <p>We have already seen one reduction recipe - calculating the sum of the values in a vector. In
       this recipe, our accumulator is the total and starts with a value of 0:</p>
 
-    <program>
+    <program highlight-lines="2,4" line-numbers="yes">
 <xi:include href="../../programs/vectors/traversing-recipes-2.cpp" parse="text"/>
 </program>
 
@@ -74,9 +70,14 @@
       minimum value. For situations like this it is common to use the first value to initialize the
       accumulator and then loop through all the elements after the first:</p>
 
-    <program>
+    <listing>
+    <program label="vectors_traversing-recipes-program-3" interactive="activecode" line-numbers="yes" highlight-lines="7, 11, 12">
 <xi:include href="../../programs/vectors/traversing-recipes-3.cpp" parse="text"/>
 </program>
+</listing>
+
+  <p>This function does assume that the vector is not empty. If it is, <pf>values.at(0)</pf> will cause an error. If we wanted to handle that case, we could add a check at the beginning of the function to see if the vector is empty. But there would not be any logical value to return, so we would likely need to just throw an exception ourselves.</p>
+
   </subsection>
 
   <subsection>
@@ -86,6 +87,15 @@
       we saw two versions of the <pf>doubleValues</pf> function that performed a map operation. The first
       version created a new vector and returned it. The second version modified the original vector
       in place.</p>
+
+    <p>Here is the version that creates a new vector where each value is doubled:</p>
+      
+  <listing>
+  <program label="vectors_vector-functions-program-1-copy" interactive="activecode" line-numbers="yes">
+<xi:include href="../../programs/vectors/vector-functions-4.cpp" parse="text"/>
+</program>
+  </listing>
+
 
   </subsection>
 
@@ -99,7 +109,7 @@
       with only non-zero values:</p>
 
     <listing>
-    <program label="vectors_traversing-recipes-program-2"
+    <program label="vectors_traversing-recipes-program-2" line-numbers="yes" highlight-lines="6,8-10,12"
              interactive="activecode">
 <xi:include href="../../programs/vectors/traversing-recipes-4.cpp" parse="text"/>
 </program>

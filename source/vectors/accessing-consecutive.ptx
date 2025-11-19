@@ -11,28 +11,27 @@
 
   <p>To compare every item with the previous, it is generally easiest to use a counting loop instead
     of a range-based loop. Our counting variable (typically <pf>i</pf>) represents <q>the current index</q>.
-    Assuming we are counting up, the next lower value - <pf>i - 1</pf> would be the <q>previous index</q>
-    and the next high value - <pf>i + 1</pf> would be <q>the next index</q>. Thus <pf>vec.at(i)</pf> is the <q>current
+    Assuming we are counting up, the next lower value, <pf>i - 1</pf>, would be the <q>previous index</q>
+    and the next high value, <pf>i + 1</pf>, would be <q>the next index</q>. Thus <pf>vec.at(i)</pf> is the <q>current
     element</q>, <pf>vec.at(i - 1)</pf> is the <q>previous element</q> and <pf>vec.at(i + 1)</pf> is the <q>next
     element</q>.</p>
 
   <p>When using <pf>i - 1</pf> or <pf>i + 1</pf>, we have to adjust our loop to make sure we do not go out of
     bounds on the vector. If we start counting from 0, and try to access <pf>i - 1</pf>, we would end up
     with index <pf>-1</pf>, which would cause an exception. So we should start our loop at index 1. Pay
-    special attention to lines 10 and 11 in this sample. By starting the loop counter at 1, we know
+    special attention to lines 10 and 12 in this sample. By starting the loop counter at 1, we know
     it will be safe to check the previous index:</p>
 
   <listing>
-  <program label="vectors_accessing-consecutive-program-1"
+  <program label="vectors_accessing-consecutive-program-1" line-numbers="yes" highlight-lines="10,12"
            interactive="activecode">
 <xi:include href="../../programs/vectors/accessing-consecutive-1.cpp" parse="text"/>
 </program>
   </listing>
 
-  <p>If we want to access the next value at <pf>i + 1</pf>, we need to make sure our loop stops earlier.
-    Index <pf>size() - 1</pf> is the index of the last element. So our loop needs to stop before it gets to
-    that point. The last index the loop iterates on should <pf>i = size() - 2</pf> so that when it
-    calculates <pf>i + 1</pf> it gets that index.</p>
+  <p>If we want to access the next value at <pf>i + 1</pf>, we need to make sure our loop stops in time to avoid accessing the item at index <pf>size()</pf>.
+    (Index <pf>size() - 1</pf> is the index of the last element!) So the last value <pf>i</pf> reaches should <pf>i = size() - 2</pf>. That way, when we calculate <pf>i + 1</pf>, we get
+    <pf>size() - 1</pf>, which is the last valid index.</p>
 
 
   <exercise label="vectors_accessing-consecutive-ex-1"
@@ -43,6 +42,7 @@
       <p>Construct a block of code that compares the <q>current</q> element with the <q>next</q>
         element at each iteration to determine if a vector is in order. Assume <pf>vec</pf> has already
         been declared and initialized.</p>
+        <p>Be careful that your index does not go out of bounds at the end of the vector.</p>
     </statement>
     <blocks>
       <block>
@@ -100,6 +100,10 @@
         <cline><![CDATA[}]]></cline>
       </block>
     </blocks>
+    <hint>
+      <p><pf>&lt; size - 1</pf> means the highest value the loop counter can reach is <pf>size() - 2</pf>.</p>
+      <p><pf>&lt; size - 2</pf> means the highest value the loop counter can reach is <pf>size() - 3</pf>.</p>
+    </hint>
   </exercise>
 
 </section>

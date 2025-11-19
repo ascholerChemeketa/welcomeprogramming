@@ -8,6 +8,7 @@ int main() {
     // Assume items are in order, look for a problem
     bool inOrder = true;
     for (size_t i = 1; i < vec.size(); ++i) {
+        // check if current item is less than previous
         if (vec.at(i) < vec.at(i - 1)) {
             // Found a problem
             inOrder = false;

@@ -1,6 +1,7 @@
 <section xml:id="vectors_what-are-vectors"
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>What are vectors?</title>
+
   <p>
     <idx>
       <h>vector</h>
@@ -27,5 +28,29 @@
   <p>In C++ there are also a separate type <term>array</term>. Arrays in C++ are a more primitive structure - they are literally just a large block of memory that contains a sequence of smaller items. Vectors on the other hand are objects (in the same way strings are). A vector contains both data (an array) and functions that make it easier to work with that data.</p>
 
   <p>You will notice many similarities between vectors and strings. This is not a coincidence - the two types are designed to do similar jobs. They both hold an ordered sequence of items. And it is perfectly legal to make a <pf>vector</pf> that holds <pf>char</pf>s. The primary difference is that when using a string, it is assumed that the value of the entire sequence has some meaning<mdash/>the string <pf>"Hello world"</pf>, represents a piece of text. A <pf>vector</pf> of <pf>char</pf>s would just represent a list of individual characters ('h', 'e', 'l'...).</p>
+
+  <exercise label="vectors_what-are-vectors-exercise-1">
+    <statement>
+      <p>Match each term with its correct definition.</p>
+    </statement>
+    <cardsort>
+      <match>
+        <premise>array</premise>
+        <response>low-level contiguous block of memory storing elements in C++</response>
+      </match>
+      <match>
+        <premise>vector</premise>
+        <response>object that is an array based list in C++</response>
+      </match>
+      <match>
+        <premise>ArrayList</premise>
+        <response>object that is an array based list in Java</response>
+      </match>
+      <match>
+        <premise>list</premise>
+        <response>ordered collection of items that can be referenced by their position</response>
+      </match>
+    </cardsort>
+  </exercise>
 
 </section>

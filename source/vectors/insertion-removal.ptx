@@ -3,9 +3,11 @@
 
   <title>Inserting and Removing Elements</title>
 
-  <p>We can add and remove elements to or from a vector using the <pf>void vector&lt;T>::push_back(T value)</pf> and
-    <pf>void vector&lt;T>::pop_back()</pf> functions. The syntax <pf>vector&lt;T></pf> is used to indicate <q>a vector of the type T</q>
-    where <pf>T</pf> could be anything - <pf>string</pf>, <pf>int</pf>, etc... So <pf>vector&lt;T>::push_back</pf> says something like <q>the push_back function for a vector of type any type 'T'</q>
+  <p>If you look up documentation for vector on a site like <url href="https://en.cppreference.com/w/cpp/container/vector.html">cppreference.com</url>, you will find the functions 
+    <pf>void vector&lt;T>::push_back(T value)</pf> and
+    <pf>void vector&lt;T>::pop_back()</pf>. The syntax <pf>vector&lt;T></pf> is used to indicate <q>a vector of the type T</q>
+    where <pf>T</pf> could be anything - <pf>string</pf>, <pf>int</pf>, etc... So <pf>vector&lt;T>::push_back</pf> says something like <q>the push_back function for a vector of type any type 'T'</q>.</p>
+    <p>These functions can be used to add or remove elements from the end of a vector.
     <pf>push_back(T value)</pf> takes a value of the type the vector can contain (type <pf>T</pf>) and
     adds it to the end of the vector. <pf>pop_back()</pf> simply removes the last element.</p>
 
@@ -13,9 +15,19 @@
 <xi:include href="../../programs/vectors/insertion-removal-1.cpp" parse="text"/>
 </program>
 
-  <p>The end of a vector is the <q>normal</q> location to add or remove elements due to the way the data is stored. All of the elements of a vector are stored in one contiguous block of memory. So if we want to remove something from the middle, everything after the removed item needs to shift over to fill in the hole that was made. Similarly, to insert something in the middle, we first need to move all of the elements after that point over to make a place for the new element. When using a vector we do not have to worry about doing this work ourselves - it is done by the vector for us - but it does explain why there is a <pf>push_back()</pf> and not a <pf>push_front()</pf> or <pf>push_middle()</pf>.</p>
+  <p>The end of a vector is the <q>normal</q> location to add or remove elements due to the way the data is stored. All of the elements of a vector are stored in one contiguous block of memory. So if we want to remove something from the middle, everything after the removed item needs to shift over to fill in the hole that was made.</p>
 
-  <p>If we do want to remove an element at another location, there is an <pf>.erase(iterator)</pf> member function. It requires an <term>iterator</term> be passed as the parameter. Iterators are objects that store (and manipulate) a location in a collection of data. For now, all we need to know about iterators is how to make one. To make an iterator that points to index <pf>X</pf> of a vector named <pf>vectorName</pf>, you can specify <pf>vectorName.begin() + X</pf>. And if you want to point at index 0, you can just say <pf>vectorName.begin()</pf>. For example:</p>
+    <figure xml:id="fig_vector-2">
+    <caption>Removing the 6 from <pf>counts</pf> would require moving the 3 and 14 over to fill the gap.</caption>
+    <image width="40%"
+           source="images/vectors-count-full.svg"/>
+  </figure>
+
+  <p>Similarly, to insert something in the middle, we would first need to move all of the elements after that point over to make a place for the new element. This is much slower, especially in a long vector. So to encourage us to add and remove elements at the end, there is only <pf>pop_back()</pf> and <pf>push_back</pf> and not a <pf>pop_front()</pf> or <pf>pop_middle()</pf>.</p>
+
+  <p>If we do want to remove an element at another location, there is an <pf>.erase(iterator)</pf> member function. It requires an <term>iterator</term> be passed as the parameter. Iterators are objects that store (and manipulate) a location in a collection of data. For now, all we need to know about iterators other than they represent a position in a vector is how to make one.</p>
+  
+  <p>To make an iterator that points to index <pf>X</pf> of a vector named <pf>vectorName</pf>, you can specify <pf>vectorName.begin() + X</pf>. If you want to point at index 0, you can just say <pf>vectorName.begin()</pf>. For example:</p>
 
   <program>
 <xi:include href="../../programs/vectors/insertion-removal-2.cpp" parse="text"/>
@@ -41,7 +53,7 @@
 </program>
   </listing>
 
-  <p>Specifying an invalid location for either <pf>.insert()</pf> or <pf>.erase()</pf> will result in a run time error.</p>
+  <p>Specifying an invalid location for either <pf>.insert()</pf> or <pf>.erase()</pf> will result in an exception being thrown. You can test this out in the sample above by specifying something like <pf>letters.begin() + 100</pf> for one of the locations.</p>
 
   <exercise label="vectors_insertion-removal-ex-1">
     <statement>

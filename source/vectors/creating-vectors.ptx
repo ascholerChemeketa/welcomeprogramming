@@ -45,8 +45,8 @@
 
   <p>Finally, you can create a vector with a specific size and default value. The syntax to do this
     is a little odd; it looks like a combination of a variable declarations and a function call:
-    <pf>vector&lt;int>(10, 0)</pf>. In fact, that's exactly what it is. The function we are invoking is an <pf>vector</pf>
-    constructor. A <term>constructor</term> is a special function that creates new objects and
+    <pf>vector&lt;int>(10, 0)</pf>. In fact, that's exactly what it is. The function we are invoking is a <term>constructor</term>. 
+    A <term>constructor</term> is a special function that creates new objects and
     initializes their instance variables. In this case, the constructor takes two arguments, the
     size of the vector to make and what value to use for all of the elements.</p>
 
@@ -77,8 +77,8 @@
   </figure>
 
   <p>You may have noticed that we have not tried to print any of the vectors. That is because you
-    can't use <pf>cout</pf> to print an entire vector. Trying to write something like `cout &lt;&lt;
-    values;` will result in an error message that begins with something like:</p>
+    can't use <pf>cout</pf> to print an entire vector. Trying to write something like <pf>cout &lt;&lt;
+    values;</pf> will result in an error message that begins with something like:</p>
 
   <console>
     <output><![CDATA[
@@ -89,7 +89,7 @@ test.cpp:13:10: error: no match for ‘operator<<’ (operand types are ‘std::
   </output>
   </console>
 
-  <p>It is trying to tell us that there is no way to use <pf>&lt;&lt;</pf> to send the vector to the output
+  <p>That message is trying to tell us that there is no way to use <pf>&lt;&lt;</pf> to send the vector to the output
     stream <pf>cout</pf>. If we want to print the vector we have to it by printing the individual elements.
     In the next section, we will learn how to access the elements so that we can see what is in our
     vector and modify those values.</p>
@@ -108,7 +108,7 @@ test.cpp:13:10: error: no match for ‘operator<<’ (operand types are ‘std::
         <test>
           <strcmp>int</strcmp>
           <feedback>
-            Incorrect! Remember, the size function returns an unsigned integer type.
+            Incorrect! Remember, the size function returns a special type designed to hold unsigned integer values.
           </feedback>
         </test>
         <test>
@@ -123,7 +123,7 @@ test.cpp:13:10: error: no match for ‘operator<<’ (operand types are ‘std::
 
   <exercise label="vectors_creating-vectors-ex-2">
     <statement>
-      <p>How would you create a vector of five words and initialize all of them to empty strings?</p>
+      <p>How could you create a vector of five words and initialize all of them to empty strings?</p>
     </statement>
     <choices randomize="yes">
       <choice>
@@ -170,7 +170,7 @@ test.cpp:13:10: error: no match for ‘operator<<’ (operand types are ‘std::
   </exercise>
   <exercise label="vectors_creating-vectors-ex-3">
     <statement>
-      <p><term>Multiple Response</term> Which of the following could be an element of <term>words</term>
+      <p><term>Multiple Response</term> Which of the following could be an element of a <pf>vector&lt;string></pf>
         ?</p>
     </statement>
     <choices randomize="yes">
@@ -254,7 +254,7 @@ vector&lt;int&gt; numbers(6);
 
   <exercise label="vectors_creating-vectors-ex-5">
     <statement>
-      <p>What can go in the blank to make a vector that has 8 copies of the value <pf>true</pf>;? <pf>vector&lt;bool&gt; options(_____)</pf>
+      <p>What can go in the blank to make a vector that has 8 copies of the value <pf>true</pf>;? <pf>vector&lt;bool&gt; options(_____);</pf>
         <fillin mode="string"
                 case="insensitive"
                 answer="8\\s*,\\s*true"/></p>

@@ -4,13 +4,16 @@
   <title>Accessing Elements</title>
 
   <p>When trying to visualize a vector, you should think of the name of the vector as a box
-    containing a list of values. For example, you should imagine that the code `vector&lt;int>
-    counts = {12, 6, 3, 14}` creates something like this: </p>
+    containing a list of values. For example, you should imagine that the code <pf>vector&lt;int>
+    counts = {12, 6, 3, 14}</pf> creates something like this: </p>
   <figure xml:id="fig_vector">
     <caption>Memory diagram of vector <pf>counts</pf> containing 12, 6, 3, and 14.</caption>
     <image width="40%"
            source="images/vectors-count-full.svg"/>
   </figure>
+
+  <insight><p>Just as with strings, because we index starting with 0, a vector with <m>x</m> elements has indices from 0 to <m>x - 1</m>.</p>
+  <p>The last element is always at index <m>x - 1</m>.</p></insight>
 
   <p>There are times when we will just use the name of the vector to refer to the whole package. But
     most of the time, we want to access one of the elements of the vector. To do so we use the same
@@ -28,20 +31,23 @@
 <xi:include href="../../programs/vectors/accessing-elements-2.cpp" parse="text"/>
 </program>
 
-  <p>Note that the naming of elements can be tricky. The first element has the index 0. So some
+<note>
+  <p>Naming of elements can be tricky. The first element has the index 0. So some
     programmers refer to it as the <q>zeroth</q> element. But that means <q>first</q> can refer to
-    the element at index 0 or 1, depending on the convention being used. For this reason, it is
-    often best to explicitly refer to items by their index <q>the item at index 1</q> is much
-    clearer than <q>first</q>. In this book, if we use casual language (first, second, etc...) it
+    the element at index 0 or 1, depending on the convention being used.</p>
+    <p>For this reason, it is often best to explicitly refer to items by their index <q>the item at index 1</q> is much
+    clearer than <q>first</q>.</p>
+    <p>In this book, if we use casual language (first, second, etc...) it
     will be to refer to the <q>human numbering</q> of elements where <q>first</q> means the first,
     not the item at index 1. When using C++ numbering (0 based), we will refer to <q>the element at
     index X</q> or <q>element index x</q>.</p>
+    </note>
 
   <p>If you use <pf>.at(index)</pf> to ask for an index that is not valid (less than 0 or >= <pf>.size()</pf>),
     there will be a runtime error when that statement executes. This program runs fine until we try
     to access <pf>counts.at(4)</pf>:</p>
 
-  <listing>
+  <listing xml:id="vectors_accessing-elements-listing-1">
   <program label="vectors_accessing-elements-program-1"
            interactive="activecode">
 <xi:include href="../../programs/vectors/accessing-elements-3.cpp" parse="text"/>
@@ -60,11 +66,76 @@
       accessing elements. However, when using that syntax, there is no bounds checking. You can ask
       for element 100 in a 4 element vector and will be given some piece of memory that is unrelated
       to the vector (it will be whatever is in memory where element 100 would be if it existed).</p>
-    <p>This kind of unchecked access is one of the most important sources of bugs in code (do a web
-      search for <q>buffer overflow</q>). The very minimal overhead required by the safe syntax
+      <p>To see this in action, change line 18 of <xref ref="vectors_accessing-elements-listing-1"/> to say <pf>cout &lt;&lt; counts[4] &lt;&lt; endl;</pf>. Then run the program. There will not be an exception. Instead, some unpredictable value (possibly 0, possibly not) will be printed.</p>
+    <p>This kind of unchecked access is a common sources of bugs in code (do a web
+      search for <q>buffer overflow</q> for examples). The very minimal overhead required by the safe syntax
       (<pf>.at(index)</pf>) is worth it to avoid these kinds of bugs in the vast majority of situations.</p>
   </warning>
   
+
+
+  <exercise label="vectors_accessing-elements-ex-0">
+    <statement>
+      <p>Suppose the following code is run:</p>
+      <program>
+vector&lt;string&gt; message = {"happy", "to", "you", "September", "birthday", "girl"}
+</program>
+      <p>How would you save the string <pf>"birthday"</pf> from <pf>message</pf> to the variable <pf>word</pf>?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>
+            <pf>string word = message.at(4)</pf>
+          </p>
+        </statement>
+        <feedback>
+          Vectors are zero-indexed, so the fifth element is index 4.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            <pf>string word = message.at(5)</pf>
+          </p>
+        </statement>
+        <feedback>
+          Remember, vectors are zero-indexed!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            <pf>string word = message.at(6)</pf>
+          </p>
+        </statement>
+        <feedback>
+          Remember, vectors are zero-indexed!
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            <pf>string word = message(4)</pf>
+          </p>
+        </statement>
+        <feedback>
+          This is not proper vector indexing.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            <pf>string word = message(5)</pf>
+          </p>
+        </statement>
+        <feedback>
+          This is not proper vector indexing. Also, vectors are zero-indexed.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
   <exercise label="vectors_accessing-elements-ex-1">
     <statement>
       <p>How could you increment the third element of <pf>vector&lt;int&gt; vec</pf> by one?</p>
@@ -86,7 +157,7 @@
           </p>
         </statement>
         <feedback>
-          Incorrect! This is not proper syntax.
+          Incorrect! This is not proper syntax. You need to use .at to access vector elements.
         </feedback>
       </choice>
       <choice correct="yes">
@@ -105,7 +176,7 @@
           </p>
         </statement>
         <feedback>
-          This is not proper syntax.
+          This is not proper syntax. You need to use .at to access vector elements.
         </feedback>
       </choice>
       <choice correct="yes">

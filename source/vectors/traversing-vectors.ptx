@@ -19,7 +19,7 @@
   <p>You will notice that the traversal looks just like looping through the characters of a string. We use a variable of type <pf>size_t</pf> to track our position. And we use <pf>.size()</pf> to determine where to stop. Of course, we can do things other than print the elements. This example traverses an vector and squares each element: </p>
 
   <listing>
-  <program label="vectors_traversing-vector-program-2" interactive="activecode">
+  <program label="vectors_traversing-vector-program-2" interactive="activecode" line-numbers="yes" highlight-lines="8,12">
 <xi:include href="../../programs/vectors/traversing-vectors-1b.cpp" parse="text"/>
 </program>
   </listing>
@@ -27,22 +27,32 @@
   <p>Also, similar to when iterating through the characters in a string, we can use a <term>range-based loop</term> to iterate through vectors. If we don't care about knowing the index of each item, this syntax can simplify things:</p>
 
   <listing>
-  <program label="vectors_traversing-vector-program-3" interactive="activecode">
+  <program label="vectors_traversing-vector-program-3" interactive="activecode" line-numbers="yes" highlight-lines="8,12">
 <xi:include href="../../programs/vectors/traversing-vectors-1c.cpp" parse="text"/>
 </program>
   </listing>
 
   <p>Note that the local variable used to hold the current element during each iteration of the loop has the type of data that the vector is storing. For a <pf>vector&lt;int></pf> we use <pf>for (int NAME : ...</pf> while for a <pf>vector&lt;string></pf> we say <pf>for (string NAME : ...</pf>.</p>
 
-  <p>It is possible to use a range-based loop to modify elements in a vector. To do so, we have to make the local variable that stores each element a reference. By declaring the type as <pf>int&amp;</pf> we can avoid copying the value of each element into the loop variable. Instead, the loop variable will be an alias for the current element.</p>
+  <p>It is also possible to use a range-based loop to modify elements in a vector. To do so, we have to use a reference to the current item. By declaring the type as <pf>int&amp;</pf> we can avoid copying the value of each element into the loop variable. Instead, the loop variable will be an alias for the current element.</p>
 
   <listing>
-  <program label="vectors_traversing-vector-program-4" interactive="activecode">
+  <program label="vectors_traversing-vector-program-4" interactive="activecode" line-numbers="yes" highlight-lines="7">
 <xi:include href="../../programs/vectors/traversing-vectors-1d.cpp" parse="text"/>
 </program>
   </listing>
 
-  <p>On line 7 we have <pf>for (int&amp; value : a) because it needs to modify the elements in the vector </pf>a<pf>. The second loop does not need (or want) to modify anything, so it just uses </pf>for (int value : a)`. The rules for when to use references in a range-based loop are the same as for functions.</p>
+  <p>Note that on line 7 we have <pf>for (int&amp; value : a)</pf> because it needs to modify the elements in the vector <pf>a</pf>. The second loop does not need (or want) to modify anything, so it just uses <pf>for (int value : a)</pf>. Try modifying line 7 to use use <pf>for (int value : a)</pf>. If you do so, you will notice that items in the vector are not modified. This is because <pf>value</pf> is now getting a copy of the current element. Changing that copy does not affect the original.</p>
+  
+  <insight>
+    <p>The rules for when to use references in a range-based loop are the same as for functions:
+      <ul>
+        <li>If you do not need to modify the elements and the are small (like an int or double), use a regular variable (e.g., <pf>int</pf>).</li>
+        <li>If you need to modify the elements of the vector, use a reference (e.g., <pf>int&amp;</pf>).</li>
+        <li>If you do not need to modify the elements, and they are large (like long strings or other complex data), use a reference to const (e.g., <pf>const string&amp;</pf>). You can use a regular variable in this case, but it will be less efficient because of all of the copying.</li>
+      </ul>
+    </p>
+  </insight>
 
 
   <exercise label="vectors_traversing-vector-ex-1"
