@@ -30,7 +30,7 @@ void printPair(T1 first, T2 second);
     for that parameter:</p>
 
   <listing>
-    <program label="templates-array-list_parameter-use-2"
+    <program label="templates-array-list_parameter-use-2"  highlight-lines="5" line-numbers="yes"
              interactive="activecode">
 <xi:include href="../../programs/templates-array-list/parameter-use-2.cpp" parse="text"/>
 </program>
@@ -66,5 +66,24 @@ bool areSame(const T&amp; first, const T&amp; second) {
     making copies of the strings. For simple types like <pf>int</pf> or <pf>char</pf>, the performance
     difference is negligible, but for larger objects, avoiding these copies can be a significant
     optimization.</p>
+
+  <exercise label="templates-array-list_type-parameter-exercises-1">
+    <statement>
+      <p>Construct a declaration for a templated function <pf>repeat</pf> that takes an item of the templated type <pf>a</pf> and an integer <pf>x</pf> and returns a vector of the templated type. You will not use all of the blocks.</p>
+    </statement>
+        <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>vector</c></block>
+      <block><c>&lt;T&gt;</c></block>
+      <block correct="no"><c>&lt;int&gt;</c></block>
+      <block><c>repeat(</c></block>
+      <block><c>T</c></block>
+      <block><c>a</c></block>
+      <block><c>, </c></block>
+      <block><c>int</c></block>
+      <block><c>x</c></block>
+      <block><c>);</c></block>
+    </blocks>
+  </exercise>
 
 </section>

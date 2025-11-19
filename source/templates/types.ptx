@@ -40,4 +40,53 @@
 </program>
   </listing>
 
+  <exercise label="templates-array-list_types-exercises-1"
+           numbered="yes"
+           indentation="hide">
+
+    <statement>
+      <p>Define a templated struct <pf>LabeledValue</pf> that holds a <pf>value</pf> of type <pf>T</pf> and a <pf>label</pf> of type <pf>string</pf> (in that order).</p>
+    </statement>
+    <blocks>
+      <block><cline><![CDATA[template <typename T>]]></cline></block>
+      <block>
+        <choice correct="yes"><cline><![CDATA[struct LabeledValue {]]></cline></choice>
+        <choice><cline><![CDATA[struct<T> LabeledValue {]]></cline></choice>
+        </block>
+      <block>
+        <cline><![CDATA[    T value;]]></cline>
+      </block>
+      <block>
+        <cline><![CDATA[    string label;]]></cline>
+      </block>
+      <block><cline><![CDATA[};]]></cline></block>
+      </blocks>
+  </exercise>
+
+  <exercise>
+    <statement>
+      <p>Declare a variable named <pf>item</pf> that is a <pf>LabeledValue</pf> of type <pf>double</pf>.</p>
+      <p>
+        <fillin mode="string" width="30"
+                answer="LabeledValue&lt;double> item;"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp>LabeledValue\\s*&lt;\\s*double\\s*>\\s*item\\s*;?</strcmp>
+        </test>
+
+        <test>
+          <strcmp>^[^&lt;]*$</strcmp>
+          <feedback>You need the angle brackets</feedback>
+        </test>
+        <test>
+          <strcmp>.*T.*</strcmp>
+          <feedback>There should not be a <pf>T</pf></feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
 </section>

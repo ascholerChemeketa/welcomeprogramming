@@ -66,4 +66,21 @@ bool Pair<T>::operator==(const Pair& other) const {...} // Note: no <T> in param
 </program>
   </listing>
 
+  <exercise label="templates-array-list_member-functions-exercises-1">
+
+    <statement>
+      <p>Imagine the <pf>Pair</pf> class had a function <pf>copy</pf> that took in another <pf>Pair</pf> of the same type and had a return type of void. (The function would copy the data from the other object into the current one. The other object would not be modified.) What would its prototype look like?</p>
+    </statement>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>void</c></block>
+      <block><c>Pair&lt;T&gt;</c></block>
+      <block><c>::copy(</c></block>
+      <block><c>const</c></block>
+      <block><c>Pair</c></block>
+      <block><c>&amp;</c></block>
+      <block><c> other);</c></block>
+      </blocks>
+      </exercise>
+
 </section>

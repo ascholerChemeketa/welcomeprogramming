@@ -64,4 +64,50 @@ T getDefaultValue() {
     </ul>
   </p>
 
+  <exercise label="templates-array-list_parameter-use-exercises-1">
+    <statement>
+      <p>What is the syntax to make a variable named <pf>foo</pf> of type <pf>T</pf> that is default
+        initialized?</p>
+      <p>
+        <fillin mode="string"
+                answer="T foo{};"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp>T\\s+foo\\s*{\\s*}\\s*;?</strcmp>
+        </test>
+
+        <test>
+          <strcmp>^[^{]*$</strcmp>
+          <feedback>You need to use curly braces</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <exercise label="templates-array-list_parameter-use-exercises-2"
+           numbered="yes"
+           indentation="hide">
+    <statement>
+      <p>Construct an algorithm to add all the items in a vector of type <pf>T</pf>.</p>
+    </statement>
+    <blocks>
+      <block><cline><![CDATA[template <typename T>]]></cline></block>
+      <block><cline><![CDATA[T getSum(const vector<T>& vec) {]]></cline></block>
+      <block>
+          <choice correct="yes"><cline><![CDATA[    T total{};]]></cline></choice>
+          <choice><cline><![CDATA[    int total{};]]></cline></choice>
+      </block>
+      <block><cline><![CDATA[    for (const T& item : vec) {]]></cline></block>
+      <block><cline><![CDATA[        total += item;]]></cline></block>
+      <block><cline><![CDATA[    }]]></cline></block>
+      <block>
+        <cline><![CDATA[    return total;]]></cline>
+        <cline><![CDATA[}]]></cline>
+      </block>
+    </blocks>
+  </exercise>
+
 </section>
