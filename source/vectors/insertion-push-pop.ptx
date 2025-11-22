@@ -1,0 +1,154 @@
+<section xml:id="vectors_push-pop"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Pushing and Popping</title>
+
+  <p>Most work with vectors needs to be done with functions instead of operators.</p>
+
+  <p>If you look up documentation for vector on a site like <url href="https://en.cppreference.com/w/cpp/container/vector.html">cppreference.com</url>, you will find the functions 
+    <pf>void vector&lt;T>::push_back(T value)</pf> and
+    <pf>void vector&lt;T>::pop_back()</pf>. The syntax <pf>vector&lt;T></pf> is used to indicate <q>a vector of the type T</q>
+    where <pf>T</pf> could be anything - <pf>string</pf>, <pf>int</pf>, etc... So <pf>vector&lt;T>::push_back</pf> says something like <q>the push_back function for a vector of any type 'T'</q>.</p>
+    <p>These functions can be used to add or remove elements from the end of a vector.
+    <pf>push_back(T value)</pf> takes a value of the type the vector can contain (type <pf>T</pf>) and
+    adds it to the end of the vector. <pf>pop_back()</pf> simply removes the last element.</p>
+
+  <program>
+<xi:include href="../../programs/vectors/push-pop-1.cpp" parse="text"/>
+</program>
+
+  <p>We pushed integers because <pf>values</pf> is a vector of integers. If we had a vector of strings, we would push strings instead:</p>
+
+  <program>
+<xi:include href="../../programs/vectors/push-pop-1b.cpp" parse="text"/>
+</program>
+
+  <p>The end of a vector is the <q>normal</q> location to add or remove elements due to the way the data is stored. All of the elements of a vector are stored in one contiguous block of memory. We are not allowed to have gaps in the middle. The way that the compiler figures out where a given element is in memory is by doing a calculation that looks like: </p>
+  
+  <p>
+  <me>\text{address of element} = \text{start address of data} + (\text{index of element} * \text{size of each element})</me>
+  </p>
+
+  <p>For example, if the data starts at memory address <m>1000</m> and each element takes up 4 bytes, the address of the element at index 3 would be calculated as:
+  <me>1000 + (3 * 4) = 1012</me></p>
+  
+  <p>That math assumes that there are no gaps in the data. If there were, we could not just multiply the index by the size of each element to find the address.</p>
+
+  <p>So if we want to remove something from the middle, everything after the removed item needs to shift over to fill in the hole that was made.</p>
+
+    <figure xml:id="fig_vector-2">
+    <caption>Removing the 6 from <pf>counts</pf> would require moving the 3 and 14 over to fill the gap.</caption>
+    <image width="40%"
+           source="images/vectors-remove-middle.svg"/>
+  </figure>
+
+  <p>Similarly, to insert something in the middle, we would first need to move all of the elements after that point over to make room for the new element before we insert it.</p>
+  
+  <p>This is much slower, especially in a long vector. So to encourage us to add and remove elements at the end, there is only <pf>pop_back()</pf> and <pf>push_back</pf> and not a <pf>pop_front()</pf> or <pf>pop_middle()</pf>.</p>
+
+  <exercise label="vectors_push-pop-ex-0">
+    <statement>
+      <p>Which BEST explains why it is generally more efficient to add or remove elements from the end of a vector rather than the beginning or middle?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Because all the data in a vector is stored in one contiguous block of memory.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Because it is easier to calculate the position of elements at the end.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement> 
+          <p>Because the beginning and middle of a vector are read-only.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Because the end of a vector is stored in a special location in memory.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="vectors_push-pop-ex-1">
+    <statement>
+      <p>Given this sequence of operations, what would <pf>nums</pf> contain?</p>
+      <program><![CDATA[ 
+vector<int> nums;
+nums.push_back(8);
+nums.push_back(3);
+values.pop_back();
+nums.push_back(5);
+nums.push_back(4);
+values.pop_back();
+nums.push_back(9);
+      ]]>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <pf>8 5 9</pf>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <pf>9 5 8</pf>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <pf>3 5 9</pf>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <pf>9 3 5</pf>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+    <exercise label="vectors_push-pop-ex-2">
+    <statement>
+      <p>Given this sequence of operations, what would <pf>nums</pf> contain?</p>
+      <program><![CDATA[ 
+vector<int> nums;
+nums.push_back(2);
+nums.push_back(4);
+nums.push_back(3);
+values.pop_back();
+values.pop_back();
+nums.push_back(1);
+      ]]>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <pf>2 1</pf>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <pf>1 2</pf>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <pf>3 1</pf>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <pf>1 3</pf>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

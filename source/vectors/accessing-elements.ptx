@@ -15,17 +15,17 @@
   <insight><p>Just as with strings, because we index starting with 0, a vector with <m>x</m> elements has indices from 0 to <m>x - 1</m>.</p>
   <p>The last element is always at index <m>x - 1</m>.</p></insight>
 
-  <p>There are times when we will just use the name of the vector to refer to the whole package. But
-    most of the time, we want to access one of the elements of the vector. To do so we use the same
-    syntax that we do with strings. We use the <pf>.at(index)</pf> function to specify the element we wish
-    to work with:</p>
+  <p>Sometimes, like when passing a vector to a function, we will want to work with the entire vector. But
+    other times, what we want or need to work with are the individual elements of the vector. To do so we use the same
+    syntax that we do with strings: the <pf>.at(index)</pf> function.</p>
+
+    <p>When used with a vector, the <pf>.at(index)</pf> function returns the element at the specified index. The type of that value always matches the type of the vector's elements.</p>
 
   <program>
 <xi:include href="../../programs/vectors/accessing-elements-1.cpp" parse="text"/>
 </program>
 
-  <p> You can use the element retrieved by <pf>.at(index)</pf> as if it was a variable that contains that one
-    element. You can assign it new values and use any appropriate operators on the result: </p>
+  <p>Also as with a string, we can assign to <pf>vec.at(index)</pf> to change a value in a vector. The value we assign to that location must be of the same type as the elements in the vector:</p>
 
   <program>
 <xi:include href="../../programs/vectors/accessing-elements-2.cpp" parse="text"/>
@@ -60,6 +60,8 @@
     problem comes from a vector and we asked for index 4 in a vector with size of 4. Unfortunately,
     we do not get a line number, so we have to use print statements or a debugger to help track down
     the exact location.</p>
+
+  <insight><p><pf>vec.at(index) = ...</pf> is only for changing existing values. You can't use it to add a value at an index that is not already in use.</p></insight>
 
   <warning>
     <p>As with strings, vectors support bracket notation (<pf>vectorName[index]</pf>) notation for

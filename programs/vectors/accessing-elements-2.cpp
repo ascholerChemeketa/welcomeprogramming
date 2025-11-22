@@ -1,4 +1,5 @@
-counts.at(0) = 7;                 // change the first element to 7
-counts.at(1) = counts.at(0) * 2;  // change the second element to twice the first
-++counts.at(2);                   // increment the third element
-counts.at(3) -= 6;                // reduce the fourth element by 6
+vector<char> symbols = {'x', 'q', '*', '!'};
+symbols.at(2) = '$'; //{'x', 'q', '$', '!'}
+
+vector<string> words = {"apple", "banana", "cherry"};
+words.at(1) = "blueberry"; // {"apple", "blueberry", "cherry"}
