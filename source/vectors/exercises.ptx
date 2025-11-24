@@ -5,7 +5,7 @@
 
   <exercise label="vectors_exercises-ex-1">
     <statement>
-      <p>Create a vector of strings called <pf>words</pf> that contains (in order) "Oregon" and "Washington". Then read in three more words (using <pf>cin >> stringVariable</pf>) and add them to the vector.</p>
+      <p>Create a vector of strings called <pf>words</pf> that contains "Oregon" and "Washington". Then read in three more words (using <pf>cin >></pf> into a string variable you create) and add them to the end of the vector.</p>
       </statement>
       <program interactive="activecode">
         <preamble visible="yes"><![CDATA[
@@ -43,7 +43,17 @@ int main() {
   
   <exercise label="vectors_exercises-ex-2">
     <statement>
-      <p>Remove the first element of <pf>vec</pf> and then insert the value 6 at index 2.</p>
+      <p>Write the function <pf>void removeLastHalf(vector&lt;int>&amp; vec);</pf> that removes the last half of the vector. If the size is odd, round up the number of items to keep (so for a 5 item list you should keep the first 3 items and remove the last two).</p>
+      <p>Note that the function takes a reference, so you should make changes to <pf>vec</pf> and not try to return anything.</p>
+      <p>For example:
+      </p>
+      <pre>
+Input: {1, 2, 3, 4, 5, 6}
+Result: {1, 2, 3}
+
+Input: {10, 20, 30}
+Result: {10, 20}
+      </pre>
       </statement>
       <program interactive="activecode">
         <preamble visible="yes"><![CDATA[
@@ -52,8 +62,7 @@ int main() {
 #include <vector>
 using namespace std;
 
-int main() {
-    vector<int> vec = {1, 2, 3, 4, 5};
+void removeLastHalf(vector<int>& vec) {
 ]]>
         </preamble>
         <code>
@@ -62,31 +71,42 @@ int main() {
 
         </code>
         <postamble visible="yes"><![CDATA[
-    for(int i : vec) {
-        cout << i << " ";
-    }
-}]]></postamble>
-        <tests>
-          <iotest>
-            <input></input>
-            <output>2 3 6 4 5</output>
-          </iotest>
+}
+
+]]></postamble>
+        <tests visible="yes">
+<![CDATA[
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("removeLastHalf") {
+  vector<int> vec1 = {1, 2, 3, 4};
+  removeLastHalf(vec1);
+  CHECK(vec1 == vector<int>({1, 2}));
+  vector<int> vec2 = {100, 200, 300};
+  removeLastHalf(vec2);
+  CHECK(vec2 == vector<int>({100, 200}));
+  vector<int> vec3 = {10, 9, 8, 7, 6, 5, 4};
+  removeLastHalf(vec3);
+  CHECK(vec3 == vector<int>({10, 9, 8, 7}));
+}]]>
         </tests>
     </program>
   </exercise>
 
 
-  <exercise label="vectors_exercises-ex-4">
+  <exercise label="vectors_exercises-ex-3">
     <statement>
-      <p>Write the function <pf>vector&lt;int>;swapEnds(???)</pf> that copies the given vector and then swaps the first and last items of the copy before returning the copy. You get to decide on the parameter type to use (whether to take the input by value or reference).</p>
+      <p>Write the function <pf>void swapEnds(vector&lt;int>&amp; vec);</pf> that swaps the first and last items of the given vector.</p>
       <p>For example:
       </p>
       <pre>
-Input: 1 2 3 4 5
-Returns: 5 2 3 4 1
+Input: {1, 2, 3, 4, 5}
+Returns: {5, 2, 3, 4, 1}
 
-Input: 10 20 30
-Output: 30 20 10
+Input: {10, 20, 30}
+Output: {30, 20, 10}
       </pre>
       </statement>
       <program interactive="activecode">
@@ -94,34 +114,84 @@ Output: 30 20 10
 #include <iostream>
 #include <vector>
 using namespace std;
+
 ]]>
         </preamble>
         <code><![CDATA[
-
+void swapEnds(vector<int>& vec) {
     // write swapEnds
+}
 ]]>
         </code>
         <tests visible="yes">
 <![CDATA[
+
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
-
-
 TEST_CASE("swapEnds") {
   vector<int> vec1 = {1, 2, 3, 4};
-  trimZeros(vec1);
+  swapEnds(vec1);
   CHECK(vec1 == vector<int>({4, 2, 3, 1}));
   vector<int> vec2 = {100, 200, 300};
-  trimZeros(vec2);
+  swapEnds(vec2);
   CHECK(vec2 == vector<int>({300, 200, 100}));
   vector<int> vec3 = {10, 9, 8, 7, 6, 5, 4};
-  trimZeros(vec3);
+  swapEnds(vec3);
   CHECK(vec3 == vector<int>({4, 9, 8, 7, 6, 5, 10}));
 }]]>
         </tests>
     </program>
+    <hint><p>Remember that the index of the last item is always <pf>vec.size() - 1</pf></p></hint>
+    <hint><p>You will need to use a temporary variable to hold a value while swapping the first and last elements.</p></hint>
   </exercise>
+
+  
+  <exercise label="vectors_exercises-ex-4">
+    <statement>
+      <p>Write the function <pf>vector&lt;int> swapEnds(const vector&lt;int>&amp; original);</pf> that copies the given vector and then swaps the first and last items of the copy before returning the copy.</p>
+      </statement>
+      <program interactive="activecode">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+]]>
+        </preamble>
+        <code>
+<![CDATA[
+vector<int> swapEnds(const vector<int>&amp; original) {
+    //write your code here
+}
+    ]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("swapEnds") {
+  vector<int> vec1 = {1, 2, 3, 4};
+  vector<int> vec1b = swapEnds(vec1);
+  CHECK(vec1b == vector<int>({4, 2, 3, 1}));
+
+  vector<int> vec2 = {100, 200, 300};
+  vector<int> vec2b = swapEnds(vec2);
+  CHECK(vec2b == vector<int>({300, 200, 100}));
+
+  vector<int> vec3 = {10, 9, 8, 7, 6, 5, 4};
+  vector<int> vec3b = swapEnds(vec3);
+  CHECK(vec3b == vector<int>({4, 9, 8, 7, 6, 5, 10}));
+}]]>
+        </tests>
+    </program>
+    <hint><p>This vector is passed by const reference, so we can't make changes to the original vector.</p></hint>
+    <hint><p>You will need to use a temporary variable to hold a value while swapping the first and last elements.</p></hint>
+  </exercise>
+
 
   <exercise label="vectors_exercises-ex-5">
     <statement>
@@ -129,11 +199,11 @@ TEST_CASE("swapEnds") {
       <p>For example:
       </p>
       <pre>
-Input: 1 4 0 0 0
-Result: 1 4
+Input: {1, 4, 0, 0, 0}
+Result: {1, 4}
 
-Input: 1 8 3 0 2 0
-Result: 1 8 3 0 2
+Input: {1, 8, 3, 0, 2, 0}
+Result: {1, 8, 3, 0, 2}
       </pre>
       </statement>
       <program interactive="activecode">
@@ -166,7 +236,8 @@ TEST_CASE("trimZeros") {
 }]]>
         </tests>
     </program>
-    <hint><p>You will need a loop based on the value of the last element. Remember that the last element is at index <pf>.size() - 1</pf> and changes each time you remove something from the back.</p></hint>
+    <hint><p>This is not really a traversal problem. Yes, you will need a loop, but you do not need to visit every element.</p></hint>
+    <hint><p>You will need a loop based on <q>what is the value of the last element</q>. Remember that the last element is at index <pf>.size() - 1</pf> and changes each time you remove something from the back.</p></hint>
   </exercise>
 
   <exercise label="vectors_exercises-ex-6">

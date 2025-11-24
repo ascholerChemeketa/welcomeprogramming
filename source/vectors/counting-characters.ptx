@@ -2,7 +2,10 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Case Study: Counting Characters</title>
 
+ DRAFT!!!!
+
   <introduction>
+
     <p>We now return to the example from the beginning of the chapter. Recall that we would like to
       figure out how often each letter of the alphabet appears in a string. To do this efficiently,
       we want to only traverse the string once. That means we need to keep track of 26 separate
@@ -33,6 +36,37 @@
       what index the character belongs to!</p>
 
   </subsection>
+
+  <subsection>
+    <title>Starting the code</title>
+
+    <p>Before we even start writing code, let's think about how we might separate the work of counting
+      the letters from the code that sets up the string we want to count letters in and the code that displays the output.
+    </p>
+
+    <p>We know we will be starting with a string. For testing, we will hard code in a particular string. Later, we might want to 
+      modify the code to read from a file or get input from the user. But for now, hard coding is fine. We also know that we will
+      need to create a vector of 26 integers to hold our counts. Once we have those, we will need to print them out.
+    </p>
+
+    <p>In the middle, where we go from a string to a vector of counts, seems like a good place to make a function. Something like:</p>
+
+    <program><![CDATA[
+      // Given a string, count the number of times each letter appears
+      // and return those counts in a vector of integers.
+      // The vector at index 0 holds the count for 'a',
+      // index 1 holds the count for 'b', and so on.
+      vector<int> countLetters(const string& text);
+      ]]>
+    </program>
+
+    <listing>
+    <program label="vectors_counting-characters-program-0"
+             interactive="activecode">
+<xi:include href="../../programs/vectors/counting-characters-0.cpp" parse="text"/>
+</program>
+    </listing>
+    </subsection>
 
   <subsection>
     <title>Starting the code</title>

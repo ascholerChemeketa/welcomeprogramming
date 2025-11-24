@@ -5,7 +5,7 @@
 
   <p>Vectors can be the parameters or the return types for functions. For now, we need to specify what type of vector the function accepts or returns (<pf>vector&lt;int></pf>, <pf>vector&lt;string></pf>, etc...). Later on we will learn how to make a <q>generic</q> function that can work with a vector that stores any type.</p>
 
-  <p>Say we want to write a function that can add up all of the values in a <pf>vector&lt;int.</pf>. It could look like:</p>
+  <p>Say we want to write a function that can add up all of the values in a <pf>vector&lt;int></pf>. It could look like:</p>
 
   <program line-numbers="yes">
 <xi:include href="../../programs/vectors/vector-functions-1.cpp" parse="text"/>
@@ -17,7 +17,7 @@
 <xi:include href="../../programs/vectors/vector-functions-2.cpp" parse="text"/>
 </program>
 
-  <p>To return a vector, we can declare the return type to be a <pf>vector&lt;T></pf> and then make sure to return an appropriate type of vector. (A returned value is potentially always copied, though the compiler may do some tricks to avoid actually copying the data). This function returns a new vector that is a copy of the one passed in which every element gets doubled:</p>
+  <p>To return a vector, we can declare the return type to be a <pf>vector&lt;XXX></pf> where <c>XXX</c> is the type of data in the vector. This function returns a new vector that is a copy of the one passed in which every element gets doubled:</p>
 
   <listing>
   <program label="vectors_vector-functions-program-1" interactive="activecode" line-numbers="yes" highlight-lines="6,8,10,12,18">
@@ -34,6 +34,21 @@
   </listing>
 
   <p>In this version, we must take the vector parameter as a reference that is not <pf>const</pf> so we can modify the vector (line 7). Similarly, as we use a range-based loop to traverse the elements, we need to declare the element type to be an <pf>int&amp;</pf> - a reference to an int - so that we are working with the actual element and not a copy of its value (line 9). Because the parameter is modified, there is nothing new to return from the function. So the return type is declared as <pf>void</pf> (line 7) and when it is called in <pf>main</pf>, there is no result to store (line 17). Because we <term>passed by reference</term>, all of the changes made to <pf>numbers</pf> in <pf>doubleValues</pf> really were made to <pf>myList</pf> that was passed in from <pf>main</pf>.</p>
+
+  
+<p>
+  Of the two versions of <pf>doubleValues</pf>, the first one is probably the better choice. It is generally preferable to write <term>pure functions</term> that do not have side effects (like modifying parameters). Pure functions are easier to reason about and test since they always produce the same output for the same input and do not modify anything outside of the function.</p>
+  <p>
+    The pure function will be less efficient since it makes a copy of the entire vector. But unless we are working with very large vectors or doing this operation many times in a performance-critical section of code, we probably should favor code clarity over efficiency.
+</p>
+
+  <insight><p>The rules for passing vectors are the same as for any other large piece of data:
+<ul>
+  <li>If the function does not need to modify the vector, pass it by <pf>const</pf> reference (e.g., <pf>const vector&lt;int>&amp;</pf>).</li>
+  <li>If the function does need to modify the vector, pass it by reference (e.g., <pf>vector&lt;int>&amp;</pf>).</li>
+  <li>You can use pass by value (e.g., <pf>vector&lt;int></pf>), to intentionally make a copy of the vector that is safe to modify. However, you could also just start with a const reference and make a copy of that.</li>
+</ul>
+  </p></insight>
 
   <exercise label="vectors_vector-functions-ex-1"
             numbered="yes"

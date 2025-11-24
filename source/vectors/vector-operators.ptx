@@ -1,0 +1,42 @@
+<section xml:id="vectors_vector-operators"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Vectors and Operators</title>
+
+  <p>We have already seen that <pf>=</pf> works with vectors to make copies of them. And that <pf>&lt;&lt;</pf> does not work. What about other operators?</p>
+
+  <p>Most operators do not work with vectors. You can not use <pf>>></pf> to read data into a vector. Nor can you use <pf>+</pf> or <pf>+=</pf> to add vectors or add data to a vector. None of the arithmetic operators work with vectors. Other than assignment, the only common operators that work with vectors are the comparison operators.</p>
+
+  <p>We can use <pf>==</pf> to compare two vectors for equality. Two vectors are equal if they have the same size and all corresponding elements are equal. Here is an example:</p>
+
+  <listing>
+  <program line-numbers="yes" interactive="activecode" label="vectors_vector-operators-program-1"
+           highlight-lines="2-6">
+<xi:include href="../../programs/vectors/vector-operators-1.cpp" parse="text"/>
+</program>
+</listing>
+
+  <p>Inequalities also work with vectors. The operators <pf>&lt;</pf>, <pf>&gt;</pf>, <pf>&lt;=</pf>, and <pf>&gt;=</pf> can be used to compare two vectors <term>lexicographically</term>. This means that the vectors are compared element by element from the beginning until a difference is found. The result of the comparison is determined by the first pair of differing elements. If all elements are equal but one vector is shorter, the shorter vector is considered less than the longer one. Here is an example:</p>
+
+  <listing>
+  <program line-numbers="yes" interactive="activecode" label="vectors_vector-operators-program-2">
+<xi:include href="../../programs/vectors/vector-operators-2.cpp" parse="text"/>
+</program>
+</listing>
+
+  <exercise label="vectors_vector-operators-ex-1">
+    <statement>
+      <p>Which operators can be used with vectors?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice><statement><pf>+</pf></statement></choice>
+      <choice><statement><pf>/</pf></statement></choice>
+      <choice correct="yes"><statement><pf>=</pf></statement></choice>
+      <choice correct="yes"><statement><pf>==</pf></statement></choice>
+      <choice correct="yes"><statement><pf>&lt;</pf></statement></choice>
+      <choice><statement><pf>&lt;&lt;</pf></statement></choice>
+    </choices>
+  </exercise>
+
+
+</section>

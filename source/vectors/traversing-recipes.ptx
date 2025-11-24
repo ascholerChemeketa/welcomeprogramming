@@ -88,11 +88,11 @@
       version created a new vector and returned it. The second version modified the original vector
       in place.</p>
 
-    <p>Here is the version that creates a new vector where each value is doubled:</p>
+    <p>Here again is the version that creates a new vector where each value is doubled:</p>
       
-  <listing>
+  <listing  line-numbers="yes" highlight-lines="6-12">
   <program label="vectors_vector-functions-program-1-copy" interactive="activecode" line-numbers="yes">
-<xi:include href="../../programs/vectors/vector-functions-4.cpp" parse="text"/>
+<xi:include href="../../programs/vectors/vector-functions-3.cpp" parse="text"/>
 </program>
   </listing>
 
@@ -103,10 +103,12 @@
     <title>Filter</title>
 
     <p>Finally, a <term>filter</term> operation traverses a vector and only keeps values that meet a
-      certain condition. Although we could do this by removing unwanted values from the vector we
-      start with, it is much easier to build up a vector with just the ones we want. This final
-      sample demonstrates a function that filters out 0 values from a vector, producing a new one
-      with only non-zero values:</p>
+      certain condition. As with a <term>map</term>, there are two ways we could do this. One approach is to modify
+      the vector that is passed in to remove unwanted items. The other approach is to build a new vector with just the ones we want.</p>
+
+    <p>The advantages of each approach remain the same. Modifying the original vector can be more memory efficient since it doesn't require additional storage, but building a new vector can be simpler and less likely to introduce errors. In addition, it is often faster to build a new vector than to remove multiple items from an existing one. (Something we will learn more about later on.)</p>
+
+    <p>This sample uses the approach of building a new vector. It takes a vector and produces a copy with 0 values filtered out:</p>
 
     <listing>
     <program label="vectors_traversing-recipes-program-2" line-numbers="yes" highlight-lines="6,8-10,12"
@@ -114,12 +116,6 @@
 <xi:include href="../../programs/vectors/traversing-recipes-4.cpp" parse="text"/>
 </program>
     </listing>
-
-    <note>
-      <p>Simple does not always mean <q>bad</q> or <q>inefficient</q>. It will almost certainly be
-        faster to build a new vector with just the desired values instead of removing multiple items
-        from the existing vector.</p>
-    </note>
   </subsection>
 
   <exercise label="vectors_traversing-recipes-reduction-ex-1"

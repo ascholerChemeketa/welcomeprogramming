@@ -1,37 +1,33 @@
 <section xml:id="vectors_insertion-removal"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <title>Inserting and Removing Elements</title>
+  <title>Erasing and Inserting Elements</title>
 
-  <p>If you look up documentation for vector on a site like <url href="https://en.cppreference.com/w/cpp/container/vector.html">cppreference.com</url>, you will find the functions 
-    <pf>void vector&lt;T>::push_back(T value)</pf> and
-    <pf>void vector&lt;T>::pop_back()</pf>. The syntax <pf>vector&lt;T></pf> is used to indicate <q>a vector of the type T</q>
-    where <pf>T</pf> could be anything - <pf>string</pf>, <pf>int</pf>, etc... So <pf>vector&lt;T>::push_back</pf> says something like <q>the push_back function for a vector of type any type 'T'</q>.</p>
-    <p>These functions can be used to add or remove elements from the end of a vector.
-    <pf>push_back(T value)</pf> takes a value of the type the vector can contain (type <pf>T</pf>) and
-    adds it to the end of the vector. <pf>pop_back()</pf> simply removes the last element.</p>
+  <p>If we do want to remove an element at a location other than the end, there is an <pf>erase</pf> member function.
+  You might expect that it takes an index as its parameter, like <pf>vec.erase(2)</pf>. Instead, it requires an <term>iterator</term> be passed as the parameter.</p>
+  
+  <p>What are iterators? Iterators are objects that store (and manipulate) a location in a collection of data. For now, all we need to know about iterators is that they represent a position in a vector.</p>
+  
+  <p>To make an iterator that points to index <pf>X</pf> of a vector named <pf>vectorName</pf>, you can specify <pf>vectorName.begin() + X</pf>. <pf>.begin()</pf> makes an iterator that points to the first element of the vector. If you want to point at index 0, you can just say <pf>vectorName.begin()</pf>. When you add <pf>+ X</pf>, it moves the iterator forward by <pf>X</pf> positions.</p>
+
+  <p>For example:</p>
 
   <program>
 <xi:include href="../../programs/vectors/insertion-removal-1.cpp" parse="text"/>
 </program>
 
-  <p>The end of a vector is the <q>normal</q> location to add or remove elements due to the way the data is stored. All of the elements of a vector are stored in one contiguous block of memory. So if we want to remove something from the middle, everything after the removed item needs to shift over to fill in the hole that was made.</p>
-
-    <figure xml:id="fig_vector-2">
-    <caption>Removing the 6 from <pf>counts</pf> would require moving the 3 and 14 over to fill the gap.</caption>
-    <image width="40%"
-           source="images/vectors-count-full.svg"/>
-  </figure>
-
-  <p>Similarly, to insert something in the middle, we would first need to move all of the elements after that point over to make a place for the new element. This is much slower, especially in a long vector. So to encourage us to add and remove elements at the end, there is only <pf>pop_back()</pf> and <pf>push_back</pf> and not a <pf>pop_front()</pf> or <pf>pop_middle()</pf>.</p>
-
-  <p>If we do want to remove an element at another location, there is an <pf>.erase(iterator)</pf> member function. It requires an <term>iterator</term> be passed as the parameter. Iterators are objects that store (and manipulate) a location in a collection of data. For now, all we need to know about iterators other than they represent a position in a vector is how to make one.</p>
+  <p>It is also possible to specify is also a <pf>.end()</pf> function that makes an iterator that points to one location PAST the end of the vector. (This sounds odd, but ends up being useful as an indicator that we have gone too far and moved past the last element.) Starting from the <pf>.end()</pf> we can do <pf>- X</pf> to move backwards by <pf>X</pf> positions. This means that the last element can be pointed at using <pf>.end() - 1</pf>.</p>
   
-  <p>To make an iterator that points to index <pf>X</pf> of a vector named <pf>vectorName</pf>, you can specify <pf>vectorName.begin() + X</pf>. If you want to point at index 0, you can just say <pf>vectorName.begin()</pf>. For example:</p>
-
+  <figure>
+    <caption>A vector and some iterators. Note that <pf>.end()</pf> points one past the last element. The last element is at <pf>.end() - 1</pf>.</caption>
+    <image width="60%"
+           source="images/vectors-iterators.svg"/>
+  </figure>
+  
   <program>
 <xi:include href="../../programs/vectors/insertion-removal-2.cpp" parse="text"/>
 </program>
+
 
   <p>It is possible to remove a whole range of elements by specifying a start and end location. All the items from start, up to but not including the end location, will be removed. This means that to specify removing up to and including the last element, we want to pass in the location that is AFTER the last element. In a vector with 3 items, the last element is at index 2. So we would use <pf>vectorName.begin() + 3</pf> to specify <q>until the end of the vector</q>. Fortunately, rather than do this, we can also just say <pf>vectorName.end()</pf>:</p>
 
@@ -53,87 +49,18 @@
 </program>
   </listing>
 
-  <p>Specifying an invalid location for either <pf>.insert()</pf> or <pf>.erase()</pf> will result in an exception being thrown. You can test this out in the sample above by specifying something like <pf>letters.begin() + 100</pf> for one of the locations.</p>
+  <p>Specifying an invalid location for either <pf>.insert()</pf> or <pf>.erase()</pf> will result in the program crashing. There will not be an exception thrown! You can test this out in the sample above by specifying something like <pf>letters.begin() + 100</pf> for one of the locations.</p>
 
-  <exercise label="vectors_insertion-removal-ex-1">
-    <statement>
-      <p>Given this sequence of operations, what would <pf>nums</pf> contain?</p>
-      <program><![CDATA[ 
-vector<int> nums;
-nums.push_back(8);
-nums.push_back(3);
-values.pop_back();
-nums.push_back(5);
-nums.push_back(4);
-values.pop_back();
-nums.push_back(9);
-      ]]>
-      </program>
-    </statement>
-    <choices randomize="yes">
-      <choice correct="yes">
-        <statement>
-          <pf>8 5 9</pf>
-        </statement>
-      </choice>
-      <choice>
-        <statement>
-          <pf>9 5 8</pf>
-        </statement>
-      </choice>
-      <choice>
-        <statement>
-          <pf>3 5 9</pf>
-        </statement>
-      </choice>
-      <choice>
-        <statement>
-          <pf>9 3 5</pf>
-        </statement>
-      </choice>
-    </choices>
-  </exercise>
+  <warning><p>Be very careful with iterators! If your program crashes with no output, or behaves unexpectedly, it might be due to invalid iterator locations.</p></warning>
 
-    <exercise label="vectors_insertion-removal-ex-2">
-    <statement>
-      <p>Given this sequence of operations, what would <pf>nums</pf> contain?</p>
-      <program><![CDATA[ 
-vector<int> nums;
-nums.push_back(2);
-nums.push_back(4);
-nums.push_back(3);
-values.pop_back();
-values.pop_back();
-nums.push_back(1);
-      ]]>
-      </program>
-    </statement>
-    <choices randomize="yes">
-      <choice correct="yes">
-        <statement>
-          <pf>2 1</pf>
-        </statement>
-      </choice>
-      <choice>
-        <statement>
-          <pf>1 2</pf>
-        </statement>
-      </choice>
-      <choice>
-        <statement>
-          <pf>3 1</pf>
-        </statement>
-      </choice>
-      <choice>
-        <statement>
-          <pf>1 3</pf>
-        </statement>
-      </choice>
-    </choices>
-  </exercise>
+  <note>
+    <p>We aren't covering every possible variation of <pf>.insert()</pf>. For example, if you want to add all the elements from vec2 to the end of vec1, you can use the <pf>insert</pf> function with a range of iterators:</p>
+    <program>vec1.insert(vec1.end(), vec2.begin(), vec2.end());</program>
+    <p>To say <q>insert at the end of vec1 all the items from the beginning of vec2 to the end of vec2.</q>. Of course, you could also loop through vec2 and insert each element individually using <pf>vec1.push_back()</pf>.</p>
+    <p>While the insert version is more concise, it isn't essential to know. When you want to do something with a vector, think in terms of the basic tools first before looking for a fancy shortcut.</p>
+  </note>
 
-
-    <exercise label="vectors_insertion-removal-ex-3">
+    <exercise label="vectors_insertion-removal-ex-1">
     <statement>
       <p>Given this sequence of operations, what would <pf>nums</pf> contain?</p>
       <program><![CDATA[ 
@@ -166,7 +93,7 @@ nums.erase(nums.begin() + 2);
     </choices>
   </exercise>
 
-    <exercise label="vectors_insertion-removal-ex-4">
+    <exercise label="vectors_insertion-removal-ex-2">
     <statement>
       <p>Given this sequence of operations, what would <pf>nums</pf> contain?</p>
       <program><![CDATA[ 
@@ -199,7 +126,7 @@ nums.insert(nums.begin() + 1, 8);
     </choices>
   </exercise>
 
-    <exercise label="vectors_insertion-removal-ex-5">
+    <exercise label="vectors_insertion-removal-ex-3">
     <statement>
       <p>Given this sequence of operations, what would <pf>nums</pf> contain?</p>
       <program><![CDATA[ 
