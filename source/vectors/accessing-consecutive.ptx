@@ -23,11 +23,18 @@
     it will be safe to check the previous index:</p>
 
   <listing>
-  <program label="vectors_accessing-consecutive-program-1" line-numbers="yes" highlight-lines="10,12"
+  <program label="vectors_accessing-consecutive-program-1" line-numbers="yes" highlight-lines="10-11,13-15"
            interactive="activecode">
 <xi:include href="../../programs/vectors/accessing-consecutive-1.cpp" parse="text"/>
 </program>
   </listing>
+
+  <note><p>The local variables <pf>current</pf> and <pf>previous</pf> are just for clarity. We could shorten lines 13-15 to just:</p>
+    <program>
+      if (vec.at(i) &lt; vec.at(i - 1)) {
+    </program>
+    <p>However, giving names to <pf>vec.at(i)</pf> and <pf>vec.at(i - 1)</pf> can make the code easier to read and understand. It also allows us to easily check those values in the debugger. Furthermore, simple variables like this are the kind of thing a compiler will generally optimize away, so there is likely no performance penalty.</p>
+  </note>
 
   <p>If we want to access the next value at <pf>i + 1</pf>, we need to make sure our loop stops in time to avoid accessing the item at index <pf>size()</pf>.
     (Index <pf>size() - 1</pf> is the index of the last element!) So the last value <pf>i</pf> reaches should <pf>i = size() - 2</pf>. That way, when we calculate <pf>i + 1</pf>, we get
