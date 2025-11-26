@@ -63,7 +63,7 @@
           violated.</p>
       </statement>
       <program interactive="activecode">
-      <preamble><![CDATA[#include <iostream>
+      <preamble visible="yes"><![CDATA[#include <iostream>
 #include <exception>
 #include <vector>
 using namespace std;
@@ -72,8 +72,10 @@ using namespace std;
       <code>
 <xi:include href="../../programs/vectors/average-calc-min.cpp"
             parse="text"/>
+
       </code>
       <postamble><![CDATA[
+
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
@@ -130,8 +132,10 @@ using namespace std;
       <code>
 <xi:include href="../../programs/vectors/average-calc.cpp"
             parse="text"/>
+
       </code>
       <postamble><![CDATA[
+
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
@@ -158,18 +162,19 @@ TEST_CASE("avgWithoutLow") {
         <p>Finish the <pf>getData</pf> function. It already reads in 10 doubles. You need to make a vector to store them in, add each value to the vector, and then return the vector when you are done.</p>
       </statement>
       <program interactive="activecode">
-      <preamble><![CDATA[#include <iostream>
+      <preamble visible="yes"><![CDATA[#include <iostream>
 #include <exception>
 #include <vector>
 using namespace std;
-
 ]]>
 </preamble>
       <code>
 <xi:include href="../../programs/vectors/get-input.cpp"
             parse="text"/>
+
       </code>
       <postamble visible="yes"><![CDATA[
+
 int main() {
     vector<double> scores = getData();
     for (double s : scores) {
