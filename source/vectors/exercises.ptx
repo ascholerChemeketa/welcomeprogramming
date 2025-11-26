@@ -93,6 +93,7 @@ TEST_CASE("removeLastHalf") {
 }]]>
         </tests>
     </program>
+    <hint><p>You could use a loop, but it is much easier to use <pf>.size()</pf> to figure out the midpoint and then <pf>.erase()</pf> to delete the last half of the vector.</p></hint>
   </exercise>
 
 
@@ -236,7 +237,7 @@ TEST_CASE("trimZeros") {
 }]]>
         </tests>
     </program>
-    <hint><p>This is not really a traversal problem. Yes, you will need a loop, but you do not need to visit every element.</p></hint>
+    <hint><p>This is not really a traversal problem. Yes, you will need a loop, but you do not need to visit every element. Start by just checking the last element and calling <pf>.pop_back()</pf> to remove it if it is 0. Then you can repeat that process until the last element is not 0.</p></hint>
     <hint><p>You will need a loop based on <q>what is the value of the last element</q>. Remember that the last element is at index <pf>.size() - 1</pf> and changes each time you remove something from the back.</p></hint>
   </exercise>
 
@@ -286,7 +287,7 @@ using namespace std;
 ]]>
         </preamble>
         <code><![CDATA[
-int countOver(const vector<int>& vec, double value) {
+int countOver(const vector<double>& vec, double value) {
     //write your code here
 }
 ]]>
@@ -298,7 +299,7 @@ int countOver(const vector<int>& vec, double value) {
 
 TEST_CASE("minimumVal") {
   vector<double> temps = {98.6, 97.8, 100.3, 97.2, 98.7, 97.8, 99.8, 96.9, 98.2, 99.1, 99.9};
-  CHECK(countOver(temps, 98) == 8);
+  CHECK(countOver(temps, 98) == 7);
   CHECK(countOver(temps, 99) == 4);
   CHECK(countOver(temps, 100) == 1);
   CHECK(countOver(temps, 102) == 0);
@@ -311,6 +312,7 @@ TEST_CASE("minimumVal") {
   <exercise label="vectors_exercises-ex-8">
     <statement>
       <p>Write a function <pf>isBlankFree</pf> that takes a vector of strings and returns <pf>true</pf> if there are no empty strings (<pf>""</pf>) in it. Return <pf>false</pf> if there is at least one empty string.</p>
+      <p>Tip: start by making a function that returns <pf>true</pf> to make sure you have the function prototype correct. Once the function compiles, you can worry about passing the tests.</p>
       </statement>
       <program interactive="activecode">
         <preamble visible="yes"><![CDATA[
@@ -349,7 +351,8 @@ TEST_CASE("isBlankFree") {
   <exercise label="vectors_exercises-ex-9">
     <statement>
       <p>Write a function <pf>limit</pf> that takes a vector of integers and returns a new vector that is a copy of the original where every value less than 0 is set to 0 and every value greater than 100 is set to 100.</p>
-      <p>For example, passing in <pf>54 -6 82 100 102</pf> would result in <pf>54 0 82 100 100</pf>.</p>
+      <p>For example, passing in <pf>54 -6 82 100 102</pf> would return a new vector containing <pf>54 0 82 100 100</pf>.</p>
+      <p>Tip: start by making a function that makes an empty vector of integers and returns it to make sure you have the function prototype correct. Once the function compiles, you can worry about passing the tests.</p>
       </statement>
       <program interactive="activecode">
         <preamble visible="yes"><![CDATA[
