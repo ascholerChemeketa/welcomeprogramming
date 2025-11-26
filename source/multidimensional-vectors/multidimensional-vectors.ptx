@@ -1,6 +1,6 @@
 <section xml:id="multidimensional-vectors_multidimensional-vectors"
          xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Multidimensional vectors</title>
+  <title>Multidimensional Vectors</title>
 
   <p>Vectors can be thought of as one dimensional storage. They represent a straight line of data, where there is one index used to locate each element.</p>
 
@@ -55,5 +55,41 @@ vector<vector<int>> table = {
   </listing>
 
   <p>This would make the 3 row, 5 column table of data shown at the top of the page. Note that the outer <pf>{...}</pf> surround a list of three things separated by <pf>,</pf>. Each of those three things is a list of 5 items that are in <pf>{...}</pf> and separated by a comma. (The newlines to space out the data more like how we picture it in the table are optional. The initialization could be on one long line.)</p>
+  
+  <exercise label="multidimensional-vectors-exercise-1">
+      <statement>
+      <p>How would we make a 2D vector of doubles called <pf>temperatures</pf> that has 10 rows and 15 columns (all the doubles will be default initialized)?</p>
+    </statement>
+        <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>vector&lt;</c></block>
+      <block><c>vector&lt;double&gt;</c></block>
+      <block><c>></c></block>
+      <block><c>temperatures(</c></block>
+      <block><c>10, </c></block>
+      <block><c>vector&lt;double&gt;(15)</c></block>
+      <block correct="no"><c>15,</c></block>
+      <block correct="no"><c>vector&lt;double&gt;(10)</c></block>
+      <block><c>);</c></block>
+    </blocks>
+  </exercise>
+
+  <exercise label="multidimensional-vectors-exercise-2">
+      <statement>
+      <p>How would we make a 2D vector of strings called <pf>grid</pf> that has 4 rows and 6 columns, where each string is initialized to <pf>"X"</pf>?</p>
+    </statement>
+        <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>vector&lt;</c></block>
+      <block><c>vector&lt;string&gt;</c></block>
+      <block><c>></c></block>
+      <block><c>grid(</c></block>
+      <block><c>4, </c></block>
+      <block><c>vector&lt;string&gt;(6, "X")</c></block>
+      <block correct="no"><c>6,</c></block>
+      <block correct="no"><c>vector&lt;string&gt;(4, "X")</c></block>
+      <block><c>);</c></block>
+    </blocks>
+  </exercise>
 
 </section>

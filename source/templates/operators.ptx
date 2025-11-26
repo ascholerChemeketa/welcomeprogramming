@@ -13,7 +13,7 @@
     struct:</p>
 
   <listing>
-    <program label="templates-array-list_operators-1"
+    <program label="templates-array-list_operators-1" line-numbers="yes" highlight-lines="6, 22"
              interactive="activecode">
 <xi:include href="../../programs/templates-array-list/requirements-error.cpp" parse="text"/>
 </program>
@@ -35,7 +35,7 @@ test.cpp:6:15: error: no match for ‘operator>’ (operand types are ‘Time’
   <p>To fix this, we need to define the <pf>></pf> operator for the <pf>Time</pf> struct:</p>
 
   <listing>
-    <program label="templates-array-list_operators-2"
+    <program label="templates-array-list_operators-2"  line-numbers="yes" highlight-lines="6,14,26"
              interactive="activecode">
 <xi:include href="../../programs/templates-array-list/requirements-fix.cpp" parse="text"/>
 </program>
@@ -44,4 +44,6 @@ test.cpp:6:15: error: no match for ‘operator>’ (operand types are ‘Time’
   <p>This requirement is why operator overloading is an important part of C++ programming. By
     defining the <pf>></pf> operator for the <pf>Time</pf> struct, we allow that struct to work in any
     templated code that requires <pf>></pf>.</p>
+
+  
 </section>
