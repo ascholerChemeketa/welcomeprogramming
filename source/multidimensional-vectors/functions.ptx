@@ -35,4 +35,145 @@
 4 5 6
 </pre>
 
+ <p>If we knew the data was rectangular, we could calculate the column count once, based on the first row, instead of calculating it for each row. Something like:</p>
+
+ <program><![CDATA[
+size_t rowCount = table.size();
+size_t colCount = table.at(0).size();
+for (size_t row = 0; row < rowCount; ++row) {
+    for (size_t col = 0; col < colCount; ++col) {
+        ...
+     ]]>
+ </program>
+
+  <exercise label="multidimensional-vectors_functions-ex-1">
+    <statement>
+      <p>Which prototype makes the most sense for a function that will take in a multidimensional vector of strings and capitalize all the strings by modifying the table that was passed in?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p><pf><![CDATA[void capitalizeAll(vector<vector<string>>& table)]]></pf></p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf><![CDATA[vector<vector<string>> capitalizeAll(vector<vector<string>>& table)]]></pf></p>
+        </statement>
+        <feedback>
+          <p>This function prototype indicates that a new table will be returned. But we just want to modify the table that was passed in.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf><![CDATA[vector<vector<string>> capitalizeAll(vector<vector<string>> table)]]></pf></p>
+        </statement>
+        <feedback>
+          <p>This function prototype indicates that a new table will be returned. But we just want to modify the table that was passed in.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf><![CDATA[void capitalizeAll(const vector<vector<string>>& table)]]></pf></p>
+        </statement>
+        <feedback>
+          <p>
+            This function prototype uses a const reference parameter. This means the function will not be able to modify the table that was passed in.
+          </p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf><![CDATA[void capitalizeAll(vector<vector<string>> table)]]></pf></p>
+        </statement>
+        <feedback>
+          <p>
+            This function prototype uses a value parameter. This means the function will modify a copy of the table, not the original table that was passed in.
+          </p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+ 
+
+  <exercise label="multidimensional-vectors_functions-ex-2">
+    <statement>
+      <p>Which prototype makes the most sense for a function that will take in a multidimensional vector of doubles called <pf>table</pf> and return a new multidimensional vector of doubles that has the square of all the values in <pf>table</pf>?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p><pf><![CDATA[vector<vector<double>> squareAll(const vector<vector<double>>& table)]]></pf></p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf><![CDATA[vector<vector<double>> squareAll(vector<vector<double>>& table)]]></pf></p>
+        </statement>
+        <feedback>
+          <p>
+            This function prototype uses a non-const reference parameter. This means the function could modify the table that was passed in. But we just want to read the data and return a new table.
+          </p>
+          </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf><![CDATA[void squareAll(vector<vector<double>>& table)]]></pf></p>
+        </statement>
+        <feedback>
+          <p>
+            This function prototype uses a non-const reference parameter. This means the function could modify the table that was passed in. But we just want to read the data and return a new table.
+          </p>
+          </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  
+  <exercise label="multidimensional-vectors_functions-ex-3">
+    <statement>
+      <p>Which prototype makes the most sense for a function that will take in a multidimensional vector of integers called <pf>numbers</pf> and return a vector containing the sum of each row in the table?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p><pf><![CDATA[vector<int> sumRows(const vector<vector<int>>& numbers)]]></pf></p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf><![CDATA[vector<vector<int>> sumRows(vector<vector<int>>& numbers)]]></pf></p>
+        </statement>
+        <feedback>
+          <p>
+            This function prototype indicates that a new multidimensional vector will be returned. But we just want to return a one-dimensional vector containing the sums of each row.
+          </p>
+          </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf><![CDATA[void sumRows(vector<vector<int>>& numbers)]]></pf></p>
+        </statement>
+        <feedback>
+          <p>
+            This function prototype indicates that no value will be returned. But we want to return a one-dimensional vector containing the sums of each row.
+          </p>
+          </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf><![CDATA[vector<int> sumRows(vector<vector<int>>& numbers)]]></pf></p>
+        </statement>
+        <feedback>
+          <p>
+            This function prototype uses a non-const reference parameter. This means the function could modify the table that was passed in. But we just want to read the data and return a new vector.
+          </p>
+          </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+
+ 
 </section>

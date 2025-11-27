@@ -4,8 +4,47 @@
   <title>Exercises</title>
 
   <note><p>When you fail a <pf>CHECK</pf> the vector will not automatically be displayed. Each problem declares a <pf>print</pf> function you can use to help debug your code.</p></note>
-  
+
   <exercise label="multidimensional-vectors_exercises-ex-1">
+    <statement>
+      <p>Write the function <pf>vector&lt;vector&lt;int>> create(int rows, int cols);</pf>. It should return a 2D vector of integers that is the correct dimensions. All the values should be 0</p>
+      </statement>
+      <program interactive="activecode" codelens="no">
+        <preamble visible="yes"><![CDATA[
+#include <iostream>
+#include <vector>
+using namespace std;
+
+]]>
+<xi:include href="../../programs/multidimensional-vectors/exercise-print-ints.cpp" parse="text"/>
+        </preamble>
+        <code><![CDATA[
+
+vector<vector<int>> create(int rows, int cols) {
+    // write your code here
+}
+]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+TEST_CASE("create") {
+  vector<vector<int>> vec1 = create(2, 2);
+  vector<vector<int>> goal1 = {{0, 0}, {0, 0}};
+  CHECK(vec1 == goal1);
+
+  vector<vector<int>> vec2 = create(3, 4);
+  vector<vector<int>> goal2 = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
+  CHECK(vec2 == goal2);
+}]]>
+        </tests>
+    </program>
+    <hint><p>This should only take 1 or 2 lines of code and should not require any loops. Refer back to the first page in the chapter for an example.</p></hint>
+  </exercise>
+
+  <exercise label="multidimensional-vectors_exercises-ex-2">
     <statement>
       <p>Write code for the function <pf>additiveInverse</pf>. It should take the 2D matrix given and change it into its additive inverse by multiplying each value in the matrix by -1.</p>
     </statement>
@@ -47,45 +86,6 @@ TEST_CASE("additiveInverse") {
     </program>
   </exercise>
 
-
-  <exercise label="multidimensional-vectors_exercises-ex-2">
-    <statement>
-      <p>Write the function <pf>vector&lt;vector&lt;int>> create(int rows, int cols);</pf>. It should return a 2D vector of integers that is the correct dimensions. All the values should be 0</p>
-      </statement>
-      <program interactive="activecode" codelens="no">
-        <preamble visible="yes"><![CDATA[
-#include <iostream>
-#include <vector>
-using namespace std;
-
-]]>
-<xi:include href="../../programs/multidimensional-vectors/exercise-print-ints.cpp" parse="text"/>
-        </preamble>
-        <code><![CDATA[
-
-vector<vector<int>> create(int rows, int cols) {
-    // write your code here
-}
-]]>
-        </code>
-        <tests visible="yes">
-<![CDATA[
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "doctest.h"
-
-TEST_CASE("create") {
-  vector<vector<int>> vec1 = create(2, 2);
-  vector<vector<int>> goal1 = {{0, 0}, {0, 0}};
-  CHECK(vec1 == goal1);
-
-  vector<vector<int>> vec2 = create(3, 4);
-  vector<vector<int>> goal2 = {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}};
-  CHECK(vec2 == goal2);
-}]]>
-        </tests>
-    </program>
-    <hint><p>This should only take 1 or 2 lines of code and should not require any loops. Refer back to the first page in the chapter for an example.</p></hint>
-  </exercise>
 
   <exercise label="multidimensional-vectors_exercises-ex-3">
     <statement>

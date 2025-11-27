@@ -1,4 +1,4 @@
-// Debugging helper
+// Debugging helper - call this to print out a 2D vector of ints
 void print(const vector<vector<int>>& matrix) {
   size_t rows = matrix.size();
   size_t cols = matrix[0].size();

@@ -16,10 +16,14 @@ int main() {
     // get the size of the 3rd row
     size_t colCount = matrix.at(2).size();
 
+    int total = 0;
     // loop through the columns
     for (size_t col = 0; col < colCount; ++col) {
         // access the 3rd row and the current column
         cout << matrix.at(2).at(col) << " ";
+        // add to total
+        total += matrix.at(2).at(col);
     }
     cout << endl;
+    cout << "Total: " << total << endl;
 }

@@ -6,7 +6,7 @@
 <introduction>
   <p>When traversing a two dimensional structure, we typically work in <term>row major order</term> or <term>column major order</term>. A row major approach reads each row one at a time, processing all the elements in that row before moving on to the next row. A column major approach reads each column one at a time, processing all the elements in that column before moving on to the next column. These approaches can both be implemented with nested loops:</p>
 
-  <sidebyside>
+  <sidebyside widths="45% 45%">
     <figure>
       <caption>Row Major Order</caption>
   <program><![CDATA[
@@ -34,14 +34,38 @@
     </figure>
   </sidebyside>
 
-  <p>Once we figure out how to write those loops, we can use the basic structure to do many different tasks by modifying the work done inside the loops.</p>
+  <p>Sometimes it does not matter what strategy we use to traverse a two-dimensional vector. If we want to add up all the elements, either approach will work just fine.
+    But other times, we will want to think about the data with the rows or columns in mind. For example, if we want to print out the table, we need to traverse it in row major order because output to the console needs to happen one line at a time:</p>
+
+    
+  <program><![CDATA[
+  for each row in table {
+    for each element in row {
+        print element + " "
+    }
+    print endline
+  }
+  ]]></program>
+  
+  <p>On the other hand, if we want to add up the values in each column, we would need to process the data in column major order. An algorithm to do that might look like:</p>
+
+  <program><![CDATA[
+  for each column in table {
+    total = 0
+    for each element in column {
+        total = total + element
+    }
+    print total for column
+  }
+  ]]></program>
+  
 
 </introduction>
 
 <subsection>
   <title>Range Based Approach</title>
 
-  <p>Range-based loops feel like a natural way to traverse a two-dimensional vector. The outer vector is essentially a list of rows. So we can say something like <q>for each row in the table</q> to process each row. For each row, we then want to loop over all of the values in that row. The sample below uses this approach to print out an entire table of numbers:</p>
+  <p>Range-based loops feel like a natural way to traverse a two-dimensional vector. The outer vector is essentially a list of rows. So we can say something like <q>for each row in the table</q> to process each row. Then, for that row, we can say <q>for each element in the row</q>. The sample below uses this approach to print out an entire table of numbers:</p>
 
   <listing>
   <program label="multidimensional-vectors_traversals-program-1" interactive="activecode" highlight-lines="15-20" line-numbers="yes">
@@ -76,7 +100,7 @@
   <p>Here is that approach implemented. In it, we assume all rows have the same number of columns.</p>
 
   <listing>
-  <program label="multidimensional-vectors_traversals-program-2" interactive="activecode">
+  <program label="multidimensional-vectors_traversals-program-2" interactive="activecode" highlight-lines="16, 18, 21-27" line-numbers="yes">
 <xi:include href="../../programs/multidimensional-vectors/traversals-2.cpp" parse="text"/>
   </program>
   </listing>
