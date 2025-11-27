@@ -1,6 +1,6 @@
 <section xml:id="multidimensional-vectors_references"
          xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Multidimensional Vector Rows and Elements</title>
+  <title>Referencing Rows and Elements</title>
 
   <p>You may have noticed that the previous page described <pf>table.at(0)</pf> as returning a reference to the first row of the table. The actual prototype for <pf>.at()</pf> looks something like:</p>
 
@@ -8,20 +8,23 @@
   T& vector<T>::at(size_t index);
   ]]></program>
 
-  <p>Recall that <pf>T</pf> is a placeholder for the type of data in the vector. If it is a vector of <pf>int</pf>, the return type would be <pf>int&amp;</pf>. This means the function does not return a new integer, it returns a reference to an integer that already exists. Returning a reference from ordinary functions doesn't usually make sense. All the local variables in a function are destroyed when the function returns. So if we return a reference to one of those local variables, it will be a reference to a variable that no longer exists. This is not the case with member functions for things like a vector or a string. The contents of the vector or string will continue to exist after <pf>at()</pf> has done its work.</p>
+  <p>Recall that <pf>T</pf> is a placeholder for <q>the type of data in the vector</q>. If it is a vector of <pf>int</pf>, the return type would be <pf>int&amp;</pf>. This means the function does not return a new integer, it returns a reference to an integer that already exists.</p>
+  
+  <p>Returning a reference from ordinary functions doesn't usually make sense. All the local variables in a function are destroyed when the function returns. So if we return a reference to one of those local variables, it will be a reference to a variable that no longer exists. This is not the case with member functions of a vector or a string. The contents of the vector or string will continue to exist after <pf>at()</pf> has done its work. So it can return a reference to that content.</p>
 
   <p>Returning the reference is what allows the caller to use <pf>.at()</pf> to modify data. But we need to be careful to use the reference and not make a copy of the data it refers to. For example, if we do this:</p>
 
   <program>
   int x = table.at(0).at(1);
+  // x has a copy of the value at row 0, column 1
   x = 5; // no change to table
   </program>
 
-  <p>We are copying the value found by <pf>table.at(0).at(1)</pf> into <pf>x</pf>. Modifying <pf>x</pf> would have no effect on the table. To store the result of <pf>table.at(0).at(1)</pf> and use it as a reference we would need to store the result into an <pf>int&amp;</pf>. Doing so allows us to use that variable as an alias for the element in the table:</p>
+  <p>We are copying the value found by <pf>table.at(0).at(1)</pf> into <pf>x</pf>. Modifying <pf>x</pf> would have no effect on the table.</p>
+  
+  <p>If we want to give a name to the result of <pf>table.at(0).at(1)</pf>, and then use that name to work with the data in the table. We would need to store the result into an <pf>int&amp;</pf>. That way, the new name is just a reference into the table. The sample below makes a reference called <pf>row0col1</pf> that refers to the element at row 0, column 1:</p>
 
   <program>
-  int x = table.at(0).at(1);
-  x = 5; // no change to table
   int&amp; row0col1 = table.at(0).at(1);
   row0col1 = 3; // changes table
   </program>
@@ -32,17 +35,17 @@
            source="images/vectors-table-reference.svg"/>
   </figure>
 
-  <p>If we wanted to store a reference to an entire row, it would be as a reference to a vector of integers:</p>
+  <p>Similarly, we could make a reference to an entire row. If we wanted to store a reference to an entire row, it would be as a reference to a vector of integers:</p>
 
   <program>
   vector&lt;int>&amp; row0 = table.at(0);
+  // row0 is a reference to the first row of the table
   cout &lt;&lt; row0.size();  // prints 5
+  row0.at(1) = 3; // changes element at row 0, column 1 in table
   </program>
-
-  <p>To avoid having to worry about making reference variables, we will favor always specifying the row or element we want to talk about, even if it means saying something like <pf>table.at(0).at(1)</pf> multiple times in a row. But if you choose to try to make a variable that stores <q>the current row</q> or <q>the element at 0, 1</q>, make sure to store it as a reference unless your goal is to copy the data.</p>
-
 
   <note><p>There is no way to ask <pf>table</pf> for a column of data. If we wanted a column of data, we would have to build it up ourselves by making a new vector, looping through each row to access the data at the column's index, and add that value to the new vector.</p></note>
 
+  <p>To avoid having to worry about making reference variables, we will favor always specifying the row or element we want to talk about, even if it means saying something like <pf>table.at(0).at(1)</pf> multiple times in a row. But if you choose to try to make a variable that stores <q>the current row</q> or <q>the element at 0, 1</q>, make sure to store it as a reference unless your goal is to copy the data.</p>
 
 </section>

@@ -4,42 +4,76 @@
   <title>Multidimensional Vector Traversals</title>
 
 <introduction>
-  <p>When traversing a two dimensional structure, we typically work in <term>row major order</term> or <term>column major order</term>. These terms refer to whether our first loop is processing rows or if it is processing columns.</p>
+  <p>When traversing a two dimensional structure, we typically work in <term>row major order</term> or <term>column major order</term>. A row major approach reads each row one at a time, processing all the elements in that row before moving on to the next row. A column major approach reads each column one at a time, processing all the elements in that column before moving on to the next column. These approaches can both be implemented with nested loops:</p>
+
+  <sidebyside>
+    <figure>
+      <caption>Row Major Order</caption>
+  <program><![CDATA[
+  for each row in table {
+    start row
+    for each element in row {
+        work with element
+    }
+    end row
+  }
+  ]]></program>
+    </figure>
+
+    <figure>
+      <caption>Column Major Order</caption>
+  <program><![CDATA[
+  for each column in table {
+    start column
+    for each element in column {
+        work with element
+    }
+    end column
+  }
+  ]]></program>
+    </figure>
+  </sidebyside>
+
+  <p>Once we figure out how to write those loops, we can use the basic structure to do many different tasks by modifying the work done inside the loops.</p>
+
 </introduction>
 
 <subsection>
-  <title>A first attempt</title>
-  <p>Range-based loops feel like a natural way to traverse a two-dimensional vector. The outer vector is what we consider to be the rows, so we can loop over those and for each one, loop over its elements. Say I want to print a table of numbers in its natural structure. I would want to do something like:</p>
+  <title>Range Based Approach</title>
+
+  <p>Range-based loops feel like a natural way to traverse a two-dimensional vector. The outer vector is essentially a list of rows. So we can say something like <q>for each row in the table</q> to process each row. For each row, we then want to loop over all of the values in that row. The sample below uses this approach to print out an entire table of numbers:</p>
 
   <listing>
-  <program><![CDATA[
-  for each row in table {
-    for each element in row {
-        print element
-    }
-    end line
-  }
-  ]]></program>
-  </listing>
-
-  <p>In C++, that will look like this:</p>
-
-  <listing>
-  <program label="multidimensional-vectors_traversals-program-1" interactive="activecode">
+  <program label="multidimensional-vectors_traversals-program-1" interactive="activecode" highlight-lines="15-20" line-numbers="yes">
 <xi:include href="../../programs/multidimensional-vectors/traversals-1.cpp" parse="text"/>
   </program>
   </listing>
 
-  <p>Notice the type used for the first loop variable: <pf>const vector&lt;int>&amp; row</pf>. <pf>row</pf> is storing each element of <pf>matrix</pf> one at a time. And what matrix stores are <pf>vector&lt;int></pf>s. But we don't want to copy those vectors into the variable row. That would be a waste of time. So we make <pf>row</pf> be a const reference to the current element. If we changed like 15 to read <pf>for (vector&lt;int> row : matrix)</pf>, the code would work, but it would be making copies of each row.</p>
+  <p>Notice the type used for the first loop variable: <pf>const vector&lt;int>&amp;</pf>. We are iterating through each row of <pf>matrix</pf> and referring to it as <pf>row</pf>. That row is a vector of integers and we are making a reference to that. <pf>row</pf> is an alias for <q>the current row</q>.</p>
 
-  <p>Although this works, the row reference feels a little clumsy. More importantly, there is no way to modify it to traverse in column major order.</p>
-  
+  <note>
+  <p>If we changed like 15 to read <pf>for (vector&lt;int> row : matrix)</pf>, the code would work the same, but row would no longer be a reference. It would be a copy of the current row. Making a temporary copy of each row would be pretty wasteful.</p>
+  </note>
+
+  <p>Although this works, the row reference feels a little clumsy. More importantly, there is no way to modify it to traverse in column major order! A two-dimensional vector is essentially a list of rows and there is no way to easily talk about a particular column.</p>
 </subsection>
 
 <subsection>
-<title>A better traversal</title>
+<title>Counting Loop Approach</title>
 
-  <p>Our preferred way of looping over multidimensional arrays will be to use counting loops. For a row major traversal, our outer loop is based on the size of the top-level array - the number of rows. The inner loop is based on the number of columns, which is the length of one of the rows (assuming they all have the same length).</p>
+  <p>Because of the limitations of range-based loops, we will prefer to use counting loops to iterate through the row and column indexes. Something like:</p>
+  
+  <program><![CDATA[
+  for rowIndex 0 to size-1 {
+    start row # rowIndex
+    for colIndex 0 to rowSize-1 {
+        work with column # colIndex in row # rowIndex
+    }
+    end row # rowIndex
+  }
+  ]]></program>
+
+  <p>Here is that approach implemented. In it, we assume all rows have the same number of columns.</p>
 
   <listing>
   <program label="multidimensional-vectors_traversals-program-2" interactive="activecode">
@@ -64,7 +98,7 @@ matrix.at(2).at(0)  (start of new row)
   <p>This version is more flexible than the range-based approach. By switching the order of the two loops, we can iterate in column major order. Doing so will print out each column on a separate line of output:</p>
 
   <listing>
-  <program label="multidimensional-vectors_traversals-program-3" interactive="activecode">
+  <program label="multidimensional-vectors_traversals-program-3" interactive="activecode" highlight-lines="21,23" line-numbers="yes">
 <xi:include href="../../programs/multidimensional-vectors/traversals-3.cpp" parse="text"/>
   </program>
   </listing>
@@ -81,10 +115,70 @@ matrix.at(0).at(2)  (start of new col)
 ...
 </pre>
 
-  <warning>
+  <insight>
     <p>The row index always goes in the first <pf>.at()</pf> and the column index always goes in the second <pf>.at()</pf>. Even if you are traversing in column major order.</p>
-    <p>These samples intentionally use <pf>row</pf> and <pf>col</pf> as the counters instead of <pf>i</pf> and <pf>j</pf> to make this clear. Although many programmers will use <pf>i</pf> and <pf>j</pf> here, you are encouraged to use meaningful names to help keep track of which counter is for rows and which is for columns.</p>
-  </warning>
+
+    <p>These samples intentionally use <pf>row</pf> and <pf>col</pf> as the counters instead of <pf>i</pf> and <pf>j</pf> to make this clear. Although many programmers will use <pf>i</pf> and <pf>j</pf> for nested loop counters keeping track of if i is for rows or columns can be confusing.</p>
+  </insight>
+
+  <exercise label="multidimensional-vectors_traversals-ex-1"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Construct nested loops to set each element of a two-dimensional vector of strings called <pf>grid</pf>to be <pf>"?"</pf>. Do the traversal in <term>row major order</term>.</p>
+      <p>You will not need all of the blocks.</p>
+    </statement>
+
+    <program>
+    size_t numRows = grid.size();
+    size_t numCols = grid.at(0).size();
+    for (size_t row = 0; row &lt; numRows; ++row) {
+        for (size_t col = 0; col &lt; numCols; ++col) {
+            grid.at(row).at(col) = "?";
+        }
+    }
+    </program>
+
+    <blocks>
+      <block name="a" depends="">
+        <cline><![CDATA[size_t numRows = grid.size();]]></cline>
+      </block>
+      <block name="a2" depends="" correct="no">
+        <cline><![CDATA[size_t numCols = grid.size();]]></cline>
+      </block>
+      <block name="b" depends="">
+        <cline><![CDATA[size_t numCols = grid.at(0).size();]]></cline>
+      </block>
+      <block name="b2" depends="" correct="no">
+        <cline><![CDATA[size_t numRows = grid.at(0).size();]]></cline>
+      </block>
+      <block name="c" depends="a b">
+        <choice correct="yes">
+          <cline><![CDATA[for (size_t row = 0; row < numRows; ++row) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[for (size_t row = 0; row < numCols; ++row) {]]></cline>
+        </choice>
+      </block>
+      <block name="d" depends="c">
+        <choice correct="yes">
+          <cline><![CDATA[ for (size_t col = 0; col < numCols; ++col) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[ for (size_t col = 0; col < numRows; ++col) {]]></cline>
+        </choice>
+      </block>
+      <block name="e" depends="d">
+        <cline><![CDATA[  grid.at(row).at(col) = "?";]]></cline>
+      </block>
+      <block name="f" depends="e">
+        <cline><![CDATA[ }]]></cline>
+        <cline><![CDATA[}]]></cline>
+      </block>
+    </blocks>
+  </exercise>
+
 </subsection>
 
 </section>
