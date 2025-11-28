@@ -24,10 +24,206 @@
 
   <p>Traversal of a extra-dimensional structure follows the same patterns as for simpler structures. We just need one loop per dimension. For example, if we wanted to print out the ocean temperatures, we could do something like this:</p>
 
-  <listing>
+  <listing xml:id="multidimensional-vectors_extra-dimensions-listing-1">
   <program label="multidimensional-vectors_extra-dimensions-program-1" interactive="activecode">
 <xi:include href="../../programs/multidimensional-vectors/extra-dimensions-1.cpp" parse="text"/>
   </program>
   </listing>
+
+  <exercise label="multidimensional-vectors_extra-dimensions-ex-1">
+    <statement>
+      <p>In <xref ref="multidimensional-vectors_extra-dimensions-listing-1"/>, we want to calculate an average of the temperature at each depth level. To do that, we need to declare a `total` variable to accumulate the sum of temperatures at each depth. Where should we add <pf>double total = 0;</pf>?</p>
+      <program>
+        <![CDATA[ 
+    // Spot A
+    for (size_t depth = 0; depth < depthCount; ++depth) {
+        cout << "Depth " << depth << ":" << endl;
+        // Spot B
+        for (size_t lat = 0; lat < latitudeCount; ++lat) {
+            // Spot C
+            for (size_t lon = 0; lon < longitudeCount; ++lon) {
+                // Spot D
+                cout << oceanTemps.at(depth).at(lat).at(lon) << " ";
+                total += oceanTemps.at(depth).at(lat).at(lon);
+            }
+            cout << endl;
+            // Spot E
+        }
+        // Spot F
+        cout << "---------------------" << endl;
+    }
+    // Spot G
+        ]]>
+      </program>
+
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>Spot A</p>
+        </statement>
+        <feedback>
+          <p>If we declare <pf>total</pf> here, it will accumulate values from all depth levels. We want to reset it for each depth.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Spot B</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Spot C</p>
+        </statement>
+        <feedback>
+          <p>If we declare <pf>total</pf> here, it will reset for each latitude, which is not what we want.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Spot D</p>
+        </statement>
+        <feedback>
+          <p>If we declare <pf>total</pf> here, it will reset for each longitude, which is not what we want.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Spot E</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Spot F</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Spot G</p>
+        </statement>
+      </choice>
+      </choices>
+      </exercise>
+
+      
+  <exercise label="multidimensional-vectors_extra-dimensions-ex-2">
+    <statement>
+      <p>In <xref ref="multidimensional-vectors_extra-dimensions-listing-1"/>, we want to calculate an average of the temperature at each depth level. To do that, we need to declare a `total` variable to accumulate the sum of temperatures at each depth. Then we will need to calculate the average by dividing the total by the number of temperature readings at that depth. Where should we add code to do that math and print the average for the current depth?</p>
+      <program>
+        <![CDATA[ 
+    // Spot A
+    for (size_t depth = 0; depth < depthCount; ++depth) {
+        cout << "Depth " << depth << ":" << endl;
+        // Spot B
+        for (size_t lat = 0; lat < latitudeCount; ++lat) {
+            // Spot C
+            for (size_t lon = 0; lon < longitudeCount; ++lon) {
+                // Spot D
+                cout << oceanTemps.at(depth).at(lat).at(lon) << " ";
+                total += oceanTemps.at(depth).at(lat).at(lon);
+            }
+            cout << endl;
+            // Spot E
+        }
+        // Spot F
+        cout << "---------------------" << endl;
+    }
+    // Spot G
+        ]]>
+      </program>
+
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>Spot A</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Spot B</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Spot C</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Spot D</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Spot E</p>
+        </statement>
+        <feedback>
+          <p>If we calculate and print the average here, it will be done for each latitude, which is not what we want.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Spot F</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Spot G</p>
+        </statement>
+        <feedback>
+          <p>If we calculate and print the average here, it will be done once for the entire ocean.</p>
+        </feedback>
+      </choice>
+      </choices>
+    </exercise>
+
+      
+  <exercise label="multidimensional-vectors_extra-dimensions-ex-3" indentation="hide">
+    <statement>
+      <p>In <xref ref="multidimensional-vectors_extra-dimensions-listing-1"/>, we want to print out a single vertical column of ocean temperatures at latitude index 1, longitude index 2. Build the necessary logic.</p>
+      
+      <p>You will NOT use all of the blocks.</p>
+    </statement>
+      <blocks>
+        <block>
+          <cline><![CDATA[for (size_t depth = 0; depth < depthCount; ++depth) {]]></cline>
+        </block>
+        <block correct="no">
+          <cline><![CDATA[ for (size_t lat = 0; lat < latitudeCount; ++lat) {]]></cline>
+        </block>
+        <block correct="no">
+          <cline><![CDATA[   for (size_t lon = 0; lon < longitudeCount; ++lon) {]]></cline>
+        </block>
+        <block>
+          <choice correct="yes">
+            <cline><![CDATA[ cout << oceanTemps.at(depth).at(1).at(2) << endl;]]></cline>
+          </choice>
+          <choice>
+            <cline><![CDATA[ cout << oceanTemps.at(depth).at(lat).at(2) << endl;]]></cline>
+          </choice>
+          <choice>
+            <cline><![CDATA[ cout << oceanTemps.at(depth).at(lat).at(lon) << endl;]]></cline>
+          </choice>
+          <choice>
+            <cline><![CDATA[ cout << oceanTemps.at(depth).at(1).at(lon) << endl;]]></cline>
+          </choice>
+        </block>
+        <block>
+          <cline>}</cline>
+        </block>
+        <block correct="no">
+          <cline> }</cline>
+          <cline>}</cline>
+        </block>
+        <block correct="no">
+          <cline>  }</cline>
+          <cline> }</cline>
+          <cline>}</cline>
+        </block>
+      </blocks>
+      <hint><p>How many dimensions are you traversing? That determines the number of loops you need.</p></hint>
+    </exercise>
+
 
 </section>
