@@ -2,13 +2,19 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Header Files</title>
 
-  <p>Separate compilation requires that each <pf>.cpp</pf> file must have a declaration for every function that will be used in it.Manually declaring each function from a library (like we did with <pf>doubleValue</pf> in <pf>main.cpp</pf>) so that you can use it in another file works, but is a bit cumbersome. Imagine that I want to use a dozen different
-    functions from a library - I would have to start my file with a dozen declarations for the various functions. </p>
+  <p>Separate compilation requires that each <pf>.cpp</pf> file must have a declaration for every function that will be used in it. We just saw one way to accomplish this. We can manually declare each function from a library at the top of our file. That works, but it is a bit cumbersome. Imagine if every time you wanted to use the <term>cmath</term> library you had to manually declare
+    all of the functions instead of just saying <pf>#include &lt;cmath&gt;</pf>!</p>
 
   <p>Fortunately, there is an easier way to add all the function declarations for the functions in a library - by using a <term>header file</term>. A
-    <term>header file</term> is a file that contains a set of function declarations that match what is in a .cpp file or compiled library. <idx>
+    <term>header file</term> is a file that contains a set of function declarations that match what is in a .cpp file or compiled library. It will get included in any <pf>.cpp</pf> file that needs to use those functions.<idx>
       <h>header file</h>
     </idx></p>
+    
+  <figure>
+    <caption>library.h has the declarations for the functions in library.cpp. main.cpp and library.cpp each include library.h to get the declarations they need.</caption>
+    <image source="images/compilation-multiple-winclude.svg"
+           width="60%"/>
+  </figure>
 
   <p>Here is a header file that might correspond to <pf>library.cpp</pf>:</p>
 

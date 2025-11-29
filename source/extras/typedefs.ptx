@@ -3,6 +3,7 @@
 
   <title>Typedefs</title>
 
+  <introduction>
   <p>C++ data types can sometimes become a bit much to efficiently read or type:
     <ul>
     <li><p><pf>vector&lt;vector&lt;int>></pf> - a two dimensional vector of integers</p></li>
@@ -11,7 +12,12 @@
     </ul>
   </p>
 
-  <p>To make it easier to read and write, we can use a <term>typedef</term>. A <pf>typedef</pf> is a way to give a new name to an existing type. The new name can be shorter or more descriptive. The basic syntax is:</p>
+  <p>To make it easier to read and write, we can use a <term>typedef</term>. A <pf>typedef</pf> is a way to give a new name to an existing type. The new name can be shorter or more descriptive. </p>
+    </introduction>
+    
+    <subsection>
+    <title>Defining a Typedef</title>
+    <p>The basic syntax for defining a typedef is:</p>
 
   <program>typedef EXISTING_TYPE NEW_NAME;</program>
 
@@ -22,7 +28,17 @@
 
   <p>A typedef like this would normally go outside of any particular function near the top of a code file so that it is available everywhere in that file. If we are building a program with multiple files and want to use the same typedef across many of them, we would write it in a .h file or module that gets included in all the places it is needed.</p>
 
-  <p>Once we have made the <pf>typedef</pf> we can use <pf>Matrix</pf> instead of <pf>vector&lt; vector&lt;int> ></pf> in our code. So the function that takes a two dimensional vector of integers could be written as:</p>
+  <figure>
+    <caption>If library.h declares a typedef, it will be usable in all files that include library.h.</caption>
+    <image source="images/compilation-multiple-winclude.svg"
+           width="60%"/>
+  </figure>
+  </subsection>
+
+  <subsection>
+    <title>Using a Typedef</title>
+
+  <p>Once we have made the <pf>typedef</pf> we can use <pf>Matrix</pf> instead of <pf>vector&lt;vector&lt;int>></pf> in our code. So the function that takes a two dimensional vector of integers could be written as:</p>
 
   <program>void foo(const Matrix&amp; m);</program>
 
@@ -41,6 +57,7 @@
 
   <p>It should be noted that overusing typedef can make code less readable. Especially if it is used to assign new names to simple types. Don't use typedef to make <pf>Decimal</pf> mean <pf>double</pf>!</p>
 
+  </subsection>
   
   
   <exercise label="extras_typedefs-ex-1">

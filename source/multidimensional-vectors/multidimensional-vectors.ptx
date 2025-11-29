@@ -31,6 +31,9 @@
   vector&lt;int> row(5, 0);
   // A table that has three copies of row
   vector&lt;vector&lt;int>> table(3, row);
+
+  // Or more concisely, a vector of 3 rows, each a vector of 5 integers initialized to 0
+  vector&lt;vector&lt;int>> table(3, vector&lt;int>(5, 0));
   </program>
 
   <p><pf>table</pf> itself is a vector with three elements. Each of those elements is a vector. Although we are trying to represent 2-dimensional storage, what we have is really a 1-dimensional list in which each value is a 1-dimensional list.</p>

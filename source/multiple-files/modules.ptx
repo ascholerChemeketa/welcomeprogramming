@@ -7,9 +7,18 @@
       <h>modules</h>
     </idx> A module is written in a single file instead of a .h/.cpp pair. When
     a compiler builds a module, it creates the object code like normal, but it also automatically
-    creates a file that works like a <pf>.h</pf> to declare what is in the file. When we make use of
-    the module in other files, the compiler automatically finds and reads that file to discover what
-    is available.</p>
+    creates an <term>interface file</term> that works like a header to declare what is in the file.</p>
+    
+    <p>We can compile the module file like a <pf>.cpp</pf> file. But we can also <term>import</term> it into other files.
+    Doing that is like including a header file, but the compiler automatically manages the interface file for us.</p>
+    
+  <figure>
+    <caption>Compiling main.cpp and the module library.cxx. Compiling the library automatically
+      generates the necessary interface file that will be used when main.cpp imports the module.</caption>
+    <image source="images/compilation-multiple-module.svg"
+           width="60%"/>
+  </figure>
+
 
   <insight>
     <p>You can think of a module as a .cpp file that (among other things) will automatically
@@ -41,7 +50,7 @@
              xml:id="multiple-files_modules-library-cxx"
              filename="library.cxx"
              line-numbers="yes"
-             highlight-lines="2, 8, 30">
+             highlight-lines="2, 8, 34">
 <xi:include href="../../programs/multiple-files/modules-library.cxx" parse="text"/>
   </program>
   </listing>
@@ -60,7 +69,7 @@
           </ul>
         </p>
       </li>
-      <li>Line 30 uses <pf>export</pf> to state that the <pf>doubleValue</pf> function will also be available outside
+      <li>Line 34 uses <pf>export</pf> to state that the <pf>doubleValue</pf> function will also be available outside
     of the module.</li>
     </ul>
   </p>
@@ -76,14 +85,6 @@
 <xi:include href="../../programs/multiple-files/modules-main.cpp" parse="text"/>
   </program>
   </listing>
-
-  <figure>
-    <caption>Compiling main.cpp and the module library.cxx. Compiling the library automatically
-      generates the necessary interface file that will be used when main.cpp imports the module.</caption>
-    <image source="images/compilation-multiple-module.svg"
-           width="60%"/>
-  </figure>
-
 
   <warning>
     <p> Modules are relatively new, and not completely supported by all compilers. You may need to
