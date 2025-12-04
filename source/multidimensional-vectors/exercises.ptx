@@ -46,7 +46,7 @@ TEST_CASE("create") {
 
   <exercise label="multidimensional-vectors_exercises-ex-2">
     <statement>
-      <p>Write code for the function <pf>additiveInverse</pf>. It should take the 2D matrix given and change it into its additive inverse by multiplying each value in the matrix by -1.</p>
+      <p>Write code for the function <pf>additiveInverse</pf>. It should take the 2D matrix given and change it into its additive inverse by multiplying each value in the matrix by -1. It should make those changes to the original matrix and return nothing.</p>
     </statement>
       <program interactive="activecode" codelens="no">
         <preamble visible="yes"><![CDATA[#include <iostream>
@@ -74,13 +74,18 @@ TEST_CASE("additiveInverse") {
                                  {4,5,6}};
     vector<vector<int>> result1 = {{-1,-2,-3},
                                     {-4,-5,-6}};
-    CHECK(additiveInverse(test1) == result1);
+    // call function to change test1
+    additiveInverse(test1);
+    CHECK(test1 == result1);
 
     vector<vector<int>> test2 = {{-4,0},
                                  {3,-1}};
     vector<vector<int>> result2 = {{4,0},
                                    {-3,1}};
-    CHECK(additiveInverse(test2) == result2);
+
+    // call function to change test2
+    additiveInverse(test2);
+    CHECK(test2 == result2);
 }]]>
         </tests>
     </program>
