@@ -2,22 +2,78 @@
            xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Exercises</title>
 
-  <introduction>
-    <p>This chapter does not have automatically graded exercises like other ones. Instead, it includes a series of open-ended questions and prompts for further exploration.</p>
+  <introduction xml:id="program-design_exercises_introduction">
+    <title>Guidelines for Design Exercises</title>
+    <p>This chapter does not have automatically graded exercises. Design, by its nature, is open-ended.</p>
+    <p>It does however have some exercises that ask you to design functions. Do so by writing:
+      <ul>
+        <li>A prototype for each function.</li>
+        <li>A description of what the function does (written as a comment).</li>
+        <li>Some sample input/output pairs that could turn into a test.</li>
+      </ul>
+    </p>
+    <example>
+      <title>Example Exercise/Answer</title>
+      <p>We want to write a program that takes a variable definition in snake_case and converts them to camelCase. So, if we started with the input <pf>int my_nice_variable;</pf>, we would want to output <pf>int myNiceVariable;</pf>. The declaration could also have an initial value, like <pf>double another_variable_name = 3.14;</pf>. If it does, there will always be a space between the variable name and the assignment operator.</p>
+      <p>Design some functions that would help solve this problem.</p>
+      <listing>
+        <caption>Sample answer</caption>
+        <program><![CDATA[ 
+// Function 1
+// gets the variable name from a declaration statement
+string getVariableName(const string& declaration);
+// Sample uses
+getVariableName("int my_nice_variable;") -> "my_nice_variable"
+getVariableName("double another_variable_name = 3.14;") -> "another_variable_name"
+
+// Function 2
+// converts a snake_case variable name to camelCase
+string snakeToCamel(const string& snakeName);
+// Sample uses
+snakeToCamel("my_nice_variable") -> "myNiceVariable"
+snakeToCamel("another_variable_name") -> "anotherVariableName"
+
+// Function 3
+// convert a single character to uppercase
+char toUpperCase(char c);
+// Sample uses
+toUpperCase('a') -> 'A'
+toUpperCase('z') -> 'Z'
+
+// Function 4
+// takes a full variable declaration in snake_case and returns it in camelCase
+string convertDeclarationToCamel(const string& declaration);
+// Sample uses
+convertDeclarationToCamel("int my_nice_variable;") -> "int myNiceVariable;"
+convertDeclarationToCamel("double another_variable_name = 3.14;") -> "double anotherVariableName = 3.14;"
+          ]]>
+        </program>
+      </listing>
+    </example>
+    <p>Note that we have not described how any of the functions do their job. We have simply identified useful tasks and written down what inputs and outputs they should have. Not all of these functions might be needed. (For example, we could probably just use <pf>toupper</pf> from <pf>&lt;cctype></pf> instead of writing Function 3). And we might need to break up some of the functions more.</p>
   </introduction>
 
   <exercise label="program-design_exercises-ex-1">
-    <statement>In the development environment of your choice, set up a multiple file project. It should consist of:
-      <ul>
-        <li>A library (either a module file or a .h/.cpp pair) that contains a simple function like <pf>double celsiusToFahrenheit(double celsiusTemp);</pf>.</li>
-        <li>A file with tests for that function.</li>
-        <li>A file with a <pf>main</pf> function.</li>
-      </ul>
-      <p>Make sure that you can compile and run both the tests program and the main program.</p>
+    <statement>
+      <p>Design functions to help solve the following problem.</p>
+      <p>We will start with 6 doubles, <pf>x1</pf>, <pf>y1</pf>, <pf>x2</pf>, <pf>y2</pf>, <pf>x3</pf>, and <pf>y3</pf>, that represent the coordinates of the three vertices of a triangle. We want to compute and print the area of the triangle.</p>
+      <p>(Follow the answer guidelines in <xref text="title" ref="program-design_exercises_introduction"/>.)</p>
     </statement>
+    <response>
+    </response>
   </exercise>
 
   <exercise label="program-design_exercises-ex-2">
+    <statement>
+      <p>Design functions to help solve the following problem.</p>
+      <p>We have a string containing two cards of a hand in blackjack, like <c>"KH 7D"</c> (the king of hearts and the seven of diamonds) or <c>"AS 9C"</c> (the ace of spades and the nine of clubs). We want to compute the total value of the hand. The king, queen, and jack are worth 10 points each. The ace is worth either 1 point or 11 points, whichever is more favorable to the hand without going over 21. All other cards are worth their numeric value.</p>
+      <p>(Follow the answer guidelines in <xref text="title" ref="program-design_exercises_introduction"/>.)</p>
+    </statement>
+    <response>
+    </response>
+  </exercise>
+
+  <exercise label="program-design_exercises-ex-3">
     <statement>
       <p>Design functions to help solve the following problem.</p>
 
@@ -29,7 +85,7 @@
         <p>Blood that has the <pf>+</pf> factor can only be given to someone who also has the <pf>+</pf> factor. (Blood with the <pf>-</pf> factor can be given to anyone.)</p>
       </note>
 
-      <p>Our input will be two strings. We should print out two lines of output like:</p>
+      <p>We will write a program that asks for two blood types. We should print out two lines of output like:</p>
 
       <console>
         <output>
@@ -38,29 +94,67 @@
         </output>
       </console>
 
-      <p>Using either top-down or bottom-up design, design some functions that might be useful for solving this problem. Don't worry about doing the math or writing code, just focus on what tasks need to get done. For each function, write:
-        <ul>
-          <li>A prototype for the function</li>
-          <li>Some sample input/output pairs that could turn into a test</li>
-        </ul>
-      </p>
+      <p>(Follow the answer guidelines in <xref text="title" ref="program-design_exercises_introduction"/>.)</p>
     </statement>
+    <response>
+    </response>
   </exercise>
 
-  <exercise label="program-design_exercises-ex-3">
+  <exercise label="program-design_exercises-ex-4">
+    <statement>
+      <p>Design functions to help solve the following problem.</p>
+      <p>Given a month/year date like <c>"12/2025"</c> or <c>"1/2023"</c>, print a calendar page for that month and year.</p>
+      <p>For example, a calendar page for December 2025 might look like this:</p>
+      <pre>
+    December 2025
+Su Mo Tu We Th Fr Sa
+    1  2  3  4  5  6
+ 7  8  9 10 11 12 13
+14 15 16 17 18 19 20
+21 22 23 24 25 26 27
+28 29 30 31
+      </pre>
+      <p>(Follow the answer guidelines in <xref text="title" ref="program-design_exercises_introduction"/>.)</p>
+    </statement>
+    <response>
+    </response>
+  </exercise>
+
+  <exercise label="program-design_exercises-ex-5">
+    <statement>
+      <p>In Roman numerals the letters I, V, X, L, and C represent the values 1, 5, 10, 50, and 100 respectively. Numbers are formed by combining these letters and adding their values. For example, the Roman numeral for 3 is <pf>III</pf>, which is three ones added together. The Roman numeral for 12 is <pf>XII</pf>, which is a ten plus two ones. The Roman numeral for 27 is <pf>XXVII</pf>, which is two tens plus a five plus two ones.</p>
+      <p>In real Roman numerals, there are some special rules for avoiding more than three of the same letter in a row. But we will ignore those.</p>
+      <p>Design functions to help write a program that reads in two Roman numerals (both less than 100), adds them together, and outputs the result as a Roman numeral.</p>
+      <p>(Follow the answer guidelines in <xref text="title" ref="program-design_exercises_introduction"/>.)</p>
+    </statement>
+    <response>
+    </response>
+  </exercise>
+
+  <exercise label="program-design_exercises-ex-6">
+    <statement>
+      <p>Design functions to help solve the following problem.</p>
+      <p>The perceptual brightness of a color can be estimated with the formula:</p>
+      <md>\text{brightness} = (0.2126 * R) + (0.7152 * G) + (0.0722 * B)</md>
+      <p>Given a string with a color value in the format <pf>#RRGGBB</pf> where RR, GG, and BB are two-digit hexadecimal numbers. (See <url href="https://runestone.academy/ns/books/published/welcomecs2/data-representation_hex-data-colors.html?mode=browsing">Welcome to CS - Hex Data &amp; Colors</url> for more details), we want to calculate the perceptual brightness.</p>
+
+      <p>(Follow the answer guidelines in <xref text="title" ref="program-design_exercises_introduction"/>.)</p>
+    </statement>
+    <response>
+    </response>
+  </exercise>
+
+  <exercise label="program-design_exercises-ex-7">
     <statement>
       <p>Design functions to help solve the following problem.</p>
       <p>We would like to calculate blends of HTML colors in the format <pf>#RRGGBB</pf> where RR, GG, and BB are two-digit hexadecimal numbers. (See <url href="https://runestone.academy/ns/books/published/welcomecs2/data-representation_hex-data-colors.html?mode=browsing">Welcome to CS - Hex Data &amp; Colors</url> for more details).</p>
 
       <p>Our input will be lines of text like <pf>#406000 #AAFFBB 80%</pf> that have two colors and a percentage. The percentage will describe how much of the second color to use. So <pf>#406000 #AAFFBB 80%</pf> would mean to give the color <pf>#AAFFBB</pf> 80% weight and the color <pf>#406000</pf> 20% weight. We should print a new string in the format <pf>#RRGGBB</pf> that represents the blended color.</p>
 
-      <p>Using either top-down or bottom-up design, design some functions that might be useful for solving this problem. Don't worry about doing the math or writing code, just focus on what tasks need to get done. For each function, write:
-        <ul>
-          <li>A prototype for the function</li>
-          <li>Some sample input/output pairs that could turn into a test</li>
-        </ul>
-      </p>
+      <p>(Follow the answer guidelines in <xref text="title" ref="program-design_exercises_introduction"/>.)</p>
     </statement>
+    <response>
+    </response>
   </exercise>
 
 </exercises>
