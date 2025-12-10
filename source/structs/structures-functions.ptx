@@ -6,7 +6,10 @@
   <program>void printPoint(Point p) {
   cout &lt;&lt; "(" &lt;&lt; p.x &lt;&lt; ", " &lt;&lt; p.y &lt;&lt; ")" &lt;&lt; endl;
 }</program>
-  <p>That version of the function uses <term>pass by value</term> to make a copy of the point that is passed in. For a very simple struct, we may be willing to pay the price of an unneeded copy. But in general, it is better to use <term>pass by reference</term> to pass structs to avoid that work. And, if the function will not modify the object, we should use <term>pass by const reference</term>. So we will prefer to write functions like this:</p>
+
+  <p>That version of the function uses <term>pass by value</term> to make a copy of the point that is passed in. For a very simple struct, we may be willing to pay the price of an unneeded copy. But in general, it is better to use <term>pass by reference</term> to pass structs to avoid that work. (See <xref ref="references-exceptions_references-functions" />to review references and pass by reference.)</p>
+
+  <p>And, if the function will not modify the struct, we should use <term>pass by const reference</term>. So we will prefer to write functions like this:</p>
   <program>void printPoint(const Point&amp; p) {
   cout &lt;&lt; "(" &lt;&lt; p.x &lt;&lt; ", " &lt;&lt; p.y &lt;&lt; ")" &lt;&lt; endl;
 }</program>
@@ -19,94 +22,79 @@
   </program>
   </listing>
 
-  <p>Similarly, we can return a struct from a function. To do so, we use the struct's type as the return type. Here is a function that takes a point and returns it's mirror image over the y-axis:</p>
+  <p>Similarly, we can return a struct from a function. To do so, we use the struct's type as the return type. Here is a function that takes a Point and returns a new Point representing its mirror image over the y-axis:</p>
 
   <listing>
-  <program label="structs_functions-program-2" interactive="activecode">
+  <program label="structs_functions-program-2" interactive="codelens">
 <xi:include href="../../programs/structs/structs_functions-2.cpp" parse="text"/>
   </program>
   </listing>
 
   <exercise label="structs_functions-ex-1">
     <statement>
-      <p>What will print?</p>
+      <p>What should replace the <c>???</c> in the code below to take a coordinate as a constant reference?</p>
+      <p><fillin mode="string" answer="const Coordinate&amp; p"/></p>
+
       <program line-numbers="yes">
         <code><![CDATA[
 struct Coordinate {
   int x, y;
 };
 
-void printOppositeCoordinate(const Coordinate& p) {
+void printOppositeCoordinate(???) {
   cout << "(" << -p.y << ", " << -p.x << ")" << endl;
 }
 
 int main() {
   Coordinate coord = { 2, 7 };
-  printOppositeCoordinate (coord);
+  printOppositeCoordinate(coord);
 }
 ]]></code>
       </program>
     </statement>
-    <choices randomize="yes">
-      <choice>
-        <statement>
-          <p>
-            <pf>(-2, -7)</pf>
-          </p>
-        </statement>
-        <feedback>
-          Take a close look at the printOppositeCoordinate function.
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>
-            <pf>(2.0, 7.0)</pf>
-          </p>
-        </statement>
-        <feedback>
-          Take a close look at the printOppositeCoordinate function.
-        </feedback>
-      </choice>
-      <choice correct="yes">
-        <statement>
-          <p>
-            <pf>(-7, -2)</pf>
-          </p>
-        </statement>
-        <feedback>
-          Yes, this is the correct output.
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>
-            <pf>(-7.0, -2.0)</pf>
-          </p>
-        </statement>
-        <feedback>
-          Take a close look at the Coordinate struct.
-        </feedback>
-      </choice>
-    </choices>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp>const\\s+Coordinate&amp;\\s+p</strcmp>
+        </test>
+        <test>
+          <strcmp>^[^&amp;]*$</strcmp>
+          <feedback>
+            We want to pass by reference to avoid making a copy.
+          </feedback>
+        </test>
+        <test>
+          <strcmp>^[^p]*$</strcmp>
+          <feedback>
+            What is the name of the parameter that is used inside of the function?
+          </feedback>
+        </test>
+        <test>
+          <strcmp>^\\s*Coor.*</strcmp>
+          <feedback>
+            We want a constant reference.
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
   </exercise>
   <exercise label="structs_functions-ex-2"
             numbered="yes"
             adaptive="yes"
-            indentation="show">
+            indentation="hide">
     <statement>
-      <p>Construct a function that takes in three Point structures and returns a new point where the x value is the  the average of the three points' x coordinates and the y value is the average of the three points' y coordinates. Calculate the x average before the y average.</p>
+      <p>Construct a function that takes in three Point structures and returns a new point where the x value is the  the average of the three points' x coordinates and the y value is the average of the three points' y coordinates. You will not need all of the blocks.</p>
     </statement>
     <blocks>
-      <block>
+      <block name="a" depends="">
         <cline>Point average(const Point&amp; p1,</cline>
         <cline>               const Point&amp; p2,</cline>
         <cline>               const Point&amp; p3) {</cline>
       </block>
-      <block>
+      <block name="b" depends="a">
         <cline> double avgX = (p1.x + p2.x + p3.x)/3;</cline>
       </block>
-      <block>
+      <block name="c" depends="a">
         <choice correct="yes">
           <cline> double avgY = (p1.y + p2.y + p3.y)/3;</cline>
         </choice>
@@ -114,7 +102,7 @@ int main() {
         <cline> double avgY = (y.p1 + y.p2 + y.p3)/3; </cline>
         </choice>
       </block>
-      <block>
+      <block name="d" depends="b c">
         <choice correct="yes">
         <cline><![CDATA[ Point avg = {avgX, avgY};]]></cline>
         </choice>
@@ -122,7 +110,7 @@ int main() {
         <cline><![CDATA[ Point avg = (avgX, avgY);]]></cline>
         </choice>
       </block>
-      <block>
+      <block name="e" depends="d">
         <choice correct="yes">
         <cline><![CDATA[ return avg;]]></cline>
         </choice>
@@ -130,7 +118,7 @@ int main() {
         <cline><![CDATA[ return Point;]]></cline>
         </choice>
       </block>
-      <block>
+      <block name="f" depends="e">
         <cline>}</cline>
       </block>
     </blocks>

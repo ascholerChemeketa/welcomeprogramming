@@ -1,19 +1,36 @@
 <section xml:id="structs_operators-on-structures"
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Operations on structures</title>
-  <p>Most of the operators we have been using on other types, like mathematical operators ( <pf>+</pf>, <pf>%</pf>,
-    etc.) and comparison operators (<pf>==</pf>, <pf>&gt;</pf>, etc.), do not work on structures. (It is possible to define custom operators, but we won't worry about that yet.)</p>
-  <p>On the other hand, the assignment operator <em>does</em> work for structures. It can be used in
+  <p>Most of the standard operators, like mathematical operators ( <pf>+</pf>, <pf>%</pf>, <pf>-</pf>,
+    etc...), comparison operators (<pf>==</pf>, <pf>&gt;</pf>, etc...), and stream operators (<pf>&lt;&lt;</pf>, <pf>&gt;&gt;</pf>), do not work on structures. It is possible to define those operators (covered in <xref ref="operators"/>), but the operators will not work until we do so.</p>
+
+  <p>One operator that does work <q>out of the box</q> for structures is the assignment operator. It can be used in
     two ways: to initialize the instance variables of a structure from a list of values or to copy the instance variables
     from one structure to another. An initialization looks like this:</p>
+
   <program>
 Point blank = { 3.0, 4.0 };
 </program>
-  <p>The values in squiggly braces get assigned to the instance variables of the structure one by
+  <p>The values in curly braces get assigned to the instance variables of the structure one by
     one, in order. So in this case, <pf>x</pf> gets the first value and <pf>y</pf> gets the second.</p>
   <p>This syntax can also be used in an assignment statement. So the following is legal.</p>
   <program>Point blank;
 blank = { 3.0, 4.0 };</program>
+
+  <p>The values are always used in order, so if we have a <pf>Person</pf> struct that looks like:</p>
+
+  <program>struct Person {
+  string name;
+  int age;
+};</program>
+
+  <p>We could initialize a <pf>Person</pf> like this:</p>
+  <program>Person p = { "Alice", 30 };</program>
+
+  <p>But trying to use:</p>
+  <program>Person p = { 30, "Alice" };</program>
+  <p>Would be an error, because the types do not match the order of the instance variables (<pf>string</pf> then <pf>int</pf>).</p>
+
   <p>The second use of assignment is to copy one struct into another:</p>
   <program>Point p1 = { 3.0, 4.0 };
 Point p2 = p1;

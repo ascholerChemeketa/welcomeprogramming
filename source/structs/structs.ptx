@@ -3,51 +3,68 @@
 
   <title>Structs</title>
   <p>In C++, the simplest way to create a new aggregate data type is by defining a <term>struct</term>.
-    A <pf>struct</pf> is a collection of variables, possibly of different types, that are grouped
-    together under a single name.</p>
-  <p>As a simple example, let us consider a point in the x, y plane.
-    In mathematical notation, points are often written in parentheses, with a comma separating the
-    coordinates. For example, <m>(0, 0)</m> indicates the origin, and <m>(x, y)</m> indicates the
-    point <m>x</m> units to the right and <m>y</m> units up from the origin.</p>
+    A <pf>struct</pf> is a collection of variables, possibly of different types, that are grouped together
+    under a single name.</p>
+  <p>As a simple example, let us consider a point in the x, y plane. In mathematical notation,
+    points are often written in parentheses, with a comma separating the coordinates. For example, <m>(0,
+    0)</m> indicates the origin, and <m>(x, y)</m> indicates the point <m>x</m> units to the right
+    and <m>y</m> units up from the origin.</p>
   <p>To create a new data type that represents a point, we can use this <pf>struct</pf> definition:</p>
   <program>struct Point {
-  double x, y;
+  double x;
+  double y;
 };</program>
+
+  <note><p>It is a common convention to name data types with capital letters.</p>
+  <p>When using this convention, it is easier to distinguish types (<pf>Thing</pf>) from variables (<pf>thing</pf>).</p></note>
+
   <p>This definition indicates that there are two elements in this structure, named <pf>x</pf> and <pf>y</pf>.
-    These elements are called <term>instance variables</term> or <term>members</term>.<idx><h>member</h></idx><idx><h>instance variable</h></idx></p>
+    These elements are called <term>instance variables</term> or <term>members</term>.<idx>
+      <h>member</h>
+    </idx><idx>
+      <h>instance variable</h>
+    </idx></p>
   <warning>
-    <p>It is a common error to leave off the semi-colon at the end of a
-      structure definition. It might seem odd to put a semi-colon after a
-      squiggly-brace, but you'll get used to it.</p>
+    <p>It is a common error to leave off the semi-colon at the end of a structure definition. It
+      might seem odd to put a semi-colon after a squiggly-brace, but you'll get used to it.</p>
   </warning>
-  <p>The <pf>struct</pf> definition must appear before it is used and be in scope where you use it. This means that they generally appear outside of any function definition, usually at the beginning of the
-    program (after the <pf>include</pf> statements) so that they are available in all the functions. If building a program in multiple files, the struct definition generally goes into a header or module file that other files can import or include to make use of.</p>
-    
-  <p>A <term>struct</term> defines a new type of data. Think of it as a <q>blueprint</q> that describes how to build an item of that type. <pf>struct Point</pf> does not actually create a point anymore than the blueprint of a house gives you something to live in. To actually make a point that we can work with, we need to create a variable using the new data type that has been defined. The value that is created is referred to as an <term>instance</term> of the struct.<idx><h>instance</h></idx></p>
+  <p>The <pf>struct</pf> definition must appear before it is used and be in scope where you use it. This
+    means that they generally appear outside of any function definition, usually at the beginning of
+    the program (after the <pf>include</pf> statements) so that they are available in all the functions. If
+    building a program in multiple files, the struct definition generally goes into a header or
+    module file that other files can import or include to make use of.</p>
+
+  <p>A <term>struct</term> defines a new type of data. Think of it as a <q>blueprint</q> that
+    describes how to build an item of that type. <pf>struct Point</pf> does not actually create a point anymore
+    than the blueprint of a house gives you something to live in. To actually make a point that we
+    can work with, we need to create a variable using the new data type that has been defined. The
+    value that is created is referred to as an <term>instance</term> of the struct.<idx>
+      <h>instance</h>
+    </idx></p>
   <program>Point blank;
 blank.x = 3.0;
 blank.y = 4.0;</program>
-  <p>The first line is a conventional variable declaration: <pf>blank</pf> has type <pf>Point</pf>. The next two
-    lines initialize the instance variables of the structure. The <q>dot notation</q> used here is
-    similar to the syntax for invoking a function on an object, as in <pf>fruit.size()</pf>.</p>
+  <p>The first line is a conventional variable declaration: <pf>blank</pf> has type <pf>Point</pf>. The next
+    two lines initialize the instance variables of the structure. The <q>dot notation</q> used here
+    is similar to the syntax for invoking a function on an object, as in <pf>myVector.size()</pf>.</p>
   <p>The result of these assignments is shown in the following state diagram:</p>
   <figure align="center">
-    <image source="images/struct-stackdiagram.png"
-           width="20%"
-           >
-      <shortdescription>'blank' names a box with two halves. One is 'x: 3' the other is 'y: 4'.</shortdescription>
+    <image source="images/struct-point.png"
+           width="40%">
+      <shortdescription><pf>blank</pf> names a box that contains two parts. One is named <pf>x</pf> and the other is named <pf>y</pf>.</shortdescription>
     </image>
   </figure>
-  <p>As usual, the name of the variable <pf>blank</pf> appears outside the box and its value appears inside
-    the box. In this case, that value is a compound object with two named instance variables.</p>
+  <p>As usual, the name of the variable <pf>blank</pf> appears outside the box and its value appears
+    inside the box. In this case, that value is a struct with two named instance variables.</p>
   <exercise label="structs_structs-ex-1">
     <statement>
-      <p>Which of the following would be the correct way to initialize the <pf>x</pf> instance variable
-        of the <pf>Point</pf> object?</p>
+      <p>Which of the following would be the correct way to initialize the <pf>x</pf> instance
+        variable of the <pf>Point</pf> struct?</p>
       <program line-numbers="yes">
         <code>
 struct Point() {
-  double x, y;
+  double x;
+  double y;
 };
 
 int main() {
@@ -62,33 +79,26 @@ int main() {
         <statement>
           <p>blank.x = 3.0;</p>
         </statement>
-        <feedback>
-          This declaration would not work for the specific code block below.
-        </feedback>
+        <feedback> This declaration would not work for the specific code block below. </feedback>
       </choice>
       <choice>
         <statement>
           <p>Point.x = 3.0;</p>
         </statement>
-        <feedback>
-          The specific name of the structure should be used, not its type.
-        </feedback>
+        <feedback> The specific name of the structure should be used, not its type. </feedback>
       </choice>
       <choice correct="yes">
         <statement>
           <p>nice.x = 3.0;</p>
         </statement>
-        <feedback>
-          Yes, we can access and modify the instance variables using the dot operator.
-        </feedback>
+        <feedback> Yes, we can access and modify the instance variables using the dot operator. </feedback>
       </choice>
       <choice>
         <statement>
           <p>nice.x( ) = 3.0;</p>
         </statement>
-        <feedback>
-          You are not calling a function therefore brackets for an argument list aren't required.
-        </feedback>
+        <feedback> You are not calling a function therefore brackets for an argument list aren't
+          required. </feedback>
       </choice>
     </choices>
   </exercise>
@@ -97,58 +107,84 @@ int main() {
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Construct a block of code that correctly creates variables of a certain structure's type.</p>
+      <p>Construct code to correctly define a struct Person. A <pf>Person</pf> should store a name and an age.</p><p>Then, in main, make a Person <pf>p1</pf>
+        and initialize its member variables.</p>
+      <p>You will not use all of the blocks.</p>
     </statement>
     <blocks>
-      <block correct="no">
-        <cline>struct Point {</cline>
-        <cline>   double x, y;</cline>
+      <block name="a" depends="">
+        <cline>struct Person {</cline>
+      </block>
+      <block name="b" depends="a">
+        <cline>   string name;</cline>
+      </block>
+      <block name="c" depends="a">
+        <cline>   int age;</cline>
+      </block>
+      <block name="d" depends="a b c">
         <cline>};</cline>
+      </block>
+      <block name="e" depends="d">
         <cline>int main() {</cline>
-        <cline>   Point blue;</cline>
-        <cline>   blue.x = 3.0;</cline>
-        <cline>   Point.x = 3.0; </cline>
+      </block>
+      <block name="f" depends="e">
+        <cline>   Person p1;</cline>
+      </block>
+      <block name="g"  depends="f">
+        <cline>   p1.name = "Alice";</cline>
+      </block>
+      <block name="h"  depends="f">
+        <cline>   p1.age = 30;</cline>
+      </block>
+      <block correct="no">
+        <cline>   Person.name = "Alice";</cline>
+      </block>
+      <block correct="no">
+        <cline>   Person.age = 30;</cline>
+      </block>
+      <block  name="i" depends="g h">
         <cline>}</cline>
       </block>
     </blocks>
   </exercise>
+
   <exercise label="structs_structs-ex-3">
     <statement>
-      <p><pf>struct</pf> definitions generally occur&#x2026;</p>
+      <p>Which statements are true about where we place a <pf>struct</pf> definition?</p>
     </statement>
-    <choices randomize="yes">
-      <choice>
+    <choices>
+      <choice correct="yes">
         <statement>
           <p>outside of any function definition, usually at the beginning of the program</p>
         </statement>
-        <feedback>
-          Read over the other answer choices as well.
-        </feedback>
+        <feedback> Read over the other answer choices as well. </feedback>
       </choice>
       <choice>
         <statement>
           <p>after the main function</p>
         </statement>
-        <feedback>
-          The struct cannot be defined after the main function or else it can't be used in the
-            program.
-        </feedback>
+        <feedback> The struct cannot be defined after the main function or else it can't be used in
+          the program. </feedback>
       </choice>
-      <choice>
+      <choice  correct="yes">
         <statement>
           <p>after the include statements</p>
         </statement>
-        <feedback>
-          Read over the other answer choices as well.
-        </feedback>
+        <feedback> Read over the other answer choices as well. </feedback>
       </choice>
       <choice correct="yes">
         <statement>
           <p>both a and c</p>
         </statement>
+        <feedback> Yes, structs are usually defined after the include statements and before the main
+          function. </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>In each function that uses it</p>
+        </statement>
         <feedback>
-          Yes, structs are usually defined after the include statements and before the main
-            function.
+          The struct definition only needs to appear once, not in each function that uses it.
         </feedback>
       </choice>
     </choices>

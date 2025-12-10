@@ -56,19 +56,33 @@ Active
   </subsection>
 
   <subsection>
-    <title>Storing a student</title>
+    <title>Storing the Data</title>
 
-    <p>For each Student we need to store the name and the grades. While we could store the name as a single string, it might be helpful to have the first, middle and last names separated so that we can easily print a name in different formats (e.g. <q>first, last</q> or <q>first last</q>).</p>
+    <p>For each Student we need to store the name and the grades. While we could store the name as a single string, it might be helpful to have the first, middle and last names separated so that we can easily print a name in different formats (e.g. <q>first, last</q> or <q>first last</q>). So we will make a <pf>Name</pf> struct.</p>
     
-    <p>Then we have the status. We know there are only two possible values to store, so it would make sense to make an enumeration for them. We could of course just store the string <pf>"Active"</pf> or <pf>"Inactive"</pf>, but an enumeration is more efficient to store and work with. And we won't have to worry about typos as much. The compiler can't identify <pf>status == "Atcive"</pf> as an error, but it can identify that <pf>status == Status.ATCIVE</pf> doesn't make sense.</p>
+    <p>Then we have the status. We know there are only two possible values to store, so it would make sense to make an enumeration for them. We could of course just store the string <pf>"Active"</pf> or <pf>"Inactive"</pf>, but an enumeration is more efficient to store and work with. And the compiler will help us if we have a typo. The compiler can't identify <pf>status == "Atcive"</pf> as an error, but it can identify that <pf>status == Status.ATCIVE</pf> doesn't make sense.</p>
 
-    <p>Finally we need a list of scores, which sounds like a vector.</p>
+    <p>Finally we need a list of scores, which sounds like a vector. It looks like the values in the data file are all integers. But, just in case we want to allow fractional scores in the future, we will use a vector of doubles.</p>
 
     <p>In main, we will store the entire roster as a vector of type Student:</p>
 
-  <program add-files="datafile-students">
+    <listing>
+  <program add-files="datafile-students" line-numbers="yes">
 <xi:include href="../../programs/structs/case-study-students-1.cpp" parse="text"/>
 </program>
+</listing>
+
+  <p>Note that there is only one variable in that code snippet: <pf>studentList</pf>, our vector of students. <pf>Name</pf>, <pf>Status</pf>, and <pf>Student</pf> are all just descriptions of types of data. A memory diagram of students might look like the following:</p>
+
+
+  <figure align="center">
+    <image source="images/structs-vector-students-casestudy.svg"
+           width="50%"
+           >
+      <shortdescription>students is a vector of Student structs. Each Student contains a Name, a Status, and a vector of scores.</shortdescription>
+    </image>
+  </figure>
+
 
   </subsection>
 
@@ -186,7 +200,7 @@ add it to the vector
     </statement>
 <blocks>
   <block name="a" depends="">
-    <cline><![CDATA[vector<double> createScores(string line) {]]></cline>
+    <cline><![CDATA[vector<double> createScores(const string& line) {]]></cline>
   </block>
   <block name="b1" depends="a">
     <cline><![CDATA[    vector<double> scores;]]></cline>

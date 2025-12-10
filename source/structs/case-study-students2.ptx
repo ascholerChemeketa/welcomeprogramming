@@ -4,18 +4,18 @@
   <title>Case Study: Students - Part 2</title>
 
   <introduction>
-    <p>We now have a way to turn data in strings into a Student struct. We still are missing code to read in from the file and also missing code to calculate the average.We can work on these parts in whatever order we like. If we want to do calculations, we can create some test students in code and use them for calculations. If we want to work on the input, we can read from the file and create students, then verify those.</p>
-    <p>Our code for the calculations will be easier to verify as they do not involve IO. So lets tackle them next.</p>
+    <p>We now have a way to turn data in strings into a Student struct. We still are missing code to read in from the file and also missing code to calculate the average. We can work on these parts in whatever order we like. To work on the calculations before reading from the file, we can create some test students in code and use them for calculations. Doing so would be a good idea in any case, as it allows us to verify the calculation logic independently of the file input logic.</p>
+    <p>We will start with the calculation logic.</p>
   </introduction>
 
   <subsection>
     <title>Calculating One Average</title>
 
-    <p>Eventually, we want to calculate the average for each student. But it will be easier to start with just calculating the average for a single student. If we build a function to do that, we can then call that function with each of the students.</p>
+    <p>Eventually, we want to calculate the average for each student. But it will be easier to start with just calculating the average for a single student. If we build a function to do that work, we can then call that function with each of the students.</p>
 
-    <p>The function to calculate an average doesn't even need to know about the entire student. It just needs access to the vector of scores. So it might look like:</p>
+    <p>To calculate a student's average, we need to add up all of their scores and then divide by the number of scores. A function to do that just needs a vector of doubles representing the scores:</p>
 
-<listing>
+<listing xml:id="structs_case-study-students2-listing-1">
 <program>
 double calculateAverage(const vector&lt;double>&amp; scores) {
     double total = 0.0;
@@ -27,9 +27,11 @@ double calculateAverage(const vector&lt;double>&amp; scores) {
 </program>
 </listing>
 
+    <p>Note that function does not depend on the entire student struct, only the scores vector. By just giving the function the vector of doubles, instead of the entire student, we simplify the function and make it more reusable.</p>
+
    <exercise label="structs_case-study-students2-ex-1">
     <statement>
-      <p>Given the function above, assuming you have a student variable <pf>s</pf>, complete this code to calculate the student's average and store it as a double called <pf>avg</pf>?</p>
+      <p>Given the function in <xref ref="structs_case-study-students2-listing-1"/>, and assuming you have a student variable <pf>s</pf>, How would use calculate the student's average and store it as a double called <pf>avg</pf>?</p>
     </statement>
     <choices randomize="yes">
         <choice correct="yes"><statement><pf>double avg = calculateAverage(s.scores);</pf></statement></choice>
@@ -95,7 +97,7 @@ double calculateAverage(const vector<double>& scores) {
     return total / scores.size();
 }
 
-vector<Student> getTestStudents() {
+vector<Student> makeTestStudents() {
     vector<Student> students;
     Student s1 = { {"Alex", "B", "Smith"}, Status::ACTIVE, { 90.0, 85.0, 88.0 } };
     Student s2 = { {"Beth", "C", "Jones"}, Status::INACTIVE, { 98.0, 82.0, 80.0 } };
@@ -107,7 +109,7 @@ vector<Student> getTestStudents() {
 }
 
 int main() {
-    vector<Student> students = getTestStudents();
+    vector<Student> students = makeTestStudents();
 ]]></preamble>
         <code>
     // FIX ME
@@ -125,7 +127,7 @@ Daniel 87</output>
         </iotest>
         </tests>
       </program>
-      <hint><p>If you are stuck, start by looping through the students vector and just printing each first name. Accessing a first name should look something like <pf>s.name.first</pf>. Once that is working, use the <pf>calculateAverage</pf> function on each student's <pf>scores</pf>.</p></hint>
+      <hint><p>If you are stuck, start by looping through the vector and just printing each first name. Accessing a first name should look something like <pf>s.name.first</pf>. Once that is working, use the <pf>calculateAverage</pf> function on each student's <pf>scores</pf>.</p></hint>
       </exercise>
   </subsection>
 

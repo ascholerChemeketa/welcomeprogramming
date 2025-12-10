@@ -14,7 +14,8 @@
 
   <p>In this case, we want the lowest value used to be 1, not 0. We can do this by explicitly
     setting the value of the first item in the enum to 1. The rest of the values will be set
-    automatically based on that first value. For example, if we want <pf>ACE</pf> to be 1, we can write:</p>
+    automatically based on that first value. For example, if we want <pf>ACE</pf> to be 1, we can
+    write:</p>
 
   <program>enum class Rank {
     ACE = 1, TWO, THREE, FOUR, FIVE,
@@ -46,20 +47,28 @@
     - you could not have <pf>Rank::JACK</pf>, <pf>Rank::QUEEN</pf>, <pf>Rank::KING</pf> all have the value 10 if you were
     programming a game where all of those cards should have the same value.</p>
 
-  <p>Given this limitation, and the fact that <pf>getValue(myCoin)</pf> is much clearer to read than
-    <pf>static_cast&lt;int>(myCoin)</pf>, it is likely better to use a function to turn enumerated options
-    into the value we want them to represent. This function will give the correct value for each
-    coin type, regardless of whether or not the enum was defined with specific numeric values:</p>
+  <p>Given this limitation, and the fact that <pf>getValue(myCoin)</pf> is much clearer to read than <pf>static_cast&lt;int>(myCoin)</pf>, it
+    is likely better to use a function to turn enumerated options into the value we want them to
+    represent. This function will give the correct value for each coin type, regardless of whether
+    or not the enum was defined with specific numeric values:</p>
 
   <program>
 <xi:include href="../../programs/structs/structs_enum-values-1.cpp" parse="text"/>
   </program>
 
-  <exercise label="structs_enum-values-ex-1" xml:id="structs_enum-values-ex-1"
+  <insight>
+    <p>Enumerated values are a great use case for <pf>switch</pf> statements. We have a finite list of
+      items that all have unique integer values. We could write <pf>suitToString</pf> with if/else logic, but
+      the switch is a little more succinct.</p>
+  </insight>
+
+  <exercise label="structs_enum-values-ex-1"
+            xml:id="structs_enum-values-ex-1"
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Construct a <pf>Standing</pf> enum with values for FRESHMAN, SOPHOMORE, JUNIOR, and SENIOR such that they have the values 9, 10, 11, and 12.</p>
+      <p>Construct a <pf>Standing</pf> enum with values for FRESHMAN, SOPHOMORE, JUNIOR, and SENIOR such
+        that they have the values 9, 10, 11, and 12.</p>
     </statement>
     <blocks>
       <block>
@@ -94,12 +103,13 @@
     </blocks>
   </exercise>
 
-  
+
   <exercise label="structs_enum-values-ex-2"
             adaptive="yes"
             indentation="hide">
     <statement>
-      <p>Define a Student struct with a string name and Standing (from <xref ref="structs_enum-values-ex-1"/>) classStanding.</p>
+      <p>Define a Student struct with a string name and Standing (from <xref ref="structs_enum-values-ex-1"/>)
+        classStanding.</p>
     </statement>
     <blocks>
       <block>

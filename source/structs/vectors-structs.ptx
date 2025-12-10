@@ -4,7 +4,12 @@
   <title>Vectors of Structs</title>
 
   <introduction>
-    <p>Now imagine we have a large number of students and we would like to be able to write code that loops through all of the students to perform various calculations. To accommodate this, we would want to make a vector of type <pf>Student</pf>.</p>
+    <p>In the previous section, we saw how we can have a struct that contains a vector as one of its members. It is also possible to have a vector whose elements are structs.</p>
+  </introduction>
+
+  <subsection>
+    <title>A Vector of Students</title>
+    <p>Now imagine we have a large number of students and we would like to be able to write code that loops through all of the students to perform various calculations. We want to think of our data as a list of students. To accommodate this, we would want to make a vector of type <pf>Student</pf>.</p>
 
     <listing>
     <program>
@@ -43,12 +48,12 @@ students.push_back(student2);
         <li>To access a member of the struct, we use <pf>.fieldName</pf>. So to access the name of that student, we would use <pf>students.at(0).name</pf>.</li>
         <li>To access the exam scores of that student, we would use <pf>students.at(0).exams</pf>. That names the entire vector of scores for that student. To get a particular exam we would use <pf>.at</pf> to index into the vector. Thus <pf>students.at(0).exams.at(1)</pf> would get the second score of the first student. (94.3)</li>
       </ul></p>
-  </introduction>
+  </subsection>
 
   <subsection>
     <title>Avoiding Copies</title>
 
-    <p>As we work with a collection of structs, we will want to be careful to avoid making unwanted copies of structs. If we are just reading data, making copies of data will be slightly inefficient, but should be otherwise harmless. However, when we are modifying data, copies can easily introduce bugs. If we by accident make a copy of an item and then modify the copy but expect the original to change, that will cause unexpected results in our code.</p>
+    <p>As we work with a collection of structs, we will want to be careful to avoid making unwanted copies of structs. If we are just reading data, making copies of data will be slightly inefficient, but should be otherwise harmless. However, when we are modifying data, copies can easily introduce bugs. If we by accident make a copy of an item and change it instead of the original, our changes will not be reflected in the vector.</p>
 
     <p>The key to remember is that assignment into a struct variable copies. Consider this failed attempt to set the first student's first exam score to 100:</p>
 
@@ -76,9 +81,9 @@ s1.exams.at(0) = 100.0;
     </figure>
 
 
-    <p>That is great if we wanted to copy the student. But in this case, we were just trying to make it easier to refer to that student. We didn't want to write out <pf>students.at(0).exams.at(0)</pf>. <pf>s1</pf> was supposed to be a shorter alias for <pf>students.at(0)</pf>. But because <pf>s1</pf> is a copy, we never managed to change the score of the original <q>Beth Jones</q> struct.</p>
+    <p>That is great if we wanted to copy the student. But in this case, we were just trying to make it easier to refer to that student. We didn't want to write out <pf>students.at(0).exams.at(0)</pf>. <pf>s1</pf> was just supposed to be a shorter alias for <pf>students.at(0)</pf>. But because <pf>s1</pf> is a copy, we never managed to change the score of the original <q>Beth Jones</q> struct.</p>
 
-    <p>To avoid making a copy, we can use a reference. Remember that a reference is an <term>alias</term> - another name for a thing that already exists. In this situation, that is what we really want<mdash/>a new name for the existing struct. So we should declare <pf>s1</pf> to be a reference variable and use that to refer to the student:</p>
+    <p>To avoid making a copy, we can use a reference. In this situation, we do not want a copy, we just want an <term>alias</term> (temporary nickname) for the existing struct. So we should declare <pf>s1</pf> to be a reference variable and use that to refer to the student:</p>
 
     <listing>
     <program>
@@ -102,44 +107,45 @@ s1.exams.at(0) = 100.0; // This modifies the student in the vector
 
     <p>Now <pf>s1.exams.at(0) = 100.0</pf> correctly changes the score in the vector.</p>
 
-    <p>A common place to run into this issue is while trying to loop through students. Say I want to clear all of the exams for each student. I can loop through the students using an enhanced for loop or a counting loop. I just need to make sure that I use a reference to store any temporary name for the student:</p>
+    <p>A common place to run into this issue is while trying to loop through students using a range-based for loop. Say I want to clear all of the exams for each student. So I write the code below to loop through all the students and call clear on their exams vector:</p>
+
+  <listing>
+      <caption>Failed attempt to clear all the exams for each student</caption>
+  <program line-numbers="yes" highlight-lines="1">
+  for (Student s : students) {
+    s.exams.clear();
+    // BAD: This copies the student and clears the copy's exams
+  }
+  </program>
+  </listing>
+
+    <p>In that attempt <pf>s</pf> is a copy of the <q>current student</q>. Changing it does not affect the original student in the vector. To avoid this, we should use a reference as the loop variable's type:</p>
 
     <listing>
-    <program>
+      <caption>Correct way to clear all exams for each student</caption>
+    <program line-numbers="yes" highlight-lines="1">
 for (Student&amp; s : students) {
     s.exams.clear();
-}
-
-// or
-
-for (size_t i = 0; i &lt; students.size(); ++i) {
-    Student&amp; s = students.at(i);
-    s.exams.clear();
+    // GOOD: This uses a reference to avoid copying
 }
   </program>
     </listing>
 
-    <p>But if I forget to use a reference, I will make a copy of the student and then clear the exams for that copy. The original student will be unchanged:</p>
+    <insight>
+      <p>This is an issue with range-based loops because they always use a temporary variable to store <q>the current element</q>.</p>
+      <p>In a counting loop, it is more common to refer to the current element directly using its index: <pf>students.at(i)</pf>. But if you
+      did want to give a temporary name to <q>the current element</q>, you would want to use a reference. Something like: <pf>Student&amp; s = students.at(i);</pf></p>
+    </insight>
 
-<listing>
-<program>
-for (Student s : students) { {
-  s.exams.clear();
-  // BAD: This copies the student...
 
-for (size_t i = 0; i &lt; students.size(); ++i) {
-  Student s = students.at(i);
-  s.exams.clear();
-  // BAD: This copies the student...
-</program>
-</listing>
+
   </subsection>
 
   
   <exercise label="structs_vectors_structs-ex-1">
     <statement>
       <p>Below is a struct <pf>CarType</pf> and a code snippet that creates a vector of those called <pf>carList</pf>. What could replace the <pf>???</pf> so that the <pf>make</pf> of the third <pf>CarType</pf> in the <pf>carList</pf> is set to <pf>"Ford"</pf>?</p>
-      <p><fillin mode="string" answer="carList.at\\(\\s*2\\s*\\).make"/></p>
+      <p><fillin mode="string" answer="carList.at(2).make"/></p>
           <program>
 struct CarType {
   string make;
@@ -153,8 +159,8 @@ vector&lt;CarType> carList;
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp>carList\.at\(\s*2\s*\)\.make</strcmp>
         </test>
         <test>
           <strcmp>.*3.*</strcmp>
@@ -175,8 +181,8 @@ vector&lt;CarType> carList;
   
   <exercise label="structs_vectors_structs-ex-2">
     <statement>
-      <p>Below is a struct <pf>CarType</pf> and a code snippet that creates a vector of those called <pf>carList</pf>. What could replace the <pf>???</pf> so that the first model of the 3rd element of <pf>carList</pf> is set to <pf>"Escort"</pf></p>
-      <p><fillin mode="string" answer="carList.at\\(2\\).model.at\\(\\s*0\\s*\\)"/></p>
+      <p>Below is a struct <pf>CarType</pf> and a code snippet that creates a vector of those called <pf>carList</pf>. What could replace the <pf>???</pf> so that the 1st model of the 3rd element of <pf>carList</pf> is set to <pf>"Escort"</pf></p>
+      <p><fillin mode="string" answer="carList.at(2).models.at(0)"/></p>
           <program>
 struct CarType {
   string make;
@@ -190,8 +196,8 @@ vector&lt;CarType> carList;
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp>carList\.at\(\s*2\s*\)\.models\.at\(\s*0\s*\)</strcmp>
         </test>
         <test>
           <strcmp>.*1.*</strcmp>
@@ -214,14 +220,15 @@ vector&lt;CarType> carList;
       </evaluate>
     </evaluation>
     <hint><p>Your answer should have four parts separated by dots. You will need to use <pf>at(???)</pf> for two of the parts.</p></hint>
+    <hint><p>You need to name the list, then the item in the list, then the member that is a vector, then the item in that vector.</p></hint>
   </exercise>
 
   
   
   <exercise label="structs_vectors_structs-ex-3">
     <statement>
-      <p>Below is a struct <pf>CarType</pf> and a code snippet that creates a vector of those called <pf>carList</pf>. What would you write to make a variable called <pf>temp</pf> that is a reference to the first element of the vector? Fill in the two blanks below that represent the two halves of an assignment statement. (The left should be the data type, the right the value that is assigned).</p>
-      <p><fillin mode="string" answer="CarType\\s*&amp;\\s*temp"/> <pf>=</pf> <fillin mode="string" answer="carList.at\\(\\s*0\\s*\\);?"/><pf>;</pf></p>
+      <p>Below is a struct <pf>CarType</pf> and a code snippet that creates a vector called <pf>carList</pf>. What would you write to make a variable called <pf>temp</pf> that is a reference to the first element of the vector? Fill in the two blanks below that represent the two halves of an assignment statement. (The left should be the data type, the right the value that is assigned).</p>
+      <p><fillin mode="string" answer="CarType&amp; temp"/> <pf>=</pf> <fillin mode="string" answer="carList.at(0)"/><pf>;</pf></p>
           <program>
 struct CarType {
   string make;
@@ -235,8 +242,8 @@ vector&lt;CarType> carList;
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp>CarType\s*&amp;\s*temp</strcmp>
         </test>
         <test>
           <strcmp>^[^&amp;]*$</strcmp>
@@ -252,8 +259,8 @@ vector&lt;CarType> carList;
         </test>
       </evaluate>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp>carList\.at\(\s*0\s*\);?</strcmp>
         </test>
         <test>
           <strcmp>.*1.*</strcmp>

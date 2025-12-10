@@ -4,23 +4,34 @@
 
   <p>A function is considered a <term>pure function</term> if the result depends only on
             the arguments, and it has no <q>side effects</q> like modifying an argument or
-            outputting something. The only result of calling a pure function is the
+            outputting a value. The only result of calling a pure function is the
             return value.<idx><h>pure function</h></idx><idx><h>function</h><h>pure</h></idx></p>
 
   <p>Let's consider an <pf>increment</pf> function that changes a time like 3:48 to 3:49 or
   11:59 to 12:00. We have two ways we could design the function. It could be a pure function that returns a new time or a <term>modifying function</term> that takes a time by reference and changes it.<idx><h>modifying function</h></idx></p>
 
-  <p>First lets consider a pure version (named <pf>incrementPure</pf> just to clarify things once we have two versions):</p>
+  <p>First lets consider a pure version of the function. It takes a <pf>Time</pf> by const reference. It then makes a copy of the time, modifies the copy, and returns it: </p>
 
-    <listing>
-    <program label="structs_pure-functions-program-1" interactive="codelens">
+  <exercise label="structs_pure-functions-ex-0">
+    <statement>
+      <p>Run the Codelens and answer the questions it asks.</p>
+    </statement>
+    <program interactive="codelens">
+      <code>
 <xi:include href="../../programs/structs/pure-functions-2.cpp" parse="text"/>
+</code>
+      <checkpoint line="10" answer="time">
+        <prompt>At this point, <pf>t</pf> is another name for which variable? The options are: <c>time</c>, <c>time2</c>, and <c>incremented</c>.</prompt>
+      </checkpoint>
+      <checkpoint line="23" answer="time2">
+        <prompt>What variable will the return value of <pf>incrementPure</pf> be copied into?</prompt>
+      </checkpoint>
     </program>
-    </listing>
+  </exercise>
 
   <note><p>Codelens does not support <pf>format</pf>. Normally we would want to use <pf>format({:0>2}, time2.minute)</pf> to make a 0 minute value print as <pf>00</pf>.</p></note>
 
-  <p>This version takes a <pf>Time</pf> by const reference and calls it <pf>t</pf>. It then makes a copy of the time, modifies the copy, and returns it. We could also write a pure function using pass by value. With pass by value, the parameter is already a copy of the argument that was passed in. So we don't need to explicitly make a copy of the parameter to modify:</p>
+  <p>We could also write a pure function using pass by value. With pass by value, the parameter is already a copy of the argument that was passed in. So we don't need to explicitly make a copy of the parameter to modify:</p>
 
     <listing>
     <program label="structs_pure-functions-program-2" interactive="codelens">
@@ -28,7 +39,7 @@
     </program>
     </listing>
 
-  <p>Now lets consider a modifying version:</p>
+  <p>Now lets consider a modifying version. It takes a <pf>Time</pf> by reference and modifies it. Because the parameter is a reference, changing in actually changes the argument that was passed to the function. In this case, that means the <pf>time</pf> variable in main. The function does not return anything - the whole point of it is the <q>side effect</q> of changing the parameter.</p>
 
     <listing>
     <program label="structs_pure-functions-program-3" interactive="codelens">
@@ -36,10 +47,19 @@
     </program>
     </listing>
 
-  <p>This version takes a <pf>Time</pf> by reference and modifies it. It does not return anything new - the whole point of this function is it's <q>side effect</q> of changing the parameter.</p>
+  <p>If the caller is using a pure function, and wants to change an existing time, it can use an assignment to store the new value into an existing variable:</p>
 
-  <p>Either version could be used to build any program we like. If you wanted to change an existing time with the pure version, you could just use an assignment to store the new value into an existing variable:</p>
+  <p>So which approach is best? Pure functions help to maintain the abstraction of a function. When a function does nothing but give us an answer, we don't have to worry about what else might be going on behind the scenes. You do not ever have to worry about there possibly being hidden interactions between various functions because one function made some hidden change to the program's state that then changes how the next function behaves.</p>
+  
+  <note><p>There are programming languages, called <term>functional</term> programming
+    languages, that only allow pure functions. These languages are designed to make it easier to write bug free code, and to write tests to prove that the code is correct by compltely eliminating the chance of side effects.</p></note>
 
+  <p>However, pure functions can be less efficient. Our pure <pf>increment</pf> function must make a new <pf>Time</pf> struct each time we call it. This is more work than just changing a number or two in an existing struct, which the modifying version does. In situations where we have a large struct with many member variables and want to have a function that only changes one of the variables, it can be wasteful to make a copy.</p>
+
+  <p>In general, you should favor pure functions for smaller structs (where the efficiency differences aren't as extreme) or situations that clearly imply that a new value or copy are being made. Favor modifying functions when you make are making small changes to a large existing struct or the situation clearly involves changing an existing value and then not caring about the old value. Do try to stick to one approach or another. You should not both modify the input and return a new value in the same function.</p>
+
+  <p>The caller will have to adapt to the approach used by the function. A pure function returns a new value, so if the caller wants to modify a variable they need to assign the result of the function back to that variable:</p>
+  
   <program>
     Time time = { 11, 59 };
     // Get the new time and store it as new value for old variable
@@ -47,23 +67,15 @@
     // time is now 12:00
   </program>
 
-  <p>And if the caller does not want to modify an existing time when they call the pure version, they can make their own copy before calling the function:</p>
-  <listing>
+  <p>And, if the function is modifying, but the caller does not want their data to change, they can make their own copy before calling the function:</p>
+
   <program>
     Time time = { 11, 59 };
     // Make a copy of the time and modify the copy
     Time newTime = time;
-    incrementPure(newTime);
+    increment(newTime);
     // time is still 11:59, newTime is 12:00
   </program>
-  </listing>
-
-  <p>So which is best? Pure functions help to maintain the abstraction of a function. When a function does nothing but give us an answer, we don't have to worry about what else might be going on behind the scenes. You do not ever have to worry about there possibly being hidden interactions between various functions because one function made some hidden change to the program's state that then changes how the next function behaves. In fact, there are programming languages, called <term>functional</term> programming
-    languages, that only allow pure functions. These languages are designed to make it easier to write bug free code, and to write tests to prove that the code is correct by compltely eliminating the chance of side effects.</p>
-
-  <p>However, pure functions can be less efficient. Our pure <pf>increment</pf> function must make a new <pf>Time</pf> struct each time we call it. This is more work than just changing a number or two in an existing struct, which the modifying version does. In situations where we have a large struct with many member variables and want to have a function that only changes one of the variables, it can be wasteful to make a copy.</p>
-
-  <p>In general, you should favor pure functions for smaller structs (where the efficiency differences aren't as extreme) or situations that clearly imply that a new value or copy are being made. Favor modifying functions when you make are making small changes to a large existing struct or the situation clearly involves changing an existing value and then not caring about the old value. Do try to stick to one approach or another. You should not both modify the input and return a new value in the same function.</p>
 
   <exercise label="structs_pure-functions-ex-1">
     <statement>

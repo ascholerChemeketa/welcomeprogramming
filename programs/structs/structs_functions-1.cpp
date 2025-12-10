@@ -13,8 +13,9 @@ double distance(const Point& p1, const Point& p2) {
 }
 
 int main() {
-    Point origin = { 0.0, 0.0 };
-    Point point = { 3.0, 4.0 };
-    cout << "The distance from the point to the origin is "
-         << distance (origin, point) << endl;
+    Point pointA = { 0.0, 0.0 };
+    Point pointB = { 3.0, 4.0 };
+    double dist = distance(pointA, pointB);
+    cout << "The distance from Point A to Point B is: "
+         << dist << endl;
 }

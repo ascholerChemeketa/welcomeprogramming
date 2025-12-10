@@ -12,17 +12,20 @@
       <li>You can use a loop to traverse a vector or a variable to easily store an index. There is no equivalent way to loop through the members of a struct or specify one with a variable.</li>
     </ul>
     </p>
+    <p>Thus, some <q>collections</q> of data are clearly best represented as structs. While others are clearly best represented as vectors. If the pieces of data you
+      want to combine are of different types, you need a struct. To store a Person with a name (string) and age (int) you would need a struct.
+      If the items are all the same type but the number of them can vary, you need a vector. If you are storing a list of the lines of text in a file, you would want a vector of strings.
+    </p>
     <p>
-    There are times where we could use either a vector or a struct to store a collection of data. We could store a mathematical point as a struct with two members, <pf>x</pf> and <pf>y</pf>, or we could store it as a vector with two elements. But usually, one of the two is a better choice. Here are some guidelines to help you decide which to use:
+    But there are times where we could use either a vector or a struct to store a given set of data. For example, we could store a mathematical point as a struct with two members, <pf>x</pf> and <pf>y</pf>, or we could store it as a vector with two elements (where x is at index 0 and y is at index 1). In these cases, we should consider how we will use the data to help decide which is best:
       <ul>
-        <li>If all the items are a different type, you need a struct.</li>
-        <li>If the number of items can vary, a vector is the better tool.</li>
-        <li>If it is natural to refer to items by name, a struct might be preferred. For a point, it might be more natural to use <pf>p1.x</pf> instead of <pf>p1.at(0)</pf>.</li>
-        <li>If you want to loop through items or pick them via a value stored in a variable, a vector is more appropriate.</li>
+        <li>If it is natural to refer to items by name, a struct will let us write code that may be more readable. Say we are storing a Color. It is clearer to use <pf>c1.red</pf> instead of <pf>c1.at(0)</pf> to access the amount of red in the color. Thus we should probably prefer a struct.</li>
+        <li>If you want to loop through items or pick them via a value stored in a variable, a vector is going to be necessary. We know a rectangle only has 4 corners, so we could store them in a struct that has <pf>corner1</pf>, <pf>corner2</pf>, <pf>corner3</pf>, and <pf>corner4</pf> members. But it would likely be easier to use a vector of points instead (<pf>corners</pf>) so we can write algorithms that loop through the points.</li>
       </ul>
     </p>
 
-    <p>So what if you need the strengths of booth? You can combine the two by using a vector inside of a struct, by making a vector of structs, or even by doing both at once.</p>
+    <p>So what if you need the strengths of booth?</p>
+    <p>You can combine the two by using a vector inside of a struct, by making a vector of structs, or even by doing both at once.</p>
     </introduction>
 
     <subsection>
@@ -72,6 +75,39 @@ cout &lt;&lt; student1.exams.size() &lt;&lt; endl;
 student1.exams.push_back(100.0);
 </program>
     </listing>
+    
+
+    
+    <program label="structs_vectors-program-1"
+             interactive="activecode"
+             line-numbers="yes"
+             highlight-lines="8, 14, 18, 20, 22">
+      <code><![CDATA[
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct Student {
+  string name;
+  vector<double> exams;
+};
+
+int main() {
+  Student student1 = {
+    "Beth Jones",
+    { 84.2, 94.3, 96.7 }
+  };
+
+  // Print the first exam score
+  cout << student1.exams.at(0) << endl;
+  // Print the number of exams
+  cout << student1.exams.size() << endl;
+  // Add a new score
+  student1.exams.push_back(100.0);
+}
+]]></code>
+    </program>
 
   </subsection>
   <exercise label="structs_vectors-ex-1">
@@ -156,8 +192,8 @@ student1.exams.push_back(100.0);
 
   <exercise label="structs_vectors-ex-3">
     <statement>
-      <p>Below is a struct <pf>CarType</pf> and a code snippet that creates a variable <pf>type1</pf>. What could replace the <pf>???</pf> to print the second model of <pf>type1</pf>? (The value <pf>"Camry"</pf>)</p>
-      <p><fillin mode="string" answer="type1.models.size\\(\\s\\);?"/> </p>
+      <p>Below is a struct <pf>CarType</pf> and a code snippet that creates a variable <pf>type1</pf>. What could replace the <pf>???</pf> so that the code would change the second model in the list ("Camry") to "Prius"?</p>
+      <p><fillin mode="string" answer="type1.models.at(1);"/> </p>
       
           <program>
 struct CarType {
@@ -169,14 +205,14 @@ CarType type1 = {
   "Toyota",
   { "Corolla", "Camry", "RAV4" }
 };
-cout &lt;&lt; ???;
+??? = "Prius";
 </program>
 
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp>type1\.models\.at\(\s*1\s*\)</strcmp>
         </test>
         <test>
           <strcmp>.*Camry.*</strcmp>
@@ -186,7 +222,7 @@ cout &lt;&lt; ???;
         </test>
       </evaluate>
     </evaluation>
-    <hint><p>Your answer should have three parts separated by dots. You should use the <pf>size()</pf> member of the vector that is inside <pf>type1</pf></p></hint>
+    <hint><p>Your answer should have three parts separated by dots: You need to name the struct, the vector inside of it, then access the correct element of the vector.</p></hint>
   </exercise>
 
 

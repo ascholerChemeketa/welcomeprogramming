@@ -10,11 +10,12 @@
   <subsection>
     <title>Reading the File</title>
 
-    <p>The previous exercise had a function <pf>getTestStudents()</pf> that created a few students from hard coded data. We can design a function to replace that which gets real data from the file and returns a vector with the students. It might be useful for the function to take the filename to read from as its parameter. That would make it possible to have a smaller test file that gets used by test code and a larger real file that gets used by the final program.</p>
+    <p>The previous exercise had a function <pf>getTestStudents()</pf> that created a few students we could use to test our code with. To make the program work with the data in the file, we can design a similar function that reads that data and returns a vector of students. Then we can swap the call to <pf>getTestStudents()</pf> with a call to this new function.</p>
+
+    <p>It might be useful for the function to take the filename to read from as its parameter. That would make it possible to have a smaller test file that we can use for testing a larger file that gets used by the final program.</p>
 
     <p>We already have functions that will take an entire line of text and create a <pf>Name</pf> or a <pf>Status</pf> or a vector of doubles. So all this function has to do is to use getline 3 times for each student. We will assume that we don't know how many students there are in the file, so we will read until <pf>eof</pf>.</p>
 
-    
   <exercise label="structs_case-study-students3-ex-1"
             numbered="yes"
             adaptive="yes"
@@ -24,10 +25,10 @@
     </statement>
     <blocks>
   <block name="start" depends="">
-    <cline><![CDATA[vector<Student> getStudentData() {]]></cline>
+    <cline><![CDATA[vector<Student> getStudentData(const string& filename) {]]></cline>
   </block>
   <block name="if" depends="start">
-    <cline><![CDATA[    ifstream file("Students.txt");]]></cline>
+    <cline><![CDATA[    ifstream file(filename);]]></cline>
   </block>
   <block name="ifcheck" depends="if">
     <cline><![CDATA[    if (!file.is_open()) {]]></cline>
@@ -154,7 +155,7 @@ double calculateAverage(const vector<double>& scores) {
     <program-postamble><![CDATA[
 
 int main() {
-    vector<Student> studentList = getStudentData();
+    vector<Student> studentList = getStudentData("Students.txt");
     cout << "Averages for active students:" << endl;
     for (const Student& s : studentList) {
         // print out just active students

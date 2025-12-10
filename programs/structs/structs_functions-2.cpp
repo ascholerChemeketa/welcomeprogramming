@@ -17,6 +17,8 @@ Point mirrorOverY(const Point& p1) {
 int main() {
     Point point = { 3.0, 4.0 };
     Point mirrorImage = mirrorOverY(point);
-    cout << "The mirror image of the point is ("
-         << mirrorImage.x << ", " << mirrorImage.y << ")" << endl;
+    cout << "The mirror image is ("
+         << mirrorImage.x << ", " 
+         << mirrorImage.y << ")" 
+         << endl;
 }

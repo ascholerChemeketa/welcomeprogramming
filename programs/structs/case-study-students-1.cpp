@@ -1,8 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <string>
-using namespace std;
-
 struct Name {
     string first;
     string middle;
@@ -21,5 +16,6 @@ struct Student {
 };
 
 int main() {
+    // The entire roster
     vector<Student> studentList;
 }

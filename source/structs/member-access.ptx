@@ -2,7 +2,7 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Accessing instance variables</title>
   <p>You can read the values of an instance variable using the same syntax we
-    used to write them:</p>
+    used to initialize them:</p>
   <program>
 int x = blank.x;
 </program>
@@ -17,11 +17,11 @@ int x = blank.x;
 double distance = sqrt(blank.x * blank.x + blank.y * blank.y);</program>
   <listing label="accessing_instance_variables_AC_1">
     <caption>
-      In this active code, we access the instance variables of <pf>Point</pf> object <pf>black</pf> using
+      In this Codelens, we access the instance variables of <pf>Point</pf> struct <pf>blank</pf> using
         dot notation and output their values. Next, we output the distance from the origin.
     </caption>
     <program label="structs_member-access-program-1"
-             interactive="activecode"
+             interactive="codelens"
              line-numbers="yes">
       <code><![CDATA[
 #include <iostream>
@@ -45,21 +45,13 @@ int main() {
   </listing>
   <exercise label="structs_member-access-ex-1">
     <statement>
-      <p>In <pf>string x = thing.cube;</pf>, what is the object and what is the instance variable we are reading the value
+      <p>In <pf>string x = bar.cube;</pf>, what is the struct and what is the instance variable we are reading the value
         of?</p>
     </statement>
     <choices randomize="yes">
       <choice>
         <statement>
-          <p><pf>string</pf> is the instance variable, <pf>cube</pf> is the object</p>
-        </statement>
-        <feedback>
-          <pf>string</pf> is a data type.
-        </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p><pf>x</pf> is the instance variable, <pf>thing</pf> is the object</p>
+          <p><pf>x</pf> is the instance variable, <pf>bar</pf> is the struct</p>
         </statement>
         <feedback>
           <pf>x</pf> is the local variable.
@@ -67,27 +59,27 @@ int main() {
       </choice>
       <choice>
         <statement>
-          <p><pf>thing</pf> is the instance variable, <pf>cube</pf> is the object</p>
+          <p><pf>bar</pf> is the instance variable, <pf>cube</pf> is the struct</p>
         </statement>
         <feedback>
-          Consider the placement of <pf>thing</pf>. It is before the <pf>.</pf>
+          Consider the placement of <pf>bar</pf>. It is before the <pf>.</pf>
         </feedback>
       </choice>
       <choice correct="yes">
         <statement>
-          <p><pf>cube</pf> is the instance variable, <pf>thing</pf> is the object</p>
+          <p><pf>cube</pf> is the instance variable, <pf>bar</pf> is the struct</p>
         </statement>
         <feedback>
-          Yes, we access the instance variable <pf>cube</pf> of the object <pf>thing</pf> using the dot
+          Yes, we access the instance variable <pf>cube</pf> of the struct <pf>bar</pf> using the dot
             operator.
         </feedback>
       </choice>
       <choice>
         <statement>
-          <p><pf>cube</pf> is the instance variable, <pf>string</pf> is the object</p>
+          <p><pf>cube</pf> is the instance variable, <pf>foo</pf> is the struct</p>
         </statement>
         <feedback>
-          <pf>string</pf> is a data type.
+          <pf>foo</pf> is a data type in this sample.
         </feedback>
       </choice>
     </choices>
@@ -158,14 +150,14 @@ int main() {
   </exercise>
   <exercise label="structs_member-access-ex-3">
     <statement>
-      <p>You want to go to the object named <pf>circle</pf> and get the integer value of <pf>y</pf>, then
+      <p>You want to go to the struct named <pf>c1</pf> and get the integer value of <pf>y</pf>, then
         assign it to the local variable <pf>x</pf>. How would you do that?</p>
     </statement>
     <choices randomize="yes">
       <choice>
         <statement>
           <p>
-            <pf>int y = circle.x();</pf>
+            <pf>int y = c1.x();</pf>
           </p>
         </statement>
         <feedback>
@@ -175,7 +167,7 @@ int main() {
       <choice>
         <statement>
           <p>
-            <pf>int circle = x.y;</pf>
+            <pf>int c1 = x.y;</pf>
           </p>
         </statement>
         <feedback>
@@ -185,7 +177,7 @@ int main() {
       <choice>
         <statement>
           <p>
-            <pf>int y = circle.x;</pf>
+            <pf>int y = c1.x;</pf>
           </p>
         </statement>
         <feedback>
@@ -195,7 +187,7 @@ int main() {
       <choice correct="yes">
         <statement>
           <p>
-            <pf>int x = circle.y;</pf>
+            <pf>int x = c1.y;</pf>
           </p>
         </statement>
         <feedback>
