@@ -61,7 +61,7 @@ vector<vector<int>> table = {
   
   <exercise label="multidimensional-vectors-exercise-1">
       <statement>
-      <p>How would we make a 2D vector of doubles called <pf>temperatures</pf> that has 10 rows and 15 columns (all the doubles will be default initialized)?</p>
+      <p>How would we make a 2D vector of doubles called <pf>temperatures</pf> that has 10 rows and 15 columns where all the doubles will be initizlied to 0?</p>
       <p>You will not need all of the blocks.</p>
     </statement>
         <blocks layout="horizontal"
@@ -71,11 +71,12 @@ vector<vector<int>> table = {
       <block><c>></c></block>
       <block><c>temperatures(</c></block>
       <block><c>10, </c></block>
-      <block><c>vector&lt;double&gt;(15)</c></block>
+      <block><c>vector&lt;double&gt;(15, 0)</c></block>
       <block correct="no"><c>15,</c></block>
-      <block correct="no"><c>vector&lt;double&gt;(10)</c></block>
+      <block correct="no"><c>vector&lt;double&gt;(10, 0)</c></block>
       <block><c>);</c></block>
     </blocks>
+   <hint><p>This is the compact syntax shown above.</p></hint>
   </exercise>
 
   <exercise label="multidimensional-vectors-exercise-2">
