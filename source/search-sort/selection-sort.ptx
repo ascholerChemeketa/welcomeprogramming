@@ -1,0 +1,172 @@
+<section xml:id="search-sort_selection-sort"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Selection Sort</title>
+
+  <p><idx>Selection sort</idx><term>Selection sort</term> sorts a list of data by repeatedly finding the smallest (or largest) remaining unsorted item and moving it to the location it belongs in.</p>
+
+  <p>A selection sort does <m>n - 1</m> <em>passes</em> to sort <em>n</em> items.
+    During each pass, the algorithm selects the smallest remaining unsorted item and places it at
+    the front of the unsorted portion of the list.</p>
+
+  <p>On the first pass, the algorithm looks at all <m>n</m> items to find the smallest one. Once it
+    finds that item, it swaps it with the item at index 0. On the second pass, it starts from index
+    1, looks at the remaining <m>n - 1</m> items to find the smallest among them, and swaps that
+    item with the item at index 1. For the third pass, it starts at index 2, examines n - 2 items to
+    find the smallest among them, and swaps that item with the item at index 2. This process
+    continues, with each pass looking at one fewer item than the previous pass, until only one item
+    remains. There is no need to sort that last item because it must be the largest item.</p>
+
+  <activity xml:id="search-sort_selection-sort-activity">
+    <title>Selection Sort Demonstration</title>
+
+    <interactive width="125%"
+                 aspect="7:4.3"
+                 iframe="interactives/selection-sort/index.html"
+                 label="search-sort_selection-sort_selection-sort-interactive">
+    </interactive>
+  </activity>
+
+
+  <listing>
+  <program label="search-sort_vector-helpers-h" xml:id="search-sort_vector-helpers-h"
+           filename="vector-helpers.h"
+           line-numbers="yes">
+    <code>
+<xi:include href="../../programs/search-sort/vector-helpers.h" parse="text"/>
+    </code>
+  </program>
+  </listing>
+
+  <p>Implemented to sort a vector in C++, it looks like this:</p>
+
+  <listing>
+  <program label="search-sort_selection-sort" interactive="activecode"
+           line-numbers="yes" 
+           add-files="search-sort_vector-helpers-h">
+    <code>
+<xi:include href="../../programs/search-sort/selection-sort.cpp" parse="text"/>
+    </code>
+  </program>
+  </listing>
+
+
+  <p>We can do variations on this recipe: <ul>
+      <li>
+        <p>Instead of finding the smallest item during each pass, we could find the largest item and
+    place it at the end of the unsorted portion of the list.</p>
+        <p>In this version, each <em>pass</em> would always start at index 0. The first pass would
+    traverse the whole list and end at index <m>n - 1</m>. The second <em>pass</em> would stop
+    before the last element and end at index <m>n - 2</m>. The third <em>pass</em> would end at
+    index <m>n - 3</m>, and so on, until the last pass which would only look at the first two
+    elements.</p>
+      </li>
+      <li>
+        <p> We could sort in descending order instead of ascending order by finding the largest item
+    and moving it to the front (or finding the smallest item and moving it to the end). </p>
+      </li>
+    </ul>
+  </p>
+
+  <p>The efficiency of selection sort is easy to analyze. Regardless of the initial order of the
+    items, selection sort always does the same number of comparisons. On the first pass, it does <m>n
+    - 1</m> comparisons to find the smallest item. On the second pass, it does <m>n - 2</m>
+    comparisons, and so on down to 1 comparison on the last pass. The total number of comparisons is
+    therefore: <md> (n - 1) + (n - 2) + ... + 2 + 1 </md> That sum can be simplified as follows: <md>
+    n(n - 1) / 2 = (n^2 - n) / 2 = O(n^2) </md>
+  </p>
+  <p> The number of swaps is at most <m>n - 1</m>, since one swap is done at the end of each pass.
+    (We can eliminate some of those if we identify that the <pf>minIndex</pf> is the same as the starting
+    index of a pass.) This is <m>O(n)</m>, which is smaller than the number of comparisons. So the
+    overall time complexity is dominated by the number of comparisons (<m>O(n^2)</m>). </p>
+  <p> So selection sort has a time complexity of <m>O(n^2)</m>, making it inefficient on large
+    lists. It does have an advantage of making the minimum possible number of swaps, which can be
+    useful when write operations are significantly more expensive than read operations. Imagine a
+    list of very large records - swapping two records might involve copying a lot of data, so
+    minimizing swaps can be beneficial. </p>
+
+  <p>The complexity of the algorithm does not depend on the initial order of the items. Try the <em>Reset (Mostly Sorted)</em> button in the simulation above to test this out. It requires just as many steps to sort a list where most of the items are in order as it does for a list in random order.</p>
+
+  <p>Selection sort offers an interesting guarantee if we stop it after <m>k</m> passes: the first <m>k</m> items in the list are guaranteed to be the
+    smallest <m>k</m> items in sorted order. This can be useful if we only need the top <m>k</m>
+    items from a larger list. Try running the simulation above and stopping it after three passes. No matter what the initial order of the items was, the smallest three items will be in the first three positions.
+  </p>
+
+  <p>Selection sort is not stable. Consider the list <c>{B(1), B(2), A}</c> where the two B's are distinct elements but have the same value. When we perform the first pass and identify <c>A</c> as the smallest value, it swaps to the front and trades place with <c>B(1)</c>, changing the relative order of the two B's.</p>
+
+  <insight>
+    <p>Any algorithm that swaps items across a large distance is likely to be unstable.</p>
+  </insight>
+
+  <conclusion>
+    <p>Selection sort is always <m>O(n^2)</m>.</p>
+    <p>It is NOT stable.</p>
+    <p>It makes the minimum possible number of swaps, which can be useful when write operations are
+      significantly more expensive than read operations.</p>
+  </conclusion>
+
+
+  
+  <exercise label="search-sort_selection-sort-ex-1">
+    <statement>
+      <p>We do a selection sort (using min value to front strategy) on the vector <pf>3, 2, 4, 5, 1</pf>. Arrange the blocks below to show the state of the vector after each pass of the algorithm.</p>
+      <p>Note that you may use the same block twice in a row if the current pass does not change the vector.</p>
+      <p>You will not use all of the blocks.</p>
+    </statement>
+    <blocks>
+      <block><cline>1, 2, 4, 5, 3</cline></block>
+      <block><cline>1, 2, 4, 5, 3</cline></block>
+      <block><cline>1, 2, 3, 5, 4</cline></block>
+      <block><cline>1, 2, 3, 4, 5</cline></block>
+      <block correct="no"><cline>1, 2, 5, 4, 3</cline></block>
+    </blocks>
+  </exercise>
+
+  
+  <exercise label="search-sort_selection-sort-ex-2">
+  <statement>
+    <p>Suppose you have the following vector of numbers to sort: [11, 7, 12, 14, 19, 1, 6, 18, 8,
+      20] which vector represents the partially sorted vector after three steps of
+      selection sort when using the swap smallest to front approach?</p>
+  </statement>
+  <choices>
+
+    <choice>
+      <statement>
+        <p>
+          [11, 18, 12, 14, 19, 20, 8, 7, 6, 1]
+        </p>
+      </statement>
+      <feedback>
+        <p>That is moving the smallest to the end.</p>
+      </feedback>
+    </choice>
+
+    <choice>
+      <statement>
+        <p>[7, 11, 12, 14, 19, 1, 6, 18, 8, 20]</p>
+      </statement>
+      <feedback>
+        <p>This looks like an insertion sort.</p>
+      </feedback>
+    </choice>
+
+    <choice>
+      <statement>
+        <p>[1, 6, 7, 11, 12, 14, 19, 18, 8, 20]</p>
+      </statement>
+      <feedback>
+        <p>This one looks similar to the correct answer, however, it is not how selection sort
+          works. With this answer, instead of swapping values, the values have
+          been shifted to the left to make room for the correct numbers.</p>
+      </feedback>
+    </choice>
+
+    <choice correct="yes">
+      <statement>
+        <p>[1, 6, 7, 8, 11, 12, 14, 18, 19, 20]</p>
+      </statement>
+    </choice>
+  </choices>
+  </exercise>
+
+</section>

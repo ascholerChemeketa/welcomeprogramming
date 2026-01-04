@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<section xml:id="search-sort_search"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Searching</title>
+
+  <p><term>Searching</term> is the algorithmic process of finding a particular item in a collection
+    of items. Depending on the needs of the algorithm, and the kind of collection being searched, a
+    search might produce <c>true</c> or <c>false</c> as to whether the item is present. Or it might return a
+    location where the item is found (and a special value if it is not found). Or, it might return
+    the item itself. <idx>searching</idx> Of these options, returning a location is the most
+    generally useful. Given a location, the caller can decide <q>is the item</q> present. They can
+    also use the location to retried or modify the item. </p>
+
+  <p> A <term>linear search</term> is a simple searching algorithm that checks each element in a
+    list sequentially until the desired element is found or the end of the list is reached. Try out
+    the interactive below. Try searching for a value that is in the list, and then one that is not
+    in the list. </p>
+
+  <activity>
+    <title>Linear Search</title>
+
+    <interactive width="120%"
+                 aspect="7:4.5"
+                 iframe="interactives/linear-search/index.html"
+                 label="search-sort_search_linear-search-interactive">
+      <instructions>
+        <p>Enter a value to search for. Then press Step to run the linear search algorithm step by
+          step. Use Reset to start over with a new list.</p>
+      </instructions>
+    </interactive>
+  </activity>
+
+  <p>The algorithm needs to keep track of the value it is looking (sometimes referred to as the <term>
+    key</term>) for and the index it is currently checking. As soon as it finds the key, it can stop
+    searching. If the key is not found, the search ends after checking the last element.</p>
+
+  <p>Implemented to search a vector in C++, it looks like this:</p>
+
+  <listing>
+    <program label="search-sort_search_linear-search"
+             interactive="activecode"
+             line-numbers="yes"
+             highlight-lines="5-14">
+    <code>
+<xi:include href="../../programs/search-sort/linear-search.cpp" parse="text"/>
+    </code>
+    <stdin>40</stdin>
+  </program>
+  </listing>
+
+  <note>
+    <p>This version of the function returns -1 to indicate that the element was not found in the
+      vector. This is a common convention in most programming languages.</p>
+    <p>However, in C++ library code for classes like string, locations are represented using
+      unsigned types and thus -1 cannot be used to indicate "not found". Instead, a special constant
+      like <pf>string::npos</pf> is used. If that value is cast as an int, it becomes -1.</p>
+  </note>
+
+  <exercise label="search-sort_search-ex-1">
+    <statement>
+      <p>Which statements are true about linear search?</p>
+    </statement>
+    <choices type="multiple"
+             randomize="yes">
+      <choice correct="yes">
+        <statement>In the worst case, it checks every element in the list.</statement>
+      </choice>
+      <choice>
+        <statement>Returning true or false is the most useful result to produce.</statement>
+      </choice>
+      <choice>
+        <statement>It requires that the data be in order.</statement>
+      </choice>
+      <choice>
+        <statement>It always has to check every element in the list.</statement>
+      </choice>
+      <choice correct="yes">
+        <statement>-1 is a common convention to indicate "not found".</statement>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

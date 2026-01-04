@@ -1,0 +1,286 @@
+<section xml:id="search-sort_bucket-sort"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Non-Comparison Sorts</title>
+
+  <subsection>
+    <title>Comparison Sorts</title>
+    <p>Is it a coincidence that quick sort, merge sort and other efficient sorts all have a time
+      complexity of <m>O(n \cdot \log n)</m>? It is not. We will not attempt to do so here, but it
+      can be proven that any sorting algorithm that compares the value of elements to decide <q>which
+      comes first?</q> must have a time complexity of at least <m>O(n \cdot \log n)</m> in the
+      general case.</p>
+
+    <p>Those algorithms are known as <term>comparison sorts</term>. <term>Comparison sorts</term>
+      are the general purpose sorting algorithms. If we need to take <m>n</m> possibly unique values
+      that we do not know in advance and put them in order, we know that a comparison sort can do
+      so.</p>
+
+    <p>However, we may be able to put items in some kind of order without comparing them directly.
+      Algorithms that do this are called <term>non-comparison sorts</term>. Non-comparison sorts can
+      achieve better than <m>O(n \cdot \log n)</m> time complexity. However, they do so by using
+      additional assumptions or requirements about the input data. Thus they are not as general
+      purpose as comparison sorts.</p>
+  </subsection>
+
+  <subsection>
+    <title>Bucket Sort</title>
+    <p>One example of a non-comparison sort is <term>bucket sort</term>, which distributes elements
+      into a number of buckets. In a bucket sort, we know that there are <m>k</m> different <q>
+      buckets</q> and that each item belongs in one of the buckets.</p>
+
+    <p>For example, say we have a list of students. Among other things, each student has a name and
+      a class (Freshman, Sophomore, Junior, or Senior). We want to sort the list by class, putting
+      Freshmen first, Sophomores second, Juniors third, and Seniors last. Within each class we don't
+      care about the order (or we just want to leave those items in their existing order.</p>
+
+    <p>An efficient implementation of the process would: <ul>
+        <li>Create four counters, one for each class.</li>
+        <li>Walk through the list of students, incrementing the counter for the appropriate class
+      for each student.</li>
+        <li>Use the counters to determine the starting index for each class in the sorted list. If
+      there are 3 students in the first class, we know that the second class starts at index 3. If
+      there are 2 more students in the second class, the third class starts at index 5 (3 + 2), and
+      so on.</li>
+        <li>Place each student into the correct position in the sorted list based on their class. As
+      we place each student, we increment the starting index for that class so the next student of
+      the same class goes to the next position.</li>
+      </ul>
+    </p>
+
+    <p>That is what this interactive does:</p>
+
+    <activity xml:id="search-sort_bucket-sort-activity">
+      <title>Bucket Sort Demonstration</title>
+
+      <interactive width="125%"
+                   aspect="7:4.75"
+                   iframe="interactives/bucket-sort/index.html"
+                   label="search-sort_bucket-sort_bucket-sort-interactive">
+      </interactive>
+    </activity>
+
+    <note>
+      <p>We also could simply make 4 new lists, and copy the students into the appropriate list for
+        each class. Then, make a new empty list (or clear the original one) and copy the individual
+        lists one at a time back into the new full list. This would likely be less efficient as it
+        needs to copy each item multiple times.</p>
+    </note>
+
+    <p>How long does this take? Let's analyze it step by step. <m>n</m> will be the number of
+      students and <m>k</m> will be the number of classes levels (which we know is 4, but we will
+      keep it general). <ul>
+        <li>Create four counters, one for each class. We need to make/initialize a list of <m>O(k)</m>
+      counters.</li>
+        <li>Walk through the list of students, incrementing the counter for the appropriate class
+      for each student. For <m>n</m> items, we do some simple constant work. <m>O(n)</m></li>
+        <li>Use the counters to determine the starting index for each class in the sorted list. This
+      involves a loop over the <m>k</m> counters. <m>O(k)</m></li>
+        <li>Place each student into the correct position in the sorted list based on their class. <m>
+      n</m> times, we need to copy a student and update a counter. Those operations each take
+      constant time, so the total is <m>O(n)</m>.</li>
+      </ul> Adding these up we get: <md>O(k) +
+      O(n) + O(k) + O(n) = O(n + k)</md>
+    </p>
+
+    <p>When k is a known constant and is smaller than n (like 4 in this example), the time
+      complexity simplifies to <m>O(n)</m>.</p>
+
+    <p>However, now imagine we want to perfectly sort 1,000 32-bit integers using bucket sort. There
+      are <m>2^{32}</m> different possible values, so we would need that many buckets to sort
+      perfectly in one pass. Now, <m>O(n + k)</m> becomes <m>O(1000 + 2^{32})</m>, which is
+      effectively <m>O(2^{32})</m> or about 4 billion units of work. This is way worse than <m>O(n
+      \log n)</m>.</p>
+
+    <p>Thus, non-comparison sorts like bucket sort can be very efficient when the number of buckets
+      is small relative to the number of items being sorted. But they are not general purpose tools.</p>
+
+  </subsection>
+
+  <subsection>
+    <title>Radix Sort</title>
+
+    <p>Another non-comparison sort is <term>radix sort</term>, which can be used to sort data that
+      can be represented as sequences of digits or characters.</p>
+
+    <p>The general strategy of radix sort is to sort the data one digit or character at a time using
+      something like a bucket sort. Given this list of strings:</p>
+
+    <pre>
+      CAT
+      BAT
+      RAG
+      ACE
+      CAB
+      BAD
+      RAD
+    </pre>
+
+    <p>We could sort them using radix sort by first sorting on the last character, then the middle
+      character, then the first character. After sorting on the last character we would have:</p>
+
+    <pre>
+      CAB
+      BAD
+      RAD
+      ACE
+      RAG
+      CAT
+      BAT
+    </pre>
+
+    <p>Note that the last letters are in alphabetical order. Then we could do a stable sort on the
+      middle character. Because we are doing a stable sort, the existing order of the last character
+      is preserved. This would mean that every string's last two letters are in order:</p>
+
+    <pre>
+      RAB
+      CAB
+      BAD
+      RAD
+      CAT
+      BAT
+      ACE
+    </pre>
+
+    <p>Finally, we do a stable sort on the first character to get the fully sorted list:</p>
+
+    <pre>
+      ACE
+      BAD
+      BAT
+      CAB
+      CAT
+      RAB
+      RAD
+    </pre>
+
+    <p>Radix sorting takes <m>O(d \times (n + k))</m> where <m>d</m> is the number of digits, <m>n</m>
+      is the number of items, and <m>k</m> is the range of each digit. If the number of digits is
+      small relative to the number of items and the range of each digit is small, radix sort can be
+      very efficient.</p>
+
+    <p>In general, the number of digits will only be small relative to the number of values and
+      range of each digit when there are a large number of duplicate values. The number of digits
+      needed to represent <m>n</m> unique values where each digit can have <m>k</m> possible values,
+      is <m>\log_k n</m>. So, for <m>n</m> unique values, <m>O(d \times (n + k))</m> is potentially <m>O(\log_k
+      n \cdot (n + k))</m> which is equivalent to <m>O(n \cdot \log n)</m>.</p>
+
+    <p> Thus, in situations where we don't have a large number of duplicate items, radix sort ends
+      up being equivalent to efficient comparison sorts. It is a special purpose tool useful only
+      when sorting items that can be thought of as a sequence of digits and we expect to have lots
+      of duplicate values.</p>
+
+  </subsection>
+
+
+  <exercise label="search-sort_bucket-sort-ex-1">
+    <statement>
+      <p>We do a bucket sort of the following students:</p>
+      <pre>
+        Alice - Junior
+        Bob - Freshman
+        Charlie - Senior
+        David - Sophomore
+        Eve - Junior
+        Frank - Freshman
+      </pre>
+      <p>What is the starting index of each bucket? <li>
+          <p>Freshmen bucket: <fillin mode="number"
+                    answer="0"/></p>
+        </li>
+        <li>
+          <p>Sophomore bucket: <fillin mode="number"
+                    answer="2"/></p>
+        </li>
+        <li>
+          <p>Junior bucket: <fillin mode="number"
+                    answer="3"/></p>
+        </li>
+        <li>
+          <p>Senior bucket: <fillin mode="number"
+                    answer="5"/></p>
+        </li>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>The Freshmen are going to be at the very start of the output list.</feedback>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>The first Sophomore will go after the Freshmen. How many Freshmen are there?</feedback>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>The Juniors will go after the Freshmen and Sophomores. How many Fr + So are
+            there?</feedback>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>Seniors will go after the Freshmen, Sophomores, and Juniors. How many Fr + So +
+            Ju are there?</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+
+  <exercise label="search-sort_bucket-sort-ex-1">
+    <statement>
+      <p>Which statements are true about non-comparison sorts?</p>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>
+          <p>Non-comparison sorts can achieve worst-case time complexity better than <m>O(n \cdot \log n)</m>.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Non-comparison sorts are good general purpose sorting algorithms.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Non-comparison sorts do not rely on comparing elements to determine their order.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Bucket sort is an example of a non-comparison sort.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Radix sort is an example of a non-comparison sort.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Insertion sort is an example of a non-comparison sort.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

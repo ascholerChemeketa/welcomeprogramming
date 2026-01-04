@@ -1,0 +1,129 @@
+<section xml:id="search-sort_merge-sort"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Merge Sort</title>
+
+  <p>Now we are ready to return to the <idx>merge sort</idx> algorithm itself. Recall that it looks like this:</p>
+
+  <pre>
+    MergeSort(list):
+      if length of list &lt;= 1:
+        return list  // size 0/1 already sorted
+      else:
+        Split list into leftHalf and rightHalf
+        MergeSort(leftHalf)
+        MergeSort(rightHalf)
+        return Merge(leftHalf, rightHalf)
+  </pre>
+
+  <p>It is a classic example of a divide-and-conquer algorithm. We divide the work into smaller subproblems, solve each subproblem recursively, and then combine the solutions.</p>
+
+  <p>Implemented in C++ for a vector, it looks like this:</p>
+
+  <listing>
+    <program label="search-sort_vector-helpers-h"
+             xml:id="search-sort_vector-helpers-h"
+             filename="vector-helpers.h"
+             line-numbers="yes">
+    <code>
+<xi:include href="../../programs/search-sort/vector-helpers.h" parse="text"/>
+    </code>
+  </program>
+  </listing>
+  
+  <p>Implemented in C++ for a vector, it looks like this:</p>
+  
+
+  <listing>
+    <program label="search-sort_merge-sort"
+             interactive="activecode"
+             line-numbers="yes"
+             highlight-lines="14-32"
+             add-files="search-sort_vector-helpers-h">
+    <code>
+<xi:include href="../../programs/search-sort/merge-sort.cpp" parse="text"/>
+    </code>
+  </program>
+  </listing>
+
+
+  <p>Note that main calls a wrapper function <pf>mergeSort(vector&lt;T>&amp; vec)</pf>defined on line 36. It creates a temporary vector and then calls the recursive merge sort function to do the actual sorting. Creating one temporary vector and reusing it across recursive calls is more efficient than creating a new one for each merge.</p>
+  
+  <p>The recursive <pf>mergeSort</pf> function itself only has about 7 lines of real code, half of its shown length is devoted to printing debugging information. That debugging tells us what order the recursive calls happen in and what the vector looks like at each step.</p>
+
+  <p>The debugging information is indented to show the recursive depth at each step. For example, in the portion displayed below, we can see that the first call was to sort the entire list from index 0 to 15. Then the current state of the array is displayed.
+    This call then makes a recursive call to sort the left half from index 0 to 7, which in turn makes a recursive call to sort the left half from index 0 to 3, and so on. Each level of recursion adds an additional level of indentation to the output, making it easier to see the structure of the recursive calls.
+  </p>
+
+  <console>
+    <output>
+mergeSort called with start=0, end=15
+ [8, 3, 7, 1, 9, 12, 6, 20, 11, 14, 2, 16, 4, 10, 5, 15]
+ mergeSort called with start=0, end=7
+  [8, 3, 7, 1, 9, 12, 6, 20, _, _, _, _, _, _, _, _]
+  mergeSort called with start=0, end=3
+   [8, 3, 7, 1, _, _, _, _, _, _, _, _, _, _, _, _]
+   ...
+    </output>
+  </console>
+
+  <p>Due to the way recursion works, we always sort the entire left side of the current range before sorting the right side. When both the left and right sides are sorted, we merge them together.</p>
+  
+  <console>
+    <output>
+      Sort 0-15
+       Sort 0-7 (left half of 0-15)
+        Sort 0-3 (left half of 0-7)
+         Sort 0-1 (left half of 0-3)
+         Merge 0-1
+         Sort 2-3 (right half of 0-3)
+         Merge 2-3
+        Merge 0-3
+        Sort 4-7 (right half of 0-7)
+         Sort 4-5 (left half of 4-7)
+         ...
+    </output>
+  </console>
+
+
+  <p>To understand the output better, try out this visual interactive tool that demonstrates the process.</p>
+
+  <activity xml:id="search-sort_merge-sort-activity">
+    <title>Merger Sort</title>
+
+    <interactive width="175%"
+                 aspect="7:4"
+                 iframe="interactives/merge-sort/index.html"
+                 label="search-sort_merge-sort-interactive">
+      <instructions>
+        <p>Click "Step" to advance once step or "Play" to run continuously.</p>
+        <p>At the top, you can see a description of the current step. On the right, you can see the current call stack.</p>
+      </instructions>
+    </interactive>
+  </activity>
+
+  <p>Try playing the interactive at a high speed to see the flow of the process. We start by recursing down in the left half until we reach single-item lists. Then we begin merging those single-item lists into sorted two-item lists. After finishing a left half of any given range, we move to the right half and repeat the process on it.This process plays out at each size level (1/2/4/8/16/32...) until the entire list is merged back together in sorted order.
+  </p>
+
+  <p>Merge sort is a <term>stable</term> algorithm as long as we always favor the left element when merging two equal elements. For example, during the merge process, given the two lists:</p>
+  <pre>
+    Left:  3, 6, 7, 9  Right: 3, 4, 5
+  </pre>
+
+  <p>We should choose to merge the left 3 first. This will maintain the relative order of equal elements, preserving stability.</p>
+
+  <exercise label="search-sort_merge-sort-ex-1">
+    <statement>
+      <p>We call merge sort on a list with indexes 0-7. Arrange the following blocks in the order of recursive calls that would be made.</p>
+    </statement>
+    <blocks>
+      <block><cline>MergeSort(0, 7)</cline></block>
+      <block><cline>MergeSort(0, 3)</cline></block>
+      <block><cline>MergeSort(0, 1)</cline></block>
+      <block><cline>MergeSort(2, 3)</cline></block>
+      <block><cline>MergeSort(4, 7)</cline></block>
+      <block><cline>MergeSort(4, 5)</cline></block>
+      <block><cline>MergeSort(6, 7)</cline></block>
+    </blocks>
+  </exercise>
+
+</section>

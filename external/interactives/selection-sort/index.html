@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Selection Sort</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>    
+  <link rel="stylesheet" type="text/css" href="../../../_static/pretext/css/theme.css">
+    <style>
+      body.pretext {
+        padding: 10px;
+      }
+      .para {
+        margin-top: 10px;
+      }
+    </style>
+</head>
+<body class="pretext">
+  <div>
+    <div id="sketch-holder"></div>
+  </div>
+  <div class="para">
+  <button type="button" onclick="stepP5()">Step</button>
+  <button type="button" onclick="resetP5()">Reset</button>
+  <button type="button" onclick="resetMostlySortedP5()">Reset (Mostly Sorted)</button>
+  </div>
+  <div class="para" id="message" style="display: none; white-space: pre-wrap;">&nbsp;</div>
+
+  <script>
+    function requestResize() {
+      const currentHeight = Math.ceil(document.documentElement.getBoundingClientRect().height);
+      try {
+        window.parent.postMessage({ subject: 'lti.frameResize', height: currentHeight }, '*');
+      } catch (e) { /* ignore */ }
+    }
+
+    function stepP5() {
+  const isSorted = window.selectionStep();
+      const el = document.getElementById('message');
+      if (isSorted) {
+        const msg = 'The list is now sorted.\nClick Reset to start over';
+        el.style.display = 'block';
+        el.innerText = msg;
+        
+        window.parent.postMessage({ subject: 'SPLICE.reportScoreAndState', score: 1, state: {} }, '*');
+      } else {
+        el.style.display = 'none';
+      }
+      requestResize();
+    }
+
+    function resetP5() {
+  window.selectionReset();
+      const el = document.getElementById('message');
+      el.style.display = 'none';
+      requestResize();
+    }
+
+    function resetMostlySortedP5() {
+  window.selectionResetMostlySorted();
+      const el = document.getElementById('message');
+      el.style.display = 'none';
+      requestResize();
+    }
+  </script>
+
+  <script src="./sketch.js"></script>
+</body>
+</html>

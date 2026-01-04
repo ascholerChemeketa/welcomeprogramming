@@ -1,0 +1,91 @@
+<section xml:id="search-sort_sorting"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Sorting</title>
+
+  <introduction>
+    <p><idx>sorting</idx><term>Sorting</term> is the process of placing elements from a collection
+      in some kind of order. For example, a list of words could be sorted alphabetically or by
+      length. A list of cities could be sorted by population, by area, or by zip code.</p>
+
+
+    <p>We have already seen a number of algorithms that were able to benefit from having a sorted
+      list (recall the final anagram example and the binary search).</p>
+    <p>There are many, many sorting algorithms that have been developed and analyzed. This suggests
+      that sorting is an important area of study in computer science. Indeed, in addition to being a
+      useful operation in its own right, sorting is often a key step in other algorithms like binary
+      search.</p>
+    <p>Depending on what we intend to do with a sorted collection, we may have different criteria
+      for what makes a good sorting algorithm. Perhaps we only care about getting the largest 10
+      items from a collection. One way to do this would be to sort the entire collection and then
+      take the last 10 items. Some algorithms would allow us to stop early and sill guarantee that
+      the largest 10 items are at the end of the collection. Other algorithms would require us to
+      sort the entire collection to get that guarantee. </p>
+    <p>Some key considerations when choosing a sorting algorithm include efficiency, adaptiveness,
+      and stability.</p>
+  </introduction>
+
+  <subsection>
+    <title>Efficiency</title>
+
+    <p><term>Efficiency</term> is often a key concern when choosing a sorting algorithm. Sorting a large number
+      of items can take a substantial amount of computing resources and the efficiency differences
+      between different approaches can be significant. All other things being equal, we would
+      certainly prefer an algorithm that is going to do less work to produce the same result. </p>
+
+    <p>However, there are situations where efficiency is not a primary concern. When sorting small
+      collections of items, the practical differences in efficiency between algorithms may be
+      negligible. It may even be the case that a simpler algorithm that is theoretically <q>less
+      efficient</q> performs just as well or better in practice for small inputs. </p>
+  </subsection>
+
+  <subsection>
+    <title>Adaptive</title>
+
+    <p>Some sorting algorithms are <term>adaptive</term>, meaning that they take advantage of
+      existing order in a collection to sort it more efficiently. That means if a list is already
+      mostly sorted, an adaptive algorithm may be able to sort it with fewer operations than if the
+      list were in random order.</p>
+    <p>This can be particularly useful in scenarios where we sort data and then make a small change,
+      perhaps by adding a few new items or modifying existing ones, and then need to sort it again.
+      An adaptive sorting algorithm can quickly re-sort the data by leveraging the existing order,
+      making it more efficient than starting from scratch each time.</p>
+  </subsection>
+
+  <subsection>
+    <title>Stability</title>
+
+    <p> A sorting algorithm is said to be <term>stable</term> if it preserves the relative order of
+      records with equal keys (or values). In other words, if two items are considered equal
+      according to the sorting criteria, a stable sort will ensure that they remain in the same
+      order in the sorted output as they were in the original input. </p>
+    <p>Say we have a list of students who signed up for a course that is currently ordered by the
+      time they signed up. We want to sort the list by class standing (senior, junior, sophomore,
+      freshman) but maintain the order in which students signed up within each class standing. A
+      stable sorting algorithm will ensure that when we sort by class standing, students who signed
+      up earlier will still appear before those who signed up later within the same class standing.
+      All the seniors will be moved to the front of the list, but their original order among
+      themselves will be preserved. </p>
+    <p>This can also be important if we have already sorted a collection by one criterion and then
+      want to sort it by another criterion while preserving the order of the first sort among equal
+      elements. Say we first sort a list of people by their first names and now have: </p>
+    <pre>
+Alice Smith
+Alice Johnson
+Bob Smith
+Dave Brown
+    </pre>
+    <p>If we use a stable sorting algorithm to then sort this list by last name, we would be
+      guaranteed to have <c>Alice Smith</c> appear before <c>Bob Smith</c>: </p>
+    <pre>
+Dave Brown
+Alice Johnson
+Alice Smith
+Bob Smith
+    </pre>
+    <p>They both are <c>Smith</c> according to their last name, and Alice was before Bob, so she remains
+      before him in the sorted list.</p>
+    <p>A non-stable sorting algorithm would not care about the relative order of the <c>Smith</c>s. It
+      might place Bob before Alice in the sorted list.</p>
+  </subsection>
+
+</section>

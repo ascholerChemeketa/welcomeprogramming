@@ -1,0 +1,186 @@
+<section xml:id="search-sort_vocabulary"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Vocabulary and Comparison</title>
+
+  <subsection>
+    <title>Comparison Based Sorts</title>
+    <p>Here is a summary of the comparison based sorting algorithms:</p>
+    <table>
+      <title>Comparison Based Sorts</title>
+      <tabular row-headers="yes" bottom="minor"
+               halign="center">
+        <col header="yes"/>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <row header="yes" bottom="major">
+          <cell>Algorithm</cell>
+          <cell>Best Case</cell>
+          <cell>Average Case</cell>
+          <cell>Worst Case</cell>
+          <cell>Stable?</cell>
+          <cell>Notes</cell>
+        </row>
+        <row>
+          <cell>Selection Sort</cell>
+          <cell>
+            <m>O(n^2)</m>
+          </cell>
+          <cell>
+            <m>O(n^2)</m>
+          </cell>
+          <cell>
+            <m>O(1)</m>
+          </cell>
+          <cell>No</cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell>Insertion Sort</cell>
+          <cell>
+            <m>O(n)</m>
+          </cell>
+          <cell>
+            <m>O(n^2)</m>
+          </cell>
+          <cell>
+            <m>O(n^2)</m>
+          </cell>
+          <cell>Yes</cell>
+          <cell></cell>
+        </row>
+        <row>
+          <cell>Merge Sort</cell>
+          <cell>
+            <m>O(n \cdot log n)</m>
+          </cell>
+          <cell>
+            <m>O(n \cdot log n)</m>
+          </cell>
+          <cell>
+            <m>O(n \cdot log n)</m>
+          </cell>
+          <cell>Yes</cell>
+          <cell>Requires <m>O(n)</m> space</cell>
+        </row>
+        <row>
+          <cell>Quick Sort</cell>
+          <cell>
+            <m>O(n \cdot log n)</m>
+          </cell>
+          <cell>
+            <m>O(n \cdot log n)</m>
+          </cell>
+          <cell>
+            <m>O(n^2)</m>
+          </cell>
+          <cell>No</cell>
+          <cell></cell>
+        </row>
+      </tabular>
+    </table>
+  </subsection>
+  <subsection>
+    <title>Vocabulary</title>
+    <p>
+      <dl>
+        <li>
+          <title>adaptive sort</title>
+          <p>
+            <idx>
+              <h>adaptive sort</h>
+            </idx> A sorting algorithm that takes advantage of
+            existing order in its input to improve efficiency. </p>
+        </li>
+        <li>
+          <title>binary search</title>
+          <p>
+            <idx>
+              <h>binary search</h>
+            </idx> An efficient algorithm for finding an item in a
+            sorted collection by repeatedly dividing the search interval in half. </p>
+        </li>
+        <li>
+          <title>bucket sort</title>
+          <p>
+            <idx>
+              <h>bucket sort</h>
+            </idx> A sorting algorithm that distributes elements
+            into a number of buckets and then reassembles the buckets into a sorted collection. </p>
+        </li>
+        <li>
+          <title>comparison sort</title>
+          <p>
+            <idx>
+              <h>comparison sort</h>
+            </idx> A sorting algorithm that determines the order
+            of elements based solely on comparisons between them. </p>
+        </li>
+        <li>
+          <title>insertion sort</title>
+          <p>
+            <idx>
+              <h>insertion sort</h>
+            </idx> A simple sorting algorithm that builds a
+            sorted array one element at a time by repeatedly taking the next element from the input
+            and inserting it into the correct position in the sorted portion. </p>
+        </li>
+        <li>
+          <title>linear search</title>
+          <p>
+            <idx>
+              <h>linear search</h>
+            </idx> A simple algorithm for finding an item in a
+            collection by checking each item one by one until the desired item is found or the end
+            of the collection is reached. </p>
+        </li>
+        <li>
+          <title>merge sort</title>
+          <p>
+            <idx>
+              <h>merge sort</h>
+            </idx> A divide-and-conquer sorting algorithm that
+            divides the input array into two halves, recursively sorts each half, and then merges
+            the sorted halves back together. </p>
+        </li>
+        <li>
+          <title>quick sort</title>
+          <p>
+            <idx>
+              <h>quick sort</h>
+            </idx> A divide-and-conquer sorting algorithm that
+            selects a 'pivot' element and partitions the other elements into two sub-arrays
+            according to whether they are less than or greater than the pivot, then recursively
+            sorts the sub-arrays. </p>
+        </li>
+        <li>
+          <title>radix sort</title>
+          <p>
+            <idx>
+              <h>radix sort</h>
+            </idx> A non-comparative sorting algorithm that sorts
+            numbers or strings by processing individual digits. </p>
+        </li>
+        <li>
+          <title>selection sort</title>
+          <p>
+            <idx>
+              <h>selection sort</h>
+            </idx> A simple sorting algorithm that repeatedly
+            selects the smallest (or largest) element from the unsorted portion of the list and
+            moves it to the end of the sorted portion. </p>
+        </li>
+        <li>
+          <title>stable sort</title>
+          <p>
+            <idx>
+              <h>stable sort</h>
+            </idx> Any sorting algorithm that preserves the relative
+            order of records with <q>equal</q> values. </p>
+        </li>
+      </dl>
+    </p>
+  </subsection>
+</section>

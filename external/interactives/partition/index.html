@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Partition</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../../_static/pretext/css/theme.css">
+  <style>
+    body.pretext { padding: 10px; }
+    .para { margin-top: 10px; }
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  </style>
+</head>
+<body class="pretext">
+  <div>
+    <div id="sketch-holder"></div>
+  </div>
+
+  <div class="para controls">
+    <button type="button" onclick="partitionIncrementLeft()">Increment Left (i++)</button>
+    <button type="button" onclick="partitionDecrementRight()">Decrement Right (j--)</button>
+    <button type="button" onclick="partitionSwap()">Swap i and j</button>
+    <button type="button" onclick="partitionDone()">Done (place pivot)</button>
+    <button type="button" onclick="partitionReset()">Reset</button>
+  </div>
+
+  <div class="para" id="message" style="display: none; white-space: pre-wrap;">&nbsp;</div>
+
+  <script>
+    function requestResize() {
+      const currentHeight = Math.ceil(document.documentElement.getBoundingClientRect().height);
+      try {
+        window.parent.postMessage({ subject: 'lti.frameResize', height: currentHeight }, '*');
+      } catch (e) { /* ignore */ }
+    }
+
+    // Optionally reflect completion message after placing pivot
+    const msgEl = document.getElementById('message');
+    function showDoneMessage(text) {
+      msgEl.style.display = 'block';
+      msgEl.innerText = text;
+      requestResize();
+    }
+
+    // Monkey-patch partitionDone to also show message (keeps original export)
+    const originalDone = window.partitionDone;
+    window.partitionDone = function() {
+      originalDone();
+      showDoneMessage('Pivot placed. You can Reset to try again.');
+    };
+  </script>
+
+  <script src="./sketch.js"></script>
+</body>
+</html>

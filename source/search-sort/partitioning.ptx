@@ -1,0 +1,247 @@
+<section xml:id="search-sort_partitioning"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Partitioning</title>
+
+  <p> Like merge sort, <term>quick sort</term> is a very simple looking divide and conquer algorithm. In pseudocode, it looks like this: <idx>quick sort</idx>
+  </p>
+
+  <pre>
+    QuickSort(list, start, end):
+      if start >= end:
+        return list  // size 0/1 already sorted
+      else:
+        pivotLocation = Partition(list)
+        QuickSort(0 to pivotLocation - 1)  // Sort the first half
+        QuickSort(pivotLocation to end)    // Sort the second half
+  </pre>
+
+  <p>Here, most of the interesting work happens during the partition step, where the list is divided
+    into two parts. This section focuses on that partitioning process. The goal of partitioning is
+    to pick a pivot element and rearrange the list so that all elements less than the pivot come
+    before it, and all elements greater than the pivot come after it.</p>
+
+  <p>There are multiple partition algorithms, we will focus on the one known as the Hoare partition
+    scheme. The basic strategy of this algorithm is to create an index that starts at the begining
+    of the range being partitioned (<pf>i</pf>) and an index that starts at the end of the range
+    being partitioned (<pf>j</pf>). These two indexes are used to scan the list from both ends
+    towards the middle, swapping elements to ensure that elements less than the pivot end up on the
+    left, and elements greater than the pivot end up on the right.</p>
+
+  <p> Simplified pseudocode for the Hoare partitioning algorithm looks like this: </p>
+
+  <pre>
+    pivot = list.at(start)
+    i = start + 1
+    j = end
+    while i ≤ j:
+      Move i right until an element ≥ pivot is found
+      Move j left until an element ≤ pivot is found
+      if i ≤ j:
+        swap(list.at(i), list.at(j))
+    // Done swapping pairs - place pivot in its final position
+    swap(list.at(start), list.at(j))
+  </pre>
+
+  <p>Use that pseudocode and the interactive below to practice partitioning a list. Use the
+    instructions in the interactive for guidance.</p>
+
+  <activity xml:id="search-sort_partition-activity">
+    <title>Partitioning</title>
+
+    <interactive width="175%"
+                 aspect="7:2.5"
+                 iframe="interactives/partition/index.html"
+                 label="search-sort_partition-interactive">
+      <instructions>
+        <p>Complete a partition step by step by pressing the various buttons. </p>
+        <p>Follow this pseudocode as a guide:
+        <pre>
+        While i ≤ j:
+          Move i right until i finds a value &gt;= pivot
+          Move j left until j finds a value &lt;= pivot
+          if i ≤ j:  // if Indexes have not crossed
+            // swap the values at i and j
+            swap(list.at(i), list.at(j))
+        Finish by swapping the pivot with the value at j
+      </pre>
+      </p>
+      </instructions>
+    </interactive>
+  </activity>
+
+  <p>Reset and redo the interactive until you feel comfortable with the partitioning process. Notice what has to be true when the partitioning is done:
+  <ul>
+    <li>All items to the left of the pivot's final position are less than or equal to the pivot.</li>
+    <li>All items to the right of the pivot's final position are greater than or equal to the pivot.</li>
+    <li>The pivot is in its final sorted position.</li>
+  </ul>
+  </p>
+
+  <note>
+    <p>Real world implementations often select the pivot using a more sophisticated method than <q>the first element in the partition range</q>. We will discuss those in the next section.</p>
+  </note>
+
+  <p>Implemented to sort a vector in C++, it looks like this:</p>
+
+  <listing>
+    <program label="search-sort_vector-helpers-h"
+             xml:id="search-sort_vector-helpers-h"
+             filename="vector-helpers.h"
+             line-numbers="yes">
+    <code>
+<xi:include href="../../programs/search-sort/vector-helpers.h" parse="text"/>
+    </code>
+  </program>
+  </listing>
+
+  <listing>
+    <program label="search-sort_partitioning"
+             interactive="activecode"
+             line-numbers="yes"
+             add-files="search-sort_vector-helpers-h">
+    <code>
+<xi:include href="../../programs/search-sort/partitioning.cpp" parse="text"/>
+    </code>
+  </program>
+  </listing>
+
+  <p>Analyzing the partition algorithm is a little tricky because of the nested loops. Normally, nested loops suggest a quadratic time complexity, but in this case, the inner loops do not run independently for each iteration of the outer loop. Instead, the inner loops collectively scan through the list only once.</p>
+
+
+  <p>Consider this version of the partitioning algorithm:</p>
+
+  <pre>
+    <![CDATA[ 
+    while (i <= j) {
+        if (i <= end && vec.at(i) <= pivotValue) {
+            i++;
+        }
+        if (j >= start && vec.at(j) > pivotValue) {
+            j--;
+        }
+        // Swap items at i and j if i < j
+        if (i < j && vec.at(i) > pivotValue && vec.at(j) <= pivotValue) {
+            swap(vec.at(i), vec.at(j));
+            // advance i and retreat j since those items are fixed
+            i++;
+            j--;
+        }
+    }
+    ]]>
+  </pre>
+
+  <p>It swaps the inner loops for conditional checks. Each iteration of the loop moves either <pf>i</pf>, or <pf>j</pf>, or both closer to the other. The size <m>n</m> of the vector segment being partitioned is determined by the distance between <pf>start</pf> and <pf>end</pf>. Those values also are used to set <pf>i</pf> and <pf>j</pf>. So the loop describes iterating over <m>n</m> items.</p>
+
+  <p>Every <pf>swap</pf>, or comparison, or call to <pf>.at</pf> is <m>O(1)</m>. So the algorithm does <m>O(n) \cdot O(1) = O(n)</m> operations.</p>
+
+  <p>The same total amount of work will be done when the <pf>if</pf>s are turned into <pf>while</pf>s. In the version with nested loops, each time an inner <pf>i</pf> or <pf>j</pf> loop advance more than once it also reduces the number of iterations left for the outer loop.</p>
+
+  <conclusion>
+    <p>Partitioning requires <m>O(n)</m> time, where <m>n</m> is the number of items being partitioned.</p>
+  </conclusion>
+
+  <exercise label="search-sort_partitioning-ex-1">
+    <statement>
+      <p>If we call partition with <pf>start = 6</pf> and <pf>end = 11</pf>, match the following variables to their
+        values:</p>
+    </statement>
+    <matching>
+      <premise ref="search-sort_partitioning-1-p">
+        <pf>pivotIndex</pf>
+      </premise>
+      <premise ref="search-sort_partitioning-1-s">
+        <pf>i</pf>
+      </premise>
+      <premise ref="search-sort_partitioning-1-e">
+        <pf>j</pf>
+      </premise>
+      <response xml:id="search-sort_partitioning-1-p">6</response>
+      <response xml:id="search-sort_partitioning-1-s">7</response>
+      <response xml:id="search-sort_partitioning-1-mp">9</response>
+      <response xml:id="search-sort_partitioning-1-e">11</response>
+    </matching>
+  </exercise>
+
+  <exercise label="search-sort_partitioning-ex-2">
+    <statement>
+      <p>We do a partition on the list <pf>??, ??, 5, 4, 8, 2, 3, 6, ??, ??</pf> on the range 2-7 (the six numbers shown).</p>
+      <p>What is the first pair of values that will be swapped?</p>
+    </statement>
+    <choices randomize="yes">
+
+      <choice correct="yes">
+        <statement>
+          <p>8 and 3</p>
+        </statement>
+        <feedback>
+          <p>8 is the first value from the left that is greater than the pivot. 3 is the first value from the right that is less than or equal to the pivot.</p>
+        </feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <p>4 and 6</p>
+        </statement>
+        <feedback>
+          <p>4 is less than the pivot value, so i will move past it.</p>
+        </feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <p>8 and 2</p>
+        </statement>
+        <feedback>
+          <p>j will find a value before 2.</p>
+        </feedback>
+      </choice>
+      
+      <choice>
+        <statement>
+          <p>4 and 2</p>
+        </statement>
+        <feedback>
+          <p>4 is less than the pivot, so the i index will move past it. j will find a value before 2.</p>
+        </feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <p>5 and 3</p>
+        </statement>
+        <feedback>
+          <p>5 is the pivot value. We will swap it with j at the very end of the partition.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="search-sort_partitioning-ex-3">
+    <statement>
+      <p>We do a partition on the list <pf>??, ??, 5, 4, 8, 2, 3, 6, ??, ??</pf> on the range 2-7 (the six numbers shown).</p>
+      <p>What will be the final index of the pivot? <fillin mode="number" answer="6"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <numcmp value="2"/>
+          <feedback>That is the start index of the pivot.</feedback>
+        </test>
+        <test>
+          <numcmp value="4"/>
+          <feedback>Don't forge the two indexes that are not included in the partition.</feedback>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>Remember that after partitioning, all values less than or equal to the pivot are to its left, and all values greater than or equal to the pivot are to its right. You do not even need to do the partition... what position must the pivot value end up in?</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+
+</section>

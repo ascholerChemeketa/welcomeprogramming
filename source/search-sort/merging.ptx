@@ -1,0 +1,274 @@
+<section xml:id="search-sort_merging"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Merging</title>
+
+  <p> The <term>merge sort</term> algorithm is deceptively simple. In pseudocode, it looks like this: <idx>merge sort</idx> </p>
+
+  <pre>
+    MergeSort(list):
+      if length of list &lt;= 1:
+        return list  // size 0/1 already sorted
+      else:
+        Split list into leftHalf and rightHalf
+        MergeSort(leftHalf)
+        MergeSort(rightHalf)
+        // Merge the two sorted halves into one sorted list
+        return Merge(leftHalf, rightHalf)
+  </pre>
+
+  <p>To sort a list, it divides it into two halves and sorts each half. Then it <term>merges</term> the two
+    sorted halves. All the interesting work in this algorithm happens during the merge step, where two sorted
+    lists are combined into a single sorted list. This section focuses on that merging process.</p>
+    
+  <p>An efficient vector implementation of merge sort
+    does not actually use two separate lists for the left and right halves. Instead, it uses indexes to track
+    the left and right halves within a single vector.</p>
+    
+  <p>Consider the activity below. It shows a list of items that consists of two sorted halves. <pf>nextLeft</pf>
+    and <pf>nextRight</pf> represent the indices of the first unmerged items in the left and right halves,
+    respectively.</p>
+
+  <p>Note that the two halves are each sorted. This is what the vector will look like after we call <pf>MergeSort(leftHalf)</pf>
+  and <pf>MergeSort(rightHalf)</pf>. The only thing left to do is to merge the two halves into one long sorted list.</p>
+
+
+  <p>If the left half is sorted, and the right half is sorted, then the smallest overall item must
+    be either the item at <pf>nextLeft</pf> or the item at <pf>nextRight</pf>. So our task is simply to pick the
+    smaller of the two and add it to the merged list, then move the corresponding index forward. 
+    We will use <pf>mergeIndex</pf> to track the location in the merged list where the next item should be
+    placed.</p>
+
+  <p>Use the animation below to complete a merge step by step.</p>
+
+  <activity xml:id="search-sort_merging-activity">
+    <title>Merging</title>
+
+    <interactive width="100%"
+                 aspect="5:4.2"
+                 iframe="interactives/merge/index.html"
+                 label="search-sort_merging_merge-interactive">
+                 <instructions>
+      <p>Decide if the next item to merge should come from the left half or the right half. Click the matching button to perform the merge step. Continue until all items have been merged.</p>
+                 </instructions>
+    </interactive>
+  </activity>
+
+  <p>Try completing the process a few times. As you do so, note that: <ul>
+      <li>We are merging the range 0-7. That means the midpoint is <pf>floor((0 + 7) / 2)</pf> which is 3.</li>
+      <li>The left side ends at the midpoint index. When <pf>nextLeft</pf> goes beyond the midpoint, it
+    means all items from the left half have been merged.</li>
+      <li>The right side ends at the end index (7). When <pf>nextRight</pf> goes beyond the end index, it
+    means all items from the right half have been merged.</li>
+    </ul>
+  </p>
+
+  <p> Also important to note is that we need a temporary vector to hold the merged result as we
+    build it. Once the merge is complete, we can copy the items from the temporary vector back into
+    the original vector. </p>
+
+  <insight>
+    <p>Efficient merging of a vector of size <m>n</m> requires <m>O(n)</m> additional space for the
+      temporary vector.</p>
+  </insight>
+
+  <p> We can use this same merging process to merge two sorted portions of a vector that do not
+    encompass the entire vector. For example, consider the vector shown in the figure below. In it,
+    we are focusing on the region from index 5 to index 9. The midpoint is index <m>floor((5 + 9) /
+    2) = 7</m>. The items from index 5 to index 7 are sorted, and the items from index 8 to index 9
+    are sorted. We can merge these two sorted portions into a single sorted portion from index 5 to
+    index 9 by using the same process as before. </p>
+
+  <figure>
+    <caption>Merging sorted portions of a vector that are not the entire vector.</caption>
+    <image source="images/search-sort/merging-partial.svg"
+           width="50%">
+      <shortdescription> A vector with 10 items. The first 5 are ignored. The next three are at
+        indexes 5, 6, and 7 and are sorted. The last two items are at indexes 8 and 9 and are also
+        sorted. The merging process combines the two sorted portions into a single sorted portion
+        from indexes 5 to 9. </shortdescription>
+    </image>
+  </figure>
+
+  <p> In the merge we would start with the following initial values: <ul>
+      <li><pf>start = 5</pf> (the first index of the portion being merged)</li>
+      <li><pf>end = 9</pf> (the last index of the portion being merged)</li>
+    </ul> From those, we can
+    compute: <ul>
+      <li><pf>mid = 7</pf> (from <pf>floor((start + end) / 2)</pf>)</li>
+      <li><pf>nextLeft = 5</pf> (same as <pf>start</pf>)</li>
+      <li><pf>nextRight = 8</pf> (one more than <pf>mid</pf>)</li>
+      <li><pf>mergeIndex = 5</pf> (same as <pf>start</pf>)</li>
+    </ul>
+  </p>
+
+  <p> Note that in this logic the destination vector has the same size as the source vector and that
+    the merge process only modifies the portion from index 5 to index 9. The other items remain
+    unchanged. </p>
+
+  <p> Although we could create a temporary vector that is only as large as the portion being merged
+    (in this case, size 5), it is often simpler to create a temporary vector that is the same size
+    as the original vector. This way, we can use the same indices for both the source and
+    destination vectors without needing to adjust them. It also will allow us to reuse the same
+    temporary vector for multiple merge operations once we implement the full merge sort algorithm. </p>
+
+
+  <p>Implemented to sort a vector in C++, it looks like this:</p>
+
+  <listing>
+    <program label="search-sort_vector-helpers-h"
+             xml:id="search-sort_vector-helpers-h"
+             filename="vector-helpers.h"
+             line-numbers="yes">
+    <code>
+<xi:include href="../../programs/search-sort/vector-helpers.h" parse="text"/>
+    </code>
+  </program>
+  </listing>
+
+
+  <listing>
+    <program label="search-sort_merging"
+             interactive="activecode"
+             line-numbers="yes"
+             add-files="search-sort_vector-helpers-h">
+    <code>
+<xi:include href="../../programs/search-sort/merging.cpp" parse="text"/>
+    </code>
+  </program>
+  </listing>
+
+  <note>
+    <p>Most implementations will reduce the selection logic to something like:</p>
+    <program><![CDATA[ 
+      if (nextLeft <= mid && (nextRight > end || vec.at(nextLeft) <= vec.at(nextRight))) {
+          // left is not empty and (right is empty or left <= right)
+          // take from left
+      } else {
+          // take from right
+      }
+      ]]>
+    </program>
+    <p>Our implementation uses separate boolean variables to make the logic clearer and easier to
+      follow.</p>
+    <p>Another strategy uses three loops:</p>
+    <program><![CDATA[
+      while (nextLeft <= mid && nextRight <= end) {
+          // compare and take from left or right
+      }
+      while (nextLeft <= mid) {
+          // take remaining from left
+      }
+      while (nextRight <= end) {
+          // take remaining from right
+      }
+      ]]>
+    </program>
+    <p>All of these strategies are equivalent in terms of their time complexity and overall
+      behavior.</p>
+  </note>
+
+  <p> How long does this process take? Let us consider a simplified pseudocode version of the
+    algorithm. In it we don't worry about indexes, we just focus on the key operations and how many
+    times loops run: </p>
+
+  <pre>
+    merge(list, start, end)
+      n = end - start + 1
+      repeat n times:
+        compare nextLeft and nextRight
+        copy smaller to mergeVector
+      repeat n times:
+        copy item from mergeVector back to list
+  </pre>
+
+  <p>The size of the job is determined by the distance between <pf>start</pf> and <pf>end</pf>. That is what
+    defines <m>n</m> for this algorithm.</p>
+  <p><m>n</m> times we have to compare the nextLeft and nextRight items and then copy one of them to
+    the merge vector. That is <m>n</m> comparisons and <m>n</m> copy operations, or <m>2n</m>
+    operations. Then, the items from the merge vector must be copied back to the source vector. That
+    is another <m>n</m> copy operations. Thus, the total number of operations is proportional to <m>
+    3n</m>, which simplifies to <m>O(n)</m>. </p>
+
+  <conclusion>
+    <p>Merging requires <m>O(n)</m> time, where <m>n</m> is the number of items being merged.</p>
+  </conclusion>
+
+  
+  <exercise label="search-sort_merging-ex-1">
+    <statement>
+      <p>If we call merge with <pf>start = 6</pf> and <pf>end = 11</pf>, match the following variables to their values:</p>
+    </statement>
+    <matching>
+      <premise ref="search-sort_merging-1-s"><pf>nextLeft</pf></premise>
+      <premise ref="search-sort_merging-1-mp"><pf>nextRight</pf></premise>
+      <premise ref="search-sort_merging-1-m"><pf>mid</pf></premise>
+      <premise ref="search-sort_merging-1-s"><pf>mergeIndex</pf></premise>
+      <response xml:id="search-sort_merging-1-s">6</response>
+      <response xml:id="search-sort_merging-1-m">8</response>
+      <response xml:id="search-sort_merging-1-mp">9</response>
+      <response xml:id="search-sort_merging-1-e">11</response>
+    </matching>
+  </exercise>
+
+
+  <exercise label="search-sort_merging-ex-2">
+    <statement>
+      <p>We do a merge on the list <pf>??, ??, 1, 4, 8, 2, 3, 6, ??, ??</pf>. Focusing on the range 2-7 (the six numbers shown).</p>
+      <p>Place the blocks in the order to show the order of the sides merged from.</p>
+    </statement>
+    <blocks>
+      <block><cline>Left</cline></block>
+      <block><cline>Right</cline></block>
+      <block><cline>Right</cline></block>
+      <block><cline>Left</cline></block>
+      <block><cline>Right</cline></block>
+      <block><cline>Left</cline></block>
+    </blocks>
+  </exercise>
+
+
+  <exercise label="search-sort_merging-ex-3">
+    <statement>
+      <p>Given the following list of numbers: [2, 7, 14, 1, 8, 19, 6, 18] which are valid ranges to merge using our algorithm?</p>
+    </statement>
+    <choices randomize="yes">
+
+      <choice>
+        <statement>
+          <p>Indexes 0-3 ([2, 7, 14, 1 ...])</p>
+        </statement>
+        <feedback>
+          <p>The second half ([14, 1]) is not sorted, so it is not a valid range to merge.</p>
+        </feedback>
+      </choice>
+
+      <choice correct="yes">
+        <statement>
+          <p>Indexes 4-7 ([... 8, 19, 6, 18])</p>
+        </statement>
+        <feedback>
+          <p>That divides into two sorted ranges [8, 19] and [6, 18].</p>
+        </feedback>
+      </choice>
+
+      <choice correct="yes">
+        <statement>
+          <p>Indexes 1-4 ([... 7, 14, 1, 8 ...])</p>
+        </statement>
+        <feedback>
+          <p>That divides into two sorted ranges [7, 14] and [1, 8].</p>
+        </feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <p>Indexes 0-8 (the entire list)</p>
+        </statement>
+        <feedback>
+          <p>That does not divide in the middle into two sorted ranges. It divides into [2, 7, 14, 1] and [8, 19, 6, 18], neither of which is sorted.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

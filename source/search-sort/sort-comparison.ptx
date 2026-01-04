@@ -1,0 +1,108 @@
+<section xml:id="search-sort_merge-sort-compared">
+  <title>Quadratic vs Log Linear Growth</title>
+  <p>We have established that the merge sort algorithm requires <m>O(n \cdot log_2(n))</m> work to sort a list of size <term>
+    n</term>. Because that is a linear value times a logarithmic value, that is known as <term>log linear</term>. How does <term>log linear</term> growth compare to insertion sort and selection sort, which grow at a <term>quadratic</term> rate (<m>O(n^2)</m>)?</p>
+
+  <p>Below is a graph of the growth of the <term>quadratic function</term> <m>n^2</m> and the <term>log linear function</term> <m>n \cdot log_2(n)</m>:</p>
+
+  <figure>
+    <caption>Comparison of <m>f(n) = n^2</m> and <m>f(n) = n \cdot log_2(n)</m>.</caption>
+    <image source="images/search-sort/QuadraticVsLogLinear.svg">
+    <shortdescription>
+A graph comparing the growth of n squared and n log base 2 of n.
+    </shortdescription>
+    </image>
+  </figure>
+
+  <p>Obviously, <m>n^2</m> grows much faster than <m>n \cdot log_2(n)</m>. Looking at the table below, we can see that
+    sorting 500 items with Insertion Sort (<m>O(n^2)</m>) would take somewhere around 250,000 units of work. Doing the
+    same task with Merge Sort would only take around 4,483 units of work!</p>
+
+  <tabular halign="center">
+
+    <row header="yes" bottom="minor">
+      <cell>
+        <term>Problem size</term>
+      </cell>
+      <cell> 10 </cell>
+      <cell> 100 </cell>
+      <cell> 500 </cell>
+      <cell> 1,000 </cell>
+      <cell> 10,000 </cell>
+      <cell> 100,000 </cell>
+    </row>
+
+    <row>
+      <cell right="minor">
+        <m>n \cdot log_2(n)</m>
+      </cell>
+      <cell> 33 </cell>
+      <cell> 664 </cell>
+      <cell> 4,483 </cell>
+      <cell> 9,966 </cell>
+      <cell> 132,877 </cell>
+      <cell> 1,660,964 </cell>
+    </row>
+    <row>
+      <cell right="minor">
+        <m>n^2</m>
+      </cell>
+      <cell> 100 </cell>
+      <cell> 10,000 </cell>
+      <cell> 250,000 </cell>
+      <cell> 1,000,000 </cell>
+      <cell> 100,000,000 </cell>
+      <cell> 10,000,000,000 </cell>
+    </row>
+  </tabular>
+
+  <insight>
+    <p>Look closely at the gap between <m>n</m> and <m>O(n \cdot log_2(n))</m> and then compare it to the gap between <m>O(n \cdot log_2(n))</m> and <m>O(n^2)</m>.</p>
+    <p>Doing <m>O(n)</m> work instead of <m>O(n \cdot log_2(n))</m> work is a nice improvement.</p>
+    <p>Doing <m>O(n \cdot log_2(n))</m> work instead of <m>O(n^2)</m> is a <em>huge</em> improvement for large values of <term>n</term>.</p>
+  </insight>
+
+  <p>Using the Big-O classification of each algorithm like this gives us a rough estimate of the work. We are ignoring
+    constant factors that may change the exact numbers (especially for low values of n). Merge Sort has a greater basic
+    overhead than Insertion Sort (for example, we have to copy items to and from a second list) - if you are solving
+    small problems it may take more time to run than Insertion Sort due to this. But we know that as <term>n</term>
+    grows larger the basic pattern is going to hold - <m>O(n^2)</m> is going to grow faster than <m>O(n \cdot log_2(n))</m>,
+    so Merge Sort will certainly be faster out for large values of <term>n</term>.</p>
+  <p>Below, you can use the Sort Timer to simulate running sorts of different sizes using the two algorithms. You can
+    use the slider to change the size of the list being sorted. Try comparing the two algorithms at different sort
+    sizes. Does Merge Sort always win? At what point does Insertion Sort start taking more than a half-second to run? At
+    what point does Merges Sort start taking more than a half-second?</p>
+
+  <activity xml:id="search-sort_sort-comparison-activity">
+    <title>Merging</title>
+
+    <interactive width="100%"
+                 aspect="6:1.5"
+                 iframe="interactives/sort-comparison/index.html"
+                 label="search-sort_sort-comparison-interactive">
+      <instructions>
+        <p>Use the slider to change the size of the list being sorted. Click the buttons to simulate sorting with each algorithm.</p>
+      </instructions>
+    </interactive>
+  </activity>
+
+  <exercise label="search-sort_sort-comparison-ex-1">
+    <statement>
+      <p>To the nearest integer, use <m>O(n^2)</m> and <m>O(n \cdot log_2(n))</m> to estimate how much work would be required to sort a list of 20,000 items using Insertion Sort and Merge Sort.</p>
+      <p>Insertion sort: <fillin mode="number" answer="400000000"></fillin></p>
+      <p>Merge sort: <fillin mode="number" answer="285754"></fillin></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes" tolerance="1"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes" tolerance="1"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+</section>

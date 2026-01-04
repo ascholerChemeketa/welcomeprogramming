@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<section xml:id="search-sort_binary-search"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Binary Search</title>
+
+  <p>Consider searching a list of value that you know to be in order:</p>
+
+  <pre>4, 12, 34, 38, 56, 72, 91, ...</pre>
+
+  <p>How might you modify the linear search strategy given this information?</p>
+
+  <p>Say you were searching for the value 42. Once you saw 56, you could stop searching because you
+    know 42 is not in the list.</p>
+
+  <p>Or, if you were searching for a value you expected to be near the end of the list (say the name
+    "Zoe" in an alphabetical list of names), you could start searching from the end and move
+    backwards through the list.</p>
+
+  <p>Both of these strategies might help in some cases. But in general, we can't guarantee they will
+    be more efficient. If we guess wrong about which end the value is likely to be at, we might
+    still end up searching the entire list.</p>
+
+  <p>But there is a better way to take advantage of the fact that the list is ordered. This method
+    is called <term>binary search</term>. Binary search works by repeatedly dividing the list in
+    half, and determining which half the desired value must be in. This halving process continues
+    until either the value is found, or the list cannot be divided any further.</p>
+
+  <p>We don't truly divide the list in two. If we are searching a vector, we do not break it into
+    two vectors. Instead, we keep track of the range of indices that we are currently considering.
+    Initially, this range is the entire list. We then look at the middle element of the current
+    range. If that element is the one we are looking for, we are done. If the middle element is less
+    than the one we are looking for, we know that the desired element must be in the upper half of
+    the current range (if it is present at all). So we update our range to be just the upper half.
+    If the middle element is greater than the one we are looking for, we update our range to be just
+    the lower half. We repeat this process until we either find the desired element or our range is
+    empty.</p>
+
+  <p>Give it a try in the activity below. It tracks the current range using <pf>lowIndex</pf> and <pf>highIndex</pf>.
+    Initially, they are set to 0 and 9 respectively as those are the first and last indexes in the
+    list. We then calculate the middle index of that range by adding the two indexes and dividing by
+    2 (rounding down if necessary). That is the value we look at and compare to our key. If it is
+    not what we are looking for, we update either the low index or the high index:</p>
+
+  <activity xml:id="search-sort_binary-search-activity">
+    <title>Binary Search Demonstration</title>
+
+    <interactive width="120%"
+                 aspect="7:4.5"
+                 iframe="interactives/binary-search/index.html"
+                 label="search-sort_binary-search_binary-search-interactive">
+      <instructions>
+        <p>Enter a value to search for. Then press Step to run the binary search algorithm step by
+          step. Use Reset to start over with a new list.</p>
+        <p>Light gray bars indicate the current search range. Dark gray bars indicate parts of the
+          list that have been eliminated from consideration.</p>
+      </instructions>
+    </interactive>
+  </activity>
+
+  <p>Note that there are three possible outcomes when we check the middle index: <ul>
+      <li>It has the key and we can stop.</li>
+      <li>The value there is too low, so we update the low index to be one more than the middle
+    index. This excludes the value we just checked and everything below it.</li>
+      <li>The value there is too high, so we update the high index to be one less than the middle
+    index. This excludes the value we just checked and everything above it.</li>
+    </ul>
+  </p>
+
+  <insight>
+    <p>With each step of the algorithm, only one index (low or high) changes. We either learn that
+      the value must be in the top half of the remaining range (and thus the low index must change),
+      or it must be in the bottom half (and thus the high index must change).</p>
+  </insight>
+
+  <p>If the low index ever becomes greater than the high index, it means the key is not present in
+    the list.</p>
+
+  <p>Now try doing a binary search yourself:</p>
+
+  <activity>
+    <title>A Binary Search Quiz</title>
+    <p>Click the middle location in the list during each step of the binary search.</p>
+    <p>If you do not get a perfect score, you can use Reset to try again.</p>
+    <interactive label="search-sort_binary-search_binary-search-quiz"
+                 iframe="https://opendsax.cs.vt.edu/OpenDSA/AV/Searching/binarySearchPRO.html"
+                 width="175%"
+                 aspect="7:4"/>
+  </activity>
+
+  <p>Implemented to search a vector in C++, it looks like this:</p>
+
+  <listing>
+    <program label="search-sort_binary-search_binary-search"
+             interactive="activecode"
+             line-numbers="yes"
+             highlight-lines="5-27">
+    <code>
+<xi:include href="../../programs/search-sort/binary-search.cpp" parse="text"/>
+    </code>
+    <stdin>37</stdin>
+  </program>
+  </listing>
+
+  <exercise label="search-sort_binary-search-ex-1">
+    <statement>
+      <p>We are doing binary search and the low index is 4 and the high index is 9. What is the
+        middle index?</p>
+      <p>
+        <fillin answer="6"
+                mode="number"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <numcmp value="6.5"/>
+          <feedback>We have to round the answer down to the nearest integer.</feedback>
+        </test>
+        <test>
+          <numcmp value="7"/>
+          <feedback>We have to round the answer down to the nearest integer.</feedback>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>Remember that <pf>middleIndex = floor((lowIndex + highIndex) / 2)</pf>.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+
+  <exercise label="search-sort_binary-search-ex-2">
+    <statement>
+      <p>We are doing binary search and the low index is 4 and the high index is 9. We have just
+        checked the middle value and learned that it is smaller than the key. Should we update the <pf>low</pf>
+        index or <pf>high</pf> index?</p>
+      <p>
+        <fillin answer="low"
+                mode="string"/>
+      </p>
+      <p>And what value should it be updated to?</p>
+      <p>
+        <fillin answer="7"
+                mode="number"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <numcmp value="6"/>
+          <feedback>That is the current middle index. We want to exclude it (and everything above
+            it).</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+
+  <exercise label="search-sort_binary-search-ex-3">
+    <statement>
+      <p>We are doing binary search and the low index is 1 and the high index is 5. We have just
+        checked the middle value and learned that it is larger than the key. Should we update the <pf>low</pf>
+        index or <pf>high</pf> index?</p>
+      <p>
+        <fillin answer="high"
+                mode="string"/>
+      </p>
+      <p>And what value should it be updated to?</p>
+      <p>
+        <fillin answer="2"
+                mode="number"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <numcmp value="3"/>
+          <feedback>That is the current middle index. We want to exclude it (and everything above
+            it).</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>

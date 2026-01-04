@@ -1,0 +1,105 @@
+<section xml:id="search-sort_quick-sort-efficiency"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Quick Sort Efficiency</title>
+
+  <p>When everything goes well, quick sort runs in <m>O(n \cdot \log n)</m> time. The analysis of its efficiency follows the same logic as merge sort:
+    <ul>
+      <li>
+        <title>Informal</title>
+        <p>Each <q>level</q> needs to partition <m>n</m> total items. Initially that is 1 group of <m>n</m>, then 2 groups of <m>n/2</m>, then 4 groups of <m>n/4</m>, and so on.</p>
+        <p>There will be <m>\log n</m> levels as we divide the number of items in each group in half at each level.</p>
+        <p>So the total work is <m>O(n)</m> work per level times <m>O(\log n)</m> levels, for a total of <m>O(n \cdot \log n)</m>.</p>
+      </li>
+      <li><title>Formal</title>
+      <p>The recurrence relation for quick sort is the same as for merge sort: <m>T(n) = 2T(n/2) + c_1  \cdot n + c_2</m>. It evaluates to <m>O(n \cdot \log n)</m>.</p></li>
+    </ul>
+  </p>
+
+  <p>However, that analysis depends on the idea that the number of items in each partition is roughly equal and thus the list gets divided evenly at each step. If the partitions are very unbalanced, the efficiency can degrade significantly. Try this version of the interactive. In it, quick sort is used to sort an already sorted list:</p>
+
+  <activity xml:id="search-sort_quick-sort-activity">
+    <title>QuickSort Efficiency</title>
+
+    <interactive width="150%"
+                 aspect="6:3.2"
+                 iframe="interactives/quick-sort/index-ordered.html"
+                 label="search-sort_quick-sort-interactive">
+      <instructions>
+        <p>Click "Step" to advance once step or "Play" to run continuously.</p>
+        <p>At the top, you can see a description of the current step. On the right, you can see the current call stack.</p>
+      </instructions>
+    </interactive>
+  </activity>
+
+
+  <p>
+    Because the list is already sorted, and we always pick the first element as the pivot, the partitions end up being extremely unbalanced. The left ends up empty, and the right partition always has all the elements other than the pivot value remaining elements. This means that instead of dividing the list in half at each step, we only remove one element (the pivot) at each step.</p>
+  
+    <p>Thus, instead of the number of items in the largest partition following a pattern of:</p>
+    <console>
+    <output>
+32 → 16 → 8 → 4 → 2 → 1
+</output>
+  </console>
+
+  <p>it follows a pattern of:</p>
+      <console>
+    <output>
+32 → 31 → 30 → 29 → 28 → ... → 2 → 1
+</output>
+  </console>
+
+  <p>
+    This pattern has a length of <m>n</m> instead of <m>\log n</m>. Thus the recursion depth becomes <m>n</m> instead of <m>\log n</m>. This now means that we have <m>n</m> levels of recursion, each needing <m>O(n)</m> work to partition the list and we end up with a total time complexity of <m>O(n^2)</m> instead of <m>O(n \cdot \log n)</m>. (The recurrence relation would be <m>T(n) = T(n - 1) + c_1*n + c_2</m> which solves to <m>O(n^2)</m>.)</p>
+
+
+  <p>Even worse, this worst-case case scenario happens if the array is already sorted or mostly sorted! Usually we would hope a sorting algorithm would perform better on such inputs.</p>
+
+  <p>However, there are various strategies that can be used to mitigate this issue and ensure that sorting sorted data does not degrade to worst-case performance. All of the strategies involve changing how the pivot is selected. Some common strategies include:
+    <ul>
+      <li>Using the middle element as the pivot</li>
+      <li>Choosing a random element as the pivot (Randomized QuickSort)</li>
+      <li>Looking at the first, middle and last elements and choosing the median of those three as the pivot (Median-of-three)</li>
+    </ul>
+    In all of these cases, the goal is to avoid consistently poor pivot choices that lead to unbalanced partitions. After selecting the pivot value, we can start by swapping it with the first element to reuse the same partitioning logic as before.
+  </p>
+
+  <p>Given any of these approaches, it can be demonstrated that there is only a small probability of consistently poor pivot choices and that the average-case time complexity thus remains <m>O(n \cdot \log n)</m>. However, there is always a chance that we get extraordinarily unlucky and end up with poor pivot choices repeatedly, leading to worst-case performance.</p>
+
+  <p>While normally we focus on the worst-case behavior when categorizing algorithms, a good pivot selection strategy makes the worst-case for quick sort extraordinarily unlikely. The chance of starting with <m>n</m> items and consistently randomly picking the smallest remaining element to be the pivot would be <m>1/n!</m>. For even 10 items, that is only a ~0.00003% chance. Thus it is common to still consider quick sort to be an <m>O(n \cdot \log n)</m> algorithm despite the theoretical worst-case.</p>
+
+  <p>Normally we do not concern ourselves too much with constant factors when doing Big-O analysis. <m>O(n \cdot \log n)</m> is so much smaller than <m>O(n^2)</m> that any constants in play almost certainly do not matter. However, when comparing two algorithms with the same asymptotic complexity, constant factors can become important. Quick sort gets its name from the fact that it is often faster in practice than other <m>O(n \cdot \log n)</m> algorithms like merge sort. Constant factors in the algorithm, the lack of need for additional memory, and cache efficiency all contribute to this practical speed advantage.</p>
+
+  <conclusion>
+    <title>Quick Sort Key Facts</title>
+    <p>Quick sort has an average-case time complexity of <m>O(n \cdot \log n)</m> when using good pivot selection strategies. However, poor pivot choices can lead to <m>O(n^2)</m>. A good pivot selection strategy can make the chance of consistently poor pivot choices very small but not completely zero.</p>
+    <p>In practice, quick sort tends to perform better than other <m>O(n \cdot \log n)</m> algorithms like merge sort.</p>
+    <p>Quick sort is not stable. If we care about stability, we should use merge sort or other stable sorting algorithms.</p>
+  </conclusion>
+
+
+  <exercise label="search-sort_quick-sort-ex-1">
+    <statement>
+      <p>Drag each algorithm into the Big-O category that describes its time complexity.</p>
+    </statement>
+    <cardsort>
+      <match>
+        <premise>insertion sort (best)</premise>
+        <response><m>O(n)</m></response>
+      </match>
+      <match>
+        <premise>merge sort</premise>
+        <premise>quick sort (average)</premise>
+        <response><m>O(n \cdot \log n)</m></response>
+      </match>
+      <match>
+        <premise>insertion sort (average)</premise>
+        <premise>selection sort</premise>
+        <premise>quick sort (worst)</premise>
+        <response><m>O(n ^ 2)</m></response>
+      </match>
+    </cardsort>
+  </exercise>
+
+
+</section>

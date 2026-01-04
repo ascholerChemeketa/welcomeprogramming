@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quick Sort</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>    
+  <link rel="stylesheet" type="text/css" href="../../../_static/pretext/css/theme.css">
+    <style>
+      body.pretext {
+        padding: 10px;
+      }
+      .para {
+        margin-top: 10px;
+      }
+    </style>
+</head>
+<body class="pretext">
+  <div>
+    <div id="sketch-holder"></div>
+  </div>
+  <div class="para">
+  <button type="button" onclick="stepP5()">Step</button>
+  <button type="button" id="playPauseBtn" onclick="togglePlayP5()">Play</button>
+  <label style="margin-left:8px;">Delay:
+    <input type="range" id="speedSlider" min="1" max="5" step="1" value="3" oninput="setSpeedP5()" />
+  </label>
+  <button type="button" onclick="resetP5()">Reset (16)</button>
+  <button type="button" onclick="resetLargeP5()">Reset (32)</button>
+  </div>
+  <div class="para" id="message" style="display: none; white-space: pre-wrap;">&nbsp;</div>
+
+  <script>
+    let playIntervalId = null;
+    let isPlaying = false;
+  let currentDelay = 500;
+
+    function requestResize() {
+      const currentHeight = Math.ceil(document.documentElement.getBoundingClientRect().height);
+      try {
+        window.parent.postMessage({ subject: 'lti.frameResize', height: currentHeight }, '*');
+      } catch (e) { /* ignore */ }
+    }
+
+    function stepP5() {
+  const isSorted = window.quickSortStep();
+      const el = document.getElementById('message');
+      if (isSorted) {
+        const msg = 'The list is now sorted.\nClick Reset to start over';
+        el.style.display = 'block';
+        el.innerText = msg;
+        
+        window.parent.postMessage({ subject: 'SPLICE.reportScoreAndState', score: 1, state: {} }, '*');
+        // stop auto-play if running
+        if (isPlaying) {
+          clearInterval(playIntervalId);
+          playIntervalId = null;
+          isPlaying = false;
+          const btn = document.getElementById('playPauseBtn');
+          if (btn) btn.innerText = 'Play';
+        }
+      } else {
+        el.style.display = 'none';
+      }
+      requestResize();
+    }
+
+    function togglePlayP5() {
+      const btn = document.getElementById('playPauseBtn');
+      if (!isPlaying) {
+        // start auto-stepping using current delay
+        isPlaying = true;
+        btn.innerText = 'Pause';
+        playIntervalId = setInterval(() => {
+          stepP5();
+        }, currentDelay);
+      } else {
+        // pause auto-play
+        isPlaying = false;
+        btn.innerText = 'Play';
+        clearInterval(playIntervalId);
+        playIntervalId = null;
+      }
+    }
+
+    function setSpeedP5() {
+      const slider = document.getElementById('speedSlider');
+      const newDelay = parseInt(slider.value, 10);
+      currentDelay = currentDelay = 25 * Math.pow(3, newDelay);
+      // If currently playing, restart interval with new delay
+      if (isPlaying) {
+        clearInterval(playIntervalId);
+        playIntervalId = setInterval(() => {
+          stepP5();
+        }, currentDelay);
+      }
+    }
+
+    function resetP5() {
+      // pause if playing
+      if (isPlaying) {
+        clearInterval(playIntervalId);
+        playIntervalId = null;
+        isPlaying = false;
+        const btn = document.getElementById('playPauseBtn');
+        if (btn) btn.innerText = 'Play';
+      }
+      window.quickSortReset();
+      // sync label with slider
+      setSpeedP5();
+      const el = document.getElementById('message');
+      el.style.display = 'none';
+      requestResize();
+    }
+
+    function resetLargeP5() {
+      // pause if playing
+      if (isPlaying) {
+        clearInterval(playIntervalId);
+        playIntervalId = null;
+        isPlaying = false;
+        const btn = document.getElementById('playPauseBtn');
+        if (btn) btn.innerText = 'Play';
+      }
+      window.quickSortResetLarge();
+      // sync label with slider
+      setSpeedP5();
+      const el = document.getElementById('message');
+      el.style.display = 'none';
+      requestResize();
+    }
+
+    function resetSortedP5() {
+      // pause if playing
+      if (isPlaying) {
+        clearInterval(playIntervalId);
+        playIntervalId = null;
+        isPlaying = false;
+        const btn = document.getElementById('playPauseBtn');
+        if (btn) btn.innerText = 'Play';
+      }
+      window.quickSortResetSorted();
+      // sync label with slider
+      setSpeedP5();
+      const el = document.getElementById('message');
+      el.style.display = 'none';
+      requestResize();
+    }
+  </script>
+
+  <script src="./sketch.js"></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sort Comparison</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../../_static/pretext/css/theme.css">
+  <style>
+    #sorterBox {
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #sorterBox legend {
+      width: auto;
+      margin: 0px 0px 0px 10px;
+      border: none;
+    }
+
+    .sortRow {
+      padding: 5px 10px;
+    }
+
+    #probSizeEntry {
+      margin-right: 20px;
+    }
+
+    #probSizeText {
+      text-align: center;
+      width: 150px;
+      margin-bottom: 10px;
+    }
+
+    #sizeBox {
+      float: right;
+      padding-bottom: 15px;
+      width: 200px;
+    }
+
+    #inputBox {
+      display: inline-block;
+    }
+
+    #probSizeRange {
+      width: 150px;
+    }
+
+    .sortButton {
+      width: 120px;
+      margin-right: 15px;
+    }
+    
+    fieldset {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body class="pretext">
+  <fieldset id="sorterBox">
+    <legend>Sort Timer</legend>
+    <div id="sizeBox">
+      <span id="probSizeEntry"><strong>List Length:</strong></span>
+      <div id="inputBox">
+        <input type="text" class="work" id="probSizeText" readonly="true" />
+        <input type="range" id="probSizeRange" min="1" max="7" value="1" />
+      </div>
+    </div>
+    <div class="sortRow">
+      <button id="goNSqButton" class="sortButton">Insertion Sort</button><span id="insertSorting"></span>
+    </div>
+    <div class="sortRow">
+      <button id="goNLogNButton" class="sortButton">Merge Sort</button><span id="mergeSorting"></span>
+    </div>
+    <div class="sortRow">
+      <button id="haltButton" class="sortButton">Halt</button>
+    </div>
+  </fieldset>
+
+
+  <script>
+    function hexFromRGB(r, g, b) {
+      const parts = [r, g, b].map(v => v.toString(16).padStart(2, '0'));
+      return parts.join('').toUpperCase();
+    }
+
+    function getBaseLog(x, y) {
+      return Math.log(x) / Math.log(y);
+    }
+
+    function simulateNSqWork(n) {
+      var total = 0;
+      n *= n;
+      n /= 51324;     //misc tuning constant
+      n *= (1.05 - Math.random() / 10); //+- 5% variability
+      var places = 5 - Math.floor(getBaseLog(n, 10));
+      if (places < 0) places = 0;
+      nsqTimer = setTimeout(function () {
+        nsqTimer = null;
+        document.getElementById('insertSorting').textContent = (n / 1000.0).toFixed(places) + " seconds";
+        document.getElementById('goNSqButton').disabled = false;
+      }, n);
+    }
+
+    function addCommas(nStr) {
+      nStr += '';
+      x = nStr.split('.');
+      x1 = x[0];
+      x2 = x.length > 1 ? '.' + x[1] : '';
+      var rgx = /(\d+)(\d{3})/;
+      while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+      }
+      return x1 + x2;
+    }
+
+    function simulateNLogNWork(n) {
+      var total = 0;
+      n *= Math.log(n);  //base e but adjust to 2 with tuning constant
+      n /= 47303;     //misc tuning constant
+      n += 0.00234;     //misc tuning constant - make merge sort come in slower on small list
+      n *= (1.05 - Math.random() / 10); //+- 5% variability
+      var places = 5 - Math.floor(getBaseLog(n, 10));
+      if (places < 0) places = 0;
+      nlognTimer = setTimeout(function () {
+        nlognTimer = null;
+        document.getElementById('mergeSorting').textContent = (n / 1000.0).toFixed(places) + " seconds";
+        document.getElementById('goNLogNButton').disabled = false;
+      }, n);
+    }
+
+    function changeSize() {
+      var n = parseInt(document.getElementById('probSizeRange').value, 10);
+      document.getElementById('probSizeText').value = addCommas(Math.pow(10, n));
+    }
+
+    // Track timers and start times for halting
+    let nsqTimer = null;
+    let nlognTimer = null;
+    let nsqStartMs = 0;
+    let nlognStartMs = 0;
+
+    function haltRunningSorts() {
+      const now = Date.now();
+      // Insertion sort halt
+      if (nsqTimer) {
+        clearTimeout(nsqTimer);
+        nsqTimer = null;
+        const elapsedMs = now - nsqStartMs;
+        let places = 5 - Math.floor(getBaseLog(elapsedMs, 10));
+        if (places < 0) places = 0;
+        document.getElementById('insertSorting').textContent = `Halted: ${(elapsedMs / 1000.0).toFixed(places)} seconds`;
+        document.getElementById('goNSqButton').disabled = false;
+      }
+      // Merge sort halt
+      if (nlognTimer) {
+        clearTimeout(nlognTimer);
+        nlognTimer = null;
+        const elapsedMs = now - nlognStartMs;
+        let places = 5 - Math.floor(getBaseLog(elapsedMs, 10));
+        if (places < 0) places = 0;
+        document.getElementById('mergeSorting').textContent = `Halted: ${(elapsedMs / 1000.0).toFixed(places)} seconds`;
+        document.getElementById('goNLogNButton').disabled = false;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // initialize size display
+      changeSize();
+      const range = document.getElementById('probSizeRange');
+      range.addEventListener('input', changeSize);
+      range.addEventListener('change', changeSize);
+
+      document.getElementById('goNSqButton').addEventListener('click', () => {
+        var temp = document.getElementById('probSizeText').value.split(',').join('');
+        var n = parseInt(temp, 10);
+        document.getElementById('insertSorting').innerHTML = "Sorting... <img src='working.gif'>";
+        document.getElementById('goNSqButton').disabled = true;
+        nsqStartMs = Date.now();
+        simulateNSqWork(n);
+      });
+
+      document.getElementById('goNLogNButton').addEventListener('click', () => {
+        var temp = document.getElementById('probSizeText').value.split(',').join('');
+        var n = parseInt(temp, 10);
+        document.getElementById('mergeSorting').innerHTML = "Sorting... <img src='working.gif'>";
+        document.getElementById('goNLogNButton').disabled = true;
+        nlognStartMs = Date.now();
+        simulateNLogNWork(n);
+      });
+
+      document.getElementById('haltButton').addEventListener('click', haltRunningSorts);
+    });
+  </script>
+</body>
+
+</html>

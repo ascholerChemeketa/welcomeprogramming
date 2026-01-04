@@ -1,0 +1,166 @@
+<section xml:id="search-sort_insertion-sort"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Insertion Sort</title>
+
+  <p>In <idx>insertion sort</idx>, we approach the problem of sorting a list by inserting one new item at a time into the sorted portion of the list.</p>
+
+  <p>Insertion sort also does <m>n - 1</m> <em>passes</em> to sort <em>n</em> items.
+    It starts by assuming that the first item is already sorted. On each pass, it takes the next
+    unsorted item and inserts it into the correct position within the sorted portion of the list by
+    swapping it leftward until it is in the correct location.</p>
+    
+  <activity xml:id="search-sort_insertion-sort-activity">
+    <title>Insertion Sort Demonstration</title>
+
+    <interactive width="125%"
+                 aspect="7:4.3"
+                 iframe="interactives/insertion-sort/index.html"
+                 label="search-sort_insertion-sort_insertion-sort-interactive">
+    </interactive>
+  </activity>
+
+
+  <listing>
+  <program label="search-sort_vector-helpers-h" xml:id="search-sort_vector-helpers-h"
+           filename="vector-helpers.h"
+           line-numbers="yes">
+    <code>
+<xi:include href="../../programs/search-sort/vector-helpers.h" parse="text"/>
+    </code>
+  </program>
+  </listing>
+
+  <p>Note that sometimes, the current value being inserted does not need to travel far. Other times, it may need to travel all the way to the front of the list. No matter how far it travels, it always does so by swapping leftward one position at a time.</p>
+
+  <p>Implemented to sort a vector in C++, it looks like this:</p>
+
+  <listing>
+  <program label="search-sort_insertion-sort" interactive="activecode"
+           line-numbers="yes" 
+           add-files="search-sort_vector-helpers-h">
+    <code>
+<xi:include href="../../programs/search-sort/insertion-sort.cpp" parse="text"/>
+    </code>
+  </program>
+  </listing>
+
+  <p>Some key details to notice:
+    <ul>
+      <li>The outer loop counts from 1 to n-1, representing the index of the element being inserted.</li>
+      <li><pf>j</pf> in the inner loop represents where the item currently is. It starts at i and moves leftward.</li>
+      <li>There are two conditions that might end the inner loop: 1) the item to the left of index <pf>j</pf> (<pf>j - 1</pf>) is less than or equal to the current value; or 2) <pf>j</pf> reaches 0.</li>
+    </ul>
+  </p>
+
+
+  <p>As with selection sort, we could do variations of this recipe: <ul>
+      <li>
+        <p>We could start at the end of the list and work our way backwards through the list, to build the sorted portion from the end rather than the beginning.</p>
+      </li>
+      <li>
+        <p>We could sort in descending order rather than ascending order by changing the comparison in the inner loop from <pf>&lt;</pf> to <pf>&gt;</pf>.
+        </p>
+      </li>
+    </ul>
+  </p>
+
+  <p>
+    The worst case for insetion sort occurs when the list starts in reverse order. In that case, each item being inserted must travel all the way from its current position to index 0. In that case, the first item requires 1 comparison and swap, the second item requires 2 comparisons and swaps, and so on, up to <m>n - 1</m> comparisons and swaps for the last item. The total number of comparisons and swaps in the worst case is therefore:
+    <md>(n - 1) + (n - 2) + ... + 2 + 1</md>
+  </p>
+
+  <p>As with selection sort, that pattern can be simplified to <m>O(n^2)</m>. Thus, insertion sort has a time complexity of <m>O(n^2)</m> in the worst case.</p>
+  
+  <p>However, if the list is already sorted, insertion sort is much more efficient. In that case, each item being inserted only requires one comparison (to see that it is already in the correct position) and no swaps. Thus, in the best case (an already sorted list), insertion sort does <m>O(n)</m> work.</p>
+  <p>You can see the <term>adaptive</term> behavior in the demonstration above. Use the <em>Rest (Mostly Sorted)</em> button to force the list into a mostly sorted state where just two items are out of order. The algorithm will not require many total steps to complete in this case.</p>
+
+  <p>Insertion sort is a stable algorithm as long as we use <pf>&lt;</pf> to compare elements. That way, if elements are <q>equal</q>, the item on the right will not insert itself past the item on the left. Consider the list <c>{B(1), B(2), A}</c>.
+  When <c>B(2)</c> compares itself to <c>B(1)</c>, it will not swap leftward since it is not less than <c>B(1)</c>, preserving the relative order of the two B's.</p>
+
+  <conclusion>
+    <p>In the worst case (general case), insertion sort has a time complexity of <m>O(n^2)</m>.</p>
+    <p>Insertion sort is <term>adaptive</term>. It only involves <m>O(n)</m> work when the list is already sorted. (If a fixed number of items are out of order, it still does <m>O(n)</m> work.)</p>
+    <p>Insertion sort is stable.</p>
+  </conclusion>
+  
+  <exercise label="search-sort_insertion-sort-ex-1">
+    <statement>
+      <p>We are doing an insertion sort on the vector <pf>A, D, F, C, B</pf>. We are about to start the pass to insert <c>C</c>. Put the blocks in the correct order to show the state after that pass completes</p>
+    </statement>
+    <blocks layout="horizontal">
+      <block><c>A</c></block>
+      <block><c>C</c></block>
+      <block><c>D</c></block>
+      <block><c>F</c></block>
+      <block><c>B</c></block>
+    </blocks>
+  </exercise>
+
+  <exercise label="search-sort_insertion-sort-ex-2">
+    <statement>
+      <p>We do an insertion sort on the vector <pf>3, 2, 5, 4, 1</pf>. Arrange the blocks below to show the state of the vector after each pass of the algorithm.</p>
+      <p>Note that you may use the same block twice in a row if the current pass does not change the vector.</p>
+      <p>You will not use all of the blocks.</p>
+    </statement>
+    <blocks>
+      <block><cline>2, 3, 5, 4, 1</cline></block>
+      <block><cline>2, 3, 5, 4, 1</cline></block>
+      <block><cline>2, 3, 4, 5, 1</cline></block>
+      <block><cline>1, 2, 3, 4, 5</cline></block>
+      <block correct="no"><cline>1, 3, 2, 5, 4</cline></block>
+    </blocks>
+  </exercise>
+
+
+  <exercise label="search-sort_insertion-sort-ex-3">
+  <statement>
+    <p>Suppose you have the following vector of numbers to sort: [11, 7, 14, 12, 1, 19, 6, 18, 8,
+      20] which vector represents the partially sorted vector after three steps of
+      insertion sort?</p>
+  </statement>
+  <choices>
+
+    <choice>
+      <statement>
+        <p>
+          [1, 6, 7, 11, 14, 12, 1, 19, 18, 8, 20]
+        </p>
+      </statement>
+      <feedback>
+        <p>Insertion sort does not insert the smallest value. It inserts the next item in the unsorted portion of the list into the sorted portion.</p>
+      </feedback>
+    </choice>
+
+    <choice>
+      <statement>
+        <p>
+          [1, 7, 11, 12, 14, 19, 6, 18, 8, 20]
+        </p>
+      </statement>
+      <feedback>
+        <p>That went too far. The items that were at indexes 1-3 should have been inserted. Index 4 should not have been inserted yet.</p>
+      </feedback>
+    </choice>
+
+    <choice>
+      <statement>
+        <p>
+          [7, 11, 14, 12, 1, 19, 6, 18, 8, 20]
+        </p>
+      </statement>
+      <feedback>
+        <p>Three passes should result in the first four items being sorted. Three items were inserted and we started with one item sorted.</p>
+      </feedback>
+    </choice>
+
+    <choice correct="yes">
+      <statement>
+        <p>
+          [7, 11, 12, 14, 1, 19, 6, 18, 8, 20]
+        </p>
+      </statement>
+    </choice>
+  </choices>
+  </exercise>
+  
+</section>

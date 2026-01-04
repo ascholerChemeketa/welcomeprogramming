@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<section xml:id="search-sort_binary-search-recursive"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Recursive Searches</title>
+
+  <introduction>
+    <p>Any algorithm that involves iteration can be written recursively. The key as always with
+      recursion is to: <ul>
+        <li>Identify the base case(s) that will stop the recursion.</li>
+        <li>Identify how to do <q>one step</q> in the general case that moves the recursion closer
+      to the base case.</li>
+        <li>Decide what parameters the recursive function needs to keep track of the current state.</li>
+      </ul></p>
+  </introduction>
+
+  <subsection>
+    <title>Linear Search Recursively</title>
+
+    <p>To implement a linear search recursively we can look at the first element of the list. If it
+      is the key, return its index. If not, recursively search the rest of the items. To do this
+      job, we need to know the list, the key we are looking for, and the current index we are
+      checking. <ul>
+        <li>Base cases: reach the end of the list or find the key.</li>
+        <li>One step: if the current index is not the key, recursively move to the next index.</li>
+        <li>Parameters: the list, the key, and the current index.</li>
+      </ul>
+    </p>
+
+    <listing>
+      <program label="search-sort_binary-search-recursive_linear-search-recursive"
+               line-numbers="yes">
+      <code>
+<xi:include href="../../programs/search-sort/linear-search-recursive.cpp" parse="text"/>
+      </code>
+      </program>
+    </listing>
+
+    <p>Lines 2 and 5 are the two base cases: either we have found the key at the current index, or
+      we have checked all indexes without finding it. If neither base case is met, we recursively
+      move on to the next index in line 10.</p>
+
+    <p>Note that the <pf>currentIndex</pf> parameter has a default value of 0. So we can make a call to the
+      function without specifying that parameter to start searching from the beginning of the list.</p>
+
+    <note>
+      <p> Another way to implement the recursive linear search is to reduce the size of the list
+        being searched with each recursive call. Check the first item of the list, and if it is not
+        the key, make a recursive call with a sublist that excludes the first item. For example, if
+        we started with the list <pf>{10, 20, 30, 40, 50}</pf> and did not find what we were looking for at index 0, we
+        would make a recursive call with the list <pf>{20, 30, 40, 50}</pf>. </p>
+      <p> Making new lists is much less efficient than just keeping track of the current index. If
+        we start with a list of <m>n</m> items using that approach, we would create a list of size <m>
+        n-1</m> for the first recursive call, then a list of size <m>n-2</m> for the next call, and
+        so on down to size 1. The total amount of work creating all those lists would be
+        proportional to <m>n^2</m>. Which is significantly more work than the work we want to do
+        with the search itself, which is proportional to <m>n</m>. </p>
+    </note>
+
+  </subsection>
+  <subsection>
+    <title>Binary Search Recursively</title>
+
+    <p>Although any iteration can be turned into recursion, some algorithms are more naturally
+      expressed recursively than others. Binary search is an algorithm that has a very natural
+      recursive structure. How do you do binary search on a list of items? You check the middle item
+      and if it is not what you are looking for, you do binary search on either the lower half or
+      the upper half of the list.</p>
+
+    <listing>
+      <program label="search-sort_binary-search_binary-search-recursive"
+               interactive="activecode"
+               line-numbers="yes"
+               highlight-lines="5-21">
+    <code>
+<xi:include href="../../programs/search-sort/binary-search-recursive.cpp" parse="text"/>
+    </code>
+    <stdin>37</stdin>
+  </program>
+    </listing>
+
+    <p>Again, there are two base cases that can end the recursion. But, there are also two recursive
+      cases. Either we can recursively search the bottom half of the remaining items, or we can
+      recursively search the top half.</p>
+
+    <p>For this function, we use a non-recursive <q>wrapper</q> function to kickstart the recursion.
+      When <pf>main</pf> calls <pf>binarySearch(numbers, key)</pf>, that function calls the recursive function with indexes 0 and
+      size - 1. We could skip that helper by having main pass those indexes directly to the
+      recursive function. But having the wrapper function makes it easier to use.</p>
+
+  </subsection>
+
+  <exercise label="search-sort_binary-search-recursive-ex-1">
+    <statement>
+      <p>We have a vector <pf>numbers</pf> with the values <pf>6, 10, 17, 21, 26, 30, 37, 40, 49, 54</pf>.</p>
+
+      <figure>
+        <caption>The numbers vector.</caption>
+        <image source="images/search-vector.svg"
+               width="50%">
+          <shortdescription>A vector containing 6, 10, 17, 21, 26, 30, 37, 40, 49, 54.</shortdescription>
+        </image>
+      </figure>
+
+      <p>We make a call to do a binary search for the value 37. Build the call stack that will be
+        created by the recursive calls.</p>
+      <p>The top function call should be the non-recursive wrapper function. The bottom function
+        call should be the recursive call that finds the value 37.</p>
+      <p>You will not use all of the blocks.</p>
+    </statement>
+    <blocks>
+      <block><cline>binarySearch(numbers, 37)</cline></block>
+      <block><cline>binarySearchRecursive(numbers, 37, 0, 9)</cline></block>
+      <block correct="no"><cline>binarySearchRecursive(numbers, 37, 1, 9)</cline></block>
+      <block><cline>binarySearchRecursive(numbers, 37, 5, 9)</cline></block>
+      <block correct="no"><cline>binarySearchRecursive(numbers, 37, 0, 4)</cline></block>
+      <block><cline>binarySearchRecursive(numbers, 37, 5, 6)</cline></block>
+      <block correct="no"><cline>binarySearchRecursive(numbers, 37, 8, 9)</cline></block>
+      <block><cline>binarySearchRecursive(numbers, 37, 6, 6)</cline></block>
+    </blocks>
+    <hint>
+      <p>This is the same vector used in <xref ref="search-sort_binary-search-activity"/>. You can
+        use that activity as a reference.</p>
+    </hint>
+  </exercise>
+
+
+  <exercise label="search-sort_binary-search-recursive-ex-2">
+    <statement>
+      <p>Suppose you have the following sorted list {3, 5, 6, 8, 11, 12, 14, 15, 17, 18} and are
+        using the recursive binary search algorithm. Which group of numbers correctly shows the
+        sequence of comparisons used to search for the key 16?</p>
+    </statement>
+    <choices>
+
+      <choice>
+        <statement>
+          <p>12, 15, 17</p>
+        </statement>
+        <feedback>
+          <p>The size is 9. When you divide that by 2, you get 4.5, which rounds down to 4. That is the first index to check.</p>
+        </feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <p>11, 14, 17</p>
+        </statement>
+        <feedback>
+          <p>In the second step, your range should include {12, 14, 15, 17, 18}. What is the middle of that range?</p>
+        </feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <p>12, 15, 17</p>
+        </statement>
+        <feedback>
+          <p>The size is 9. When you divide that by 2, you get 4.5, which rounds down to 4. That is the first index to check.</p>
+        </feedback>
+      </choice>
+
+      <choice correct="yes">
+        <statement>
+          <p>11, 15, 17</p>
+        </statement>
+        <feedback>
+          <p>Binary search starts at the midpoint and halves the list each time. It is done when the
+            start index is greater than the end index.</p>
+        </feedback>
+      </choice>
+    </choices>
+
+  </exercise>
+
+
+</section>

@@ -1,0 +1,203 @@
+<section xml:id="search-sort_merge-sort-efficiency">
+  <title>Merge Sort Efficiency</title>
+
+  <introduction>
+    <p>Now that we understand how Merge Sort works, let us analyze its efficiency. We will first do
+      so informally and then more formally using recurrence relations.</p>
+    <p>For both versions, we will analyze the abstract version of the code that looks like this:</p>
+    <pre>
+      mergesort(list)
+        split list into leftHalf and rightHalf
+        mergesort(leftHalf)
+        mergesort(rightHalf)
+        list = merge(leftHalf, rightHalf)
+    </pre>
+    <p>That level of abstraction will help us focus on the key operations that determine the
+      efficiency of merge sort.</p>
+
+    <p>We have already established that merging <term>n</term> items takes <m>O(n)</m> work. In
+      other words, merging 5 items takes ~5 units of work, merging 20 items, takes ~20 units of
+      work, etc<ellipsis/>
+    </p>
+
+    <p>Splitting a list using the algorithm we have developed takes <m>O(1)</m> work since it just
+      involves doing some simple arithmetic to find the midpoint. A version of the algorithm that
+      actually created two new lists would take more work - likely <m>O(n)</m>. Which it is won't
+      change our overall analysis.</p>
+
+  </introduction>
+  <subsection>
+    <title>Informal Analysis</title>
+
+    <p>To understand how much work merge sort does, we can do a rough analysis of how long it takes
+      to do a merge sort on a list of length 1024. Since our list is 1024 items, we will think of <m>
+      O(n)</m> as representing ~1024 units of work.</p>
+    <p>All the hard work takes place as we merge the lists back together:</p>
+    <p>
+      <ul>
+        <li>
+          <p>The first merge for a list of 1024 things would be to merge 1024 single items into 512
+            lists of length two. Each merge would take ~2 units of work since there are two items in
+            the new lists. 512 lists times 2 units of work = ~1024 units of work.</p>
+        </li>
+        <li>
+          <p>The next level would be to merge those 512 lists of size 2 into 256 lists of size 4.
+            Each merge in that level would take ~4 units of work. 256 lists times 4 units of work =
+            1024 units of work again.</p>
+        </li>
+      </ul>
+    </p>
+    <p>The table below shows this and the pattern for the rest of the level:</p>
+
+    <tabular halign="center">
+      <row header="yes">
+        <cell>Level</cell>
+        <cell>Description</cell>
+        <cell>Number of Lists</cell>
+        <cell>Size of Each List</cell>
+        <cell>Amount of Work</cell>
+      </row>
+      <row>
+        <cell>1</cell>
+        <cell>
+          <line>Merge 1024 lists of size 1</line>
+          <line> into 512 lists of size 2</line>
+        </cell>
+        <cell>512</cell>
+        <cell>2</cell>
+        <cell>512 <times/> 2 = <em>1024</em></cell>
+      </row>
+      <row>
+        <cell>2</cell>
+        <cell>
+          <line>Merge 512 lists of size 2</line>
+          <line> into 256 lists of size 4</line>
+        </cell>
+        <cell>256</cell>
+        <cell>4</cell>
+        <cell>256 <times/> 4 = <em>1024</em></cell>
+      </row>
+      <row>
+        <cell>3</cell>
+        <cell>
+          <line>Merge 256 lists of size 4</line>
+          <line> into 128 lists of size 8</line>
+        </cell>
+        <cell>128</cell>
+        <cell>8</cell>
+        <cell>128 <times/> 8 = <em>1024</em></cell>
+      </row>
+      <row>
+        <cell>
+          <ellipsis/>
+        </cell>
+        <cell>
+          <ellipsis/>
+        </cell>
+        <cell>
+          <ellipsis/>
+        </cell>
+        <cell>
+          <ellipsis/>
+        </cell>
+        <cell>
+          <ellipsis/>
+        </cell>
+      </row>
+      <row>
+        <cell>???</cell>
+        <cell>
+          <line>Merge 2 lists of size 512</line>
+          <line> into 1 lists of size 1024</line>
+        </cell>
+        <cell>1</cell>
+        <cell>1024</cell>
+        <cell>1 <times/> 1024 = <em>1024</em></cell>
+      </row>
+    </tabular>
+
+    <p>Note that at each level the work is ~1024 units of time - exactly the number of items in the
+      full list. Thus we can say each level takes <m>O(n)</m> work.</p>
+    <p>The only other thing we need to figure out is <q>How many levels are required?</q> The table
+      above skips a few steps in the middle. We could go back and add them in - starting with 1024
+      items the levels would look like this:</p>
+    <console>
+    <output>
+1024 → 512 → 256 → 128 → 64 → 32 → 16 → 8 → 4 → 2 → 1
+</output>
+  </console>
+
+    <p>The length of that sequence - dividing by 2 repeatedly until we reach 1 - can be determined
+      by the mathematical function <m>log_2(n)</m>. <m>log_2(1024) = 10</m>.</p>
+
+    <p>So we can use <m>log_2(n)</m> to calculate the number of levels of merges required in a merge
+      sort of <m>n</m> items. For example, if we do merge sort on a list with 100,000 items, it will
+      take <m>log_2(100,000) = 16.61</m> levels. Since we can’t do 16.61 merges levels, we would
+      call that 17.</p>
+
+    <p>We can use that idea to develop a general formula for the total work in merge sort:</p>
+    <p>
+      <md>
+        <mrow>\textrm{total work} = \textrm{work per level} \cdot \textrm{number of levels}</mrow>
+      </md>
+    </p>
+    <p>We know that sorting <em>n</em> items will require <m>log_2(n)</m> levels and each level
+      will take <m>n</m> work:</p>
+    <p>
+      <md>
+        <mrow>\textrm{total work} = n \cdot log_2(n) </mrow>
+      </md>
+    </p>
+    <p>Or:</p>
+    <p>
+      <md>
+        <mrow>\textrm{total work} = n \cdot log_2(n)</mrow>
+      </md>
+    </p>
+    <p>Thus we conclude merge sort requires <m>O(n \cdot log_2(n))</m> work to sort a list of size <term>n</term>.</p>
+  </subsection>
+  <subsection>
+    <title>Formal Analysis Using Recurrence Relations</title>
+
+    <p>We can also analyze merge sort more formally using recurrence relations. We start by
+      defining <m>T(n)</m> as the amount of work required to sort a list of size <m>n</m> using
+      merge sort. We can than analyze the steps of merge sort and use <m>T(n/2)</m> for the time it
+      takes to sort a list of size <m>n/2</m>:</p>
+
+    <pre>
+      mergesort(list)                                  //T(n)
+        split list into leftHalf and rightHalf         //   O(1) or O(n)
+        mergesort(leftHalf)                            //   T(n/2)
+        mergesort(rightHalf)                           //   T(n/2)
+        list = merge(leftHalf, rightHalf)              //   O(n)
+    </pre>
+
+    <p>To do a merge sort on a list of size <m>n</m>, we first split the list into two halves of
+      size <m>n/2</m>. This takes <m>O(1)</m> or <m>O(n)</m> work. 
+      We then do a merge sort on each half. Each of those recursive calls is on a list of size <m>n/2</m> and
+      will therefore take <m>T(n/2)</m> work. Finally, we merge the two sorted halves back together,
+      which takes <m>O(n)</m> work. Putting that all together, we can express <m>T(n)</m> as:</p>
+
+    <p>
+      <md>
+        <mrow>T(n) = 2 \cdot T(n/2) + O(n) + O(1)</mrow>
+      </md>
+      or
+      <md>
+        <mrow>T(n) = 2 \cdot T(n/2) + c_1 \cdot n + c_2</mrow>
+      </md>
+      where <m>c_1</m> and <m>c_2</m> are some constants.
+    </p>
+
+    <p>Note that it does not matter whether we assume the split is done in constant time or linear time. Nor does it matter if we add in other constant or linear terms (like the <q>if size is 1, return</q> check). We will still end up with the same recurrence relation.</p>
+
+    <p>This recurrence relation solves to <m>T(n) = O(n \cdot \log n)</m>.</p>
+    </subsection>
+
+    <conclusion>
+      <p>Merge sort has a time complexity of <m>O(n \cdot log_2(n))</m>.</p>
+      <p>It has a space complexity of <m>O(n)</m> due to the additional space required for the temporary array used during the merge process.</p>
+      <p>Merge sort is a stable sorting algorithm.</p>
+    </conclusion>
+
+</section>
