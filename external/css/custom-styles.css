@@ -67,3 +67,27 @@ section.exercises #scprogresscontainer{
     background-color: #fbf6f4;
   }
 }
+
+
+/* TEMPORARY CENTERING FOR INTERACTIVES  */
+@container ptx-main (width > 821px) {
+    :is(.timedAssessment,.theorem-like,.definition-like,.example-like,.exercise-like,.project-like,.remark-like,.openproblem-like,.openproblems-like,.computation-like,.knowl__content):has(.wide-iframe) {
+        --max-width: min((100cqw - 2 * 48px), 10000px);
+        min-width: 100%;
+        clear: right;
+        width: var(--max-width);
+        max-width: var(--max-width);
+        margin-left: calc(-.5 * (100cqw - 821px));
+    }
+}
+
+
+/* TEMPORARY SPACING FIXES FOR RUNESTONE ELEMENTS */
+@layer spacing {
+  .runestone :is(.exercise-statement, .exercise-content) > *:not(:first-child) {
+    margin-top: 1em;
+  }
+  .ptx-runestone-container + .solutions {
+    margin-top: 0.5em;
+  }
+}
