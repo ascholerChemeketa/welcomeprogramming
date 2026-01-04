@@ -1,0 +1,466 @@
+<section xml:id="big-o_big-o"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Big-O</title>
+
+  <subsection>
+    <title>What is Big-O?</title>
+    <p>As we saw on the last page, the exact way in which we count units of work in an algorithm is
+      not as important as the degree to which the algorithm depends on the size of its input. An
+      algorithm that always involves the same amount of work is more efficient than one where the
+      work grows as a function of the input size.</p>
+
+    <p>This is the essence of <term>Big-O</term> analysis. It is a technique to describe how the
+      work required by an algorithm grows as the size of the input increases. The key thing to
+      identify is not an exact function that describes the work like <m>f(n) = 2n + 3</m>, but
+      rather the <term> class</term> of function that describes the growth rate. <idx>
+        <h>function</h>
+        <h>class</h>
+      </idx></p>
+
+    <p>A function's class, or <term>order</term> (hence the <term>O</term> in Big-O), is determined by its dominant term - the part of the function that grows
+      the fastest as the input size increases. For example, in the function <m>f(n) = 2n^2 + 3n + 6</m>,
+      the dominant term is <m>2n^2</m> because as <m>n</m> gets very large, <m>2n^2</m> will grow
+      much faster than either <m>3n</m> or <m>6</m>. Thus, we say that this function is in the class
+      of <term>quadratic</term> functions.</p>
+
+    <p>An algorithm like DrawSquare is called a <term>constant</term> algorithm because the amount
+      of work it requires does not change with the size of the input. The function to describe the
+      work looks like <m>f(n) = c</m>, where <m>c</m> is a constant. What that constant is does not
+      matter for Big-O analysis. An algorithm that's work is always <term>constant</term> is said to
+      be <m> O(1)</m> (usually pronounced <q>big-oh of one</q>).</p>
+
+    <p>An algorithm like DrawShape is called a <term>linear</term> algorithm because the amount of
+      work it requires grows in direct proportion to the size of the input (a linear function). The
+      function to describe the work looks like <m>f(n) = kn + c</m>, where <m>k</m> and <m>c</m> are
+      constants. Again, what those constants are does not matter when doing Big-O analysis. <m>f(n)
+      = 3n + 6</m> or <m>f(n) = 5n + 2</m> are both linear functions and would both be described as <m>
+      O(n)</m> in Big-O notation. (Which would be pronounced <q>big-oh of n</q>.)</p>
+
+    <p>Saying an algorithm is <m>O(n)</m> is just a short way of saying that <q>if you analyze the
+      work <m>f(n)</m> done by the algorithm for a problem size of <m>n</m>, you will find that the <m>
+      f(n)</m>'s dominant term is <m>kn</m> where <m>k</m> is a constant.</q>
+    </p>
+
+    <insight>
+      <p>The <m>\_</m> in <m>O(\_)</m> always represents the dominant, or fastest-growing, term in
+        the function that describes the work required by an algorithm for an input of size n.</p>
+    </insight>
+
+    <p>For instance, say that we discover that the function <m>f(n)</m> that estimates the work for
+      a particular algorithm is <m>2n + 3</m>. In that expression,<m>2n</m> is the dominant term, so
+      we say that the algorithm is <term>linear</term> or that it has a Big-O of <m>O(n)</m>.</p>
+
+    <p>The function that estimates work for another algorithm might be <m>f(n) = n^2 - 2n + 1</m>.
+      In that expression,<m>n^2</m> is the dominant term. A function where <m>n^2</m> is the
+      dominant term is called quadratic, so we say that the algorithm is <term>quadratic</term> or
+      that it has a Big-O of <m>O(n^2)</m>.</p>
+
+    <p>For now, we will only see the following Big-O categories. They are listed in order of slowest
+      growing to fastest growing.</p>
+
+    <table>
+      <title>Some Big-O Categories</title>
+      <tabular bottom="minor">
+        <col width="20%"/>
+        <col width="20%"/>
+        <col width="60%"/>
+        <row header="yes"
+             bottom="major">
+          <cell>
+            <term>Big-O Category</term>
+          </cell>
+          <cell>
+            <term>Name</term>
+          </cell>
+          <cell>
+            <term>Description</term>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <m>O(1)</m>
+          </cell>
+          <cell> Constant </cell>
+          <cell>
+            <p>The algorithm does the same amount of work regardless of the input size.</p>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <m>O(\log n)</m>
+          </cell>
+          <cell> Logarithmic </cell>
+          <cell>
+            <p><m>log(n)</m> is the dominant term in the function describing the work required by
+              the algorithm.</p>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <m>O(n)</m>
+          </cell>
+          <cell> Linear </cell>
+          <cell>
+            <p><m>n</m> is the dominant term in the function describing the work required by the
+              algorithm.</p>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <m>O(n\log n)</m>
+          </cell>
+          <cell> Log Linear </cell>
+          <cell>
+            <p><m>n \log n</m> (n times log n) is the dominant term in the function describing the
+              work required by the algorithm.</p>
+          </cell>
+        </row>
+        <row>
+          <cell>
+            <m>O(n^{2})</m>
+          </cell>
+          <cell> Quadratic </cell>
+          <cell>
+            <p><m>n^{2}</m> is the dominant term in the function describing the work required by the
+              algorithm.</p>
+          </cell>
+        </row>
+      </tabular>
+    </table>
+
+    <p>
+      Note that the base of the logarithm is not important in Big-O notation because logarithms with different bases differ only by a constant factor. For example, you can convert log base 2 to log base 10 by multiplying by approximately 3.32 (<m>~3.32 \log_{2} n = \log_{10} n</m>). And in Big O, we don't care about constant factors. That said, most of the time in computer science, when we say
+      <m>\log n</m>, we mean <m>\log_2 n</m> (log base 2). But <m>\log_{10} n</m> (log base 10) would be The Big-O category.
+    </p>
+
+    <note>
+      <p>When you see <m>\log n</m> you should understand it as <m>\log_2 n</m> (log base 2) unless otherwise specified.</p>
+    </note>
+
+    <!-- TODO (low priority) new graphs with prefigure or plotly -->
+
+    <figure xml:id="big-o_common-big-os-figure">
+      <caption>Visual Comparison of Big-O Categories. The Big-O category determines how the work, <m>
+        f(n)</m> relates to the input size <m>n</m>.</caption>
+      <image source="images/big-o/CommonBigOs.svg">
+        <shortdescription> A graph showing common Big-O categories. The x-axis is labeled "Input
+          Size (n)" and the y-axis is labeled "Number of Operations". The graph shows five curves:
+          Constant O(1) is a horizontal line, Logarithmic O(log n) increases slowly, Linear O(n) is
+          a straight diagonal line, Log Linear O(n log n) curves upward more steeply, and Quadratic
+          O(n^2) curves upward steeply. </shortdescription>
+      </image>
+    </figure>
+
+    <note>
+      <title>Technical Note</title>
+      <p>Big-O notation technically describes an upper bound on the growth rate of a function. So
+        when we say that an algorithm is <m>O(n)</m>, we are saying that its work grows no faster
+        than a linear function. By that definition, an algorithm that is <m>O(n)</m> could also be <m>O(n^2)</m> or <m>O(2^n)</m>, since those are upper bounds as well.</p>
+      <p>In algorithmic analysis, Big Theta (<m>\Theta</m>) notation is used to describe a tight bound. That is to say a class of function that could describe both an upper and lower bound.</p>
+      <p>However, in practice, when people say that an algorithm is <m>O(n)</m>, they generally mean the 
+        tighter bound. Outside the context of deep mathematical analysis, you should assume Big O means
+        the dominant term or a tightest upper bound.</p>
+    </note>
+
+  </subsection>
+
+  <subsection>
+    <title>Big-O, Constants, and Limitations</title>
+
+    <p>A key thing to note in <xref ref="big-o_common-big-os-figure"/>: The Big-O category of a
+      function does not tell us about how efficient at small values of <m>n</m>. Look at the graph
+      close to <m>n = 0</m>. At small values of <m>n</m> (less than 1), <m>f(n) = n</m> are less
+      than <m>f(n) = n^2</m> even though we consider <m>O(n^2)</m> to be less efficient than <m>O(n)</m>
+      .</p>
+
+    <p>At that scale, it also would not be true that the constants and non-dominant terms do not
+      matter. Consider this table of values for <m>f(n) = 20n + 1000</m> and <m>f(n) = n^2 + 1</m>:</p>
+
+    <tabular halign="center">
+      <col header="yes"
+           halign="right"/>
+      <col></col>
+      <col></col>
+      <row header="yes">
+        <cell> n </cell>
+        <cell>1</cell>
+        <cell>10</cell>
+        <cell>20</cell>
+        <cell>30</cell>
+        <cell>40</cell>
+        <cell>50</cell>
+        <cell>100</cell>
+      </row>
+      <row>
+        <cell>
+          <term>
+            <m>f(n) = 20n + 1000</m>
+          </term>
+        </cell>
+        <cell>1020</cell>
+        <cell>1200</cell>
+        <cell>1400</cell>
+        <cell>1600</cell>
+        <cell>1800</cell>
+        <cell>2000</cell>
+        <cell>3000</cell>
+      </row>
+      <row>
+        <cell>
+          <term>
+            <m>f(n) = n^2 + 1</m>
+          </term>
+        </cell>
+        <cell>2</cell>
+        <cell>101</cell>
+        <cell>401</cell>
+        <cell>901</cell>
+        <cell>1601</cell>
+        <cell>2501</cell>
+        <cell>10001</cell>
+      </row>
+    </tabular>
+
+    <p>For values less then ~50, the linear function <m>20n + 1000</m> actually produces larger
+      values than the quadratic function <m>n^2 + 1</m>. It is only after that point that the
+      quadratic function becomes larger.</p>
+
+    <p>For these reasons, we should only use Big-O to consider the efficiency of functions for large
+      input sizes (values of <m>n</m>). And, if the constant factors are extraordinarily large, we
+      may have to take the Big-O notation with a grain of salt. For example, when comparing <m>1000n</m> to
+    <m>2n \log n</m>, Big-O tells us that the former is more efficient. <m>n</m> grows more slowly than <m>n \log n</m>. However, in practice, it will take an extraordinarily large value of <m>n</m> for <m>2n \log n</m> to become larger than <m>1000n</m>.</p>
+
+    <insight>
+      <p>Big-O focuses on the relative performance of functions as the input size grows large.</p>
+      <p>It does not tell us much about their performance for small input sizes. It also tells us
+        nothing about the relative performance of algorithms in the same Big-O category.</p>
+    </insight>
+
+  </subsection>
+
+
+  <exercise label="big-o_big-o-ex-1">
+    <statement>
+      <p>If the amount of work for a job of size <m>n</m> is estimated by <m>f(n)=2n+3n^{2}-1</m>
+        what is the Big O?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>O(<m>2n</m>)</p>
+        </statement>
+        <feedback>
+          <p>No, <m>3n^{2}</m> dominates <m>2n</m>. Try again.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>O(<m>n</m>)</p>
+        </statement>
+        <feedback>
+          <p>No, <m>n^{2}</m> dominates <m>n</m>. Try again.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>O(<m>3n^{2}</m>)</p>
+        </statement>
+        <feedback>
+          <p>No, the 3 should be omitted because we don't care about constants in Big-O notation.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>O(<m>n^{2}</m>)</p>
+        </statement>
+        <feedback>
+          <p>Right!</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>More than one of the above</p>
+        </statement>
+        <feedback>
+          <p>No, only one of them is correct. Try again.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="big-o_big-o-ex-1b">
+    <statement>
+      <p>If the amount of work for a job of size <m>n</m> is estimated by <m>f(n)=2n+5\log n</m>
+        what is the Big O?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>O(<m>\log n</m>)</p>
+        </statement>
+        <feedback>
+          <p>No, <m>2n</m> dominates <m>\log n</m>. Try again.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>O(<m>n \log n</m>)</p>
+        </statement>
+        <feedback>
+          <p>No, <m>n \log n</m> means <q>n times log n</q>. Here the <m>\log n</m> term is separate
+            from the <m>n</m> term.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>O(<m>2n</m>)</p>
+        </statement>
+        <feedback>
+          <p>No, the 2 should be omitted because we don't care about constants in Big-O notation.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>O(<m>n</m>)</p>
+        </statement>
+        <feedback>
+          <p>Right!</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>More than one of the above</p>
+        </statement>
+        <feedback>
+          <p>No, only one of them is correct. Try again.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="big-o_big-o-ex-1c">
+    <statement>
+      <p>If the amount of work for a job of size <m>n</m> is estimated by <m>f(n)=\frac{n\log n}{2}
+        + 100n + 5</m> what is the Big O?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>O(<m>\log n</m>)</p>
+        </statement>
+        <feedback>
+          <p>No, <m>2n</m> dominates <m>\log n</m>. Try again.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>O(<m>n \log n</m>)</p>
+        </statement>
+        <feedback>
+          <p>No, <m>n \log n</m> means <q>n times log n</q>. Here the <m>\log n</m> term is separate
+            from the <m>n</m> term.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>O(<m>2n</m>)</p>
+        </statement>
+        <feedback>
+          <p>No, the 2 should be omitted because we don't care about constants in Big-O notation.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>O(<m>n</m>)</p>
+        </statement>
+        <feedback>
+          <p>Right!</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>More than one of the above</p>
+        </statement>
+        <feedback>
+          <p>No, only one of them is correct. Try again.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="big-o_big-o-ex-2">
+    <statement>
+      <p>Order the following from slowest growing to fastest growing.</p>
+    </statement>
+    <blocks>
+      <block>
+    <cline>constant O(1)</cline>
+    </block>
+      <block>
+    <cline>logarithmic O(logn)</cline>
+    </block>
+      <block>
+    <cline>linear O(n)</cline>
+    </block>
+      <block>
+    <cline>log linear O(nlogn)</cline>
+    </block>
+      <block>
+    <cline>quadratic O(n^2)</cline>
+    </block>
+    </blocks>
+  </exercise>
+
+  <exercise label="big-o_big-o-ex-3">
+    <statement>
+
+      <p>Which of the following statements is true about the two algorithms? Algorithm 1's work: <m>100n
+        + 1</m> Algorithm 2's work: <m>n^2 + n + 1</m></p>
+
+    </statement>
+    <choices randomize="yes">
+
+      <choice>
+        <statement>
+          <p>Algorithm 1 will require a greater number of steps to complete than Algorithm 2</p>
+        </statement>
+        <feedback>
+          <p>This could be true depending on the input. But what if n is 1,000?</p>
+        </feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <p>Algorithm 2 will require a greater number of steps to complete than Algorithm 1</p>
+        </statement>
+        <feedback>
+          <p>This could be true depending on the input. But what if n is 1?</p>
+        </feedback>
+      </choice>
+
+      <choice correct="yes">
+        <statement>
+          <p>At large values of n, Algorithm 1 will require a greater number of steps to complete
+            than Algorithm 2</p>
+        </statement>
+        <feedback>
+          <p>Correct!</p>
+        </feedback>
+      </choice>
+
+      <choice>
+        <statement>
+          <p>Algorithm 1 and 2 will always require the same number of steps to complete</p>
+        </statement>
+        <feedback>
+          <p>No, the efficiency of both will depend on the input</p>
+        </feedback>
+      </choice>
+    </choices>
+
+  </exercise>
+
+</section>

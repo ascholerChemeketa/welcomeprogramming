@@ -1,0 +1,254 @@
+<section xml:id="big-o_big-o-estimations"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Estimations with Big-O</title>
+
+  <p>The whole point of Big-O is to tell us how quickly the amount of work grows as the input size
+    increases. In a linear algorithm, if the input size <m>n</m> doubles, we would expect the amount
+    of work to approximately double as well. If <m>n = 10</m> and <m>f(n) = n</m> is how we estimate
+    work, <m>f(n) = 10</m>. Doubling <m>n</m> to 20 would result in <m>f(n) = 20</m>.</p>
+
+  <p>In an algorithm with quadratic growth, the work will grow much faster. For example, if <m>n =
+    10</m> and <m>f(n) = n^2</m>, then <m>f(n) = 10^2 = 100</m>. When <m>n</m> is 10, we are
+    estimating 100 units of work. But if <m>n</m> doubles to become <m>20</m> then <m>n^2 = 20^2 =
+    400</m>. Doubling the input size resulted in four times as much work.</p>
+
+  <p>One natural way we can use this estimation of work is to predict how long it will take to solve
+    a problem with a large input size based on the time it takes to solve a smaller version of the
+    problem.</p>
+
+  <p>We assume that the amount of work done per unit of time will remain constant. Thus this
+    proportion must hold:</p>
+
+  <p>
+    <md>
+      <mrow>\frac{\textrm{work for job 1}}{\textrm{work for job 2}} = \frac{\textrm{time for job
+        1}}{\textrm{time for job 2}}</mrow>
+    </md>
+  </p>
+
+  <p>The work do do job 1 is to the work do do job 2 as the time for job 1 is to the time for job 2.</p>
+
+  <p>If we know, or can estimate three of those four values, we can solve for the fourth. Typically,
+    we would measure the time to do some small version of the problem (job 1), use Big O to estimate
+    the work for both the small and large versions of the problem (job 1 and job 2), and then solve
+    for the time for job 2.</p>
+
+  <p>The key is to remember that the work does not necessarily equal the size of the problem.
+    Instead, we have to use the size of the problem and the Big-O of the algorithm we are applying
+    to calculate the approximate amount of work.</p>
+
+  <p>For example, say we have a list of 1000 things<ellipsis/></p>
+  <p>
+    <ul>
+      <li>
+        <p>If we want to do a Binary Search, the Big-O is <m>O(log_2(n))</m>. That means the
+          estimated work would be <m> log_2(1000)</m> or ~9.9657 units of work.</p>
+      </li>
+      <li>
+        <p>If we want to do a Linear Search, the Big-O is <m>O(n)</m>. That means the estimated work
+          would just be 1,000 units of work.</p>
+      </li>
+      <li>
+        <p>If we want to do a Selection Sort, the Big-O is <m>O(n^2)</m>. That means the estimated
+          work would be <m> {1000}^2</m> or 1,000,000 units of work.</p>
+      </li>
+      <li>
+        <p>If we want to do a Merge Sort, the Big-O is <m>O(n \log n)</m>. That means the estimated
+          work would be <m> 1000 \log_2(1000)</m> or <m> 1000 \cdot 9.9657</m> or approximately
+          9,965.7 units of work.</p>
+      </li>
+    </ul>
+  </p>
+
+  <note>
+    <p>Recall that when we say <m>\log n</m> you should understand it as <m>\log_2 n</m> (log base
+      2) unless otherwise specified.</p>
+  </note>
+
+  <example>
+    <title>Sample problem 1</title>
+
+    <p>I have timed selection sort on 10,000 items and it takes 0.243 seconds. I want to estimate
+      the time it will take to sort 50,000 items. Because selection sort is an <m>O(n^2)</m>
+      algorithm, I know I need to square the problem sizes to estimate the amount of work required
+      for each of the two jobs. So I can set up the proportion like this, where <m>x</m> is <q>time
+      for job 2</q>: <md>
+        <mrow>\frac{ 10000^2 }{ 50000^2 } = \frac{0.243\textrm{ seconds}}{x}</mrow>
+      </md>
+    </p>
+    <p>So<ellipsis/>
+      <md>
+        <mrow>\frac{100000000}{2500000000} = \frac{0.243\textrm{ seconds}}{x}</mrow>
+      </md>
+    </p>
+    <p>To solve a proportion, we can cross multiply. Doing so gives us: <md>
+        <mrow>100000000x = 0.243\textrm{ seconds} \cdot {2500000000}</mrow>
+      </md>
+    </p>
+    <p>Solving for <m>x</m> gives: <md>
+        <mrow>x = 6.075\textrm{ seconds}</mrow>
+      </md> Thus the estimated time to sort 50,000
+      items with selection sort is about 6.075 seconds. </p>
+  </example>
+
+  <p>As long as we are comparing the same algorithm performed on different input sizes, the fact
+    that we are ignoring the constant factors in Big-O notation does not affect the accuracy of our
+    estimates.</p>
+
+  <p>Say that while estimating the time to do selection sort of 50,000 things from a measured time
+    for 10,000 things, we know that our implementation of selection sort involved <m>5n^2</m> work.
+    If we included the constant factor in our proportion, it would be:</p>
+  <md>
+    <mrow>\frac{ 5 \cdot 10000^2 }{ 5 \cdot 50000^2 } = \frac{0.243\textrm{ seconds}}{x}</mrow>
+  </md>
+
+  <p>The constant factors of 5 cancel out and do not affect the result.</p>
+
+  <p>Non-dominant terms do not cancel out, but will not do much to affect the result for large input
+    sizes. If our algorithm's work is <m>n^2 + 3n</m>, the <m>3n</m> and we set up the proportion
+    using the <m>3n</m>, we would have:</p>
+
+  <md>
+    <mrow>\frac{ 10000^2 + 3 \cdot 10000 }{ 50000^2 + 3 \cdot 50000 } = \frac{0.243\textrm{
+      seconds}}{x}</mrow>
+  </md>
+
+  <p>This becomes:</p>
+
+  <md>
+    <mrow>\frac{100030000}{2500150000} = \frac{0.243\textrm{ seconds}}{x}</mrow>
+  </md>
+
+  <p>Which solves to approximately 6.074 seconds. This is almost identical to the result when we
+    ignored the non-dominant terms.</p>
+
+  <p>Another use of Big-O estimations is to compare the time required for two different algorithms
+    on the same input size. Maybe I have an algorithm that runs in <m>O(n^2)</m> time and I want to
+    estimate how long it would take to run an <m>O(n \log n)</m> algorithm on the same input size.</p>
+
+  <p>Here we can't rely on the constant factors cancelling each other out. We are comparing
+    different algorithms that will have different constant factors. But, assuming we focus on large
+    values of <m>n</m> and the constants are not huge, we can safely ignore them because the growth
+    rates of the two functions are the dominant factor. Our estimate will be less accurate than when
+    we are focusing on one algorithm, but can still provide useful insight.</p>
+
+  <example>
+    <title>Sample problem 2</title>
+
+    <p>I have timed a linear search on 10,000,000 items and it takes 8.12 seconds (call this job 1).
+      I want to estimate the time it will take to use binary search instead (job 2).</p>
+
+    <p>The problem sizes are the same for both jobs: 10,000,000 items. However, the algorithms will
+      require different amounts of work. Linear search is a <m>O(n)</m> algorithm, so the work for
+      job 1 will be 10,000,000. For job 2, we are using a <m>O(log_2(n))</m> algorithm so the work
+      will be <m> log_2(10000000)</m>
+      <md>
+        <mrow>\frac{10000000}{log_2(10000000)} = \frac{8.12\textrm{ seconds}}{x}</mrow>
+      </md>
+    </p>
+    <p>So<ellipsis/>
+      <md>
+        <mrow>\frac{10000000}{23.25} = \frac{8.12\textrm{ seconds}}{x}</mrow>
+      </md>
+    </p>
+    <p>Cross multiplying gives: <md>
+        <mrow>10000000(x) = 8.12\textrm{ seconds} \cdot 23.25</mrow>
+      </md>
+    </p>
+    <p>Solving for <term>time for job 2</term> gives: <md>
+        <mrow>x = 0.000019\textrm{ seconds}</mrow>
+      </md>
+    </p>
+    <p>That answer is almost certainly not exactly correct. But even if it is off by a factor of
+      100x, it is clear that binary search is significantly faster!</p>
+  </example>
+
+  <exercise label="big-o_big-o-estimations-ex-1">
+    <statement>
+      <p>The Big O of a particular algorithm is <m>O(\log_{2}n)</m>. Given that it takes 2 seconds
+        to complete the algorithm with 3 million inputs; how long would it take with 4 million
+        inputs?</p>
+      <p>Calculate to the nearest hundredth of a second. <fillin mode="number"
+                answer="2.04"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"
+                  tolerance="0.01"/>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>Use the proportion relating work and time. Remember to use the Big O to estimate
+            the work for each input size.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+    <hint>
+      <p>The work for 3,000,000 items using <m>O(\log_{2}n)</m> is <m>\log_{2}(3000000)</m> or
+        ~21.5165 </p>
+    </hint>
+    <hint>
+      <p>Your answer will be VERY close to the original time. <m>\log_{2}(3000000)</m> and <m>
+        \log_{2}(4000000)</m> are very close in value. </p>
+    </hint>
+  </exercise>
+
+  <exercise label="big-o_big-o-estimations-ex-2">
+    <statement>
+      <p>The Big O of a particular algorithm is <m>O(n \log_{2} n)</m>. Given that it takes 0.5
+        seconds to complete the algorithm with 100,000 inputs; how long would it take with 300,000
+        inputs?</p>
+      <p>Calculate to the nearest hundredth of a second. <fillin mode="number"
+                answer="6.57"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"
+                  tolerance="0.01"/>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>Use the proportion relating work and time. Remember to use the Big O to estimate
+            the work for each input size.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+    <hint>
+      <p>The work for 100,000 items using <m>O(n \log_{2} n)</m> is <m>100000 \cdot \log_{2}(100000)</m>
+        or ~1,660,964 </p>
+    </hint>
+  </exercise>
+
+  <exercise label="big-o_big-o-estimations-ex-3">
+    <statement>
+      <p>It takes 0.15 seconds to process 20,000 items using an <m>O(n)</m> algorithm. About how
+        long would it take using an <m>O(n^2)</m> algorithm on the same number of items?</p>
+      <p>Calculate to the nearest second. <fillin mode="number"
+                answer="3000"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"
+                  tolerance="1"/>
+          <feedback>Correct. This answer is likely not very accurate, but it is clear that an <m>
+            O(n^2)</m> algorithm is much slower than an <m>O(n)</m> algorithm on the same input
+            size.</feedback>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>Use the proportion relating work and time. Remember to use the Big O to estimate
+            the work for each input size.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+    <hint>
+      <p>The work for 20,000 items using an <m>O(n)</m> algorithm is proportional to 20,000. The
+        work for 20,000 items using an <m>O(n^2)</m> algorithm is proportional to 400,000,000. </p>
+    </hint>
+  </exercise>
+
+</section>
