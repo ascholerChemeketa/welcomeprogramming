@@ -26,76 +26,34 @@ Used for custom overrides and temporary patches
     extension-element-prefixes="exsl date str"
 >
 
-<xsl:import href="./core/pretext-html.xsl"/>
+  <!-- <xsl:import href="../../../pretext/xsl/pretext-html.xsl"/> -->
+  <xsl:import href="./core/pretext-html.xsl"/>
 
+  <!-- wide interactives -->
+  <xsl:template match="interactive[@iframe]" mode="iframe-interactive">
+      <!-- Distinguish netowk location versus (external) file -->
+      <xsl:variable name="b-network-location" select="(substring(@iframe, 1, 7) = 'http://') or
+                                                      (substring(@iframe, 1, 8) = 'https://')"/>
 
-
-<!-- Make use of PR before release -->
-<xsl:template match="exercise|&PROJECT-LIKE;|task" mode="runestone-manifest">
-    <xsl:variable name="manifestable-interactives-fenced">|truefalse|multiplechoice|parson|parson-horizontal|cardsort|matching|clickablearea|select|fillin-basic|fillin|coding|shortanswer|webwork-reps|</xsl:variable>
-    <xsl:if test="contains($manifestable-interactives-fenced, concat('|', @exercise-interactive, '|'))">
-        <question>
-            <!-- A divisional exercise ("exercises/../exercise") is not really   -->
-            <!-- a reading activity in the Runestone model, so we flag these     -->
-            <!-- exercises as such.  Also, interactive "task" come through here, -->
-            <!-- so we need to look to an ancestor to see if the containing      -->
-            <!-- "exercise" is divisional. The @optional attribute matches the   -->
-            <!-- "optional" flag in the Runestone database.  We simply set the   -->
-            <!-- value to "yes" and never bother to say "no".  The  only         -->
-            <!-- consumer is the import into the Runestone database, so any      -->
-            <!-- change needs only coordinate there.                             -->
-            <xsl:if test="(@exercise-customization = 'divisional') or
-                          (self::task and ancestor::exercise[@exercise-customization = 'divisional'])">
-                <xsl:attribute name="optional">
-                    <xsl:text>yes</xsl:text>
-                </xsl:attribute>
-            </xsl:if>
-            <!-- label is from the "exercise" -->
-            <xsl:apply-templates select="." mode="runestone-manifest-label"/>
-            <!-- Duplicate, but still should look like original (ID, etc.),  -->
-            <!-- not knowled. Solutions are available in the originals, via  -->
-            <!-- an "in context" link off the Assignment page                -->
-            <htmlsrc>
-                <!-- next template produces nothing, unless the  -->
-                <!-- "exercise" is in an "exercisegroup" ("eg")  -->
-                <xsl:apply-templates select="." mode="eg-introduction"/>
-                <xsl:choose>
-                    <!-- with "webwork" guts, the HTML is exceptional -->
-                    <xsl:when test="@exercise-interactive = 'webwork-reps'">
-                        <xsl:apply-templates select="." mode="webwork-core">
-                            <xsl:with-param name="b-original" select="true()"/>
-                        </xsl:apply-templates>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <!-- next template collects "introduction" preceding a "task" -->
-                        <!-- Note: we are explicitly dodging webwork/task             -->
-                        <xsl:apply-templates select="." mode="task-introductions"/>
-
-                        <xsl:apply-templates select="."  mode="exercise-components">
-                            <xsl:with-param name="b-original" select="true()"/>
-                            <xsl:with-param name="block-type" select="'visible'"/>
-                            <xsl:with-param name="b-has-statement" select="true()" />
-                            <xsl:with-param name="b-has-hint"      select="true()" />
-                            <xsl:with-param name="b-has-answer"    select="false()" />
-                            <xsl:with-param name="b-has-solution"  select="false()" />
-                        </xsl:apply-templates>
-
-                        <!-- next template collects "conclusion" preceding a "task" -->
-                        <!-- Note: we are explicitly dodging webwork/task           -->
-                        <xsl:apply-templates select="." mode="task-conclusions"/>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </htmlsrc>
-        </question>
-    </xsl:if>
-    <!-- The match for this template will include "exercise" and &PROJECT-LIKE  -->
-    <!-- that are just containers for a bunch of "task".  In other words, they  -->
-    <!-- will not be marked with the "@exercise-interactive" attribute.  So the -->
-    <!-- "xsl:if" above will fail.  And right here is a dead-end.  We need to   -->
-    <!-- recurse into "task" for the possibility they are marked with           -->
-    <!-- "@exercise-interactive" so they can potentially get placed properly in -->
-    <!-- the manifest.                                                          -->
-    <xsl:apply-templates select="task" mode="runestone-manifest"/>
-</xsl:template>
-
+      <xsl:variable name="location">
+          <!-- prefix with directory information if not obviously a network location -->
+          <xsl:if test="not($b-network-location)">
+              <!-- empty when not using managed directories -->
+              <xsl:value-of select="$external-directory"/>
+          </xsl:if>
+          <xsl:value-of select="@iframe"/>
+      </xsl:variable>
+      <xsl:variable name="width-percent">
+          <xsl:apply-templates select="." mode="get-width-percentage" />
+      </xsl:variable>
+      <xsl:variable name="width-value" select="substring($width-percent, 1, string-length($width-percent) - 1)"/>
+      <iframe src="{$location}">
+          <xsl:apply-templates select="." mode="html-id-attribute"/>
+          <xsl:apply-templates select="." mode="size-pixels-attributes"/>
+          <xsl:apply-templates select="." mode="iframe-dark-mode-attribute" />
+          <xsl:if test="number($width-value) &gt; 100">
+              <xsl:attribute name="class">wide-iframe</xsl:attribute>
+          </xsl:if>
+      </iframe>
+  </xsl:template>
 </xsl:stylesheet>
