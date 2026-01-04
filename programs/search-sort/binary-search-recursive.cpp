@@ -1,0 +1,43 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+template<typename T>
+int binarySearchRecursive(const vector<T>& vec, T key, int lowIndex, int highIndex) {
+    if (lowIndex > highIndex) {
+        return -1; // Base case: key not found
+    }
+    int midIndex = lowIndex + (highIndex - lowIndex) / 2;
+    T midValue = vec.at(midIndex);
+    cout << "Low index: " << lowIndex << ", High index: " << highIndex << endl;
+    cout << "Middle index " << midIndex << ": Value " << midValue << endl;
+    if (midValue == key) {
+        return midIndex; // Key found
+    } else if (midValue < key) {
+        return binarySearchRecursive(vec, key, midIndex + 1, highIndex);
+    } else {
+        return binarySearchRecursive(vec, key, lowIndex, midIndex - 1);
+    }
+}
+
+// Wrapper function to initiate the recursive binary search
+int binarySearch(const vector<int>& vec, int key) {
+    // Start the search with the full range of the vector
+    return binarySearchRecursive(vec, key, 0, vec.size() - 1);
+}
+
+int main() {
+    vector<int> numbers = {6, 10, 17, 21, 26, 30, 37, 40, 49, 54};
+    int key;
+    cout << "Enter the value to search for: ";
+    cin >> key;
+    cout << key << endl;
+
+    int result = binarySearch(numbers, key);
+
+    if (result != -1) {
+        cout << "Element found at index: " << result << endl;
+    } else {
+        cout << "Element not found in the vector." << endl;
+    }
+}

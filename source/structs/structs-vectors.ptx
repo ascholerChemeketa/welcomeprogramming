@@ -5,33 +5,50 @@
 
   <introduction>
 
-    <p>Structs and vectors are similar in that they allow us to store multiple values in a package with a single name. But there are some important differences:
-    <ul>
-      <li>Every member of a struct can be of any type, while all members of a vector must be of the same type.</li>
-      <li>The number of items in a struct is fixed by the defined members. A vector can grow or shrink.</li>
-      <li>You can use a loop to traverse a vector or a variable to easily store an index. There is no equivalent way to loop through the members of a struct or specify one with a variable.</li>
-    </ul>
+    <p>Structs and vectors are similar in that they allow us to store multiple values in a package
+      with a single name. But there are some important differences: <ul>
+        <li>Every member of a struct can be of any type, while all members of a vector must be of
+      the same type.</li>
+        <li>The number of items in a struct is fixed by the defined members. A vector can grow or
+      shrink.</li>
+        <li>You can use a loop to traverse a vector or a variable to easily store an index. There is
+      no equivalent way to loop through the members of a struct or specify one with a variable.</li>
+      </ul>
     </p>
-    <p>Thus, some <q>collections</q> of data are clearly best represented as structs. While others are clearly best represented as vectors. If the pieces of data you
-      want to combine are of different types, you need a struct. To store a Person with a name (string) and age (int) you would need a struct.
-      If the items are all the same type but the number of them can vary, you need a vector. If you are storing a list of the lines of text in a file, you would want a vector of strings.
-    </p>
-    <p>
-    But there are times where we could use either a vector or a struct to store a given set of data. For example, we could store a mathematical point as a struct with two members, <pf>x</pf> and <pf>y</pf>, or we could store it as a vector with two elements (where x is at index 0 and y is at index 1). In these cases, we should consider how we will use the data to help decide which is best:
-      <ul>
-        <li>If it is natural to refer to items by name, a struct will let us write code that may be more readable. Say we are storing a Color. It is clearer to use <pf>c1.red</pf> instead of <pf>c1.at(0)</pf> to access the amount of red in the color. Thus we should probably prefer a struct.</li>
-        <li>If you want to loop through items or pick them via a value stored in a variable, a vector is going to be necessary. We know a rectangle only has 4 corners, so we could store them in a struct that has <pf>corner1</pf>, <pf>corner2</pf>, <pf>corner3</pf>, and <pf>corner4</pf> members. But it would likely be easier to use a vector of points instead (<pf>corners</pf>) so we can write algorithms that loop through the points.</li>
+    <p>Thus, some <q>collections</q> of data are clearly best represented as structs. While others
+      are clearly best represented as vectors. If the pieces of data you want to combine are of
+      different types, you need a struct. To store a Person with a name (string) and age (int) you
+      would need a struct. If the items are all the same type but the number of them can vary, you
+      need a vector. If you are storing a list of the lines of text in a file, you would want a
+      vector of strings. </p>
+    <p> But there are times where we could use either a vector or a struct to store a given set of
+      data. For example, we could store a mathematical point as a struct with two members, <pf>x</pf>
+      and <pf>y</pf>, or we could store it as a vector with two elements (where x is at index 0 and y
+      is at index 1). In these cases, we should consider how we will use the data to help decide
+      which is best: <ul>
+        <li>If it is natural to refer to items by name, a struct will let us write code that may be
+      more readable. Say we are storing a Color. It is clearer to use <pf>c1.red</pf> instead of <pf>c1.at(0)</pf>
+      to access the amount of red in the color. Thus we should probably prefer a struct.</li>
+        <li>If you want to loop through items or pick them via a value stored in a variable, a
+      vector is going to be necessary. We know a rectangle only has 4 corners, so we could store
+      them in a struct that has <pf>corner1</pf>, <pf>corner2</pf>, <pf>corner3</pf>, and <pf>corner4</pf> members. But it would
+      likely be easier to use a vector of points instead (<pf>corners</pf>) so we can write algorithms that
+      loop through the points.</li>
       </ul>
     </p>
 
     <p>So what if you need the strengths of booth?</p>
-    <p>You can combine the two by using a vector inside of a struct, by making a vector of structs, or even by doing both at once.</p>
-    </introduction>
+    <p>You can combine the two by using a vector inside of a struct, by making a vector of structs,
+      or even by doing both at once.</p>
+  </introduction>
 
-    <subsection>
+  <subsection>
     <title>Structs containing Vectors</title>
 
-    <p>Say we want to store students who have names and a list of exam scores. We would like to be able to loop through their scores to do things like calculate an average. We also need to be able to add scores. We could represent those scores as a vector of doubles within a <pf>Student</pf> struct:</p>
+    <p>Say we want to store students who have names and a list of exam scores. We would like to be
+      able to loop through their scores to do things like calculate an average. We also need to be
+      able to add scores. We could represent those scores as a vector of doubles within a <pf>Student</pf>
+      struct:</p>
 
     <program>
 struct Student {
@@ -46,8 +63,7 @@ struct Student {
 
     <figure align="center">
       <image source="images/structs-struct-vector.svg"
-             width="40%"
-             >
+             width="40%">
         <shortdescription>A student struct with a name and exams fields</shortdescription>
       </image>
     </figure>
@@ -55,7 +71,7 @@ struct Student {
     <p>To create that student, we could use a list of two items, in which the second item is a list
       to use for the exams:</p>
 
-    <program >
+    <program>
 Student student1 = {
   "Beth Jones",
   { 84.2, 94.3, 96.7 }
@@ -65,7 +81,6 @@ Student student1 = {
     <p>To access a particular exam score, we would use the dot operator to access the vector and
       then the dot operator again to use a method of the vector:</p>
 
-    <listing>
     <program>
 // Print the first exam score
 cout &lt;&lt; student1.exams.at(0) &lt;&lt; endl;
@@ -74,14 +89,13 @@ cout &lt;&lt; student1.exams.size() &lt;&lt; endl;
 // Add a new score
 student1.exams.push_back(100.0);
 </program>
-    </listing>
-    
 
-    
-    <program label="structs_vectors-program-1"
-             interactive="activecode"
-             line-numbers="yes"
-             highlight-lines="8, 14, 18, 20, 22">
+
+    <listing>
+      <program label="structs_vectors-program-1"
+               interactive="activecode"
+               line-numbers="yes"
+               highlight-lines="8, 14, 18, 20, 22">
       <code><![CDATA[
 #include <iostream>
 #include <vector>
@@ -108,6 +122,7 @@ int main() {
 }
 ]]></code>
     </program>
+    </listing>
 
   </subsection>
   <exercise label="structs_vectors-ex-1">
@@ -119,37 +134,30 @@ int main() {
         <statement>
           <p>They can store multiple types of data in one package</p>
         </statement>
-        <feedback>
-          Correct!
-        </feedback>
+        <feedback> Correct! </feedback>
       </choice>
       <choice>
         <statement>
           <p>It is easy to loop through the members.</p>
         </statement>
-        <feedback>
-          You can't index into a struct with a variable. That makes it impossible to loop through them.
-        </feedback>
+        <feedback> You can't index into a struct with a variable. That makes it impossible to loop
+          through them. </feedback>
       </choice>
       <choice>
         <statement>
           <p>You can add or remove items at runtime.</p>
         </statement>
-        <feedback>
-          The members of a struct are fixed at compile time. You can't add or remove them.
-        </feedback>
+        <feedback> The members of a struct are fixed at compile time. You can't add or remove them. </feedback>
       </choice>
       <choice correct="yes">
         <statement>
           <p>Members can be given meaningful names.</p>
         </statement>
-        <feedback>
-          Correct!
-        </feedback>
+        <feedback> Correct! </feedback>
       </choice>
     </choices>
   </exercise>
-  
+
   <exercise label="structs_vectors-ex-2">
     <statement>
       <p>Which statements are advantages of vectors?</p>
@@ -159,43 +167,41 @@ int main() {
         <statement>
           <p>They can store multiple types of data in one package</p>
         </statement>
-        <feedback>
-          A vector must be of a single type. You can't mix types in a vector.
-        </feedback>
+        <feedback> A vector must be of a single type. You can't mix types in a vector. </feedback>
       </choice>
       <choice correct="yes">
         <statement>
           <p>It is easy to loop through the elements.</p>
         </statement>
-        <feedback>
-          Correct!
-        </feedback>
+        <feedback> Correct! </feedback>
       </choice>
       <choice correct="yes">
         <statement>
           <p>You can add or remove items at runtime.</p>
         </statement>
-        <feedback>
-          The members of a struct are fixed at compile time. You can't add or remove them.
-        </feedback>
+        <feedback> The members of a struct are fixed at compile time. You can't add or remove them. </feedback>
       </choice>
       <choice>
         <statement>
           <p>Elements can be given meaningful names.</p>
         </statement>
-        <feedback>
-          Elements have indexes, not names. In some situations, 0, 1, 2, ... might be considered meaningful, but you can't assign other names to identify the elements.
-        </feedback>
+        <feedback> Elements have indexes, not names. In some situations, 0, 1, 2, ... might be
+          considered meaningful, but you can't assign other names to identify the elements. </feedback>
       </choice>
     </choices>
   </exercise>
 
   <exercise label="structs_vectors-ex-3">
     <statement>
-      <p>Below is a struct <pf>CarType</pf> and a code snippet that creates a variable <pf>type1</pf>. What could replace the <pf>???</pf> so that the code would change the second model in the list ("Camry") to "Prius"?</p>
-      <p><fillin mode="string" answer="type1.models.at(1);"/> </p>
-      
-          <program>
+      <p>Below is a struct <pf>CarType</pf> and a code snippet that creates a variable <pf>type1</pf>. What
+        could replace the <pf>???</pf> so that the code would change the second model in the list
+        ("Camry") to "Prius"?</p>
+      <p>
+        <fillin mode="string"
+                answer="type1.models.at(1);"/>
+      </p>
+
+      <program>
 struct CarType {
   string make;
   vector&lt;string> models;
@@ -216,13 +222,15 @@ CarType type1 = {
         </test>
         <test>
           <strcmp>.*Camry.*</strcmp>
-          <feedback>
-            You need to access the value from the vector, not just give the value that you know is there.
-          </feedback>
+          <feedback> You need to access the value from the vector, not just give the value that you
+            know is there. </feedback>
         </test>
       </evaluate>
     </evaluation>
-    <hint><p>Your answer should have three parts separated by dots: You need to name the struct, the vector inside of it, then access the correct element of the vector.</p></hint>
+    <hint>
+      <p>Your answer should have three parts separated by dots: You need to name the struct, the
+        vector inside of it, then access the correct element of the vector.</p>
+    </hint>
   </exercise>
 
 
