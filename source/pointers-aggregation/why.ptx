@@ -1,7 +1,7 @@
 <section xml:id="pointers-aggregation_why"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <title>Why Pointers? And Why Not Pointers?</title>
+  <title>Why Pointers? Why Not Pointers?</title>
 
   <p> At this point (no pun intended), some fair questions would be <q>Why do we need pointers?
     Aren't they just the same as references but with trickier syntax?</q>
@@ -13,7 +13,7 @@
     Pointers are a powerful tool, but they can also be a source of bugs and security vulnerabilities
     if not used carefully. </p>
 
-  <p> On thing we can do with a pointer but not a reference is to change what a pointer points at.
+  <p> On thing we can do with a pointer, but not a reference, is to change what a pointer points at.
     We can write <pf>int* p = &amp;x;</pf> to make <pf>p</pf> point at <pf>x</pf> and then later write <pf>p = &amp;y;</pf> to
     make it point at y by changing the address that it holds. This is not possible with references.
     Once a reference is assigned, it cannot be changed to refer to something else. </p>
