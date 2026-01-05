@@ -1,71 +1,157 @@
 <section xml:id="objects_classes"
          xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Classes</title>
+  <title>Classes and Member Variables</title>
 
-  <p>Like a <pf>struct</pf>, a <term>class</term> defines a new type of object. That datatype consists of
-    other pieces of data that we refer to as its <term>member variables</term> or as <term>instance
-    variables</term>. However, a class will also have <term>member functions</term> - functions that
-    are a part of the class. <idx>
-      <h>instance variable</h>
-    </idx>
-    <idx>
-      <h>member variables</h>
-    </idx>
-    <idx>
-      <h>member functions</h>
-    </idx></p>
-
-  <program>
-      class Point {
-          ...member functions...
-          ...member variables...
-      };
-      </program>
-
-  <p>Think of the class definition as a <q>blueprint</q> that describes what a type of data is. The
-    <pf>class Point</pf> does not actually create a point anymore than the blueprint of a house gives you
-    something to live in. To work with the Point data type, we must make a <pf>Point</pf> object from the
-    blueprint. We call the object an <term>instance</term> of the class. For example, we might
-    create a <pf>Point</pf> object named <pf>p1</pf> like this:
-  <idx>
-    <h>class</h>
-  </idx>
-  <idx>
-    <h>instance</h>
-  </idx>
-  </p>
+  <p>Like a <pf>struct</pf>, a <term>class</term> defines a new type of data defined in terms of
+    other pieces of data. Something like <q>A Point is a thing that stores two double values</q>:</p>
 
   <listing>
-  <program>
+    <program>
 class Point {
-    ...member functions...
-
-    ...member variables...
-    double m_x, m_y;
+    //member variables
+    double m_x;
+    double m_y;
 };
+</program>
+  </listing>
 
+  <p>The class declares the <term>state</term> of a given Point is defined by two pieces of data:
+    the <pf>m_x</pf> and <pf>m_y</pf>. The variables declared in the class are <term>member
+    variables</term>. (The variables that are <q>members</q>, or a part, of the class.) <idx>
+      <h>member variables</h>
+    </idx></p>
+
+  <p> We have named the member variables with the prefix <pf>m_</pf> (e.g. <pf>m_x</pf> instead of <pf>
+    x</pf>). This is a convention used to indicate that these variables are member variables (<q>
+    m_</q> for <q>member</q>) of a class. As we will see later, we will often also have functions that use a mix of
+    member variables and local variables. The <pf>m_</pf> prefix helps us to distinguish between the
+    member variables that are a permanent part of the object and temporary local variables.</p>
+
+  <note>
+    <p>Some conventions are <q>strong</q> - they are used almost everywhere. Other conventions are
+      weaker and may vary between projects or teams.</p>
+    <p>The <pf>m_</pf> prefix is a weaker convention. Some codebases use it, while many will not. We
+      will generally use it as we are learning about Object Oriented Programming to help clarify
+      when we are referring to member variables.</p>
+  </note>
+
+  <p>Think of this class definition as a <q>blueprint</q> that describes what a type of data is. The <pf>class
+    Point</pf> does not actually create a point anymore than the blueprint of a house gives you
+    something to live in. To work with the Point data type, we must make a <pf>Point</pf> object
+    from the blueprint.</p>
+
+  <p>We call the object an <term>instance</term> of the class. For example, we might create a <pf>
+    Point</pf> object named <pf>p1</pf> like this: <idx>
+      <h>class</h>
+    </idx>
+  <idx>
+      <h>instance</h>
+    </idx>
+  </p>
+
+  <program>
 int main() {
     Point p1;
 }
 </program>
-  </listing>
 
-  <p>Here, we assume that a point has two member variables <pf>m_x</pf> and <pf>m_y</pf>. That means any time we
-    make a <pf>Point</pf> object, we are creating a package that has two named parts:</p>
+  <p> Another term for creating an instance of a class is <term>instantiating</term> the class. When
+    we say <pf>Point p1;</pf> we are instantiating the <pf>Point</pf> class to create an instance of
+    a Point object named <pf>p1</pf>. </p>
+
+  <p>Here is a memory diagram of <pf>p1</pf>:</p>
 
   <figure align="center">
     <caption>A memory diagram of Point p1</caption>
     <image source="images/objects-point-memory-diagram.svg"
-           width="50%"
-           >
+           width="50%">
       <shortdescription>p1 is a point that contains two variables m_x and m_y</shortdescription>
     </image>
   </figure>
 
+  <p>As usual, the name of the variable (<pf>p1</pf>) appears outside the box, and its data appears
+    inside the box. In this case, the data is two separate member variables, which are represented
+    with two boxes. We don't know what values the member variables hold as we have not initialized
+    them.</p>
 
-  <p>As usual, the name of the variable <pf>p1</pf> appears outside the box, and its data appears inside the box.
-    In this case, the data is two separate member variables, which are represented with two boxes. However, unlike with a struct,
-  we can't access those values by saying <pf>p1.m_x</pf> or <pf>p1.m_y</pf>. That is because the members of a class are inaccessible outside of the class by default.
-  Why are the inaccessible? How do we use them if they are inaccessible? We will tackle that next...</p>
+  <p>So far, this feels just like using a struct, only with more emphasis on terminology. However,
+    unlike with a struct, we can't access those values by saying <pf>p1.m_x</pf> or <pf>p1.m_y</pf>.
+    Try compiling this code and notice what happens.</p>
+
+  <listing xml:id="objects_classes-1-listing">
+    <program label="objects_classes-1"
+             interactive="activecode">
+class Point {
+    //member variables
+    double m_x;
+    double m_y;
+};
+
+int main() {
+    Point p1;
+    p1.m_x = 3.0;
+}
+</program>
+  </listing>
+
+  <p>Why is that an error? We will tackle that next.</p>
+
+  <exercise label="objects_classes-ex-1">
+    <statement>
+      <p>If we wanted to have a variable that stores the name (a string) of a Person object, what
+        would the best name for the variable be?</p>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>
+          <p>m_name;</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>name;</p>
+        </statement>
+        <feedback>
+          <p>This would work, but let's stick to the convention described on this page.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>person_name;</p>
+        </statement>
+        <feedback>
+          <p>name will be inside the class Person, so saying "person_name" is redundant.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="objects_classes-ex-2">
+    <statement>
+      <p>Match each term with its meaning</p>
+    </statement>
+    <cardsort>
+      <match>
+        <premise>instance</premise>
+        <response>a particular object of a given class</response>
+      </match>
+      <match>
+        <premise>class</premise>
+        <response>a blueprint for a new type of data</response>
+      </match>
+      <match>
+        <premise>member variable</premise>
+        <response>a piece of data stored inside an object</response>
+      </match>
+      <match>
+        <premise>instantiate</premise>
+        <response>to create an object of a given class</response>
+      </match>
+      <match>
+        <premise>state</premise>
+        <response>the current values of an object's member variables</response>
+      </match>
+    </cardsort>
+  </exercise>
 
 </section>

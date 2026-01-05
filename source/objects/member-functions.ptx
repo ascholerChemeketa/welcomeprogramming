@@ -1,36 +1,77 @@
 <section xml:id="objects_member-functions"
          xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Member Functions</title>
+  <title>Encapsulation</title>
 
-  <p>We have already covered three important types of member functions: constructors, getters, and setters. But when creating a class we will often want to provide other member functions to make the it more useful and useable.</p>
-  
-  <p>One of the goals for objects is that they <term>encapsulate</term> a particular piece of data - they bundle that data with functions to help work with it. We want to build in as much functionality as is reasonable so that other code can <q>ask</q> the object to perform tasks instead of having to figure out how to do it themselves.<idx>encapsulate</idx></p>
+  <p>We have already covered three important types of member functions: constructors, getters, and
+    setters. But when creating a class we will often want to provide other member functions to make
+    the it more useful and useable.</p>
 
-  <p>For example, we might know that lots of other code will want to calculate how far a given <pf>Point</pf> is from the origin. Rather than make client code implement that calculation, it would be a good idea to provide a <pf>distanceToOrigin</pf> function that returns how far away the point is from the origin (0, 0).</p>
+  <p>One of the goals for objects is that they <term>encapsulate</term> a particular piece of data -
+    they bundle that data with functions to help work with it. We want to build in as much
+    functionality as is reasonable so that other code can <q>ask</q> the object to perform tasks
+    instead of having to do it themselves.<idx>encapsulate</idx></p>
 
-  <program>
+  <p>For example, we might know that lots of other code will want to calculate how far a given <pf>
+    Point</pf> is from the origin. Rather than make client code implement that calculation, it would
+    be a good idea to provide a <pf>distanceToOrigin</pf> function that returns how far away the
+    point is from the origin (0, 0).</p>
+
+    <listing>
+  <program line-numbers="yes" highlight-lines="5-8">
 <xi:include href="../../programs/objects/member-functions-1.cpp" parse="text"/>
   </program>
+  </listing>
 
-  <p>Or it could use the getters to access those members. Notice that in a member function like <pf>distanceToOrigin()</pf> we can call another member function like <pf>getX()</pf> without specifying what Point we want to work with. Outside of the class, we would have to say something like <pf>p1.getX()</pf> or <pf>p2.getX()</pf> to specify what point should do the <pf>getX()</pf> behavior. But if we have already called <pf>p1.distanceToOrigin()</pf>, then while executing <pf>distanceToOrigin()</pf> it is assumed that we are working with <pf>p1</pf> as our <q>current point</q>. So in the same way that <pf>m_x</pf> is understood to mean <pf>p1.m_x</pf>, <pf>getX()</pf> is assumed to mean <pf>p1.getX()</pf>:</p>
-
-  <program>
-<xi:include href="../../programs/objects/member-functions-2.cpp" parse="text"/>
-  </program>
-
-  <p>Although member functions can directly access member variables and the first version of <pf>distanceToOrigin</pf> looks simpler, it can useful to use getters and setters to access the data. This way, if we later decide to change the implementation of the class, we have less code to fix. Say we decided to switch to storing the point with polar coordinates. In the first version we would have to rewrite all three shown functions. In the second version, we would have to rewrite <pf>getX</pf> and <pf>getY</pf> but then could leave <pf>distanceToOrigin</pf> or other functions alone if we wanted. (Though in this case it would make sense to change the function as the new version could avoid doing any computations).</p>
-
-  <note><p>A call to a function does involve a very tiny cost in terms of machine level instructions to be executed. But compilers can often optimize away these costs - there is a good chance that a compiler will turn something like <pf>getX()</pf> into a direct use of the correct value in memory. For most projects, you are much better off optimizing code for readability and maintainability instead of trying to optimize for low level behavior.</p></note>
-
-  <p>What other functions might we want to add to a Point class? It depends on how we anticipate points will be used. Some possible examples might be a function to shift a point or one to get a string representation of the point:</p>
-
+  <p>Or it could use the getters to access those members.</p>
+  
   <listing>
-  <program label="objects_member-functions-program-1" interactive="activecode">
-<xi:include href="../../programs/objects/member-functions-3.cpp" parse="text"/>
+  <program line-numbers="yes" highlight-lines="5-9">
+<xi:include href="../../programs/objects/member-functions-2.cpp" parse="text"/>
   </program>
   </listing>
 
   
+  <p>Notice that in a member function like <pf>
+    distanceToOrigin()</pf> we can call another member function like <pf>getX()</pf> without
+    specifying what Point we want to work with.</p>
+    
+    <p>Outside of the class, we would have to say something
+    like <pf>p1.getX()</pf> or <pf>p2.getX()</pf> to specify what point should do the <pf>getX()</pf>
+    behavior. But if we have already called <pf>p1.distanceToOrigin()</pf>, then while executing <pf>
+    distanceToOrigin()</pf> it is assumed that we are working with <pf>p1</pf> as our <q>current
+    point</q>. So in the same way that <pf>m_x</pf> is understood to mean <pf>p1.m_x</pf>, <pf>
+    getX()</pf> is assumed to mean <pf>p1.getX()</pf>:</p>
+
+  <p>Although member functions can directly access member variables, and the first version of <pf>
+    distanceToOrigin</pf> looks simpler, it can useful to use getters and setters to access member
+    data even in member functions.
+    This way, if we later decide to change the implementation of the class, we have less code
+    to fix.</p>
+    
+    <p>For instance, imagine we decided to switch to storing the point with polar coordinates. In the first
+    version we would have to rewrite all three shown functions to calculate the x and/or y coordinates from polar coordinates.
+    In the second version, we would have to rewrite <pf>getX</pf> and <pf>getY</pf> but then could leave <pf>distanceToOrigin</pf> alone if we wanted to.
+
+  <note>
+    <p>A call to a function does involve a very tiny cost in terms of machine level instructions to
+      be executed. But compilers can often optimize away these costs - there is a good chance that a
+      compiler will turn something like <pf>getX()</pf> into a direct use of the correct value in
+      memory. For most projects, you are much better off optimizing code for readability and
+      maintainability instead of trying to optimize for low level behavior.</p>
+  </note>
+
+  <p>What other functions might we want to add to a Point class? It depends on how we anticipate
+    points will be used. Some possible examples might be a function to shift a point or one to get a
+    string representation of the point:</p>
+
+  <listing>
+    <program label="objects_member-functions-program-1"
+             interactive="activecode">
+<xi:include href="../../programs/objects/member-functions-3.cpp" parse="text"/>
+  </program>
+  </listing>
+
+
   <exercise label="objects_member-functions-ex-1">
     <statement>
       <p>What should replace the question marks in the code below? Use accessor functions.</p>
@@ -64,9 +105,7 @@ class rightTriangle {
             <pf>return 0.5 * m_base * m_height;</pf>
           </p>
         </statement>
-        <feedback>
-          That would work, but we want to use the accessor functions.
-        </feedback>
+        <feedback> That would work, but we want to use the accessor functions. </feedback>
       </choice>
       <choice>
         <statement>
@@ -74,16 +113,12 @@ class rightTriangle {
             <pf>return 0.5 * triangle.getBase() * triangle.getHeight();</pf>
           </p>
         </statement>
-        <feedback>
-          We can use the accessor functions without specifying the object name.
-        </feedback>
+        <feedback> We can use the accessor functions without specifying the object name. </feedback>
       </choice>
     </choices>
   </exercise>
 
 
-  
-  
   <exercise label="objects_member-functions-ex-2">
     <statement>
       <p>The Point class shift function is defined like this:</p>
@@ -111,9 +146,7 @@ class rightTriangle {
             <pf>x += dx;</pf>
           </p>
         </statement>
-        <feedback>
-          There is no member x.
-        </feedback>
+        <feedback> There is no member x. </feedback>
       </choice>
       <choice>
         <statement>
@@ -121,9 +154,7 @@ class rightTriangle {
             <pf>setX(m_x + dx);</pf>
           </p>
         </statement>
-        <feedback>
-          That works, but it is still using the member function setX.
-        </feedback>
+        <feedback> That works, but it is still using the member function setX. </feedback>
       </choice>
       <choice>
         <statement>
@@ -131,9 +162,7 @@ class rightTriangle {
             <pf>m_x = dx;</pf>
           </p>
         </statement>
-        <feedback>
-          That is not correct. We want to add dx to the current value of m_x.
-        </feedback>
+        <feedback> That is not correct. We want to add dx to the current value of m_x. </feedback>
       </choice>
       <choice>
         <statement>
@@ -141,12 +170,10 @@ class rightTriangle {
             <pf>m_x + dx;</pf>
           </p>
         </statement>
-        <feedback>
-          That is not correct. It does not change the value of m_x.
-        </feedback>
+        <feedback> That is not correct. It does not change the value of m_x. </feedback>
       </choice>
     </choices>
   </exercise>
-  
+
 
 </section>

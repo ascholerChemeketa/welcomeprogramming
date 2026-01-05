@@ -1,6 +1,4 @@
 #include <iostream>
-#include <string>
-#include <format>
 using namespace std;
 
 // A point class

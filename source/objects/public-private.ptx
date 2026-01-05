@@ -1,185 +1,106 @@
 <section xml:id="objects_public-private"
          xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>Public and Private</title>
+  <title>Information Hiding</title>
 
-  <subsection><title>Using Public and Private</title>
+  <subsection><title>Access Modifiers</title>
 
-  <p>A class definition defines two things: the <term>interface</term> that is used to work with
-    objects of that class and the <term>implementation</term> that describes how the work is
-    actually done. The interface is the part of the class that is visible to the rest of the program
-    while the implementation is hidden. A programmer who is working on some other part of the
-    program should only have to worry about the interface of the class and not the implementation.
-    This idea is referred to as <term>information hiding</term>. <idx>
-      <h>interface</h>
-    </idx>
-    <idx>
-      <h>implementation</h>
-    </idx></p>
-
-  <p>The keywords <pf>private</pf> and <pf>public</pf> are known as <term>access modifiers</term> and are used to
+  <p>In a class, the keywords <pf>private</pf> and <pf>public</pf> are known as <term>access modifiers</term> and are used to
     define what parts of a class are visible to code outside of that class. Using <pf>public:</pf> in a
     class says <q>everything from here until the next access modifier is visible</q>. Using
     <pf>private:</pf> <q>everything from here until the next access modifier is hidden</q>. </p>
 
-  <p>By default, all members of a class are private unless you place them in a public section, but it is good to explicitly indicate what you expect to be private. You can switch back and forth between public and private sections as many times as you like and put them in any order you like. Some programmers put the private portion first and the public section second. We will put the public section first as it is the part we wish to emphasize to anyone trying to understand the class.</p>
-
-  <p>It is a syntax error for code outside of a class to try to access members of that class that
-    were defined in a private block:</p>
+  <p>The default modifier applied to members of a class is <pf>private</pf>. So the reason <xref ref="objects_classes-1-listing"/> did not work is because the compiler assumed the variables should be <pf>private</pf>:</p>
 
   <listing>
-  <program label="objects_public-private-program-1"
-           interactive="activecode">
-<xi:include href="../../programs/objects/public-private-1.cpp" parse="text"/>
+    <program line-numbers="yes" highlight-lines="2,10" interactive="activecode">
+class Point {
+private:   // Compiler assumed this
+    //member variables
+    double m_x;
+    double m_y;
+};
+
+int main() {
+    Point p1;
+    p1.m_x = 3.0;  // Error: m_x is private
+}
 </program>
   </listing>
 
-  <p>In this sample, the two member variables are named <pf>m_x</pf> and <pf>m_y</pf>. It is common convention
-    (but not a syntax requirement) to decorate member variable names to clearly identify them. One
-    convention is the one used here - to put a <pf>m_</pf> in front of each name. Another convention is to
-    use a single underscore after the name, like <pf>x_</pf> or <pf>y_</pf>. The member variables are declared in
-    a <pf>private</pf> block of the class and thus line 21 is a syntax error because it tries to access the
-    private member from outside of the class.</p>
+  <p>
+    Because the compiler assumed the variables should be private, the code in main (line 10) that tries to access <pf>m_x</pf> directly results in a compilation error. It is a syntax error for code outside of a class to try to access members of that class that were defined in a private block.
+  </p>
 
-  <p>To enable the rest of the program to access the information stored in the object, we need to
-    provide a public interface that reveals the information. Functions that return a piece of data
-    from an object are known as <term>getters</term> or <term>accessors</term> and usually have a name like <pf>getThing()</pf>. This
-    sample adds getters for <pf>m_x</pf> and <pf>m_y</pf>:</p>
+  <p>We could make the code compile by changing line 4 to say <pf>public:</pf>. Go ahead and try it.</p>
 
-  <listing>
-  <program label="objects_public-private-program-2"
-           interactive="activecode">
-<xi:include href="../../programs/objects/public-private-2.cpp" parse="text"/>
-  </program>
-  </listing>
-
-  <p>Now, the main function has a way to access the x coordinate of the point - via the public
-    function that returns the private piece of data.</p>
-
-  <p>This public interface is a way for the class to control what other code can do to the object.
-    Now other code can find out the value of <pf>m_x</pf> by asking the <pf>getX</pf> function for a copy of the
-    value. But there is no way for outside code to get change the value of <pf>m_x</pf> because direct
-    access is prevented. Other code can't even access <pf>m_y</pf> at all as we have not provided a getter
-    for that value.</p>
-
-  <insight>
-    <p>A good rule of thumb is that member variables should be private and member functions public. The functions are the interface and the variables are the implementation.</p>
-    <p>There will be rare exceptions:
-    <ul>
-      <li>A constant variable might reasonably be made public - there is no way for outside code to use it to change the state of the object.</li>
-      <li>There might be a function that is a useful helper to other member functions but makes no sense for outside code to use. That function could be marked private to prevent its use from outside the class.</li>
-    </ul>
-    But unless you have a very good reason, stick the the rule of thumb.
-    </p>
-  </insight>
-  
-  <exercise label="objects_public-private-ex-1">
-    <statement>
-      <p>Multiple Response: Which of the following appear to be accessor functions?</p>
-    </statement>
-    <choices randomize="yes">
-      <choice correct="yes">
-        <statement>
-          <p>getSuit</p>
-        </statement>
-      </choice>
-      <choice>
-        <statement>
-          <p>setRank</p>
-        </statement>
-      </choice>
-      <choice>
-        <statement>
-          <p>print</p>
-        </statement>
-      </choice>
-      <choice correct="yes">
-        <statement>
-          <p>getRank</p>
-        </statement>
-      </choice>
-    </choices>
-  </exercise>
-
-  <exercise label="objects_public-private-ex-2">
-    <statement>
-      <p>Which of the following are true?</p>
-    </statement>
-    <choices randomize="yes">
-      <choice>
-        <statement>
-          <p>By default, <pf>struct</pf> member variables are private.</p>
-        </statement>
-        <feedback>
-          By default, <pf>struct</pf> member variables are public. This is the main difference between a <pf>class</pf>
-            and a <pf>struct</pf>.
-        </feedback>
-      </choice>
-      <choice correct="yes">
-        <statement>
-          <p>By default, <pf>class</pf> member variables are private.</p>
-        </statement>
-        <feedback>
-          This is different from a <pf>struct</pf>, whose member variables default to be public.
-        </feedback>
-      </choice>
-      <choice correct="yes">
-        <statement>
-          <p>Private member variables can be accessed within the class.</p>
-        </statement>
-        <feedback>
-          Private member variables are private to things outside of the class.
-        </feedback>
-      </choice>
-      <choice correct="yes">
-        <statement>
-          <p>Public member variables can be accessed within the class.</p>
-        </statement>
-        <feedback>
-          Public member variables can be accessed anywhere, including within the class.
-        </feedback>
-      </choice>
-    </choices>
-  </exercise>
 
 </subsection>
 <subsection><title>Why use Private</title>
-  <p>This may seems like a lot of extra work. Instead of letting code access the member variables of a class directly, we instead write a function that code can call to get the value of that member. Most objects end up with many short <pf>getX()</pf> style functions that just do something as simple as <pf>return m_x;</pf>. So what is the advantage?</p>
 
-  <p>Because all outside access must pass through the public interface, the class has the ability to hide the details of the implementation. This is known as <term>information hiding</term>. Hidden information helps to enforce a wall between the code that should know all of the details of a given class (the code in the class) and code that should not depend on those details.</p>
+  <p>So why do we bother with private member variables at all? Why not just make everything public and let code access whatever it wants?</p>
+  
+  <p>To understand why, we need to remember what object-oriented programming was designed to accomplish. It was designed to help make it easier to write and use code in large programs. Part of how it supports this is by giving us tools to manage the complexity of code.
+  </p>
 
-  <p> We say that code is <term>tightly coupled</term> when it depends on all of the details of other parts of the code. When code is tightly coupled, programmers need to know
-    how all of those details work.</p>
+  <p>One form of complexity is the <term>coupling</term> of code. We say that code is <term>tightly coupled</term> when one part depends on all of the details of other parts of the code. <term>Loosely coupled</term> coupled code is the opposite. It is when any given part of the code depends on as few details of other parts as possible.</p>
 
-  <p>By forcing other code to use a public interface instead of the private details, we promote <term>loosely coupled</term> code. In loosely coupled code, a programmer does not need to know about all the details of some class they are using. If they are working with a <pf>Color</pf> object, they should not need to know how to make the color darker by manipluating its data. Instead, they should be able to just call a function like <pf>darken()</pf> and let the <pf>Color</pf> class handle the details of how to do that.</p>
+  <p>
+    Say we are working with a <pf>Point</pf> class. If code outside of the Point class is directly accessing the member variables <pf>m_x</pf> and <pf>m_y</pf>, then that code is tightly coupled to the implementation details of the Point class. It depends on knowing that Point stores its data as two double values named <pf>m_x</pf> and <pf>m_y</pf>.
+  </p>
 
-    <p>Furthermore, in loosely coupled code, it is much easier to change the
-    implementation details without breaking other code. If other code is constantly checking <pf>m_x</pf> and <pf>m_y</pf> directly, we can't change those variables without breaking that code.But if we force other code to use the public interface, we can change the implementation details
-    as long as we preserve the interface.</p>
-    
-    <p>For example, the programmer who is working on the Point class might decide they want to store
-    the data for a Point in polar coordinates (as an angle and distance from 0,0 instead of an x, y
-    pair). As long as they preserved the interface that assumed x and y coordinates, other code
-    would not need to change. Note in this sample that <pf>main</pf> does not need to change at all even
-    though Point is now storing its data in an entirely different way:</p>
+  <p>
+    That has two consequences:
+    <ul>
+      <li>First, if we want to change how Point stores its data, we have to find all of the code that is directly accessing <pf>m_x</pf> and <pf>m_y</pf> and change that code as well.</li>
+      <li>Second, the programmer who is working on the code that is using Point objects has to understand all of the details of how Point works. They have to know that Point has member variables named <pf>m_x</pf> and <pf>m_y</pf>, what those variables mean, what values are valid for them, etc...</li>
+    </ul>
+  </p>
 
-  <listing>
-  <program label="objects_public-private-program-3"
-           interactive="activecode">
-<xi:include href="../../programs/objects/public-private-3.cpp" parse="text"/>
-  </program>
-  </listing>
+  <p>Making the member variables private helps to enforce this boundary. Outside code is not allowed to tightly couple with the details of the Point class.</p>
 
-  <p>Running this sample with the Codelens reveals what is going on. <pf>main</pf> asks for a point to be
-    made with the coordinates 3, 4. The Point class translates this request into the data it will
-    actually store, <pf>m_distance</pf> and <pf>m_angle</pf>. Later, when <pf>main</pf> asks for Point p1 to <pf>getX()</pf>,
-    the Point class calculates the x location from what it has stored and returns that value.</p>
+  <insight>
+    <p>Remember to imagine every object-oriented program as being written by multiple
+      programmers. The programmer who is working on the Point class might be different than the
+      programmer who is working on the code that is using Point objects. By making member variables
+      private, the Point programmer can enforce a boundary between the code that <q>knows the
+      details</q> of how Point works and the code that does not know or depend on those details.
+    </p>
+  </insight>
 
-  <p>The code isn't handling some of the special cases for translating from x,y to polar coordinates
-    correctly, but it still serves to illustrate the power of loose coupling. We can make
-    significant changes to the <pf>Point</pf> class without affecting the <pf>main</pf> function because <pf>Point</pf>
-    forces other code to use an interface that hides the implementation details.</p>
+  
+  <exercise label="objects_public-private-ex-1">
+    <statement>
+      <p>Which is considered to generally lead to better software design?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Loosly coupled code.</p>
+        </statement>
+        <feedback>
+          Correct. Loosely coupled code is easier to work on and maintain. A change in one part of the code is less likely to break other parts of the code.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Tightly coupled code.</p>
+        </statement>
+        <feedback>
+          Tightly coupled code is harder to work on and maintain. A change in one part of the code is more likely to break other parts of the code.
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Uncoupled code.</p>
+        </statement>
+        <feedback>
+          That is not a thing.
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
 
-    <exercise label="objects_public-private-ex-3">
+    <exercise label="objects_public-private-ex-2">
       <statement>
         <p>What are some of the benefits of information hiding?</p>
       </statement>
@@ -189,7 +110,7 @@
             <p>It keeps code secret from other programmers and users.</p>
           </statement>
           <feedback>
-            Incorrect! <q>hiding</q> is not a great term for what we are really doing. <q>protecting</q> might be a better description.
+            Incorrect! <q>hiding</q> is not a great term for what we are really doing. <q>protecting</q> might be a better description. The code is still there and can be read by other programmers. They just can't access it directly.
           </feedback>
         </choice>
         <choice correct="yes">

@@ -19,7 +19,9 @@ public:
     }
 
     // Default constructor
-    Time() {}
+    Time() {
+        // All members default to 0
+    }
 private:
     int m_hours = 0;
     int m_minutes = 0;

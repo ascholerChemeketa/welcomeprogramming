@@ -13,7 +13,7 @@
     functions. To understand how objects are different than structs, let's start by comparing procedural code that we
     might write to define and work with a Point struct with the object-oriented code we would write for a Point
     object.</p>
-    
+
     <p>Below the two approaches are presented side by side. Don't worry about trying to understand all of the
     code. For now, just note some key differences. We will learn about why the code is different in
     the next few sections. <ul>
@@ -24,15 +24,15 @@
       <li>The <pf>createPoint</pf> function is now just called <pf>Point</pf>. And it lacks a return type! (line
     13)</li>
       <li>The <pf>shift</pf> and <pf>toString</pf> functions do not take a <pf>Point</pf> parameter (lines 19 and 26).</li>
+      <li>The syntax to make a Point has changed. (line 36)</li>
       <li>The code that is using the <pf>Point</pf> (the <pf>main</pf> function), calls functions on a particular
     point instead of passing points as parameters. It is <pf>p1.toString</pf> instead of <pf>toString(p1)</pf>.
     (line 36).</li>
     </ul>
   </p>
 
-  <listing>
-
-    <caption>Struct vs. Class</caption>
+  <example>
+    <title>Struct vs. Class</title>
     <sidebyside>
 
       <program>
@@ -41,12 +41,11 @@
 
       <program
                line-numbers="yes"
-               highlight-lines="7-9 11 13 21 28  32 36">
+               highlight-lines="7-9 11 13 21 28  32 36 38">
 <xi:include href="../../programs/objects/objects-2.cpp" parse="text"/>
   </program>
     </sidebyside>
-  </listing>
-
+  </example>
 
   <note>
     <p>In truth, C++ structs are much more similar to classes than we are describing in this
@@ -60,13 +59,13 @@
   <exercise label="objects_objects-ex-1">
     <statement>
       <p>In the struct version, <pf>main</pf> calls <pf>shiftPoint(p1, 1.0, 2.0);</pf> to move p1 over 1 and up 2. Look at the object version of the code for the equivalent object-oriented syntax.</p>
-      <p>Now imagine the struct version said <pf>shiftPoint(p3, 0, 5.1);</pf>. What would the equivalent object-oriented version be? <fillin mode="string" case="insensitive" answer="p3.shiftPoint(0, 5.1);"/>.
+      <p>Now imagine the struct version said <pf>shiftPoint(p3, 0, 5.1);</pf>. What would the equivalent object-oriented version be? <fillin mode="string" case="insensitive" answer="p3.shift(0, 5.1);"/>.
       </p>
     </statement>
     <evaluation>
       <evaluate>
         <test correct="yes">
-          <strcmp>\s*p3.shiftPoint\(\s*0\s*,\s*5\.1\s*\);?\s*</strcmp>
+          <strcmp>\s*p3.shift\(\s*0\s*,\s*5\.1\s*\);?\s*</strcmp>
         </test>
       </evaluate>
     </evaluation>

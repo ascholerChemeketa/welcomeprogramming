@@ -3,27 +3,54 @@
 
   <title>Why Objects</title>
 
-  <p>Every feature of a programming language is designed to solve some problem. Sometimes those problems are fundamental to writing algorithms - there are many problems we could not solve without the ability to write a conditional like <pf>if</pf> statement. Other times, those problems are ones of convenience - the <pf>+=</pf> operator does enable us to solve any problems we can't solve with <pf>x = x + ?</pf>. Understanding what problem a language feature is designed to solve can help us understand how and why a feature works as it does and how important it is to master that feature.</p>
+  <p>Every feature of a programming language is designed to solve some problem. Sometimes those
+    problems are fundamental to writing algorithms - there are many problems we could not solve
+    without the ability to write a conditional like <pf>if</pf> statement. Other times, those
+    problems are ones of convenience - the <pf>+=</pf> operator does enable us to solve any problems
+    we can't solve with <pf>x = x + ?</pf>. Understanding what problem a language feature is
+    designed to solve can help us understand how and why a feature works as it does and how
+    important it is to master that feature.</p>
 
   <p>In this chapter, we are learning about objects. So what problem are objects designed to solve?</p>
 
-  <p>Objects do not enable us to solve any new kind of problem that could not be solved without objects. There are programming languages that lack objects entirely and are still capable of solving any problem that can be solved with a computer.</p>
+  <p>Objects do not enable us to solve any new kind of problem that could not be solved without
+    objects. There are programming languages that lack objects entirely and are still capable of
+    solving any problem that can be solved with a computer.</p>
 
-  <p>Objects do not make is easier or quicker to express an idea. In fact, they often require more code and structure to express an algorithm. This means more code for programmers to write and more code for the computer to run.</p>
+  <p>Objects do not make is easier or quicker to express an idea. In fact, they often require more
+    code and structure to express an algorithm. This means more code for programmers to write and
+    more code for the computer to run.</p>
 
-  <p>The problem objects are designed to address is that of managing complexity in code. As programs get complex, it becomes difficult or even impossible for a programmer to know every detail about every part of the program. We need ways for individuals to start working on a program without understanding all of those details.</p>
+  <p>The problem objects are designed to address is that of managing complexity in code. As programs
+    get complex, it becomes difficult or even impossible for a programmer to know every detail about
+    every part of the program. We need ways for individuals to start working on a program without
+    understanding all of those details.</p>
 
-  <p><term>Object oriented programming</term><mdash/>the process of designing and writing a program using objects as our most important building block<mdash/>has proven helpful in designing systems where programmers can productively work on one part of a program with only limited understanding of the rest of the system.</p>
+  <p><term>Object oriented programming</term><mdash/>the process of designing and writing a program
+    using objects as our most important building block<mdash/>has proven helpful in designing
+    systems where programmers can productively work on one part of a program with only limited
+    understanding of the rest of the system.</p>
 
-  <p>The style of programming we have done up until now is known as <term>procedural programming</term> because the main way we design a program is by designing functions (which also can be called procedures). Well designed procedures can also help manage complexity. There are programs with millions of lines of code that have been successfully written in the procedural style. However, object oriented programming gives us tools that help us enforce abstractions in the code.</p>
+  <p>The style of programming we have done up until now is known as <term>procedural programming</term>
+    because the main way we design a program is by designing functions (which also can be called
+    procedures). Well designed procedures can also help manage complexity. There are programs with
+    millions of lines of code that have been successfully written in the procedural style. However,
+    object oriented programming gives us tools that help us enforce abstractions in the code.</p>
 
   <insight>
-    <p>It helps to imagine all object oriented code being written by two different programmers. There is one programmer who is writing the code for the object. That programmer is responsible for all the low level details of how the object will do its job. The other programmer just wants to use the object. They should not need to know much at all about the internals of the object. They should just</p>
-    <p>When you are working by yourself, do your best to wear these two different hats. There is the <q>you</q> who creates the objects and the <q>you</q> who uses the objects. We will use the term <term>client code</term> to refer to code that makes use of an object despite not being a part of it.</p>
-    <p>Don't assume that the <q>you</q> that is working on client code knows everything the <q>you</q> who is building an object knows!</p>
+    <p>It helps to imagine all object oriented code being written by two different programmers.
+      There is one programmer who is writing the code for the object. That programmer is responsible
+      for all the low level details of how the object will do its job. The other programmer just
+      wants to use the object. They should not need to know much at all about the internals of the
+      object. They should just</p>
+    <p>When you are working by yourself, do your best to wear these two different hats. There is the <q>
+      you</q> who creates the objects and the <q>you</q> who uses the objects. We will use the term <term>client
+      code</term> to refer to code that makes use of an object despite not being a part of it.</p>
+    <p>Don't assume that the <q>you</q> that is working on client code knows everything the <q>you</q>
+      who is building an object knows!</p>
   </insight>
 
-  
+
   <exercise label="objects_why-objects-ex-1">
     <statement>
       <p>Why is object oriented programming a popular way of programming?</p>
@@ -31,10 +58,10 @@
     <choices randomize="yes">
       <choice correct="yes">
         <statement>
-          <p>It helps in designing programs large programs that are easier to work on.</p>
+          <p>It helps in designing large programs that are easier to work on.</p>
         </statement>
         <feedback>
-          Correct!
+          <p>Correct!</p>
         </feedback>
       </choice>
       <choice>
@@ -54,11 +81,13 @@
       </choice>
     </choices>
   </exercise>
-  
+
   <exercise label="objects_why-objects-ex-2">
     <statement>
-      <p>The style of programming that uses functions as the primary building block is known as <fillin mode="string" case="insensitive" answer="procedural"/> programming.
-      </p>
+      <p>The style of programming that uses functions as the primary building block is known as <fillin mode="string"
+                case="insensitive"
+                answer="procedural"/>
+        programming. </p>
     </statement>
     <evaluation>
       <evaluate>

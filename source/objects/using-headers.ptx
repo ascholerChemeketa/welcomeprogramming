@@ -15,11 +15,11 @@
     class with just the function declarations (and comments!) into a .h file and
     keeping the implementations in a .cpp file, it helps enforce the design goal of information hiding.</p>
 
-  <aside>
+  <note>
     <p>If we are providing our code library to some other person or organization, we may not even
       want to give them the implementation. We could provide a .h file that can be included in their
       code along with a precompiled library that has our proprietary code already built.</p>
-  </aside>
+  </note>
 
   <p>The process for splitting
     a class into a .h/.cpp file pair is similar to doing so for a standard function. The .h file
@@ -36,8 +36,8 @@
   </listing>
 
   <note>
-    <p>In a perfect world, it might be nice to only list the public members in the .h file. But the
-      .h file needs to have the complete class declaration minus the function definitions.</p>
+    <p>For information hiding purposes, it would be nice to only list the public members in the .h file.
+      But in C++ the .h file needs to have the complete class declaration including the private blocks.</p>
   </note>
 
   <p>When writing the .cpp file, we need to remember to use the scope resolution operator to specify

@@ -42,7 +42,7 @@
         classDiagram
             class ClassName{
               -memberVariable: type
-              +memberFunction(param: type): returnType
+              +memberFunction(param: type) returnType
             }
             </mermaid>
       </image>
@@ -51,21 +51,23 @@
 
     <p>The diagram format is fairly simple, but there are a few quirks to get used to. The sections
       are used to store variables and methods, not private versus public members. In UML, the plus
-      sign (<pf>+</pf>) identifies a <pf>public</pf> member while a minus sign (<pf>-</pf>) indicates a <pf>private</pf>
-      one. Usually, all of the variables (second section) will be private and all of the functions
-      (third sections) will be public. But if there is a private function, it still belongs in the
-      third section.</p>
+      sign (<pf>+</pf>) identifies a <pf>public</pf> member while a minus sign (<pf>-</pf>)
+      indicates a <pf>private</pf> one. Usually, all of the variables (second section) will be
+      private and all of the functions (third sections) will be public. But if there is a private
+      function, it still belongs in the third section.</p>
     <p>In addition, UML is designed to be language independent. So it does not use the syntax of any
       particular programming language. Instead, it uses a language-independent syntax. To identify
       the types of members, parameters, and return types UML places them after the variable or
-      function name. For example, in UML we write <pf>x: int</pf> rather than C++ syntax, <pf>int x</pf>. When a
-      function has the return type <pf>void</pf>, we simply do not specify a type for that function.</p>
+      function name. For example, in UML we write <pf>x: int</pf> rather than C++ syntax, <pf>int x</pf>.
+      When a function has the return type <pf>void</pf>, we simply do not specify a type for that
+      function.</p>
 
-    <p>Here is what a class diagram for a version of the Point class:</p>
+    <p>Here is what a class diagram for a version of the Point class that includes a private <pf>
+      check</pf> function looks like:</p>
 
     <figure>
-      <caption>Point class diagram. Note the private <pf>check</pf> function still belongs in the third
-        section of the diagram with the other methods.</caption>
+      <caption>Point class diagram. Note the private <pf>check</pf> function still belongs in the
+        third section of the diagram with the other methods.</caption>
       <image>
         <mermaid>
       classDiagram
@@ -88,7 +90,7 @@
       <p>Class diagrams show a class. They represent information about data types available to the
         compiler. There is only one Point class no matter how many Point objects get created.</p>
       <p>Other types of diagrams, like memory diagrams focus on particular objects that exist at run
-        time. A memory diagram might show multiple Point objects as at runtime we can create many
+        time. A memory diagram might show multiple Point objects because we can create many
         instances of the class.</p>
     </insight>
   </subsection>
@@ -113,7 +115,7 @@
       </program>
 
     <note>
-      <p>As noted when we introduced Doxygen style commenting for functions, we often omit the full
+      <p>As noted when we introduced <xref ref="functions-testing_documentation" text="custom">Doxygen</xref> style commenting for functions, we often omit the full
         comments for classes in this text. This is done to minimize the amount of code you need to
         read through to find what is new or interesting in each example.</p>
       <p>Any class (or organization) you write code for will likely expect you to produce well
@@ -125,8 +127,8 @@
     <exercisegroup>
       <title>Exercises: Class Diagrams</title>
       <introduction>
-        <p>The following questions refer to this class diagram. We have intentionally not used <pf>m_</pf>
-          to decorate the names of member variables.</p>
+        <p>The following questions refer to this class diagram. We have intentionally not used <pf>
+          m_</pf> to decorate the names of member variables.</p>
         <figure>
           <caption>A Circle class.</caption>
           <image>
@@ -155,8 +157,7 @@
         <evaluation>
           <evaluate>
             <test correct="yes">
-              <strcmp
-                      ignore-case="yes">radius\s+color\s+PI</strcmp>
+              <strcmp ignore-case="yes">radius\s+color\s+PI</strcmp>
             </test>
             <test>
               <strcmp ignore-case="yes">\w+\s+\w+</strcmp>
@@ -189,8 +190,8 @@
 
       <exercise label="objects_class-diagrams-ex-3">
         <statement>
-          <p>We want a new function to set the radius. In code it would be `void setRadius(double
-            r)` and it would be public. How should that look in UML? <fillin mode="string"
+          <p>We want a new function to set the radius. In code it would be <pf>void setRadius(double
+            r)</pf> and it would be public. How should that look in UML? <fillin mode="string"
                     case="insensitive"
                     answer="+setRadius(r: double)"/>
             .</p>
@@ -200,6 +201,10 @@
             <test correct="yes">
               <strcmp correct="yes"
                       ignore-case="yes">\+\s*setRadius\s*\(\s*r\s*:\s*double\s*\)</strcmp>
+            </test>
+            <test>
+              <strcmp ignore-case="yes">^setR.*</strcmp>
+              <feedback>Remember to start with a + or -</feedback>
             </test>
             <test>
               <strcmp ignore-case="yes">.*\(double.*</strcmp>

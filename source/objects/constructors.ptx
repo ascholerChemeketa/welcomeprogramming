@@ -4,7 +4,8 @@
 
   <subsection>
     <title>What is a Constructor?</title>
-    <p>We have yet to clearly describe this member of the <pf>Point</pf> class:</p>
+
+    <p>We have yet to clearly describe this member of the <pf>Point</pf> class that has popped up in some examples:</p>
     <program>
 Point(double x, double y) {
     m_x = x;
@@ -132,13 +133,13 @@ Point(double x = 0, double y = 0) {...
       constructors. Say we want to provide many different constructors for a <pf>Time</pf> class. We could
       either write this:</p>
 
-    <program>
+    <program line-numbers="yes" highlight-lines="5-7,12-14,19-21,26-28">
 <xi:include href="../../programs/objects/constructors-3.cpp" parse="text"/>
   </program>
 
     <p>Or we would use default values for the members and then simplify the code to this:</p>
 
-    <program>
+    <program line-numbers="yes" highlight-lines="5-7,12-13,18,23, 26-28">
 <xi:include href="../../programs/objects/constructors-4.cpp" parse="text"/>
   </program>
 
@@ -169,7 +170,8 @@ Point p2 = p1; // copy p1 into p2
     </figure>
 
     <p>There are ways to customize what the assignment operator does with objects. Those techniques
-      are important for objects that are in charge of managing resources. But for the simple objects
+      are important for objects that are in charge of managing resources and we will learn about them later.
+      But for the simple objects
       we are working with for now, the default behavior of the assignment operator works just fine.</p>
   </subsection>
 
@@ -192,32 +194,32 @@ Point p2 = p1; // copy p1 into p2
 
   <exercise label="objects_constructors-ex-2">
     <statement>
-      <p>Which statment is <term>false</term> about constructors?</p>
+      <p>Check all the correct statements about constructors.</p>
     </statement>
     <choices randomize="yes">
-      <choice>
+      <choice correct="yes">
         <statement>
-          <p>They initialize the instance variables of an object.</p>
+          <p>You can have multiple constructors for a class.</p>
         </statement>
-        <feedback> Incorrect! This statement is true! </feedback>
-      </choice>
-      <choice>
-        <statement>
-          <p>They have the same name as the class.</p>
-        </statement>
-        <feedback> Incorrect! This statement is true! </feedback>
+        <feedback> Correct! This statement is true! </feedback>
       </choice>
       <choice correct="yes">
         <statement>
-          <p>Every class should only have one constructor.</p>
+          <p>They have the same name as the class.</p>
         </statement>
-        <feedback> Correct! It is often useful to have multiple constructors. </feedback>
+        <feedback> Correct! This statement is true! </feedback>
       </choice>
       <choice>
         <statement>
-          <p>They have the same name as the class, no return type and unchanged parameters.</p>
+          <p>A constructor takes no parameters.</p>
         </statement>
-        <feedback> Incorrect! This statement is true! </feedback>
+        <feedback>A constructor can take parameters.</feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>They have no return type.</p>
+        </statement>
+        <feedback> Correct! This statement is true! </feedback>
       </choice>
     </choices>
   </exercise>
