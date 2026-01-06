@@ -33,6 +33,6 @@ int main() {
     p1.setAge(35);
     cout << "New Age: " << p1.getAge() << endl;
 
-    p1.setAge(-5); // Invalid age
+    p1.setAge(-5); // attempt to set invalid age
     cout << "After invalid age attempt: " << p1.getAge() << endl;
 }

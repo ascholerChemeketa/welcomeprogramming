@@ -48,11 +48,6 @@
       <p>By forcing others to use the public interface and then preventing unwanted modifications in
         that interface, the programmer of the Point class is able to limit the potential for such
         issues.</p>
-
-      <p>When looking at a simple code example. Or when you are writing a small program and know and are responsible for all of the code, much of what we do in object-oriented
-        programming may seem unnecessary. But in a large project, especially one with many programmers, these kinds
-        of protections can be very valuable.
-      </p>
     </insight>
 
     <p>
@@ -85,6 +80,14 @@ public:
 
     <p><pf>getOlder</pf> mutates (changes) the object. But it doesn't allow other code to change the age to
       an arbitrary value.</p>
+
+
+    <insight>
+      <p>When looking at a simple code example or writing a small program where you are responsible for all of the code, much of what we do in object-oriented
+        programming may seem unnecessary. Keep in mind that is not what OOP was designed for. In a large project, especially one with many programmers, the layers of abstraction and information hiding can be very valuable.
+      </p>
+    </insight>
+
 
   <exercise label="objects_getters-setters-ex-2"
             numbered="yes"
