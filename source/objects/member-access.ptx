@@ -91,7 +91,7 @@ p2.getX();
     <p>The code in main is not allowed to directly access the private member variable <pf>m_x</pf> of the Point. But it can politely ask the Point to give it the value by calling a public member function <pf>getX()</pf>. The <pf>getX()</pf> function, as a member of the class, has access to the private information. Thus, we are providing an interface (public functions) so outside code can interact with the implementation (private variables) in a controlled way.</p>
 
   <insight>
-    <p>A good rule of thumb is that member variables should be private and member functions public.</p>
+    <p>A good rule of thumb is: member variables should be private and member functions public.</p>
     <p>There will be rare exceptions:
     <ul>
       <li>A constant variable might reasonably be made public - there is no way for outside code to use it to change the state of the object.</li>
