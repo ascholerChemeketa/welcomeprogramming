@@ -1,0 +1,271 @@
+<section xml:id="big-o_putting-together"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Analyzing a Longer Chunk</title>
+
+  <p>Now let us consider a longer chunk of code:</p>
+
+  <program>
+      int sum = 0;
+      for (int i = 0; i &lt; n; i++) {
+        for (int j = 0; j &lt; n; j *= 2) {
+          sum = sum + i + j;
+        }
+      }
+
+      if (n % 2 == 0) {
+        sum = sum + 1;
+      } else {
+        sum = sum + 2;
+      }
+
+      for (int k = 1; k &lt;= n/2; k++) {
+        int x = 1 + k;
+        sum = sum + x;
+      }
+      return sum;
+    </program>
+
+  <p>To analyze this code, we can: <ol>
+      <li>Call any sequence of lines that do not involve loops or function calls <m>O(1)</m>.</li>
+      <li>Calculate the number of iterations of each loop.</li>
+      <li>When loops are nested, multiply the number of iterations of each loop to get the total
+    number of iterations.</li>
+      <li>Add whatever remains and only keep the dominant term.</li>
+    </ol>
+  </p>
+
+  <investigation label="big-o_identifying-ex-1">
+    <introduction>
+      <p>We will analyze the given code to determine its Big-O complexity.</p>
+    </introduction>
+    <task>
+      <title>Start</title>
+      <p>First, we replace non-loops with <m>O(1)</m>.</p>
+
+      <program>
+      int sum = 0;
+      for (int i = 0; i &lt; n; i++) {
+        for (int j = 0; j &lt; n; j *= 2) {
+          sum = sum + i + j;
+        }
+      }
+
+      if (n % 2 == 0) {
+        sum = sum + 1;
+      } else {
+        sum = sum + 2;
+      }
+      
+      for (int k = 1; k &lt;= n/2; k++) {
+        int x = 1 + k;
+        sum = sum + x;
+      }
+      return sum;
+    </program>
+    </task>
+    <task>
+      <title>Identify loop lengths</title>
+      <p>That results in the following.</p>
+
+      <program>
+      // O(1)
+      for (int i = 0; i &lt; n; i++) {
+        for (int j = 0; j &lt; n; j *= 2) {
+          // O(1)
+        }
+      }
+
+      // O(1)
+      
+      for (int k = 1; k &lt;= n/2; k++) {
+        // O(1)
+      }
+      // O(1)
+    </program>
+      <p>Next, we identify the lengths of each loop.</p>
+    </task>
+    <task>
+      <title>Identify loop lengths</title>
+      <p>Here, each loop is labeled with the number of repetitions. Note that: <ul>
+          <li> the <pf>i</pf> loop counts from 0 to n by 1s, so it has a length of <m>O(n)</m></li>
+          <li> the <pf>j</pf> loop, which multiplies by 2 at each step, has a length of <m>O(\log n)</m></li>
+          <li> the <pf>k</pf> loop, which counts from 1 up to <m>n/2</m> by 1s, has a length of <m>
+        O(n)</m></li>
+        </ul>
+      </p>
+
+      <program>
+      // O(1)
+      loop O(n) times {  (i loop)
+        loop O(log n) times {  (j loop)
+          // O(1)
+        }
+      }
+
+      // O(1)
+      
+      loop O(n) times { (k loop)
+        // O(1)
+      }
+      // O(1)
+    </program>
+      <p>Next, we multiply loops by what is inside them.</p>
+    </task>
+
+    <task>
+      <title>Multiply Loops by Contents</title>
+      <p>We start with the inner loop (<pf>j</pf> loop). It runs <m>O(\log n)</m> times, and its
+        contents are <m>O(1)</m>, so the total is <m>O(\log n) \cdot O(1) = O(\log n)</m>.</p>
+      <program>
+      // O(1)
+      loop O(n) times { (i loop)
+        // O(log n)  (j loop)
+      }
+      // O(1)
+      loop O(n) times { (k loop)
+        // O(1)
+      }
+      // O(1)
+    </program>
+      <p>Now we have no nested loops, so we can multiply the remaining loops by their contents.</p>
+    </task>
+
+    <task>
+      <title>Multiply Loops by Contents</title>
+      <p>The <pf>i</pf> loop runs <m>O(n)</m> times, and its contents are <m>O(\log n)</m>, so the
+        total is <m>O(n) \cdot O(\log n) = O(n \log n)</m>.</p>
+      <program>
+      // O(1)
+      // O(n log n) (i loop with j inside)
+      // O(1)
+      loop O(n) times { (k loop)
+        // O(1)
+      }
+      // O(1)
+    </program>
+      <p>Next the <pf>k</pf> loop.</p>
+    </task>
+
+    <task>
+      <title>Multiply Loops by Contents</title>
+      <p>The <pf>k</pf> loop runs <m>O(n)</m> times, and its contents are <m>O(1)</m>, so the total
+        is <m>O(n) \cdot O(1) = O(n)</m>.</p>
+      <program>
+      // O(1)
+      // O(n log n) (i loop with j inside)
+      // O(1)
+      // O(n) (k loop)
+      // O(1)
+    </program>
+      <p>We have <md>O(1) + O(n \log n) + O(1) + O(n) + O(1)</md>. That is <md>O(n \log n) + O(n) +
+        3 \cdot O(1)</md> which is just <md>O(n \log n) + O(n) + O(1)</md>.</p>
+      <p> Of those, the dominant term is <m>O(n \log n)</m>. So the Big-O complexity is <m>O(n \log
+        n)</m>.</p>
+      <p>Since all we care about is the dominant term, we didn't even have to add up the various
+        terms. We could have simply looked at the four terms we ended up with and picked the largest
+        one!</p>
+    </task>
+  </investigation>
+
+  <!-- TODO: Parsons BigO analysis-->
+
+  <exercise label="big-o_putting-together-ex-1">
+    <statement>
+      <p>We want to analyze this program fragment:</p>
+      <program>
+      int sum = 0;
+      for (int i = 0; i &lt; n; i += 2) {
+        for (int j = 0; j &lt; i; j++) {
+          sum = sum + i + j;
+        }
+      }
+
+      int total = 0;
+      for (int i = 1; i &lt;= n; i++) {
+        int x = 1 + i;
+        for (int j = 0; j &lt; n; j *= 2) {
+          total = total + i + j;
+          total = total * 2;
+        }
+      }
+      if (sum > total) {
+        total = sum;
+      }
+      return sum;
+      </program>
+      <p>Arrange the correct blocks from below so that the first step is on top, the next logical
+        step is below that, etc... The last block will have the final Big-O complexity.</p>
+      <p>You will not use all the blocks.</p>
+    </statement>
+    <blocks>
+      <block>
+        <cline><![CDATA[// O(1)]]></cline>
+        <cline><![CDATA[for (int i = 0; i < n; i += 2) {]]></cline>
+        <cline><![CDATA[  for (int j = 0; j < i; j++) {]]></cline>
+        <cline><![CDATA[    // O(1)]]></cline>
+        <cline><![CDATA[  }]]></cline>
+        <cline><![CDATA[}]]></cline>
+        <cline><![CDATA[// O(1)]]></cline>
+        <cline><![CDATA[for (int i = 1; i <= n; i++) {]]></cline>
+        <cline><![CDATA[  // O(1)]]></cline>
+        <cline><![CDATA[  for (int j = 0; j < n; j *= 2) {]]></cline>
+        <cline><![CDATA[    // O(1)]]></cline>
+        <cline><![CDATA[  }]]></cline>
+        <cline><![CDATA[}]]></cline>
+        <cline><![CDATA[// O(1)]]></cline>
+      </block>
+      <block>
+        <choice correct="yes">
+        <cline><![CDATA[// O(1)]]></cline>
+        <cline><![CDATA[for (int i = 0; i < n; i += 2) {]]></cline>
+        <cline><![CDATA[  // O(n)]]></cline>
+        <cline><![CDATA[}]]></cline>
+        <cline><![CDATA[// O(1)]]></cline>
+        <cline><![CDATA[for (int i = 1; i < = n; i++) {]]></cline>
+        <cline><![CDATA[  // O(1)]]></cline>
+        <cline><![CDATA[  // O(logn)]]></cline>
+        <cline><![CDATA[}]]></cline>
+        <cline><![CDATA[// O(1)]]></cline>
+        </choice>
+        <choice>
+        <cline><![CDATA[// O(1)]]></cline>
+        <cline><![CDATA[for (int i = 0; i < n; i += 2) {]]></cline>
+        <cline><![CDATA[  // O(n)]]></cline>
+        <cline><![CDATA[}]]></cline>
+        <cline><![CDATA[// O(1)]]></cline>
+        <cline><![CDATA[for (int i = 1; i < = n; i++) {]]></cline>
+        <cline><![CDATA[  // O(1)]]></cline>
+        <cline><![CDATA[  // O(n)]]></cline>
+        <cline><![CDATA[}]]></cline>
+        <cline><![CDATA[// O(1)]]></cline>
+        </choice>
+      </block>
+      <block>
+        <choice correct="yes">
+        <cline><![CDATA[// O(1)]]></cline>
+        <cline><![CDATA[// O(n^2)]]></cline>
+        <cline><![CDATA[// O(1)]]></cline>
+        <cline><![CDATA[// O(nlogn)]]></cline>
+        <cline><![CDATA[// O(1)]]></cline>
+        </choice>
+        <choice>
+        <cline><![CDATA[// O(1)]]></cline>
+        <cline><![CDATA[// O(n^2)]]></cline>
+        <cline><![CDATA[// O(1)]]></cline>
+        <cline><![CDATA[// O(n^2)]]></cline>
+        <cline><![CDATA[// O(1)]]></cline>
+        </choice>
+      </block>
+      <block>
+        <choice correct="yes">
+        <cline><![CDATA[// O(n^2)]]></cline>
+        </choice>
+        <choice >
+        <cline><![CDATA[// O(nlogn)]]></cline>
+        </choice>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

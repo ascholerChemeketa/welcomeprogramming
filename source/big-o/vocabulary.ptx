@@ -1,0 +1,129 @@
+<section xml:id="search-sort_vocabulary"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Vocabulary and Common Recurrence Relations</title>
+
+  <subsection>
+    <title>Common Recurrence Relations</title>
+    <p>Here again is the table of common recurrence relations from <xref ref="big-o-recurrence-relations-table-1"/>
+      for your reference:</p>
+
+    <tabular bottom="minor">
+      <col width="30%"/>
+      <col width="15%"
+           halign="center"/>
+      <col width="55%"/>
+      <row header="yes"
+           bottom="major">
+        <cell>Pattern for General Case</cell>
+        <cell>Big-O</cell>
+        <cell>Description</cell>
+      </row>
+      <row>
+        <cell>
+          <m>T(n) = T(n / 2) + O(1) </m>
+        </cell>
+        <cell>
+          <m>O(\log n)</m>
+        </cell>
+        <cell>
+          <p> Function does constant work and makes a single recursive call on half the input. </p>
+        </cell>
+      </row>
+      <row>
+        <cell>
+          <m>T(n) = T(n - 1) + O(1) </m>
+        </cell>
+        <cell>
+          <m>O(n)</m>
+        </cell>
+        <cell>
+          <p> Function does constant work and makes a single recursive call on input reduced by one. </p>
+        </cell>
+      </row>
+      <row>
+        <cell>
+          <m>T(n) = 2 \cdot T(n / 2) + O(n) </m>
+        </cell>
+        <cell>
+          <m>O(n \log n)</m>
+        </cell>
+        <cell>
+          <p> Function does linear work and makes two recursive calls on half the input. </p>
+        </cell>
+      </row>
+    </tabular>
+
+  </subsection>
+  <subsection>
+    <title>Vocabulary</title>
+    <p>
+      <dl>
+        <li>
+          <title>Big-O notation</title>
+          <p>
+            <idx>
+              <h>big-o notation</h>
+            </idx> A mathematical notation used to describe the
+            efficiency of algorithms in terms of how their resource usage grows as the size of the
+            input grows. </p>
+        </li>
+        <li>
+          <title>linear complexity</title>
+          <p>
+            <idx>
+              <h>linear complexity</h>
+            </idx> An algorithm where the growth rate is <m>
+            O(n)</m>, meaning that the time taken grows as a linear function of the size of the
+            input. </p>
+        </li>
+        <li>
+          <title>logarithmic complexity</title>
+          <p>
+            <idx>
+              <h>logarithmic complexity</h>
+            </idx> An algorithm where the growth rate is <m>O(\log
+            n)</m>, meaning that the time taken grows as a logarithmic function of the size of the
+            input. </p>
+        </li>
+        <li>
+          <title>log-linear complexity</title>
+          <p>
+            <idx>
+              <h>log-linear complexity</h>
+            </idx> An algorithm where the growth rate is <m>O(n
+            \log n)</m>, meaning that the time taken grows as a log-linear function of the size of
+            the input. </p>
+        </li>
+        <li>
+          <title>quadratic complexity</title>
+          <p>
+            <idx>
+              <h>quadratic complexity</h>
+            </idx> An algorithm where the growth rate is <m>
+            O(n^2)</m>, meaning that the time taken grows as a quadratic function of the size of the
+            input. </p>
+
+        </li>
+        <li>
+          <title>time complexity</title>
+          <p>
+            <idx>
+              <h>time complexity</h>
+            </idx> A measure of the amount of time an algorithm
+            takes to complete as a function of the size of its input. This complexity is analyzed in
+            terms of the number of basic operations performed by the algorithm. </p>
+        </li>
+        <li>
+          <title>wall time</title>
+          <p>
+            <idx>
+              <h>time</h>
+              <h>wall</h>
+            </idx> The actual time taken from the start to the end of a
+            program's execution, as would be measured by a clock on the wall. Also called <term>wall-clock
+            time</term>. </p>
+        </li>
+      </dl>
+    </p>
+  </subsection>
+</section>

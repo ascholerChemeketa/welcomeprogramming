@@ -1,0 +1,119 @@
+<section xml:id="big-o_algorithm-efficiency">
+  <title>Algorithm Efficiency</title>
+
+  <p>There are multiple reasons why we might need to understand and describe the efficiency of a
+    given algorithm. Perhaps we want to estimate how long a program will take to run on a large data
+    set. Or maybe we are trying to decide between two different algorithms to solve the same problem
+    and want to pick the one that will perform better.</p>
+
+  <p>While attempting to describe the efficiency of an algorithm, there are many different things we
+    could measure about an algorithm: the number of lines of code to express, the amount of memory
+    used while running, the time it takes to run, etc.... By some definition, each of those is a
+    measure of efficiency and is something we might care about.</p>
+
+  <p>As users of a program, what we usually care about is <q>How quickly do I get my answer</q>. A
+    search for a file on your computer that shows results in 0.02 seconds is great; a search that
+    takes 20 minutes would be much less useful. So the metric that we generally focus on is <term>time
+    efficiency</term>. <q>How long does it take to finish an algorithm?</q>
+  </p>
+
+  <insight>
+    <p> There are other types of efficiency that can be analyzed, but time efficiency is the most
+      common one to focus on. </p>
+  </insight>
+
+  <p>However, the time to do something depends on many factors - how fast is the computer? how many
+    other things is it trying to do? how big is the problem (how many files are there to search)?
+    These factors will change depending on who is running the program and when; the fact that you
+    are running a program on a faster computer and it takes less time than when I run it does not
+    tell us anything interesting about the algorithm the program uses.</p>
+
+  <p>So instead of measuring time when measuring algorithms, we usually think in terms of the <q>
+    work</q> required to do a job of size <term>n</term>. The work required to perform a particular
+    algorithm does not generally change when it is executed on different machines or under different
+    conditions. Those conditions may affect how much time it takes to do a certain amount of work. A
+    faster computer can do more work in the same amount of time. A computer that is busy doing other
+    things may take longer to do the same amount of work. However even as the time to do a set
+    amount of work changes, the amount of work to be done remains the same.</p>
+
+  <p>The amount of work <em>is</em> affected by how big a job we are doing. Searching through
+    100,000 files involves more work than searching through 10 files. So we always do need to
+    qualify our work estimates with <m>n</m>: the size of the job. <m>n</m> can have different
+    meanings for different algorithms, but it always stands for <q>the size of the job being done</q>.
+    If we are sorting numbers, <m>n</m> would be the number of numbers to sort. If we are finding
+    the median score on a set of tests, <m>n</m> would be the number of tests being analyzed.</p>
+
+  <p>Learning to identify what definition for <m>n</m> makes the most sense for a given algorithm is
+    an important skill. There often might be multiple reasonable choices for what <m>n</m> could be.
+    For example, if we are searching for a word in a document, is <m>n</m> the number of words in
+    the document? the number of characters? the number of lines? Each of those choices could be
+    justified. However, some choices will lead to more useful analyses than others. In this case,
+    choosing <m>n</m> to be the number of words in the document is likely to lead to a more useful
+    analysis than choosing the number of lines, since documents can vary widely in how many words
+    are on each line. Choosing the number of characters would also be reasonable, but would likely
+    lead to more complex analyses without adding much value over simply counting words.</p>
+
+  <p>Sometimes we may need to consider more than one number in analyzing an algorithm. For instance,
+    to identify the closest group of people to each individual in a social network, we likely need
+    to know something about the number of people and the average number of connections between a
+    single person and others in the network. In those cases, we will use <pf>n</pf>, <pf>m</pf>,
+    etc... to represent all of the important numbers.</p>
+
+  <exercise label="big-o_algorithm-efficiency-ex-1">
+    <statement>
+      <p>Which of the following would be expected to affect the time an algorithm takes to run but
+        not the amount of work the algorithm does?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>The speed of the computer running the algorithm.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The number of items the algorithm is processing.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The number of steps in the algorithm.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>How many other programs are running on the computer at the same time.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="big-o_algorithm-efficiency-ex-2">
+    <statement>
+      <p>In analyzing an algorithm, what does <m>n</m> usually represent?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>The number of lines of code in the algorithm.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>The size of the job the algorithm is performing. (The number of pieces of data it is
+            working with.)</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The amount of time it takes to run the algorithm.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The amount of memory used by the algorithm.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+</section>

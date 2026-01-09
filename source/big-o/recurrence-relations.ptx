@@ -1,0 +1,147 @@
+<section xml:id="big-o_recurrence-relations"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Recurrence Relations to Recognize</title>
+
+  <p> Now that we have analyzed <pf>factorial</pf>, we can apply the same logic to any other recursive
+    function that does a constant amount of work per call and makes a single recursive call to
+    repeat the process with one less than the current input. Any function that looks like: </p>
+
+  <program>
+<xi:include href="../../programs/big-o/recurrence-relations-1.cpp" parse="text"/>
+  </program>
+
+  <p> will have the same recurrence relation as <pf>factorial</pf>: <md> T(n) = \begin{cases} O(1) &amp;
+    \text{if } n \leq 1 \\ T(n - 1) + O(1) &amp; \text{if } n > 1 \end{cases} </md> and thus will
+    also have an overall time complexity of <m>O(n)</m>. </p>
+
+  <p> There are other common recurrence relations that we will see in recursive functions. Another
+    common one is a function that makes a recursive call on half of the current input. For example,
+    consider a function that looks like this: </p>
+
+  <program>
+<xi:include href="../../programs/big-o/recurrence-relations-2.cpp" parse="text"/>
+  </program>
+
+  <p> This function has the recurrence relation: <md> T(n) = \begin{cases} O(1) &amp; \text{if } n
+    \leq 1 \\ T(n / 2) + O(1) &amp; \text{if } n > 1 \end{cases} </md> We will not go through the
+    full solution here, but this recurrence relation solves to <m>O(\log n)</m>. </p>
+
+  <p> A final common recurrence relation is one where a function a linear (<m>O(n)</m>) amount of
+    work and then makes two recursive calls on half of the current input. Here is an example of such
+    a function: </p>
+
+  <program>
+<xi:include href="../../programs/big-o/recurrence-relations-3.cpp" parse="text"/>
+  </program>
+
+  <p> Here, the time to do a job of size <m>n</m> is the time to do two jobs of size <m>n / 2</m>
+    plus <m>O(n)</m> work for the loop. This gives us the recurrence relation: <md> T(n) =
+    \begin{cases} O(1) &amp; \text{if } n \leq 1 \\ 2 \cdot T(n / 2) + O(n) &amp; \text{if } n > 1
+    \end{cases} </md> This recurrence relation solves to <m>O(n \log n)</m>. </p>
+
+  <p>You will not need to solve new recurrence relations for problems in this book. But you will
+    need to recognize these common patterns:</p>
+
+  <table xml:id="big-o-recurrence-relations-table-1">
+    <title>Recurrence Relations to Recognize</title>
+    <tabular bottom="minor">
+      <col width="30%"/>
+      <col width="15%" halign="center"/>
+      <col width="55%"/>
+      <row header="yes" bottom="major">
+        <cell>Pattern for General Case</cell>
+        <cell>Big-O</cell>
+        <cell>Description</cell>
+      </row>
+      <row>
+        <cell><m>T(n) = T(n / 2) + O(1) </m></cell>
+        <cell><m>O(\log n)</m></cell>
+        <cell><p>
+          Function does constant work and makes a single recursive call on half the input.
+        </p></cell>
+      </row>
+      <row>
+        <cell><m>T(n) = T(n - 1) + O(1) </m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><p>
+          Function does constant work and makes a single recursive call on input reduced by one.
+        </p></cell>
+      </row>
+      <row>
+        <cell><m>T(n) = 2 \cdot T(n / 2) + O(n) </m></cell>
+        <cell><m>O(n \log n)</m></cell>
+        <cell><p>
+          Function does linear work and makes two recursive calls on half the input.
+        </p></cell>
+      </row>
+    </tabular>
+  </table>
+
+
+  <exercise label="big-o_recurrence-relations-ex-1">
+    <statement>
+      <p>What pattern does the following function follow?</p>
+      <program>
+        int mysteryFunction(int n) {
+          if (n &lt;= 1) {
+            return 1;
+          } else {
+            int x = mysteryFunction(n - 1);
+            return 2 * x;
+          }
+        }
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement><m>T(n) = T(n / 2) + O(1) </m></statement>
+      </choice>
+      <choice correct="yes">
+        <statement><m>T(n) = T(n - 1) + O(1) </m></statement>
+        <feedback>
+          <p>The function makes
+            a single recursive call on input size n reduced by one. It only does a constant amount of work outside the recursive call.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement><m>T(n) = 2 \cdot T(n / 2) + O(n) </m></statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="big-o_recurrence-relations-ex-2">
+    <statement>
+      <p>What pattern does the following function follow?</p>
+      <program>
+        int mysteryFunction(int start, int end) {
+          if (end > start + 1) {
+            int mid = (start + end) / 2;
+            mysteryFunction(start, mid);
+            mysteryFunction(mid, end);
+            for (int i = start; i &lt; end; i++) {
+              // do O(1) work
+            }
+          }
+        }
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement><m>T(n) = T(n / 2) + O(1) </m></statement>
+      </choice>
+      <choice>
+        <statement><m>T(n) = T(n - 1) + O(1) </m></statement>
+      </choice>
+      <choice correct="yes">
+        <statement><m>T(n) = 2 \cdot T(n / 2) + O(n) </m></statement>
+        <feedback>
+          <p>The size here is <m>n = end - start</m>.</p>
+          <p>The function makes two recursive calls on half the input size and does linear work
+            outside the recursive calls.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

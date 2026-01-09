@@ -1,0 +1,398 @@
+<section xml:id="big-o_nested-loops"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Nested Loops and Big-O</title>
+
+  <subsection>
+    <title>Analyzing Nested Loops</title>
+
+    <p>What should the Big-O be for this nested loop?</p>
+    <program>
+    for (int i = 0; i &lt; n; i++) {
+      for (int j = 0; j &lt; n; j++) {
+        cout &lt;&lt; "*";
+      }
+      cout &lt;&lt; endl;
+    }
+  </program>
+
+    <p>Using the techniques from the previous section, we can identify that the inner loop runs <m>n</m>
+      times. We also can tell that the outer loop runs <m>n</m> times. What do we do with those two <m>
+      n</m>s?</p>
+
+    <p>It is important to recognize that the inner loop runs completely each time through the outer
+      loop. If we run that code with<pf>n</pf> is 5, we print 25 stars (5 lines with 5 stars each). </p>
+
+    <console>
+      <output>
+*****
+*****
+*****
+*****
+*****</output>
+    </console>
+
+    <p>For each of the <m>n</m> iterations of the outer loop, we run the inner loop, which itself
+      runs <m>n</m> times. This means that the code inside the inner loop (printing a single star
+      here) runs a total of <m>n \cdot n = n^2</m> times.</p>
+
+    <insight>
+      <p>When loops are nested, we have to multiply their iteration counts to find the total work
+        done.</p>
+    </insight>
+
+    <p>If we simplify the contents of the outer loop using Big-O notation, we get:</p>
+
+    <program>
+    for (int i = 0; i &lt; n; i++) {
+      // O(n) work for j loop
+      // O(1) to print newline
+    }
+  </program>
+
+    <p>Now we multiply that work by the number of iterations of the outer loop. <m>n \cdot (O(n) +
+      O(1)) = n \cdot O(n) = O(n^2) + O(n)</m>. The dominant term is <m>O(n^2)</m>, so the entire
+      nested loop is called <m>O(n^2)</m>. </p>
+
+    <p>Note that we could get the same answer by using Big-O logic on the contents of the loop.
+      Inside the loop we are doing <m>O(n)</m> work for the inner loop and <m>O(1)</m> work to print
+      the newline. So the entire contents of the outer loop is <m>O(n) + O(1)</m>. But in Big-O
+      notation we only care about the dominant term. Here, that is <m>O(n)</m>. Thus we could write: </p>
+
+    <program>
+    for (int i = 0; i &lt; n; i++) {
+      // O(n) work for j loop and constant work
+    }
+  </program>
+
+    <p>Now analyzing the outer loop is just <m>n \cdot O(n) = O(n^2)</m>.</p>
+
+    <insight>
+      <p>You can simplify as you go using Big-O rules to make analysis easier.</p>
+    </insight>
+
+
+    <p>What would the work be for these loops?</p>
+    <program>
+    for (int i = 0; i &lt; n; i++) {
+      for (int j = 0; j &lt; 10; j++) {
+        sum = sum + i + j;
+      }
+    }
+  </program>
+
+    <p>Start with the inner loop. The inner loop runs 10 times. Each time through the inner loop, it
+      does a constant amount of work. So the inner loop is <m>10 \cdot O(1) = O(1)</m>.</p>
+
+    <program>
+    for (int i = 0; i &lt; n; i++) {
+      O(1) work for j loop
+    }
+  </program>
+
+    <p>Now analyze the outer loop. The outer loop runs <m>n</m> times. Each time through the outer
+      loop, it does <m>O(1)</m> work. So the entire nested loop is <m>n \cdot O(1) = O(n)</m>.
+      Because the inner loop iterates a constant number of times, it does not affect the overall
+      Big-O complexity.</p>
+
+    <p>Let's consider one more example:</p>
+
+    <program>
+    int i = 1;
+    while(i &lt; n) {
+      for (int j = 0; j &lt; n; j++) {
+        sum = sum + i + j;
+      }
+      i = i * 2;
+    }
+  </program>
+
+    <p>The inner loop runs <m>n</m> times and does <m>O(1)</m> work each time, so the inner loop is <m>
+      O(n)</m>. That gives us:</p>
+
+    <program>
+    int i = 1;
+    while(i &lt; n) {
+      // O(n) work for j loop
+      i = i * 2;
+    }
+  </program>
+
+    <p> Now we have to analyze the outer loop. The counter <pf>i</pf> starts at 1 and is doubled each
+      time through the loop. So the values of <pf>i</pf> are: <pre>1, 2, 4, 8, 16, ..., n</pre>
+    </p>
+
+    <p>That is a classic pattern (multiplied or divided by the same amount at each step) for <m>O(\log
+      n)</m>.</p>
+
+    <p>Thus the entire nested loop is <m>O(\log n) \cdot (O(n) + O(1)) = O(n \log n) + O(\log n)</m>.
+      The dominant term is <m>O(n \log n)</m>, so the entire nested loop is <m>O(n \log n)</m>.</p>
+
+    <p>Again, we could have simplified the contents of the outer loop first. It does <m>O(n) + O(1)</m>,
+      but that is really just <m>O(n)</m>.</p>
+
+    <program>
+    int i = 1;
+    // O(log n) iterations
+      // O(n) work for j loop and constant work
+  </program>
+
+    <p>Now analyzing the outer loop is just <m>O(\log n) \cdot O(n) = O(n \log n)</m>.</p>
+
+  </subsection>
+
+  <subsection>
+    <title>Dependent Inner Loops</title>
+    <p>What about nested loops where the inner loop's number of iterations depends on the outer
+      loop's counter? As in this sample:</p>
+    <program>
+    for (int i = 1; i &lt;= n; i++) {
+      for (int j = 1; j &lt;= i; j++) {
+        cout &lt;&lt; "*";
+      }
+      cout &lt;&lt; endl;
+    }
+    </program>
+
+    <p>If the <pf>n</pf> is 5, the output would be:</p>
+    <console>
+      <output>
+*
+**
+***
+****
+*****
+  </output>
+    </console>
+    <p>Here, the inner loop runs a different number of times depending on the value of <pf>i</pf>.
+      When <pf>i</pf> is 1, the inner loop runs 1 time. When <pf>i</pf> is 2, the inner loop runs 2
+      times. When <pf>i</pf> is 3, the inner loop runs 3 times. And so on, up to <pf>n</pf>.</p>
+
+    <p>We can do a rough estimate by thinking of the average cost of the inner loop. It is clear
+      that the outer loop is repeating <m>n</m> (5) times. What is the average number of times the
+      inner loop repeats? The middle line represents the average case - it repeats about <m>
+      \frac{n}{2}</m> times. If <m>n</m> were 100, the middle line would have about ~50 stars. It
+      doesn't matter if the exact number is <m>\frac{n}{2}</m> or <m>\frac{n + 1}{2}</m> or any
+      other similar formula. Those are all still dominated by <m>n</m> divided by a constant, which
+      is <m>O(n)</m>.</p>
+    <p>So the inner loop is doing <m>O(n)</m> work on average. The outer loop runs <m>n</m> times,
+      so the entire nested loop still does about <m>n \cdot O(n) = O(n^2)</m> work. </p>
+
+    <p>To more formally arrive at the same answer, we can figure out how to sum:</p>
+
+    <console>
+      <output>1 + 2 + 3 + ... + (n - 2) + (n - 1) + n</output>
+    </console>
+
+    <p>By taking the first term and the last term and adding them we get <m>1 + n = n + 1</m>.
+      Taking the second term and the second-to-last term we get <m>2 + (n - 1) = n + 1</m>. Then the
+      third term and third-to-last also add to <m>n + 1</m>. Each pair of terms made working from
+      the ends to the middle adds to <m>n + 1</m>.</p>
+
+    <p> How many such pairs are there? <m>n</m> items grouped into pairs will make <m>\frac{n}{2}</m>
+      pairs. So the entire sum is about <m>\frac{n}{2} \cdot (n + 1)</m>. <md> \frac{n}{2} \cdot (n
+      + 1) = \frac{n^2 + n}{2} = \frac{1}{2} n^2 + \frac{1}{2} n </md> The dominant term is <m>\frac{1}{2}
+      n^2</m>, which is <m>O(n^2)</m> in Big-O notation. </p>
+
+    <insight>
+      <p> In nested loops, when the outer loop does <m>n</m> iterations and the inner loops
+        iteration count looks like: <c>1, 2, 3, ..., n-2, n-1, n</c> then the total work done is <m>O(n^2)</m>. </p>
+    </insight>
+
+    <p>This shortcut only applies to this situation where the inner loop's iteration count increases
+      linearly from 1 up to <m>n</m>. or if the inner loop iteration count starts from <m>n</m> and
+      counts down to 1 as in something like:</p>
+
+    <program>
+      for (int i = 1; i &lt;= n; i++) {
+        // print n - i + 1 stars... 1 fewer each iteration
+        int numStars = n - i + 1;
+        for (int j = 1; j &lt;= numStars; j++)
+          cout &lt;&lt; "*";
+        }
+        cout &lt;&lt; endl;
+      }
+    </program>
+
+    <p>In more complex situations where the inner loop's iteration count depends on the outer loop's
+      counter in a non-linear way, you may have to analyze the sum more carefully to find the exact
+      Big-O. Fortunately, the linear increase/decrease case is the one we will usually bump into.</p>
+
+  </subsection>
+
+  <subsection>
+    <title>Non-Nested Loops</title>
+
+    <p>Be careful when analyzing adjacent loops that are not nested. Consider this code:</p>
+
+    <program>
+      for (int i = 0; i &lt; n; i++) {
+        cout &lt;&lt; "*";
+      }
+      cout &lt;&lt; endl;
+      for (int j = 0; j &lt; n; j++) {
+        cout &lt;&lt; "#";
+      }
+      cout &lt;&lt; endl;
+    </program>
+
+    <p>How much work does it do?</p>
+    <p>The first loop runs <m>n</m> times, doing <m>O(1)</m> work each time, for a total of <m>O(n)</m>.
+      The second loop also runs <m>n</m> times, doing <m>O(1)</m> work each time, for another <m>
+      O(n)</m>. So we could simplify to:</p>
+
+    <program>
+      // O(n) work for i loop
+      // O(1) to print newline
+      // O(n) work for j loop
+      // O(1) to print newline
+    </program>
+
+    <p>That is <m>O(n) + O(1) + O(n) + O(1) = 2 \cdot O(n) + 2 \cdot O(1)</m> work overall which is
+      just <m>O(n)</m>.</p>
+
+    <p>We only multiply Big-O terms when loops are nested, not when they are adjacent.</p>
+
+    <p>Using that knowledge, let's evaluate:</p>
+
+    <program>
+      for (int i = 0; i &lt; n; i++) {
+        for (int j = 0; j &lt; n; j++) {
+          cout &lt;&lt; "*";
+        }
+        for (int k = 1; k &lt; n; k *= 2) {
+          cout &lt;&lt; "#";
+        }
+        cout &lt;&lt; endl;
+      }
+      </program>
+
+    <p>The first inner loop is <m>O(n)</m>. The second inner loop is <m>O(\log n)</m> because the
+      counter will be doubling at each step. So we can simplify to: </p>
+
+    <program>
+      for (int i = 0; i &lt; n; i++) {
+        // O(n) work for j loop
+        // O(log n) work for k loop
+        // O(1) to print newline
+      }
+    </program>
+
+    <p>If we simplify the work inside the outer loop, <m>O(n) + O(\log n) + O(1)</m>, the dominant
+      term is <m>O(n)</m>, so we can call the entire chunk <m>O(n)</m>.</p>
+
+    <program>
+      for (int i = 0; i &lt; n; i++) {
+        // O(n) for all the work
+      }
+    </program>
+
+    <p>The outer loop has <m>n</m> iterations, so the entire code is <m>n \cdot O(n) = O(n^2)</m>. </p>
+
+    <note>
+      <p> We also could have multiplied <m>n</m> for the outer loop by all three parts of the inner
+        loop: <md>O(n) \cdot (O(n) + O(\log n) + O(1) )</md> which produces <md>O(n^2) + O(n \log n)
+        + O(n)</md>. The dominant term is still <m>O(n^2)</m>, so we arrived at the same answer. But
+        that is more work than simplifying as we go! </p>
+    </note>
+
+  </subsection>
+
+
+  <exercise label="big-o-nested-loops-exercise-1">
+    <statement>
+      <p>What is the Big-O classification of the following code fragment?</p>
+      <program>
+    for (int i = 1; i &lt;= 2*n; i++) {
+      int curTotal = 0;
+      for (int j = 1; j &lt;= n; j++) {
+        curTotal = curTotal + j;
+      }
+    }
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>O(1)</statement>
+        <feedback>
+          <p>The loops do not run constant number of times. They depend on n.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(log n)</statement>
+        <feedback>
+          <p>None of the loops involved repeat a logarithmic number of times.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(n)</statement>
+        <feedback>
+          <p>There is a nested loop, so the work is more than O(n).</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(n log n)</statement>
+        <feedback>
+          <p>None of the loops involved repeat a logarithmic number of times.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>O(n^2)</statement>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="big-o-nested-loops-exercise-2">
+    <statement>
+      <p>What is the Big-O classification of the following code fragment?</p>
+      <program>
+    for (int i = 1; i &lt;= n; i++) {
+      int curTotal = 0;
+      for (int j = 1; j &lt;= n; j = j * 2) {
+        curTotal = curTotal + j;
+      }
+    }
+
+    for (int k = 1; k &lt;= n; k++) {
+      cout &lt;&lt; k;
+    }
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>O(1)</statement>
+        <feedback>
+          <p>The loops do not run constant number of times. They depend on n.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(log n)</statement>
+        <feedback>
+          <p>The inner loop of the nested loops runs in logn time. But it gets repeated.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(n)</statement>
+        <feedback>
+          <p>There is a nested loop, so the work is more than O(n).</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>O(n log n)</statement>
+        <feedback>
+          <p>The inner loop of the nested loops runs in logn time. But it gets repeated n times.
+            O(nlogn) for those loops dominates O(n) for the last loop.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(n^2)</statement>
+        <feedback>
+          <p>That would require an O(n) loop inside another O(n) loop. We do not have that.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+</section>

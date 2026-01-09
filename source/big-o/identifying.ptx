@@ -1,0 +1,339 @@
+<section xml:id="big-o_identifying"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Identifying Big-O - Lines and Loops</title>
+
+
+  <p> Given an algorithm, how do we identify its Big-O category? We have to come up with a function
+    that estimates the amount of work the algorithm does as a function of the size of its input.
+    However, because we are only interested in the dominant term of that function and don't care
+    about constant factors, this is easier than it might sound. </p>
+
+
+  <subsection>
+    <title>Lines of Code</title>
+    <p>One tempting way to estimate the work an algorithm does is to count the number of lines of
+      code it contains. However, this method is not very reliable because the number of lines of
+      code does not necessarily correlate with the amount of work done.</p>
+    <p>Consider <pf>double d = x * x + y * y;</pf>. Surely that involves more work than <pf>int a =
+      5;</pf>. The first line of code involves multiple operations: it does two multiplies, an
+      addition, and then stores the result. That is clearly more work than the second line.</p>
+    <p>And if we did some research on the processor being used, we might find that multiplication
+      takes more machine cycles to execute than addition. So maybe each multiplication should count
+      as 3 units of work as it takes that many machine cycles to perform. The addition might count
+      as 1 unit of work and the assignment another unit. So the first line of code would be 3 + 3 +
+      1 + 1 = 8 units of work, while the second line would be just 1 unit of work.</p>
+    <p>However, none of those details matter. Both lines of code take a constant amount of work. In
+      Big-O notation, constant factors are ignored. We don't care if that is 1 unit of work or 100
+      units of work. </p>
+    <insight>
+      <p>The work on any line of code that does not involve a loop or function call is constant, or <m>
+        O(1)</m>.</p>
+      <p>Assignment, doing math, comparing values, accessing an element in an array, and similar
+        operations all take constant time. Any combination of these operations takes constant time.</p>
+    </insight>
+
+    <p>A similar thing applies to a sequence of lines of code. Consider these two fragments:</p>
+    <sidebyside widths="45% 45%">
+      <program>
+        int x = 5;
+      </program>
+      <program>
+        int y = 10;
+        int z = 15;
+        int a = 20;
+        int x = y + z - a;
+      </program>
+    </sidebyside>
+    <p>The left fragment takes <m>O(1)</m> time.</p>
+    <p>The right fragment takes <m>O(1) + O(1) + O(1) + O(1)</m> time. <m>O(1) + O(1) + O(1) + O(1)</m>
+      can be written as <m>4 \cdot O(1)</m>, which simplifies to <m>O(1)</m> when we drop the
+      constant factor.</p>
+    <p>In Big O terms, both fragments take <m>O(1)</m> time. The exact amount of time will clearly
+      be different between the two fragments, but both will involve some constant amount of work and
+      that is all that is important.</p>
+    <insight>
+      <p>The work in a sequence of lines of code that do not involve a loop or function call is
+        constant, or <m>O(1)</m>.</p>
+    </insight>
+  </subsection>
+
+  <subsection>
+    <title>Loops</title>
+    <p>Loops are where things get more interesting. The amount of work done in a loop depends on how
+      many times the loop runs and how much work is done in each iteration.</p>
+    <p>Consider this loop:</p>
+    <program>
+      for (int i = 0; i &lt; n; i++) {
+        sum = sum + i;
+      }
+    </program>
+    <p>The loop runs <m>n</m> times. Each time through the loop, it does a constant amount of work:
+      adding <pf>i</pf> to <pf>sum</pf> and updating <pf>i</pf>. So the total amount of work done by
+      the loop is <m>n \cdot O(1)</m>. Here, <m>n</m> is not a constant. If n is 100, the loop
+      repeats 100 times. If n is 1000 it will repeat 1000 times. So we can't simply drop n like we
+      would a constant factor. Instead, we must keep it in our Big-O expression.</p>
+    <p><m>n \cdot O(1) = O(n)</m> Both sides of that equality represent <q>n times some constant</q>.
+      So we would say that entire loop is <m>O(n)</m>.</p>
+    <p>How about the loop:</p>
+    <program>
+      for (int i = 0; i &lt; n; i++) {
+        sum = sum + i;
+        if( i > max ) {
+          max = i;
+        }
+      }
+    </program>
+    <p>The entire group of lines inside the loop is still <m>O(1)</m>. There is a constant amount of
+      work inside the loop. When <m>n</m> changes, it will change the number of times the loop
+      repeats, but it will not change the amount of work done in each iteration of the loop!</p>
+    <p>So the entire loop is still <m>n \cdot O(1) = O(n)</m>.</p>
+
+    <p>What about while loops?</p>
+    <program>
+      int i = 0;
+      while (i &lt; n) {
+        sum = sum + i;
+        if( i > max ) {
+          max = i;
+        }
+        i++;
+      }
+    </program>
+
+    <p>This loop is similar to the for loop above. The loop runs <m>n</m> times. Each time through
+      the loop, it does a constant amount of work (remember that multiple lines of code that do not involve loops or function calls is still constant time). So the total amount of work done by the loop is
+      again <m>n \cdot O(1) = O(n)</m>. It also does one constant unit of work to set up <pf>i</pf>. But <m>O(1) + O(n) = O(n)</m>. So it is <m>O(n)</m>.</p>
+
+    <p>This is also why we don't have to worry about the various steps in a for loop. If we take the <pf>for</pf> loop above, the initialization, condition check, and increment steps each take constant time. But doing extra constant work in the loop does not change the overall Big-O complexity.</p>
+
+  </subsection>
+
+  <subsection>
+    <title>Loop Counters</title>
+
+    <p>Loops are one of the primary ways we get non-constant work in our algorithms. But not every
+      loop represents <m>O(n)</m> work. The amount of work depends on how many times the loop runs.</p>
+
+    <p>Consider this loop:</p>
+    <program>
+      for (int i = 0; i &lt; 10; i++) {
+        sum = sum + i;
+      }
+    </program>
+
+    <p>This loop runs 10 times. Each time through the loop, it does a constant amount of work. So
+      the total amount of work done by the loop is <m>10 \cdot O(1)</m>. Here, 10 is a constant, so
+      we can drop it. Thus, this entire loop is <m>O(1)</m>.</p>
+
+    <p>Because the loop ran a constant amount of times, it still represents constant work!</p>
+
+    <warning>
+      <p>This means that in Big-O analysis, a loop that repeats 1,000,000,000 times is considered <m>O(1)</m> because it is a constant number of iterations.</p>
+      <p>However, that loop will clearly take longer to run than <pf>int x = 1;</pf> which also counts as <m>O(1)</m>. If we let constant factors get that large, they do become significant in real-world performance.</p>
+    </warning>
+
+    <p>Now consider this loop:</p>
+    <program>
+      for (int i = 0; i &lt; n / 2; i++) {
+        sum = sum + i;
+      }
+    </program>
+
+    <p>How many times does it repeat? <m>n / 2</m> times. Which means the total amount of work done
+      by the loop is <m>(n / 2) \cdot O(1)</m>. Dividing by 2 is a constant factor (we could instead
+      multiply by 0.5), so we can drop it. Thus, this entire loop is <m>O(n)</m>.</p>
+
+    <p>Even though the loop runs only half as many times as a loop that runs <m>n</m> times, it is
+      still <m>O(n)</m> because the amount of work increases in a linear fashion with the size of n.
+      If n doubles, this loop will repeat twice as many times.</p>
+
+    <p>By the same logic, a loop that counted from 0 to <pf>3*n</pf> would also be <m>O(n)</m>.
+      Repeating 3 times as many iterations is still a constant factor, so it does not change the Big
+      O classification.</p>
+
+    <insight>
+      <p>If a loop counts up to some constant multiple of <m>n</m>, the number of iterations is
+        still proportional to <m>n</m>, so the loop is <m>O(n)</m>.</p>
+    </insight>
+
+    <p>Next, let us consider this loop:</p>
+
+    <program>
+      for (int i = 0; i &lt;= n; i += 2) {
+        sum = sum + i;
+      }
+    </program>
+
+    <p>What values does <pf>i</pf> count through?</p>
+
+    <console>
+      <output>0, 2, 4, 6, ..., n</output>
+    </console>
+
+    <p>The sequence <c>0, 1, 2, ..., n</c> is <m>n + 1</m> items long or <m>O(n)</m> (plus some constant doesn't
+      matter since n is dominant). The sequence above is roughly half as long since it skips every
+      other number. It is approximately <m>n / 2</m> items long. But <m>n / 2</m> is a constant
+      factor of <m>n</m>, so the loop is still <m>O(n)</m>!</p>
+
+    <p>If we counted by 10's like <c>0, 10, 20, ... </c>, the length of the sequence would be approximately <m>n /
+      10</m>. But 1/10 is a constant factor, so the loop is still <m>O(n)</m>.</p>
+
+    <insight>
+      <p>If the loop counter changes by a constant amount each time (like 2 in this example), the
+        number of iterations is still proportional to <m>n</m>, so the loop is <m>O(n)</m>.</p>
+    </insight>
+
+    <p>Next, let's consider this loop where the loop counter is multiplied by 2 each time:</p>
+    <program>
+      for (int i = 1; i &lt;= n; i *= 2) {
+        sum = sum + i;
+      }
+    </program>
+
+    <p>Here, the values we count
+      through are:</p>
+    <console>
+      <output>1, 2, 4, 8, ..., n</output>
+    </console>
+    <p>Each time through the loop, we multiply <pf>i</pf> by 2. So how many times can we double 1
+      before we exceed n? We need to solve the equation <m>2^k = n</m> to find out. Taking the
+      logarithm base 2 of both sides gives us <m>k = \log_2(n)</m>. So this loop runs about <m>
+      \log_2(n)</m> times. Each time through the loop, it does a constant amount of work. So the
+      total amount of work done by the loop is <m>\log_2(n) \cdot O(1) = O(\log n)</m>.</p>
+
+    <p>Another variation on this pattern would be the loop:</p>
+    <program>
+      for (int i = n; i &gt; 0; i /= 2) {
+        sum = sum + i;
+      }
+      </program>
+
+    <p>Here, we start at n and divide by 2 each time. How many times can we divide n by 2 before we
+      get down to 1? But this just counts through the same values of i in reverse. (<c>n, n/2, n/4, ..., 1</c>) So this
+      loop is also <m>O(\log n)</m>.</p>
+
+    <insight>
+      <p>If the loop control variable is multiplied or divided by a constant factor each time, the
+        number of iterations is proportional to <m>\log n</m>, so the loop is <m>O(\log n)</m>.</p>
+    </insight>
+
+  </subsection>
+
+  <exercise label="big-o-identifying-exercise-1">
+    <statement>
+      <p>What is the Big-O classification of the following code fragment?</p>
+      <program>
+    int hoursWorked = 10;
+    double hourlyRate = 15.50;
+    double totalPay = hoursWorked * hourlyRate;
+      </program>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>O(1)</statement>
+      </choice>
+      <choice>
+        <statement>O(n)</statement>
+        <feedback>
+          <p>There are no loops or function calls in this code fragment. All the operations take constant time.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(3)</statement>
+        <feedback>
+          <p>O(3) is not a valid Big-O classification. Any amount of constant work is considered O(1).</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(4)</statement>
+        <feedback>
+          <p>O(4) is not a valid Big-O classification. Any amount of constant work is considered O(1).</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="big-o-identifying-exercise-2">
+    <statement>
+      <p>Put each sequence in the Big-O category that describes the category of function needed to calculate its length.</p>
+    </statement>
+    <cardsort>
+      <match>
+        <premise>1, 2, 3, 4, 5</premise>
+        <response>O(1)</response>
+      </match>
+      <match>
+        <premise>1, 2, 4, 8, ..., n</premise>
+        <premise>n, n/2, n/4, ..., 1</premise>
+        <response>O(logn)</response>
+      </match>
+      <match>
+        <premise>1, 2, 3, ..., n</premise>
+        <premise>n, n-1, n-2, ..., 1</premise>
+        <premise>5, 10, 15, ..., n</premise>
+        <premise>1, 2, 3, ..., n/2</premise>
+        <premise>3, 6, 9, ..., n/3</premise>
+        <response>O(n)</response>
+      </match>
+    </cardsort>
+  </exercise>
+
+  <exercise label="big-o-identifying-exercise-3">
+    <statement>
+      <p>What is the Big-O classification of the following code fragment?</p>
+      <program>
+    for (int i = 1; i &lt;= n; i *= 3) {
+      sum = sum + i;
+    }
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>O(1)</statement>
+        <feedback>
+          <p>The loop does not run constant number of times. It depends on n.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>O(log n)</statement>
+      </choice>
+      <choice>
+        <statement>O(n)</statement>
+        <feedback>
+          <p>Note how the counter is incremented it is multiplied by 3 each time. i will have the pattern 1, 3, 9, 27, ...</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="big-o-identifying-exercise-3">
+    <statement>
+      <p>What is the Big-O classification of the following code fragment?</p>
+      <program>
+    for (int i = 1; i &lt;= 2*n; i++) {
+      sum = sum + i;
+    }
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>O(1)</statement>
+        <feedback>
+          <p>The loop does not run constant number of times. It depends on n.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(log n)</statement>
+        <feedback>
+          <p>It is counting by 1's from 1 to 2*n.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>O(n)</statement>
+      </choice>
+    </choices>
+  </exercise>
+
+
+</section>
