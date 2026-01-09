@@ -4,11 +4,12 @@
   <title>Identifying Big-O - Lines and Loops</title>
 
 
-  <p> Given an algorithm, how do we identify its Big-O category? We have to come up with a function
-    that estimates the amount of work the algorithm does as a function of the size of its input.
-    However, because we are only interested in the dominant term of that function and don't care
-    about constant factors, this is easier than it might sound. </p>
-
+  <introduction>
+    <p> Given an algorithm, how do we identify its Big-O category? We have to come up with a function
+      that estimates the amount of work the algorithm does as a function of the size of its input.
+      However, because we are only interested in the dominant term of that function and don't care
+      about constant factors, this is easier than it might sound. </p>
+  </introduction>
 
   <subsection>
     <title>Lines of Code</title>
@@ -16,8 +17,9 @@
       code it contains. However, this method is not very reliable because the number of lines of
       code does not necessarily correlate with the amount of work done.</p>
     <p>Consider <pf>double d = x * x + y * y;</pf>. Surely that involves more work than <pf>int a =
-      5;</pf>. The first line of code involves multiple operations: it does two multiplies, an
-      addition, and then stores the result. That is clearly more work than the second line.</p>
+      5;</pf>. The first line of code
+      involves multiple operations: it does two multiplies, an addition, and then stores the result.
+      That is clearly more work than the second line.</p>
     <p>And if we did some research on the processor being used, we might find that multiplication
       takes more machine cycles to execute than addition. So maybe each multiplication should count
       as 3 units of work as it takes that many machine cycles to perform. The addition might count
@@ -69,10 +71,10 @@
       }
     </program>
     <p>The loop runs <m>n</m> times. Each time through the loop, it does a constant amount of work:
-      adding <pf>i</pf> to <pf>sum</pf> and updating <pf>i</pf>. So the total amount of work done by
-      the loop is <m>n \cdot O(1)</m>. Here, <m>n</m> is not a constant. If n is 100, the loop
-      repeats 100 times. If n is 1000 it will repeat 1000 times. So we can't simply drop n like we
-      would a constant factor. Instead, we must keep it in our Big-O expression.</p>
+      adding <pf>i</pf> to <pf>sum</pf> and updating <pf>i</pf>. So the total amount of work done by the
+      loop is <m>n \cdot O(1)</m>. Here, <m>n</m> is not a constant. If n is 100, the loop repeats
+      100 times. If n is 1000 it will repeat 1000 times. So we can't simply drop n like we would a
+      constant factor. Instead, we must keep it in our Big-O expression.</p>
     <p><m>n \cdot O(1) = O(n)</m> Both sides of that equality represent <q>n times some constant</q>.
       So we would say that entire loop is <m>O(n)</m>.</p>
     <p>How about the loop:</p>
@@ -102,10 +104,14 @@
     </program>
 
     <p>This loop is similar to the for loop above. The loop runs <m>n</m> times. Each time through
-      the loop, it does a constant amount of work (remember that multiple lines of code that do not involve loops or function calls is still constant time). So the total amount of work done by the loop is
-      again <m>n \cdot O(1) = O(n)</m>. It also does one constant unit of work to set up <pf>i</pf>. But <m>O(1) + O(n) = O(n)</m>. So it is <m>O(n)</m>.</p>
+      the loop, it does a constant amount of work (remember that multiple lines of code that do not
+      involve loops or function calls is still constant time). So the total amount of work done by
+      the loop is again <m>n \cdot O(1) = O(n)</m>. It also does one constant unit of work to set up <pf>i</pf>.
+      But <m>O(1) + O(n) = O(n)</m>. So it is <m>O(n)</m>.</p>
 
-    <p>This is also why we don't have to worry about the various steps in a for loop. If we take the <pf>for</pf> loop above, the initialization, condition check, and increment steps each take constant time. But doing extra constant work in the loop does not change the overall Big-O complexity.</p>
+    <p>This is also why we don't have to worry about the various steps in a for loop. If we take the <pf>for</pf>
+      loop above, the initialization, condition check, and increment steps each take constant time.
+      But doing extra constant work in the loop does not change the overall Big-O complexity.</p>
 
   </subsection>
 
@@ -129,8 +135,11 @@
     <p>Because the loop ran a constant amount of times, it still represents constant work!</p>
 
     <warning>
-      <p>This means that in Big-O analysis, a loop that repeats 1,000,000,000 times is considered <m>O(1)</m> because it is a constant number of iterations.</p>
-      <p>However, that loop will clearly take longer to run than <pf>int x = 1;</pf> which also counts as <m>O(1)</m>. If we let constant factors get that large, they do become significant in real-world performance.</p>
+      <p>This means that in Big-O analysis, a loop that repeats 1,000,000,000 times is considered <m>
+        O(1)</m> because it is a constant number of iterations.</p>
+      <p>However, that loop will clearly take longer to run than <pf>int x = 1;</pf> which also counts as <m>
+        O(1)</m>. If we let constant factors get that large, they do become significant in
+        real-world performance.</p>
     </warning>
 
     <p>Now consider this loop:</p>
@@ -191,8 +200,7 @@
       }
     </program>
 
-    <p>Here, the values we count
-      through are:</p>
+    <p>Here, the values we count through are:</p>
     <console>
       <output>1, 2, 4, 8, ..., n</output>
     </console>
@@ -236,19 +244,22 @@
       <choice>
         <statement>O(n)</statement>
         <feedback>
-          <p>There are no loops or function calls in this code fragment. All the operations take constant time.</p>
+          <p>There are no loops or function calls in this code fragment. All the operations take
+            constant time.</p>
         </feedback>
       </choice>
       <choice>
         <statement>O(3)</statement>
         <feedback>
-          <p>O(3) is not a valid Big-O classification. Any amount of constant work is considered O(1).</p>
+          <p>O(3) is not a valid Big-O classification. Any amount of constant work is considered
+            O(1).</p>
         </feedback>
       </choice>
       <choice>
         <statement>O(4)</statement>
         <feedback>
-          <p>O(4) is not a valid Big-O classification. Any amount of constant work is considered O(1).</p>
+          <p>O(4) is not a valid Big-O classification. Any amount of constant work is considered
+            O(1).</p>
         </feedback>
       </choice>
     </choices>
@@ -256,7 +267,8 @@
 
   <exercise label="big-o-identifying-exercise-2">
     <statement>
-      <p>Put each sequence in the Big-O category that describes the category of function needed to calculate its length.</p>
+      <p>Put each sequence in the Big-O category that describes the category of function needed to
+        calculate its length.</p>
     </statement>
     <cardsort>
       <match>
@@ -301,13 +313,14 @@
       <choice>
         <statement>O(n)</statement>
         <feedback>
-          <p>Note how the counter is incremented it is multiplied by 3 each time. i will have the pattern 1, 3, 9, 27, ...</p>
+          <p>Note how the counter is incremented it is multiplied by 3 each time. i will have the
+            pattern 1, 3, 9, 27, ...</p>
         </feedback>
       </choice>
     </choices>
   </exercise>
 
-  <exercise label="big-o-identifying-exercise-3">
+  <exercise label="big-o-identifying-exercise-4">
     <statement>
       <p>What is the Big-O classification of the following code fragment?</p>
       <program>
