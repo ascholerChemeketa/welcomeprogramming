@@ -220,5 +220,120 @@
 
   </subsection>
 
+  <exercise label="big-o-identifying-exercise-1">
+    <statement>
+      <p>What is the Big-O classification of the following code fragment?</p>
+      <program>
+    int hoursWorked = 10;
+    double hourlyRate = 15.50;
+    double totalPay = hoursWorked * hourlyRate;
+      </program>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>O(1)</statement>
+      </choice>
+      <choice>
+        <statement>O(n)</statement>
+        <feedback>
+          <p>There are no loops or function calls in this code fragment. All the operations take constant time.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(3)</statement>
+        <feedback>
+          <p>O(3) is not a valid Big-O classification. Any amount of constant work is considered O(1).</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(4)</statement>
+        <feedback>
+          <p>O(4) is not a valid Big-O classification. Any amount of constant work is considered O(1).</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="big-o-identifying-exercise-2">
+    <statement>
+      <p>Put each sequence in the Big-O category that describes the category of function needed to calculate its length.</p>
+    </statement>
+    <cardsort>
+      <match>
+        <premise>1, 2, 3, 4, 5</premise>
+        <response>O(1)</response>
+      </match>
+      <match>
+        <premise>1, 2, 4, 8, ..., n</premise>
+        <premise>n, n/2, n/4, ..., 1</premise>
+        <response>O(logn)</response>
+      </match>
+      <match>
+        <premise>1, 2, 3, ..., n</premise>
+        <premise>n, n-1, n-2, ..., 1</premise>
+        <premise>5, 10, 15, ..., n</premise>
+        <premise>1, 2, 3, ..., n/2</premise>
+        <premise>3, 6, 9, ..., n/3</premise>
+        <response>O(n)</response>
+      </match>
+    </cardsort>
+  </exercise>
+
+  <exercise label="big-o-identifying-exercise-3">
+    <statement>
+      <p>What is the Big-O classification of the following code fragment?</p>
+      <program>
+    for (int i = 1; i &lt;= n; i *= 3) {
+      sum = sum + i;
+    }
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>O(1)</statement>
+        <feedback>
+          <p>The loop does not run constant number of times. It depends on n.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>O(log n)</statement>
+      </choice>
+      <choice>
+        <statement>O(n)</statement>
+        <feedback>
+          <p>Note how the counter is incremented it is multiplied by 3 each time. i will have the pattern 1, 3, 9, 27, ...</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="big-o-identifying-exercise-3">
+    <statement>
+      <p>What is the Big-O classification of the following code fragment?</p>
+      <program>
+    for (int i = 1; i &lt;= 2*n; i++) {
+      sum = sum + i;
+    }
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>O(1)</statement>
+        <feedback>
+          <p>The loop does not run constant number of times. It depends on n.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(log n)</statement>
+        <feedback>
+          <p>It is counting by 1's from 1 to 2*n.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>O(n)</statement>
+      </choice>
+    </choices>
+  </exercise>
+
 
 </section>

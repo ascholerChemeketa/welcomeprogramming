@@ -118,8 +118,8 @@
     }
   </program>
 
-    <p> Now we have to analyze the outer loop. The counter <pf>i</pf> starts at 1 and is doubled
-      each time through the loop. So the values of <pf>i</pf> are: <pre>1, 2, 4, 8, 16, ..., n</pre>
+    <p> Now we have to analyze the outer loop. The counter <pf>i</pf> starts at 1 and is doubled each
+      time through the loop. So the values of <pf>i</pf> are: <pre>1, 2, 4, 8, 16, ..., n</pre>
     </p>
 
     <p>That is a classic pattern (multiplied or divided by the same amount at each step) for <m>O(\log
@@ -292,11 +292,107 @@
     <note>
       <p> We also could have multiplied <m>n</m> for the outer loop by all three parts of the inner
         loop: <md>O(n) \cdot (O(n) + O(\log n) + O(1) )</md> which produces <md>O(n^2) + O(n \log n)
-        + O(n)</md>. The dominant term is still <m>O(n^2)</m>, so we arrived at the same answer. But that is more work than
-        simplifying as we go! </p>
+        + O(n)</md>. The dominant term is still <m>O(n^2)</m>, so we arrived at the same answer. But
+        that is more work than simplifying as we go! </p>
     </note>
 
   </subsection>
+
+
+  <exercise label="big-o-nested-loops-exercise-1">
+    <statement>
+      <p>What is the Big-O classification of the following code fragment?</p>
+      <program>
+    for (int i = 1; i &lt;= 2*n; i++) {
+      int curTotal = 0;
+      for (int j = 1; j &lt;= n; j++) {
+        curTotal = curTotal + j;
+      }
+    }
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>O(1)</statement>
+        <feedback>
+          <p>The loops do not run constant number of times. They depend on n.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(log n)</statement>
+        <feedback>
+          <p>None of the loops involved repeat a logarithmic number of times.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(n)</statement>
+        <feedback>
+          <p>There is a nested loop, so the work is more than O(n).</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(n log n)</statement>
+        <feedback>
+          <p>None of the loops involved repeat a logarithmic number of times.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>O(n^2)</statement>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="big-o-nested-loops-exercise-2">
+    <statement>
+      <p>What is the Big-O classification of the following code fragment?</p>
+      <program>
+    for (int i = 1; i &lt;= n; i++) {
+      int curTotal = 0;
+      for (int j = 1; j &lt;= n; j = j * 2) {
+        curTotal = curTotal + j;
+      }
+    }
+
+    for (int k = 1; k &lt;= n; k++) {
+      cout &lt;&lt; k;
+    }
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement>O(1)</statement>
+        <feedback>
+          <p>The loops do not run constant number of times. They depend on n.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(log n)</statement>
+        <feedback>
+          <p>The inner loop of the nested loops runs in logn time. But it gets repeated.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(n)</statement>
+        <feedback>
+          <p>There is a nested loop, so the work is more than O(n).</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>O(n log n)</statement>
+        <feedback>
+          <p>The inner loop of the nested loops runs in logn time. But it gets repeated n times.
+            O(nlogn) for those loops dominates O(n) for the last loop.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>O(n^2)</statement>
+        <feedback>
+          <p>That would require an O(n) loop inside another O(n) loop. We do not have that.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
 
 
 </section>

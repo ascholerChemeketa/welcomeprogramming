@@ -1,0 +1,242 @@
+<section xml:id="big-o_function-calls"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Function Calls</title>
+
+  <p> The only thing we need to carefully account for other than loops when analyzing the efficiency
+    of a function is function calls. Consider the sample below. It has four lines of code and no
+    loops. Does that mean its efficiency is O(1)? Not quite. Each function call is doing some amount
+    of work and we need to account for that work as part of running this code. </p>
+
+  <program>
+<xi:include href="../../programs/big-o/function-calls-1.cpp" parse="text"/>
+  </program>
+
+  <p> Here is a version of the code with the function definitions included so we can see what they
+    do: </p>
+
+  <program>
+<xi:include href="../../programs/big-o/function-calls-2.cpp" parse="text"/>
+  </program>
+
+  <p> The variable <pf>size</pf> is passed into both functions. Each function uses that value to control
+    one or more loops. So when we say <m>n</m> for this analysis, we will be talking about <pf>size</pf>.
+    If we changed the value of <pf>size</pf>, that would change the amount of work done by both
+    functions and thus the overall work of the program. (Although size is hard-coded in this
+    example, we can imagine it being read from user input and thus truly variable.) </p>
+
+  <p>
+    <pf>printRow</pf> has a single loop that runs <m>O(n)</m> times and does constant work. It also does a
+    constant-time operations outside of the loop. But the overall work of <pf>printRow</pf> is <m>O(n)</m>. </p>
+
+  <program>
+<xi:include href="../../programs/big-o/function-calls-3.cpp" parse="text"/>
+  </program>
+
+  <p>
+    <pf>printGrid</pf> has a nested loop. The outer loop runs <m>O(n)</m> times and for each iteration of
+    that loop, the inner loop runs <m>O(n)</m> times. So the overall work of <pf>printGrid</pf> is <m>O(n^2)</m>
+    .
+  </p>
+
+  <program>
+<xi:include href="../../programs/big-o/function-calls-4.cpp" parse="text"/>
+  </program>
+
+  <p> Now we can start to analyze the overall work of <pf>main</pf>. A call to <pf>printRow</pf> does <m>O(n)</m>
+    work where <m>n</m> is the value passed to the function. A call to <pf>printGrid</pf> does <m>O(n^2)</m>
+    work where <m>n</m> is the value passed to the function. The first two function calls in <pf>main</pf>
+    both pass in <pf>size</pf>, which is <m>n</m>. So they are doing <m>O(n)</m> and <m>O(n^2)</m> work
+    respectively:</p>
+
+  <program>
+<xi:include href="../../programs/big-o/function-calls-6.cpp" parse="text"/>
+  </program>
+
+  <p> The last call is passing in <pf>size * 2</pf>. So if <pf>size</pf> is <m>n</m>, then the function call
+    does <m>2 \cdot O(n)</m> work. But that is still <m>O(n)</m> work. So that last call to <pf>printRow</pf>
+    is also doing <m>O(n)</m> work:</p>
+
+  <program>
+<xi:include href="../../programs/big-o/function-calls-7.cpp" parse="text"/>
+  </program>
+
+  <insight>
+    <p> A function call <q>costs</q> work equal to the work done by the function being called. </p>
+  </insight>
+
+  <p> Now we can either list all the terms of work or just focus on the dominant term. The dominant
+    term is <m>O(n^2)</m>, so the overall work of <pf>main</pf> is <m>O(n^2)</m>. We would get the same
+    result if we listed all the terms and then simplified:<md>O(1) + O(n) + O(n^2) + O(n)</md>
+    Combining like terms and ordering them gives <md>O(n^2) + 2 \cdot O(n) + O(1)</md> Which is just <md>O(n^2)
+    + O(n) + O(1)</md> And since only the dominant term matters: <md>O(n^2)</md>
+  </p>
+
+  <p>Now, let's briefly consider an alternate version of main:</p>
+
+  <program>
+<xi:include href="../../programs/big-o/function-calls-ex2-1.cpp" parse="text"/>
+  </program>
+
+  <p> In this version, the second function call to <pf>printGrid</pf> is passing in a constant value of 10.
+    That function does <m>O(n^2)</m> work where <m>n</m> is the value passed in. But since we are
+    passing in a constant value, that means the function is doing <m>O(10^2)</m> work, which is a
+    constant and thus <m>O(1)</m>. No matter what value <pf>size</pf> has, the second function call is
+    always doing the same amount of work. </p>
+
+  <insight>
+    <p> We need to consider how the value of <m>n</m> in the caller relates to the value of <m>n</m>
+      in the called function. If we call a function with a constant value, that function does <m>
+      O(1)</m> work regardless of the value of <m>n</m> in the caller. </p>
+  </insight>
+
+  <p> The last function call is passing in <pf>size + 1</pf>. <m>O(n + 1)</m> is still just <m>O(n)</m>
+    work. </p>
+
+  <program>
+<xi:include href="../../programs/big-o/function-calls-ex2-2.cpp" parse="text"/>
+  </program>
+
+  <p>The overall work of this version of <pf>main</pf> is dominated by the <m>O(n)</m> terms, so it is <m>
+    O(n)</m>.</p>
+
+  <exercise label="big-o_big-o-function-calls-ex-1">
+    <statement>
+      <p>Consider the following code:</p>
+
+      <program>
+<![CDATA[
+for (int i = 0; i < n; i++) {
+  foo(n);
+}]]>
+      </program>
+      <p>Assume <pf>foo(n)</pf> is known to run in <m>O(n)</m> time. Pick the overall Big-O time complexity.</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement><m>O(1)</m></statement>
+      </choice>
+      <choice>
+        <statement><m>O(n)</m></statement>
+      </choice>
+      <choice correct="yes">
+        <statement><m>O(n^2)</m></statement>
+        <feedback>
+          <p>Each iteration of the loop calls <pf>foo(n)</pf> which does <m>O(n)</m> work. The loop runs
+            <m>n</m> times, so the overall work is <m>n \cdot O(n) = O(n^2)</m>.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement><m>O(n \log n)</m></statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="big-o_big-o-function-calls-ex-2">
+    <statement>
+      <p>Consider the following code:</p>
+
+      <program>
+<![CDATA[
+for (int i = 0; i < n; i++) {
+  foo(5);
+}]]>
+      </program>
+      <p>Assume <pf>foo(n)</pf> is known to run in <m>O(n)</m> time. Pick the overall Big-O time complexity.</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement><m>O(1)</m></statement>
+      </choice>
+      <choice correct="yes">
+        <statement><m>O(n)</m></statement>
+        <feedback>
+          <p>Each iteration of the loop calls <pf>foo(5)</pf> which does <m>O(1)</m> work since it is
+            called with a constant. The loop runs <m>n</m> times, so the overall work is <m>n \cdot
+            O(1) = O(n)</m>.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement><m>O(n^2)</m></statement>
+      </choice>
+      <choice>
+        <statement><m>O(n \log n)</m></statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="big-o_big-o-function-calls-ex-3">
+    <statement>
+      <p>Consider the following code:</p>
+
+      <program>
+<![CDATA[
+foo(n/2);
+int x = 10;
+foo(n);
+]]>
+      </program>
+      <p>Assume <pf>foo(n)</pf> is known to run in <m>O(n)</m> time. Pick the overall Big-O time complexity.</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement><m>O(1)</m></statement>
+      </choice>
+      <choice correct="yes">
+        <statement><m>O(n)</m></statement>
+        <feedback>
+          <p>The first call to <pf>foo(n/2)</pf> does <m>O(n/2)</m> work, which is just <m>O(n)</m>.
+            The second call to <pf>foo(n)</pf> does <m>O(n)</m> work. So the overall work is <m>O(n) +
+            O(n) = 2 \cdot O(n) = O(n)</m>.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement><m>O(n^2)</m></statement>
+      </choice>
+      <choice>
+        <statement><m>O(n \log n)</m></statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="big-o_big-o-function-calls-ex-4">
+    <statement>
+      <p>Consider the following code:</p>
+
+      <program>
+<![CDATA[
+foo(n);
+for (int i = 0; i < n; i++) {
+  foo(n/2);
+  foo(n/2);
+}
+]]>
+      </program>
+      <p>Assume <pf>foo(n)</pf> is known to run in <m>O(n)</m> time. Pick the overall Big-O time complexity.</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement><m>O(1)</m></statement>
+      </choice>
+      <choice>
+        <statement><m>O(n)</m></statement>
+      </choice>
+      <choice correct="yes">
+        <statement><m>O(n^2)</m></statement>
+        <feedback>
+          <p>The first call to <pf>foo(n)</pf> does <m>O(n)</m> work. The loop runs <m>n</m> times and
+            each iteration does two calls to <pf>foo(n/2)</pf>, each of which does <m>O(n/2)</m>
+            work. So the loop does <m>n \cdot 2 \cdot O(n/2) = n \cdot O(n) = O(n^2)</m> work. The
+            overall work is thus <m>O(n) + O(n^2) = O(n^2)</m>.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement><m>O(n \log n)</m></statement>
+      </choice>
+      <choice>
+        <statement><m>O(n^3)</m></statement>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

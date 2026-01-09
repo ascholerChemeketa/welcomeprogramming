@@ -18,11 +18,12 @@
         <h>class</h>
       </idx></p>
 
-    <p>A function's class, or <term>order</term> (hence the <term>O</term> in Big-O), is determined by its dominant term - the part of the function that grows
-      the fastest as the input size increases. For example, in the function <m>f(n) = 2n^2 + 3n + 6</m>,
-      the dominant term is <m>2n^2</m> because as <m>n</m> gets very large, <m>2n^2</m> will grow
-      much faster than either <m>3n</m> or <m>6</m>. Thus, we say that this function is in the class
-      of <term>quadratic</term> functions.</p>
+    <p>A function's class, or <term>order</term> (hence the <term>O</term> in Big-O), is determined
+      by its dominant term - the part of the function that grows the fastest as the input size
+      increases. For example, in the function <m>f(n) = 2n^2 + 3n + 6</m>, the dominant term is <m>
+      2n^2</m> because as <m>n</m> gets very large, <m>2n^2</m> will grow much faster than either <m>
+      3n</m> or <m>6</m>. Thus, we say that this function is in the class of <term>quadratic</term>
+      functions.</p>
 
     <p>An algorithm like DrawSquare is called a <term>constant</term> algorithm because the amount
       of work it requires does not change with the size of the input. The function to describe the
@@ -129,13 +130,25 @@
       </tabular>
     </table>
 
-    <p>
-      Note that the base of the logarithm is not important in Big-O notation because logarithms with different bases differ only by a constant factor. For example, you can convert log base 2 to log base 10 by multiplying by approximately 3.32 (<m>~3.32 \log_{2} n = \log_{10} n</m>). And in Big O, we don't care about constant factors. That said, most of the time in computer science, when we say
-      <m>\log n</m>, we mean <m>\log_2 n</m> (log base 2). But <m>\log_{10} n</m> (log base 10) would be The Big-O category.
-    </p>
+    <p>Most algorithms in computer science that involve logarithms use base 2. But, rather than
+      write <m>\log_2 n</m> (log base 2 of <m>n</m>), it is common practice to just write <m>\log n</m>
+      .</p>
 
+    <p> Why is it OK to leave off the base of the logarithm? <m>\log_2 100</m> on a calculator gives
+      a different answer than <m>\log_{10} 100</m>, so why can we not specify which it is?</p>
+
+    <p>Logarithms with different bases differ only by a constant factor. For example, you can
+      convert log base 10 of x to log base 2 of x by multiplying by <m>\log_{2} 10</m> which is
+      approximately 3.32. <md>
+        <mrow>\log_{2} x \amp = \log_{2} 10 \cdot \log_{10} x</mrow>
+        <mrow>\log_{2} \amp \approx {3.32} \cdot {\log_{10} x}</mrow>
+      </md> In Big O, we don't
+      care about constant factors, so the difference between <m>\log_2</m> and <m>\log_{10}</m> does
+      not matter.</p>
     <note>
-      <p>When you see <m>\log n</m> you should understand it as <m>\log_2 n</m> (log base 2) unless otherwise specified.</p>
+      <p>When you see <m>\log n</m> you should understand it as <m>\log_2 n</m> (log base 2) unless
+        otherwise specified and use that base for any calculations or comparisons involving
+        logarithms.</p>
     </note>
 
     <!-- TODO (low priority) new graphs with prefigure or plotly -->
@@ -156,11 +169,13 @@
       <title>Technical Note</title>
       <p>Big-O notation technically describes an upper bound on the growth rate of a function. So
         when we say that an algorithm is <m>O(n)</m>, we are saying that its work grows no faster
-        than a linear function. By that definition, an algorithm that is <m>O(n)</m> could also be <m>O(n^2)</m> or <m>O(2^n)</m>, since those are upper bounds as well.</p>
-      <p>In algorithmic analysis, Big Theta (<m>\Theta</m>) notation is used to describe a tight bound. That is to say a class of function that could describe both an upper and lower bound.</p>
-      <p>However, in practice, when people say that an algorithm is <m>O(n)</m>, they generally mean the 
-        tighter bound. Outside the context of deep mathematical analysis, you should assume Big O means
-        the dominant term or a tightest upper bound.</p>
+        than a linear function. By that definition, an algorithm that is <m>O(n)</m> could also be <m>
+        O(n^2)</m> or <m>O(2^n)</m>, since those are upper bounds as well.</p>
+      <p>In algorithmic analysis, Big Theta (<m>\Theta</m>) notation is used to describe a tight
+        bound. That is to say a class of function that could describe both an upper and lower bound.</p>
+      <p>However, in practice, when people say that an algorithm is <m>O(n)</m>, they generally mean
+        the tighter bound. Outside the context of deep mathematical analysis, you should assume Big
+        O means the dominant term or a tightest upper bound.</p>
     </note>
 
   </subsection>
@@ -228,8 +243,10 @@
 
     <p>For these reasons, we should only use Big-O to consider the efficiency of functions for large
       input sizes (values of <m>n</m>). And, if the constant factors are extraordinarily large, we
-      may have to take the Big-O notation with a grain of salt. For example, when comparing <m>1000n</m> to
-    <m>2n \log n</m>, Big-O tells us that the former is more efficient. <m>n</m> grows more slowly than <m>n \log n</m>. However, in practice, it will take an extraordinarily large value of <m>n</m> for <m>2n \log n</m> to become larger than <m>1000n</m>.</p>
+      may have to take the Big-O notation with a grain of salt. For example, when comparing <m>1000n</m>
+      to <m>2n \log n</m>, Big-O tells us that the former is more efficient. <m>n</m> grows more
+      slowly than <m>n \log n</m>. However, in practice, it will take an extraordinarily large value
+      of <m>n</m> for <m>2n \log n</m> to become larger than <m>1000n</m>.</p>
 
     <insight>
       <p>Big-O focuses on the relative performance of functions as the input size grows large.</p>
@@ -460,7 +477,6 @@
         </feedback>
       </choice>
     </choices>
-
   </exercise>
 
 </section>

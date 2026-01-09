@@ -1,0 +1,185 @@
+<section xml:id="big-o_recursive-calls"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Recursive Function Calls</title>
+
+  <p>
+    Our accounting of the work done by functions, charging for the work done by the function called, hits a snag
+    when we go to analyze recursive functions. Consider the following simple recursive function that computes the
+    factorial of a number:
+  </p>
+
+  <program>
+<xi:include href="../../programs/big-o/recursive-calls-1.cpp" parse="text"/>
+  </program>
+
+  <p>
+    Everything in <pf>factorial</pf> looks like <m>O(1)</m> work except for the recursive call to <pf>factorial</pf> itself.
+    So how much work does that call do? It does whatever work <pf>factorial</pf> does when called with <pf>n - 1</pf>.
+    But that work includes another call to <pf>factorial</pf>, this time with <pf>n - 2</pf>. And that call includes
+    yet another call to <pf>factorial</pf>, this time with <pf>n - 3</pf>. So how much work does <pf>factorial</pf> do?
+  </p>
+
+  <p>
+    This chain will not go on forever. Eventually, we will reach the base case where <pf>n</pf> is 1 or less. At that point,
+    the function simply returns 1 and does no further recursive calls. In that case, when we execute the if branch, the work done is <m>O(1)</m>.
+  </p>
+
+  <p>In the else branch, we recursively call the function on  <m>n - 1</m>. So the time on that branch will be whatever time it takes to compute <pf>factorial(n - 1)</pf>, plus the <m>O(1)</m> work to multiply by <pf>n</pf> and return the result.</p>
+
+  <program>
+<xi:include href="../../programs/big-o/recursive-calls-2.cpp" parse="text"/>
+  </program>
+
+  <p>
+    To analyze the overall work of <pf>factorial</pf>, we can set up a recurrence relation. Let <m>T(n)</m> be the time it takes to compute <pf>factorial(n)</pf>. Then we have:
+    <md>
+T(n) = \begin{cases}
+O(1) &amp; \text{if } n \leq 1 \\
+T(n - 1) + O(1) &amp; \text{if } n > 1
+\end{cases}
+    </md>
+  </p>
+
+  <p>
+    Full coverage of solving recurrence relations is beyond the scope of this book, but we will give a brief overview of how to solve this one.
+    Key to this process is recognizing that because <m>T(n) = T(n - 1) + O(1)</m>, anywhere we see <m>T(a)</m> for some value <m>a</m>, we can replace it with
+    <m>T((a) - 1) + O(1)</m>.
+  </p>
+  <p>
+    First, we will take <m>T(n - 1)</m> and expand it by replacing it with <m>T((n - 1) - 1) + O(1)</m>:
+    <md>
+T(n) = T(n - 1) + O(1)
+</md>
+    becomes
+    <md>
+      <mrow>
+(T((n - 1) - 1) \amp + O(1)) + O(1)
+</mrow>
+      <mrow>
+T(n - 2) \amp + 2 \cdot O(1)
+</mrow>
+    </md>
+  </p>
+  <p>
+    Next, we can take <m>T(n - 2)</m> and expand it by replacing it with <m>T(n - 3) + O(1)</m>:
+    <md>
+      <mrow>
+(T(n - 3) + O(1)) + 2 \cdot O(1)
+</mrow>
+      <mrow>
+T(n - 3) + 3 \cdot O(1)
+</mrow>
+    </md>
+  </p>
+<p>
+    Which could become:
+    <md>T(n - 4) + 4 \cdot O(1)</md>
+    Then:
+    <md>
+      <mrow>
+      T(n - 5) + 5 \cdot O(1)
+      </mrow>
+      <mrow>
+\vdots
+      </mrow>
+    </md>
+  </p>
+
+  <p>
+    Continuing this process, we can see a pattern emerging. Each time we expand <m>T(a)</m>, we reduce the argument by 1 and add another <m>O(1)</m> term. At some point, we will reach <m>T(1)</m>, which is our base case. At that point, we will have added <m>(n - 1)</m> <m>O(1)</m> terms. So we can express <m>T(n)</m> as:
+    <md>
+      <mrow>
+        T(1) + (n - 1) \cdot O(1)
+      </mrow>
+    </md>
+  </p>
+
+  <p>
+    From analyzing the base case, we know that if we know that when <pf>n</pf> is 1, the time to execute <pf>factorial(n)</pf> is <m>O(1)</m>:
+  </p>
+
+  <program>
+<xi:include href="../../programs/big-o/recursive-calls-3.cpp" parse="text"/>
+  </program>
+
+  <p>
+    So we can substitute <m>O(1)</m> for <m>T(1)</m> in our expression for <m>T(n)</m>:
+    <md>
+      <mrow>
+        O(1) + (n - 1) \cdot O(1)
+      </mrow>
+    </md>
+    Which simplifies to:
+    <md>
+        O(1) + O(n) - O(1)
+    </md>
+    And further simplifies to:
+    <md>
+      O(n)
+    </md>
+  </p>
+
+  <p>
+    Thus, the overall work of the <pf>factorial</pf> function is <m>O(n)</m>. That makes sense, since the function makes <m>n</m> recursive calls before reaching the base case, and each call does <m>O(1)</m> work. (We can't always rely on intuition like that, but in this case it works out.)
+  </p>
+
+  <p>For a second, consider a non-recursive implementation of <pf>factorial</pf>:</p>
+  
+  <program>
+<xi:include href="../../programs/big-o/recursive-calls-non-recursive.cpp" parse="text"/>
+  </program>
+
+  <p>Quick analysis tells us that this non-recursive implementation also has a time complexity of <m>O(n)</m>, since it uses a loop that iterates <m>n</m> times, performing <m>O(1)</m> work in each iteration. Because recursion and iteration are just two different ways to repeat work, and both of these algorithms are doing the same work (multiplying <m>n</m> numbers), it seems reasonable that they have the same time complexity.</p>
+
+  <exercise label="big-o_recursive-calls-ex-1">
+    <statement>
+      <p>If we call <pf>factorial(n)</pf>, what is the expected number of recursive calls?</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement><m>O(1)</m></statement>
+      </choice>
+      <choice>
+        <statement><m>O(\log n)</m></statement>
+      </choice>
+      <choice correct="yes">
+        <statement><m>O(n)</m></statement>
+      </choice>
+      <choice>
+        <statement><m>O(n^2)</m></statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="big-o_recursive-calls-ex-2">
+    <statement>
+      <p>If we call the function listed below, what is the expected number of recursive calls?</p>
+      <program>
+        int mysteryFunction(int n) {
+          if (n &lt;= 1) {
+            return 1;
+          } else {
+            return mysteryFunction(n / 2) + 1;
+          }
+        }
+      </program>
+    </statement>
+    <choices>
+      <choice>
+        <statement><m>O(1)</m></statement>
+      </choice>
+      <choice correct="yes">
+        <statement><m>O(\log n)</m></statement>
+      </choice>
+      <choice>
+        <statement><m>O(n)</m></statement>
+      </choice>
+      <choice>
+        <statement><m>O(n^2)</m></statement>
+      </choice>
+    </choices>
+    <hint>Imagine we called with n=100. What would the first recursive call look like? The one after that? What is the pattern of the argument to the recursive call?</hint>
+  </exercise>
+
+</section>

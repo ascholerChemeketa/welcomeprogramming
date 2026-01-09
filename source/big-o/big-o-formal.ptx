@@ -4,36 +4,65 @@
   <title>Formal Big-O</title>
 
   <p>We will not engage in the full mathematical formalism of Big-O notation. Our focus will be on
-    understanding how to use Big O and to build an intuitive understanding of what different 
-    Big O categories mean.</p>
+    understanding how to use Big O and to build an intuitive understanding of what different Big O
+    categories mean.</p>
 
-  <p>That said, seeing the formal definition of Big-O notation can help illustrate the concept more clearly.</p>
+  <p>That said, seeing the formal definition of Big-O notation can help illustrate the concept more
+    clearly.</p>
 
   <definition>
     <title>Big-O Notation Definition</title>
-    <p>Let <m>f(n)</m> and <m>g(n)</m> be functions that map positive integers to positive real numbers. We say that <m>f(n)</m> is
-      <term>Big-O of g(n)</term>, written <m>f(n) = O(g(n))</m>, if there exist positive constants <m>c</m> and <m>n_0</m>
-      such that for all <m>n \geq n_0</m>, the following inequality holds:</p>
+    <p>Let <m>f(n)</m> and <m>g(n)</m> be functions that map positive integers to positive real
+      numbers. We say that <m>f(n)</m> is <term>Big-O of g(n)</term>, written <m>f(n) = O(g(n))</m>,
+      if there exist positive constants <m>c</m> and <m>n_0</m> such that for all <m>n \geq n_0</m>,
+      the following inequality holds:</p>
     <m>f(n) \leq c \cdot g(n)</m>
   </definition>
 
-  <p>Put another way, to show that <m>f(n) = O(g(n))</m>, we need to pick a constant <m>c</m> to multiply the <m>g(n)</m> by and identify a threshold (<m>n_0</m>) beyond which the inequality <m>f(n) \leq c \cdot g(n)</m> holds.</p>
+  <p>Put another way, to show that <m>f(n) = O(g(n))</m>, we need to pick a constant <m>c</m> to
+    multiply the <m>g(n)</m> by and identify a threshold (<m>n_0</m>) beyond which the inequality <m>f(n)
+    \leq c \cdot g(n)</m> holds.</p>
 
-  <p>For example, we want to show that <m>f(n) = 3n + 6</m> is <m>O(n)</m>. That means <m>g(n) = n</m> (the value inside the <m>O( )</m>). Thus we need to pick a <m>c</m> so that <m>3n + 6 \leq c \cdot n</m> (at least for large values of <m>n</m>). That is easy <m>4n</m> grows faster than <m>3n</m>, so we can choose <m>c = 4</m>. We then need to choose a threshold above which <m>4n</m> is greater than or equal to <m>3n + 6</m>. We can pick <m>n_0 = 6</m>. For all <m>n \geq 6</m>, the inequality <m>3n + 6 \leq 4n</m> holds true.</p>
+  <p>For example, we want to show that <m>f(n) = 3n + 6</m> is <m>O(n)</m>. That means <m>g(n) = n</m>
+    (the value inside the <m>O( )</m>). Thus we need to pick a <m>c</m> so that <m>3n + 6 \leq c
+    \cdot n</m> (at least for large values of <m>n</m>). That is easy <m>4n</m> grows faster than <m>
+    3n</m>, so we can choose <m>c = 4</m>. We then need to choose a threshold above which <m>4n</m>
+    is greater than or equal to <m>3n + 6</m>. We can pick <m>n_0 = 6</m>. For all <m>n \geq 6</m>,
+    the inequality <m>3n + 6 \leq 4n</m> holds true.</p>
 
-  <p>We could pick other constants that make the inequality true. We could use <m>c = 100</m> and <m>n_0 = 1</m> because <m>3n + 6 \leq 100n</m> for all <m>n \geq 1</m>. Or we could select <m>c = 3</m> and <m>n_0 = 10</m> because <m>3n + 6 \leq 3n</m> for all <m>n \geq 10</m>. We could even pick <m>c = 100,000</m> and <m>n_0 = 1,000,000</m> because <m>3n + 6 \leq 100,000n</m> for all <m>n \geq 1,000,000</m>. That last pair of values is pushing the bounds of what might be considered reasonable, but it still perfectly legal.</p>
+  <p>We could pick other constants that make the inequality true. We could use <m>c = 100</m> and <m>n_0
+    = 1</m> because <m>3n + 6 \leq 100n</m> for all <m>n \geq 1</m>. Or we could select <m>c = 3</m>
+    and <m>n_0 = 10</m> because <m>3n + 6 \leq 3n</m> for all <m>n \geq 10</m>. We could even pick <m>c
+    = 100,000</m> and <m>n_0 = 1,000,000</m> because <m>3n + 6 \leq 100,000n</m> for all <m>n \geq
+    1,000,000</m>. That last pair of values is pushing the bounds of what might be considered
+    reasonable, but it still perfectly legal.</p>
 
-  <p>Another example. Suppose we want to show that <m>f(n) = 2n^2 + 3n + 6</m> is <m>O(n^2)</m>. That means <m>g(n) = n^2</m>. We need to pick a <m>c</m> and <m>n_0</m> so that <m>2n^2 + 3n + 6 \leq c \cdot n^2</m> at all values past <m>n_0</m>. We can choose <m>c = 3</m> because <m>3n^2</m> grows faster than <m>2n^2 + 3n + 6</m>. We then need to choose a threshold above which <m>3n^2</m> is greater than or equal to <m>2n^2 + 3n + 6</m>. We can pick <m>n_0 = 100</m>. For all <m>n \geq 100</m>, the inequality <m>2n^2 + 3n + 6 \leq 3n^2</m> holds true. We could pick a smaller <m>n_0</m>, but we do not have to, and the inequality is clearly true at <m>n = 100</m>.</p>
+  <p>Another example. Suppose we want to show that <m>f(n) = 2n^2 + 3n + 6</m> is <m>O(n^2)</m>.
+    That means <m>g(n) = n^2</m>. We need to pick a <m>c</m> and <m>n_0</m> so that <m>2n^2 + 3n + 6
+    \leq c \cdot n^2</m> at all values past <m>n_0</m>. We can choose <m>c = 3</m> because <m>3n^2</m>
+    grows faster than <m>2n^2 + 3n + 6</m>. We then need to choose a threshold above which <m>3n^2</m>
+    is greater than or equal to <m>2n^2 + 3n + 6</m>. We can pick <m>n_0 = 100</m>. For all <m>n
+    \geq 100</m>, the inequality <m>2n^2 + 3n + 6 \leq 3n^2</m> holds true. We could pick a smaller <m>
+    n_0</m>, but we do not have to, and the inequality is clearly true at <m>n = 100</m>.</p>
 
-  <p>Getting to pick the constants <m>c</m> and <m>n_0</m> is what makes Big-O so flexible. Picking <m>c</m> is what means that we do not have to worry about constant factors in the growth rate. Whatever constants there are in the dominant term, we can simply pick a larger constant for <m>c</m>. Picking <m>n_0</m> means we do not have to worry about the behavior of the function for small values of <m>n</m>. If the inequality does not hold for values of <m>n</m> less than <m>x</m>, we can just pick an <m>n_0</m> that is larger than that.</p>
+  <p>Getting to pick the constants <m>c</m> and <m>n_0</m> is what makes Big-O so flexible. Picking <m>
+    c</m> is what means that we do not have to worry about constant factors in the growth rate.
+    Whatever constants there are in the dominant term, we can simply pick a larger constant for <m>c</m>.
+    Picking <m>n_0</m> means we do not have to worry about the behavior of the function for small
+    values of <m>n</m>. If the inequality does not hold for values of <m>n</m> less than <m>x</m>,
+    we can just pick an <m>n_0</m> that is larger than that.</p>
 
-  <p>Note that these tools will not let us <q>prove</q> that a given function belongs in a slower growing category. If we wanted to show <m>f(n) = 2n^2</m> is <m>O(n)</m>, then we would have to find constants <m>c</m> and <m>n_0</m> so that <m>2n^2 \leq c \cdot n</m> for all <m>n \geq n_0</m>. No matter what values we pick, eventually <m>2n^2</m> will grow larger than <m>c \cdot n</m>. So we cannot find such constants and thus cannot show that <m>2n^2</m> is <m>O(n)</m>.
-  </p>
+  <p>Note that these tools will not let us <q>prove</q> that a given function belongs in a slower
+    growing category. If we wanted to show <m>f(n) = 2n^2</m> is <m>O(n)</m>, then we would have to
+    find constants <m>c</m> and <m>n_0</m> so that <m>2n^2 \leq c \cdot n</m> for all <m>n \geq n_0</m>.
+    No matter what values we pick, eventually <m>2n^2</m> will grow larger than <m>c \cdot n</m>. So
+    we cannot find such constants and thus cannot show that <m>2n^2</m> is <m>O(n)</m>. </p>
 
 
   <exercise label="big-o_big-o-formal-ex-1">
     <statement>
-      <p>We want to show that <m>f(n) = 2n^2 + 6n + 3</m> is <m>O(n^{2})</m>. What values of <m>c</m> and <m>n_0</m> could we choose?</p>
+      <p>We want to show that <m>f(n) = 2n^2 + 6n + 3</m> is <m>O(n^{2})</m>. What values of <m>c</m>
+        and <m>n_0</m> could we choose?</p>
     </statement>
     <choices randomize="yes">
       <choice correct="yes">
@@ -41,7 +70,8 @@
           <p><m>c = 3</m> and <m>n_0 = 10</m></p>
         </statement>
         <feedback>
-          <p>Right! Choosing <m>c = 3</m> and <m>n_0 = 10</m> satisfies the inequality <m>2n^2 + 6n + 3 \leq 3n^2</m> for all <m>n \geq 10</m>.</p>
+          <p>Right! Choosing <m>c = 3</m> and <m>n_0 = 10</m> satisfies the inequality <m>2n^2 + 6n
+            + 3 \leq 3n^2</m> for all <m>n \geq 10</m>.</p>
         </feedback>
       </choice>
       <choice correct="yes">
@@ -49,7 +79,8 @@
           <p><m>c = 5</m> and <m>n_0 = 10</m></p>
         </statement>
         <feedback>
-          <p>Right! Choosing <m>c = 5</m> and <m>n_0 = 10</m> satisfies the inequality <m>2n^2 + 6n + 3 \leq 5n^2</m> for all <m>n \geq 10</m>.</p>
+          <p>Right! Choosing <m>c = 5</m> and <m>n_0 = 10</m> satisfies the inequality <m>2n^2 + 6n
+            + 3 \leq 5n^2</m> for all <m>n \geq 10</m>.</p>
         </feedback>
       </choice>
       <choice>
@@ -57,7 +88,8 @@
           <p><m>c = 4</m> and <m>n_0 = 2</m></p>
         </statement>
         <feedback>
-          <p>Choosing <m>c = 4</m> and <m>n_0 = 2</m> will not work. At <m>n = 2</m>, the inequality <m>2n^2 + 6n + 3 \leq 4n^2</m> does not hold.</p>
+          <p>Choosing <m>c = 4</m> and <m>n_0 = 2</m> will not work. At <m>n = 2</m>, the inequality <m>2n^2
+            + 6n + 3 \leq 4n^2</m> does not hold.</p>
         </feedback>
       </choice>
       <choice>
@@ -65,8 +97,8 @@
           <p><m>c = 1,000</m> and <m>n_0 = 0</m></p>
         </statement>
         <feedback>
-          <p>Choosing <m>c = 1000</m> and <m>n_0 = 0</m> will not work. At <m>n = 0</m>, the inequality <m>2n^2 + 6n + 3 \leq 1000n^2</m> is <m>3 \leq 0</m> and thus does not hold.
-          </p>
+          <p>Choosing <m>c = 1000</m> and <m>n_0 = 0</m> will not work. At <m>n = 0</m>, the
+            inequality <m>2n^2 + 6n + 3 \leq 1000n^2</m> is <m>3 \leq 0</m> and thus does not hold. </p>
         </feedback>
       </choice>
       <choice>
@@ -74,7 +106,9 @@
           <p><m>c = 1</m> and <m>n_0 = 1,000</m></p>
         </statement>
         <feedback>
-          <p>Choosing <m>c = 1</m> and <m>n_0 = 1000</m> will not work. <m>1n^2</m> grows more slowly than <m>2n^2 + 6n + 3</m>, so there is no value of <m>n_0</m> that satisfies the inequality.</p>
+          <p>Choosing <m>c = 1</m> and <m>n_0 = 1000</m> will not work. <m>1n^2</m> grows more
+            slowly than <m>2n^2 + 6n + 3</m>, so there is no value of <m>n_0</m> that satisfies the
+            inequality.</p>
         </feedback>
       </choice>
       <choice correct="yes">
@@ -82,10 +116,11 @@
           <p><m>c = 1,000</m> and <m>n_0 = 1,000</m></p>
         </statement>
         <feedback>
-          <p>Right! Those values are valid because for all <m>n \geq 1000</m>, the inequality <m>2n^2 + 6n + 3 \leq 1000n^2</m> holds true.</p>
+          <p>Right! Those values are valid because for all <m>n \geq 1000</m>, the inequality <m>2n^2
+            + 6n + 3 \leq 1000n^2</m> holds true.</p>
         </feedback>
       </choice>
-      
+
     </choices>
   </exercise>
 

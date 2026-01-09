@@ -1,10 +1,10 @@
 <exercises xml:id="search-sort_exercises"
-         xmlns:xi="http://www.w3.org/2001/XInclude">
+           xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <title>Exercises</title>
 
   <p>The debug helper <pf>vectorToString</pf> is available for use in these exercises.</p>
-  
+
   <listing>
     <program label="search-sort_vector-helpers-h"
              xml:id="search-sort_vector-helpers-h"
@@ -18,11 +18,15 @@
 
   <exercise label="search-sort_exercises-ex-1">
     <statement>
-      <p>Write <pf>int findLast(const vector&lt;int>&amp; vec, int key);</pf>. It should return the index where the
-      last copy of <pf>key</pf> is found, or -1 if not found.</p>
-      <p>Warning: a logical approach is to start at the end and count down. If you want to be able to count down and reach -1, you should use an <pf>int</pf> for your index variable, not <pf>size_t</pf>. If a <pf>size_t</pf> is 0 and you subtract one, it wraps to the largest possible value. Or, if you use a <pf>size_t</pf>, you need to keep iterating while the index is <q>less than the size of the vector</q>.</p>
+      <p>Write <pf>int findLast(const vector&lt;int>&amp; vec, int key);</pf>. It should return the index where the last copy of <pf>key</pf> is found, or
+        -1 if not found.</p>
+      <p>Warning: a logical approach is to start at the end and count down. If you want to be able
+        to count down and reach -1, you should use an <pf>int</pf> for your index variable, not <pf>size_t</pf>.
+        If a <pf>size_t</pf> is 0 and you subtract one, it wraps to the largest possible value. Or, if you
+        use a <pf>size_t</pf>, you need to keep iterating while the index is <q>less than the size of the
+        vector</q>.</p>
     </statement>
-      <program interactive="activecode" 
+    <program interactive="activecode"
              add-files="search-sort_vector-helpers-h">
         <preamble>
 <xi:include href="../../programs/search-sort/exercises-find-last.cpp" parse="text"/>
@@ -41,10 +45,12 @@
 
   <exercise label="search-sort_exercises-ex-2">
     <statement>
-      <p>Write <pf>int binarySearchSteps(const vector&lt;int>&amp; vec, int key);</pf>. It should return the number of values checked while doing binary search to find <pf>key</pf>, or to identify that it was not found.</p>
-      <p>You can use iteration or recursion, but it is intended that you use iteration. Each time you check the <q>middle</q> value, increment your count.</p>
+      <p>Write <pf>int binarySearchSteps(const vector&lt;int>&amp; vec, int key);</pf>. It should return the number of values checked while doing binary search to
+        find <pf>key</pf>, or to identify that it was not found.</p>
+      <p>You can use iteration or recursion, but it is intended that you use iteration. Each time
+        you check the <q>middle</q> value, increment your count.</p>
     </statement>
-      <program interactive="activecode" 
+    <program interactive="activecode"
              add-files="search-sort_vector-helpers-h">
         <preamble>
 <xi:include href="../../programs/search-sort/exercises-binary-search-steps.cpp" parse="text"/>
@@ -63,10 +69,11 @@
 
   <exercise label="search-sort_exercises-ex-3">
     <statement>
-      <p>Write <pf>int binarySearchSteps(const vector&lt;int>&amp; vec, int key, int start, int end);</pf>. It should return the number of values checked while doing binary search to find <pf>key</pf>, or to identify that it was not found.</p>
+      <p>Write <pf>int binarySearchSteps(const vector&lt;int>&amp; vec, int key, int start, int end);</pf>. It should return the number of values checked while doing binary search to
+        find <pf>key</pf>, or to identify that it was not found.</p>
       <p>You must use recursion. <pf>while</pf> or <pf>for</pf> have been intentionally disabled.</p>
     </statement>
-      <program interactive="activecode" 
+    <program interactive="activecode"
              add-files="search-sort_vector-helpers-h">
         <preamble>
 <xi:include href="../../programs/search-sort/exercises-binary-search-steps-rec.cpp" parse="text"/>
@@ -85,9 +92,10 @@
 
   <exercise label="search-sort_exercises-ex-4">
     <statement>
-      <p>Write <pf>void selectLargestToStart(vector&lt;int>&amp; vec, int n);</pf>. It should use a selection sort strategy to move the <pf>n</pf> largest values to the start of the vector.</p>
+      <p>Write <pf>void selectLargestToStart(vector&lt;int>&amp; vec, int n);</pf>. It should use a selection sort strategy to move the <pf>n</pf> largest
+        values to the start of the vector.</p>
     </statement>
-      <program interactive="activecode" 
+    <program interactive="activecode"
              add-files="search-sort_vector-helpers-h">
         <preamble>
 <xi:include href="../../programs/search-sort/exercises-select-largest-to-start.cpp" parse="text"/>
@@ -105,11 +113,14 @@
 
   <exercise label="search-sort_exercises-ex-5">
     <statement>
-      <p>Write <pf>void descendingInsertionSort(vector&lt;int>&amp; vec, int n);</pf>. It should do a descending (move the larger items to the front) insertion sort on the first <pf>n</pf> elements of <pf>vec</pf>.</p>
-      
-      <p>We will consider the first element to be already sorted, so if <pf>n</pf> is 1 nothing will happen. <pf>n = 2</pf> will do one pass of insertion sort, <pf>n = 3</pf> will do two passes, and so on.</p>
+      <p>Write <pf>void descendingInsertionSort(vector&lt;int>&amp; vec, int n);</pf>. It should do a descending (move the larger items to the front) insertion
+        sort on the first <pf>n</pf> elements of <pf>vec</pf>.</p>
+
+      <p>We will consider the first element to be already sorted, so if <pf>n</pf> is 1 nothing will
+        happen. <pf>n = 2</pf> will do one pass of insertion sort, <pf>n = 3</pf> will do two passes, and so
+        on.</p>
     </statement>
-      <program interactive="activecode" 
+    <program interactive="activecode"
              add-files="search-sort_vector-helpers-h">
         <preamble>
 <xi:include href="../../programs/search-sort/exercises-descending-insertion-sort.cpp" parse="text"/>
@@ -124,18 +135,21 @@
     </program>
   </exercise>
 
-  <exercise label="search-sort_exercises-ex-6" xml:id="search-sort_exercises-ex-6">
+  <exercise label="search-sort_exercises-ex-6"
+            xml:id="search-sort_exercises-ex-6">
     <statement>
-      <p>Write <pf>void descendingMerge(vector&lt;int>&amp; vec, vector&lt;int>&amp; temp, int start, int mid, int end);</pf>. It should do a descending (take the larger item first) merge of the elements of <pf>vec</pf> between <pf>start</pf> and <pf>end</pf>.</p>
+      <p>Write <pf>void descendingMerge(vector&lt;int>&amp; vec, vector&lt;int>&amp; temp, int start, int mid, int end);</pf>. It should do a descending (take the larger item first) merge of the
+        elements of <pf>vec</pf> between <pf>start</pf> and <pf>end</pf>.</p>
 
-      <p>
-        You can assume that the two halves (from <pf>start</pf> to <pf>mid</pf> and from <pf>mid + 1</pf> to <pf>end</pf>) are already sorted in descending order. You should use the <pf>temp</pf> vector as temporary storage while merging.
-      </p>
+      <p> You can assume that the two halves (from <pf>start</pf> to <pf>mid</pf> and from <pf>mid + 1</pf> to <pf>end</pf>)
+        are already sorted in descending order. You should use the <pf>temp</pf> vector as temporary
+        storage while merging. </p>
 
-      <p>Note that you should not assume that <pf>mid</pf> is always <pf>(start + end)/2</pf>. The two <q>halves</q> may be different sizes.</p>
+      <p>Note that you should not assume that <pf>mid</pf> is always <pf>(start + end)/2</pf>. The two <q>halves</q>
+        may be different sizes.</p>
 
     </statement>
-      <program interactive="activecode" 
+    <program interactive="activecode"
              add-files="search-sort_vector-helpers-h">
         <preamble>
 <xi:include href="../../programs/search-sort/exercises-descending-merge.cpp" parse="text"/>
@@ -150,13 +164,15 @@
     </program>
   </exercise>
 
-  
+
   <exercise label="search-sort_exercises-ex-7">
     <statement>
-      <p>Write <pf>void descendingMergeSort(vector&lt;int>&amp; vec, vector&lt;int>&amp; temp, int start, int end);</pf>. It should do a descending (take the larger item first) merge of the elements of <pf>vec</pf> between <pf>start</pf> and <pf>end</pf>.</p>
-      <p>You should copy/paste your <pf>descendingMerge</pf> function here from <xref ref="search-sort_exercises-ex-6"/>.</p>
+      <p>Write <pf>void descendingMergeSort(vector&lt;int>&amp; vec, vector&lt;int>&amp; temp, int start, int end);</pf>. It should do a descending (take the larger item first) merge of the
+        elements of <pf>vec</pf> between <pf>start</pf> and <pf>end</pf>.</p>
+      <p>You should copy/paste your <pf>descendingMerge</pf> function here from <xref ref="search-sort_exercises-ex-6"/>
+        .</p>
     </statement>
-      <program interactive="activecode" 
+    <program interactive="activecode"
              add-files="search-sort_vector-helpers-h">
         <preamble>
 <xi:include href="../../programs/search-sort/exercises-descending-mergeSort.cpp" parse="text"/>
@@ -173,11 +189,15 @@
   </exercise>
 
 
-  <exercise label="search-sort_exercises-ex-8" xml:id="search-sort_exercises-ex-8">
+  <exercise label="search-sort_exercises-ex-8"
+            xml:id="search-sort_exercises-ex-8">
     <statement>
-      <p>Write <pf>int descendingPartition(vector&lt;int>&amp; vec, int start, int end);</pf>. It should do a partition of the elements of <pf>vec</pf> between <pf>start</pf> and <pf>end</pf> so that the elements greater than some pivot value come before the elements less than or equal to the pivot. It should return the index of the final location of the pivot.</p>
+      <p>Write <pf>int descendingPartition(vector&lt;int>&amp; vec, int start, int end);</pf>. It should do a partition of the elements of <pf>vec</pf> between <pf>start</pf>
+        and <pf>end</pf> so that the elements greater than some pivot value come before the elements
+        less than or equal to the pivot. It should return the index of the final location of the
+        pivot.</p>
     </statement>
-      <program interactive="activecode" 
+    <program interactive="activecode"
              add-files="search-sort_vector-helpers-h">
         <preamble>
 <xi:include href="../../programs/search-sort/exercises-descending-partition.cpp" parse="text"/>
@@ -194,10 +214,14 @@
 
   <exercise label="search-sort_exercises-ex-9">
     <statement>
-      <p>Write <pf>int descendingQuicksort(vector&lt;int>&amp; vec, int start, int end);</pf>. It should do a quicksort of the elements of <pf>vec</pf> between <pf>start</pf> and <pf>end</pf> so that the elements greater than some pivot value come before the elements less than or equal to the pivot. It should return the index of the final location of the pivot.</p>
-      <p>You should copy/paste your <pf>descendingPartition</pf> function here from <xref ref="search-sort_exercises-ex-8"/>.</p>
+      <p>Write <pf>int descendingQuicksort(vector&lt;int>&amp; vec, int start, int end);</pf>. It should do a quicksort of the elements of <pf>vec</pf> between <pf>start</pf>
+        and <pf>end</pf> so that the elements greater than some pivot value come before the elements
+        less than or equal to the pivot. It should return the index of the final location of the
+        pivot.</p>
+      <p>You should copy/paste your <pf>descendingPartition</pf> function here from <xref ref="search-sort_exercises-ex-8"/>
+        .</p>
     </statement>
-      <program interactive="activecode" 
+    <program interactive="activecode"
              add-files="search-sort_vector-helpers-h">
         <preamble>
 <xi:include href="../../programs/search-sort/exercises-descending-quicksort.cpp" parse="text"/>
