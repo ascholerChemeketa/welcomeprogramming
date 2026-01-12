@@ -1,3 +1,4 @@
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <format>
@@ -6,7 +7,6 @@ using namespace std;
 // A point class with const used in the member function
 class Point {
 public:
-    // Construct a point
     Point(double x, double y) {
         m_x = x;
         m_y = y;

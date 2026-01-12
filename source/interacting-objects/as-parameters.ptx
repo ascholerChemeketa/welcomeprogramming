@@ -5,37 +5,54 @@
 
   <subsection>
     <title>Objects as Parameters</title>
-  <p>
-    We can use objects as parameters to functions in the same way we use structs. Just as with structs, we need to consider whether we want to pass the object by value or by reference. Passing by reference is usually the better choice, since it avoids copying the object. This is especially important for large objects, where copying can be expensive in terms of time and memory. And, if we don't want to modify the object, we should pass it as a const reference. This way, we can be sure that the function won't change the object.
-  </p>
+    <p> We can use objects as parameters to functions in the same way we use structs. And, as with
+      structs, we need to consider whether we want to pass the object by value or by reference.
+      Passing by reference is usually the better choice, since it avoids copying the object. This is
+      especially important for large objects, where copying can be expensive in terms of time and
+      memory. And, if we don't want to modify the object, we should pass it as a const reference.
+      This way, we can be sure that the function won't change the object. </p>
 
-  <p>However, there is an extra wrinkle. If we include the header of a Point class and then try to compile this code:</p>
-  
-  <program line-numbers="yes">
+    <p>However, there is an extra wrinkle. If we include the header of a Point class and then try to
+      compile this code:</p>
+
+    <program line-numbers="yes">
 <xi:include href="../../programs/interacting-objects/disatance-to-function.cpp" parse="text"/>
   </program>
 
-  <p>The compiler complains about a syntax error:</p>
+    <p>The compiler complains about a syntax error:</p>
 
-  <console>
-    <output>
+    <console>
+      <output>
       test.cpp:1:27: error: passing ‘const Point’ as ‘this’ argument discards qualifiers [-fpermissive]
       1 |     double xdiff = p2.getX() - p1.getX();
         |                    ~~~~~~~^~
     </output>
-  </console>
-  
-  <p>This somewhat cryptic message is complaining that using the member function <pf>getX()</pf> is not guaranteed to be safe on the Point that this function promises to not modify (<pf>const Point&amp; p2</pf>). The compiler looks at that line and is not sure if it is safe to call <pf>getX()</pf>. For all it knows, that function is going to change p2! (Remember that compiler does not necessarily have all the code available as it compiles this file. It only works on one file at a time.)</p>
+    </console>
 
-  <p>How do we deal with this? Well, we could just stop using <pf>const</pf>. Then the compiler would not worry about taking a Point we promised to keep <pf>const</pf> and calling some member function that might modify the Point. But that means ignoring a power tool for avoiding bugs based on unintended changes made via references. So a better way to solve the issue is to tell the compiler which member functions are safe to use on const objects.</p>
-</subsection>
+    <p>This somewhat cryptic message is complaining that using the member function <pf>getX()</pf>
+      is not guaranteed to be safe on the Point that this function promises to not modify (<pf>const
+      Point&amp; p2</pf>). The compiler looks at that line and is not sure if it is safe to call <pf>
+      getX()</pf>. For all it knows, that function is going to change p2! (Remember that compiler
+      does not necessarily have all the code available as it compiles this file. It only works on
+      one file at a time.)</p>
+
+    <p>How do we deal with this? Well, we could just stop using <pf>const</pf>. Then the compiler
+      would not worry about taking a Point we promised to keep <pf>const</pf> and calling some
+      member function that might modify the Point.</p>
+
+    <p>But removing <pf>const</pf> would mean giving up a powerful tool for avoiding bugs based on
+      unintended changes. So a better way to solve the issue is to tell the compiler which member
+      functions are safe to use on const objects.</p>
+  </subsection>
 
   <subsection>
     <title>Making Members Const</title>
-    <p>A member function can be marked <pf>const</pf> by adding the keyword after the parameter list (before the body or the semicolon):</p>
+    <p>A member function can be marked <pf>const</pf> by adding the keyword after the parameter list
+      (before the body or the semicolon):</p>
 
     <listing>
-    <program line-numbers="yes" highlight-lines="3, 6, 10">
+      <program line-numbers="yes"
+               highlight-lines="3, 6, 10">
 class Point {
 public:
     double getX() const {
@@ -51,89 +68,119 @@ double Point::getY() const {
     </program>
     </listing>
 
-    <p><pf>const</pf> becomes part of the prototype of the function. <pf>getX</pf> is now <q>The getX function that is a part of Point, returns a double, and keeps the object constant</q>. Anywhere we write the prototype, like on line 10 to define the <pf>getY</pf> that was declared on line 6, we must use the <pf>const</pf>.</p>
+    <p><pf>const</pf> becomes part of the prototype of the function. <pf>getX</pf> is now <q>The
+      getX function that is a part of Point, returns a double, and keeps the object constant</q>.
+      Anywhere we write the prototype, like on line 10 to define the <pf>getY</pf> that was declared
+      on line 6, we must use the <pf>const</pf>.</p>
 
-    <aside><p>You could have both a <pf>double getX();</pf> and a <pf>double getX() const;</pf>. The second one would be used in contexts where the compiler knows the point is supposed to be constant and the first would be used in locations where the point is allowed to change. But unless we had a really good reason to do this, it would mostly just be confusing.</p></aside>
+    <aside>
+      <p>You could have both a <pf>double getX();</pf> and a <pf>double getX() const;</pf>. The
+        second one would be used in contexts where the compiler knows the point is supposed to be
+        constant and the first would be used in locations where the point is allowed to change. But
+        unless we had a really good reason to do this, it would mostly just be confusing.</p>
+    </aside>
 
-    <p>Now, when we call <pf>getX()</pf> on a <pf>const Point</pf>, the compiler knows that it is safe to do so as the function was marked <pf>const</pf>. As it compiles the <pf>getX()</pf> function itself,  does not try to modify any member variables. If it does, the compiler will flag that change as an error.</p>
+    <p>Now, when we call <pf>getX()</pf> on a <pf>const Point</pf>, the compiler knows that it is
+      safe to do so as the function was marked <pf>const</pf>. As it compiles the <pf>getX()</pf>
+      function itself, does not try to modify any member variables. If it does, the compiler will
+      flag that change as an error.</p>
 
-    <insight><p><pf>const</pf> is infectious in object-oriented code. Once we start using it, it becomes important to use it everywhere so the compiler knows what operations are safe.</p></insight>
+    <insight>
+      <p><pf>const</pf> is infectious in object-oriented code. Once we start using it, it becomes
+        important to use it everywhere so the compiler knows what operations are safe.</p>
+    </insight>
 
-    <p>So what do we mark const? Any functions that do not change the current object. In the version of <pf>Point</pf> below, that includes <pf>getX()</pf>, <pf>getY()</pf>, and <pf>toString()</pf>. We can't mark the setters, <pf>shift()</pf> or the constructor as <pf>const</pf> as they all modify (or create) the object:</p>
+    <p>So what do we mark const? Any functions that do not change the current object. In the version
+      of <pf>Point</pf> below, that includes <pf>getX()</pf>, <pf>getY()</pf>, and <pf>toString()</pf>.
+      We can't mark the setters, <pf>shift()</pf> or the constructor as <pf>const</pf> as they all
+      modify (or create) the object:</p>
 
-    <program line-numbers="yes" highlight-lines="15, 19, 39" xml:id="const-member-functions" label="const-member-functions">
+    <program line-numbers="yes"
+             highlight-lines="15, 19, 39"
+             xml:id="const-member-functions"
+             label="const-member-functions">
 <xi:include href="../../programs/interacting-objects/const-member-functions.cpp" parse="text"/>
     </program>
 
     <p>Now we can successfully write a function that tries to use a const Point reference:</p>
 
     <listing>
-    <program label="interacting-objects_as-parameters-program-1" interactive="activecode" include="const-member-functions">
+      <program label="interacting-objects_as-parameters-program-1"
+               interactive="activecode"
+               include="const-member-functions">
 <xi:include href="../../programs/interacting-objects/const-member-functions-user.cpp" parse="text"/>
     </program>
     </listing>
 
-    <p>Note that it is still not OK to use non-const functions. If you add a line <pf>p1.setX(10)</pf> to the <pf>distanceBetween</pf> code, it will produce an error. You are now calling a function that is not known to be safe on a <pf>Point</pf> we promised to keep const.</p>
+    <p>Note that it is still not OK to use non-const functions. If you add a line <pf>p1.setX(10)</pf>
+      to the <pf>distanceBetween</pf> code, it will produce an error. You are now calling a function
+      that is not known to be safe on a <pf>Point</pf> we promised to keep const.</p>
   </subsection>
 
-  
-  <exercise label="interacting-objects_as-parameters-ex-1" randomize="yes">
+
+  <exercise label="interacting-objects_as-parameters-ex-1"
+            randomize="yes">
     <statement>
-      <p>Imagine a class Person. Which of the following functions sound like they should be <pf>const</pf>?</p>
+      <p>Imagine a class Person. Which of the following functions sound like they should be <pf>
+        const</pf>?</p>
     </statement>
     <choices multiple-correct="yes">
-      <choice  correct="yes">
+      <choice correct="yes">
         <statement>
-          <p><pf>getName</pf></p>
+          <p>
+            <pf>getName</pf>
+          </p>
         </statement>
-        <feedback>
-          This sounds like a simple getter. It should not change the object, so it should be <pf>const</pf>.
-        </feedback>
+        <feedback> This sounds like a simple getter. It should not change the object, so it should
+          be <pf>const</pf>. </feedback>
       </choice>
 
       <choice>
         <statement>
-          <p><pf>setAge</pf></p>
+          <p>
+            <pf>setAge</pf>
+          </p>
         </statement>
-        <feedback>
-          No, this sounds like a setter. It should change the object, so it should not be <pf>const</pf>.
-        </feedback>
+        <feedback> No, this sounds like a setter. It should change the object, so it should not be <pf>
+          const</pf>. </feedback>
       </choice>
 
       <choice>
         <statement>
-          <p><pf>updateAddress</pf></p>
+          <p>
+            <pf>updateAddress</pf>
+          </p>
         </statement>
-        <feedback>
-          No, this sounds like it is going to modify the object, so it should not be <pf>const</pf>.
-        </feedback>
+        <feedback> No, this sounds like it is going to modify the object, so it should not be <pf>
+          const</pf>. </feedback>
       </choice>
 
       <choice correct="yes">
         <statement>
-          <p><pf>isAdult</pf></p>
+          <p>
+            <pf>isAdult</pf>
+          </p>
         </statement>
-        <feedback>
-          This sounds like it should not change the object, so it should be <pf>const</pf>.
-        </feedback>
+        <feedback> This sounds like it should not change the object, so it should be <pf>const</pf>. </feedback>
       </choice>
 
       <choice correct="yes">
         <statement>
           <p>A <pf>print</pf> that returns a String representation.</p>
         </statement>
-        <feedback>
-          This sounds like it should not change the object, so it should be <pf>const</pf>.
-        </feedback>
+        <feedback> This sounds like it should not change the object, so it should be <pf>const</pf>. </feedback>
       </choice>
     </choices>
   </exercise>
 
   <exercise label="interacting-objects_as-parameters-ex-2">
     <statement>
-      <p>Write the prototype (no body) for a function called <pf>olderThan</pf> which takes an <pf>int age</pf> as its parameter, returns a <pf>bool</pf> and is <pf>const</pf>.</p>
-        <p><fillin mode="string"
-          answer="bool olderThan(int age) const;"/></p>
+      <p>Write the prototype (no body) for a function called <pf>olderThan</pf> which takes an <pf>int
+        age</pf> as its parameter, returns a <pf>bool</pf> and is <pf>const</pf>.</p>
+      <p>
+        <fillin mode="string"
+                answer="bool olderThan(int age) const;"/>
+      </p>
     </statement>
     <evaluation>
       <evaluate>
@@ -142,6 +189,32 @@ double Point::getY() const {
         </test>
       </evaluate>
     </evaluation>
+  </exercise>
+
+  <exercise label="interacting-objects_as-parameters-ex-4"
+            randomize="yes">
+    <statement>
+      <p>The <pf>Person</pf> class has a private <pf>m_name</pf> variable. We make a <pf>Person p1</pf>.
+        What describes where p1's <pf>m_name</pf> can be accessed?</p>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>
+          <p>Only the object itself (p1) can access its m_name directly.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Any Person object can access p1's m_name directly (assuming it has access to p1).</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Any object can access p1's m_name directly (assuming it has access to p1). It is only
+            global functions that cannot.</p>
+        </statement>
+      </choice>
+    </choices>
   </exercise>
 
 
