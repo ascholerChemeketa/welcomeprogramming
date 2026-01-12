@@ -45,9 +45,9 @@
     </program>
     </listing>
 
-    <p><pf>numSides</pf> is safe to make public because it is a constant - there is no danger of other code changing it in unexpected ways. And because it is public, we can access it from anywhere.</p>
+    <p><pf>NUM_SIDES</pf> is safe to make public because it is a constant - there is no danger of other code changing it in unexpected ways. And because it is public, we can access it from anywhere.</p>
 
-    <p>Making the constant static means that each object does not have to store a copy of the value. But it also means we don't even need a particular Square object to name the value. Because <pf>numStudents</pf> belongs to the class, we are able to name it with <pf>Square::numSides</pf> or <q>the numSides variable that is a part of the Square class</q>. That trick can not be used with normal member variables<mdash/>it would not make sense to talk about <pf>Square::m_sideLength</pf> as there is no <pf>m_sideLength</pf> that is shared by all Squares; each square has its own value for that variable.</p>
+    <p>Making the constant static means that each object does not have to store a copy of the value. But it also means we don't even need a particular Square object to name the value. Because <pf>numStudents</pf> belongs to the class, we are able to name it with <pf>Square::NUM_SIDES</pf> or <q>the NUM_SIDES variable that is a part of the Square class</q>. That trick can not be used with normal member variables<mdash/>it would not make sense to talk about <pf>Square::m_sideLength</pf> as there is no <pf>m_sideLength</pf> that is shared by all Squares; each square has its own value for that variable.</p>
 
 
     <insight><p><pf>static</pf> member variables should be rare. Other than class level constants, think carefully before making a variable constant. Will it ALWAYS be the case that every object should have the same value?</p></insight>

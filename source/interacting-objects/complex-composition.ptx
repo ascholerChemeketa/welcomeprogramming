@@ -75,7 +75,7 @@ double Segment::length() const {
   <p>There is no reason we have to stop with two Points. We could have a Path that represents a series of Points. It might be represented as a vector of Points:</p>
 
   <figure>
-    <caption>A Segment class that stores two Points</caption>
+    <caption>A Path that stores a series of Points</caption>
     <image>
       <mermaid><![CDATA[
       classDiagram
@@ -90,7 +90,7 @@ double Segment::length() const {
   <p>We can also use composition to construct objects that are composed of other objects. This would be a nice way to build a Cylinder object. A Cylinder is defined by a Circle that is its base and a height (as well as an angle if we want to represent oblique or <q>leaning</q> cylinders). So we could define a Cylinder class that has a Circle and a double:</p>
 
   <figure>
-    <caption>A Segment class that stores two Points</caption>
+    <caption>A Cylinder class that stores a Circle which stores a Point</caption>
     <image>
       <mermaid><![CDATA[
       classDiagram

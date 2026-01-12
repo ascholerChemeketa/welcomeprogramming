@@ -82,7 +82,7 @@ test.cpp:15:47: error: no matching function for call to ‘Point::Point()’
   <p>Or we could write a constructor that takes a Point object that we want to copy as the center of the Circle. We take the Point by const reference, and specify it as what to use to set up the Point <pf>m_center</pf>:</p>
 
   <program>
-    Circle(double radius): m_center(p) {
+    Circle(double radius, const Point&amp; p): m_center(p) {
         m_radius = radius;
     }
   </program>
@@ -117,7 +117,8 @@ test.cpp:15:47: error: no matching function for call to ‘Point::Point()’
               Address m_address;
           };
         </program>
-        <p>What can go in the blank shown to properly construct the composed Address using the initialization list? Assume that the Address class has a constructor that takes in the appropriate parameters in the order shown in the Contact constructor.</p>
+        <p>Assume the Address class has a constructor that accepts street, city, and zip as parameters.</p>
+        <p>Write the code that could be used to initialize the Address member in the initialization list of the Contact constructor.</p>
         
         <fillin mode="string"
               answer="m_address(street, city, zip)"/>

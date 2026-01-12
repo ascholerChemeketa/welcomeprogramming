@@ -113,8 +113,7 @@ double Point::getY() const {
     </listing>
 
     <p>Note that it is still not OK to use non-const functions. If you add a line <pf>p1.setX(10)</pf>
-      to the <pf>distanceBetween</pf> code, it will produce an error. You are now calling a function
-      that is not known to be safe on a <pf>Point</pf> we promised to keep const.</p>
+      to the <pf>distanceBetween</pf> code, it will produce an error. We promised to keep <pf>p1</pf> const. And the compiler has no guarantee that <pf>setX()</pf> is safe to call on a const object (for good reason.... it modifies the object!). We are only allowed to use the member functions that were marked <pf>const</pf></p>
   </subsection>
 
 

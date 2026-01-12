@@ -9,10 +9,10 @@ int main()
     // This works because SimplePoint2 has a default constructor
     vector<SimplePoint2> points1(5);
 
-    // Contruct a vector of SimplePoint1 objects with explicit constructor
+    // Make a vector of SimplePoint1 objects with explicit construction
     vector<SimplePoint1> points2(5, SimplePoint1(5.0, 5.0));
 
-    // Construct a vector of SimplePoint1 objects from  list
+    // Make a vector of SimplePoint1 objects from  list
     vector<SimplePoint1> points3 = {
       SimplePoint1(0.0, 0.0), 
       SimplePoint1(1.0, 2.0),

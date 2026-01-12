@@ -1,1 +1,3 @@
 python F:/Programming/pretext/pretext/pretext -f html -c all -d out -vvv -p pub.xml source/main.ptx -r variables-operators
+python F:/Programming/pretext/pretext/pretext -f html -c all -d out -vvv -p pub.xml source/main.ptx -r variables-operators
+nodemon -e ptx -w source --exec "python C:/Code/pretext-ascholer/pretext/pretext -f html-incremental -c all -d out -vvv -p publication/publication.xml source/main.ptx -r big-o -x html.build-preview yes -X xsl/custom.xsl"
