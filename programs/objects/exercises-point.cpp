@@ -3,7 +3,7 @@ using namespace std;
 
 class Point {
 public:
-    Point(int x, int y) {
+    Point(double x, double y) {
         m_x = x;
         m_y = y;
     }
