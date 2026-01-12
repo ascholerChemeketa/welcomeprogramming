@@ -1,0 +1,125 @@
+<section xml:id="practical-programming_lambdas"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Lambda Expressions</title>
+
+  <p>
+    It can be annoying to have to define a whole separate function or functor just to pass a small piece of logic to an algorithm. In the previous section, we defined a new struct just so we could ask the <pf>sort</pf> algorithm to sort in reverse order. For small pieces of logic, it is often more convenient to use a <term>lambda expression</term>. A lambda expression is an anonymous (nameless) function that can be defined in place, right where it is needed.
+  </p>
+
+  <p>
+    The syntax for a lambda expression is:
+  </p>
+
+  <program>
+    <![CDATA[
+    [capture list](parameters) {
+        // function body
+    }
+    ]]>
+  </program>
+
+  <p>
+    The <em>capture list</em> specifies which variables from the surrounding scope should be accessible inside the lambda. Capturing allows the lambda to use these variables even though they are not passed as parameters. 
+    This can be useful for complex logic, but for simple cases where no outside variables are needed, the capture list can be left empty as <c>[]</c>. (We will not make use of any captured variables in our examples.)
+  </p>
+  <p>
+    The <em>parameters</em> are like the parameters of a regular function. Like a regular function, they can be references (and should be if you want to modify the arguments or just avoid copies).</p>
+    <p>Finally, the <em>function body</em> contains the code to be executed when the lambda is called. It generally ends with a <c>return</c> statement to return a value.
+  </p>
+
+  <p>Here is our reverse sort program written using a lambda expression as the comparison function:</p>
+  <listing>
+  <program label="practical-programming_lambdas-1" interactive="activecode"
+           line-numbers="yes" highlight-lines="15-17" >
+<xi:include href="../../programs/practical-programming/lambdas-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>The spacing within the parameters for sort has been expanded for clarity. Lines 15-17 are the lambda function. It is the third parameter to sort. In practice, it would often be written like this:</p>
+
+  <program>
+    <![CDATA[
+    sort(numbers.begin(), numbers.end(), [](int a, int b) {
+        return a > b; // a comes first if it is greater than b
+    });
+    ]]>
+  </program>
+
+  <p>The last line of that construct has a <pf>}</pf> to ends the lambda function, a <pf>)</pf> to end the call to sort and a <pf>;</pf> to end the statement.</p>
+
+  <p>Sometimes that will be shorted to a single line if the lambda is simple enough:</p>
+
+  <program>
+    <![CDATA[
+    sort(numbers.begin(), numbers.end(), [](int a, int b) { return a > b; });
+    ]]>
+  </program>
+
+  <p>
+    This style of anonymous function is very useful for short, simple operations that are only needed in one place. In addition to being concise, they also help keep related code together, making it easier to see the logic being used to sort the collection. (As opposed to having to look elsewhere in the code to find the definition of a separate function or functor.)
+  </p>
+
+  <p>
+    In addition to being used as parameters to algorithms, lambda expressions are also useful for defining small functions on the fly for things like event handlers, callbacks, and other situations where a full function definition would be overkill. Languages like JavaScript make heavy use of lambda expressions for these purposes.
+  </p>
+
+  
+  <exercise label="practical-programming_lambdas-exercise-1">
+    <statement>
+      <p>Construct a lambda expression that takes one integer as a parameter and returns double its value. You will not use all the blocks.</p>
+    </statement>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>[]</c></block>
+      <block correct="no"><c>[int x]</c></block>
+      <block><c>(int x)</c></block>
+      <block><c>{ return x * 2; }</c></block>
+      <block correct="no"><c>{ x * 2; }</c></block>
+    </blocks>
+  </exercise>
+  
+  <exercise label="practical-programming_lambdas-exercise-2">
+    <statement>
+      <p>Construct a lambda expression that takes two strings and returns true if they are equal. You will not use all the blocks.</p>
+    </statement>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>[]</c></block>
+      <block correct="no"><c>[string a, string b]</c></block>
+      <block><c>(string a, string b)</c></block>
+      <block correct="no"><c>( return a == b; )</c></block>
+      <block><c>{ return a == b; }</c></block>
+    </blocks>
+  </exercise>
+
+  
+  <exercise label="practical-programming_programming_lambdas-exercise-3">
+    <statement>
+      <p>Add code for a lambda expression that compares two Person objects by their age in ascending order (youngest first).</p>
+    </statement>
+    <program interactive="activecode" line-numbers="yes">
+      <preamble>
+<xi:include href="../../programs/practical-programming/lambdas-exercise-3-start.cpp" parse="text"/>
+      </preamble>
+      <code>
+        // Your code here
+      </code>
+      <postamble>
+<xi:include href="../../programs/practical-programming/lambdas-exercise-3-end.cpp" parse="text"/>
+      </postamble>
+      <tests>
+        <iotest>
+          <input>
+          </input>
+          <output>
+            <![CDATA[
+            Bob Alice Charlie 
+            ]]>
+          </output>
+        </iotest>
+      </tests>
+    </program>
+    </exercise>
+
+</section>

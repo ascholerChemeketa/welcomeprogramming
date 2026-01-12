@@ -1,0 +1,72 @@
+<section xml:id="practical-programming_comparators"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Comparisons and Functors</title>
+
+  <p>In the last section we saw how we could control the ordering of elements in a <pf>set</pf> by changing the definition of <pf>operator&lt;</pf> for our custom types.</p>
+  
+  <p>
+    But what if our data type has a <pf>operator&lt;</pf> that we do not want to (or can't) change, yet we want to use a different ordering for a specific set? In that case, we can provide a custom comparison function to the set when we declare it using syntax like this:
+  </p>
+
+  <program>
+    <![CDATA[ 
+    set<Person, PersonAgeComparer> peopleByAge;
+    ]]>
+  </program>
+
+  <p>In that sample, <pf>PersonAgeComparer</pf> must be the name of something that will take two <pf>Person</pf>s and return a <pf>bool</pf> indicating whether the first should be considered less than the second according to the desired ordering.</p>
+
+  <p>Although you might assume that thing would be a function (and it can be), it is generally easier in C++ to use a <term>functor</term> for jobs like this. A functor is a class or struct that can behave like a function because it defines an <pf>operator()</pf>.</p>
+
+  <p>Here is an example of a functor that could be used to compare two <pf>Person</pf> objects by their age:</p>
+
+  <program>
+    <![CDATA[ 
+    struct PersonAgeComparer {
+      bool operator()(const Person& a, const Person& b) const {
+        return a.age > b.age; // Compare by age descending
+      }
+    };
+    ]]>
+  </program>
+
+  <p>
+    This <pf>PersonAgeComparer</pf> struct defines an <pf>operator()</pf>. That means that you can take an instance of <pf>PersonAgeComparer</pf> and use it like a function. When you do so, it takes two <pf>Person</pf> params and returns true or false.
+  </p>
+
+  <p>The expected behavior of a comparison functor defined this way is that it takes two parameters. We will call them <pf>a</pf> and <pf>b</pf>. The functor should return true if <pf>a</pf> should come before <pf>b</pf> in the desired ordering, and false otherwise.
+  Thus, in the example above, the functor returns true if <pf>a</pf>'s age is greater than <pf>b</pf>'s age, which results in ordering people by age in descending order (oldest first).
+  </p>
+
+  <p>
+    Given that functor, we can now declare a set that uses it to order People by age even though the <pf>Person</pf> struct itself defines <pf>operator&lt;</pf> to compare by name.
+  </p>
+
+  <listing>
+  <program label="practical-programming_comparators-1" interactive="activecode"
+           line-numbers="yes" highlight-lines="15-19" >
+<xi:include href="../../programs/practical-programming/comparators-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>
+    This technique is especially important if you do not even have control over the definition of the type you are storing in the set.</p>
+    
+    <p>Say you wanted to store a set of standard strings but wanted to order them in reverse alphabetical order. You cannot change the definition of <pf>std::string</pf> to modify its <pf>operator&lt;</pf>, but you can define your own functor to do the comparison you want and provide that to the set.
+  </p>
+
+  <exercise label="practical-programming_comparators-exercise-1">
+    <statement>
+      <p>The name for a class or struct that behaves like a function by defining an <pf>operator()</pf> is a(n) <fillin mode="string" answer="functor"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>

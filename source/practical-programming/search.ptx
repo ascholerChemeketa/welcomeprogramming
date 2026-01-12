@@ -1,0 +1,52 @@
+<section xml:id="practical-programming_search"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Search Algorithms</title>
+
+  <introduction>
+    <p>Another category of algorithms are algorithms that find elements in a collection.</p>
+  </introduction>
+
+  <subsection>
+    <title>Find and FindIf</title>
+
+    <p>Find and find if do what you might expect: they search for elements in a collection. The <q>if</q>
+    version accepts a function to use to decide if an element matches the search criteria while the <q>plain</q> find accepts a value to search for.</p>
+
+    <p>To return their result, they use an iterator. It will either point at the found element or at the end of the range if no matching element is found.</p>
+    
+    <program>
+      <![CDATA[
+      It find( It first, It last, const T& value );
+      
+      It find_if( It first, It last, UnaryPredicate p );
+      ]]>
+    </program>
+
+<listing>
+<program label="practical-programming_search-1" interactive="activecode"
+         line-numbers="yes" >
+<xi:include href="../../programs/practical-programming/search-1.cpp" parse="text"/>
+</program>
+</listing>
+
+<p><pf>find</pf> does a forward search. It starts from the beginning and works towards the end, stopping at the first match. If we want to do a backwards search that begins at the end and works towards the beginning, we can use <pf>find_last</pf> (or <pf>find_last_if</pf>).</p>
+  </subsection>
+
+
+  <subsection>
+    <title>Count</title>
+
+    <p>Perhaps we want to know how many matches there are for a certain value or that satisfy a certain condition.We don't want to move them or remove them, we just want to know how many there are. In that case, <pf>count</pf> or <pf>count_if</pf> have us covered.</p>
+
+    <p>The count algorithms are called just like find, but they return a count of the matching elements instead of an iterator to the first match</p>
+
+<listing>
+<program label="practical-programming_search-2" interactive="activecode"
+         line-numbers="yes" >
+<xi:include href="../../programs/practical-programming/search-2.cpp" parse="text"/>
+</program>
+</listing>
+  </subsection>
+
+</section>

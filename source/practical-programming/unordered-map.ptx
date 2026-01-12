@@ -1,0 +1,41 @@
+<section xml:id="practical-programming_unordered-map"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Unordered Maps and Sets</title>
+
+  <p>
+    You may have noticed that while looping through key-value pairs in our word count example, the order of the words printed was not the same as the order they were added. This is because the <pf>map</pf> container keeps its elements in sorted order based on the keys. (And, as with a set, this means that whatever type is used as the key must define the <pf>&lt;</pf> operator for comparison.)
+  </p>
+
+  <p>If we do not care about the order of elements and want potentially faster access times, we can use an <pf>unordered_map</pf>. An <pf>unordered_map</pf> is similar to a <pf>map</pf> but does not keep its elements in any particular order. Instead, it uses a structure called a hash table internally that provides for extremely fast access.</p>
+
+  <p>The syntax for using an <pf>unordered_map</pf> is the same as for a <pf>map</pf>. You declare it with the key and value types, and you use the same methods like <pf>.insert()</pf> and <pf>.at()</pf> to add and access elements.</p>
+
+  <p>
+    If you loop through the elements of an <pf>unordered_map</pf>, the order in which you get the elements is not defined. The order they come out will not necessarily match the order they were added, nor will it be sorted. The ordering of all the elements may even change if you add or remove elements from the map!
+  </p>
+
+  <p>Here is a modified version of the previous word count program that uses an <pf>unordered_map</pf> instead of a <pf>map</pf>. Notice that nothing but the container type (and include) has changed.</p>
+
+  <listing>
+  <program label="practical-programming_unordered-map-1" interactive="activecode"
+           line-numbers="yes" highlight-lines="2,8" >
+<xi:include href="../../programs/practical-programming/unordered-map-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>
+    We can also make an <pf>unordered_set</pf> in the same way to store unique values without any particular order. The syntax and usage is the same as for a <pf>set</pf>, you just replace <pf>set</pf> with <pf>unordered_set</pf>.
+  </p>
+
+  <insight>
+    <p>The unordered containers generally provide (slightly) faster access times compared to their ordered counterparts, but they do not maintain any particular order of elements. Other than that they are used in the same ways.</p>
+  </insight>
+
+  <p>
+    Because unordered containers do not try to sort their contents, we do not need to provide a way to compare elements using the <pf>&lt;</pf> operator. However, they do require a way to compute a <term>hash</term> for the key type. A hash function is a function that takes a value and produces a fixed-size number (the hash) that represents that value.
+  </p>
+
+  <p>The standard types in C++ have built-in hash functions, so you can use them directly as keys in an <pf>unordered_map</pf> or elements in an <pf>unordered_set</pf>. But if you want to use a custom data type as a key or element, you will need to provide your own hash function. We will save that for when we learn about how hash tables work.</p>
+
+</section>

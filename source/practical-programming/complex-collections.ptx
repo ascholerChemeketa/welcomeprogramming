@@ -1,0 +1,46 @@
+<section xml:id="practical-programming_complex-collections"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Complex Collections</title>
+
+  <p>
+    Much like how we can make a vector of vectors to create a 2D table, we can also make collections that contain other collections of different types. This allows us to create more complex data structures.
+  </p>
+  
+  <p>
+    For example, we might want to represent all the models of cars made by different manufacturers. We could use a <pf>map</pf> where the keys are the manufacturer names (strings) and the values are <pf>vectors</pf> of model names (also strings). This way, we can easily look up all the models for a given manufacturer. The type for such a collection would be:
+  </p>
+
+  <program>
+    <![CDATA[
+    map<string, vector<string>> carModels;
+    ]]>
+  </program>
+
+  <p>The keys in this map are strings like <c>"Toyota"</c> or <c>"Ford"</c>. Each value is a vector, like: <c>{"Camry", "Corolla", "Prius"}</c>. Here is an example of what using it might look like:</p>
+  
+  <listing>
+  <program label="practical-programming_complex-collections-1" interactive="activecode"
+           line-numbers="yes" >
+<xi:include href="../../programs/practical-programming/complex-collections-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <exercise label="practical-programming_complex-collections-exercise-1">
+    <statement>
+      <p>Arrange blocks to declare a collection called <pf>classList</pf> that is a map which lets us use <pf>Course</pf> objects to loop up vectors of <pf>Student</pf> objects.</p>
+    </statement>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>map&lt;</c></block>
+      <block><c>Course</c></block>
+      <block><c>,</c></block>
+      <block><c>vector&lt;</c></block>
+      <block><c>Student</c></block>
+      <block><c>&gt;&gt;</c></block>
+      <block><c>classList</c></block>
+      <block><c>;</c></block>
+    </blocks>
+  </exercise>
+
+</section>

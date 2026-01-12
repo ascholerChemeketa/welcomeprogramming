@@ -1,0 +1,83 @@
+<section xml:id="practical-programming_set-comparisons"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Sets and Comparisons</title>
+
+  <p>How does a <pf>set&lt;string&gt;</pf> keep the strings it contains in sorted order? It relies on being able to ask the strings 
+    to compare themselves using the <pf>&lt;</pf> operator. The <pf>set</pf> container uses this operator to determine the order of the elements. Since the <pf>string</pf> class defines the
+    <pf>&lt;</pf> operator to do lexicographical (alphabetical) comparison, the set can use it to keep the strings in order.
+  </p>
+
+  <p>
+    That means to use a <pf>set</pf> with a custom type, that type must define the <pf>&lt;</pf> operator so the set can order its elements. Below is a simple example of using a <pf>set</pf> to store a collection of <pf>Person</pf> structs. Currently, the Person struct does not define the <pf>&lt;</pf> operator (it is commented out). Try running the program as is.
+  </p>
+
+  <listing>
+  <program label="practical-programming_set-comparisons-1" interactive="activecode"
+           line-numbers="yes" >
+<xi:include href="../../programs/practical-programming/set-comparisons-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>The error message you get when you run the code without a <pf>operator&lt;</pf> will likely look like a wall of text that can be difficult to understand. But if read down a ways you should see something like:</p>
+
+  <console>
+    <output>
+      <![CDATA[
+...error: no match for ‘operator<’ (operand types are ‘const Person’ and ‘const Person’)
+  405 |       { return __x < __y; }
+      |                ~~~~^~~~~
+       ]]>
+    </output>
+  </console>
+
+  <p>This is the compiler telling us that it cannot find a way to compare two <pf>Person</pf> objects using the <pf>&lt;</pf> operator, which it requires to store them in the set. To make this code work, we need to define the <pf>operator&lt;</pf> for the <pf>Person</pf> struct. This next version of the program provides that operator.</p>
+
+  <note>
+    <p>
+      Again, we are using a struct instead of a class to keep the example simple. We can define operators for structs just like we can for classes.
+    </p>
+  </note>
+
+  <listing xml:id="practical-programming_set-comparisons-2-listing">
+  <program label="practical-programming_set-comparisons-2" interactive="activecode"
+           line-numbers="yes" >
+<xi:include href="../../programs/practical-programming/set-comparisons-2.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>The <pf>operator&lt;</pf> defined in the <pf>Person</pf> struct allows one person, (A) to be compared to another person (B) by asking <pf>A &lt; B</pf>. <q>Less than</q> here does not really mean less, it means <q>comes before</q>. The operator should return true if the object executing the code should come before <pf>other</pf>.</p>
+
+  <p>
+    What if we want to sort the people by their age instead so that the oldest person comes first?
+    To do that, we would need to change the implementation of the <pf>operator&lt;</pf> to compare the <pf>age</pf> members instead of the <pf>name</pf> members.  To make older people come first, we would want to return true if the current person's age is greater than the other person's age.
+  </p>
+  <program>
+    <![CDATA[ 
+    bool operator<(const Person& other) const {
+      return age > other.age; // Order by age, oldest first
+    }
+    ]]>
+  </program>
+
+  <p>
+    You can try this out. Replace the operator overload in <xref ref="practical-programming_set-comparisons-2-listing"/> with this new version. The program should then display the people from oldest to youngest.
+  </p>
+
+  <exercise label="practical-programming_set-comparisons-exercise-1">
+    <statement>
+      <p>Add an <pf>operator&lt;</pf> to the <pf>Person</pf> struct that orders people by their age in ascending order (youngest first).</p>
+    </statement>
+    <program interactive="activecode" line-numbers="yes">
+      <preamble>
+<xi:include href="../../programs/practical-programming/set-comparisons-exercise-1-start.cpp" parse="text"/>
+      </preamble>
+      <code>
+    // Your code here
+      </code>
+      <tests visible="yes">
+<xi:include href="../../programs/practical-programming/set-comparisons-exercise-1-end.cpp" parse="text"/>
+      </tests>
+    </program>
+    </exercise>
+</section>

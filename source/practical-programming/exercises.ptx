@@ -1,0 +1,163 @@
+<exercises xml:id="practical-programming_exercises"
+           xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Exercises</title>
+
+  <exercise label="practical-programming_exercises-ex-1">
+    <statement>
+      <p>Write the function <pf>emptyQueue</pf>. It should take a queue of integers and print the values in the queue (one on each line).</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble visible="yes">
+<xi:include href="../../programs/practical-programming/queue-exercise-1-pre.cpp" parse="text"/>
+        </preamble>
+        <code>
+          <![CDATA[
+void emptyQueue(queue<int>& q) {
+    // Your code here
+}
+          ]]>
+        </code>
+        <postamble visible="yes">
+<xi:include href="../../programs/practical-programming/queue-exercise-1-post.cpp" parse="text"/>
+        </postamble>
+        <tests>
+          <iotest>
+            <input>
+            </input>
+            <output>
+              <![CDATA[
+              1
+              2
+              3
+              4
+              10
+              11
+              12
+              ]]>
+            </output>
+          </iotest>
+        </tests>
+    </program>
+  </exercise>
+
+  <exercise label="practical-programming_exercises-ex-2">
+    <statement>
+      <p>Read in a series of 5 words from standard input. Then print out the unique words (no duplicates) in alphabetical order with a space after each word.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble visible="yes">
+<xi:include href="../../programs/practical-programming/queue-exercise-2-pre.cpp" parse="text"/>
+        </preamble>
+        <code>
+          <![CDATA[
+    // Your code here
+          ]]>
+        </code>
+        <postamble visible="yes">
+<xi:include href="../../programs/practical-programming/queue-exercise-2-post.cpp" parse="text"/>
+        </postamble>
+        <tests>
+          <iotest>
+            <input>one two three four one</input>
+            <output>four one three two</output>
+          </iotest>
+          <iotest>
+            <input>dum da da dum dum</input>
+            <output>da dum</output>
+          </iotest>
+          <iotest>
+            <input>this is a bad idea</input>
+            <output>a bad idea is this</output>
+          </iotest>
+        </tests>
+    </program>
+    <hint><p>This is a perfect task for a set.</p></hint>
+  </exercise>
+
+
+
+  <exercise label="practical-programming_exercises-ex-3">
+    <statement>
+      <p>Define a map that the existing code can use to find the word associated with a given character.</p>
+      <p>It should make the following associations:
+        <ul>
+          <li>'A' -> "Apple"</li>
+          <li>'B' -> "Banana"</li>
+          <li>'C' -> "Cherry"</li>
+          <li>'D' -> "Durian"</li>
+          <li>'E' -> "Eggplant"</li>
+        </ul>
+      </p>
+    </statement>
+      <program interactive="activecode">
+        <preamble visible="yes">
+<xi:include href="../../programs/practical-programming/queue-exercise-3-pre.cpp" parse="text"/>
+        </preamble>
+        <code>
+          <![CDATA[
+    // Your code here
+          ]]>
+        </code>
+        <postamble visible="yes">
+<xi:include href="../../programs/practical-programming/queue-exercise-3-post.cpp" parse="text"/>
+        </postamble>
+        <tests>
+          <iotest>
+            <input>A</input>
+            <output>Apple</output>
+          </iotest>
+          <iotest>
+            <input>D</input>
+            <output>Durian</output>
+          </iotest>
+          <iotest>
+            <input>B</input>
+            <output>Banana</output>
+          </iotest>
+          <iotest>
+            <input>E</input>
+            <output>Eggplant</output>
+          </iotest>
+        </tests>
+    </program>
+  </exercise>
+
+  <exercise label="practical-programming_exercises-ex-5">
+    <statement>
+      <p>Use <pf>std::sort</pf> to implement the <pf>sortItems</pf> function. It should sort a vector of <pf>Item</pf>s by price from low to high. You will have to define a lambda function to do so.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble visible="yes">
+<xi:include href="../../programs/practical-programming/queue-exercise-5-pre.cpp" parse="text"/>
+        </preamble>
+        <code>
+          <![CDATA[
+    // Your code here
+          ]]>
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/practical-programming/queue-exercise-5-post.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+  <exercise label="practical-programming_exercises-ex-6">
+    <statement>
+      <p>Complete the code to use <pf>count_if</pf> to count the number of strings that are not empty (<pf>""</pf>) in a vector of strings.</p>
+    </statement>
+      <program interactive="activecode">
+        <preamble visible="yes">
+<xi:include href="../../programs/practical-programming/queue-exercise-6-pre.cpp" parse="text"/>
+        </preamble>
+        <code>
+          <![CDATA[
+    // Your code here
+          ]]>
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/practical-programming/queue-exercise-6-post.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+</exercises>

@@ -1,0 +1,116 @@
+<section xml:id="practical-programming_auto"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Auto Keyword and Iterator Flexibility</title>
+
+  <p>In the previous section, we saw how we could declare an 
+    iterator to traverse a set using syntax like:
+  </p>
+
+  <program>
+  <![CDATA[ 
+    set<string>::iterator it = fruit.begin();
+  ]]>
+  </program>
+
+  <p>This syntax is a bit cumbersome. The type of the iterator depends on the type of the container, and so we have to write out the full type name of the container to declare the iterator. This can get especially long and unwieldy when working with more complex containers like a set of multi-dimensional vectors.</p>
+
+  <program>
+  <![CDATA[
+    set<vector<vector<int>>>::iterator it = gridSet.begin();
+  ]]>
+  </program>
+
+  <p>
+    We could use a typedef to make this less wordy.
+    But C++ provides another solution: the <pf>auto</pf> keyword. When we use <pf>auto</pf> to declare a variable, the compiler automatically deduces the type of the variable based on the expression used to initialize it.
+  </p>
+
+  <program>
+  <![CDATA[
+    // Compiler will examine the right side to determine the type of 'it'
+    auto it = gridSet.begin();
+  ]]>
+  </program>
+
+  <p>
+    The type of <pf>it</pf> will be set to the return type of <pf>gridSet.begin()</pf>. In this case, that will be a <pf>vector&lt;vector&lt;int>>::iterator</pf>. This allows us to avoid writing out the full type name, making the code cleaner and easier to read. It is hopefully clear to any C++ programmer that <pf>it</pf> is <q>an iterator over gridSet</q>.
+  </p>
+
+  <note>
+    <p>
+      The <pf>auto</pf> keyword can be used to declare any variable, not just iterators. You could use it to declare an integer like <pf>auto x = 5;</pf>.
+    </p>
+    <p>
+      Once the type is deduced, it is fixed for that variable. So if you write <pf>auto x = 5;</pf>, then <pf>x</pf> is an integer and you cannot later assign a string to <pf>x</pf>.
+    </p>
+    <p>
+      We have intentionally not used <pf>auto</pf> yet, because it is important to clearly understand data types before relying on type deduction. And using auto for everything can make code harder to read even for experienced programmers. <pf>auto</pf> should only be used when it improves code clarity or improves flexibility.
+    </p>
+  </note>
+
+  <p>
+    Because an iterator can be asked to move one step forward, and it can be used to access the element it points to, we can use iterators to loop through all the elements in an associative container. Here is a simple program that uses an iterator to print all the elements in a set:
+  </p>
+
+  
+  <listing xml:id="practical-programming_auto-1-listing">
+    <program label="practical-programming_auto-1" interactive="activecode"
+             line-numbers="yes" highlight-lines="" >
+<xi:include href="../../programs/practical-programming/auto-1.cpp" parse="text"/>
+    </program>
+  </listing>
+
+  <p>
+    We create the iterator <pf>it</pf> using the <pf>auto</pf> keyword, which allows the compiler to automatically deduce the type of the iterator based on the container we are iterating over. Although right now, that is an <q>set of strings</q>, we could change the type of the container.
+  </p>
+
+  <activity>
+  <p>Try changing the type of the container in <xref ref="practical-programming_auto-1-listing"/> to a vector. Change line 9 to declare a <pf>vector&lt;string></pf> instead of the <pf>set&lt;string></pf>. Then run the code again.</p>
+
+  <p>Look at the output and notice that when <pf>fruit</pf> is a vector, the elements are printed in the order they were added, not in alphabetical order.</p>
+  </activity>
+
+  <p>
+    When you changed the set into a vector you did not have to change any of the loop code! <pf>auto it</pf> detects that the container is now a vector and set the type of <pf>it</pf> to be a <pf>vector&lt;string>::iterator</pf>. Both a set and a vector support <pf>begin()</pf> and <pf>end()</pf> methods that return iterators that represent the start and end of the collection. And the different iterators both know how to move forward when told to do <pf>++it</pf> and access the current item when told to do <pf>*it</pf>. So the same loop logic works for both containers.
+  </p>
+
+  <insight>
+    <p>Iterators provide a powerful abstraction that allows us to work with different types of containers in a uniform way. They enable algorithms to operate on a wide variety of data structures without needing to know the details of how those structures store their elements.</p>
+  </insight>
+
+  <exercise label="practical-programming_auto-exercise-1">
+    <statement>
+      <p>Arrange the blocks to set up an iterator based for loop over the elements in a container (we don't know/care what type) named <pf>container</pf>.</p>
+    </statement>
+    <blocks layout="horizontal">
+      <block><c>for (</c></block>
+      <block><c>auto</c></block>
+      <block><c>it = </c></block>
+      <block><c>=</c></block>
+      <block><c>container.begin();</c></block>
+      <block><c>it !=</c></block>
+      <block><c>container.end();</c></block>
+      <block><c>++it</c></block>
+      <block><c>) {...</c></block>
+      </blocks> 
+  </exercise>
+
+  <exercise label="practical-programming_auto-exercise-2">
+    <statement>
+      <p>What is the primary benefit of using the <pf>auto</pf> keyword when declaring an iterator?</p>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>It makes the code more flexible.</statement>
+      </choice>
+      <choice>
+        <statement>It makes the iterator run faster.</statement>
+      </choice>
+      <choice>
+        <statement>It lets us type less.</statement>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

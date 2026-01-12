@@ -1,0 +1,203 @@
+<section xml:id="practical-programming_merge"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Merge Algorithms</title>
+
+  <introduction>
+    <p>The final category of algorithms we will look at examples for are algorithms that merge or
+      combine collections.These algorithms take a collection of data and produce a single value from
+      it.</p>
+  </introduction>
+
+  <subsection>
+    <title>Max and Min</title>
+
+    <p><pf>max_element</pf> and <pf>min_element</pf> find the largest and smallest elements in a collection, respectively.
+      Like <pf>find</pf>, they return an iterator pointing to the found element.</p>
+
+    <p>By default, both algorithms use the less-than operator to compare elements. (Having max use
+      &lt; and then just reverse the results of the comparison means that we only need to overload
+      one operator to use both the max and min algorithms.) However, we can provide a custom
+      comparator if we want to change the criteria for comparison.</p>
+
+    <p> Here is the function signatures for the two versions of <pf>max_element</pf> (min_element is similar): </p>
+
+    <program>
+      <![CDATA[
+      It max_element( It first, It last );
+      
+      It max_element( It first, It last, Compare comp );
+      ]]>
+    </program>
+
+    <listing>
+      <program label="practical-programming_merge-1"
+               interactive="activecode"
+               line-numbers="yes">
+<xi:include href="../../programs/practical-programming/merge-1.cpp" parse="text"/>
+</program>
+    </listing>
+
+    <p>Notice that the lambda function we give to the <pf>max_element</pf> algorithm compares <pf>a</pf> and <pf>b</pf>
+      and returns true if a is shorter than b. This is the logic of <q>less than</q>. Both max and
+      min expect us to use the same logic in a comparison function: we should take two items and
+      return <pf>true</pf> if the first is less than the second, and <pf>false</pf> otherwise.</p>
+
+    <p> If you change the call to <pf>min_element</pf> instead of <pf>max_element</pf>, the program will find the shortest
+      word instead of the longest using the same comparison function. </p>
+
+  </subsection>
+
+
+  <subsection>
+    <title>Accumulate</title>
+
+    <p>Another common merging operation is to compute a total or sum of all the items in a
+      collection. The <pf>accumulate</pf> algorithm from <pf>&lt;numeric&gt;</pf> does just that. It takes a range of items
+      and an initial value, and it adds up all the items in the range, starting from the initial
+      value.</p>
+
+    <p>The function signature for <pf>accumulate</pf> looks like:</p>
+
+    <program>
+      <![CDATA[
+      T accumulate( It first, It last, T init, BinaryOp op );
+      ]]>
+    </program>
+
+    <p> As expected, first and last define the range of items to process. The <pf>init</pf> parameter is
+      the initial value to start the accumulation from. The <pf>op</pf> parameter is a binary
+      operation that takes two parameters: the current accumulated value and the next item from the
+      collection. It should return the new accumulated value. </p>
+
+    <p>Say we have a vector of integers: <pf>{3, 7, 2, 9}</pf>. And we want to add them up. We could call
+      accumulate and give it an initial value of 0 and a lambda function that adds two numbers
+      together. Then it would do the following: <ol>
+        <li>Start with an accumulated value of 0 (the initial value)</li>
+        <li>Add 3 to the accumulated value (0 + 3 = 3)</li>
+        <li>Add 7 to the accumulated value (3 + 7 = 10)</li>
+        <li>Add 2 to the accumulated value (10 + 2 = 12)</li>
+        <li>Add 9 to the accumulated value (12 + 9 = 21)</li>
+        <li>Return the final accumulated value of 21</li>
+      </ol>
+    </p>
+
+    <listing>
+      <program label="practical-programming_merge-2"
+               interactive="activecode"
+               line-numbers="yes">
+<xi:include href="../../programs/practical-programming/merge-2.cpp" parse="text"/>
+</program>
+    </listing>
+
+    <p>It is a little silly to write a lambda function that just adds two numbers together. To
+      prevent that, the standard library provides a function object called <pf>std::plus</pf> in the <pf>&lt;functional&gt;</pf>
+      header that does exactly that. We could write the above code using this syntax:</p>
+
+    <program>
+      <![CDATA[
+      #include <functional>
+      // ...
+      int sum = accumulate(
+          numbers.begin(),
+          numbers.end(),
+          0,
+          std::plus<int>()
+      );
+      ]]>
+</program>
+
+    <p>Here, we use the <pf>std::plus</pf> function object instead of writing a lambda function that adds two
+      numbers together. Notice that we have to say what kind of data it operates on by specifying
+      the template parameter <pf>&lt;int&gt;</pf>.</p>
+
+    <p>Going even further, the plus operation is the default for <pf>accumulate</pf>. So we could even just
+      completely omit the 4th parameter.</p>
+
+    <p>In addition to plus, the <url href="https://en.cppreference.com/w/cpp/functional.html">C++
+      Functional library</url> provides operations like <pf>std::multiplies</pf> for multiplication, <pf>std::minus</pf> for
+      subtraction, and <pf>std::divides</pf> for division. It also provides comparison operations like <pf>std::less</pf>
+      and <pf>std::greater</pf>.</p>
+
+    <p>If we wanted to multiply those same numbers, we would specify an initial value of 1 (so that
+      the initial value times the first number is the first number) and a lambda function that
+      multiplies two numbers together.</p>
+
+    <listing>
+      <program label="practical-programming_merge-3"
+               interactive="activecode"
+               line-numbers="yes">
+<xi:include href="../../programs/practical-programming/merge-3.cpp" parse="text"/>
+</program>
+    </listing>
+
+    <p> We could also use <pf>accumulate</pf> to concatenate a list of strings. We would specify an initial
+      value of the empty string (<pf>""</pf>) and a lambda function that concatenates two strings
+      together. Since the default behavior of <pf>accumulate</pf> is to add things together, and the +
+      operator for strings does concatenation, we could even omit the lambda function and just do: </p>
+
+    <listing>
+      <program label="practical-programming_merge-4"
+               interactive="activecode"
+               line-numbers="yes">
+<xi:include href="../../programs/practical-programming/merge-4.cpp" parse="text"/>
+</program>
+    </listing>
+  </subsection>
+
+  <exercise label="practical-programming_merge-exercise-1">
+    <statement>
+      <p>Which describes the lambda function that <pf>max_element</pf> expects to be given?</p>
+    </statement>
+    <choices>
+      <choice>
+        <p>A function that takes two parameters and returns true if the first parameter is greater
+          than the second parameter.</p>
+      </choice>
+      <choice correct="yes">
+        <p>A function that takes two parameters and returns true if the first parameter is less than
+          the second parameter.</p>
+      </choice>
+      <choice>
+        <p>A function that takes one parameter and returns true if that parameter is the maximum
+          value.</p>
+      </choice>
+      <choice>
+        <p>A function that takes no parameters and returns the maximum value.</p>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="practical-programming_merge-exercise-2">
+    <statement>
+      <p>What is the value of <pf>result</pf> after executing the following code?</p>
+      <program>
+        <![CDATA[
+        vector<int> numbers = {2, 3, 4};
+        int result = accumulate(
+            numbers.begin(),
+            numbers.end(),
+            10,
+            [](int a, int b) { return a - b; }
+        );
+        ]]>
+      </program>
+      <p>
+        <fillin answer="1"
+                mode="number"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>The initial value is 10 and the lambda does subtraction.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>

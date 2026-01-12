@@ -1,0 +1,70 @@
+<section xml:id="practical-programming_queue"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Queues</title>
+
+  <p>
+    A <pf>vector</pf> is very efficient way to store a sequence of values and then to look up items by their position (index) in the collection. But it has an interesting limitation: it is only efficient at adding and removing items at the end of the collection. You can call <pf>.push_back()</pf> to add an item to the end of a vector or <pf>.pop_back()</pf> to remove the last item efficiently. But adding or removing items at the front of the vector (using <pf>.insert()</pf> or <pf>.erase()</pf>) is inefficient because all the other items in the vector have to be shifted over to make room or to fill in the gap.
+  </p>
+
+  <note>
+    <p>The capabilities provided by the vector class are good (but not perfect) hints about what it can do well and what it cannot do efficiently. It does not provide <pf>.push_front()</pf> or 
+    <pf>.pop_front()</pf> because those operations are inefficient with vectors.</p>
+  </note>
+
+  <p>
+    But what if you want to be able to add values to one end of a list and remove them from the other end? Say messages arrive into a system and you want to process them in the order they arrive. You would add new messages to the back of a list as they arrive, and remove messages from the front of the list as you process them. This kind of data structure is called a <term>queue</term>. (A <q>queue</q> is another word for a line of people waiting for something.) This is known as <term>first-in, first-out</term> (FIFO) processing because the first item added to the queue is the first one to be removed.
+  </p>
+
+  <p>
+    The C++ Standard Library provides a <pf>queue</pf> class that is optimized for this kind of usage. A <pf>queue</pf> provides <pf>.push()</pf> to add an item to the back of the queue, and <pf>.pop()</pf> to remove an item from the front of the queue. It also provides <pf>.front()</pf> to look at the item at the front of the queue without removing it, and <pf>.back()</pf> to look at the item at the back of the queue without removing it.
+  </p>
+
+  <p>We declare a <pf>queue</pf> just like a vector by specifying the type of the items it will hold:</p>
+
+  <program>
+    queue&lt;int&gt; intQueue;
+    queue&lt;Person&gt; registrationLine;
+  </program>
+
+  <p>This sample program demonstrates using a <pf>queue</pf> to add and remove items in a first-in, first-out (FIFO) manner:</p>
+
+  <listing>
+  <program label="practical-programming_queue" interactive="activecode"
+           line-numbers="yes" >
+<xi:include href="../../programs/practical-programming/queue.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>Note that the <pf>&lt;queue></pf> library must be included to use the <pf>queue</pf> class.</p>
+
+  <exercise label="practical-programming_queue-exercise-1">
+    <statement>
+      <p>Given a a queue named <pf>jobList</pf>, what would you write to do the following?</p>
+      <p>Add a job named <pf>jobA</pf> to the queue? <fillin mode="string" answer="jobList.push(jobA);"/></p>
+      <p>Look at the next job that should be processed (but not remove it)? <fillin mode="string" answer="jobList.front();"/></p>
+      <p>Remove the next job? <fillin mode="string" answer="jobList.pop();"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>jobList\.push\(jobA\);?</strcmp>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>.*jobList\.front\(\);?</strcmp>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>jobList\.pop\(\);?</strcmp>
+        </test>
+      </evaluate>
+    </evaluation>
+    <hint>
+      <p>Each answer must start with the name of the queue variable.</p>
+    </hint>
+  </exercise>
+
+</section>

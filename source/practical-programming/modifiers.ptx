@@ -1,0 +1,227 @@
+<section xml:id="practical-programming_modifiers"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Modifying Algorithms</title>
+
+  <introduction>
+    <p>One category of algorithms in the standard library are those that modify the contents of a collection. These algorithms can change, rearrange, or remove elements within the collection. In this section we will explore a few examples of these modifying algorithms.</p>
+  </introduction>
+
+  <subsection>
+    <title>Copy and Copy If</title>
+    <p>The <pf>copy</pf> algorithm copies elements from one collection to another. Of course, we can usually copy an entire collection by using the <pf>=</pf> operator. But the copy algorithm gives us more flexibility. It allows us to copy only a portion of a collection or to copy elements to a different type of collection.</p>
+    
+    <p>It takes three parameters: the beginning and end of the source range, and the beginning of the destination range:</p>
+    
+    <program>
+      <![CDATA[
+      copy( InputIt first, InputIt last, OutputIt destination_first );
+      ]]>
+    </program>
+
+    <p>These parameters are all iterators. The first two specify the start and end of the range to copy from the source collection. The third specifies the beginning of the destination range. (The destination range must be large enough to hold all the copied elements.) So in code, it generally looks like this:</p>
+
+    <program>
+      <![CDATA[
+      copy(source.begin(), source.end(), destination.begin());
+      ]]>
+    </program>
+
+    <p>
+      Say we wanted to copy the first half of a vector <pf>source</pf> to another vector <pf>destination</pf>. We would need to make sure that <pf>destination</pf> has enough space to hold half the elements of <pf>source</pf> and then set up iterators to specify the range to copy:
+    </p>
+
+    
+    <program>
+      <![CDATA[
+      //source already exists and is filled with data
+      int lengthToCopy = static_cast<int>(source.size()) / 2;
+      vector<int> destination(lengthToCopy); // make destination half the size of source
+      copy(source.begin(), source.begin() + lengthToCopy, destination.begin());
+      ]]>
+    </program>
+
+    <p>
+      Imagine that source has 10 elements. <pf>lengthToCopy</pf> will get set to 5. So we create <pf>destination</pf> with a size of 5 (it will start with 5 default-initialized elements). The range we pass to <pf>copy</pf>, from <pf>source.begin()</pf> to <pf>source.begin() + lengthToCopy</pf>, will cover the first 5 elements of <pf>source</pf>. The elements will be copied into <pf>destination</pf> starting at its beginning, replacing its initial default values.
+    </p>
+
+    <p>
+      The <pf>copy_if</pf> algorithm is similar to <pf>copy</pf>, but it only copies elements that satisfy a certain condition. It takes an additional parameter: a predicate function (or functor) that defines the condition. Only elements for which the predicate returns true will be copied.
+    </p>
+
+    <p>Say we wanted to copy only strings that have a length greater than 3 from one vector to another. We could use <pf>copy_if</pf> like this:</p>
+
+    <program>
+      <![CDATA[
+      std::copy_if(
+        source.begin(),
+        source.end(),
+        destination.begin(),
+        [](const string& str) { return str.length() > 3; }
+      );
+      ]]>
+      </program>
+
+      <p>As before, we have exaggerated the spacing to make the parameters, especially the lambda function, easier to read.</p>
+
+      <p>This raises an interesting question: how do we decide how big the destination vector should be before copying?</p>
+
+      <p>
+        One approach is to first count how many elements will satisfy the condition, then create the destination vector with that size. But that requires iterating through the source collection twice: once to count and once to copy. Another approach would be to set destination to be as large as source, then after copying, resize destination to the actual number of elements copied. This avoids the double iteration but may use more memory than necessary during the copy operation.
+      </p>
+
+      <p>A third approach is to use an <term>insert iterator</term>. These are iterators that know how to correctly insert elements into a container. One such tool is a <pf>std::back_inserter</pf>. It automatically will add each item to the back of the destination container, correctly resizing it as needed. This way, you don't need to know the final size in advance.</p>
+
+      <program>
+        <![CDATA[
+        std::copy_if(
+          source.begin(),
+          source.end(),
+          std::back_inserter(destination),
+          [](const string& str) { return str.length() > 3; }
+        );
+        ]]>
+      </program>
+
+      <p>Here is that technique in action:</p>
+
+<listing>
+<program label="practical-programming_modifiers-1" interactive="activecode"
+         line-numbers="yes" >
+<xi:include href="../../programs/practical-programming/modifiers-1.cpp" parse="text"/>
+</program>
+</listing>
+
+  </subsection>
+
+
+  <subsection>
+    <title>Remove</title>
+    <p>The <pf>remove</pf> algorithm removes elements from a collection that match a certain value or satisfy a certain condition.</p>
+  
+    <p>If we have a collection of strings, and we want to keep only the long ones, we could use <pf>copy_if</pf>
+    to copy the long strings to another collection. But, if we do not care about keeping the old collection around, we could instead remove the short strings from the original collection.</p>
+
+    <note>
+      <p>The efficiency of the two approaches depends on the specific container and how many we are removing. In a vector, it is likely more efficient to copy just the elements we want to a new vector rather than trying to remove a large number of elements from the original.</p>
+    </note>
+
+    <p>The prototype for <pf>remove</pf> looks like either:</p>
+    <program>
+      <![CDATA[
+      remove( ForwardIt first, ForwardIt last, const T& value );
+      ]]>
+    </program>
+    <p>or, we can specify what to remove using a function:</p>
+    <program>
+      <![CDATA[
+      remove_if( ForwardIt first, ForwardIt last, UnaryPredicate p );
+      ]]>
+    </program>
+
+    <p>The second version removes all elements for which the predicate function <pf>p</pf> returns true. Thus, to remove all the short strings from a vector called <pf>words</pf>, you could write:</p>
+    
+    <program>
+      <![CDATA[
+      remove_if(
+        words.begin(),
+        words.end(),
+        [](const string& str) { return str.length() <= 3; }
+      );
+      ]]>
+      </program>
+
+      <p>Here is a program that removes even numbers from a vector and then prints it out.</p>
+
+      <listing>
+      <program label="practical-programming_modifiers-remove-1" interactive="activecode"
+               line-numbers="yes" extra-compiler-args="-Wno-unused-result" >
+<xi:include href="../../programs/practical-programming/modifiers-remove-1.cpp" parse="text"/>
+      </program>
+      </listing>
+
+    <p>
+    What is wrong with the output???</p>
+
+    <p>If you look closely, you will see that the five odd numbers are now the first five elements in the vector, but the vector still has a size of 10. The last five elements appear to be unchanged. Why is that?</p>
+
+    <p>The <pf>remove</pf> and <pf>remove_if</pf> algorithms do not actually change the size of the collection. Instead, they rearrange the elements so that the elements to be kept are at the front of the collection, and return an iterator to the new logical end of the collection. The elements beyond that point are left in an unspecified state (there are no guarantees about their values).</p>
+
+    <p>
+      This behavior feels odd in a vector, but it means that the algorithm can work with containers that do not support resizing, such as arrays. It also allows for more efficient implementations since resizing a container can be expensive. Better to do the rearrangement and let the caller decide if whey want to resize the container.
+    </p>
+
+    <p>
+      To actually remove the unwanted elements from a vector, we need to call the vector's <pf>.erase()</pf> method, passing it the iterator returned by <pf>remove_if</pf> to specify the new end of the vector. Here is how we would modify the program to do that:
+    </p>
+
+      <listing>
+      <program label="practical-programming_modifiers-remove-2" interactive="activecode"
+               line-numbers="yes"  >
+<xi:include href="../../programs/practical-programming/modifiers-remove-2.cpp" parse="text"/>
+      </program>
+      </listing>
+  </subsection>
+
+  
+  <subsection>
+    <title>Transform</title>
+
+    <p>The <pf>transform</pf> algorithm applies a function to each element in a source range and stores the result in a destination range. We might use transform to turn a list of strings like <c>{"one", "two", "three"}</c> into a list of their lengths like <c>{3, 3, 5}</c>. Or we could transform them into uppercase versions of the strings like <c>{"ONE", "TWO", "THREE"}</c>.</p>
+
+    <p>The prototype for <pf>transform</pf> looks like this:</p>
+    <program>
+      <![CDATA[
+      transform( InputIt first, InputIt last, OutputIt d_first, UnaryOperation unary_op );
+      ]]>
+    </program>
+
+    <p>It takes four parameters: the first three are iterators just like <pf>copy</pf> uses. The fourth is a unary operation (a function or functor that takes one argument) to apply to each element.</p>
+
+    <p>Here is an example that transforms a vector of strings into a vector of their lengths:</p>
+
+    <listing>
+    <program label="practical-programming_modifiers-2" interactive="activecode"
+             line-numbers="yes" >
+<xi:include href="../../programs/practical-programming/modifiers-2.cpp" parse="text"/>
+    </program>
+    </listing>
+  </subsection>
+
+  <exercise label="practical-programming_modifiers-exercise-1">
+    <statement>
+      <p><pf>copy(orig.begin(), orig.end, destination.begin())</pf> requires what to be true about the destination?</p>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>It must already have enough space to hold all the copied elements.</statement>
+      </choice>
+      <choice>
+        <statement>It must be capable of growing to have enough space to hold all the copied elements.</statement>
+      </choice>
+      <choice>
+        <statement>It must be empty.</statement>
+      </choice>
+      <choice>
+        <statement>It must not be declared yet.</statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="practical-programming_modifiers-exercise-2">
+    <statement>
+      <p><pf>remove_if</pf> returns an iterator to the new end of the range after removing elements. <pf>erase</pf> can take either one or two iterators as parameters. If you give it just one parameter, it erases all elements from that iterator to the end of the container.</p>
+      <p>Arrange blocks to remove all negative numbers from a vector <pf>v</pf> and immediately use the iterator returned by <pf>remove_if</pf> as the parameter to <pf>erase</pf> to delete the unwanted elements.</p>
+    </statement>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>v.erase(</c></block>
+      <block><c>remove_if(</c></block>
+      <block><c>v.begin(),</c></block>
+      <block><c>v.end(),</c></block>
+      <block><c>[](int n) { return n &lt; 0; }</c></block>
+      <block><c>);</c></block>
+    </blocks>
+  </exercise>
+
+</section>

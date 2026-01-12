@@ -1,0 +1,194 @@
+<section xml:id="practical-programming_regex-basics"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Regular Expressions</title>
+
+  <introduction>
+    <p><term>Regular expressions</term> (regexes) are a powerful tool for matching patterns in text.
+      They are widely used in programming, text processing, and data validation.</p>
+    <p>In this section, we will look at the syntax of regular expressions. Then, in the next section we will explore how to make use of them.</p>
+  </introduction>
+
+  <subsection>
+    <title>What is a Regular Expression?</title>
+    <p>Imagine you have a text file that contains a list of phone numbers entered by users. They
+      appear in a wide variety of formats:</p>
+    <pre>
+123-456-7890
+456.7890
+123.456.7890
++1 123 456 7890
+456-7890 ext. 123
+    </pre>
+    <p>Now picture trying to write code that can identify each of these as a phone number and
+      extract the digits. Writing code using selection logic to handle each possible format would be
+      tedious and error-prone.</p>
+    <p>What you really want to express is something like <q>I'm looking for a group of 3 digits
+      followed by one or zero symbols and then 4 more digits.</q></p>
+    <p>A regular expression allows you to express patterns like this.</p>
+  </subsection>
+
+  <subsection>
+    <title>Basic Syntax</title>
+    <p>Regular expressions use a special syntax to define patterns. Here are some basic elements:</p>
+    <ul>
+      <li><term>Literal characters:</term> Match themselves. For example, the regex <c>abc</c> matches
+        the string "abc".</li>
+      <li><term>Wildcards:</term> The dot <c>.</c> matches any single character except a newline.</li>
+      <li><term>Ranges:</term> Denoted by square brackets, e.g., <c>[A-F]</c> matches any letter in the
+        range A to F.</li>
+      <li><term>Character classes:</term> There are special symbols like <c>\d</c> for digits and <c>\w</c>
+        for word characters.</li>
+      <li><term>Quantifiers:</term> Specify how many times an element can occur. For example, <c>a{3}</c>
+        matches exactly three 'a's, while <c>a*</c> matches zero or more 'a's. <c>ab?</c> makes the
+        preceding element ('b' in this case) optional.</li>
+    </ul>
+    <p>We will not attempt to cover every aspect of regular expression syntax here. Instead, you are
+      encouraged to explore a resource like <url href="https://regexone.com/">RegexOne</url> if you
+      want to learn more.</p>
+  </subsection>
+
+  <subsection>
+    <title>Patterns and Groups</title>
+    <p> We can use <c>( )</c> to form groups in our patterns. This allows us to apply quantifiers to
+      entire groups. For instance, to say <q>there may be a group of 3 digits</q>, you could use <c>(\d{3})?</c>
+      .</p>
+    <p>Groups also allow you to capture parts of the match for further processing. For example, the
+      regex <c>(\d{3})-(\d{4})</c> matches a pattern like "456-7890", capturing the prefix (456) and the local
+      number (7890) as separate groups. </p>
+    <p>To return to our phone number example, we need to write a regular expression that matches the
+      following: <ul>
+        <li>There may be a group of 3 digits for an area code. We need to use a question mark to
+      make this optional: <c>(\d{3})?</c></li>
+        <li>Next there may or may not be a separator symbol like a dash or space or period. We will
+      allow it to be any character (<c>.</c>) and make it optional with a question mark: <c>.?</c></li>
+        <li>There has to be a group of 3 digits. We want to capture this group so let's make sure to
+      use parentheses: <c>(\d{3})</c></li>
+        <li>Then there may be a separator symbol again: <c>.?</c></li>
+        <li>Finally, there has to be a group of 4 digits. We want to capture this group: <c>(\d{4})</c></li>
+      </ul>
+      Our final regex looks like this: <c>(\d{3})?.?(\d{3}).?(\d{4})</c>. </p>
+
+    <p>This isn't a perfect regex for phone numbers, but it would match the examples above. It also
+      illustrates the fact that regexes can get complex quickly and end up being quite difficult to
+      read.</p>
+
+    <note>
+      <p>Regexes are sometimes jokingly referred to as a <q>write only language</q> because they can
+        be hard to read and understand once written.</p>
+    </note>
+
+    <p>Fortunately, there are tools to help understand regex patterns:</p>
+    <interactive width="175%"
+                 aspect="7:1.5"
+                 iframe="https://jex.im/regulex/#!embed=true&amp;flags=&amp;re=(%5Cd%7B3%7D)%3F.%3F(%5Cd%7B3%7D).%3F(%5Cd%7B4%7D)"
+                 label="practical-programming_regex-basics_regex-playground">
+    </interactive>
+  </subsection>
+
+  <exercise label="practical-programming_regex-basics-ex-1">
+    <statement>
+      <p>Which of the following would be matched by the regex <c>K\d{6}</c>? Select all that apply.</p>
+      <p>You may want to test using an <url href="https://regex101.com/r/Em0WpY/1">online regex
+        tester</url>.</p>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>
+          <p>K123456</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>K\d6</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>K\d\d\d\d\d\d</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>K</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>K666666</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="practical-programming_regex-basics-ex-2">
+    <statement>
+      <p>Which of the following would be matched by the regex <c>ABC?</c>? Select all that apply.</p>
+      <p>You may want to test using an <url href="https://regex101.com/r/Em0WpY/1">online regex
+        tester</url>.</p>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>
+          <p>ABC</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>A</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>ABCC</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>(empty string)</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>AB</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="practical-programming_regex-basics-ex-3">
+    <statement>
+      <p>Which of the following would be matched by the regex <c>(ABC)?</c>? Select all that apply.</p>
+      <p>You may want to test using an <url href="https://regex101.com/r/Em0WpY/1">online regex
+        tester</url>.</p>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>
+          <p>ABC</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>A</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>ABCC</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>(empty string)</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>AB</p>
+        </statement>
+      </choice>
+    </choices>
+    <hint>Notice that the question mark applies to the entire group.</hint>
+  </exercise>
+
+</section>

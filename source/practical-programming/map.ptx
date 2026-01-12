@@ -1,0 +1,150 @@
+<section xml:id="practical-programming_map"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Maps (Dictionaries)</title>
+
+  <p>
+    Another useful associative container is the <pf>map</pf>. A <pf>map</pf> is a collection of key-value pairs. Each key is unique and is used to look up its associated value. Maps are sometimes called <pf>dictionaries</pf> in other programming languages because they function like a dictionary where you look up a word (the key) to find its definition (the value).
+  </p>
+
+  <p>
+    Say we want to read a file and count how many times each word appears. A <pf>map</pf> is a perfect data structure for this task because we can use the words as keys and their counts as values. When we encounter a word, we can check if it is already in the map. If it is, we increment its count; if not, we add it to the map with a count of 1.
+  </p>
+
+  <p>To declare a map, we have to specify the type of the keys and the type of the values. For example, a map from strings to integers useful for counting copies of words would be declared as <pf>map&lt;string, int&gt;</pf>.</p>
+
+  <p>To add items to a map, we can use the <pf>.insert()</pf> method. This method takes a pair consisting of a key and a value. For example, <pf>wordCounts.insert({"hello", 1})</pf> will add the word "hello" with a count of 1 to the map.</p>
+
+  <p>
+    To access an existing value, we can use <pf>.at(key)</pf>. For example, <pf>wordCounts.at("hello")</pf> will give us access to the count for the word "hello" (the integer that it is mapped to) . If "hello" is not already in the map, using <pf>.at("hello")</pf> will throw an error, so we often check if the key exists first using <pf>.contains(key)</pf>.
+  </p>
+
+  <note>
+    <p>
+      Like a vector, we can use <pf>mapName[keyName]</pf> to access or insert elements in a map. But The bracket syntax will automatically insert the key with a default value if it does not already exist in the map. This can be convenient, but it can also lead to unintended insertions if you are not careful.
+    </p>
+    <p>
+      As with vector, <pf>.at()</pf> is safer than using brackets because it will throw an error if the key does not exist, helping to catch mistakes.
+    </p>
+  </note>
+
+  <p>Here is a simple program to do such a word count using a <pf>map</pf>:</p>
+
+  <listing>
+  <program label="practical-programming_map-1" interactive="activecode"
+           line-numbers="yes" highlight-lines="18, 23,24,26,32" >
+<xi:include href="../../programs/practical-programming/map-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>
+    To loop through the map, we can use multiple approaches. One is to use the same kind of iterator we use for sets or vectors, which allows us to access each key-value pair in the map.
+    As we do so, the iterator points to a pair where the first element is the key and the second element is the value. For our example, these are a string and an int, so the type of item the iterator points to is <pf>pair&lt;string, int&gt;</pf>.
+  </p>
+  
+
+  <p>The <pf>pair&lt;string, int&gt;</pf> is a struct with two members, <pf>first</pf> and <pf>second</pf>. So, to access the key and value, we use these members:</p>
+
+  <program>
+    <![CDATA[ 
+    // Dereference the iterator to get the pair it points at
+    pair<string, int> p = *it;
+    // Access the key (string) as first and value (int) as second
+    cout << p.first << ": " << p.second << endl;
+    ]]>
+  </program>
+
+  <p>We can shorten that by using the arrow operator directly on the iterator:</p>
+  
+  <program>
+    <![CDATA[ 
+    // Access key and value directly through the iterator
+    cout << it->first << ": " << it->second << endl;
+    ]]>
+  </program>
+
+  <note>
+    <p>
+      Recall that the arrow operator (<pf>-></pf>), or pointer member access operator, is used to access members of a struct or class through a pointer or an iterator. It is equivalent to dereferencing the pointer/iterator and then using the dot operator (<pf>.</pf>) to access the member.
+    </p>
+  </note>
+
+  <p>Here is a program that uses an iterator to print all the words and their counts from the map:</p>
+
+  <listing>
+  <program label="practical-programming_map-2" interactive="activecode"
+           line-numbers="yes" highlight-lines="15" >
+<xi:include href="../../programs/practical-programming/map-2.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>
+    We could also use a range based for loop to iterate through the map. In this case, each item in the loop would be a <pf>pair&lt;string, int&gt;</pf>, just like when using an iterator. Here is what that looks like:
+  </p>
+
+  <listing>
+  <program label="practical-programming_map-3" interactive="activecode"
+           line-numbers="yes" highlight-lines="14, 20" >
+<xi:include href="../../programs/practical-programming/map-3.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>
+    That sample shows two versions of the same loop. The second version uses <pf>auto</pf> to simplify the type declaration of the loop variable. Notice that even when using <pf>auto</pf>, we can (and should) still use <pf>const</pf> and <pf>&amp;</pf> to avoid unnecessary copies. If we leave them off, we would be making a copy of each pair in the map for each iteration of the loop.
+  </p>
+
+  <p>Finally, C++17 introduced structured bindings which allows us to unpack the key and value directly in the loop declaration, making the code even more readable. Here, each pair is unpacked into <pf>word</pf> and <pf>count</pf> variables that are constant references to the key and value of the current item:</p>
+
+  <listing>
+  <program label="practical-programming_map-4" interactive="activecode"
+           line-numbers="yes" highlight-lines="14" >
+<xi:include href="../../programs/practical-programming/map-4.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <exercise label="practical-programming_map-exercise-1">
+    <statement>
+      <p>Given the code below, what could you put where the ____ is to print out the first key in the map? <fillin mode="string" answer="it->first"/></p>
+      <program>
+        <![CDATA[
+        map<int, bool> wordCounts;
+        // ... fill the map ...
+        // Get an iterator to the first element
+        auto it = wordCounts.begin();
+        cout << ____ << endl;
+        ]]>
+      </program>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>it->first</strcmp>
+        </test>
+        <test>
+          <strcmp>[^i]</strcmp>
+          <feedback>Make sure to start with the iterator variable name 'it'. How do you access the first half of the pair from the iterator?</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <exercise label="practical-programming_map-exercise-2">
+    <statement>
+      <p>Which are true about maps?</p>
+    </statement>
+    <choices>
+      <choice correct="yes">
+        <statement>Use <pf>.insert({key, value})</pf> to add a key-value pair.</statement>
+      </choice>
+      <choice correct="yes">
+        <statement>Use <pf>.contains(key)</pf> to check if a key exists in the map.</statement>
+      </choice>
+      <choice>
+        <statement>Use <pf>.at(value)</pf> to access the key for a value.</statement>
+        <feedback>We can only access values by using the keys, not the other way around.</feedback>
+      </choice>
+      <choice><statement><pf>std::map</pf> can store multiple values for the same key.</statement></choice>
+    </choices>
+  </exercise>
+
+</section>

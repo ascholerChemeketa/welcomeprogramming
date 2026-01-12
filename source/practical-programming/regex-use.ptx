@@ -1,0 +1,54 @@
+<section xml:id="practical-programming_regex-use"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Regular Expression Use</title>
+
+  <subsection>
+    <title>Regular Expressions in Text Editors</title>
+    <p>Regular expressions are often built into text editors to allow for advanced search and
+      replace functionality. For example, in editors like <em>Visual Studio Code</em>, <em>Sublime Text</em>,
+      and <em>Notepad++</em>, you can enable regex mode in the search dialog to use regular expressions
+      for finding text patterns.</p>
+    <p>This can be particularly useful for tasks like reformatting data, extracting information, or
+      performing bulk edits based on patterns. The figure below shows an example of using a
+      regular expression in Visual Studio Code's search dialog on this book's source code:</p>
+    <figure>
+      <image source="images/practical-programming/regex-vscode.png">
+        <shortdescription>Screenshot of Visual Studio Code's search dialog with regex mode enabled.</shortdescription>
+      </image>
+      <figcaption>Using a regular expression in Visual Studio Code's search dialog</figcaption>
+    </figure>
+    <p>Key things to note:
+      <ul>
+        <li>Regex mode was enabled with the b<c>.*</c> button. (The hand pointer is partially covering it).</li>
+        <li>The regex <c><![CDATA[<c>(.*)</c>]]></c> was used to find any text enclosed in <c>c</c> tags. The parentheses create a capturing group for the text inside the tags.</li>
+        <li>The replacement string can access the captured group by using <c>$1</c> for the first group, <c>$2</c> for the second, and so on. Here, the replacement string <c><![CDATA[<code>$1</code>]]></c> says to write a <c>&lt;code></c>tag, then the captured text, and finally a closing <c>&lt;/code&gt;</c> tag.</li>
+        <li>Below the input boxes, there is a preview of the matches and replacements that will be made.</li>
+      </ul>
+    </p>
+    <p>This is a pretty handy way to do something like changing all <c>c</c> tags to <c>code</c> tags in a document.</p>
+  </subsection>
+
+  <subsection>
+    <title>Regular Expressions in C++</title>
+    <p>Most programming languages provide a library for working with regular expressions. In C++, the
+      <c>&lt;regex&gt;</c> library provides support for regex operations.</p>
+    <p>Here is a simple example of using regular expressions in C++ to find and print all the phone numbers from a block of text:</p>
+    <listing>
+    <program label="practical-programming_regex-use" interactive="activecode"
+             line-numbers="yes">
+      <code>
+<xi:include href="../../programs/practical-programming/regex-use.cpp" parse="text"/>
+      </code>
+    </program>
+    </listing>
+    <p>The comments explain key steps in the code. But it it is worth highlighting a few important parts:
+      <ul>
+        <li><pf>sregex_iterator</pf> is a type of iterator, like the ones we use with containers such as <pf>vector</pf> or <pf>map</pf>. On line 25 we create an iterator that will advance from the start to end of the string, finding matches of the regex pattern.</li>
+        <li>As the iterator advances, it points to each match in turn. Eventually it will reach the end of the sequence and compare equal to the default-constructed end iterator.</li>
+        <li>Each match is represented by an <pf>smatch</pf> object, which contains the matched text and any captured groups. We can access these using the subscript operator <pf>[]</pf>.</li>
+      </ul>
+      </p>
+      <p>The code has some complexity, but imagine the crazy sequence of if/else statements and string manipulations you would need to write to do the same thing without regular expressions. Compared to what that would look like, the regex approach is much cleaner.</p>
+  </subsection>
+
+</section>

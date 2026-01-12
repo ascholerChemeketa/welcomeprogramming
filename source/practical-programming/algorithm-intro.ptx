@@ -1,0 +1,80 @@
+<section xml:id="practical-programming_algorithm-intro"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>The Standard Algorithms Library</title>
+
+  <p>
+    In addition to the data structures we have learned about so far, the C++ Standard Library also provides a large collection of algorithms that can operate on these data structures. These algorithms are implemented as functions that can be called with different types of collections and perform common operations like searching, sorting, and transforming data.
+  </p>
+
+  <p>
+    We will not cover all (or even most) of these algorithms in detail here, but we will introduce some of the most commonly used ones to give you an idea of what is available and how to use them.
+  </p>
+
+  <note>
+    <p><url href="https://en.cppreference.com/w/cpp/header/algorithm.html">cppreference.com</url> is a great resource for exploring what is available in the standard algorithms library.</p>
+  </note>
+
+  <p>Not every algorithm is suitable for every type of collection. For example, you can't use <pf>sort</pf> on an <pf>unordered_map</pf> because it does not have a defined order. It is completely meaningless to try putting in order things that do not provide any way to talk about which item comes before another.</p>
+
+  <p>
+    However, the algorithms do work on any standard container where the operation makes sense. They do this by relying on abstractions like <pf>iterators</pf> and operator overloading. The code in the algorithms is written in terms of these abstractions. They do not know or care if they happen to be working with a <pf>vector</pf>, a <pf>set</pf>, or some other kind of collection. As long as the collection provides the necessary interface the algorithms can operate on the collection.
+  </p>
+
+  <p>
+    Must in the way that <pf>set</pf>s can rely on functors to specify how to order their elements, some algorithms also take functors as parameters to customize their behavior. For example, the <pf>sort</pf> algorithm can take a comparison functor to specify how to compare elements when sorting.
+  </p>
+
+  <p>The prototype for <pf>std::sort</pf> looks like something like this:</p>
+
+  <program>void sort( RandomIt first, RandomIt last, Compare comp );</program>
+
+  <p>Here, <pf>RandomIt</pf> is a type that represents an iterator that can move through a collection in random order (like the iterators provided by a <pf>vector</pf>). This means you could not use this algorithm with containers that do not provide random access to their elements. The <pf>first</pf> and <pf>last</pf> parameters specify the range of elements to sort. The optional <pf>comp</pf> parameter is a comparison functor that defines how to compare two elements.</p>
+
+  <p>So, to sort a vector, we can pass iterators to the beginning and end of the vector to the <pf>sort</pf> function.</p>
+
+  <program>
+    <![CDATA[ 
+    sort(myVector.begin(), myVector.end());
+    ]]>
+  </program>
+
+  <p>That will sort the elements in the vector in ascending order using the default comparison operator. If we just wanted to sort the first 10 elements, we would adjust the <pf>last</pf> parameter to point to the iterator 10 positions from the beginning:</p>
+
+  <program>
+    <![CDATA[ 
+    sort(myVector.begin(), myVector.begin() + 10);
+    ]]>
+  </program>
+
+  <p>
+    If we wanted to sort the elements in descending order instead, we could provide a comparison functor that defines that ordering. This example first does a default sort of a vector of integers, then sorts it again in descending order.
+  </p>
+
+  <listing>
+  <program label="practical-programming_algorithm-intro-1" interactive="activecode"
+            line-numbers="yes" >
+<xi:include href="../../programs/practical-programming/algorithm-intro-1.cpp" parse="text"/>
+  </program>  
+  </listing>
+
+  <exercise label="practical-programming_algorithm-intro-exercise-1">
+    <statement>
+      <p>Arrange blocks to sort the first half of a vector <pf>v</pf> using default ordering. You will not need all the blocks.</p>
+    </statement>
+    <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>sort(</c></block>
+      <block><c>v.begin()</c></block>
+      <block><c>,</c></block>
+      <block><c>v.begin()</c></block>
+      <block><c>+</c></block>
+      <block><c>v.size()</c></block>
+      <block><c>/</c></block>
+      <block><c>2</c></block>
+      <block><c>);</c></block>
+      <block correct="no"><c>v.end()</c></block>
+    </blocks>
+  </exercise>
+
+</section>

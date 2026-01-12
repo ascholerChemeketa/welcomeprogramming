@@ -1,0 +1,25 @@
+#include <algorithm>
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    vector<string> words = {"a", "stitch", "in", "time", "saves", "nine"};
+
+    // Find the first word longer than 3 characters
+    auto it = find_if(
+        words.begin(),
+        words.end(),
+        // Lambda function to identify words longer than 3 characters
+        [](const string& word) { return word.length() > 3; }
+    );
+
+    // Test against .end() to see if we found a match
+    if (it != words.end()) {
+        // Dereference iterator to get the found word
+        string longerWord = *it;
+        cout << "First longer word: " << longerWord << endl;
+    } else {
+        cout << "No longer word found." << endl;
+    }
+}
