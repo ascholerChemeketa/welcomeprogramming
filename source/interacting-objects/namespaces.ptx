@@ -1,0 +1,93 @@
+<section xml:id="interacting-objects_namespaces"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Namespaces</title>
+
+<p>As our programs grow larger and more complex, and we build more and more libraries and modules, it becomes increasingly likely that we want to use the same name for different classes, structs, or functions in different parts of our code.
+  For example, if we were writing a program that used both a graphics library and a math library, both might want to define a <pf>Point</pf> class. Both versions of <q>Point</q> might include members to represent x and y values. But the graphics version of <q>Point</q> might care about what color it was while the math version would not. And the two versions would need different behaviors.</p>
+
+  <p>
+    <term>Namespaces</term> are a way to group related names together to avoid name collisions. When we do not explicitly put something in a namespace, it goes into the <term>global namespace</term>. If there are two things with the same name in the global namespace, like two versions of <pf>Point</pf>, the compiler will not know which one we mean, and we will get an error. To avoid this, we need to put each version of <pf>Point</pf> in its own namespace, such as <pf>graphics::Point</pf> and <pf>math::Point</pf>.
+</p>
+
+  <p>
+    We are already somewhat familiar with namespaces from using the <pf>std</pf> namespace that contains all the standard C++ library features. We know that the full name of something like <pf>string</pf> is actually <pf>std::string</pf>, where <pf>std</pf> is the namespace and <pf>string</pf> is the name within that namespace. We also know that we either need to use the full name or bring names into the current scope with a <pf>using</pf> declaration.
+  </p>
+  
+  <note>
+    <p>The original C++ language did not include a standard library or string class. It was quite common for programmers or organizations to create their own <q>string</q> classes before the standard library was widely adopted.</p>
+    <p>One of the reasons string is part of the <pf>std</pf> namespace is to avoid conflicts with these earlier string classes!</p>
+  </note>
+
+  <p>
+    To define a namespace, we use the <pf>namespace</pf> keyword followed by the name of the namespace and a block containing the definitions that belong to that namespace. These definitions can include classes, structs, functions, and variables. For example:
+  </p>
+
+  <listing>
+  <program filename="Point.h" xml:id="interacting-objects_namespaces-Point_h">namespace graphics {
+  struct Point {
+    double x;
+    double y;
+  };
+}</program>
+  </listing>
+
+<p>
+  This defines a namespace called <pf>graphics</pf> that contains a struct called <pf>Point</pf>. To use this <pf>Point</pf> struct, we would refer to it as <pf>graphics::Point</pf>. That way, we know exactly which <pf>Point</pf> we are referring to, even if there are other <pf>Point</pf> definitions in other namespaces.
+  (We will use structs since they are easier to write small versions of than classes. But the same ideas applyto classes.)
+</p>
+
+<p>Here is a program with two <pf>Point</pf> structs, one in the <pf>graphics</pf> namespace and one in the <pf>math</pf> namespace:</p>
+
+<listing>
+<program label="interacting-objects_namespaces-1" interactive="activecode">
+<xi:include href="../../programs/interacting-objects/namespaces-1.cpp" parse="text"/>
+</program>
+</listing>
+
+<p>If we want, we can bring names from a namespace into the current scope with a <pf>using</pf> declaration. For example, we could write <pf>using graphics::Point;</pf> to bring the <pf>Point</pf> struct from the <pf>graphics</pf> namespace into the current scope, so we can just write <pf>Point</pf> instead of <pf>graphics::Point</pf>. We can still access other points by their full names, like <pf>math::Point</pf>.</p>
+
+<listing>
+<program label="interacting-objects_namespaces-2" interactive="activecode" highlight-lines="20,24" line-numbers="yes">
+<xi:include href="../../programs/interacting-objects/namespaces-2.cpp" parse="text"/>
+</program>
+</listing>
+
+<p>We do have to be careful when using <pf>using</pf> directives because if two namespaces have names that conflict, bringing them both into the current scope can cause ambiguity errors. Try adding <pf>using namespace math;</pf> below the existing <pf>using namespace graphics;</pf> directive and see what happens.</p>
+
+<p>You should get an error like this one:</p>
+<console>
+  <output>
+    test.cpp: In function ‘int main()’:
+test.cpp:25:3: error: reference to ‘Point’ is ambiguous
+   25 |   Point gPoint;
+      |   ^~~~~
+test.cpp:13:10: note: candidates are: ‘struct math::Point’
+   13 |   struct Point {
+      |          ^~~~~
+test.cpp:6:10: note:                 ‘struct graphics::Point’
+    6 |   struct Point {
+      |          ^~~~~
+  </output>
+</console>
+
+<p>
+  The compiler is telling us that it does not know which <pf>Point</pf> we are referring to because both the <pf>graphics</pf> and <pf>math</pf> namespaces have a <pf>Point</pf> struct. To fix this, we can either remove one of the <pf>using</pf> directives or refer to the <pf>Point</pf> structs by their full names.
+</p>
+
+<p>We can also just bring in specific names from a namespace using a <pf>using</pf> declaration. For example, imagine <pf>graphics</pf> has multiple members. We could write <pf>using graphics::Point;</pf> to bring only the <pf>Point</pf> struct from the <pf>graphics</pf> namespace into the current scope.</p>
+
+<p>In this sample, we add a struct <pf>Circle</pf> to the <pf>graphics</pf> namespace. We then bring in only the <pf>Point</pf> struct from the <pf>graphics</pf> namespace into the current scope:</p>
+
+<listing>
+<program label="interacting-objects_namespaces-3" interactive="activecode" highlight-lines="19,23,27" line-numbers="yes">
+<xi:include href="../../programs/interacting-objects/namespaces-3.cpp" parse="text"/>
+</program>
+</listing>
+
+<p>
+  Since we did not bring in all names from the <pf>graphics</pf> namespace, we still need to qualify the call to <pf>Circle</pf> with <pf>graphics::</pf>. If you try to remove that qualification, you will get an error saying that <pf>Circle</pf> is not declared in the current scope.
+  </p>
+
+
+</section>
