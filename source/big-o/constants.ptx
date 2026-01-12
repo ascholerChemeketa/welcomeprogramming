@@ -1,0 +1,95 @@
+<section xml:id="big-o_constants"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Constants and Optimization</title>
+
+  <p>
+    Although we generally ignore constant factors when expressing time complexity in Big-O notation (and doing so is perfectly reasonable), we do need to keep them in mind when they do matter:
+    <ul>
+      <li>When the input size is small, constant factors can have a significant impact on performance.</li>
+      <li>When comparing algorithms with the same Big-O notation, constant factors can help determine which algorithm is more efficient in practice.</li>
+      <li>When optimizing code, reducing constant factors can lead to performance improvements even if the overall time complexity remains the same.</li>
+    </ul>
+  </p>
+
+  <subsection>
+    <title>Hidden Constant Factors</title>
+
+  <p>
+    The constant factors that tend to matter most are actually hidden from us. Consider these lines of code:
+  </p>
+
+  <program line-numbers="yes">
+    <![CDATA[
+    int sum = 0;
+    for (int i = 0; i < n; i++) {
+        sum += i;
+        cout << "Sum so far:" << sum << endl;
+    }
+    cout << "Sum: " << sum << endl;
+    ]]>
+  </program>
+
+  <p>
+    The loop runs <m>O(n)</m> times, so the overall time complexity is <m>O(n)</m>. But system calls to do
+    things like output to the console are very expensive compared to simple arithmetic operations. If we remove
+    the output statement from inside the loop, the overall time taken by the program could be significantly reduced, even though the time complexity remains <m>O(n)</m>.
+  </p>
+
+  <p>
+    Other system calls include things like file I/O, network communication, and memory allocation. These operations can all have significant constant time costs that impact the overall performance of an algorithm, especially for smaller input sizes.
+  </p>
+
+  <p>
+    Another common source of constant factors is memory access patterns. Modern memory systems have multiple levels of cache, and accessing data that is already in cache is much faster than accessing data from main memory. The speed difference between finding data in cache versus main memory can be on the order of a 100x or more.
+  </p>
+
+  <p>
+    When data is retrieved from main memory, it is often fetched in blocks (cache lines) that contain multiple contiguous bytes. So we might access index 10 of an array, but the system actually retrieves a block of data that includes indices 8 through 15 from main memory into the cache. Subsequent accesses to indices 8, 9, 11, 12, 13, 14, and 15 will then be much faster because they are already in cache.
+  </p>
+
+  <p>
+    This means that algorithms that access memory in a sequential or localized manner (e.g. access indexes 1, 2, 3, 4...) can benefit from better cache performance, leading to lower constant time factors. In contrast, algorithms that access memory in a random or scattered manner (e.g. access indexes 1, 523, 17, 249...) may more frequently have to go back to main memory.
+  </p>
+
+  <p>
+    Data structures that rely on pointers can also lead to poor cache performance because the nodes may be scattered throughout memory. In contrast, data structures like arrays or contiguous vectors tend to have better cache locality, leading to improved performance due to lower constant time factors.
+  </p>
+  </subsection>
+
+  <subsection>
+    <title>What to Do</title>
+
+    <p>
+      So what should we do about constant factors? For now, not much.
+      The biggest gains in efficiency come from reducing the overall time complexity of an algorithm.
+      An <m>O(n)</m> algorithm with bad constant factors will still vastly outperform an <m>O(n^2)</m> algorithm with small constant factors for sufficiently large <m>n</m>.
+    </p>
+
+    <p>
+      The main constant factors to keep in mind as you learn about data structures are the costs associated with
+      system calls (allocating memory) and memory access patterns (cache performance). They help explain why certain data structures
+      perform better than others in practice, even when their Big-O time complexities are the same.
+    </p>
+
+    <p>
+      Worrying about improving constant factors too early can lead to more complex code. For example, programmers sometimes try to avoid calling <pf>new</pf> repeatedly for small allocations because of the overhead of the system calls (asking the OS for memory). Instead, they might allocate a large block of memory using <pf>new</pf> one time, and then manage smaller allocations within that block themselves. While this can improve performance by reducing the number of system calls, it also adds complexity to the code and increases the risk of memory management errors.
+    </p>
+
+
+    <blockquote>
+      <p>Premature optimization is the root of all evil.</p>
+      <attribution>Donald Knuth</attribution>
+    </blockquote>
+
+    <p>
+      It is also sometimes hard to predict if extra work will actually improve constant factors. For example, consider a sorting algorithm that first scans through the data to check if it is already sorted before proceeding with the sorting process. While this extra scan adds overhead, it can significantly reduce the overall time taken for nearly-sorted data. However, for random data, the extra scan may just add unnecessary work without any benefit. Deciding whether such optimizations are worthwhile often requires empirical testing and profiling.
+    </p>
+
+    <p>
+      So although you should have an awareness of the hidden constant factors that can impact performance, you should not be overly concerned about trying to <q>fix</q> or work around them as you are learning about algorithms and data structures.
+    </p>
+
+  </subsection>
+
+</section>
