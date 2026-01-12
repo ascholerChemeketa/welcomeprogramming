@@ -1,16 +1,11 @@
 <section xml:id="functions-testing_return-values"
          xmlns:xi="http://www.w3.org/2001/XInclude">
-  <title>More on Returning</title>
-
-  <introduction>
-    <p>We have already learned the basics of returning from functions. But there are a few important
-      details we still need to cover.</p>
-  </introduction>
+  <title>Return Types and Void</title>
 
   <subsection>
-    <title>Returning Variables</title>
+    <title>Returning Values and Variables</title>
 
-    <p>As we have already mentioned, The type of the expression in the <pf>return</pf> statement must
+    <p>As we have already mentioned, the type of the expression in the <pf>return</pf> statement must
       match the return type of the function itself. When you declare that the return type is <pf>double</pf>,
       you are making a promise that this function will eventually produce a <pf>double</pf> value. If you
       try to <pf>return</pf> with no expression, or <pf>return</pf> an expression with the wrong type, the
@@ -32,7 +27,7 @@
 <xi:include href="../../programs/functions-testing/return-values-4.cpp" parse="text"/>
 </program>
 
-    <p>Much like when we pass a variable to a function, when we return a variable, the value of the
+    <p>When we return a variable, the value of the
       variable is copied as it is returned. So although we might say of the function above <q>it
       returns <pf>area</pf></q>, it is more accurate to say <q>it returns the value stored in <pf>area</pf></q>
       .</p>
@@ -40,10 +35,11 @@
     <p>The two approaches will produce the same result, but the second is often easier to read and
       debug. Especially when you are stepping through code, first calculating an answer and storing
       it into a variable, then returning the value of that variable, makes it easier to see what is
-      going on. </p>
+      going on.</p>
 
     <note>
-      <p>It is also worth mentioning that the two approaches will almost certainly produce the same
+      <p>The two approaches (returning an expression or storing the result of the expression into
+        a variable and then returning the variable) will almost certainly produce the same
         object code when a compiler gets done optimizing the code.</p>
       <p>Trying to <q>optimize</q> code by using fewer local variables is almost always pointless.
         Focus on code that is easy to read and debug. The compiler can generally be counted on to
@@ -51,6 +47,55 @@
         will write code in a specific way to optimize its speed, but you should not try to <q>
         optimize</q> your use of local variables.</p>
     </note>
+
+    <p>
+      No matter which approach you use, once the <pf>return</pf> statement is executed, the function
+      ends immediately and control returns to the calling function. Any code after the <pf>return</pf>
+      statement will not be executed. Your compiler will usually warn you if it detects code that can
+      never be reached because it comes after a <pf>return</pf> statement.
+    </p>
+
+    <program line-numbers="yes" highlight-lines="4">
+<xi:include href="../../programs/functions-testing/return-values-after-return.cpp" parse="text"/>
+    </program>
+
+  </subsection>
+
+  <subsection>
+    <title>Void Functions</title>
+    <p>
+      <idx>
+        <h>void</h>
+      </idx> Every function must specify a return type in its prototype. But not
+      every function needs to return a value. Some functions are used for their <pf>side effects</pf> - they do
+      something, but they don't produce a value. A function might print something to the screen, or
+      play a sound or send a message over the network.</p>
+    <p> These functions have a return type of <pf>void</pf> (<q>void</q> as in nothing) and don't need a <pf>return</pf>
+      statement: </p>
+
+    <program>
+<xi:include href="../../programs/functions-testing/return-values-1.cpp" parse="text"/>
+  </program>
+
+    <p>If you want to provide a return statement, you can simply return nothing when the function is
+      done with <pf>return;</pf></p>
+
+    <p>Because <pf>void</pf> functions do not return anything, there is no need to try to store their
+      result. In fact, any attempt to use their result would be an error. If we wrote <pf>double result = printAsMoney(12.432345);</pf>, we
+      are essentially saying <pf>double result =   ;</pf> because <pf>printAsMoney(12.432345)</pf> evaluates to nothing.</p>
+
+    <p>Here is a full program that uses the void function:</p>
+
+    <listing>
+    <program label="functions-testing_return-values-program-1"
+    highlight-lines="5,12,17"
+             interactive="activecode">
+<xi:include href="../../programs/functions-testing/return-values-2.cpp" parse="text"/>
+  </program>
+    </listing>
+  </subsection>
+
+  
     <exercise label="functions-testing_return-values-ex-1">
       <statement>
         <p>What should be the return type of the function <pf>convertToCelsius</pf>?</p>
@@ -102,39 +147,4 @@ ______ convertToCelsius(double fahrenheit) {
         </choice>
       </choices>
     </exercise>
-  </subsection>
-
-  <subsection>
-    <title>Void Functions</title>
-    <p>
-      <idx>
-        <h>void</h>
-      </idx> Every function must specify a return type in its prototype. But not
-      every function needs to return a value. Some functions are used for their <pf>side effects</pf> - they do
-      something, but they don't produce a value. A function might print something to the screen, or
-      play a sound or send a message over the network.</p>
-    <p> These functions have a return type of <pf>void</pf> (<q>void</q> as in nothing) and don't need a <pf>return</pf>
-      statement: </p>
-
-    <program>
-<xi:include href="../../programs/functions-testing/return-values-1.cpp" parse="text"/>
-  </program>
-
-    <p>If you want to provide a return statement, you can simply return nothing when the function is
-      done with <pf>return;</pf></p>
-
-    <p>Because <pf>void</pf> functions do not return anything, there is no need to try to store their
-      result. In fact, any attempt to use their result would be an error. If we wrote <pf>double result = printAsMoney(12.432345);</pf>, we
-      are essentially saying <pf>double result =   ;</pf> because <pf>printAsMoney(12.432345)</pf> evaluates to nothing.</p>
-
-    <p>Here is a full program that uses the void function:</p>
-
-    <listing>
-    <program label="functions-testing_return-values-program-1"
-    highlight-lines="5,12,17"
-             interactive="activecode">
-<xi:include href="../../programs/functions-testing/return-values-2.cpp" parse="text"/>
-  </program>
-    </listing>
-  </subsection>
 </section>
