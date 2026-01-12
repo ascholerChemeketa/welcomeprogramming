@@ -1,7 +1,10 @@
 <section xml:id="strings_using-escape-sequences"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <title>Other Escape Sequences</title>
+  <title>Escape Sequences and Raw Strings</title>
+
+  <subsection>
+    <title>Other Escape Sequences</title>
 
   <p>We have already learned that printing <pf>\t</pf> prints a tab character instead of literally printing a <pf>\</pf> and a <pf>t</pf>. <pf>\t</pf> is known as an <term>escape sequence</term>.
     <idx>
@@ -98,6 +101,24 @@ cout &lt;&lt; "She said "Hello!" to me.";
 <xi:include href="../../programs/computer-programming/using-escape-sequences-3.cpp" parse="text"/>
 </program>
   </listing>
+  
+  </subsection>
+
+  <subsection>
+    <title>Raw String Literals</title>
+    <p>
+      Sometimes you want to write a string that includes lots of characters that would normally need to be escaped. 
+      In these cases, having to escape every backslash can make the string hard to read. C++ provides a way to write <term>raw string literals</term> that do
+      not process escape sequences.</p>
+
+    <p>To write a raw string literal, you start the string with <pf>R"(</pf>, then the string content, and then end the string with the same <pf>)"</pf>. Inside the raw string, you do not need to use escape sequences. (If you try to use one, it will be treated as literal characters.). You can also include line breaks directly in the string. For example:</p>
+
+    <listing>
+    <program label="strings_using-escape-sequences-program-4" interactive="activecode" compiler-args="-std=c++20">
+<xi:include href="../../programs/computer-programming/using-escape-sequences-4.cpp" parse="text"/>
+    </program>
+    </listing>
+  </subsection>
 
   <exercise label="strings_using-escape-sequences-ex-1">
     <statement>
