@@ -5,7 +5,7 @@ double calculateTax(double income, bool isMarried) {
         cout << "***MARRIED***" << endl;
     } else {
         cout << "***SINGLE***" << endl;
-        if (income <= 1000) {
+        if (income <= 10000) {
             tax = income * 0.10;
         } else if (income <= 30000) {
             tax = 1000 + (income - 10000) * 0.15;
