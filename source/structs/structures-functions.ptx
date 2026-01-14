@@ -7,7 +7,7 @@
   cout &lt;&lt; "(" &lt;&lt; p.x &lt;&lt; ", " &lt;&lt; p.y &lt;&lt; ")" &lt;&lt; endl;
 }</program>
 
-  <p>That version of the function uses <term>pass by value</term> to make a copy of the point that is passed in. For a very simple struct, we may be willing to pay the price of an unneeded copy. But in general, it is better to use <term>pass by reference</term> to pass structs to avoid that work. (See <xref ref="references-exceptions_references-functions" />to review references and pass by reference.)</p>
+  <p>That version of the function uses <term>pass by value</term> to make a copy of the point that is passed in. For a very simple struct, we may be willing to pay the price of an unneeded copy. But in general, it is better to use <term>pass by reference</term> to pass structs to avoid that work. (See <xref ref="references-exceptions_references-functions" /> to review references and pass by reference.)</p>
 
   <p>And, if the function will not modify the struct, we should use <term>pass by const reference</term>. So we will prefer to write functions like this:</p>
   <program>void printPoint(const Point&amp; p) {

@@ -120,56 +120,6 @@ Jones, Sophie</output>
     </program>
   </exercise>
 
-  
-  <exercise label="interacting-objects_exercises-ex-3">
-    <statement>
-      <p>The code below has a class representing members of a family who all share a last name. (An idea that almost certainly wouldn't make sense to use in a real program.) It is missing the <pf>lastName</pf> variable. Declare it and add the initialization statement so that the family members have the last name "Jones".</p>
-    </statement>
-    <program interactive="activecode">
-        <preamble>
-<![CDATA[
-#include <iostream>
-
-using namespace std;
-
-class FamilyMember {
-public:
-    FamilyMember(string name) {
-        firstName = name;
-    }
-    void print() const {
-        cout << lastName << ", " << firstName << endl;
-    }
-private:
-    string firstName;
- ]]>
-        </preamble>
-        <code>
-    // Declare the static variable here
-}; // end of class
-
-// Initialize the static variable here
-        </code>
-        <postamble> <![CDATA[
-
-int main() {
-    FamilyMember person1("Indiana");
-    FamilyMember person2("Sophie");
-
-    person1.print();
-    person2.print();
-}
-]]>
-        </postamble>
-        <tests visible="no">
-          <iotest>
-            <input></input>
-            <output>Jones, Indiana
-Jones, Sophie</output>
-          </iotest>
-        </tests>
-    </program>
-  </exercise>
 
 
   <exercise label="interacting-objects_exercises-ex-4">
