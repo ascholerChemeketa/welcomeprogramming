@@ -254,13 +254,12 @@ vector&lt;int&gt; numbers(6);
     <statement>
       <p>What can go in the blank to make a vector that has 8 copies of the value <pf>true</pf>;? <pf>vector&lt;bool&gt; options(_____);</pf>
         <fillin mode="string"
-                case="insensitive"
                 answer="8\\s*,\\s*true"/></p>
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp use-answer="yes" case="insensitive"/>
         </test>
       </evaluate>
     </evaluation>

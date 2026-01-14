@@ -70,19 +70,19 @@
 
   <exercise label="logic-errors-and-semantics-ex-1">
     <statement>
-      <p>Another word for an error is a(n) <fillin mode="string" case="insensitive" answer="bug"/>. The process of
-        finding and fixing errors is called <fillin mode="string" case="insensitive" answer="debugging"/>.
+      <p>Another word for an error is a(n) <fillin mode="string" answer="bug"/>. The process of
+        finding and fixing errors is called <fillin mode="string" answer="debugging"/>.
       </p>
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp use-answer="yes" case="insensitive"/>
         </test>
       </evaluate>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp use-answer="yes" case="insensitive"/>
         </test>
       </evaluate>
     </evaluation>
@@ -112,14 +112,14 @@
   </exercise>
     <exercise label="logic-errors-and-semantics-ex-3">
       <statement>
-        <p>The structure of your program and the rules it must follow are called the <fillin mode="string" case="insensitive" answer="syntax"/>.
+        <p>The structure of your program and the rules it must follow are called the <fillin mode="string" answer="syntax"/>.
         </p>
       </statement>
       <evaluation>
         <evaluate>
-          <test>
-            <strcmp use-answer="yes"/>
-          </test>
+        <test correct="yes">
+          <strcmp use-answer="yes" case="insensitive"/>
+        </test>
         </evaluate>
       </evaluation>
     </exercise>

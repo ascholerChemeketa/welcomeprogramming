@@ -180,13 +180,12 @@ Point p2 = p1; // copy p1 into p2
     <statement>
       <p>The member function that initializes objects automatically when they are created is called
         a(n) <fillin mode="string"
-                case="insensitive"
-                answer="CONSTRUCTOR"/>. </p>
+                answer="constructor"/>. </p>
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp use-answer="yes" case="insensitive"/>
         </test>
       </evaluate>
     </evaluation>

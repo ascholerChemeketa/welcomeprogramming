@@ -151,16 +151,15 @@
         <statement>
           <p>What are the member variables? List them in the order they appear with spaces in
             between. <fillin mode="string"
-                    case="insensitive"
                     answer="radius color PI"/>.</p>
         </statement>
         <evaluation>
           <evaluate>
             <test correct="yes">
-              <strcmp ignore-case="yes">radius\s+color\s+PI</strcmp>
+              <strcmp case="insensitive">radius\s+color\s+PI</strcmp>
             </test>
             <test>
-              <strcmp ignore-case="yes">\w+\s+\w+</strcmp>
+              <strcmp case="insensitive">\w+\s+\w+</strcmp>
               <feedback>There should be three member variables. One is public. (Bad idea!)</feedback>
             </test>
           </evaluate>
@@ -170,17 +169,16 @@
       <exercise label="objects_class-diagrams-ex-2">
         <statement>
           <p>Which function is void? <fillin mode="string"
-                    case="insensitive"
                     answer="fill"/>.</p>
         </statement>
         <evaluation>
           <evaluate>
             <test correct="yes">
               <strcmp correct="yes"
-                      ignore-case="yes">fill</strcmp>
+                      case="insensitive">fill</strcmp>
             </test>
             <test>
-              <strcmp ignore-case="yes">Circle</strcmp>
+              <strcmp case="insensitive">Circle</strcmp>
               <feedback>That is the constructor. It is not considered void.</feedback>
             </test>
           </evaluate>
@@ -192,7 +190,6 @@
         <statement>
           <p>We want a new function to set the radius. In code it would be <pf>void setRadius(double
             r)</pf> and it would be public. How should that look in UML? <fillin mode="string"
-                    case="insensitive"
                     answer="+setRadius(r: double)"/>
             .</p>
         </statement>
@@ -200,14 +197,14 @@
           <evaluate>
             <test correct="yes">
               <strcmp correct="yes"
-                      ignore-case="yes">\+\s*setRadius\s*\(\s*r\s*:\s*double\s*\)</strcmp>
+                      case="insensitive">\+\s*setRadius\s*\(\s*r\s*:\s*double\s*\)</strcmp>
             </test>
             <test>
-              <strcmp ignore-case="yes">^setR.*</strcmp>
+              <strcmp case="insensitive">^setR.*</strcmp>
               <feedback>Remember to start with a + or -</feedback>
             </test>
             <test>
-              <strcmp ignore-case="yes">.*\(double.*</strcmp>
+              <strcmp case="insensitive">.*\(double.*</strcmp>
               <feedback>Remember the type comes after the parameter name.</feedback>
             </test>
           </evaluate>

@@ -65,12 +65,12 @@
 
   <exercise label="variables-operators_int-division-ex-1">
     <statement>
-      <p>Integer division always <fillin mode="string" case="insensitive" answer="truncates"/> the answer by dropping any decimal portion.</p>
+      <p>Integer division always <fillin mode="string" answer="truncates"/> the answer by dropping any decimal portion.</p>
     </statement>
     <evaluation>
       <evaluate>
         <test correct="yes">
-          <strcmp>truncates?</strcmp>
+          <strcmp case="insensitive" >truncates?</strcmp>
         </test>
       </evaluate>
     </evaluation>
@@ -81,7 +81,7 @@
 int num2 = 5;
 cout &lt;&lt; num1 / num2;</program>
       <p>What is printed to the terminal?</p>
-      <p><fillin mode="number" case="insensitive" answer="2"/></p>
+      <p><fillin mode="number"  answer="2"/></p>
     </statement>
     <evaluation>
       <evaluate>
@@ -98,7 +98,7 @@ int num2 = 48;
 cout &lt;&lt; num2 / num1;</program>
       <p>What is printed to the terminal?</p>
       <p>
-        <fillin mode="number" case="insensitive" answer="4"/>
+        <fillin mode="number" answer="4"/>
       </p>
     </statement>
     <evaluation>
@@ -116,7 +116,7 @@ int num2 = 40;
 cout &lt;&lt; num2 / num1;</program>
       <p>What is printed to the terminal?</p>
       <p>
-        <fillin mode="number" case="insensitive" answer="4"/>
+        <fillin mode="number"  answer="4"/>
       </p>
     </statement>
     <evaluation>
@@ -134,7 +134,7 @@ int num2 = 39;
 cout &lt;&lt; num2 / num1;</program>
       <p>What is printed to the terminal?</p>
       <p>
-        <fillin mode="number" case="insensitive" answer="3"/>
+        <fillin mode="number"  answer="3"/>
       </p>
     </statement>
     <evaluation>
@@ -152,7 +152,7 @@ int num2 = 8;
 cout &lt;&lt; "Decimal:" &lt;&lt; num1 / num2;</program>
       <p>What is printed after <pf>Decimal:</pf>?</p>
       <p>
-        <fillin mode="number" case="insensitive" answer="0"/>
+        <fillin mode="number"  answer="0"/>
       </p>
     </statement>
     <evaluation>

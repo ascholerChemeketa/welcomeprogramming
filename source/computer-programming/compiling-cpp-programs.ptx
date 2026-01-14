@@ -95,22 +95,20 @@
   <exercise label="computer-programming_compiling-cpp-programs-ex-1">
     <statement>
       <p>A(n) <fillin mode="string"
-                case="insensitive"
                 answer="interpreter"/> translates a
         high-level program line by line, executing commands as they come. A(n) <fillin mode="string"
-                case="insensitive"
                 answer="compiler"/>
         translates a high-level program all at once, before executing any of the commands! </p>
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp use-answer="yes" case="insensitive"/>
         </test>
       </evaluate>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp use-answer="yes" case="insensitive"/>
         </test>
       </evaluate>
     </evaluation>

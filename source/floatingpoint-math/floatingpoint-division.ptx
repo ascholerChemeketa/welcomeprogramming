@@ -129,13 +129,13 @@ int main() {
 
           double servingSize = ouncesCake / people;</program>
 
-        <p>The program claims <pf>servingSize</pf> is <fillin mode="string" case="insensitive" answer="2"/> servings.
-          This is <fillin mode="string" case="insensitive" answer="less"/> (more, less, the same) than/as the correct answer.</p>
+        <p>The program claims <pf>servingSize</pf> is <fillin mode="string"  answer="2"/> servings.
+          This is <fillin mode="string" answer="less"/> (more, less, the same) than/as the correct answer.</p>
     </statement>
     <evaluation>
       <evaluate>
-          <test>
-            <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp use-answer="yes" case="insensitive"/>
             <feedback>
               Correct! C++ performs integer division.
             </feedback>
