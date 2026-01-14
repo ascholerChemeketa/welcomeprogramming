@@ -27,7 +27,7 @@ Used for custom overrides and temporary patches
 >
 
   <!-- <xsl:import href="../../../pretext/xsl/pretext-html.xsl"/> -->
-  <xsl:import href="C:/Code/pretext-ascholer/xsl/pretext-html.xsl"/>
+  <xsl:import href="./core/pretext-html.xsl"/>
 
   <!-- wide interactives -->
   <xsl:template match="interactive[@iframe]" mode="iframe-interactive">
