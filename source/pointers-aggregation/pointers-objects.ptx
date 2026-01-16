@@ -4,17 +4,17 @@
   <title>Object Member Access with Pointers</title>
 
   <p> When using pointers with objects, we are likely to encounter a syntax annoyance. Say we have a
-    Pointer called <pf>myPointer</pf> that points at a <pf>Point</pf> object and we want to call the <pf>getX()</pf>
-    function of that Point. We know that the pointer is just a memory address. To use it we need to
-    dereference it - <pf>*myPointer</pf> will give us <q>the object that myPointer points at</q>. So we write
-    the following to access the <pf>getX()</pf> of that object (using our <xref ref="point-final-cxx-listing"
+    Pointer called <pf>myPointer</pf> that points at a <pf>Point</pf> object and we want to call the <pf>
+    getX()</pf> function of that Point. We know that the pointer is just a memory address. To use it
+    we need to dereference it - <pf>*myPointer</pf> will give us <q>the object that myPointer points
+    at</q>. So we write the following to access the <pf>getX()</pf> of that object (using our <xref ref="point-final-cxx-listing"
           text="title"/>
     ): </p>
 
   <listing>
-  <program label="pointers-aggregation_pointers-objects-program-1"
-           interactive="activecode"
-           compile-also="point-final-cxx">
+    <program label="pointers-aggregation_pointers-objects-program-1"
+             interactive="activecode"
+             compile-also="point-final-cxx">
 <xi:include href="../../programs/pointers-aggregation/pointers-objects-1.cpp" parse="text"/>
   </program>
   </listing>
@@ -29,11 +29,17 @@
       <url href="https://en.cppreference.com/w/cpp/language/operator_precedence">List of operator
     precedence at cppreference.com</url>
     </fn>. We intended to say, <q>first dereference the
-    pointer, then use the getX member of that object</q>. However, <pf>.</pf> is interpreted before <pf>*</pf>.
-    So what we said was <q>use the getX member of the pointer (<pf>.</pf>), then dereference the
-    result (<pf>*</pf>).</q>. It is as if we had written <pf>*(myPointer.getX())</pf>, which does not make sense because <pf>myPointer</pf>
-    is just a memory address, not an object, and thus has no <pf>getX()</pf>. One way to fix this is to
-    use parentheses to make the order of operations clear: </p>
+    pointer, then use the getX member of that object</q>. However, <pf>.</pf> is interpreted before <pf>
+    *</pf>. So what we said was <q>use the getX member of the pointer (<pf>.</pf>), then dereference
+    the result (<pf>*</pf>).</q>. It is as if we had written <pf>*(myPointer.getX())</pf>, which
+    does not make sense because <pf>myPointer</pf> is just a memory address, not an object, and thus
+    has no <pf>getX()</pf>.</p>
+
+  <insight>
+    <p>A pointer is just a memory address, not an object. We can't use it like an object.</p>
+  </insight>
+
+  <p>One way to fix this is to use parentheses to make the order of operations clear: </p>
 
   <program>
     (*myPointer).getX();
@@ -43,29 +49,41 @@
     And it can get really clunky if we have a series of pointers to dereference. Something like the
     statement below is quite hard to quickly read and comprehend:</p>
   <program>(*(*(*cylinderPointer).getBasePointer()).getCenterPointer()).getX();</program>
-  <p>C++ provides a shorthand for this situation. Instead of using <pf>*</pf> and <pf>.</pf> together,
-    we can use the <term>pointer member access operator</term> <pf>-></pf> (also sometimes called the <term>arrow
-    operator</term>. This operator is used to access members of an object through a pointer. You can
-    think of <pf>myPointer->getX()</pf> as saying <q>go to the thing myPointer points at and then use the getX()
-    member of that object</q>. No parentheses needed! </p>
+
+  <p>C++ provides a shorthand for this situation. Instead of using <pf>*</pf> and <pf>.</pf>
+    together, we can use the <term>pointer member access operator</term> <pf>-></pf> (also sometimes
+    called the <term>arrow operator</term>. This operator is used to access members of an object
+    through a pointer. You can think of <pf>myPointer->getX()</pf> as saying <q>go to the thing
+    myPointer points at and then use the getX() member of that object</q>. No parentheses needed! </p>
+
+  <figure>
+    <caption>The <pf>-></pf> operator follows a pointer to access the thing it points to and then
+      uses the member of that object.</caption>
+    <image source="images/pointers-object-member-access.svg"
+           width="60%">
+      <shortdescription>p points to an object. We can use -> to start from p and access the object's
+        member</shortdescription>
+    </image>
+  </figure>
+
 
   <p>So the final correct version of our simple program using the <term>pointer member access
     operator</term> would look like:</p>
 
   <listing>
-  <program label="pointers-aggregation_pointers-objects-program-2"
-           interactive="activecode"
-           compile-also="point-final-cxx">
+    <program label="pointers-aggregation_pointers-objects-program-2"
+             interactive="activecode"
+             compile-also="point-final-cxx">
 <xi:include href="../../programs/pointers-aggregation/pointers-objects-2.cpp" parse="text"/>
-  </program>
+    </program>
   </listing>
 
 
   <exercise label="pointers-aggregation_pointers-objects-ex-1">
     <statement>
-      <p>We have a pointer to a Circle object called <pf>circlePointer</pf>. Write a statement that calls the <pf>setRadius()</pf>
-        function of the Circle object that <pf>circlePointer</pf> points to and passes it the value 2. (Use the
-        arrow operator).</p>
+      <p>We have a pointer to a Circle object called <pf>circlePointer</pf>. Write a statement that
+        calls the <pf>setRadius()</pf> function of the Circle object that <pf>circlePointer</pf>
+        points to and passes it the value 2. (Use the arrow operator).</p>
       <fillin answer="circlePointer->setRadius(2);"/>
     </statement>
     <evaluation>
