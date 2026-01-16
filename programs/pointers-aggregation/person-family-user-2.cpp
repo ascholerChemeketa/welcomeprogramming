@@ -24,7 +24,7 @@ int main() {
     p6.setMother(&p5);
     p7.setMother(&p5);
 
-    // Print some Person objects
+    // Start from Henry and access some of his relatives
     Person* currentPerson = &p7;
 
     Person* mother = currentPerson->getMother();

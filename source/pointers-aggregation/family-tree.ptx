@@ -108,9 +108,10 @@
   no known mother).</p>
 
   <p>To do this, we need a way to track <q>the current person</q>. However, we need to be careful
-  about how we do this. If we use a <pf>Person</pf> object to store <q>the current person</q>, we will be making a
-  copy of whatever Person we assign to it. But we do not want to make a copies of any Person once the family
-  is set up. There should only ever be one <q>Henry</q> (the variable named <pf>p7</pf>) in the program.We need <pf>currentPerson</pf> to be
+  about how we do this. If we use a <pf>Person</pf> object to store <q>the current person</q>, we would be making a
+  copy of whatever Person we assign to it. We do not want to make a copies of any Person once the family
+  is set up. There should only ever be one <q>Henry</q> (the variable named <pf>p7</pf>) in the program. 
+  We need <pf>currentPerson</pf> to be
   an alias for one of the existing Person objects, and not a new Person. Thus we will make <pf>Person* currentPerson</pf>.
   Using that, we can point at <pf>p7</pf> and have access to the Henry object without copying it.</p>
 
