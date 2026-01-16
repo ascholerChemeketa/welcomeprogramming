@@ -15,7 +15,7 @@
   <listing>
   <program interactive="activecode"
            line-numbers="yes"
-           highlight-lines="34">
+           highlight-lines="21-23, 39-43">
 <xi:include href="../../programs/inheritance/overriding-1.cpp" parse="text"/>
   </program>
   </listing>
@@ -48,22 +48,23 @@
     </image>
   </figure>
 
-  <p>You may have noticed that there is some annoying code duplication in our two <pf>introduce()</pf>
-    functions. To add on to what the Person class does, the Student class repeats the code from
-    Person and then adds some more code. How can we avoid that?(Remember: Copy and paste is a design
-    failure!</p>
-
-  <p>What we can do is to have the <pf>Student</pf> version of <pf>introduce</pf> call the <pf>Person</pf> version. To do
-    that, we call <pf>Person::introduce()</pf> from within the <pf>Student</pf> version:</p>
-
-  <program><![CDATA[
+  <p>You may have noticed that the Student version of introduce prints the same information as the Person version and then adds another line.
+    The output still stars with "Hi, my name is ...". To get this output without duplicating code, the <pf>Student</pf> version of <pf>introduce</pf> calls the <pf>Person</pf> version:</p>
+  
+  <program line-numbers="yes" highlight-lines="2"><![CDATA[
   void introduce() const {
       Person::introduce();
       cout << "My major is " << m_major << "." << endl;
   }
   ]]></program>
 
-  <p>The order is not important - the call to the parent version can happen anywhere. Perhaps we
+  <p>That syntax allows us to call the parent version of a function from within the derived class version.</p>
+
+  <insight>
+    <p>Don't Repeat Yourself: Copy and paste is a design failure! Part of the benefit of inheritance is reusing logic in the parent class.</p>
+  </insight>
+
+  <p>The order of calls is not important - the call to the parent version can happen anywhere. Perhaps we
     want to print out the Student's major first:</p>
 
   <program><![CDATA[
@@ -73,13 +74,12 @@
   }
   ]]></program>
 
-  <p>If the function returns some data, we could store that and make use of it. Say the introduce
-    function returned a string. We might write the Student version like:</p>
+  <p>We can use the parent version's return value to build the derived version's return value. This is seen in the Student version of <pf>toString()</pf>:</p>
 
   <program><![CDATA[
-    string introduce() const {
-        string intro = Person::introduce();
-        return "My major is " + m_major + ".\n" + intro;
+    string toString() const {
+        string personStr = Person::toString();
+        return format("{}, Major: {}", personStr, m_major);
     }
   ]]></program>
 

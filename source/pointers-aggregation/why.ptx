@@ -73,11 +73,10 @@
     programmers use those features whenever possible.</p>
 
   <p>There are tools to help catch memory related issues. In the case of accessing an uninitialized
-    value, like in the program above, the compiler warning flag <pf>-Wall</pf> will normally identify the
-    problem. In most of the book it is enabled, it was intentionally disabled in the ActiveCode
-    above so we could cause problems. (You can try copying the code from this page to another page -
-    it should generate a warning there.) We will learn about tools for detecting more complex issues
-    later on.</p>
+    value, like in the program above, the compiler warning flag <pf>-Wuninitialized</pf> will normally identify the
+    problem. In that program, that warning was disabled. In most of the book it is enabled. If you try this code sample in a different ActiveCode
+    you should get an error message. There are also tools for helping to identify more complex errors
+    involving memory. We will learn about some of those tools later on in <xref ref="memory-management_detecting-leaks"/>.</p>
 
   <exercise label="pointers-aggregation_why-ex-1">
     <statement>
