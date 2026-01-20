@@ -25,8 +25,8 @@
         <cline><![CDATA[void Circle::shift(double dx, double dy) {]]></cline>
       </block>
       <block name="b" depends="a">
-        <choice>
-          <cline correct="yes"><![CDATA[    int oldX = m_center.getX();]]></cline>
+        <choice correct="yes">
+          <cline><![CDATA[    int oldX = m_center.getX();]]></cline>
         </choice>
         <choice>
           <cline><![CDATA[    int oldX = getX();]]></cline>
@@ -36,8 +36,8 @@
         </choice>
       </block>
       <block name="c" depends="a">
-        <choice>
-          <cline correct="yes"><![CDATA[    int oldY = m_center.getY();]]></cline>
+        <choice correct="yes">
+          <cline><![CDATA[    int oldY = m_center.getY();]]></cline>
         </choice>
         <choice>
           <cline><![CDATA[    int oldY = getY();]]></cline>
