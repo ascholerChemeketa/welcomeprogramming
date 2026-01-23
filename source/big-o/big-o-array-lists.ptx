@@ -1,0 +1,299 @@
+<section xml:id="big-o_array-lists"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Analyzing Array Based Lists</title>
+
+  <subsection>
+    <title>Time Complexity of Array Based List Operations</title>
+  <p>
+    Now that we have seen how to analyze the time complexity of various code constructs, we can apply that knowledge to figure out the time complexity of common operations on array based lists. As we do so, remember that accessing a single element in an array takes constant time, <m>O(1)</m>, because we can compute the memory address of any element directly using its index.
+  </p>
+
+  <p>
+    Most operations on an array based list either take constant time, <m>O(1)</m>, or linear time, <m>O(n)</m>. Any operation that involves shifting elements in the array will take linear time, because in the worst case we might have to move all n elements. Operations that just involve accessing or modifying a single element, or adding an element to the end of the list (when there is enough capacity), will take constant time.
+  </p>
+
+  <p>Any algorithm that does not involve a loop or function call takes constant time, <m>O(1)</m>. This includes algorithms like:</p>
+
+    <program><![CDATA[
+T ArrayList<T>::get(int location) const {
+    return m_arr[location];
+}
+
+void ArrayList<T>::set(int location, const T& newValue) {
+    m_arr[location] = newValue;
+}
+
+void ArrayList<T>::removeEnd() {
+    m_size--;
+}
+    ]]></program>
+
+  <p>
+    The algorithms that involve loops generally take linear time, <m>O(n)</m>. Even though the loops in something like <pf>insertAt</pf> and <pf>removeAt</pf> do not always run n times, in the worst case they might have to move all n elements (if we are inserting or removing at the start of the list). Therefore, we say that these operations take linear time, <m>O(n)</m>.
+  </p>
+
+  <p>Even an average case for these operations would involve moving some percentage of the overall elements. If we assume that on average items are inserted at the middle of the list, than each insertion only has to move half of the elements, or <m>n/2</m>. But half of <m>n</m> is still <m>O(n)</m>.</p>
+  
+  <program>
+<![CDATA[
+void ArrayList<T>::insertAt(int location, const T& insertItem) {
+    // Shift elements up to make room for the new item
+    for (int i = m_size; i > location; --i) {   // O(n)
+        m_arr[i] = m_arr[i - 1];                   // O(1)
+    }
+    m_arr[location] = insertItem;               // O(1)
+    ++m_size;                                   // O(1)
+}
+]]>
+  </program>
+
+
+  <insight>
+    <p>If the job is harder when there are more items, then the time complexity is likely linear, <m>O(n)</m>. If not, then it is <m>O(1)</m>.</p>
+  </insight>
+  
+  </subsection>
+
+  <subsection>
+    <title>Insert End and Amortized Time</title>
+    <p>There is one tricky case for analyzing the efficiency of array based lists: inserting at the end.</p>
+
+    <p>Most of the time, we have space already allocated in the array. So we can place the value at the next available position and then increment the size. Both of these operations take constant time, <m>O(1)</m>.</p>
+
+    <p>However, if the array is full, we have to resize it first by calling a function like <pf>grow</pf>. Resizing involves allocating a new, larger array, and then copying all the existing elements to the new array. This copying step takes linear time, <m>O(n)</m>, because we have to copy all n existing elements.</p>
+
+    <p>So inserting at the end sometimes takes constant time, <m>O(1)</m>, and sometimes takes linear time, <m>O(n)</m>. To analyze this situation, we use a concept called amortized time. The idea is to look at the average time taken over a sequence of operations.</p>
+
+    <p>
+      When we double the size of the array each time we resize, we can show that the average time per insertion is still constant time, <m>O(1)</m>. To see why, consider a sequence of insertions starting with an empty list and an initial capacity of 1. We will count each insertion as taking 1 unit of time. When we have to resize, we will count each copy operation as taking 1 unit of time as well.
+      <ul>
+        <li>The first insertion takes 1 unit of time to insert.</li>
+        <li>The second insertion requires a resize. First we copy the 1 existing element into an array of size 2, which takes 1 unit of time, and then we insert the new element, which takes another unit of time.</li>
+        <li>The third insertion also requires a resize. We copy the 2 existing elements into an array of size 4, which takes 2 units of time, and then insert the new element, which takes 1 unit of time.</li>
+        <li>The fourth insertion takes 1 unit of time to insert.</li>
+        <li>The fifth insertion requires a resize. We copy the 4 existing elements into an array of size 8, which takes 4 units of time, and then insert the new element, which takes 1 unit of time.</li>
+        <li>And so on...</li>
+      </ul>
+    </p>
+
+    <p>In table form, it looks like:</p>
+
+    <tabular halign="center">
+      <row header="yes" bottom="minor">
+        <cell>Insertion #</cell>
+        <cell>Copy Work</cell>
+        <cell>Insertion Work</cell>
+        <cell>Work In This Step</cell>
+        <cell>Total Work So Far</cell>
+      </row>
+      <row>
+        <cell>1</cell>
+        <cell>0</cell>
+        <cell>1</cell>
+        <cell>1</cell>
+        <cell>1</cell>
+      </row>
+      <row>
+        <cell>2</cell>
+        <cell>1</cell>
+        <cell>1</cell>
+        <cell>2</cell>
+        <cell>3</cell>
+      </row>
+      <row>
+        <cell>3</cell>
+        <cell>2</cell>
+        <cell>1</cell>
+        <cell>3</cell> 
+        <cell>6</cell>
+      </row>
+      <row>
+        <cell>4</cell>
+        <cell>0</cell>
+        <cell>1</cell>
+        <cell>1</cell>
+        <cell>7</cell>
+      </row>
+      <row>
+        <cell>5</cell>
+        <cell>4</cell>
+        <cell>1</cell>
+        <cell>5</cell>
+        <cell>12</cell>
+      </row>
+      <row>
+        <cell>6</cell>
+        <cell>0</cell>
+        <cell>1</cell>
+        <cell>1</cell>
+        <cell>13</cell>
+      </row>
+      <row>
+        <cell>7</cell>
+        <cell>0</cell>
+        <cell>1</cell>
+        <cell>1</cell>
+        <cell>14</cell>
+      </row>
+      <row>
+        <cell>8</cell>
+        <cell>0</cell>
+        <cell>1</cell>
+        <cell>1</cell>
+        <cell>15</cell>
+      </row>
+      <row>
+        <cell>9</cell>
+        <cell>8</cell>
+        <cell>1</cell>
+        <cell>9</cell>
+        <cell>24</cell>
+      </row>
+    </tabular>
+
+    <p>To figure out the worst case, we can focus on the insertions where an array resize occurs. Since we grow by doubling from 1 to 2 to 4 to 8 to 16 and so on, which are powers of 2, the most expensive insertions are all at these powers of 2 + 1. 2, 3, 5, 9, 17, ... will be the points at which we have just spent the most time. The steps that come after those are the ones that get to take advantage of the extra space that is then available.</p>
+
+    <p>Focusing on just those, and adding a few more rows to look for a pattern gives us:</p>
+
+    <tabular halign="center">
+      <row header="yes" bottom="minor">
+        <cell>Insertion #</cell>
+        <cell>Copy Work</cell>
+        <cell>Insertion Work</cell>
+        <cell>Work In This Step</cell>
+        <cell>Total Work So Far</cell>
+      </row>
+      <row>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+      </row>
+      <row>
+        <cell>3</cell>
+        <cell>2</cell>
+        <cell>1</cell>
+        <cell>3</cell> 
+        <cell>6</cell>
+      </row>
+      <row>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+      </row>
+      <row>
+        <cell>5</cell>
+        <cell>4</cell>
+        <cell>1</cell>
+        <cell>5</cell>
+        <cell>12</cell>
+      </row>
+      <row>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+      </row>
+      <row>
+        <cell>9</cell>
+        <cell>8</cell>
+        <cell>1</cell>
+        <cell>9</cell>
+        <cell>24</cell>
+      </row>
+      <row>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+      </row>
+      <row>
+        <cell>17</cell>
+        <cell>16</cell>
+        <cell>1</cell>
+        <cell>17</cell>
+        <cell>48</cell>
+      </row>
+      <row>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+        <cell>...</cell>
+      </row>
+      <row>
+        <cell>33</cell>
+        <cell>32</cell>
+        <cell>1</cell>
+        <cell>33</cell>
+        <cell>96</cell>
+      </row>
+      </tabular>
+      <p>Carefully compare the insertion number to the total work so far at that step. Notice that the formula <md>\text{totalWork} = 3 \cdot \text{insertionNumber} - 3</md> could be used to predict the total work value.</p>
+
+      <p>In Big-O terms, the work done is <m>3 \cdot n - 3</m> where <m>n</m> is the number of insertions done. The constant factors can be ignored, so the time complexity is <m>O(n)</m>.</p>
+
+      <p>If adding <m>n</m> elements to the list requires <m>O(n)</m> work, then the average work per insertion is <m>O(1)</m>.</p>
+
+      <note>
+        <p>Insert End is <m>O(1)</m> when averaged over a sequence of operations. Any one particular insertion might take <m>O(n)</m> time if it requires resizing the array.</p>
+        <p>But any time we are talking about a series of insertions, we can consider the average time per insertion. We do not have to say the <m>n</m> insertions will each take <m>O(n)</m> time, which would be <m>O(n^2)</m> total.</p>
+      </note>
+
+      <insight>
+        <p>Another way to think about it is that we will <q>pay</q> 3 units of work for each insertion. One unit gets done right away. The other get <q>saved up</q> to pay for the copying work when a resize happens.</p>
+        <p>If you make a table where you track <q>amount saved</q>, and add 2 to that value at each step, then reduce it by the amount of copying work when a resize happens, you will see that the amount saved never goes negative. Paying 3 units, a constant amount, for each insertion covers all of our work.</p>
+      </insight>
+
+      <p>This analysis depends on our array size doubling with each grow. As long as at each grow, we multiply the size by a constant factor greater than 1, the amortized time for insertions at the end remains <m>O(1)</m>. So we could triple the size each time and still have the same amortized time complexity.</p>
+
+      <p>However, if we only added a constant amount to the size each time we grow, by say adding space for 10 more items. There would be too many grow operations. There would be no way to amortize the cost and claim that there is an average <m>O(1)</m> time per insertion.</p>
+
+      <warning>
+        <p>We must grow by doubling (or some other size multiplier) to get efficient average insertion time.</p>
+      </warning>
+
+      <p>
+        In practice, it is good to avoid frequently resizing. If you know you will be adding 10,000 items to an array based list, it is better to request that it grows once to that size, rather than letting it grow multiple times as items are added. <pf>std::vector</pf> provides a <pf>reserve</pf> function for this purpose. It allows you to request that the vector allocate enough space for a certain number of items ahead of time.
+      </p>
+
+  </subsection>
+
+  <subsection>
+    <title>Summary</title>
+    
+    <p>Here are the final time complexities for common operations on array based lists.</p>
+  <table>
+    <title>Time Complexity of Array based List Operations</title>
+    <tabular row-headers="yes" halign="center" bottom="minor">
+      <row header="yes">
+        <cell>Insert at Start</cell>
+        <cell>Remove at Start</cell>
+        <cell>Insert at End</cell>
+        <cell>Remove at End</cell>
+        <cell>Access at Index</cell>
+        <cell>Insert/Remove at Index</cell>
+        <cell>Find Size</cell>
+        <cell>Clear List</cell>
+      </row>
+      <row>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(1)</m><fn>amortized time</fn></cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(1)</m></cell>
+      </row>
+      </tabular>
+    </table>
+  </subsection>
+
+</section>
