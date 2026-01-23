@@ -24,7 +24,7 @@ int main() {
     p6.setMother(&p5);
     p7.setMother(&p5);
 
-    // Print some Person objects
+    // Start at Henry and walk up the family tree
     Person* currentPerson = &p7;
 
     while (currentPerson != nullptr) {

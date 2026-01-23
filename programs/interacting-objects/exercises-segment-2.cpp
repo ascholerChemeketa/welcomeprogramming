@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 
-import Point;
+#include "Point.h"
 
 using namespace std;
 

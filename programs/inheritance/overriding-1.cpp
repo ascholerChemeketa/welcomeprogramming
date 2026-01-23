@@ -1,3 +1,4 @@
+#include <format>
 #include <iostream>
 #include <string>
 using namespace std;
@@ -20,6 +21,10 @@ public:
     void introduce() const {
         cout << "Hi, my name is " << m_name << " and I am " << m_age << " years old." << endl;
     }
+
+    string toString() const {
+        return format("Name: {}, Age: {}", m_name, m_age);
+    }
 };
 
 class Student : public Person {
@@ -32,12 +37,18 @@ public:
     }
 
     void introduce() const {
-        cout << "Hi, my name is " << m_name << " and I am " << m_age << " years old." << endl;
+        // call the Person version of introduce
+        Person::introduce();
         cout << "My major is " << m_major << "." << endl;
+    }
+
+    string toString() const {
+        string personStr = Person::toString();
+        return format("{}, Major: {}", personStr, m_major);
     }
 };
 
 int main() {
     Student s("Alex", 20, "Computer Science");
-    s.introduce();  // inherited from Person
+    s.introduce();
 }

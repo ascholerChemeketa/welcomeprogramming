@@ -24,14 +24,18 @@ int main() {
     p6.setMother(&p5);
     p7.setMother(&p5);
 
-    // Print some Person objects
+    // Start from Henry and access some of his relatives
     Person* currentPerson = &p7;
 
     Person* mother = currentPerson->getMother();
-    cout << "Henry's mother: ";
+    cout << "Henry's mother: " << endl;
     mother->print();
 
     Person* grandmother = mother->getMother();
-    cout << "Henry's grandmother: ";
+    cout << "Henry's grandmother: " << endl;
     grandmother->print();
+    
+    Person* grandmothersChild = grandmother->getChild(0);
+    cout << "Henry's grandmother's first child: " << endl;
+    grandmothersChild->print();
 }
