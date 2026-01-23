@@ -11,24 +11,25 @@
     going wrong.</p>
 
   <listing>
-  <program interactive="activecode"
+  <program label="inheritance_inheritance-access-program-1"
+           interactive="activecode"
            autorun="yes"
-           highlight-lines="25-26, 30">
+           line-numbers="yes"
+           highlight-lines="7-8, 11, 32-33">
 <xi:include href="../../programs/inheritance/inheritance-access-1.cpp" parse="text"/>
   </program>
   </listing>
 
-  <p>Trying to run that code produces a cascading mess of errors. But the key ones to pay attention
-    to are the ones that look like this:</p>
+  <p>Trying to run that code produces a cascading mess of errors. First let's focus on this one:</p>
 
   <console>
-    <output>test.cpp:25:9: error: ‘std::string Person::m_name’ is private within this context
-      25 |         m_name = name;
+    <output>test.cpp:32:9: error: ‘std::string Person::m_name’ is private within this context
+      32 |         m_name = name;
          |         ^~~~~~
     </output>
   </console>
 
-  <p>That error is happening in the constructor of <pf>Student</pf> (highlighted in the code). Even though
+  <p>That error is happening in the constructor of <pf>Student</pf> (line 32, highlighted in the code). Even though
     the <pf>Student</pf> class inherits from <pf>Person</pf> it cannot access the private members of <pf>Person</pf>.
     Recall that <pf>private</pf> is enforced at the class level, not for individual objects. One Person can
     access the private members of another Person, but a Student cannot access the private members of
@@ -44,39 +45,40 @@
   </insight>
 
   <p>One way to fix this is to do what we would with composition - to rely on public functions to
-    access Person variables from Student. TIf we add a public <pf>Person::getName()</pf> function, we can call it in Student to access the name.</p>
+    access Person variables from Student. If we add a public <pf>Person::getName()</pf> function, we can call it in Student to access the name.</p>
   
-    <p>The other error messages above were focused on the constructor itself:</p>
+    <p>The other error messages focused on the constructor itself:</p>
   
 <console>
   <output>
 test.cpp: In constructor ‘Student::Student(std::string, int, std::string)’:
-test.cpp:24:49: error: no matching function for call to ‘Person::Person()’
-   24 |     Student(string name, int age, string major) {
+test.cpp:31:49: error: no matching function for call to ‘Person::Person()’
+   31 |     Student(string name, int age, string major) {
       |                                                 ^
   </output>
 </console>
 
-    <p>This is the same issue we had with composition. The constructor for Student needs to set up the
-    Person part of the object. Since we have not said how to do that, the compiler tries to
-    automatically call the no-argument constructor for Person. But we don't have a no-argument
+    <p>We saw a similar issue when exploring constructors and composition. 
+    The constructor for Student needs to set up the
+    Person part of the object. Since we have not said how to do that, the compiler
+    automatically calls the no-argument constructor for Person. But we don't have a no-argument
     constructor for Person. So we get an error.</p>
 
-  <p>To fix this, we need to add a constructor to Person that takes the name and age as arguments.
-    Then we can call that constructor from the Student constructor's initialization list.</p>
+  <p>To fix this,we need to call the Person constructor from the Student constructor's initialization list. To do so, we add <pf>: Person(name, age)</pf> after the constructor signature.</p>
 
     <p>This version of the code has both of those fixes:</p>
 
   <listing>
-  <program interactive="activecode"
-           high-lines="30, 35">
+  <program label="inheritance_inheritance-access-program-2" 
+  interactive="activecode"
+           line-numbers="yes"
+           highlight-lines="30, 35">
 <xi:include href="../../programs/inheritance/inheritance-access-2.cpp" parse="text"/>
   </program>
   </listing>
 
   <p> The <pf>: Person(name, age)</pf> on line 30 says <q>call the constructor of the base class Person with the
-    arguments name and age</q>.  That means the code will not try to call the no-arg <pf>Person()</pf> constructor since
-  we have specified how to initialize the base class. And it means that we don't have to try to set the inherited private variables from inside Student.</p>
+    arguments name and age</q>.  Because we are making that call, the compiler won't try to call the no-argument constructor for Person (which doesn't exist).</p>
 
     <p>Then, on line 35, we can use a public getter to access the name
     from the Person object.</p>
