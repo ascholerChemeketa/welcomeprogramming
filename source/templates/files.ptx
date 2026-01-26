@@ -13,15 +13,15 @@
     it, and we want to make sure that only one instance of the function is created.</p>
 
   <p>However, templated code is not compiled directly. It instead provides a blueprint for
-    generating code. If you try to put the templated code in a separate file (call it <pf>library.cpp</pf>),
-    the compiler will do the following: <ul>
-      <li>Compile <pf>library.cpp</pf> and see something like <pf>template&lt;typename T> myMax(T a, T b)...</pf> but it won't know what types to build
-    versions of that function for.</li>
-      <li>Compile <pf>main.cpp</pf> and try to use <pf>myMax</pf> with a specific type like <pf>int</pf>. But since
-    the definition is not available, it won't be able to generate the code.</li>
-    </ul> In the
-    place the template definition is available, the compiler does not know what to build, and in the
-    place where it knows what to build, the definition is not available! </p>
+    generating code. If you try to put the templated code in a separate file (call it <pf>
+    library.cpp</pf>), the compiler will do the following: <ul>
+      <li>Compile <pf>library.cpp</pf> and see something like <pf>template&lt;typename T> myMax(T a,
+    T b)...</pf> but it won't know what types to build versions of that function for.</li>
+      <li>Compile <pf>main.cpp</pf> and try to use <pf>myMax</pf> with a specific type like <pf>int</pf>.
+    But since the definition is not available, it won't be able to generate the code.</li>
+    </ul>
+    In the place the template definition is available, the compiler does not know what to build, and
+    in the place where it knows what to build, the definition is not available! </p>
 
   <figure>
     <caption>A failed attempt to compile templated code.</caption>
@@ -49,8 +49,9 @@
   </figure>
 
   <p>This means that if you have a library of templated code, you will likely not even need a
-    separate .cpp file for implementations as they all should be in the header. Instead of <pf>myTemplatedLibrary.h</pf>
-    and <pf>myTemplatedLibrary.cpp</pf> you would likely just have <pf>myTemplatedLibrary.h</pf>.</p>
+    separate .cpp file for implementations as they all should be in the header. Instead of <pf>
+    myTemplatedLibrary.h</pf> and <pf>myTemplatedLibrary.cpp</pf> you would likely just have <pf>
+    myTemplatedLibrary.h</pf>.</p>
 
   <listing>
     <caption>MyTemplatedLibrary.hpp</caption>
@@ -70,16 +71,22 @@
         pairs to organize code?</p>
     </statement>
     <choices>
-          <choice correct="yes">
-            <p>In the header file. There is no separate cpp file for templated code.</p>
-          </choice>
-          <choice>
-            <p>In the cpp file. There is no header for templated code.</p>
-          </choice>
-          <choice>
-            <p>In both header and cpp files.</p>
-          </choice>
-        </choices>
-        </exercise>
+      <choice correct="yes">
+        <statement>
+          <p>In the header file. There is no separate cpp file for templated code.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>In the cpp file. There is no header for templated code.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>In both header and cpp files.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>
