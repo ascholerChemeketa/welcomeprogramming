@@ -2,6 +2,8 @@
 
 };  // end of Friend class
 
+//doctest.h already included
+
 TEST_CASE("bestieCheck no friend") {
     Friend f1("Bob", nullptr);
     bool isBesties = f1.bestieCheck();

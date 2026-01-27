@@ -5,6 +5,7 @@
     }
 };
 
+//doctest.h already included
 
 TEST_CASE("Test Segment Shift") {
     Point A(0, 0);

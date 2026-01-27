@@ -13,3 +13,5 @@
     string f4Name = f1.getFriend()->getFriend()->getFriend()->getName();
     CHECK(f4Name == "Ronnie");
 }
+
+//doctest.h already included

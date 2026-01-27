@@ -6,6 +6,8 @@
 };
 
 
+//doctest.h already included
+
 TEST_CASE("Test Segment Aggregation") {
     Point A(0, 0);
     Point B(4, 4);
