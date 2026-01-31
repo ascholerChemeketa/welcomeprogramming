@@ -29,6 +29,17 @@ Used for custom overrides and temporary patches
   <!-- <xsl:import href="../../../pretext/xsl/pretext-html.xsl"/> -->
   <xsl:import href="./core/pretext-html.xsl"/>
 
+<xsl:template match="interactive[@platform = 'javascript']/script[@type]">
+    <script>
+        <xsl:if test="@type">
+          <xsl:attribute name="type">
+            <xsl:value-of select="@type"/>
+          </xsl:attribute>
+        </xsl:if>
+        <xsl:value-of select="."/>
+    </script>
+</xsl:template>
+
   <!-- wide interactives -->
   <xsl:template match="interactive[@iframe]" mode="iframe-interactive">
       <!-- Distinguish netowk location versus (external) file -->
