@@ -103,23 +103,36 @@
     memory and copies the contents of the original array into it. Once the copy is made, changing
     either array will not affect the other.</p>
 
+
+  <warning>
+    <p>It should be clear that arrays are a very low-level way of working with memory.
+    </p>
+    <p>
+      In C programming, there
+      are no vectors available, so arrays are the way we store a list of items. In
+      C++, we have the option to use the Standard Template Library (STL) which provides higher-level
+      abstractions like <pf>std::vector</pf> and <pf>std::array</pf>.</p>
+    <p>We will only generally use plain arrays while learning to build data structures like vectors that
+      manage the array for us.</p>
+  </warning>
+
   <exercise label="memory-management_using-arrays-ex-1">
     <statement>What does <pf>int* copy = myArray;</pf> do?</statement>
     <choices>
-      <choice correct="yes">It creates a new pointer <pf>copy</pf> that points to the same array as <pf>myArray</pf>
-        .</choice>
-      <choice>It allocates memory for a new array but does not initialize it.</choice>
-      <choice>It creates a new array and copies the contents of <pf>myArray</pf> into it.</choice>
+      <choice correct="yes"><statement><p>It creates a new pointer <pf>copy</pf> that points to the same array as <pf>myArray</pf>
+        .</p></statement></choice>
+      <choice><statement><p></p>It allocates memory for a new array but does not initialize it.</choice>
+      <choice><statement><p>It creates a new array and copies the contents of <pf>myArray</pf> into it.</choice>
     </choices>
   </exercise>
 
   <exercise label="memory-management_using-arrays-ex-2">
-    <statement>In <pf>int* myArray = int[100];</pf> what best describes what is stored in <pf>myArray</pf>?</statement>
+    <statement><p>In <pf>int* myArray = int[100];</pf> what best describes what is stored in <pf>myArray</pf>?</p></statement>
     <choices>
-      <choice correct="yes">The memory address of a block of memory with space for 100 integers.</choice>
-      <choice>An array of 100 integers.</choice>
-      <choice>A block of memory with space for 100 integers.</choice>
-      <choice>A block of 100 memory addresses.</choice>
+      <choice correct="yes"><statement><p>The memory address of a block of memory with space for 100 integers.</p></statement></choice>
+      <choice><statement><p>An array of 100 integers.</p></statement></choice>
+      <choice><statement><p>A block of memory with space for 100 integers.</p></statement></choice>
+      <choice><statement><p>A block of 100 memory addresses.</p></statement></choice>
     </choices>
   </exercise>
 

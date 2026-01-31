@@ -106,15 +106,15 @@
     <p>Arrays can also be allocated on the stack as a local variable. To do that, we don't use <pf>new</pf>
       and we put the size of the array after the variable name:</p>
     <program>int data[1000];</program>
-    <p>Arrays placed on the stack have a major limitation: the size of an array put on the stack
-      must be known at compile time (i.e. a literal number or constant expression). So you can't use
+    <p>Arrays placed on the stack have major limitations:
+      <ul>
+        <li>The size of an array put on the stack must be known at compile time (i.e. a literal number or constant expression). So you can't use
       a variable to declare the size. Trying to write <pf>int data[dataCount]</pf> where <pf>dataCount</pf> is a variable is a
-      compile error as the compiler does not know how much space to allocate.</p>
-    <p>Plain arrays are a very low-level way of working with memory. In plain C programming, there
-      are no vectors available, so they are the only tool available for storing a list of items. In
-      C++, we have the option to use the Standard Template Library (STL) which provides higher-level
-      abstractions like <pf>std::vector</pf> and <pf>std::array</pf>.</p>
-    <p>In this book we will only be using heap allocated arrays.</p>
+      compile error as the compiler does not know how much space to allocate.</li>
+        <li>The total size of all stack variables is limited (often to a few megabytes). Putting a large array on the stack can lead to a stack overflow error.</li>
+      </ul>
+      In this book we will almost always be using heap allocated arrays.
+    </p>
   </note>
 
 </section>
