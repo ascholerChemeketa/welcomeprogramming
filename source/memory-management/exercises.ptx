@@ -77,10 +77,10 @@
 
   <exercise label="memory-management_exercises-ex-4">
     <statement>
-      <p>The class <pf>NumberWrapper</pf> manages a single integer value on the heap. (Which is admittedly a kind
+      <p>The class <pf>NumberWrapper</pf> manages an array of two integer values on the heap. (Which is admittedly a kind
         of silly thing to do.)</p>
-      <p>Implement the copy constructor for `NumberWrapper. It is declared inside the class, you
-        will implement it outside the class (at line 36). It should make a deep copy of the managed
+      <p>Implement the copy constructor for <pf>NumberWrapper</pf>. It is declared inside the class, you
+        will implement it outside the class (at line 42). It should make a <term>deep copy</term> of the managed
         memory.</p>
     </statement>
     <program interactive="activecode"
@@ -90,7 +90,6 @@
         </preamble>
         <code>
 
-
 //YOUR CODE HERE
 
         </code>
@@ -99,21 +98,16 @@
         </tests>
     </program>
     <hint>
-      <p><pf>m_myAddress</pf> is the memory address of the managed value. <pf>*m_myAddress</pf> is how you access the value
-        from the heap. To get the value from other you can use <pf>other.getNum()</pf>.</p>
-    </hint>
-    <hint>
-      <p>You do not need a loop, but you still will need to allocate new memory for the copy and
-        then copy the value from the original object to the new one.</p>
+      <p>Make sure to do a deep copy. Allocate your own array and then copy the values one by one from the original.</p>
     </hint>
   </exercise>
 
   <exercise label="memory-management_exercises-ex-5">
     <statement>
-      <p>The class <pf>NumberWrapper</pf> manages a single integer value on the heap. (Which is admittedly a kind
+      <p>The class <pf>NumberWrapper</pf> manages an array of two integer values on the heap. (Which is admittedly a kind
         of silly thing to do.)</p>
-      <p>Implement the assignment operator `NumberWrapper. It is declared inside the class, you will
-        implement it outside the class (at line 36). It should make a deep copy of the managed
+      <p>Implement the assignment operator <pf>NumberWrapper</pf>. It is declared inside the class, you will
+        implement it outside the class (at line 42). It should make a <term>deep copy</term> of the managed
         memory.</p>
       <p>Don't forget to check for self-assignment! If you have a use after free error, it could be
         due to not handling self-assignment correctly.</p>
@@ -134,12 +128,10 @@
         </tests>
     </program>
     <hint>
-      <p><pf>m_myAddress</pf> is the memory address of the managed value. <pf>*m_myAddress</pf> is how you access the value
-        from the heap.</p>
+      <p>Make sure to check for self assignment, delete your old memory, allocate new memory, and copy the values.</p>
     </hint>
     <hint>
-      <p>You do not need a loop, but you still will need to allocate new memory for the copy and
-        then copy the value from the original object to the new one.</p>
+      <p>You need to return <pf>*this</pf>.</p>
     </hint>
   </exercise>
 

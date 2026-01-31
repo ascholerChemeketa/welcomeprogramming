@@ -54,6 +54,28 @@
       not know if the address points at data that should be treated as a double, an int, or a
       Circle.</p>
   </note>
+  
+  <note>
+    <p>
+      Much like references, pointers can be declared <q>const</q>. But, there is an added wrinkly: you can declare either the data it points to as <q>const</q>, meaning you can't change the data through the pointer, or the pointer itself as <q>const</q>, meaning the memory address the pointer has can't be changed. You can even declare both the pointer and the data it points at as being const. Here are some examples:
+      <ul>
+        <li>
+          <p><pf>int* const p = &amp;x</pf> p is a constant pointer to an int, meaning the pointer itself cannot be changed to point to another int, but the int it points to (<pf>x</pf>) can be modified.</p>
+        </li>
+        <li>
+          <p><pf>const int* p = &amp;x</pf> p is a pointer to a constant int, meaning the int it points to cannot be modified through the pointer, but the pointer itself can be changed to point to another int.</p>
+        </li>
+        <li>
+          <p><pf>const int* const p = &amp;x</pf> p is a constant pointer to a constant int, meaning neither the pointer nor the int it points to can be modified.</p>
+        </li>
+      </ul>
+      Remember that it helps to read these declarations from right to left to understand what is constant.
+    </p>
+
+    <p>
+      We will not be making use of const pointers in this book.
+    </p>
+  </note>
 
   <exercise label="pointers-aggregation_pointers-types-ex-1">
     <statement>

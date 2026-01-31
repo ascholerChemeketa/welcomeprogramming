@@ -3,6 +3,100 @@
 
   <title>Exercises</title>
 
-  <!-- TODO: Add exercises for templates and array lists -->
+
+  <exercise label="templates-array-list_exercises-ex-1">
+    <statement>
+      <p>Write a templated function <pf>doubleIt</pf> with one parameter that doubles the value by adding it to itself and returns the answer.</p>
+      <p>For example:
+<pf>doubleIt(3.5)</pf> should produce <c>7.0</c>
+<pf>doubleIt("hello")</pf> should produce <c>"hellohello"</c></p>
+    </statement>
+    <program interactive="activecode"
+             extra-compiler-args="-fsanitize=address -g">
+        <preamble>
+<xi:include href="../../programs/templates-array-list/exercises-ex1-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+//YOUR CODE HERE
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/templates-array-list/exercises-ex1-end.cpp" parse="text"/>
+        </tests>
+    </program>
+  </exercise>
+
+  
+  <exercise label="templates-array-list_exercises-ex-2">
+    <statement>
+      <p>Write a templated function <pf>sumList</pf> that will take in a vector of the template type. It should sum up all the elements using <pf>+</pf> then return the total.</p>
+    </statement>
+    <program interactive="activecode"
+             extra-compiler-args="-fsanitize=address -g">
+        <preamble>
+<xi:include href="../../programs/templates-array-list/exercises-ex2-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+//YOUR CODE HERE
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/templates-array-list/exercises-ex2-end.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>
+      <p>Use <pf>T sum{};</pf> to default initialize a sum variable of any type.</p>
+    </hint>
+  </exercise>
+
+  
+  <exercise label="templates-array-list_exercises-ex-3">
+    <statement>
+      <p>Write a templated function <pf>countMatches</pf> that will take in a vector of the template type and a value of the same type. It should return the number of elements in the vector that match the given value.</p>
+    </statement>
+    <program interactive="activecode"
+             extra-compiler-args="-fsanitize=address -g">
+        <preamble>
+<xi:include href="../../programs/templates-array-list/exercises-ex3-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+//YOUR CODE HERE
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/templates-array-list/exercises-ex3-end.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>
+      <p>Your return type won't be <pf>T</pf>, it will always be an integer.</p>
+    </hint>
+  </exercise>
+
+  
+  <exercise label="templates-array-list_exercises-ex-4">
+    <statement>
+      <p>Make a templated struct <pf>ItemCounter</pf>. An item counter should store <pf>item</pf>, a value  of the templated type, and an <pf>int count</pf>, representing the number of that item. For instance, an <pf>ItemCounter&lt;string&gt;</pf> could store the string <c>"apple"</c> and the number <c>3</c>.</p>
+    </statement>
+    <program interactive="activecode"
+             extra-compiler-args="-fsanitize=address -g">
+        <preamble>
+<xi:include href="../../programs/templates-array-list/exercises-ex4-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+//YOUR CODE HERE
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/templates-array-list/exercises-ex4-end.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>
+      <p>Your return type won't be <pf>T</pf>, it will always be an integer.</p>
+    </hint>
+  </exercise>
 
 </section>

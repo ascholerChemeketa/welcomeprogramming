@@ -1,0 +1,80 @@
+<section xml:id="linked-lists_library-search"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Standard Searches and Sorts</title>
+
+  <introduction>
+
+    <p>Back in <xref ref="practical-programming"/> we introduced the <pf>std</pf> library search and
+      sort algorithms. But, at that time we did not explore them in depth. Now that we have a better
+      understanding of various search and sort algorithms, Big-O notation, and other important
+      considerations, we can take a closer look at these standard algorithms.</p>
+
+      <p>Documentation for all of the algorithms discussed below can be found on <url href="https://en.cppreference.com/w/cpp/algorithm">cppreference.com</url>.</p>
+  </introduction>
+
+  <subsection>
+    <title>Searches</title>
+
+  <p>The <pf>std::find</pf> and <pf>std::find_last</pf> do linear searches of a container looking for a specific
+    value. There is a <pf>std::search</pf> which is called with four iterators:</p>
+
+  <program>
+    ForwardIt std::search( ForwardIt first, ForwardIt last,
+                           ForwardIt s_first, ForwardIt s_last );
+  </program>
+
+  <p>It searches for a sequence of values defined by the range <c>[s_first, s_last)</c> within the range <c>[first, last)</c>.
+    Thus, we could use it to search for <pf>{10, 4, 13}</pf> within a vector of integers or a sequence of
+    characters within a string.</p>
+
+  <note>
+    <p>When defining ranges, that the <c>[</c> or <c>]</c> symbol is inclusive and the <c>(</c> or <c>)</c>
+      symbol is exclusive. So the range <c>[first, last)</c> includes the element pointed to by <c>first</c> but not
+      the element pointed to by <c>last</c>.</p>
+  </note>
+
+  <p>There is a <pf>std::binary_search</pf> which performs a binary search on a sorted range:</p>
+
+  <program>
+    bool std::binary_search( ForwardIt first, ForwardIt last,
+                             const T&amp; value );
+  </program>
+
+  <p>As the name implies, it performs a binary search on a sorted range in <m>O(\log n)</m> time. But it only returns true or false, indicating whether the value is present in the range. If you
+    want to find the position of the value, you can use <pf>std::lower_bound</pf> or <pf>std::upper_bound</pf>
+    that return iterators to the position of the first value not less than (lower bound) or greater
+    than the given value (upper bound), respectively.</p>
+    
+  <program>
+    Iterator std::lower_bound( ForwardIt first, ForwardIt last,
+                                const T&amp; value );
+  </program>
+
+  <p>Note that both algorithms return the closest iterator to the value, not a boolean indicating presence. So if you search <pf>{5, 10, 15, 20, 25}</pf> for 19 using <pf>upper_bound</pf> you would get an iterator pointing to 15, the first value that is not greater than 19. You would then need to test the value at that location to determine if the exact value you want is present.</p>
+    
+  </subsection>
+
+  <subsection>
+    <title>Sorts</title>
+
+  <p>The <pf>std::sort</pf> sorts a range in <m>O(n \log n)</m> time. The implementation of it usually does not use a single strategy. A common implementation strategy is something known as <q>introsort</q> which starts with quicksort and switches to a different strategy when the recursion depth exceeds <m>~\log n</m>. (The different strategy is often <term>heapsort</term>, an algorithm we will cover later.) Once a range being sorted in a recursive call gets small enough, it uses insertion sort to finish the job.</p>
+
+  <p>This blend of strategies takes advantage of the good constant factors of quicksort, while allowing us to avoid the worst-case <m>O(n^2)</m> behavior. If we reach <m>~\log n</m> recursion depth, we might be headed towards the case where we end up recursing all the way down to <m>n</m> levels of recursion. To avoid that, we switch to heapsort which is guaranteed to only do <m>\log n</m> levels. Even if we do <m>\log n + \log n</m> recursive levels, that still is <m>O(\log n)</m>.</p>
+
+  <p>Once we get to a very small portion of a list, we are no longer concerned about the asymptotic complexity. At that size, insertion sort is often more efficient due to its low overhead and good cache performance.</p>
+
+  <p>
+    The <pf>sort</pf> algorithm is not stable. If you need a stable sort, you can use <pf>std::stable_sort</pf> which guarantees that the relative order of equal elements is preserved. It tries to allocate a buffer (temporary memory) equal in size to the range being sorted. If it can get that memory, it uses a merge sort algorithm that guarantees <m>O(n \cdot \log n)</m> performance. If that memory cannot be allocated, it falls back to an in-place sort algorithm that takes <m>O(n \cdot \log^2 n)</m> time.
+  </p>
+
+  <p>To determine if a range is sorted in <m>O(n)</m> time, you can use the <pf>std::is_sorted</pf> algorithm.</p>
+
+  <p>To partially sort a range, so that the <m>n</m> smallest elements are sorted and appear at the beginning of the range, you can use the <pf>std::partial_sort</pf> algorithm. It produces results similar to those produced by only allowing the outer loop of selection sort to run <m>n</m> times. However, it is generally implemented with a heap sort algorithm for better performance. (<m>O(m \log n)</m> where <m>m</m> is the number of things sorted in a total range of <m>n</m> elements.)</p>
+
+  <p>Finally, the standard library exposes various functions that normally are building blocks for search and sort operations, such as <pf>std::partition</pf>, <pf>std::merge</pf>, and others, which can be useful in more specialized scenarios.</p>
+
+
+  </subsection>
+
+</section>
