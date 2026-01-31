@@ -138,8 +138,42 @@ void ArrayList<T>::insertEnd(const T& newItem) {
     copy everything to it before deleting the old array. Generally, doing that work is not worth
     saving a small amount of memory.</p>
 
-  <p>If the programmer knew they were going to insert a large number of elements, then remove most
-    of them and keep working with that smaller number of elements, they could always choose to make
-    a new smaller ArrayList once they are down to the final size.</p>
+  <note>
+    <p><pf>std::vector</pf> does support a <pf>shrink_to_fit()</pf> function that can reduce the capacity of the vector to fit its size and a <pf>reserve(size)</pf> to change the capacity to a specific value.</p>
+  </note>
+
+  
+  <exercise label="templates-array-list_grow-ex-4"
+           numbered="yes"
+           adaptive="yes"
+           indentation="hide"
+           language="text">
+    <statement>
+      <p>Put the steps of the grow logic in the correct order.</p>
+    </statement>
+    <blocks>
+      <block>
+        Double the capacity of the array list.
+      </block>
+      <block>
+        Allocate a new array with size = capacity.
+      </block>
+      <block>
+        <choice correct="yes">
+          <p>Copy size number of elements from the old array to the new array.</p>
+        </choice>
+        <choice>
+          <p>Copy capacity number of elements from the old array to the new array.</p>
+        </choice>
+      </block>
+      <block>
+        Delete the old array.
+      </block>
+      <block>
+        <p>Point at the new array with m_arr.</p>
+      </block>
+    </blocks>
+  </exercise>
+
 
 </section>

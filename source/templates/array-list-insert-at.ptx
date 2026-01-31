@@ -106,4 +106,59 @@ void ArrayList<T>::insertAt(int location, const T& insertItem) {
 ]]></program>
   </listing>
 
+  
+  <exercise label="templates-array-list_array-list-insert-at-ex-1"
+            xml:id="templates-array-list_array-list-insert-at-ex-1"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>To do <pf>removeAt(index)</pf>, we won't actually remove anything. Instead, we just need to shift all the following downs elements down by 1 to fill the gap left by the removed item. Then we will decrease the logical size of the ArrayList.</p>
+      
+      <p>For example, if our array is storing <pf>{10, 20, 30, 40, ???}</pf> and we remove index 1, we would want to shift the 30 and 40 down to fill the gap: <pf>{10, 30, 40, ???, ???}</pf>.</p>
+
+      <p>Construct a block of code that performs this operation:</p>
+    </statement>
+    <blocks>
+      <block>
+        <cline>removeAt(int index) {</cline>
+      </block>
+      <block>
+        <cline> // make sure index is valid</cline>
+      </block>
+      <block>
+        <choice>
+          <cline> // i is the index of element that will shift down</cline>
+          <cline> for (int i = m_size - 1; i > location + 1; --i) {</cline>
+        </choice>
+        <choice correct="yes">
+          <cline> // i is the index of element that will shift down</cline>
+          <cline> for (int i = location + 1; i &lt; m_size; ++i) {</cline>
+        </choice>
+      </block>
+      <block>
+        <choice correct="yes">
+          <cline>  m_arr[i - 1] = m_arr[i];</cline>
+        </choice>
+        <choice>
+          <cline>  m_arr[i] = m_arr[i + 1];</cline>
+        </choice>
+      </block>
+      <block>
+        <choice correct="yes">
+          <cline> --m_size;</cline>
+        </choice>
+        <choice>
+          <cline> --m_capacity;</cline>
+        </choice>
+      </block>
+      <block>
+        <cline> }</cline>
+        <cline>}</cline>
+      </block>
+    </blocks>
+    <hint>
+      <p>We need to loop from the index to the end so that as we shift elements down, we don't overwrite any elements before they have been moved.</p>
+    </hint>
+  </exercise>
+
 </section>

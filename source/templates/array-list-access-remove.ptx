@@ -72,4 +72,39 @@ void ArrayList<T>::removeEnd() {
     to throw an exception or simply do nothing in that case. (The final version of our code will
     throw an exception. See <xref ref="templates-array-list_array-list-final-listing"/>.)</p>
 
+  <exercise label="templates-array-list_array-list-access-remove-ex-1">
+    <statement>
+      <p>What logic makes sense for removing all the elements in the ArrayList?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement><p>Set the <pf>m_size</pf> to 0.</p></statement>
+      </choice>
+      <choice>
+        <statement><p>Set the <pf>m_capacity</pf> to 0.</p></statement>
+        <feedback>
+          <p>Capacity is the size of the array. We do not want to change it as it needs to remain consistent with the allocated memory.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement><p>Delete the array and allocate a new one.</p></statement>
+        <feedback>
+          <p>If we do not change the <pf>m_size</pf>, we would still think we had items in the ArrayList.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement><p>Loop through the array and set each element to a default value. Then set the <pf>m_size</pf> to 0.</p></statement>
+        <feedback>
+          <p>We could do that, but there is no point in resetting elements. We can just "forget" them by setting <pf>m_size</pf> to 0.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement><p>Loop through the array and set each element to a default value. Then set the <pf>m_capacity</pf> to 0.</p></statement>
+        <feedback>
+          <p>We should not change the capacity unless we are making a new array.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
 </section>
