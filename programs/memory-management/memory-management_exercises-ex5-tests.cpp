@@ -3,22 +3,24 @@
 #include "doctest.h"
 
 TEST_CASE("assignmentOperator") {
-    NumberWrapper original(42);
-    NumberWrapper copy(100);
+    NumberWrapper original(6, 7);
+    NumberWrapper copy(100, 101);
 
     copy = original;
-    CHECK(copy.getNum() == 42);
+    CHECK(copy.getNumOne() == 6);
+    CHECK(copy.getNumTwo() == 7);
 
-    copy.setNum(200);
-    CHECK(original.getNum() == 42); // Original should remain unchanged
-    CHECK(copy.getNum() == 200); // Copy should reflect the change
+    copy.setNum(0, 200);
+    CHECK(original.getNumOne() == 6); // Original should remain unchanged
+    CHECK(original.getNumTwo() == 7);
+    CHECK(copy.getNumOne() == 200); // Copy should reflect the change
 }
 
 TEST_CASE("assignmentOperator self assignment") {
-    NumberWrapper original(42);
-
+    NumberWrapper original(42, 43);
     // self assignment... nothing should change
     original = original;
 
-    CHECK(original.getNum() == 42);
+    CHECK(original.getNumOne() == 42);
+    CHECK(original.getNumTwo() == 43);
 }

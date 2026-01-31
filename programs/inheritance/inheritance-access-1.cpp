@@ -12,27 +12,35 @@ public:
         m_name = name;
         m_age = age;
     }
+
+    string getName() const {
+        return m_name;
+    }
+
     void introduce() const {
-        cout << "Hi, my name is " << m_name << " and I am " << m_age << " years old." << endl;
+        cout << "Hi, my name is " << m_name << " and I am " << m_age
+             << " years old." << endl;
     }
 };
 
 class Student : public Person {
 private:
     string m_major;
+
 public:
     Student(string name, int age, string major) {
         m_name = name;
         m_age = age;
         m_major = major;
     }
+
     void study() const {
-        cout << m_name << " is busy studying " << m_major << "." << endl;
+        cout << getName() << " is busy studying " << m_major << "." << endl;
     }
 };
 
 int main() {
     Student s("Alex", 20, "Computer Science");
-    s.introduce();  // inherited from Person
-    s.study();      // defined in Student
+    s.introduce(); // inherited from Person
+    s.study();     // defined in Student
 }

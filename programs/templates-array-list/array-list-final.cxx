@@ -133,17 +133,7 @@ void ArrayList<T>::set(int location, const T& newValue) {
     m_arr[location] = newValue;
 }
 
-template<typename T>
-void ArrayList<T>::removeAt(int location) {
-    if (location < 0 || location >= m_size) {
-        throw std::out_of_range("Index out of range");
-    }
-    // Shift elements down to fill the gap
-    for (int i = location; i < m_size - 1; ++i) {
-        m_arr[i] = m_arr[i + 1];
-    }
-    --m_size;
-}
+// removeAt will be built as an exercise
 
 template<typename T>
 void ArrayList<T>::insertAt(int location, const T& insertItem) {

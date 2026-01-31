@@ -18,13 +18,15 @@ public:
     }
 
     void introduce() const {
-        cout << "Hi, my name is " << m_name << " and I am " << m_age << " years old." << endl;
+        cout << "Hi, my name is " << m_name << " and I am " << m_age
+             << " years old." << endl;
     }
 };
 
 class Student : public Person {
 private:
     string m_major;
+
 public:
     Student(string name, int age, string major)
       : Person(name, age) {
@@ -38,6 +40,6 @@ public:
 
 int main() {
     Student s("Alex", 20, "Computer Science");
-    s.introduce();  // inherited from Person
-    s.study();      // defined in Student
+    s.introduce(); // inherited from Person
+    s.study();     // defined in Student
 }
