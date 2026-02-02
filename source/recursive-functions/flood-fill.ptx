@@ -82,7 +82,8 @@
         <cline><![CDATA[    size_t cols = picture.at(0).size();]]></cline>
     </block>
       <block order="5">
-        <cline><![CDATA[    if (curRow >= rows || curCol >= cols) {]]></cline>
+        <cline><![CDATA[    if (curRow >= rows || curCol >= cols]]></cline>
+        <cline><![CDATA[         || curRow < 0 || curCol < 0) {]]></cline>
     </block>
       <block order="2">
         <cline><![CDATA[        return; // went out of bounds - done]]></cline>

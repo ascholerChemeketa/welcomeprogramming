@@ -48,7 +48,7 @@
 
   <p>Or by creating a non-recursive function <pf>countZeros</pf> which takes the vector and then calls the recursive <pf>countZeros</pf> with the correct parameters:</p>
 
-  <program><![CDATA[void countZeros(const vector<int>& numbers) {
+  <program><![CDATA[int countZeros(const vector<int>& numbers) {
     return countZeros(numbers, 0);  //start recursion with extra params
 }]]></program>
 
