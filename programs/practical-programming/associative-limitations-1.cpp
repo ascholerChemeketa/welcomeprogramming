@@ -16,10 +16,19 @@ int main() {
 
     // Make an iterator that points to the beginning of the list
     list<string>::iterator it = fruit.begin();
+
     // Use *it to get the value the iterator points to
     cout << "First element: " << *it << endl;
+    string word = *it;   // copy the value
+    *it = "avocado";     // change the value in the list
+    cout << "First element: " << *it << endl;
+
     ++it; // now at 2nd element
     cout << "Second element: " << *it << endl;
+
     ++it; // now at 3rd element
     cout << "Third element: " << *it << endl;
+
+    -- it; // back to 2nd element
+    cout << "Back to second element: " << *it << endl;
 }
