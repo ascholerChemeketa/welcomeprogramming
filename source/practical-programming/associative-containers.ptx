@@ -3,51 +3,70 @@
 
   <title>Associative Containers and Set</title>
 
-  <p>
-    Another limitation of a <pf>vector</pf> is that we can only look up elements by their position (index) in the collection. 
-    Sometimes we want to look up elements in a different way way. For example, we might want to just ask a collection <q>do you have this value?</q>. Given a list of words, we might want to write something like <pf>words.contains("hello")</pf>. There is no simple way to do this in a <pf>vector</pf> because a vector is not optimized for searching by value.</p>
-   
-  <p>Or, perhaps you want to store a <term>mapping</term> from one value to another, such as mapping from a person's name to their phone number so that it is easy to look up a phone number by providing the person's name using syntax like <pf>phoneNumbers.at("Zoe")</pf></p>
+  <p> A <pf>vector</pf> is great if you want to access elements by their position (index) in the
+    collection. But what if you want to look up elements in a different way? For example, we might
+    want to just ask a collection <q>do you have this value?</q>. Given a list of words, we might
+    want to write something like <pf>words.contains("hello")</pf>. There is no simple and efficient way to do this in a <pf>vector</pf>
+    because a vector is not optimized for searching by value.</p>
 
-  <p>
-    The C++ Standard Library provides several categories of <term>containers</term> (or data structures) for storing collections of data, each optimized for different kinds of access and modification patterns. <pf>vector</pf>s are part of the <term>sequence containers</term> category, which are optimized for storing ordered collections of data where elements are accessed by their position. Another important category is the <term>associative containers</term>, which are optimized for storing collections of data that can be quickly looked up by a value or <term>key</term>.
+  <p>Or, perhaps you want to store a <term>mapping</term> from one value to another, such as mapping
+    from a person's name to their phone number so that it is easy to look up a phone number by
+    providing the person's name using syntax like <pf>phoneNumbers.at("Zoe")</pf>. You could make a
+    vector that stored structs with a name and phone number, but then you would have to search through
+    the vector to find the right person.</p>
+
+  <p> The C++ Standard Library provides several categories of <term>containers</term> (or data
+    structures) for storing collections of data, each optimized for different kinds of access and
+    modification patterns. <pf>vector</pf>s and <pf>list</pf>s are part of the <term>sequence containers</term> category,
+    which items are stored in a specific order based on how/when they were inserted. 
+    Another important category is the <term>associative containers</term>, which are
+    optimized for storing collections of data that can be quickly looked up by a value or <term>key</term>
+    .
   </p>
 
-  <p>
-    The simplest associative container is the <term>set</term>, which stores a collection of unique values and allows for fast lookup to see if a value is present in the collection. For example, say we want to keep track of a list of the unique words that appear in a document. By  creating a <term>set</term>, and then inserting each word into the set as we read the document, we can easily build a collection of all the unique words. 
-  </p>
+  <p> The simplest associative container is the <term>set</term>, which stores a collection of
+    unique values and allows for fast lookup to see if a value is present in the collection. For
+    example, say we want to keep track of a list of the unique words that appear in a document. By
+    creating a <term>set</term>, and then inserting each word into the set as we read the document,
+    we can easily build a collection of all the unique words. </p>
 
-  <p>A set is declared like a vector or queue with the type of data it will store. To make a set of strings we would declare: <pf>set&lt;string&gt; words;</pf>.</p>
-  
-  <p>We can then use <pf>.insert(value)</pf> to add a value to the set, <pf>.erase(value)</pf> to remove a value, <pf>.contains(value)</pf> to check if a value is in the set, and ask for the number of elements in the set using <pf>.size()</pf>.</p>
+  <p>A set is declared like a vector or queue with the type of data it will store. To make a set of
+    strings we would declare: <pf>set&lt;string&gt; words;</pf>.</p>
 
-  <p>
-    A set stores only unique values. If you try to insert a value that is already present in the set, the set will ignore the insertion. (There is a <pf>multiset</pf> container that allows duplicates if you need that behavior. We will not cover it here.)
-  </p>
+  <p>We can then use <pf>.insert(value)</pf> to add a value to the set, <pf>.erase(value)</pf> to remove a value, <pf>.contains(value)</pf> to
+    check if a value is in the set, and ask for the number of elements in the set using <pf>.size()</pf>.</p>
 
-  <p>Here is a simple program to build all the unique words in a document using a <pf>set</pf>. (Rather than actually read a file, we will read from a stringstream and pretend that is a file.)
-</p>
+  <p> A set stores only unique values. If you try to insert a value that is already present in the
+    set, the set will ignore the insertion. (There is a <pf>multiset</pf> container that allows duplicates
+    if you need that behavior. We will not cover it here.) </p>
+
+  <p>Here is a simple program to build all the unique words in a document using a <pf>set</pf>. (Rather
+    than actually read a file, we will read from a stringstream and pretend that is a file.) </p>
 
   <listing>
-  <program label="practical-programming_associative-containers-1" interactive="activecode"
-           line-numbers="yes" >
+    <program label="practical-programming_associative-containers-1"
+             interactive="activecode"
+             line-numbers="yes">
 <xi:include href="../../programs/practical-programming/associative-containers-1.cpp" parse="text"/>
   </program>
   </listing>
 
   <note>
-    <p>
-      To keep things simple, we will are not worrying about punctuation or case sensitivity. A version of this program designed to read a real text file would likely want to turn all words into lowercase so that <c>Hello</c> and <c>hello</c> were treated as the same word. It would also need to take something like <c>world!</c> and remove the exclamation mark so it matched <c>world</c>.
-      </p>
+    <p> To keep things simple, we will are not worrying about punctuation or case sensitivity. A
+      version of this program designed to read a real text file would likely want to turn all words
+      into lowercase so that <c>Hello</c> and <c>hello</c> were treated as the same word. It would also need
+      to take something like <c>world!</c> and remove the exclamation mark so it matched <c>world</c>. </p>
   </note>
 
-  <p>
-    The program finishes by printing all the unique words found in the document. Note that the words are printed in alphabetical order. This is because the <pf>set</pf> container automatically keeps its elements in sorted order. This is what allows it to rapidly check for the presence of a value.
-  </p>
+  <p> The program finishes by printing all the unique words found in the document. Note that the
+    words are printed in alphabetical order. This is because the <pf>set</pf> container automatically
+    keeps its elements in sorted order. This is what allows it to rapidly check for the presence of
+    a value. </p>
 
   <exercise label="practical-programming_associative-containers-exercise-1">
     <statement>
-      <p>The value used to look up an element in an associative container is called a(n) <fillin mode="string" answer="key"/></p>
+      <p>The value used to look up an element in an associative container is called a(n) <fillin mode="string"
+                answer="key"/></p>
     </statement>
     <evaluation>
       <evaluate>
@@ -56,7 +75,8 @@
         </test>
         <test>
           <strcmp>.*index.*</strcmp>
-          <feedback>The value used to look up an element in a sequence container like a vector is called an index.</feedback>
+          <feedback>The value used to look up an element in a sequence container like a vector is
+            called an index.</feedback>
         </test>
         <test>
           <strcmp>\w+\s+\w+</strcmp>
@@ -74,18 +94,27 @@
       <choice correct="yes">
         <statement>If duplicates are inserted, only one copy is stored.</statement>
       </choice>
-      <choice><statement>Sets allow us to look up items by index.</statement></choice>
-      <choice><statement>Sets store elements in the order they were added.</statement></choice>
-      <choice correct="yes"><statement>Sets can tell us their size.</statement></choice>
+      <choice>
+        <statement>Sets allow us to look up items by index.</statement>
+      </choice>
+      <choice>
+        <statement>Sets store elements in the order they were added.</statement>
+      </choice>
+      <choice correct="yes">
+        <statement>Sets can tell us their size.</statement>
+      </choice>
     </choices>
   </exercise>
 
   <exercise label="practical-programming_associative-containers-exercise-3">
     <statement>
       <p>Given a set of integers named <pf>myNumbers</pf>, what would you write to do the following?</p>
-      <p>Add 10 to the set? <fillin mode="string" answer="myNumbers.insert(10);"/></p>
-      <p>Check if 15 is in the set? <fillin mode="string" answer="myNumbers.contains(15);"/></p>
-      <p>Remove 10 from the set? <fillin mode="string" answer="myNumbers.erase(10);"/></p>
+      <p>Add 10 to the set? <fillin mode="string"
+                answer="myNumbers.insert(10);"/></p>
+      <p>Check if 15 is in the set? <fillin mode="string"
+                answer="myNumbers.contains(15);"/></p>
+      <p>Remove 10 from the set? <fillin mode="string"
+                answer="myNumbers.erase(10);"/></p>
     </statement>
     <evaluation>
       <evaluate>
@@ -116,6 +145,6 @@
         </test>
       </evaluate>
     </evaluation>
-    </exercise>
+  </exercise>
 
 </section>

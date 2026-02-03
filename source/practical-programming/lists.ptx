@@ -1,10 +1,14 @@
 <section xml:id="practical-programming_list"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <title>Lists</title>
+  <title>Containers and Lists</title>
+  
 
-  <p> A <pf>vector</pf> is very efficient way to store a sequence of values and then to look up
-    items by their position (index) in the collection. But it has an interesting limitation: it is
+  <p>The C++ Standard Library provides a variety of different <term>containers</term> that are
+    optimized for doing different things with a collection of data.</p>
+    
+    <p>The <pf>vector</pf> is one such container that is optimized for storing ordered collections of data where elements are accessed by their
+    position. But it has an interesting limitation: it is
     only efficient at adding and removing items at the end of the collection. You can call <pf>
     .push_back()</pf> to add an item to the end of a vector or <pf>.pop_back()</pf> to remove the
     last item efficiently. But adding or removing items at the front of the vector (using <pf>
@@ -16,16 +20,21 @@
       .pop_front()</pf> because those operations are inefficient with vectors.</p>
   </note>
 
-  <p>But what if you want to be able to add values to one end of a list and remove them from the
+  <p>So what should you do if you want to be able to add values to one end of a list and remove them from the
     other end? Say messages arrive into a system and you want to process them in the order they
     arrive. You would add new messages to the back of a list as they arrive, and remove messages
-    from the front of the list as you process them. Processing items in this way is referred to
+    from the front of the list as you process them.
+    To do this job efficiently, we would need to look for a container that supports fast insertion and removal at both ends.</p>
+
+    <note>
+      <p>Processing items in this way is referred to
     <term>first-in, first-out</term> (<term>FIFO</term>) because the first item added is the first
     one to be removed.<idx>First In First Out (FIFO)</idx>
-  </p>
+    </p>
+    </note>
 
-  <p>The C++ Standard Library provides a <pf>list</pf> class that is optimized for efficient
-    insertion and removal at either end of the sequence. A <pf>list</pf> provides <pf>.push_back()</pf>
+  <p>A <pf>list</pf> is a container that is optimized for efficient
+    insertion and removal at either end of the sequence (among other things). A <pf>list</pf> provides <pf>.push_back()</pf>
     to add an item to the back and <pf>.push_front()</pf> to add an item to the front. It also
     provides <pf>.pop_front()</pf> to remove an item from the front and <pf>.pop_back()</pf> to
     remove an item from the back. You can use <pf>.front()</pf> to look at the item at the front of
