@@ -1,0 +1,87 @@
+<section xml:id="practical-programming_list"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Lists</title>
+
+  <p> A <pf>vector</pf> is very efficient way to store a sequence of values and then to look up
+    items by their position (index) in the collection. But it has an interesting limitation: it is
+    only efficient at adding and removing items at the end of the collection. You can call <pf>
+    .push_back()</pf> to add an item to the end of a vector or <pf>.pop_back()</pf> to remove the
+    last item efficiently. But adding or removing items at the front of the vector (using <pf>
+    .insert()</pf> or <pf>.erase()</pf>) is inefficient. </p>
+
+  <note>
+    <p>The capabilities provided by the vector class are good (but not perfect) hints about what it
+      can do well and what it cannot do efficiently. It does not provide <pf>.push_front()</pf> or <pf>
+      .pop_front()</pf> because those operations are inefficient with vectors.</p>
+  </note>
+
+  <p>But what if you want to be able to add values to one end of a list and remove them from the
+    other end? Say messages arrive into a system and you want to process them in the order they
+    arrive. You would add new messages to the back of a list as they arrive, and remove messages
+    from the front of the list as you process them. Processing items in this way is referred to
+    <term>first-in, first-out</term> (<term>FIFO</term>) because the first item added is the first
+    one to be removed.<idx>First In First Out (FIFO)</idx>
+  </p>
+
+  <p>The C++ Standard Library provides a <pf>list</pf> class that is optimized for efficient
+    insertion and removal at either end of the sequence. A <pf>list</pf> provides <pf>.push_back()</pf>
+    to add an item to the back and <pf>.push_front()</pf> to add an item to the front. It also
+    provides <pf>.pop_front()</pf> to remove an item from the front and <pf>.pop_back()</pf> to
+    remove an item from the back. You can use <pf>.front()</pf> to look at the item at the front of
+    the list without removing it, and <pf>.back()</pf> to look at the item at the back of the list
+    without removing it. </p>
+
+  <p>We declare a <pf>list</pf> just like a vector by specifying the type of the items it will hold:</p>
+
+  <program>
+    list&lt;int&gt; intList;
+    list&lt;Person&gt; registrationLine;
+  </program>
+
+  <p>This sample program demonstrates using a <pf>list</pf> to add and remove items at
+    either end, and shows FIFO behavior using <pf>.push_back()</pf> and <pf>.pop_front()</pf>:</p>
+
+  <listing>
+    <program label="practical-programming_list"
+             interactive="activecode"
+             line-numbers="yes">
+<xi:include href="../../programs/practical-programming/list.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>Note that the <pf>&lt;list></pf> library must be included to use the <pf>list</pf> class.</p>
+
+  <exercise label="practical-programming_list-exercise-1">
+    <statement>
+      <p>Given a list named <pf>jobList</pf>, what would you write to do the following?</p>
+      <p>Add a job named <pf>jobA</pf> to the back of the list? <fillin mode="string"
+                answer="jobList.push_back(jobA);"/></p>
+      <p>Look at the next job to be processed (at the front, but do not remove it)? <fillin mode="string"
+                answer="jobList.front();"/></p>
+      <p>Remove the next job from the front of the list? <fillin mode="string"
+                answer="jobList.pop_front();"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>\s*jobList\.push_back\(\s*jobA\s*\);?</strcmp>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>\s*jobList\.front\(\);?</strcmp>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>\s*jobList\.pop_front\(\);?</strcmp>
+        </test>
+      </evaluate>
+    </evaluation>
+    <hint>
+      <p>Each answer must start with the name of the list variable.</p>
+    </hint>
+  </exercise>
+
+</section>

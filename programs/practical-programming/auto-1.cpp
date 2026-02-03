@@ -1,14 +1,14 @@
 #include <iostream>
-#include <set>
+#include <list>
 #include <string>
 #include <vector>
 using namespace std;
 
 
 int main() {
-    set<string> fruit = {"apple", "date", "banana", "cherry"};
+    list<string> fruit = {"apple", "date", "banana", "cherry"};
 
-    // Create an iterator "it" that points to the beginning of the set
+    // Create an iterator "it" that points to the beginning of the list
     // Continue until the end is reached
     // Use ++ to advance the iterator
     for (auto it = fruit.begin(); it != fruit.end(); ++it) {

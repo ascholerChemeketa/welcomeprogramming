@@ -1,61 +1,76 @@
 <section xml:id="practical-programming_associative-limitations"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <title>Traversing Associative Containers</title>
+  <title>Traversing Containers</title>
 
-  <p>
-    A <pf>set</pf> or other associative container allows for things that would be much more difficult or inefficient with a vector. However, they do have their own limitations.
-  </p>
+  <p>A <pf>list</pf> (as well as the <pf>set</pf> and <pf>map</pf> we will soon see) allows for things that
+    would be much more difficult or inefficient with a vector. However, they do have their own
+    limitations.</p>
 
-  <p>
-    An associative container may (though not always) enforce an ordering on its elements. But they generally do not allow for accessing elements by position. For example, you cannot say "give me the 5th element in the set" because the set does not maintain elements in a way that allows for that kind of access. Thus a <pf>set</pf> does not offer an <pf>at(index)</pf> method like a <pf>vector</pf> does.
-  </p>
+  <p>One key limitation is that none of these containers allow you to access elements directly by
+    their position (index) in the collection. Given a <pf>std::list</pf> it is an error to say something like <pf>myList.at(3)</pf>
+    to try to get the 4th element. </p>
 
   <note>
-    <p>
-      Accessing elements by position is often referred to as <term>random access</term>. It is not that we are accessing a random element, but rather that we can directly access any <q>random</q>element we want by its position.
-    </p>
+    <p>Accessing elements by position like this is is often referred to as <term>random access</term>.
+      It is not that we are accessing a random element, but rather that we can directly access any <q>
+      random</q>element we want by its position. <idx>random access</idx></p>
   </note>
 
-  <p>
-    Because associative containers do not support random access, we can't write a counting loop that goes from 0 to size()-1 and accesses each element by index. Instead, we have to use a range based for loop or an iterator to walk through all the elements in the container.
-  </p>
+  <p>Because associative containers do not support indexed access, we can't write a counting loop
+    that goes from 0 to size()-1 and accesses each element by index. Instead, we have to use an
+    iterator to walk through all the elements in the container. (Or use a range based loop, which
+    behind the scenes uses iterators.)</p>
 
-  <p>
-    When we introduced iterators in <xref ref="vectors_insertion-removal"/>, we described them as a way to specify the location of an element in a vector. In a vector, an iterator feels a little redundant because we can also specify locations using indices. But in an associative container, iterators are essential because we can not say <q>the thing at index 3</q>.
-  </p>
+  <p>When we introduced iterators in <xref ref="vectors_insertion-removal"/>, we described them as a
+    way to specify the location of an element in a vector. In a vector, an iterator feels a little
+    redundant because we can also specify locations using indices. But in an associative container,
+    iterators are essential because we can not say <q>the thing at index 3</q>. </p>
 
-  <p>
-    Think of an iterator as a <q>smart pointer</q> to an element in a collection. It can be used to access the element it points to. Depending on the type of collection, the iterator may also be able to move to the next or previous element in the collection.
-  </p>
+  <p>Think of an iterator as a <q>smart pointer</q> to an element in a collection. It can be used to
+    access the element it points to. Depending on the type of collection, the iterator may also be
+    able to move to the next or previous element in the collection, and/or jump to a particular
+    element. </p>
 
-  <p>
-    Recall that in a vector, we could get an iterator to the start of the vector using <pf>.begin()</pf> and an iterator to one past the end using <pf>.end()</pf>. The same is true for associative containers. We can get an iterator to the first element using <pf>.begin()</pf> and one past the last element using <pf>.end()</pf>.
-  </p>
+  <p>In a vector, we could get an iterator to the start of the vector using <pf>
+    .begin()</pf> and an
+    iterator to one past the end using <pf>.end()</pf>. We could then modify that iterator using
+    expressions like <pf>myVec.begin() + 3</pf> to get an iterator that points to the fourth element of the vector. </p>
 
-  <p>However, in an associative container, we can't jump forward or backward by a specific number of elements like we can with a vector iterator. Given a set, you can't use <pf>mySet.begin() + 3</pf> because there is no random access (way to jump ahead some distance) for sets.</p>
+  <p>Other standard containers provide iterators as well. And, where they provide similar
+    capabilities, the syntax is the same. Given a <pf>std::list</pf> called <pf>myList</pf>, we can get an iterator
+    to the start of the list using <pf>myList.begin()</pf> and one past the end using <pf>myList.end()</pf>. However, not all
+    iterator types provide the same capabilities. </p>
 
-  <p>
-    Instead, we can only move an iterator forward one element at a time using the preincrement operator (<pf>++it</pf>) or backwards one element at a time using the predecrement operator (<pf>--it</pf>). This means that to get to the 3rd element in a set, we would need to start at <pf>mySet.begin()</pf> and then do <pf>++</pf> two times to move forward to the 3rd element.
-  </p>
 
-  <p>
-    The type of a set iterator is <code>set&lt;T&gt;::iterator</code>, where <code>T</code> is the type of elements in the set. So for a <pf>set&lt;string&gt;</pf>, the iterator type would be <pf>set&lt;string&gt;::iterator</pf>.
-  </p>
+  <p>For example, in containers like lists, we can't jump forward or backward multiple items at a
+    time the way we can with a vector iterator. Instead, we can only move an iterator forward one
+    element at a time using the preincrement operator (<pf>++it</pf>) or backwards one element at a time
+    using the predecrement operator (<pf>--it</pf>). This means that to get to the 3rd element in a list,
+    we would need to start at <pf>myList.begin()</pf> and then do <pf>++</pf> two times to move forward to the 3rd
+    element. </p>
 
-  <p>
-    To access the element that an iterator points to, we use the dereference operator (<pf>*it</pf>). This gives us access to the element the iterator is pointing at.
-  </p>
+  <p>The type of a list iterator is <code>list&lt;T&gt;::iterator</code>, where <code>T</code> is the
+    type of elements in the list. So for a <pf>list&lt;string&gt;</pf>, the iterator type would be <pf>
+    list&lt;string&gt;::iterator</pf>. </p>
+
+  <p>To access the element that an iterator points to, we use the dereference operator (<pf>*it</pf>).
+    This gives us access to the element the iterator is pointing at. </p>
 
   <insight>
-    <p>The syntax <pf>*it</pf> looks just like the syntax for dereferencing a pointer in C++. The iterator is not a pointer, but it acts like one in many ways.</p>
+    <p>The syntax <pf>*it</pf> looks just like the syntax for dereferencing a pointer in C++. The
+      iterator is not a pointer, but it acts like one in many ways.</p>
   </insight>
 
-  <p>This program demonstrates how to use an iterator to access the third element in a set. It also includes some illegal attempts to access elements by position. You can try uncommenting those lines to see that they do not compile.</p>
+  <p>This program demonstrates how to use an iterator to access the third element in a list. It also
+    includes some illegal attempts to access elements by position. You can try uncommenting those
+    lines to see that they do not compile.</p>
 
   <listing>
-    <program label="practical-programming_associative-limitations-1" interactive="activecode"
-             line-numbers="yes" highlight-lines="18,19,20,22" >
+    <program label="practical-programming_associative-limitations-1"
+             interactive="activecode"
+             line-numbers="yes"
+             highlight-lines="17-24">
 <xi:include href="../../programs/practical-programming/associative-limitations-1.cpp" parse="text"/>
     </program>
   </listing>
@@ -63,8 +78,10 @@
   <exercise label="practical-programming_associative-limitations-exercise-1">
     <statement>
       <p>Given an iterartor named <pf>myIt</pf>, how do you:</p>
-      <p>Advance the iterator to the next item? <fillin mode="string" answer="++myIt"/></p>
-      <p>Access the element the iterator points to? <fillin mode="string" answer="*myIt"/></p>
+      <p>Advance the iterator to the next item? <fillin mode="string"
+                answer="++myIt"/></p>
+      <p>Access the element the iterator points to? <fillin mode="string"
+                answer="*myIt"/></p>
     </statement>
     <evaluation>
       <evaluate>
@@ -77,7 +94,8 @@
         </test>
         <test>
           <strcmp>myIt\s*\+\s*1</strcmp>
-          <feedback>That may work for some iterator types, but is not the preferred way to advance an iterator one element.</feedback>
+          <feedback>That may work for some iterator types, but is not the preferred way to advance
+            an iterator one element.</feedback>
         </test>
       </evaluate>
       <evaluate>
