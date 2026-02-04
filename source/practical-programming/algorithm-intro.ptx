@@ -22,14 +22,14 @@
   </p>
 
   <p>
-    Must in the way that <pf>set</pf>s can rely on functors to specify how to order their elements, some algorithms also take functors as parameters to customize their behavior. For example, the <pf>sort</pf> algorithm can take a comparison functor to specify how to compare elements when sorting.
+    Must in the way that <pf>set</pf>s can rely on functors to specify how to order their elements, some algorithms also take functions (or functors) as parameters to customize their behavior. For example, the <pf>sort</pf> algorithm can take a comparison function to specify how to compare elements when sorting.
   </p>
 
   <p>The prototype for <pf>std::sort</pf> looks like something like this:</p>
 
   <program>void sort( RandomIt first, RandomIt last, Compare comp );</program>
 
-  <p>Here, <pf>RandomIt</pf> is a type that represents an iterator that can move through a collection in random order (like the iterators provided by a <pf>vector</pf>). This means you could not use this algorithm with containers that do not provide random access to their elements. The <pf>first</pf> and <pf>last</pf> parameters specify the range of elements to sort. The optional <pf>comp</pf> parameter is a comparison functor that defines how to compare two elements.</p>
+  <p>Here, <pf>RandomIt</pf> is a type that represents an iterator that can move through a collection in random order (like the iterators provided by a <pf>vector</pf>). This means you could not use this algorithm with containers that do not provide random access to their elements. The <pf>first</pf> and <pf>last</pf> parameters specify the range of elements to sort. The optional <pf>comp</pf> parameter is a comparison function that defines how to compare two elements.</p>
 
   <p>So, to sort a vector, we can pass iterators to the beginning and end of the vector to the <pf>sort</pf> function.</p>
 
@@ -48,7 +48,22 @@
   </program>
 
   <p>
-    If we wanted to sort the elements in descending order instead, we could provide a comparison functor that defines that ordering. This example first does a default sort of a vector of integers, then sorts it again in descending order.
+    If we wanted to sort the elements in descending order instead, we could provide a comparison functor that defines that ordering. The prototype that sort expects the comparison function looks like:</p>
+    
+
+  <program>bool Compare(const T&amp; a, const T&amp; b);</program>
+
+  <p>This function should return true if <pf>a</pf> should come before <pf>b</pf> in the sorted order, and false otherwise. So, for descending order, we would want to return true if <pf>a</pf> is greater than <pf>b</pf>:</p>
+
+  <program>
+    <![CDATA[ 
+    bool DescendingComparer(int a, int b) {
+        return a > b; // a comes first if it is greater than b
+    }
+    ]]>
+  </program>
+
+  <p>This example first does a default sort of a vector of integers, then sorts it again in descending order.
   </p>
 
   <listing>
@@ -57,6 +72,18 @@
 <xi:include href="../../programs/practical-programming/algorithm-intro-1.cpp" parse="text"/>
   </program>  
   </listing>
+
+  <note>
+    <p>
+      Our comparison function is really just the <pf>></pf> operator. The standard library already provides a functor for that operator called <pf>std::greater&lt;T&gt;</pf>. So, we could have used that instead of writing our own comparison function. Here is how that would look:
+    </p>
+    <program>
+      <![CDATA[ 
+      sort(numbers.begin(), numbers.end(), std::greater<int>());
+      ]]>
+    </program>
+    <p>Notice that we need to include the <pf>()</pf> after <pf>std::greater&lt;int&gt;</pf> to create an instance of the functor. It is an object that behaves like a function, not a function.</p>
+  </note>
 
   <exercise label="practical-programming_algorithm-intro-exercise-1">
     <statement>

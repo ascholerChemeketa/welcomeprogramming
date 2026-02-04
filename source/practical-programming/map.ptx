@@ -13,12 +13,12 @@
 
   <p>To declare a map, we have to specify the type of the keys and the type of the values. For example, a map from strings to integers useful for counting copies of words would be declared as <pf>map&lt;string, int&gt;</pf>.</p>
 
-  <p>To add items to a map, we can use the <pf>.insert()</pf> method. This method takes a pair consisting of a key and a value. For example, <pf>wordCounts.insert({"hello", 1})</pf> will add the word "hello" with a count of 1 to the map.</p>
+  <p>To add items to a map, we can use the <pf>.insert()</pf> method. This method takes a pair consisting of a key and a value. For example, <pf>wordCounts.insert({"hello", 1})</pf> will add the word "hello" with a count of 1 to the map. We can also use <pf>.emplace(key, value)</pf> to avoid needing to use <pf>{}</pf> to explicitly create a pair.</p>
 
   <p>
     To access an existing value, we can use <pf>.at(key)</pf>. For example, <pf>wordCounts.at("hello")</pf> will give us access to the count for the word "hello" (the integer that it is mapped to) . If "hello" is not already in the map, using <pf>.at("hello")</pf> will throw an error, so we often check if the key exists first using <pf>.contains(key)</pf>.
   </p>
-
+  
   <note>
     <p>
       Like a vector, we can use <pf>mapName[keyName]</pf> to access or insert elements in a map. But The bracket syntax will automatically insert the key with a default value if it does not already exist in the map. This can be convenient, but it can also lead to unintended insertions if you are not careful.
@@ -28,7 +28,25 @@
     </p>
   </note>
 
-  <p>Here is a simple program to do such a word count using a <pf>map</pf>:</p>
+  <p>Finally, to remove something from a map, we can use the <pf>.erase(key)</pf> method, which removes the key and its associated value from the map.</p>
+
+  <p>Here are some examples of doing basic operations on a map:</p>
+
+  <program>
+    <![CDATA[ 
+    map<char, string> charMap;
+    charMap.insert({'a', "Apple"});  // add a pair
+    charMap.emplace('b', "Banana");  // add a key/value
+    charMap.erase('b');              // remove 'b' record
+    if( charMap.contains('a') ) {
+        string value = charMap.at('a'); // access value for key 'a'
+        cout << value << endl;
+    }
+    ]]>
+  </program>
+
+
+  <p>And an example of using a map to count up the number of times words appear in some text:</p>
 
   <listing>
   <program label="practical-programming_map-1" interactive="activecode"
@@ -38,7 +56,7 @@
   </listing>
 
   <p>
-    To loop through the map, we can use multiple approaches. One is to use the same kind of iterator we use for sets or vectors, which allows us to access each key-value pair in the map.
+    To loop through a map, we can use multiple approaches. One is to use the same kind of iterator we use for sets or vectors, which allows us to access each key-value pair in the map.
     As we do so, the iterator points to a pair where the first element is the key and the second element is the value. For our example, these are a string and an int, so the type of item the iterator points to is <pf>pair&lt;string, int&gt;</pf>.
   </p>
   
@@ -134,7 +152,7 @@
     </statement>
     <choices>
       <choice correct="yes">
-        <statement>Use <pf>.insert({key, value})</pf> to add a key-value pair.</statement>
+        <statement>Use <pf>.insert({key, value})</pf> or <pf>.emplace(key, value)</pf> to add a key-value pair.</statement>
       </choice>
       <choice correct="yes">
         <statement>Use <pf>.contains(key)</pf> to check if a key exists in the map.</statement>

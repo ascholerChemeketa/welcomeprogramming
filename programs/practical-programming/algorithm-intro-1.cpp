@@ -3,11 +3,10 @@
 #include <vector>
 using namespace std;
 
-struct DescendingComparer {
-    bool operator()(int a, int b) const {
-        return a > b; // a comes first if it is greater than b
-    }
-};
+
+bool DescendingComparer(int a, int b) {
+    return a > b; // a comes first if it is greater than b
+}
 
 int main() {
     // Create a vector of integers
@@ -23,7 +22,7 @@ int main() {
     cout << endl;
 
     // Sort the vector in descending order using the custom comparer
-    sort(numbers.begin(), numbers.end(), DescendingComparer());
+    sort(numbers.begin(), numbers.end(), DescendingComparer);
     cout << "Sorted numbers (descending): ";
     for (const auto& num : numbers) {
         cout << num << " ";
