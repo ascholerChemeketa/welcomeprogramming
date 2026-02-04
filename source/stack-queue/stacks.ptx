@@ -1,0 +1,86 @@
+<section xml:id="stack-queue_stacks"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Stack ADT</title>
+
+  <p>
+    Much list a <q>list</q>, a <term>stack</term> does not describe a concrete data structure, but rather an abstract data type (ADT). A stack is a collection of items where we expect to mostly work with the item at the top of the stack.
+    <idx>stack</idx></p>
+
+  <p>Common operations on a stack include <pf>push(item)</pf>, which adds an item to the top of the stack, and <pf>pop()</pf>, which removes and returns the item at the top of the stack. We can also have a <pf>peek()</pf> operation that returns the item at the top of the stack without removing it. But we do not typically have operations to access or modify items that are not at the top of the stack.
+  </p>
+
+  <insight>
+    <p>
+      Picture a stack of plates while doing dishes. When you go to wash a plate, you take the top plate off the stack. You don't go digging through the stack to find a plate in the middle. You only ever add or remove plates from the top of the stack. People might come up and add plates to the top of the stack while you are working. 
+    </p>
+  </insight>
+
+  <p>
+    A stack is a linear structure, like a list, but it has more restricted access. So a natural way to implement a stack is to use a list as the underlying data structure. We can use either an array based list or a linked list to implement a stack. In either case, we will only ever add or remove items from one end of the list, which we will consider to be the top of the stack.
+  </p>
+
+  <p>First let's consider a linked list based implementation. Even in the simplest linked list, we can efficiently add and remove items from the front of the list. So that is the logical end of the list to consider as the top of the stack.</p>
+
+  <activity>
+    <title>Stack Implemented with a Linked List</title>
+    <p>
+      A stack of integers has been implemented using a singly linked list. Use the interactive below to experiment with pushing and popping items from the stack.
+    </p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2">
+    <script type="module">
+      import { StackLL } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new StackLL({ initialData: [10, 6, 12, 4] });
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <p>We could also use an array based list to implement a stack. In that case, to make <pf>push()</pf> and <pf>pop()</pf> efficient, we would add and remove items from the end of the array.</p>
+  
+  <activity>
+    <title>Stack Implemented with an Array</title>
+    <p>
+      A stack of integers has been implemented using an array based list. Use the interactive below to experiment with pushing and popping items from the stack.
+    </p>
+    <p>This particular implementation uses a fixed size array and thus has a limited capacity. We would typically implement a dynamic array to allow the stack to grow as needed.</p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2">
+    <script type="module">
+      import { StackArray } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new StackArray({ initialData: [10, 6, 12, 4] });
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <p>
+    Because the stack is so simple, we might choose to implement it directly using an array or list nodes. But, if we already have access to a list implementation, it is often easier to just use that as the underlying data structure for the stack. In that case, we might just write a thin wrapper around the list to provide the stack interface. Something like:
+  </p>
+
+  <listing>
+  <program label="stack-queue_stacks-stack-wrapper"
+  interactive="activecode"
+  highlight-lines="8,11,15,18,19,24,28,31">
+<xi:include href="../../programs/stack-queue/stack-wrapper.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>This IntStack class just provides a limited interface to the underlying vector, forcing us to only interact with the stack through push, pop, peek, and isEmpty operations. The highlighted lines show all the places where the stack is handing off work to the underlying vector.</p>
+
+  <p>Also note that we do not need a destructor, copy constructor, or assignment operator because the vector is taking care of the memory management. When the IntStack object is destroyed, the vector that is a member of it is also destroyed. That executes the vector's destructor, which cleans up the memory.</p>
+
+  <insight>
+    <p>
+      Our code never called <pf>new</pf> to allocate memory, so we do not need to call <pf>delete</pf> to free memory.
+    </p>
+  </insight>
+
+</section>

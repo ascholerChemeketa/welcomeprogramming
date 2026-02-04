@@ -1,0 +1,74 @@
+<section xml:id="list-algorithms-iterators_recursive-at"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>A Partial Recursive Traversal</title>
+
+  <p>
+    What if we want to implement <pf>SimpleLinkedList::retrieveAt(int i)</pf>?
+  </p>
+
+  <p>
+    Our base case no longer can be <q>hit a null pointer</q>. Instead, we need to stop once we have advanced a certain distance in the linked list. This means that we need to communicate through the call stack how far we are going. Any time we want to pass information from one call to the next, we need an extra parameter. In this case that extra information is <q>how many more steps</q>.
+  </p>
+
+  <program>
+int recursiveRetrieveAt(ListNode* current, int stepsLeft);
+  </program>
+
+  <p>
+    When we call the member function <pf>retrieveAt</pf>, we will pass the head pointer and the index requested:
+  </p>
+
+  <program>
+int SimpleLinkedList::retrieveAt(int index) {
+    return recursiveRetrieveAt(head, index);
+}
+  </program>
+
+  <p>
+    The recursive function will then check to see if <pf>stepsLeft</pf> is zero. If it is, we are at the requested index and can return the data in the current node. If not, we make a recursive call, passing the <pf>next</pf> pointer and decrementing <pf>stepsLeft</pf> by one. (We are one step closer to the answer.) Whatever answer comes back, we just return back to our caller.
+  </p>
+
+  <program>
+<![CDATA[
+int recursiveRetrieveAt(ListNode* current, int stepsLeft) {
+    // Missing : if current == nullptr throw exception
+
+    if(stepsLeft == 0)
+        return current->data;
+    else {
+        return recursiveRetrieveAt(current->next, stepsLeft - 1);
+    }
+}
+    ]]>
+  </program>
+
+  <insight>
+    <p>Sometimes recursion is a process of <q>I don't know the answer, but I can ask someone else who will know</q>. In that case, no call but the base case contributes anything to the answer, they all just pass along the answer once it is found.
+    </p>
+  </insight>
+
+
+  <p>
+    A call to <pf>retrieveAt(2)</pf> on a list with the values 6, 10, 3 would produce this series of calls and returns:
+    <ul>
+      <li><pf>SimpleLinkedList::retrieveAt(2)</pf> calls <pf>recursiveRetrieveAt(head, 2)</pf> (passes the 6 node as the parameter)</li>
+      <li><pf>recursiveRetrieveAt({6 node}, 2)</pf> calls <pf>recursiveRetrieveAt(current->next, 1)</pf> (passes the 10 node as the parameter)</li>
+      <li><pf>recursiveRetrieveAt({10 node}, 1)</pf> calls <pf>recursiveRetrieveAt(current->next, 0)</pf> (passes the 3 node as the parameter)</li>
+      <li><pf>recursiveRetrieveAt({3 node}, 0)</pf> sees that <pf>stepsLeft</pf> is zero and returns 3</li>
+      <li>The call in the 10 node receives the 3 and returns it</li>
+      <li>The call in the 6 node receives the 3 and returns it</li>
+      <li><pf>SimpleLinkedList::retrieveAt</pf> receives the 3 and returns it to the caller</li>
+    </ul>
+  </p>
+
+  <listing>
+    <program label="list-algorithms-iterators_recursive-at"
+             interactive="activecode"
+             compile-also="RecursiveSimpleLinkedList-cxx"
+             line-numbers="yes">
+<xi:include href="../../programs/list-algorithms-iterators/recursive-at-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+</section>

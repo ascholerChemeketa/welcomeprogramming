@@ -1,0 +1,25 @@
+<section xml:id="trees_bst-full"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>The Complete BST Implementation</title>
+
+  <p>
+    At this point we have all the pieces we need to implement a complete binary search tree class. Below is the full implementation of the <pf>IntBST</pf> class with all the member functions we have discussed so far. It also includes a <pf>printInOrder</pf> function to display the tree contents. Don't worry about reading the code, we have seen almost all of it before. Just skim through it to see how all the pieces fit together.
+  </p>
+
+  <listing>
+  <program filename="IntBST.cxx" label="intbst-full-cxx" xml:id="intbst-full-cxx">
+<xi:include href="../../programs/trees/intbst.cxx" parse="text"/>
+  </program>
+  </listing>
+
+  <p>With that in place, we can now use our <pf>IntBST</pf> class in a program to create and manipulate binary search trees.</p>
+
+  <listing>
+  <program label="trees_bst-full-1"
+  interactive="activecode" compile-also="intbst-full-cxx">
+<xi:include href="../../programs/trees/usebst.cpp" parse="text"/>
+  </program>
+  </listing>
+
+</section>

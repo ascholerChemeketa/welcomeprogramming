@@ -1,0 +1,80 @@
+<section xml:id="trees_expression-trees"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Expression Trees and Tree Traversals</title>
+
+  <p>
+    As a detailed example of a tree used to model a particular domain, we will consider expression trees. An expression tree is a binary tree (max of two children per node) that represents a mathematical expression. Each internal node stores an operator (like +, -, *, /) and each leaf node stores an operand (a number).
+  </p>
+  
+  <figure>
+    <caption>Expression Tree for <m>(8 - 2) * (1 + 4)</m></caption>
+    <image source="images/trees/expression1.svg" width="60%">
+      <shortdescription>
+        <p>
+          The root node is the multiplication operator (*). Its left child is the subtraction operator (-) with children 8 and 2. Its right child is the addition operator (+) with children 1 and 4.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    The root of the expression tree represents the last operation to be performed. Its children represent the sub-expressions that are the inputs to that operation. We must compute <m>8 - 2</m> and <m>1 + 4</m> and then multiply their results. In traditional math notation we would use parentheses to show that those operations need to be performed first. The expression tree makes the order of operations explicit by the structure of the tree itself.
+  </p>
+
+  <p>
+    Most algorithms on a tree involve some form of traversal - visiting each node in the tree in a particular order. There are a few common ways to traverse a tree. One way is called <term>pre-order traversal</term>, where when we visit a node, we first process the node itself, then recursively visit its left child, and then recursively visit its right child.
+  </p>
+
+  <p>
+    In a <term>post-order traversal</term>, when we first enter a node, we recursively visit its left child, then recursively visit its right child, and only then process the node itself.
+  </p>
+
+  <p>
+    It is convention in both forms of traversal to visit the left child before the right child. For some algorithms the order will not matter, but for others it will be important to pick a direction and be consistent. For example, in our expression tree, we need to know if the subtraction node is calculating <m>(8 - 2)</m> or <m>(2 - 8)</m>. By sticking to a consistent left-right order, we can be sure that the left child is always the first operand and the right child is always the second operand.
+  </p>
+
+  <insight>
+    <p>Pre and Post refer to the timing of when the node itself is processed relative to its children during a traversal. Pre (before) means the node is processed before its children, and Post (after) means the node is processed after its children.</p>
+  </insight>
+
+  <p>
+    In a binary tree, there is also another common traversal called <term>in-order traversal</term>. In this traversal, when we visit a node, we first recursively visit its left child, then process the node itself, and finally recursively visit its right child. In an expression tree, an in-order traversal will produce the expression in its traditional infix notation (with parentheses to indicate order of operations).
+  </p>
+
+  <activity>
+    <title>Traversals</title>
+    <p>
+      The expression tree for <m>(8 - 2) * (1 + 4)</m> is shown below. Use the buttons to step through pre-order, in-order, and post-order traversals of the tree.
+    </p>
+  <p>You can use the <c>Parens in InOrder</c> checkbox to toggle whether parentheses are shown in the in-order traversal.</p>
+  
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2">
+    <script type="module">
+      import { ExpressionTree } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new ExpressionTree({initialData: {"*": [{"-" : [8, 2]},{"+":[1, 4]}]} });
+
+    </script>
+    <xi:include href="../../fragments/ds-expression-tree-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <p>
+    Here are the final patterns for each traversal:
+    <ul>
+      <li>Pre-order: * - 8 2 + 1 4</li>
+      <li>In-order: ( ( 8 - 2 ) * ( 1 + 4 ) ) <em>If using parens</em></li>
+      <li>Post-order: 8 2 - 1 4 + *</li>
+    </ul>
+    Notice that in pre-order, the first item is always the root of the tree. Then comes its left child, followed by the left child's subtree, then the right child and its subtree. In post-order, the first item is always the leftmost leaf node. The root of the tree is always the last item in post-order.
+  </p>
+
+  <p>
+    Part of deciding how to implement an algorithm on a tree is deciding which traversal to use. For example, to evaluate an expression tree (calculate the result of the expression it represents), we would want to use a post-order traversal. We need the result of the left and right sub-expressions before we can apply the operator at the parent node. In post-order traversal, we will always visit the children before the parent, so we can calculate the values of the children first and then use them to calculate the value of the parent. Click the Evaluate Expression button in the interactive above to see this in action.
+  </p>
+
+
+</section>

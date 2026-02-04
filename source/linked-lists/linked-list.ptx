@@ -1,0 +1,80 @@
+<section xml:id="linked-lists_simple-linked-list"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>A Simple Linked List</title>
+
+  <p>
+    Now we have the building blocks to create a simple linked list. But managing nodes by hand is
+    tedious and error-prone. So, much like we created an <pf>ArrayList</pf> to manage a dynamic array for us,
+    we will create a <pf>LinkedList</pf> class to manage a linked list of nodes for us. The class
+    will be responsible for creating, linking, and deleting the nodes as needed. 
+  </p>
+
+  
+  <p>
+    An absolutely minimal implementation of a <pf>SimpleLinkedList</pf> will just have one member variable: a pointer to keep track of the first node in the list. We typically call this node the <term>head</term> of the list. When the list is empty, the head pointer will be <pf>nullptr</pf>.
+  </p>
+
+  <p>
+    The <pf>SimpleLinkedList</pf> objects themselves will be variables we create on the stack using something like <pf>SimpleLinkedList&lt;int> myList1;</pf>. Any nodes they are keeping track of will be allocated on the heap.
+  </p>
+
+  <figure>
+    <caption>Two simple linked lists. <pf>myList1</pf> is empty and thus it has a <pf>nullptr</pf> head pointer. <pf>myList2</pf> is managing a linked list that starts at the node containing the value 6. So myList2's head pointer points to the node containing 6.</caption>
+    <image source="images/linked-list/simple-linked-list-1.svg"
+           width="80%">
+      <shortdescription>
+        <p>Two linked lists allocated on the stack, myList1 and myList2. myList1 has null stored in its head pointer, indicating it is empty. myList2 has a head pointer pointing to a node containing the value 6.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <note>
+    <p>
+      We could have a <pf>SimpleLinkedList</pf> object that was allocated on the heap, but that is less common. The whole point of the linked list is to manage dynamic memory for us so we don't have to. Allocating the list object itself on the heap would just add unnecessary complexity.
+    </p>
+    <p>We will always allocate lists on the stack.</p>
+  </note>
+
+  <p>
+    We want to be able to store any type of value in our linked list, so we will make the <pf>SimpleLinkedList</pf> a
+    class template. We will also need to change our <pf>ListNode</pf> to be a template so that it can store any type of value. First, here is how we could define a templated <pf>ListNode</pf>:
+  </p>
+
+  <listing label="linked-lists_list-node-tmpl-cxx"
+           filename="list-node-tmpl.cxx"
+           language="cpp">
+           <title>Templated ListNode <pf>ListNode.cxx</pf></title>
+    <program>
+<xi:include href="../../programs/linked-lists/list-node-tmpl.cpp" parse="text"/>
+    </program>
+  </listing>
+
+  <p>
+    An absolutely minimal implementation of a <pf>SimpleLinkedList</pf> will just have one member variable: a pointer to keep track of the first node in the list. We typically call this node the <term>head</term> of the list. We will also need a few behaviors to manage and test the list:
+    <ul>
+      <li>A constructor to initialize an empty list</li>
+      <li>An <pf>insertStart</pf> function to add a new item to the start of the list</li>
+      <li>A <pf>removeFirst</pf> function to remove the first item from the list</li>
+      <li>A destructor to delete all the nodes in the list when the list is destroyed</li>
+      <li>A <pf>print</pf> function to print all the items in the list</li>
+    </ul>
+  </p>
+
+  <listing>
+  <program
+           line-numbers="yes"
+           compile-also="linked-lists_list-node-tmpl-cxx">
+<xi:include href="../../programs/linked-lists/simple-linked-list.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>The constructor is easy. Because the list starts out empty, we just set the head pointer to <pf>nullptr</pf>. That is already done in the member variable declaration, so the constructor body can be empty.</p>
+
+  <program>
+     SimpleLinkedList&lt;T>::SimpleLinkedList() {
+       // head is already initialized to nullptr
+     }
+  </program>
+
+</section>

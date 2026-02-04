@@ -1,0 +1,135 @@
+<section xml:id="heaps_inserting"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Storing and Inserting in a Heap</title>
+
+  <subsection>
+    <title>Array-Based Storage</title>
+
+    <p> To implement a heap using an array, we need to decide how to manange that storage. We could
+      choose to use a fixed-size array, but that would limit the number of elements the heap could
+      store. If we wanted a more flexible solution, we could use a dynamic array much like we would
+      in an array based list. We would start with a small array and then resize it as needed when
+      more space is required. We would need to keep track of the current number of elements in the
+      heap (the logical size) separately from the size of the array (the physical size). </p>
+
+    <program>
+    <![CDATA[ 
+    template <typename T>
+    class Heap {
+      private:
+        T* m_data;               // Dynamic array to store heap elements
+        size_t m_size;           // Current number of elements in the heap
+        size_t m_capacity;       // Current capacity of the array
+    };
+    ]]>
+  </program>
+
+    <p> Of course, in such a structure we would need to implement: <ul>
+        <li>A constructor to initialize the array and sizes.</li>
+        <li>A destructor to free the dynamic array.</li>
+        <li>Copy constructor and assignment operator to handle deep copying.</li>
+        <li>A method to resize the array when it becomes full.</li>
+      </ul> But all of that work
+      is identical to what we would do for a dynamic array based list. So, we could instead choose
+      to just use an array based list as the underlying storage for our heap. This would allow us to
+      reuse all of that code and focus just on the heap specific logic. </p>
+
+    <program>
+    <![CDATA[ 
+    template <typename T>
+    class Heap {
+      private:
+        vector<T> m_data;       // Dynamic array (vector) to store heap elements
+    };
+    ]]>
+  </program>
+
+    <p> With this implementation, we do not have to worry about resizing the array or managing
+      memory directly. The <pf>vector</pf> class takes care of that for us. We can simply use its methods
+      to add and remove elements as needed. If we ask the vector for its size, it will give us the
+      current number of elements in the heap. </p>
+
+    <p>So as to focus on the new logic, we will use a <pf>vector</pf> to store our heap elements in the
+      rest of this chapter.</p>
+  </subsection>
+
+  <subsection>
+    <title>Inserting into the Heap</title>
+
+    <p> In a heap, as in a dynamic array, we know the first <q>open</q> location is at the index
+      equal to the current size of the heap. If the heap has 6 elements, they will be stored at
+      indices 0 through 5, and the next open location will be at index 6. So that is the easiest
+      place to insert a new element. </p>
+
+    <figure>
+      <caption>A heap with size 6.</caption>
+      <image source="images/heaps/heap-structure-array.svg"
+             width="60%">
+        <shortdescription>
+          <p> The array contains the values 20, 8, 12, 3, 4, 6 with an empty spot at the end. </p>
+        </shortdescription>
+      </image>
+    </figure>
+
+    <p>However, we can't simply leave the new element there. We need to make sure that the heap
+      property is maintained. If it has a value larger than its parent, the heap property is
+      violated. To fix the issue, we can swap the element with its parent.</p>
+
+    <p>The parent might already have a child, but that other child (the sibling of the current
+      element) must be less than the parent. So if we are replacing the parent with a larger value,
+      any sibling to the current element that exists will still be less than the new parent value.</p>
+
+    <p>Of course, after swapping with the parent, we may have a new violation of the heap property
+      with the parent's parent. So we need to continue swapping up the tree until the heap property
+      is restored or we reach the root.</p>
+
+    <activity>
+      <title>Heap Insertion</title>
+      <p> The animation is ready to insert 15. Use the <c>></c> button to step through the insertion
+        process. Watch how the new value is added at the end of the array and then swapped up the
+        tree to restore the heap property. </p>
+      <p>Then try inserting the value 50.</p>
+      <p>Finally, insert the value 2.</p>
+      <interactive platform="javascript"
+                   design-width="1000"
+                   aspect="4:2.5">
+        <script type="module">
+      import { HeapMax } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new HeapMax({ initialData: [20,8,12,3,4,6] , height: 500 });
+      anim.doInsert(15);
+          <!-- anim.doBuildHeap();
+      anim.animationManager.skipForward(); -->
+    </script>
+        <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+      </interactive>
+    </activity>
+
+    <p> The algorithm for inserting into the heap can be summarized as follows: </p>
+
+    <program language="text">
+    <![CDATA[ 
+    function insert(value):
+        index = size()
+        add the new value at index (push back in the vector)
+        while index > 0:
+            parentIndex = floor((index - 1) / 2)
+            if data[index] > data[parentIndex]:
+                swap(data[index], data[parentIndex])
+                index = parentIndex
+            else:
+                break
+                ]]>
+    </program>
+
+    <p>
+      All the work in this algorithm is constant (checking and swapping array elements can be done in constant time) with the exception of the loop. The loop could potentially run a number of times proportional to the height of the heap. Since the height of a complete binary tree is <m>O(\log n)</m>, where <m>n</m> is the number of elements in the heap, the overall time complexity of the loop, and thus the insert operation is <m>O(\log n)</m>.
+    </p>
+
+    <insight>
+      <p>Insert in a heap is <m>O(\log n)</m></p>
+    </insight>
+  </subsection>
+
+</section>

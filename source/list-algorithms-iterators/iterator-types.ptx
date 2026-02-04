@@ -1,0 +1,70 @@
+<section xml:id="list-algorithms-iterators_iterator-types"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Types of Iterators</title>
+
+  <p>
+    In <xref ref="practical-programming_associative-limitations"/>, we learned that iterators are objects that know how to keep track of a position within a given collection, such as a vector or a set. They provide a uniform way to access elements in different types of collections. 
+  </p>
+
+  <p>
+    Iterators define operations like <pf>++</pf> or <pf>--</pf> to change position within a collection. But, not all iterators support the same operations.
+  </p>
+
+  <p>
+    Imagine an iterator that is keeping track of a position in a linked list with a pointer to a list node. If we ask it to <q>move forward</q>, it can easily use the <pf>next</pf> pointer of the list node to update its position to point at the next element. However, it cannot easily <q>move backwards</q> because the list node does not have a pointer to the previous node.
+  </p>
+
+  <p>
+    For this reason, the C++ Standard Library defines several types of iterators. They all support some common operations, like <pf>==</pf> to compare two iterators for equality and <pf>*</pf> to dereference the iterator to access the element it points to. But they differ in which movement operations they support.
+  </p>
+
+  <p>
+    A <term>forward iterator</term> supports moving forward through a collection using the preincrement operator (<pf>++it</pf>). It can be used to traverse a collection from beginning to end, but it cannot move backwards.
+  </p>
+
+  <p>
+    A <term>bidirectional iterator</term> supports both moving forward and moving backward through a collection using the preincrement (<pf>++it</pf>) and predecrement (<pf>--it</pf>) operators. This allows it to traverse a collection in both directions.
+  </p>
+
+  <p>
+    A <term>random access iterator</term> supports all the operations of a bidirectional iterator, plus the ability to jump forward or backward by a specific number of elements using addition and subtraction operators (like <pf>it + n</pf> or <pf>it - n</pf>) or to a specific element by index (<pf>it[n]</pf>). This allows for more flexible navigation within a collection.
+  </p>
+
+  <p>
+    Different types of collections provide different types of iterators. A vector provides random access iterators because it allows direct access to any element by index. A <pf>std::list</pf> provides bidirectional iterators because it's implementation as a doubly-linked list can support moving in both directions but not jumping over multiple elements at once. A <pf>std::forward_list</pf> provides only forward iterators because it's a singly-linked list that only supports moving forward.
+  </p>
+
+  <p>
+    These categories of iterators determine what kinds of algorithms can be used with them. For example, the <pf>std::sort</pf> algorithm requires random access iterators:
+  </p>
+
+  <program>
+    void sort( RandomIt first, RandomIt last );
+  </program>
+
+  <p>
+    It requires these, and not just bidirectional or forward iterators, because the algorithm it is implemented with (quicksort and or heapsort) needs to be able to jump around within the collection to efficiently sort the elements.
+  </p>
+
+  <p>
+    This means that it is a compile-time error to try to use <pf>std::sort</pf> with a collection that provides only bidirectional or forward iterators, such as a <pf>std::list</pf> or <pf>std::forward_list</pf>. For those collections, you would need to use a different sorting algorithm that works with the available iterator type, such as <pf>std::list::sort</pf> which is specifically designed to work with the bidirectional iterators provided by <pf>std::list</pf>. To call it, you use the member function syntax:
+  </p>
+
+  <listing>
+  <program interactive="activecode" label="list-algorithms-iterators_iterator-types-program-1"
+  line-numbers="yes" highlight-lines="12, 15">
+<xi:include href="../../programs/list-algorithms-iterators/iterator-types-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>When you first run this program, it will produce a long compile error indicating that the iterators given to sort are not the correct type. If you comment out line 12 in the sample, it should compile and run successfully, producing the sorted list of numbers.</p>
+
+  <p>Other algorithms, like <pf>std::find</pf> do not require random access iterators and can work with forward or bidirectional iterators. They will work just fine with a <pf>std::list</pf> or <pf>std::forward_list</pf>.</p>
+
+  <program>
+    ForwardIt std::find( ForwardIt first, ForwardIt last,
+                         const T&amp; value );
+  </program>
+
+</section>

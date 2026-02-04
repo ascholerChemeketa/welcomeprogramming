@@ -1,0 +1,60 @@
+<section xml:id="balanced-trees_splay"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Splay Trees</title>
+
+  <p>
+    There are some interesting data structures that use tree rotations to improve performance, but do not maintain strict balance properties. Instead, they offer looser, probabilistic guarantees of performance. One such structure is the <term>splay tree</term>, which uses rotations to move nodes to the root position as they are accessed. Any time we access a node (whether for lookup, insertion, or deletion), we perform a series of rotations to <term>splay</term> that node to the root of the tree. 
+  </p>
+  
+  <p>
+    To perform a splay operation, we use a series of tree rotations based on the position of the target node relative to its parent and grandparent. There are three cases to consider:
+    <ul>
+      <li><em>Zig:</em> The target node is a child of the root. We perform a single rotation (left or right) to bring it to the root.</li>
+      <li><em>Zig-Zig:</em> The target node and its parent are both left children or both right children. We perform two rotations in the same direction (first on the parent, then on the grandparent) to bring the target node to the root.</li>
+      <li><em>Zig-Zag:</em> The target node is a left child and its parent is a right child, or vice versa. We perform two rotations in opposite directions (first on the target node, then on the grandparent) to bring the target node to the root.</li>
+    </ul>
+  </p>
+  
+  <p>
+    When inserting a new value into a splay tree, we first perform a standard binary search tree insertion. After the new node is added as a leaf, we then splay that new node to the root. When removing a node, we first splay the target node to the root. Then, we remove the root node and merge the left and right subtrees back together. This is typically done by finding the maximum node in the left subtree and splaying it to the root of the left subtree. We can then attach the right subtree as the right child of this new root.
+  </p>
+
+
+  <activity>
+    <title>Splay Trees</title>
+    <p>
+      The splay tree is set to find 211. Step through the process to see how the tree restructures itself using rotations to bring the accessed node to the root.
+    </p>
+    <p>Bringing 211 to root involves all three cases. First there is a zig-zag rotation, then a zig-zig rotation, and finally a zig rotation.</p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:1.5">
+    <script type="module">
+      import { SplayTree } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new SplayTree({ initialData: [211, 40, 509, 225, 787, 31, 209, 652, 886, 93]});
+      anim.doFindValue(211);
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+ 
+  <p>
+    Note that bringing 211 to root also pulls its nearby nodes (like 225) closer to the root as well. This is beneficial if those nodes are likely to be accessed soon after 211. Splay trees are particularly effective when there is a non-uniform access pattern and we tend to access the same nodes, or nearby nodes, multiple times in a short period.
+  </p>
+
+  <p>
+    In this particular case, the splay operation made the overall tree more balanced, but that is not always the case. Sometimes the splay operation can make the tree less balanced overall. However, it can be shown that the amortized time complexity of operations on a splay tree is <m>O(\log n)</m>, meaning that over a sequence of operations, the average time per operation remains logarithmic.
+  </p>
+
+
+  <insight>
+    <p>
+      Splay trees use rotations to move accessed nodes to the root, improving access times for frequently used nodes. While individual operations may take longer, the amortized time complexity remains <m>O(\log n)</m>. However, any single operation can take up to <m>O(n)</m> time in the worst case.
+    </p>
+  </insight>
+  
+
+</section>

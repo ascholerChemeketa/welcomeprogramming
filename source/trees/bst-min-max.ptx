@@ -1,0 +1,98 @@
+<section xml:id="trees_bst-min-max"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Smallest and Largest Values in a Binary Search Tree</title>
+
+  <p>
+    Finding the smallest or largest value in a binary search tree is a simple process. Because of the search tree property, the smallest value will always be found by following left child pointers until we reach a node with no left child. Similarly, the largest value will always be found by following right child pointers until we reach a node with no right child.
+  </p>
+
+  <figure>
+    <caption>The smallest and largest values in a binary search tree.</caption>
+    <image source="images/trees/bst-min-max.svg" width="60%">
+      <shortdescription>
+        <p>
+          If we follow left child pointers from the root (10), we reach the smallest value (15). If we follow right child pointers from the root, we reach the largest value (48).
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    Because every node is a root of a smaller binary search tree, we can use the same logic to find the smallest or largest value in any subtree. If we want to find the smallest value in the subtree rooted at a particular node, we simply start at that node and follow left child pointers until we reach a node with no left child. Starting from 54 in the diagram above, we would follow left pointers to 40, which is the smallest value in that subtree.
+  </p>
+
+  <p>
+    This is a simple recursive algorithm. If the current node has no left child, then its value is the smallest in the tree. Otherwise, we make a recursive call on the left child. The algorithm for finding the largest value is similar, but follows right child pointers instead.
+  </p>
+
+  <program>
+    <![CDATA[
+int findMin(Node* node) {
+    if (node->left == nullptr) {
+        return node->data;  // Base case: smallest value found
+    }
+    else {
+        // Recurse on left subtree and return its smallest value
+        return findMin(node->left);  
+    }
+} 
+    ]]>
+    </program>
+
+    <p>
+      Identifying the smallest or largest value in a subtree is a critical part of removing value from a binary search tree. Consider the same tree shown above. If we want to remove the node with value 39, we need to replace it with something. Whatever value takes its place needs to maintain the search tree property.
+    </p>
+
+    <p>
+      It might seem natural to replace the value with one of its children, but there are multiple issues with that:
+    <ul>
+      <li>The child might already have two children. What happens to them?</li>
+      <li>Promoting one of the children might violate the binary search tree property. If we moved 22 up to replace 39, the 24 on the left would now be on the wrong side.</li>
+    </ul>
+  </p>
+  
+  <p>
+    So, we want to find a value that is either the next largest or next smallest value in the tree. In our tree, those would be 40 (the smallest value in the right subtree) or 24 (the largest value in the left subtree). Either of those values could replace 39 without violating the search tree property.
+  </p>
+  
+  <figure>
+    <caption>24 and 40 are the next smallest and next largest values when starting from 39.</caption>
+    <image source="images/trees/bst-delete-options.svg" width="60%">
+      <shortdescription>
+        <p>
+          24 is the rightmost node in the left subtree of 39. 40 is the leftmost node in the right subtree of 39.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    Either option works, but we typically will choose one approach and stick with it for consistency. In this book, we will always replace a removed node with the next largest value. Finding that value is simple: we just need to call our <pf>findMin</pf> function on the right child of the node being removed.
+  </p>
+
+  <activity>
+    <title>Find Next Largest</title>
+    <p>
+      For each of the following values, try to find the next largest value in the binary search tree shown below. To do so, first find given value, then go to the right child, and then follow left child pointers to find the smallest value in that subtree.
+    </p>
+    <p>Find the next largest value for 12, 76, 40, 6</p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2">
+    <script type="module">
+      import { BST } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new BST({initialData: [40, 12, 6, 76, 3, 18, 9, 72, 45, 52, 84, 81, 83, 14, 32, 27, 75], zoom: "1.5x"});
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+
+  <p>
+    We will explore the algorithm for removing a node from a binary search tree in the next section.
+  </p>
+
+</section>

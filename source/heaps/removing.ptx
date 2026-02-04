@@ -1,0 +1,99 @@
+<section xml:id="heaps_removing"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Checking and Removing Max</title>
+
+  <p>Finding the max value in a heap is straightforward because the max value is always at the root,
+    which is the first element in the array representation of the heap. When asked for the max
+    value, we can simply return the element at index 0 of the array.</p>
+
+  <insight>
+    <p>Finding max in a heap is <m>O(1)</m>. It is always the first element.</p>
+  </insight>
+
+  <p>Once we are done processing the max value, we will want to remove it from the heap. But this presents a problem. If we simply remove it, we will have a gap at the start of the array, which would violate the shape property of the heap. In fact, the only valid element to remove in our structure is the very last element. Removing any other element would break the shape property by creating a gap.</p>
+
+  <figure>
+    <caption>The only element we can remove without causing an issue is the 6.</caption>
+    <image source="images/heaps/heap-structure-array.svg" width="60%">
+      <shortdescription>
+        <p>
+          The array contains the values 20, 8, 12, 3, 4, 6 with an empty spot at the end.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>So, to remove the max value without breaking the heap, we first swap the root with the last element. Then we can remove the last element (which is now the max value) without creating a gap. The new root value is almost certainly not the max value, so we then need to restore the heap property.</p>
+
+  <p>To restore the heap property, we compare the new root with its children. If it is larger than both
+    children, the heap property is satisfied, and we are done. If it is smaller than one or both of its
+    children, we swap it with the larger of the two children. This ensures that the parent is larger
+    than both children after the swap. This process is called <q>heapifying down</q>.</p>
+
+    <p>If we swap with a child, we then need to compare the element with its new children and continue swapping down as necessary. Eventually, we will find a spot where the current element is larger than any children it has (possibly because it ends up at a leaf).</p>
+
+  <activity>
+    <title>Heap Removal</title>
+    <p> The animation is ready to remove the max value. Press <c>></c> to step through the process.</p>
+    <p>Then try removing more values.</p>
+    <interactive platform="javascript"
+                 design-width="1000"
+                 aspect="4:2.5">
+      <script type="module">
+      import { HeapMax } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new HeapMax({ initialData: [20,8,12,3,4,6,2,1,15] , height: 500 });
+      anim.doRemove();
+        <!-- anim.doBuildHeap();
+      anim.animationManager.skipForward(); -->
+    </script>
+      <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+    </interactive>
+  </activity>
+
+  <p> The algorithm for removing the max from the heap can be summarized as follows: </p>
+
+  <program language="text">
+    <![CDATA[ 
+    function removeMax():
+        swap the root with the last element
+        remove the last element (which is the max)
+        heapifyDown(0)
+
+    function heapifyDown(index):
+        curIndex = index
+        leftChildIndex = 2 * curIndex + 1
+        rightChildIndex = 2 * curIndex + 2
+        while leftChildIndex < size():
+            // have at least one child, figure out largest
+            if rightChildIndex >= size() or data[leftChildIndex] > data[rightChildIndex]:
+                largerChildIndex = leftChildIndex
+            else:
+                largerChildIndex = rightChildIndex
+
+            if data[curIndex] < data[largerChildIndex]:
+                swap(data[curIndex], data[largerChildIndex])
+                curIndex = largerChildIndex
+                leftChildIndex = 2 * curIndex + 1
+                rightChildIndex = 2 * curIndex + 2
+            else:
+                break
+]]>
+    </program>
+
+    <p>
+      Most of the hard work happens in the <pf>heapifyDown</pf> function where we keep swapping the current element with its larger child until the heap property is restored.
+      Its logic needs to handle situations where a given node has zero, one, or two children. If the left child index is out of bounds, we know there are no children, and we can stop. If only the right child index is out of bounds, we know there is only a left child.
+      So, in determining the <q>largest child index</q>, we select the left child if the right child index is out of bounds or if the left child's value is larger than the right child's value. Otherwise, we select the right child.
+    </p>
+
+    <p>
+      Similar to insertion, all the work in this algorithm is constant with the exception of the loop. The loop could potentially run a number of times proportional to the height of the heap which is bounded by <m>O(\log n)</m>.
+    </p>
+
+    <insight>
+      <p>Remove max in a heap is <m>O(\log n)</m></p>
+    </insight>
+
+</section>

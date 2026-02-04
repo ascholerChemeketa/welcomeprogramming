@@ -1,0 +1,145 @@
+<section xml:id="balanced-trees_red-black"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Red-Black Trees</title>
+
+  <p>
+    Our next self-balancing tree is the <term>Red-Black Tree</term>, which is another type of balanced binary search tree. Like AVL trees, Red-Black trees maintain balance through rotations during insertions and deletions, but they use a different set of rules based on coloring nodes red or black to ensure balance.
+  </p>
+
+  <p>
+    In a Red-Black tree, each node is colored either red or black, and the tree must satisfy the following properties:
+    <ol>
+      <li>The root node is always black.</li>
+      <li>Null pointers are considered black.</li>
+      <li>If a red node has children, then both children must be black (no red children of red parents).</li>
+      <li>Every path from a node to its descendant leaves must have the same number of black nodes.</li>
+    </ol>
+  </p>
+
+  <p>
+    Below is a sample of a Red-Black tree. Note that the root node is black, red nodes have black children, and every path from the root to a null leaf has the same number of black nodes.
+  </p>
+  
+  <figure>
+    <caption>A Red-Black tree.</caption>
+    <image source="images/balanced-trees/red-black.svg" width="80%">
+      <shortdescription>
+        <p>
+          A Red-Black tree with black and red nodes. The root node is black. Each red node has black children. Every path from the root to a leaf has the same number of black nodes.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    We often will not draw the null leaves in Red-Black trees, but it is important to remember that if we ever need to count black nodes along a path we must include those null leaves as black nodes.
+  </p>
+  
+  <activity>
+    <title>Red-Black Trees</title>
+    <p>
+      Try using the <c>Insert Random Values</c> button a few times to build up a red-black tree.</p>
+      <p>If you want to see the null leaves, you can check the <c>Show Null Leaves</c> checkbox.</p>
+      <p>Then reset it and try generating another. Notice that although the tree is not perfectly balanced, it is never very far unbalanced.</p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2.5">
+    <script type="module">
+      import { RedBlack } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new RedBlack({ });
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <p>
+    The balancing process for Red-Black trees during insertions and deletions is more complex than for AVL trees, involving a series of color changes and rotations to restore the Red-Black properties. One way to understand the process is to think of each black node as representing a node in a B-tree of order 4. Red nodes are just part of the <q>group</q> that the black node represents.
+  </p>
+
+  <figure>
+    <caption>Groups of Red-Black nodes visualized as a B-tree nodes of degree 4. Red nodes are part of the group that the black node represents.</caption>
+    <image source="images/balanced-trees/red-black-btree-1.svg" width="80%">
+      <shortdescription>
+        <p>
+          A single black node is a B-tree node with 1 value and 2 children. A black node with a red child is a B-tree node with 2 values and 3 children. A black node with two red children is a B-tree node with 3 values and 4 children.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>In this way, the entire Red-Black tree can be viewed as a B-tree of degree 4, where each black node and its red children form a single B-tree node.</p>
+  
+  <figure>
+    <caption>A Red-Black tree visualized as a B-tree of degree 4.</caption>
+    <image source="images/balanced-trees/red-black-btree-2.svg" width="80%">
+      <shortdescription>
+        <p>
+          A Red-Black tree with black and red nodes is shown alongside its equivalent B-tree of degree 4 representation. Each black node and its red children correspond to a single B-tree node.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    When we insert in a red black tree, we start by inserting the new node as we would in a regular binary search tree, coloring the new node red. Then, we check for back up the tree to see if any of the Red-Black properties have been violated. If a violation is found, we perform a series of color changes and rotations to restore the properties.
+
+    <ul>
+      <li><p>If the parent of a red node is red, we have a violation. We then look at the uncle node (the sibling of the parent):
+        <ul>
+          <li><p>If the uncle is black (or null), that means we have a group of just three nodes. That can be fixed with rotations and recoloring:
+            <ul>
+              <li>Do a single or double rotation so that the median value of the three nodes becomes the new parent of the group.</li>
+              <li>Recolor the new parent to black and the two children to red.</li>
+            </ul>
+            This case corresponds to stealing a value from a sibling B-tree node.
+            </p>
+          </li>
+          <li><p>If the uncle is red, that means we are in a logical group of 4 nodes (one black with two red children and a new red child for one of those). We fix this by recoloring the parent and uncle to black and the grandparent to red.</p>
+          <p>This corresponds to splitting a B-tree node and pushing a value up to the parent node.</p></li>
+        </ul>
+        </p>
+      </li>
+      <li>We then repeat the process from the grandparent node if necessary.</li>
+      <li>If the root becomes red, we recolor it to black to maintain the Red-Black properties.</li>
+    </ul>
+  </p>
+
+  
+  <activity>
+    <title>Red-Black Tree Insertion</title>
+    <p>
+      First try inserting 200 (type 200 into the Value text field and press <c>Insert</c>). Then use the <c>></c> button to step through the insertion process. 
+      This new red node requires no adjustments as its parent is black.
+    </p>
+
+    <p>Then reset and try adding 600. This adds a red node with a red parent, causing a violation that requires rotations and recoloring to fix. 600 requires a single rotation to fix. If you instead add 480, this will cause a zig-zag pattern requiring a double rotation.</p>
+
+    <p>Then add 950. This is a red child of a red parent (943) and a red uncle (800). Now the group rooted at 812 is overfull. So we <q>split</q> it by making the two red children (800 and 943) black and the grandparent (812) red. This logically adds the 812 node to the group centered at 726.</p>
+
+    <p>Finally, add 1. That should cause a similar group of 4 nodes that need to be split. 8 will become red, making it a part of the group that currently contains 50 and 134). Because that group now has a red child of a red node, but only has three total nodes, we can fix with a rotation.</p>
+
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2.5">
+    <script type="module">
+      import { RedBlack } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new RedBlack({ initialData: [812, 134, 238, 472, 726, 943, 8, 500, 209, 800, 50, 100, 120,6, 42]});
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <p>
+    Similar rules govern removal of nodes from a Red-Black tree, however, the process is more complex. To see an example, reset the animation above and remove 134. This will end up removing a black node, which causes a violation of the property that every path to a null pointer must involve the same number of black nodes. The fix involves a series of color changes and rotations as we backtrack up the tree to restore balance.
+  </p>
+
+  <p>
+    Exhaustive treatment of the rules for a Red-Black tree are available in many online resources. But our key takeaway is that careful application of rules can ensure that our tree follows the Red-Black properties as it is built and modified.
+  </p>
+
+</section>

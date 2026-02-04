@@ -1,0 +1,96 @@
+<section xml:id="list-algorithms-iterators_implementing"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Implementing Iterators</title>
+
+  <p>
+    Iterators provide both a uniform abstraction for working with different types of collections and a way for those collections to expose their internal structure in a controlled manner. When you ask a collection for an iterator, you get an object that is like a pointer, but only allows you to do certain operations.
+  </p>
+
+  <p>
+    Say we have a linked list and ask for an iterator using something like <pf>ListIterator myIterator = myList.begin();</pf>. What we get back is an iterator object that contains a pointer to the first node in the linked list:
+  </p>
+
+  <figure>
+    <caption>An iterator tracking the first node in a linked list.</caption>
+    <image source="images/list-algorithms-iterators/linked-list-iterator-sample.svg"
+           width="60%">
+      <shortdescription>
+        <p>A linked list with three nodes. There is an object myIterator that contains a pointer named currentNode that points to the first node in the list.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    If we were given a raw pointer to the first node, we would need to know the details of how the linked list is implemented in order to move to the next node. (Whether to say <pf>currentNode->next</pf>, <pf>currentNode->m_next</pf>, or something else.). We also would be able to manipulate the list node we were pointing at, potentially breaking the list structure.
+  </p>
+
+  <p>
+    The iterator object object insulates us from those details and guards the data structure against accidental corruption. It provides a set of operations that we can use to move through the list and access the elements, without exposing the internal structure of the list itself. These are implemented as operator overloads on the iterator class:
+  </p>
+
+  <listing>
+    <caption>ListIterator class implementation</caption>
+    <program>
+      <![CDATA[ 
+template <typename T>
+class ListIterator {
+private:
+    ListNode<T>* currentNode;
+public:
+    // Constructor to initialize the iterator that starts at a given node
+    ListIterator(ListNode<T>* startNode) {
+        currentNode = startNode;
+    }
+
+    // Returns a reference to the element at the current position
+    T& operator*() {
+        return currentNode->data;
+    }
+
+    // Advances the iterator to the next position
+    ListIterator& operator++() {
+        currentNode = currentNode->next;
+        return *this;
+    }
+
+    // Compare two iterators for equality/inequality
+    bool operator==(const ListIterator& other) const {
+        return currentNode == other.currentNode;
+    }
+
+    bool operator!=(const ListIterator& other) const {
+        return currentNode != other.currentNode;
+    }
+};
+      ]]>
+    </program>
+  </listing>
+
+  <p>
+    Those operators are some of the basic building blocks we can use to implement algorithms like traversing the linked list:
+  </p>
+
+  <program>
+    <![CDATA[
+    for(ListIterator<int> it = myList.begin(); it != myList.end(); ++it) {
+        cout << *it << " ";
+    }
+    ]]>
+  </program>
+
+  <p>
+    Two of the operators here are particularly important:
+    <ul>
+      <li>The dereference operator (<pf>*it</pf>) allows us to access the element at the current position. It returns a reference to the data, which means we could use something like <pf>*it = 10;</pf> to modify the element. However, we can only use it to access <pf>currentNode->data</pf>. It gives us no access to the next pointer in the node.</li>
+      <li>The preincrement operator (<pf>++it</pf>) allows us to move to the next element in the list. It could be implemented as a void function, but returning a reference to the iterator allows us to chain operations and use the iterator in more complex expressions.</li>
+    </ul>
+  </p>
+  
+  <p>Other than the type of the iterator (which we could declare using <pf>auto</pf>), this is the same syntax we would use for printing any standard container. However, it does depend on being able to ask <pf>myList</pf> for iterators using <pf>myList.begin()</pf> and <pf>myList.end()</pf>. We will tackle that in the next section.</p>
+
+  <p>
+    Our <pf>ListIterator</pf> meets the criteria for being a forward iterator, because it supports moving forward through the collection using the preincrement operator (<pf>++it</pf>) and dereferencing to access the element at the current position (<pf>*it</pf>). If we were implementing an iterator for a doubly linked list, we might also implement the predecrement operator (<pf>--it</pf>) to allow moving backwards through the list, making it a bidirectional iterator. If we were implementing an iterator for a vector, we could implement addition and subtraction operators, as well as the subscript operator (<pf>[]</pf>) to jump to specific positions, making it a random access iterator.
+  </p>
+
+</section>

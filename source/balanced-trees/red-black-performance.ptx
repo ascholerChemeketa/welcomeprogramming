@@ -1,0 +1,40 @@
+<section xml:id="balanced-trees_red-black-performance"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Red-Black Tree Performance</title>
+
+  <p>
+    We can reason about the performance of Red-Black trees in a similar way to how we reasoned about AVL trees, by focusing on the worst case height of the tree.
+  </p>
+
+  <p>In a Red-Black tree, the longest path from the root to a leaf is no more than twice the length of the shortest path. If the shortest path looks like <c>B->B->B</c> we can insert at most one Red node after each Black while retaining the Red-Black properties. So, the longest possible path would look like <c>B->R->B->R->B->R</c>. (Not including black null pointer).</p>
+
+  <p>
+    To store all the nodes in a Red-Black tree using just black nodes, we would need to use a perfectly balanced, complete binary tree of black nodes. Each path to a leaf must go through the same number of black nodes, so we can't have any branches that are longer than others. As we established with a binary heap, a perfectly balanced binary tree with <m>n</m> nodes has height <m>O(\log n)</m>.
+  </p>
+
+  <p>
+    If starting from that perfectly balanced tree of black nodes, we then add red nodes to create the longest possible paths, we end up with a tree that has height no more than twice that of the perfectly balanced black-only tree. So, the height of a Red-Black tree with <m>n</m> nodes is <m>O(2 \log n) = O(\log n)</m>.
+  </p>
+
+
+  <insight>
+    <p>The height of a Red-Black tree is <m>O(\log{N})</m>, guaranteeing logarithmic time complexity for search, insertion, and deletion operations.</p>
+  </insight>
+
+
+  <aside>
+  <p>
+    The fact that we can represent a Red-Black tree as a B-tree of order 4 also should give us confidence in its efficiency. A B-tree of order 4 is guaranteed to have height <m>O(\log n)</m>, so the Red-Black tree that represents it must also have height <m>O(\log n)</m>.
+  </p>
+  </aside>
+  
+  <p>
+    In comparing the Red Black tree to the AVL tree, we see that both have height <m>O(\log n)</m>, but the AVL tree is more strictly balanced. It limits the height to about <m>1.44 \log n</m>, while the Red-Black tree allows height up to about <m>2 \log n</m>. This means that AVL trees may provide slightly faster lookups on average, since they are more balanced. However, Red-Black trees often provide faster insertion and deletion operations because they require fewer rotations on average to maintain balance. 
+  </p>
+
+  <p>The choice between using an AVL tree or a Red-Black tree thus depends on the specific requirements of the application, such as the frequency of insertions and deletions versus lookups. The C++ std::map and std::set containers do not mandate a particular tree type, but do require guaranteed logarithmic time complexity for insertions, deletions, and lookups. To optimize for mixed use, implementation typically use Red-Black trees. (You may be able to see this by using the debugger to inspect the internal structure of these containers.)</p>
+
+  <p>Low level optimizations in both trees can avoid storing extra information (color or balance factor) by using techniques such as bit-packing or pointer tagging.</p>
+
+</section>

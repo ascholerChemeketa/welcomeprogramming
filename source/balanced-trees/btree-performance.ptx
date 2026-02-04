@@ -1,0 +1,39 @@
+<section xml:id="balanced-trees_btree-performance"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>B-Tree Performance</title>
+
+  <p>
+    We will not attempt a full performance analysis of B-trees here, but we can make some general observations.
+    A B-tree can never have empty nodes and the height of every leaf is always the same. This means that the absolute worst case for a B-Tree, where each node only has the minimum number of keys, we are still guaranteed a height of <m>O(\log n)</m>.
+    Also important is that the base of the log depends on the degree of the B-tree. A B-tree of degree <m>d</m> optimally has a height of <m>\log_{d}</m> and at most <m>\log_{d/2} n</m>. This means that as we increase the degree of the B-tree, we decrease its height.
+  </p>
+
+  <p>
+    This means that a B-tree of say degree 10 will be shorter than a binary search tree with the same number of values. Given 100 values, the minimum height of the binary search tree (<m>\log_2 100 \approx 6.64</m>) is greater than the minimum height of the B-tree (<m>\log_{10} 100 \approx 2</m>).
+    Normally we don't care about the base of logarithms when analyzing time complexity because they only differ by a constant factor. You can convert <m>\log_2</m> to <m>\log_{10}</m> by multiplying by <m>~0.301</m>, which is a constant.
+  </p>
+
+  
+  <insight>
+    <p>The height of a B-tree is <m>O(\log{N})</m>, and the base of the logarithm depends on the degree of the tree.</p>
+  </insight>
+
+
+  <p>
+    However, if the constant factors associated with each node visit are significant, then the difference in height can have a noticeable effect on performance. This can easily be the case for large data structures where each node visit may involve reading from a disk. A traditional spinning hard drive has a seek time of around 10 milliseconds. That is approximately 100,000 times slower than accessing data in RAM, which typically takes around 100 nanoseconds. (See <url href="https://gist.github.com/jboner/2841832" role="external">Latency Numbers Every Programmer Should Know</url> for more details on typical access times for various storage technologies.)
+  </p>
+
+  <p>
+    If every step from one node to the next involves a constant factor of 100,000, then minimizing the number of node visits becomes very important. In this case, a B-tree with a higher degree can provide better performance than a binary search tree because it reduces the height of the tree and therefore the number of node visits required for operations like search, insertion, and deletion.
+  </p>
+
+  <p>
+    Thus, B-trees are often used in database systems and file systems where data is stored on disk. The higher degree of B-trees allows them to minimize disk accesses, which are the most time-consuming operations in these systems. By keeping the tree height low, B-trees help ensure that operations can be performed efficiently even when dealing with large amounts of data.
+  </p>
+
+  <p>
+    When working in memory, the extra complexity of managing the multi-value nodes of a B-tree is often not worth the effort compared to a simpler balanced binary search tree like an AVL tree or a Red-Black tree.
+  </p>
+
+</section>

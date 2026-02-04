@@ -1,0 +1,92 @@
+<section xml:id="balanced-trees_double-rotations"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Double Rotations</title>
+
+  <p>
+    A rotation can help to improve the balance of a tree when one subtree is taller than the other. However, there are cases where a single rotation is not enough to restore balance. This happens when the taller subtree itself is unbalanced in the opposite direction.
+  </p>
+
+  <p>
+    To see why this is the case, consider a right rotation on the following tree. At the start, it is unbalanced because the left subtree has a height of 2 while the right subtree has a height of 0. After the right rotation, the tree is still unbalanced because the new left subtree has a height of 0 while the new right subtree has a height of 2.
+  </p>
+
+  <figure>
+    <caption>Right Rotation of 5 does not restore balance.</caption>
+    <image source="images/balanced-trees/zig-zag-0.svg" width="40%">
+      <shortdescription>
+        <p>
+          A right rotation is performed on the node with value 5. The 5 node has a left child (3). It has a right child (4). The left child (3) becomes the new root of the subtree, and 5 becomes the right child of 3 and 4 becomes the left child of 5.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    The key to identifying this situation is to notice that the path to the deeper subtree is a <q>zig-zag</q> pattern. In our example, we went left from 5 to 3, and then right from 3 to 4. When we have this zig-zag pattern, a single rotation will not be enough to restore balance. Instead, we need to perform two rotations: one on the child node to straighten out the zig-zag, and then one on the original pivot node to complete the balancing.
+  </p>
+
+  <p>
+    In this example, we first perform a left rotation on the 3 node. This straightens out the zig-zag by making 4 the new child of 5. Then, we perform a right rotation on the 5 node. This completes the balancing by making 4 the new root of the subtree, with 3 as its left child and 5 as its right child.
+  </p>
+  
+  <figure>
+    <caption>A left rotation on 3 followed by a right rotation on 5.</caption>
+    <image source="images/balanced-trees/zig-zag-1.svg" width="60%">
+      <shortdescription>
+        <p>
+          The root node (5) has a left child (3). That has a right child (4). First a left rotation is performed on 3, making 4 the new left child of 5 and 3 the left child of 4. Then a right rotation is performed on 5, making 4 the new root of the subtree, with 3 as its left child and 5 as its right child.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    We will refer to this sequence of two rotations as a <term>double rotation</term>. The first rotation is performed on the child of the pivot node, and the second rotation is performed on the pivot node itself. The order of the rotations depends on the direction of the zig-zag pattern. In our example, we had a left-right zig-zag, so we performed a left rotation followed by a right rotation. If we had a right-left zig-zag, we would perform a right rotation followed by a left rotation.
+  </p>
+
+  <activity>
+    <title>Double Rotations</title>
+    <p>
+      The tree in this animation below is out of balance. The left side of the root is deeper than the right side. But a simple right rotation of the root won't fix it. (Try if you like and then reset the animation.)</p>
+      
+      <p>The path from the root where we want to perform the rotation is a zig-zag pattern (first it goes left and then it goes right). Fix it by first doing a left rotation of 10 and then a right rotation of 18. Click on a node (or type its value into the text field) to select it, then press <c>Rotate Left</c> or <c>Rotate Right</c> to start the rotation and then <c>></c> to step through the animation.
+      </p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2">
+    <script type="module">
+      import { BST } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new BST({initialData: [18, 10, 14, 15, 13, 20] });
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <p>
+    We don't always have to rotate at the root of the tree. We generally want to perform rotations at the lowest unbalanced node in the tree. This minimizes the amount of restructuring we have to do and helps to keep the tree as balanced as possible.
+  </p>
+
+  
+  <activity>
+    <title>Fixing a Tree</title>
+    <p>
+      The tree below can't be perfectly balanced. But it can be made more balanced at the 10 node. Perform a double rotation to improve the balance at that subtree.
+      </p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2">
+    <script type="module">
+      import { BST } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new BST({initialData: [30, 20, 25, 10, 15, 40, 35, 45, 12, 38] });
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+
+</section>

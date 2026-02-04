@@ -1,0 +1,153 @@
+<section xml:id="balanced-trees_btree"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>B-Trees</title>
+
+  <p>
+    The next structure we will explore is the <term>B-tree</term>, which is a generalization of the binary search tree that allows each node to have more than two children. Each node can have a variable numbers of keys within some pre-defined range. It will always have one more child pointer than it has keys. 
+  </p>
+
+  <p>
+    For example, consider the node shown in the figure below. It has 5 values (53, 93, 214, 352, and 457) and 6 children. The first child pointer points to a subtree with values less than 53, the second child pointer points to a subtree with values between 53 and 93, the third child pointer points to a subtree with values between 93 and 214, and so on. The last child pointer points to a subtree with values greater than 457.
+  </p>
+
+  <figure>
+    <caption>A B-tree node with 5 values and 6 children.</caption>
+    <image source="images/balanced-trees/btree-d7-crop.svg" width="80%">
+      <shortdescription>
+        <p>
+          A B-tree node with 5 values: 53, 93, 214, 352, and 457. It has 6 children pointers, one to the left of 53, one between each pair of values, and one to the right of 457.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    The <term>degree</term> of a B-tree is the maximum number of children (pointers) that any node can have. 
+    (Which is one more than the maximum number of keys it can have.) In the tree above, which is only partially shown, the degree is 7. That means that each node can have at most 6 keys and 7 children. The lsat node shown in the figure (97, 98, 121, 156, 175, 176) has 6 values, so it is full. The highlighted node we were just discussing has 5 values, so it is not full.
+  </p>
+
+  <p>
+    To keep things manageable, we will focus on B-trees of degree 3. This means that each node can have at most 2 keys and 3 children. Each node (except the root) must have at least one key (and therefore at least 2 children). The root must have at least one key unless the tree is empty.
+  </p>
+
+  <activity>
+    <title>B Trees</title>
+    <p>
+      The B-Tree is set to degree 3. Press the <c>Insert Random</c> button a few times to insert random values into the tree.
+    </p>
+    <p>
+      Then try changing the degree to a different value (which will reset the tree) and inserting more random values.
+    </p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2.5">
+    <script type="module">
+      import { BTree } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new BTree({ });
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <p>
+    The way we maintain balance in a B-tree is by ensuring that all leaf nodes are at the same depth. When we insert a new value, we always add it to a leaf node. If that leaf node is full (has the maximum number of keys), we split it into two nodes and promote the middle key to the parent node. This process may continue up the tree if the parent node also becomes full. If the root node becomes full, we create a new root node and increase the height of the tree by one.
+  </p>
+
+  <activity>
+    <title>B Trees</title>
+    <p>
+      The B-Tree is set insert 325. Press the <c>></c> button to watch the insertion.
+    </p>
+    <p>
+      Then insert 25 (type 25 into the Value text field and press <c>Insert</c>) and step through that insertion as well. This will cause a split in the leaf node, promoting a value to the parent.
+    </p>
+    <p>
+      Finally, insert 400 (type 400 into the Value text field and press <c>Insert</c>) and step through that insertion. This will cause a split at the leaf node, which causes the parent (the root) to split as well, increasing the height of the tree.
+    </p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2">
+    <script type="module">
+      import { BTree } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new BTree({initialData: [100, 200, 300, 50]});
+      anim.doInsert(325);
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <p>
+    The logic can be summarized as follows:
+    <ol>
+      <li>Start at the root and find the appropriate leaf node where the new value should be inserted.</li>
+      <li>If the leaf node is not full, insert the new value in sorted order.</li>
+      <li><p>If the leaf node is full, split it into two nodes:
+        <ol>
+          <li>Find the middle key and promote it to the parent node.</li>
+          <li>Create a new node for the keys greater than the middle key.</li>
+          <li>If the parent node is also full, repeat the split process up the tree.</li>
+        </ol>
+        </p>
+      </li>
+      <li>If the root node is split, create a new root node and increase the height of the tree by one.</li>
+      </ol>
+  </p>
+
+  <p>
+    As with a BST, when we are removing a value in non-leaf node, we won't actually remove it directly. Instead, we will find either the in-order predecessor (the largest value in the left subtree) or the in-order successor (the smallest value in the right subtree), swap that value into the node to be deleted, and then remove the value from the leaf node where it originally resided. This ensures that we are always removing from a leaf node, simplifying the balancing process.
+  </p>
+
+  <p>
+    Then, if the leaf node has fewer than the minimum number of keys after the removal, we will need to perform some rebalancing operations. This can involve borrowing a key from a sibling node or merging with a sibling node if it also has the minimum number of keys. The rebalancing may propagate up the tree if the parent node also falls below the minimum number of keys.
+  </p>
+  
+  <activity>
+    <title>B Trees</title>
+    <p>
+      First try removing 85 (type 85 into the Value text field and press <c>Remove</c>). Press the <c>></c> button to watch the removal. We will end up stealing from the right sibling to maintain balance.
+    </p>
+    <p>
+      Then reset the animation and try removing 15 and step through that removal. This will be a simple one as there is no rebalancing needed.
+    </p>
+    <p>
+      Then reset and try removing 325. This will end up stealing from the right child. But since that creates an empty node, we will then do a rotation to fix things up. (A value from the parent moves down to fill the empty spot, and a value from the left sibling moves up to the parent.)
+    </p>
+    <p>
+      Finally, reset and remove 400. Step through that removal. Then remove 325. This will cause a sibling merge, which will cause the parent to lose a value. Since the parent will then have too few values, we will need to continue rebalancing up the tree.
+    </p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2">
+    <script type="module">
+      import { BTree } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new BTree({initialData: [100, 200, 300, 50, 325, 25, 400, 315, 85, 64, 150, 15]});
+      <!-- anim.doRemove(325); -->
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>S
+  </interactive>
+  </activity>
+  <p>
+    The logic for removal can be summarized as follows:
+    <ol>
+      <li>Start at the root and find the appropriate leaf node where the value to be removed resides.</li>
+      <li>Remove the value from the leaf node.</li>
+      <li><p>If the leaf node has fewer than the minimum number of keys after removal, perform rebalancing:
+        <ol>
+          <li>If a sibling node has more than the minimum number of keys, borrow a key from that sibling. (Do a rotation through the parent.)</li>
+          <li>If both sibling nodes have the minimum number of keys, merge with one sibling and move a key down from the parent.</li>
+          <li>If the parent node has fewer than the minimum number of keys after moving a key down, repeat the rebalancing process up the tree.</li>
+        </ol>
+        </p>
+      </li>
+      <li>If the root node has no keys after removal, make its only child the new root and decrease the height of the tree by one.</li>
+      </ol>
+  </p>
+
+</section>

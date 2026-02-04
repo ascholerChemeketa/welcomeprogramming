@@ -1,0 +1,45 @@
+<section xml:id="linked-lists_simple-linked-list-insert-at"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Insert At an Index</title>
+  
+  <p>Inserting at a specific index will need to handle the same challenges as removing did. <ul>
+    <li>We need to stop our current pointer at the node before the index we want to insert at.</li>
+    <li>We need to handle the special case of inserting at index 0.</li>
+  </ul>
+    We can use the same kinds of logic to handle them. We will advance our current pointer <pf>index - 1</pf> times. And, before we do that, we   can check if the index is 0. If it is, we can call our existing <pf>insertStart</pf> method to handle the special case. 
+  </p>
+
+  <p>
+    Once we are sure the index is not 0 and have advanced our current pointer to the node before the desired index, we can insert the new node. We will need to do something like the following:
+  </p>
+
+  <program language="text">
+    ListNode* newNode = new ListNode(value);          // Create the new node
+    newNode->next = current->next;                    // Point new node to the next node
+    current->next = newNode;                          // Point current to the new node
+  </program>
+
+  <activity>
+    <title>Linked List Insert At</title>
+    <p>
+      The animation has already created a current pointer and advanced it once. Type 20 into the Value box. Then use <c>Insert After Current</c> to insert that value at index 2.
+    </p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2.5">
+    <script type="module">
+      import { LinkedListSimple } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new LinkedListSimple({ initialData: [12, 8, 15, 3] , speed: "Off" });
+      anim.doMakeCurrentPointer();
+      anim.animationManager.skipForward();
+      anim.doAdvanceCurrent();
+      anim.animationManager.skipForward();
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+
+</section>

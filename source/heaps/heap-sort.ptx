@@ -1,0 +1,90 @@
+<section xml:id="heaps_heap-sort"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Heap Sort</title>
+
+  <p> Because a heap makes it easy to find the largest item, we can use it to sort a collection of
+    items. The <term>heap sort</term> algorithm works by first building a heap from the input data,
+    and then repeatedly removing the maximum element from the heap and adding it to the sorted
+    output. </p>
+
+  <subsection>
+    <title>Heapifying</title>
+
+    <p> The process of <term>heapifying</term> transforms an unordered array into a valid heap. This
+      is done by iterating through the array from the last non-leaf node down to index 0, applying
+      the heapify down operation at each location.</p>
+
+    <p>To find the last non-leaf node, we simply need to find the parent of the last element. Since
+      the last element is at index <m>size - 1</m>, and the parent of a node at index <m>i</m> is
+      always at <m>floor(\frac{i - 1}{2})</m> parent is at index <m>floor(\frac{size - 2}{2})</m>.</p>
+
+    <p>Starting from that location and working back to index 0, we call <pf>heapifyDown()</pf> (the same
+      algorithm used while removing max) on each node. This animation demonstrates the process:</p>
+
+    <activity>
+      <title>Heapifying</title>
+      <p> The animation is ready to heapify the array. Press <c>></c> to step through the process.</p>
+      <interactive platform="javascript"
+                   design-width="1000"
+                   aspect="4:2.5">
+        <script type="module">
+      import { HeapSort } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new HeapSort({ height: 500 });
+      anim.doHeapify();
+          <!-- anim.doBuildHeap();
+      anim.animationManager.skipForward(); -->
+    </script>
+        <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+      </interactive>
+    </activity>
+
+  </subsection>
+
+  <subsection>
+    <title>Sorting</title>
+    <p> Once the data if heapified, we can repeatedly remove the max value from the heap and add it
+      to the sorted output. To do so, we swap the root of the heap (the max value) with the last
+      element in the heap, and then pretend like the heap is one element smaller. We don't actually
+      delete the value from our array or vector, we just pretend that it is no longer part of the
+      data. </p>
+
+    <p> Doing this in place (instead of moving sorted values to a new array) means that the sorted
+      values will end up at the end of the array in reverse order. The first max value we remove
+      will go to the end of the array, the second max value will go to the second to last position,
+      and so on. We also have to be careful to only heapify down within the bounds of the current
+      heap size (which shrinks with each removal). So in our heap, when we calculate <pf>size()</pf>, we
+      need to return the current logical size of the heap, not the size of the entire array. </p>
+
+    <p> This animation demonstrates the heap sort process: </p>
+
+    <activity>
+      <title>Heap Sorting</title>
+      <p>The animation is ready to do a heap sort. Press <c>></c> to step through the process.</p>
+      <p>Sorted values get a gray background and are no longer part of the heap. You may have to
+        zoom or move the animation to see the end of the array. Once the animation is complete, the
+        entire array will be sorted.</p>
+      <interactive platform="javascript"
+                   design-width="1000"
+                   aspect="4:2.5">
+        <script type="module">
+      import { HeapSort } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new HeapSort({ height: 500 });
+      anim.doHeapify();
+      anim.animationManager.skipForward();
+      anim.doSort();
+    </script>
+        <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+      </interactive>
+    </activity>
+
+    <p>To reverse the order of the data, we would simply modify the algorithm to build a min heap
+      where the smallest value is at the root instead of the largest. Then, as we extracted items
+      and moved them to the sorted output, we would end up with the smallest values at the end of
+      the array and the largest values in front.</p>
+
+  </subsection>
+
+</section>

@@ -1,0 +1,71 @@
+<section xml:id="trees_trees"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Trees</title>
+
+  <p>
+    A <term>tree</term> is a data structure that consists of nodes connected by directed edges. When describing the locations of nodes and their relationships, we tend to use a mix of tree and family metaphors. The topmost node is called the <term>root</term>, and nodes can have <term>children</term> and <term>parents</term>. Two nodes that share the same parent are called <term>siblings</term>. Nodes with no children are called <term>leaves</term> because they dangle at the end of branches. Nodes that are not leaves are called <term>internal nodes</term>.
+  </p>
+
+  <p>
+    We typically draw trees with the root at the top and the leaves at the bottom, like an upside-down tree. Here is an example of a simple tree:
+  </p>
+
+  <figure>
+    <caption>A simple tree. The circles are nodes and black lines edges. Arrows point from parent to child. The 10 node is the root of the tree because it has no parent. We would describe 5 and 15 as siblings because they share the same parent, 10.</caption>
+    <image source="images/trees/simple-tree.svg" width="50%">
+      <shortdescription>
+        <p>
+          This tree has a root node with the value 10. The root has two children: the left child with the value 5 and right with a value 15. The 5 node has two children: left child 3 and right child 7. The 15 node has a right child 20. 20 has a right child 22.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>Although that diagram uses arrows to indicate the direction of the edges, they are not always drawn. Often times, we simply draw lines to show connections and the higher node is assumed to be the parent.</p>
+
+  <p>Note that this structure implies a few important facts:
+    <ul>
+      <li>
+        <p>Every node is the root of a subtree. We could break off any node and its descendants to form a new tree.</p>
+      </li>
+      <li>
+        <p>There can never be any loops in a tree. Starting at the root and following child pointers, you can never return to the same node.</p>
+      </li>
+    </ul>
+    These properties are true of every tree. Other features can vary. For instance, some trees require that each node have at most two children (these are called <term>binary trees</term>), while others allow nodes to have many children. Some trees require that the children of a node be ordered in some way, while others do not. We will explore these variations as we encounter them.
+  </p>
+
+  <p>
+    The trees we will be most concerned with are ones that are used as the building blocks for general data structures (to build a set or a map). However, trees are also used in many other contexts. For instance, the structure of an HTML document (web page) can be represented as a tree, where each element is a node and child elements are children of their parent elements.
+  </p>
+
+  <figure>
+    <caption>An HTML document represented as a tree.</caption>
+    <image source="images/trees/html-tree.svg" width="100%">
+      <shortdescription>
+        <p>
+          A tree representation of a simple HTML document. The root node "html" has two children: "head" and "body". The "head" node has children: "title", "meta", and "script". The "body" node has children: "header", "main", and "footer". The "main" node has two children: "section" and "article".
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>This structure is used to help browsers understand how to layout the contents of the page. For example, in the diagram above, we can see that the <pf>&lt;section></pf> is inside the <pf>&lt;main></pf> and right after the <pf>&lt;h1></pf>. Notice that some nodes have many children. In a real HTML page, there might be dozens of nodes that were all children of a particular node.</p>
+
+  <p>We might also represent a sports playoff as a tree:</p>
+
+  <figure>
+    <caption>An 8 team basketball tournament bracket. The root node is the champion on the right. The leaf nodes are on the left. Teams play each other and the winners advance to the next node to the right.</caption>
+    <image source="images/trees/playoff-tree.svg" width="100%">
+      <shortdescription>
+        <p>
+          8 teams are listed on the left side. They are paired off to play each other in the first round. The winners of those matches advance to the next round, where they are paired off again. This continues until there is a single champion on the right side of the tree.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>This structure could be useful to help us run a simulation of the tournament and determine the odds for the eventual champion.</p>
+
+</section>

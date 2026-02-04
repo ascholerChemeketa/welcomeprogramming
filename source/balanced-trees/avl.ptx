@@ -1,0 +1,112 @@
+<section xml:id="balanced-trees_avl"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>AVL Trees</title>
+
+  <p>
+    Now that we know how rotations can be used to restructure a tree, we can explore how to use them to maintain balance in a binary search tree. As we discussed in the previous chapter, the efficiency of many binary search tree operations depends on the height of the tree. If the tree becomes unbalanced, with some branches much deeper than others, the performance of operations like insertion, deletion, and lookup can degrade from <m>O(\log n)</m> to <m>O(n)</m>. All of the self-balancing technologies we will explore seek to prevent this and provide some guarantee that the height of the tree remains logarithmic.
+  </p>
+
+  <p>
+    The first self balancing structure we will consider is the <term>AVL Tree</term>, named after its inventors G.M. Adelson-Velsky and E.M. Landis. An AVL tree is a binary search tree that maintains a balance condition: for every node in the tree, the heights of the left and right subtrees can differ by at most 1. This balance condition will ensure that the height of the tree remains logarithmic in relation to the number of nodes.
+  </p>
+
+  <p>
+    To calculate the balance of nodes efficiently, each node in an AVL tree typically stores its height as an additional piece of data. (Recall that a leaf has a height of 0. This means that if we ever need to reason about the height of an empty subtree, we can consider it to be -1.) 
+    When we perform insertions or deletions, that may change the heights of nodes along the path from the modified node back up to the root. So, as we return from our recursive calls, we will need to update the heights of the nodes we visit.
+  </p>
+
+  <p>We also need to check the current balance factor of the node. This value is not stored. It is calculated on demand as the difference in the heights of the left and right subtrees. (We will use the convention of <pf>height(left) - height(right)</pf> though it is arbitrary.)
+    A balance factor of 0, 1, or -1 indicates that the node is balanced. A balance factor greater than 1 or less than -1 indicates that the node is unbalanced and requires rebalancing through rotations.</p>
+
+  <p>You can explore this in the animation below.</p>
+
+  <activity>
+    <title>AVL Trees</title>
+    <p>
+      An AVL tree is set to insert 93. This will cause a few height updates but no rotations. Use the <c>></c> button to step through the insertion process.
+    </p>
+    <p>The number next to each node represents its height. Balance factors will be calculated and displayed temporarily but are not stored.</p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:1.5">
+    <script type="module">
+      import { AVL } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new AVL({ initialData: [211, 40, 509, 225, 787, 31, 209, 652, 886]});
+      anim.doInsert(93);
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <p>
+    When we find a node that is unbalanced after an insertion or deletion, we need to determine which of the four rotation cases to apply to restore balance. The four cases are:
+    <ul>
+      <li><strong>Left-Left (LL) Case:</strong> The left subtree of the left child is deeper. We perform a right rotation on the unbalanced node.</li>
+      <li><strong>Right-Right (RR) Case:</strong> The right subtree of the right child is deeper. We perform a left rotation on the unbalanced node.</li>
+      <li><strong>Left-Right (LR) Case:</strong> The right subtree of the left child is deeper. We perform a left rotation on the left child, followed by a right rotation on the unbalanced node.</li>
+      <li><strong>Right-Left (RL) Case:</strong> The left subtree of the right child is deeper. We perform a right rotation on the right child, followed by a left rotation on the unbalanced node.</li>
+    </ul>
+    Really, these are just two cases (LL and LR) and their mirror images (RR and RL). The key is to look at the direction we need to go to reach the deeper subtree. It will either be two steps in the same direction (LL or RR) or a zig-zag pattern (LR or RL).
+  </p>
+
+  <p>
+    In the <q>same direction</q> case, a single rotation away from the taller child will restore balance. In the <q>zig-zag</q> case, we need to perform a double rotation: first a rotation on the child node to straighten out the zig-zag, and then a rotation on the unbalanced node to complete the balancing.
+  </p>
+
+  <p>Use the animation below to explore these two cases.</p>
+
+  <activity>
+    <title>AVL Trees Insertion Rotations</title>
+    <p>
+      First, insert 60 (type 60 into the Value text field and press <c>Insert</c>). Then use the <c>></c> button to step through the insertion process. This will cause a Left-Left imbalance that requires a right rotation to fix.
+    </p>
+    <p>Then press the <c>Reset</c> button and insert 120. This will trigger a zig-zag imbalance that requires a double rotation to fix. Step through the process to watch it unfold.</p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:1.5">
+    <script type="module">
+      import { AVL } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new AVL({ initialData: [211, 40, 509, 225, 787, 31, 209, 652, 886, 93]});
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <p>
+    The rotation can happen at any level of the tree. For example, if you insert 900 into the tree shows in the animation above (after resetting it), the imbalance will occur 509. It would have children of height 0 and of 2 and require a left rotation to fix.
+  </p>
+
+  <p>
+    In an insertion, we should only need to perform one rotation (single or double) to restore balance. This is because the insertion of a new leaf can only increase the height of the tree by 1, and that increase can only propagate up the tree until it reaches a node that was already balanced. Once we perform a rotation to fix an unbalanced node, the height of the subtree rooted at that node will be restored to what it was before the insertion, preventing further imbalances up the tree.
+  </p>
+
+  <p>
+    Deletions can be a bit more complex. Removing a node can decrease the height of the tree, which can cause multiple nodes along the path back to the root to become unbalanced. Therefore, after a deletion, we may need to perform multiple rotations (single or double) as we backtrack up the tree to restore balance at each unbalanced node.
+  </p>
+
+  
+  <activity>
+    <title>AVL Trees Deletion Rotations</title>
+    <p>
+      First, remove 225 (click on the 225 node and then press <c>Remove</c>). This will cause a Right-Right imbalance that requires a left rotation to fix. Use the <c>></c> button to step through the removal process. 
+    </p>
+    <p>Then press the <c>Reset</c> button and remove 31. This will cause a local imbalance at the 40 node. Once that is fixed, the 211 node will become unbalanced and require a second rotation to fix. Step through the process to watch it unfold.</p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:1.5">
+    <script type="module">
+      import { AVL } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new AVL({ initialData: [211, 40, 509, 225, 787, 31, 209, 652, 886, 93, 300, 800]});
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+</section>

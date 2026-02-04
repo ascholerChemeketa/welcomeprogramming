@@ -1,0 +1,133 @@
+<section xml:id="trees_bst-iteration"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Iterating in a BST</title>
+
+  <p>
+    Although most tree algorithms are naturally recursive, we can also use iteration to traverse a binary search tree. Algorithms that only need to explore one path can easily be implemented with a loop. For example, here is a non-recursive implementation of the <pf>contains</pf> function:
+  </p>
+
+  <listing>
+  <program>
+    <![CDATA[
+bool IntBST::contains(int value) {
+    Node* current = root;  // Start at the root
+    while (current != nullptr) {
+        if (value == current->data) {
+            return true;  // Found the value
+        } else if (value < current->data) {
+            current = current->left;  // Go left
+        } else {
+            current = current->right; // Go right
+        }
+    }
+    return false;  // Value not found
+}
+    ]]>
+  </program>
+  </listing>
+
+  <p>
+    Algorithms that need to explore the entire tree are more complicated to implement iteratively. The recursive versions of these algorithms use the call stack to implicitly keep track of where they are in the tree. When they are done working on a node, they return to the previous call, which has the state of the previous node. To implement these algorithms iteratively, we need to use an explicit stack data structure to keep track of the nodes we need to still need to visit.
+  </p>
+
+  <p>
+    A good way to explore this is to think about what an iterator for a binary search tree would look like. An iterator is an object that allows us to step through the elements of a data structure one at a time. For a binary search tree, we might want an iterator that returns the values in sorted order (an in-order traversal). To do this, it is not sufficient to just keep track of the current node. We also need to remember what nodes we still need to revisit. You can explore this idea with the interactive below.
+  </p>
+
+  <p>
+    Initially, we want to be at the left most (smallest) node in the tree. But we need to remember that we still need to visit all the nodes above it. So we will start from the root and push all the left children onto a stack until we reach the leftmost node. This stack will help us remember the path we took to get to the current node.
+  </p>
+
+  <activity>
+    <title>BST Iterator</title>
+    <p>
+      The animation is set to build an iterator. The stack is represented upside down (the top of the stack is at the bottom of the animation). Use the <c>></c> button to step through the process of making the iterator.
+    </p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2">
+    <script type="module">
+      import { BSTIterator } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new BSTIterator({initialData: [39,22,54,15,24,40,48, 23, 45,50, 65, 58, 60, 70] });
+      anim.doMakeIterator();
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <note>
+    <p>The animation shows the values of the nodes in the stack. We would actually store pointers to the nodes themselves so that we can examine the children of the item at the top of the stack.</p>
+  </note>
+  
+  <p>
+    When we are done with an item, we pop it off the stack. We then need to check to see if there are any right children. If so, those are values we need to visit before returning to the parent nodes. So, if there is a right child, we push that node and all its left children onto the stack. When there is no right child, there is nothing more to do for that node, and having popped it off the stack, we will now be back at its parent.
+  </p>
+
+  <p>Use the animation above to repeatedly <c>Advance Iterator</c>. Note the different behavior when the iterator is at a node with a right child versus a node without a right child.</p>
+
+  <p>Pseudocode for this process would look like this:</p>
+
+  <program language="text">
+advanceIterator()
+    if (stack is empty)
+        return
+    current = stack.pop()  // Get the top node
+    if (current->right != nullptr) 
+        temp = current->right
+        while (temp != nullptr)
+            stack.push(temp)
+            temp = temp->left
+  </program>
+
+  <p>
+    This logic is what the <pf>operator++()</pf> would use to advance the iterator to the next value in sorted order. The <pf>operator*()</pf> function to get the current value would simply return the value of the node at the top of the stack. And the <pf>operator==()</pf> could just check if both stacks are empty (indicating the end of the iteration) or if the top nodes of both stacks are the same.
+  </p>
+
+  <p>
+    To make a self contained, non-recursive algorithm that explores the entire tree we need to employ similar logic. We will make a stack and use it to store nodes we know about but have not yet visited.</p>
+
+  <p>If we want an in-order traversal, we can use the logic of the iterator above to decide when nodes should be pushed onto the stack and when they should be popped off for processing.
+  </p>
+
+  <p>To do a pre-order traversal, every time we enter a node we will first process it, then push its right child and then its left child onto the stack (if they exist). Pushing them in reverse order (right then left) ensures that the left child is processed before the right child.</p>
+
+  <p>And to do a post-order traversal, when we first learn about a node, we will push it onto the stack along with a marker indicating that we have not yet processed its children. When we pop a node off the stack, if it is marked as unprocessed, we will push it back onto the stack marked as processed, and then push its right and left children (if they exist) onto the stack marked as unprocessed. If we pop a node off the stack that is marked as processed, we can then process it.</p>
+
+  <p>Below is what an iterative version of <pf>size</pf> that uses a stack and a pre-order traversal to count all the nodes in the tree would look like.
+  </p>
+
+  <listing>
+  <program>
+    <![CDATA[
+int IntBST::size() {
+    std::stack<Node*> nodeStack;  // Stack to hold nodes to visit
+    int count = 0;                // Size counter
+    if (root != nullptr) {
+        nodeStack.push(root);      // Start with the root
+    }
+    while (!nodeStack.empty()) {
+        Node* current = nodeStack.top();
+        nodeStack.pop();
+        count++;  // Count this node
+        // Push children onto stack
+        if (current->right != nullptr) {
+            nodeStack.push(current->right);
+        }
+        if (current->left != nullptr) {
+            nodeStack.push(current->left);
+        }
+    }
+    return count;
+}
+    ]]>
+  </program>
+  </listing>
+
+  <insight>
+    <p>Recursion relies on the call stack for storing the state of the computation. When converting recursive algorithms to iterative ones, we often use an explicit stack data structure to simulate this behavior.</p>
+  </insight>
+
+</section>

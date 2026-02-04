@@ -1,0 +1,39 @@
+<section xml:id="linked-lists_standard-lists"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Standard Linked Lists</title>
+
+  <p>
+    The C++ Standard Library provides two versions of linked lists: <pf>std::list</pf> and <pf>std::forward_list</pf>. The <pf>std::list</pf> is a doubly linked list, while the <pf>std::forward_list</pf> is a singly linked list. You can find documentation for them both of cppreference.com:
+    <ul>
+      <li><url href="https://en.cppreference.com/w/cpp/container/list">std::list documentation</url></li>
+      <li><url href="https://en.cppreference.com/w/cpp/container/forward_list">std::forward_list documentation</url></li>
+    </ul>
+  </p>
+
+  <p>
+    As with vector, the functions that are provided give a hint as to what is efficient in the container. For example, both kinds of linked lists provide <pf>push_front</pf> and <pf>pop_front</pf> functions to add and remove elements at the start of the list. (<pf>std::vector</pf> does not provide those functions, because they would be inefficient.) The <pf>std::list</pf> also provides <pf>push_back</pf> and <pf>pop_back</pf> functions to add and remove elements at the end of the list efficiently. The <pf>std::forward_list</pf> does not provide those functions, because adding or removing elements at the end of a singly linked list is not efficient.
+  </p>
+
+  <p>
+    The C++ standard containers generally do not specify exactly how the container must be implemented. Instead they make guarantees about the performance of various operations. For example, the documentation for <pf>std::list</pf> specifies that inserting or removing elements at either the start or end of the list takes constant time, <m>O(1)</m>.
+  </p>
+
+  <p>
+    Those constraints force some implementation choices. For example, to guarantee that adding an element at the end of the list takes constant time, the <pf>std::list</pf> implementation must keep a pointer to the tail of the list. Otherwise it would have to walk through the entire list to find the end, which would take linear time, <m>O(n)</m>. But, other implementation details are left up to the library implementer. One implementation of <pf>std::list</pf> might use dummy nodes, while another might not.
+  </p>
+
+  <p>The fact that <pf>std::forward_list</pf> does not provide <pf>push_back</pf> function indicates that a tail pointer is likely not required. An implementer might choose to add one, but it would not be required to meet the performance guarantees of the container. Similarly, <pf>std::forward_list</pf> does not provide a <pf>size</pf> method, indicating that a size member variable is likely not required in implementations.</p>
+
+  <p>Here is a simple sample that uses <pf>std::list</pf>:</p>
+
+  <listing>
+  <program label="linked-lists_standard-lists-example-1"
+  interactive="activecode">
+<xi:include href="../../programs/linked-lists/standard-lists-example.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>If you try changing line 8 to declare a forward_list instead of a list, you will see that some that <pf>push_back</pf> becomes a compilation error.</p>
+
+</section>

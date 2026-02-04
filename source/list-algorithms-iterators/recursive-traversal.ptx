@@ -1,0 +1,115 @@
+<section xml:id="list-algorithms-iterators_recursive-traversal"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>A Recursive Traversal</title>
+
+  <p>
+    Let's look at a concrete example of a recursive function for linked lists. To do this, we will use a simple singly linked list class that only stores integers. The list itself will just have a head pointer (no size or tail).
+  The code for the class can be found in <xref ref="RecursiveSimpleLinkedList-cxx-listing"/></p>
+
+  <p>
+    The class declares a function <pf>int SimpleLinkedList::getTotal();</pf> that returns the sum of all the integers in the list. We will start by examining it. The member function itself is not recursive. It simply calls a helper function, passing it the head pointer of the list.
+  </p>
+
+<program>
+  <![CDATA[ 
+int SimpleLinkedList::getTotal()
+{
+    return recursiveGetTotal(head);
+}
+  ]]>
+  </program>
+
+  <p>
+    We already have identified how to test if we are in a base or general case (check for a <pf>nullptr</pf>). We next need to decide what to do in each case.
+  </p>
+
+  <p>In the base case, we are in charge of an empty list. In this case, the sum of the integers is zero. So, if the pointer passed to the helper function is <pf>nullptr</pf>, we return zero.</p>
+
+  <p>
+    In the general case, we are responsible for a single integer. We don't know what the rest of the list contains. It is somebody else's problem. However, we do know that if someone tells us the sum of the rest of the list, we can add our integer to that sum to get the total for the entire list we are responsible for:
+  </p>
+
+
+  <program>
+    <![CDATA[
+int recursiveGetTotal(ListNode* current) {
+    if(current == nullptr) {
+        return 0;
+    }
+    else {
+        int restOfListTotal = recursiveGetTotal(current->next);
+        int total = current->data + restOfListTotal;
+        return total;
+    }
+}
+    ]]>
+  </program>
+
+  <note>
+    <p>
+      The recursive function is not a member function of the class. We could make a recursive member function, but this implementation helps keep the recursion logic separate from the class interface. Any particular recursive call should only know about the pointer it was given and not the <pf>head</pf> of the list or any other details that pertain to the entire list.</p>
+  </note>
+
+  <listing>
+    <program label="list-algorithms-iterators_recursive-traversal-program-1"
+             interactive="activecode"
+             compile-also="RecursiveSimpleLinkedList-cxx"
+             line-numbers="yes">
+<xi:include href="../../programs/list-algorithms-iterators/recursive-traversal-program-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>The implemented code has extra debugging output to help understand the recursion process.
+    In it, we can see that we start by asking the 6 node for the total. It then asks the 10 node for the total. The 10 node asks the 3 node for the total. The 3 node asks it's next (a <pf>nullptr</pf>) for the total. That if our base case and we return 0. That gets back to the 3 node, which adds its value (3) to 0 and returns 3. The 10 node adds its value (10) to 3 and returns 13. The 6 node adds its value (6) to 13 and returns 19. Finally, the original call to <pf>getTotal</pf> receives this total and returns it to main.
+  </p>
+
+  <p>
+    A visualization of the entire call stack when we finally reach the base case looks like this:
+  </p>
+
+  <figure>
+    <caption>The call stack for a call to <pf>getTotal()</pf></caption>
+    <image source="images/list-algorithms-iterators/recursive-gettotal.svg"
+           width="60%">
+      <shortdescription>
+        <p>The main stack frame has a linked list with a head pointer. It points at a list with nodes for 6, 10, and 3. Then there are successive stack frames for a recursive function. The first has a current pointer pointing at the 6 node. The next has a current pointer pointing at the 10 node. The next has a current pointer pointing at the 3 node. The final stack frame is holding a null pointer in its current.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>The <pf>toString</pf> function is doing almost the same job as <pf>getTotal</pf> (only building up a string). However, the implementation shows the alternate base case where we test to see if we are at the last node in the list (its <pf>next</pf> pointer is <pf>nullptr</pf>).</p>
+
+  <program>
+    <![CDATA[
+//Assumes there is at least one node to work with
+string recursiveToString(ListNode* current) {
+    if(current->next == nullptr)
+        return to_string(current->data);
+
+    string rest = recursiveToString(current->next);
+    string result = to_string(current->data) + " " + rest;
+
+    return result;
+}
+    ]]>
+    </program>
+
+    <p>
+      Because of this assumption, the member <pf>toString</pf> function needs to handle the empty list case itself before calling the helper function:
+    </p>
+
+  <program>
+    <![CDATA[
+string SimpleLinkedList::toString() {
+    if(head == nullptr)
+        return "";
+    return recursiveToString(head);
+}
+    ]]>
+    </program>
+
+    <insight>
+      <p>Remember that <q>oops I went too far</q> is often a better base case than looking to see if there really is another node.</p>
+    </insight>
+</section>

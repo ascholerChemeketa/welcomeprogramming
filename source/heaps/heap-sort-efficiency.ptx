@@ -1,0 +1,94 @@
+<section xml:id="heaps_heap-sort-efficiency"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Heap Sort Efficiency</title>
+
+  <subsection>
+    <title>Time Complexity of Heapsort</title>
+  <p>
+    The heapsort algorithm can be summarized as:
+  </p>
+
+  <program language="text">
+    function heapSort(array):
+        buildHeap(array)
+        for i from size(array) - 1 down to 1:
+            swap array[0] and array[i]
+            heapifyDown(array, 0, i)
+  </program>
+
+  <p>The for loop runs <m>n - 1</m> times, where <m>n</m> is the size of the array. Each iteration involves a swap (<m>O(1)</m>) and a call to <pf>heapifyDown</pf>. As discussed in <xref ref="heaps_removing" />, <pf>heapifyDown</pf> runs in <m>O(\log n)</m> time. Therefore, the overall time complexity of the for loop is <m>O(n \cdot (\log n + 1)) = O(n \log n)</m>.</p>
+
+  <p>What about the <pf>buildHeap()</pf> function? It looks something like:</p>
+
+  <program language="text">
+    function buildHeap(array):
+        for i from floor((size(array) - 2) / 2) down to 0:
+            heapifyDown(array, i, size(array))
+  </program>
+
+  <p>Analyzing it is more complex. The loop runs approximately <m>n/2</m> times, of <m>O(n)</m>. And we know that <pf>heapifyDown</pf> can take up to <m>O(\log n)</m> time. So a naive analysis might suggest that the total time is <m>O(n) \cdot O(\log n) = O(n \cdot \log n)</m>. </p>
+   
+   <p>
+    However, not every call to <pf>heapifyDown</pf> will take that long. Nodes near the bottom of the heap have less distance to travel downwards, so they will complete more quickly. In fact, the total time for all calls to <pf>heapifyDown</pf> during <pf>buildHeap</pf> can be shown to be <m>O(n)</m>. (See below for details.) Therefore, the overall time complexity of <pf>buildHeap()</pf> is <m>O(n)</m>.
+  </p>
+
+  <p>Combining these results, the total time complexity of heapsort is the time to build the heap plus the time to sort the heap, which is <m>O(n) + O(n \cdot \log n)</m>. Since the dominant factor is <m>O(n \cdot \log n)</m>, the overall time complexity of heapsort is <m>O(n \cdot \log n)</m>.</p>
+  
+  <insight>
+    <p>Heapsort runs in <m>O(n \log n)</m> time.</p>
+  </insight>
+
+  <p>
+    How does this compare to other sorting algorithms? Quicksort and mergesort also run in <m>O(n \log n)</m> time on average. However, heapsort has the advantage of being an in-place sorting algorithm, meaning it requires only a constant amount of additional space. Mergesort, on the other hand, requires <m>O(n)</m> additional space. Quicksort is also in-place but has a worse worst-case time complexity of <m>O(n^2)</m>. Thus, heapsort is a good choice when memory usage is a concern and consistent performance is desired. In practice, heapsort is often slightly slower than quicksort due to constant factors (inefficient use of the memory cache), but it provides a reliable <m>O(n \log n)</m> performance regardless of the input data.
+  </p>
+
+  </subsection>
+
+  <subsection>
+    <title>Build Heap Analysis</title>
+
+    <p>
+      To analyze the time complexity of <pf>buildHeap()</pf>, we need to consider how many nodes are at each level of the heap and how far each node can potentially move downwards during <pf>heapifyDown</pf>.
+    </p>
+
+    <p>
+      In a complete binary tree, the number of nodes at height <m>h</m> is <m>\frac{n}{2^{h+1}}</m>, where <m>n</m> is the total number of nodes in the heap. Each node at height <m>h</m> can move down at most <m>h</m> levels during <pf>heapifyDown</pf>.
+    </p>
+
+    <p>
+      Therefore, the total work done by all calls to <pf>heapifyDown</pf> can be expressed as:
+    </p>
+
+    <md>\sum_{h=0}^{\log n} \left( \frac{n}{2^{h+1}} \cdot h \right)</md>
+
+    <p>
+      This sum can be solved to <m>O(n)</m>.
+    </p>
+
+    <p>
+      To see why, imagine the layers of nodes. The bottom layer has about <m>n/2</m> nodes, each of which can move down 0 levels (since they are at the bottom). The layer above that has about <m>n/4</m> nodes, each of which can move down at most 1 level. The next layer has about <m>n/8</m> nodes, each of which can move down at most 2 levels, and so on. Eventually we reach the top layer, which has 1 node that can move down at most <m>\log n</m> levels. So the total work can be visualized as:
+      <md>
+        (\frac{n}{2} \cdot 0) + (\frac{n}{4} \cdot 1) + (\frac{n}{8} \cdot 2) + (\frac{n}{16} \cdot 3) + \cdots + (1 \cdot \log n)
+        </md>
+    </p>
+    <p>
+      Simplifying this series by factoring out <m>n</m> and showing a few more terms gives us:
+      <md>
+        n \cdot \left( \frac{0}{2} + \frac{1}{4} + \frac{2}{8} + \frac{3}{16} + \frac{4}{32} + \frac{5}{64} + \cdots + \frac{\log n}{n} \right)
+        </md>
+    </p>
+
+    <p>
+      Clearly this sequence gets smaller and smaller as we go along. The <m>\frac{\log n}{n}</m> term will approach zero for large values of <m>n</m>. If we normalize the denominators to all be 64, we can see that:
+      <md>
+        n \cdot \left( \frac{0}{64} + \frac{16}{64} + \frac{16}{64} + \frac{12}{64} + \frac{8}{64} + \frac{5}{64} + \cdots \right)
+        </md>
+      </p>
+      
+      <p>The total sum of the terms shown is <m>\frac{57}{64}</m>. If we extend the sequence to show one more term, it would be <m>\frac{6}{128}</m>. Adding that to our sum gives us <m>\frac{57}{64} + \frac{6}{128} = \frac{120}{128} + \frac{6}{128} = \frac{126}{128}</m>. If we keep going, the value will slowly converge towards 2.</p>
+      
+      <p>If the sequence converges towards 2, then the entire expression converges towards <m>n \cdot 2 = O(n)</m>.</p>
+    </subsection>
+
+</section>

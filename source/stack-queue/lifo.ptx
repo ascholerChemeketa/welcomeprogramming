@@ -1,0 +1,36 @@
+<section xml:id="stack-queue_lifo"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Last In First Out (LIFO)</title>
+
+    <p>
+      One of the most useful properties of stacks is that they follow a <term>last in, first out</term> (<term>LIFO</term>) order. What every item was most recently pushed onto the stack is the first item that will be popped off.
+      <idx>Last In First Out (LIFO)</idx>
+    </p>
+
+    <p>
+      This pattern is useful in many algorithms. One example we are already familiar with is the use of a stack to keep track of function calls in a program. When a function is called, information about the current state of the program is pushed onto a call stack. When the function returns, that information is popped off the stack to restore the previous state. This allows functions to be nested and called recursively while keeping track of where to return to. (See <xref ref="functions-testing_stack-diagrams"/>.)
+    </p>
+
+    <p>
+      Another common use of stacks is in undo functionality in applications. Each time a user makes a change, the previous state is pushed onto a stack. When the user wants to undo an action, the most recent state is popped off the stack and restored.
+    </p>
+
+    <p>
+      Stacks are also important in many parsing algorithms. For example, consider the task of deciding if the parentheses in a mathematical expression are balanced. We need to look at expressions like <c>((2 + 3) * (4 - 1))</c> and determine if every opening parenthesis has a corresponding closing parenthesis. We must not just have an equal number of open and close parentheses, but also want to make sure that the parentheses are properly nested, so that <c>( ( ) )</c> is valid but <c>( ) ) (</c> is not.
+    </p>
+
+    <p>As an added challenge, maybe some of the pairs use different types of brackets, like <c>{ }</c> or <c>[ ]</c>, and you need to make sure they are all balanced and properly nested.</p>
+
+    <p>
+      A stack is a perfect data structure to help with this problem. As we read through the expression from left to right, each time we see an opening parenthesis (or bracket), we push it onto the stack. Each time we see a closing parenthesis (or bracket), we check the top of the stack. If the top of the stack is the matching opening parenthesis, we pop it off the stack and continue. If it does not match, or if the stack is empty when we encounter a closing parenthesis, then the expression is not balanced. At the end of processing the expression, if the stack is empty, then all parentheses were balanced; otherwise, there are unmatched opening parentheses remaining.
+    </p>
+
+    <listing>
+      <program label="stack-queue_lifo-paren-parse"
+               interactive="activecode">
+<xi:include href="../../programs/stack-queue/paren-parse.cpp" parse="text"/>
+      </program>
+    </listing>
+
+</section>

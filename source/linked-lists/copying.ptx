@@ -1,0 +1,62 @@
+<section xml:id="linked-lists_simple-linked-list-copying"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Copying</title>
+
+  <p>Now that we have a way to add nodes to the end of the list efficiently, making a copy of another list becomes much easier. We can simply iterate through the nodes of the source list and use our existing <pf>insertEnd</pf> method to add each node's data to the new list.</p>
+
+  <p>We will likely want to use this logic in multiple places, so it makes sense to put it in a helper function. <pf>copyFrom</pf> will take another list as its parameter and add all of the nodes from that list to the current list.</p>
+
+<program>
+  <![CDATA[ 
+template <class T>
+void SinglyLinkedList<T>::copyFrom(const SinglyLinkedList<T>& other) {
+    ListNode* current = other.head;
+    while (current != nullptr) {
+        insertEnd(current->data);
+        current = current->next;
+    }
+}
+  ]]>
+</program>
+
+  <p>With this helper function in place, we can implement both the copy constructor and the copy assignment operator easily by calling <pf>copyFrom</pf>.</p>
+
+<p>The copy constructor simply needs to make sure head, tail and size are all initialized (if not already done in their declarations), and then call <pf>copyFrom</pf> with the other list as the argument.
+</p>
+
+  <listing>
+  <program>
+  <![CDATA[
+template <class T>
+SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& other) {
+    head = nullptr;
+    tail = nullptr;
+    size = 0;
+    copyFrom(other);
+}
+  ]]>
+  </program>
+  </listing>
+    
+<p>
+  As usualy, an assignment operator needs to worry about self-assignment and clean up any existing data before copying from the other list. Checking for self assignment can be done in the same way as we did for an array based list by comparing the address of this list (the one being assigned to) with the address of the other list (the one being assigned from). To remove any existing data, we can call our <pf>clear</pf> method to delete all the nodes in the current list.
+</p>
+
+  <listing>
+  <program>
+  <![CDATA[
+template <class T>
+SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(const SinglyLinkedList<T>& other) {
+    if (this == &other) {
+        return *this; // Handle self-assignment
+    }
+    clear();  // remove existing nodes, reset head, tail, size
+    copyFrom(other);
+    return *this;
+}
+  ]]>
+  </program>
+  </listing>
+
+</section>
