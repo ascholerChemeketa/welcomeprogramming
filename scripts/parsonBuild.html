@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!-- No rights reserved. Do what you will. -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Parson Program Converter</title>
+  <style>
+    textarea { width: 90%; height: 300px; margin: 10px; overflow: auto; white-space: nowrap;}
+    #controls { margin-left: 10px; }
+    label { display: block;  margin-top: 5px;  }
+    #controls > select { margin-top: 5px;  }
+    #controls > button { margin-top: 10px; }
+    #container { display: flex; flex-direction: row; }
+    #container div { flex: 1; }
+  </style>
+</head>
+<body>
+  <h2>Parson Program Converter</h2>
+  <p>Code available at <a href="https://github.com/ascholerChemeketa/parsonbuilder">https://github.com/ascholerChemeketa/parsonbuilder</a></p>
+  <div  id="controls">
+    <label>
+      <input type="checkbox" id="partialOrder"> Format for Partial Order. (You will have to hand edit the block names and dependencies.)
+    </label>
+    <label>
+      <input type="checkbox" id="useCDATA" checked> Use CDATA to wrap code. (Use for C++ or other symbol heavy languages.)
+    </label>
+    <label>
+      <input type="checkbox" id="group"> Group by blank lines. If checked a block will be created for each group of lines separated by 1 line.
+    </label>
+    <label for="distractors">Add empty distractors for:
+      <select id="distractors">
+        <option value="none" selected >No lines</option>
+        <option value="all">All lines</option>
+        <option value="specific">Lines with !!! at end</option>
+      </select>
+    </label>
+  </div>
+  <div>
+    <label for="output">Exercise start:</label>
+  <textarea id="exCode" style="height: 100px;">
+&lt;exercise label="FIXME"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  &lt;statement>
+  <p></p>
+  &lt;/statement>
+  </textarea>
+</div>
+  <div>
+    <button onclick="convert()">Convert Code to Parsons</button></div>
+  <div id="container">
+    <div>
+      <label for="output">Program Code:</label>
+    <textarea id="input" placeholder="Paste source here..."></textarea>
+  </div>
+  <div>
+    <label for="output">Parsons Problem:</label>
+    <textarea id="output" placeholder="Output will appear here..."></textarea>
+  </div>
+  </div>
+  <script>
+    function convert() {
+      const input = document.getElementById('input').value;
+      const partialOrder = document.getElementById('partialOrder').checked;
+      const groupLines = document.getElementById('group').checked;
+      const distractors = document.getElementById('distractors').value;
+      const useCDATA = document.getElementById('useCDATA').checked;
+
+      const exCode = document.getElementById('exCode').value;
+      const blockStart = partialOrder
+        ? '<block order="YY" name="XX" depends="">\n'
+        : '<block order="YY">\n';
+    
+      let output = exCode.trim() + '\n  <blocks>\n';
+      const groups = input.split(groupLines ? '\n\n' : '\n'); 
+
+      // randomized numbers to assign to blocks
+    let orderNumbers = [...Array(groups.length).keys()].map(i => i + 1);
+      shuffleArray(orderNumbers);
+
+      let groupNum = 0;
+      for (const group of groups) {
+        let start = blockStart.replace('YY', orderNumbers[groupNum]);
+        output += '    ' + start.replace('XX', `${String.fromCharCode(97 + groupNum++)}`);
+        const lines = group.split('\n');
+        for (let line of lines) {
+          const hasDisctractor = distractors === 'all' || (distractors === 'specific' && line.endsWith('!!!'));
+          if (line.endsWith('!!!')) {
+            line = line.slice(0, -3);
+          }
+          const clineStart = `<cline>${useCDATA ? '<![CDATA[' : ''}`;
+          const clineEnd = useCDATA
+            ? ']]></cline>'
+            : '</cline>';
+          if (hasDisctractor) {
+            output += '        <choice correct="yes">\n';
+          }
+          let space = hasDisctractor ? '          ' : '        ';
+          output += `${space}${clineStart}` + line.replace(/\r$/, '') + `${clineEnd}\n`;
+          if (hasDisctractor) {
+            output += '        </choice>\n';
+            output += '        <choice>\n';
+            output += '          <cline></cline>\n';
+            output += '        </choice>\n';
+          }
+        }
+        output += '    </block>\n';
+      }
+      output += '  </blocks>\n';
+      output += '</exercise>\n';
+      document.getElementById('output').value = output;
+    }
+    function shuffleArray(array) {
+        for (var i = array.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    }
+  </script>
+</body>
+</html>

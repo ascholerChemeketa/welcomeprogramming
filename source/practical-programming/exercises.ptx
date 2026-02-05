@@ -4,21 +4,19 @@
 
   <exercise label="practical-programming_exercises-ex-1">
     <statement>
-      <p>Write the function <pf>emptyQueue</pf>. It should take a queue of integers and print the values in the queue (one on each line).</p>
+      <p>The existing code makes a list containing 0, 3, 4, 0. Modify it to contain 1, 2, 3, 4, 5.</p>
     </statement>
       <program interactive="activecode">
         <preamble visible="yes">
-<xi:include href="../../programs/practical-programming/queue-exercise-1-pre.cpp" parse="text"/>
+<xi:include href="../../programs/practical-programming/exercise-1-pre.cpp" parse="text"/>
         </preamble>
         <code>
           <![CDATA[
-void emptyQueue(queue<int>& q) {
     // Your code here
-}
           ]]>
         </code>
         <postamble visible="yes">
-<xi:include href="../../programs/practical-programming/queue-exercise-1-post.cpp" parse="text"/>
+<xi:include href="../../programs/practical-programming/exercise-1-post.cpp" parse="text"/>
         </postamble>
         <tests>
           <iotest>
@@ -26,13 +24,7 @@ void emptyQueue(queue<int>& q) {
             </input>
             <output>
               <![CDATA[
-              1
-              2
-              3
-              4
-              10
-              11
-              12
+              1 2 3 4 5
               ]]>
             </output>
           </iotest>
@@ -46,7 +38,7 @@ void emptyQueue(queue<int>& q) {
     </statement>
       <program interactive="activecode">
         <preamble visible="yes">
-<xi:include href="../../programs/practical-programming/queue-exercise-2-pre.cpp" parse="text"/>
+<xi:include href="../../programs/practical-programming/exercise-2-pre.cpp" parse="text"/>
         </preamble>
         <code>
           <![CDATA[
@@ -54,7 +46,7 @@ void emptyQueue(queue<int>& q) {
           ]]>
         </code>
         <postamble visible="yes">
-<xi:include href="../../programs/practical-programming/queue-exercise-2-post.cpp" parse="text"/>
+<xi:include href="../../programs/practical-programming/exercise-2-post.cpp" parse="text"/>
         </postamble>
         <tests>
           <iotest>
@@ -91,7 +83,7 @@ void emptyQueue(queue<int>& q) {
     </statement>
       <program interactive="activecode">
         <preamble visible="yes">
-<xi:include href="../../programs/practical-programming/queue-exercise-3-pre.cpp" parse="text"/>
+<xi:include href="../../programs/practical-programming/exercise-3-pre.cpp" parse="text"/>
         </preamble>
         <code>
           <![CDATA[
@@ -99,7 +91,7 @@ void emptyQueue(queue<int>& q) {
           ]]>
         </code>
         <postamble visible="yes">
-<xi:include href="../../programs/practical-programming/queue-exercise-3-post.cpp" parse="text"/>
+<xi:include href="../../programs/practical-programming/exercise-3-post.cpp" parse="text"/>
         </postamble>
         <tests>
           <iotest>
@@ -128,7 +120,7 @@ void emptyQueue(queue<int>& q) {
     </statement>
       <program interactive="activecode">
         <preamble visible="yes">
-<xi:include href="../../programs/practical-programming/queue-exercise-5-pre.cpp" parse="text"/>
+<xi:include href="../../programs/practical-programming/exercise-5-pre.cpp" parse="text"/>
         </preamble>
         <code>
           <![CDATA[
@@ -136,18 +128,18 @@ void emptyQueue(queue<int>& q) {
           ]]>
         </code>
         <tests visible="yes">
-<xi:include href="../../programs/practical-programming/queue-exercise-5-post.cpp" parse="text"/>
+<xi:include href="../../programs/practical-programming/exercise-5-post.cpp" parse="text"/>
         </tests>
     </program>
   </exercise>
 
   <exercise label="practical-programming_exercises-ex-6">
     <statement>
-      <p>Complete the code to use <pf>count_if</pf> to count the number of strings that are not empty (<pf>""</pf>) in a vector of strings.</p>
+      <p>Add the correct parameters to the <pf>count_if</pf> call so it counts the number of strings that are not empty (<pf>""</pf>) in a vector of strings.</p>
     </statement>
       <program interactive="activecode">
         <preamble visible="yes">
-<xi:include href="../../programs/practical-programming/queue-exercise-6-pre.cpp" parse="text"/>
+<xi:include href="../../programs/practical-programming/exercise-6-pre.cpp" parse="text"/>
         </preamble>
         <code>
           <![CDATA[
@@ -155,9 +147,10 @@ void emptyQueue(queue<int>& q) {
           ]]>
         </code>
         <tests visible="yes">
-<xi:include href="../../programs/practical-programming/queue-exercise-6-post.cpp" parse="text"/>
+<xi:include href="../../programs/practical-programming/exercise-6-post.cpp" parse="text"/>
         </tests>
     </program>
+    <hint><p>One parameter should be a lambda function that returns true if the string is not empty.</p></hint>
   </exercise>
 
 </exercises>
