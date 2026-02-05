@@ -7,18 +7,28 @@
   <p>The C++ Standard Library provides a variety of different <term>containers</term> that are
     optimized for doing different things with a collection of data.</p>
     
-    <p>The <pf>vector</pf> is one such container that is optimized for storing ordered collections of data where elements are accessed by their
-    position. But it has an interesting limitation: it is
+    <p>The <pf>vector</pf> is one such container that is optimized for storing ordered collections of 
+      data where elements are accessed by their position. But it has an interesting limitation: it is
     only efficient at adding and removing items at the end of the collection. You can call <pf>
     .push_back()</pf> to add an item to the end of a vector or <pf>.pop_back()</pf> to remove the
     last item efficiently. But adding or removing items at the front of the vector (using <pf>
     .insert()</pf> or <pf>.erase()</pf>) is inefficient. </p>
 
-  <note>
+
+    <figure>
+      <caption>A vector stores a block of contiguous memory. Extra space is reserved at the end
+        which makes adding new items at the end efficient. However, there is no easy way to add items at the start.
+      </caption>
+      <image source="images/practical-programming/vector.svg" width="60%">
+        <shortdescription>A vector stores a block of contiguous memory.</shortdescription>
+      </image>
+    </figure>
+
+  <insight>
     <p>The capabilities provided by the vector class are good (but not perfect) hints about what it
       can do well and what it cannot do efficiently. It does not provide <pf>.push_front()</pf> or <pf>
       .pop_front()</pf> because those operations are inefficient with vectors.</p>
-  </note>
+  </insight>
 
   <p>So what should you do if you want to be able to add values to one end of a list and remove them from the
     other end? Say messages arrive into a system and you want to process them in the order they
@@ -40,6 +50,16 @@
     remove an item from the back. You can use <pf>.front()</pf> to look at the item at the front of
     the list without removing it, and <pf>.back()</pf> to look at the item at the back of the list
     without removing it. </p>
+
+    
+    <figure>
+      <caption>A list stores elements in a linked structure allowing efficient insertion and removal at both ends.
+      </caption>
+      <image source="images/practical-programming/list.svg" width="60%">
+        <shortdescription>A list stores elements in a linked structure allowing efficient insertion and removal at both ends.</shortdescription>
+      </image>
+    </figure>
+
 
   <p>We declare a <pf>list</pf> just like a vector by specifying the type of the items it will hold:</p>
 

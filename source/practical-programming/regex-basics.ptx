@@ -31,16 +31,22 @@
     <title>Basic Syntax</title>
     <p>Regular expressions use a special syntax to define patterns. Here are some basic elements:</p>
     <ul>
-      <li><term>Literal characters:</term> Match themselves. For example, the regex <c>abc</c> matches
-        the string "abc".</li>
-      <li><term>Wildcards:</term> The dot <c>.</c> matches any single character except a newline.</li>
-      <li><term>Ranges:</term> Denoted by square brackets, e.g., <c>[A-F]</c> matches any letter in the
-        range A to F.</li>
-      <li><term>Character classes:</term> There are special symbols like <c>\d</c> for digits and <c>\w</c>
-        for word characters.</li>
-      <li><term>Quantifiers:</term> Specify how many times an element can occur. For example, <c>a{3}</c>
+      <li><p><term>Literal characters:</term> Match themselves. For example, the regex <c>abc</c> matches
+        the string "abc".</p></li>
+      <li><p><term>Wildcards:</term> The dot <c>.</c> matches any single character except a newline.</p></li>
+      <li><p><term>Bracket Groups:</term> Square brackets can be used to indicate a set of characters to match, e.g., <c>[abc]</c> matches a single character that is either 'a', 'b', or 'c'.</p></li>
+      <li><p><term>Ranges:</term> Inside brackets you can use <c>-</c> to indicate a range of characters. For example, <c>[A-F]</c> matches any letter in the
+        range A to F. You can specify multiple ranges like <c>[A-Fa-f]</c> to match both uppercase and lowercase letters.</p></li>
+      <li><p><term>Character classes:</term> There are special symbols like <c>\d</c> for digits, <c>\w</c>
+        for word characters, and <c>\s</c> for whitespace characters (spaces and tabs).</p></li>
+      <li><p><term>Quantifiers:</term> Specify how many times an element can occur. 
+        <ul>
+          <li><c>{n}</c> matches exactly n occurrences of the preceding element.</li>
+          <li><c>*</c> matches zero or more occurrences of the preceding element.</li>
+          <li><c>?</c> makes the preceding element optional (zero or one occurrence).</li>
+        </ul>For example, <c>a{3}</c>
         matches exactly three 'a's, while <c>a*</c> matches zero or more 'a's. <c>ab?</c> makes the
-        preceding element ('b' in this case) optional.</li>
+        preceding element ('b' in this case) optional. It would match either "a" or "ab".</p></li>
     </ul>
     <p>We will not attempt to cover every aspect of regular expression syntax here. Instead, you are
       encouraged to explore a resource like <url href="https://regexone.com/">RegexOne</url> if you
@@ -60,7 +66,7 @@
         <li>There may be a group of 3 digits for an area code. We need to use a question mark to
       make this optional: <c>(\d{3})?</c></li>
         <li>Next there may or may not be a separator symbol like a dash or space or period. We will
-      allow it to be any character (<c>.</c>) and make it optional with a question mark: <c>.?</c></li>
+      allow it to be any character by using the <c>.</c> symbol and make it optional with a question mark: <c>.?</c></li>
         <li>There has to be a group of 3 digits. We want to capture this group so let's make sure to
       use parentheses: <c>(\d{3})</c></li>
         <li>Then there may be a separator symbol again: <c>.?</c></li>

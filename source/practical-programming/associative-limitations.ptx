@@ -3,13 +3,11 @@
 
   <title>Traversing Containers</title>
 
-  <p>A <pf>list</pf> (as well as the <pf>set</pf> and <pf>map</pf> we will soon see) allows for things that
+  <p>A <pf>list</pf> allows for things that
     would be much more difficult or inefficient with a vector. However, they do have their own
-    limitations.</p>
-
-  <p>One key limitation is that none of these containers allow you to access elements directly by
+    limitations. One key limitation is that none of these containers allow you to access elements directly by
     their position (index) in the collection. Given a <pf>std::list</pf> it is an error to say something like <pf>myList.at(3)</pf>
-    to try to get the 4th element. </p>
+    to try to get the 4th element.</p>
 
   <note>
     <p>Accessing elements by position like this is is often referred to as <term>random access</term>.
@@ -17,14 +15,14 @@
       random</q>element we want by its position. <idx>random access</idx></p>
   </note>
 
-  <p>Because associative containers do not support indexed access, we can't write a counting loop
-    that goes from 0 to size()-1 and accesses each element by index. Instead, we have to use an
+  <p>Because lists do not support access by index, we can't write a counting loop
+    that goes from 0 to size()-1 and accesses each element using <pf>.at(i)</pf>. Instead, we have to use an
     iterator to walk through all the elements in the container. (Or use a range based loop, which
     behind the scenes uses iterators.)</p>
 
   <p>When we introduced iterators in <xref ref="vectors_insertion-removal"/>, we described them as a
     way to specify the location of an element in a vector. In a vector, an iterator feels a little
-    redundant because we can also specify locations using indices. But in an associative container,
+    redundant because we can also specify locations using indices. But in containers like lists,
     iterators are essential because we can not say <q>the thing at index 3</q>. </p>
 
   <p>Think of an iterator as a <q>smart pointer</q> to an element in a collection. It can be used to
@@ -35,13 +33,22 @@
   <p>In a vector, we could get an iterator to the start of the vector using <pf>
     .begin()</pf> and an
     iterator to one past the end using <pf>.end()</pf>. We could then modify that iterator using
-    expressions like <pf>myVec.begin() + 3</pf> to get an iterator that points to the fourth element of the vector. </p>
+    expressions like <pf>myVec.begin() + 2</pf> to get an iterator that points to the third element of the vector. </p>
+
+
+    <figure>
+      <caption>Vector iterators can jump to any position in the vector.
+      </caption>
+      <image source="images/vectors-iterators.svg" width="40%">
+        <shortdescription>A vector with various iterators shown.</shortdescription>
+      </image>
+    </figure>
+
 
   <p>Other standard containers provide iterators as well. And, where they provide similar
     capabilities, the syntax is the same. Given a <pf>std::list</pf> called <pf>myList</pf>, we can get an iterator
     to the start of the list using <pf>myList.begin()</pf> and one past the end using <pf>myList.end()</pf>. However, not all
     iterator types provide the same capabilities. </p>
-
 
   <p>For example, in containers like lists, we can't jump forward or backward multiple items at a
     time the way we can with a vector iterator. Instead, we can only move an iterator forward one
@@ -49,6 +56,17 @@
     using the predecrement operator (<pf>--it</pf>). This means that to get to the 3rd element in a list,
     we would need to start at <pf>myList.begin()</pf> and then do <pf>++</pf> two times to move forward to the 3rd
     element. </p>
+
+
+
+    <figure>
+      <caption>In a list <pf>begin()</pf> still gives an iterator to the first element and <pf>end()</pf> to one past the last element. But an iterator can only move forward or backward one element at a time. Given where <pf>it</pf> is, there is no way to jump directly to the 4th element.
+      </caption>
+      <image source="images/practical-programming/list-it.svg" width="80%">
+        <shortdescription>A list with various iterators shown. The iterator "it" points to the 2nd element.</shortdescription>
+      </image>
+    </figure>
+
 
   <p>The type of a list iterator is <code>list&lt;T&gt;::iterator</code>, where <code>T</code> is the
     type of elements in the list. So for a <pf>list&lt;string&gt;</pf>, the iterator type would be <pf>
