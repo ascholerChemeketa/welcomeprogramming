@@ -69,19 +69,18 @@ Used for custom overrides and temporary patches
       </iframe>
   </xsl:template>
 
-  
-  <xsl:template match="preamble|code|postamble|tests" mode="program-part-processing">
-    <xsl:call-template name="trim-start-lines">
-        <xsl:with-param name="text">
-            <xsl:call-template name="trim-end">
-                <!-- only include immediate text content                   -->
-                <!-- we want to exclude any nested elements (tests/iotest) -->
-                <xsl:with-param name="text" select="text()" />
-                <xsl:with-param name="preserve-intentional" select="self::preamble or self::code" />
-            </xsl:call-template>
-        </xsl:with-param>
-        <xsl:with-param name="preserve-intentional" select="self::code or self::postamble or self::tests" />
-    </xsl:call-template>
-</xsl:template>
-
+  <!-- temp until cli catches up-->
+    <xsl:template match="preamble|code|postamble|tests" mode="program-part-processing">
+        <xsl:call-template name="trim-start-lines">
+            <xsl:with-param name="text">
+                <xsl:call-template name="trim-end">
+                    <!-- only include immediate text content                   -->
+                    <!-- we want to exclude any nested elements (tests/iotest) -->
+                    <xsl:with-param name="text" select="text()" />
+                    <xsl:with-param name="preserve-intentional" select="self::preamble or self::code" />
+                </xsl:call-template>
+            </xsl:with-param>
+            <xsl:with-param name="preserve-intentional" select="self::code or self::postamble or self::tests" />
+        </xsl:call-template>
+    </xsl:template>
 </xsl:stylesheet>
