@@ -46,7 +46,7 @@
       local variable, it will point to memory that is no longer valid. This is referred to as <term>undefined
       behavior</term> as there is literally no definition for what should happen in this case.</p>
 
-    <p>The compiler knows this and will try to prevent you from making this mistake:</p>
+      <p>The <pf>foo()</pf> function in the sample below gets the address of a local variable <pf>x</pf>. It then prints out that address, and the value at the address. Then it returns the address to main. In main we access that address that was returned:</p>
 
     <listing>
     <program label="memory-management_stack-issues-program-2"
@@ -56,16 +56,6 @@
     </program>
     </listing>
 
-    <p>If you force the compiler to ignore the issue (this next example uses the compiler flag <pf>-Wno-return-local-addr</pf>
-      to ignore warnings about returning local addresses), something bad will happen. Try it here:</p>
-
-    <listing>
-    <program label="memory-management_stack-issues-program-3"
-             interactive="activecode"
-             compiler-args="-Wno-return-local-addr">
-<xi:include href="../../programs/memory-management/stack-issues-2.cpp" parse="text"/>
-    </program>
-    </listing>
 
     <activity>
       <statement>
@@ -126,6 +116,10 @@
     <p>The critical thing in these examples is that there is no safe way for a function to return a
       memory address for data that was created in its stack frame. All of the memory for the
       function disappears when it returns.</p>
+
+      <note><p>
+        If we enable address sanitization, it will flag the issue. We will learn about sanitizers in <xref ref="memory-management_detecting-leaks"/>.
+      </p></note>
 
     <p>If we want to write a function that creates some memory that will be used later on in the
       program, we can not use stack allocation.</p>
