@@ -27,7 +27,8 @@ Used for custom overrides and temporary patches
 >
 
   <!-- <xsl:import href="../../../pretext/xsl/pretext-html.xsl"/> -->
-  <xsl:import href="./core/pretext-html.xsl"/>
+  <!-- <xsl:import href="./core/pretext-html.xsl"/> -->
+  <xsl:import href="C:/Users/Andrew/Programming/pretext/xsl/pretext-html.xsl"/>
 
 <xsl:template match="interactive[@platform = 'javascript']/script[@type]">
     <script>
@@ -67,4 +68,20 @@ Used for custom overrides and temporary patches
           </xsl:if>
       </iframe>
   </xsl:template>
+
+  
+  <xsl:template match="preamble|code|postamble|tests" mode="program-part-processing">
+    <xsl:call-template name="trim-start-lines">
+        <xsl:with-param name="text">
+            <xsl:call-template name="trim-end">
+                <!-- only include immediate text content                   -->
+                <!-- we want to exclude any nested elements (tests/iotest) -->
+                <xsl:with-param name="text" select="text()" />
+                <xsl:with-param name="preserve-intentional" select="self::preamble or self::code" />
+            </xsl:call-template>
+        </xsl:with-param>
+        <xsl:with-param name="preserve-intentional" select="self::code or self::postamble or self::tests" />
+    </xsl:call-template>
+</xsl:template>
+
 </xsl:stylesheet>
