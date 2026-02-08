@@ -27,8 +27,7 @@ Used for custom overrides and temporary patches
 >
 
   <!-- <xsl:import href="../../../pretext/xsl/pretext-html.xsl"/> -->
-  <!-- <xsl:import href="./core/pretext-html.xsl"/> -->
-  <xsl:import href="C:/Users/Andrew/Programming/pretext/xsl/pretext-html.xsl"/>
+  <xsl:import href="./core/pretext-html.xsl"/>
 
 <xsl:template match="interactive[@platform = 'javascript']/script[@type]">
     <script>
