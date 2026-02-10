@@ -1,0 +1,40 @@
+<section xml:id="hash-tables_concept"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Constant Time Lookup Table</title>
+
+  <p>
+    Using a self-balancing tree can allow us to build a data structure that can insert, delete, and lookup values in <m>O(\log n)</m> time.
+    That is a massive improvement over the <m>O(n)</m> time complexity we would get for at least some of those operations if we used an array or linked list. However, we can do even better than that.
+  </p>
+
+  <p>
+    To understand how, let's start with a very simple idea. Let's say we want to store some numbers between 0 and 99. We could create an array with 100 cells, where each cell represents one of those numbers. If we want to store a number, we can just set the value of the corresponding cell to 1. To delete the number, we can set the value back to 0. Because accessing any item in an array is an <m>O(1)</m> operation, we can insert, delete, and lookup values in constant time!
+  </p>
+
+  <figure>
+    <caption>A table that indicates which numbers 0-99 we are storing. Currently, we are storing 2, 42, and 98.</caption>
+    <image source="images/hash-tables/hash-table-concept.svg" width="60%">
+      <shortdescription>
+        <p>
+          An array with 100 cells, each representing a number from 0 to 99. The cells for 2, 42, and 98 have a value of 1, the other cells have a value of 0.
+          </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    Of course, there are some issues with this approach:
+    <ul>
+      <li>It only works for integers (because they can be indexes in the array)</li>
+      <li>We have to know the range of values in advance (or reallocate the array if the range changes)</li>
+      <li>It is very wasteful of space if we are only storing a few numbers in a large range</li>
+    </ul>
+    So, for this approach to be useful, we need to find a way to map any value we want to store to an an index in a fixed-size array. That way we can have the size of the array be proportional to the number of values we are storing, rather than the range of possible values.
+  </p>
+
+  <p>
+    The method we will use to do this mapping process is known as <term>hashing</term>, and the data structure we will build using hashing is known as a <term>hash table</term>. Together, they will allow us to build a data structure that can insert, delete, and lookup values in constant time, while using space proportional to the number of values we are storing.
+  </p>
+
+</section>

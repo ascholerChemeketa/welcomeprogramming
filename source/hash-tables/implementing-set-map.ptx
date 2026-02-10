@@ -1,0 +1,35 @@
+<section xml:id="hash-tables_implementing-set-map"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Implementing a Set or Map</title>
+
+  <p>
+    A hash table is another tool that can be used to implement the abstract data types of set and map. As with our BST based implementations, a set is a very simple wrapper around a hash table to provide the set interface. Implementing a map takes a little more work because we need to store both keys and values. We can do this by creating a simple class to represent a key-value pair and then storing instances of that class in the hash table.
+  </p>
+  
+  <figure>
+    <caption>To insert John as a key with the value 472-1022, we hash "John" to find the appropriate cell in the array and then store the key-value pair in the linked list at that cell.</caption>
+    <image source="images/hash-tables/map-implementation.svg" width="80%">
+      <shortdescription>
+        <p>
+          John is hashed to cell 4, and the key-value pair ("John", "472-1022") is stored at that cell.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>In a similar way, we can retrieve a value by hashing the key to find the appropriate cell and then searching (either using probing or through the linked list) for the key-value pair with the matching key. We then return the associated value.</p>
+
+  <p>
+    Compared to a BST, a hash table based implementation of a set or map is generally more efficient for lookups, insertions, and removals. (<m>O(1)</m> on average vs <m>O(\log n)</m> on average for a BST.)
+  </p>
+
+  <p>
+    However, it is worth remembering that the difference between <m>O(1)</m> and <m>O(\log n)</m> is not large. Going from <m>O(n)</m> performance to <m>O(1)</m> performance is a huge deal. Given an <m>n</m> of 1,000,000,000, it is the difference between doing ~1,000,000,000 operations and doing ~30 operation. Going from <m>O(\log n)</m> to <m>O(1)</m> is the difference between doing about 30 operations and doing 1 operation. So, while a hash table is more efficient than a BST, the difference is not likely to be dramatic unless we are working with very large data sets and/or doing a very large number of operations.
+  </p>
+
+  <p>
+    In exchange for slightly worse performance, a BST based implementation of a set or map stores data in sorted order. This makes it easier to support operations like finding the minimum or maximum key, or finding the next key after a given key. If we care about those operations, we should favor a BST based implementation.
+  </p>
+
+</section>

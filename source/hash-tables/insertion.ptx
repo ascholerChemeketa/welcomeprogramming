@@ -1,0 +1,104 @@
+<section xml:id="hash-tables_insertion"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Hash Tables Insertion and Collisions</title>
+
+  <p>
+    Now that we have explored hashing, we can focus on using it to build a hash table. A hash table will store a dynamic array of where we can store values. Given a key, we will compute the hash value of the key and then modulo that hash value by the size of the array to determine where the item belongs. If we are inserting the value, we will store it in that cell. If we are looking for a value, we will look in that cell to see if the value is there.
+  </p>
+
+  <activity>
+    <title>Hash Table</title>
+    <p>The hash table contains the values 20, 33, and 7. Try inserting 18. Because the hash table size is 8, it should be placed into location <pf>18 % 8 == 2 </pf>.</p>
+    <p>Then try finding 20.</p>
+    <interactive platform="javascript"
+                 design-width="1000"
+                 aspect="4:2">
+      <script type="module">
+      import { ClosedHash } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new ClosedHash({zoom: "1x", initialData: [20, 33, 7]});
+    </script>
+      <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+    </interactive>
+  </activity>
+
+  <p>
+    Our table only has 8 cells. If you try inserting other values, it will not take long to find a <term>collision</term>, which is when two different keys hash to the same location. For example, if you insert 12, it will hash to the same location as 20 because <pf>12 % 8 == 4</pf> and <pf>20 % 8 == 4</pf>. We need a way to store both of these values even though they want to be in the same cell.
+  </p>
+
+  <p>
+    There are two main strategies for handling collisions. The first is called <term>closed hashing</term> (also confusingly known as <term>open addressing</term>), where we will look for the next available cell in the array to store the value. The second is called <term>open hashing</term> (also known as <term>separate chaining</term>), where we will store a list of values in each cell of the array. When a collision occurs, we will add the new value to the list at that cell. Initially, we will focus on closed hashing.</p>
+
+  <p>
+    In closed hashing, when a collision occurs, we will look for the next available cell in the array to store the value. If that next location is also occupied, we will continue on to the next cell until we find an open cell. If we reach the end of the array, we will wrap around to the beginning and continue looking for an open cell. This process is called <term>linear probing</term>. (We are moving in a straight line through the array, probing for an opening.)
+  </p>
+
+  <figure>
+    <caption>The <pf>Jessica Ng</pf> record should have gone in cell 4. But cells 4 and 5 were occupied, so it ended up in cell 6.</caption>
+    <image source="images/hash-tables/removal-1.svg" width="60%">
+      <shortdescription>
+        <p>
+          "John Smith" is in cell 4, "Doug Jones" is in cell 5, and "Jessica Ng" is in cell 6.
+          </p>
+      </shortdescription>
+    </image>
+  </figure>
+  
+  <activity>
+    <title>Linear Probing</title>
+    <p>The hash table is set to insert 22. That should go in bucket <pf>22 % 8 == 6</pf>. But we will have to probe to find a free cell. Use <c>></c> to step through the probing process.</p>
+    <interactive platform="javascript"
+                 design-width="1000"
+                 aspect="4:2">
+      <script type="module">
+      import { ClosedHash } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new ClosedHash({zoom: "1x", initialData: [32, 9, 7, 14, 12]});
+      anim.doInsert(22);
+    </script>
+      <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+    </interactive>
+  </activity>
+
+  <p>
+    This also means that when we go to check if we have a value in the table, and find a different value in the location the hash function produced, we need to probe to see if the value was inserted in an alternate location. We need to continue probing until we reach an open location before deciding that the key is not present.</p>
+
+  <p>Try using <c>Find</c> to search for 16 in the animation above (after the insertion is done). How far do we need to probe?</p>
+
+  <p>
+    You may also have noted that our hash table has built up a contiguous group of occupied cells. This is known as a <term>cluster</term>. Clusters are problematic because they can lead to long probe sequences. Even worse, any value that hashes to a cell in the cluster will end up being added to the end of the cluster, which makes that cluster even bigger.
+  </p>
+
+  <p>To avoid clustering, we can modify the probing sequence or use other collision resolution techniques. Instead of <term>linear probing</term> where our distance from the original location increases like <c>1, 2, 3, 4, 5, ...</c>, we can do quadratic probing, where we square the probe number to get the distance: <c>1, 4, 9, 16, 25, ...</c>. Alternatively, we can use double hashing, where we use a second hash function to determine the step size for probing. This way different items that hash to the same original location will have different probe sequences, reducing clustering.</p>
+
+  <p>The animation below demonstrates quadratic probing in action.</p>
+  
+  <activity>
+    <title>Quadratic Probing</title>
+    <p>This hash table has 16 cells. 3, 4, and 5 are occupied. The animation will insert 19 using quadratic probing. Use <c>></c> to step through the process.</p>
+    <p>Then insert 35. It also belongs in the cell at index 3 and will have to probe one step further.</p>
+    <interactive platform="javascript"
+                 design-width="1000"
+                 aspect="4:2.5">
+      <script type="module">
+      import { ClosedHash } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new ClosedHash({zoom: "1x", initialData: [3, 4, 5], probing: "quadratic"});
+      anim.doGrow();
+      anim.animationManager.skipForward();
+      anim.doInsert(19);
+    </script>
+      <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+    </interactive>
+  </activity>
+
+  <p>Notice that even when we have a sequence of collisions, quadratic probing helps to reduce clustering by spreading out the probe sequence. If you like, you can also experiment with double hashing.</p>
+
+  <note>
+    <p>
+      The size of the table can also have an impact on clustering. If the size of the table is a power of 2, then certain patterns in the keys can lead to more collisions and clustering. To mitigate this, it is often recommended to use a prime number for the size of the table. The animation used in this book uses a size of 8. In a real implementation we would likely want to make a small table using a size of 7 or 11.
+    </p>
+  </note>
+
+</section>

@@ -1,0 +1,112 @@
+<section xml:id="hash-tables_removal"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Removal and Special Values</title>
+
+  <subsection>
+    <title>Removal in Closed Hashing</title>
+  <p>
+    When we remove an item from a hash table using closed hashing, we cannot simply mark the cell as empty because that would break the probing sequence for any items that were inserted after it. Consider the situation where we have inserted a record for <pf>Jessica Ng</pf> but we were forced to probe to find an open cell for it.
+  </p>
+
+  <figure>
+    <caption>The <pf>Jessica Ng</pf> record should have gone in cell 4. But it and 5 were occupied, so it ended up in cell 6.</caption>
+    <image source="images/hash-tables/removal-1.svg" width="60%">
+      <shortdescription>
+        <p>
+          "John Smith" is in cell 4, "Doug Jones" is in cell 5, and "Jessica Ng" is in cell 6.
+          </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    Currently, if we go to find <pf>Jessica Ng</pf>, we will hash her name to cell 4, see that it is occupied by "John Smith", and then probe to cell 5, see that it is occupied by "Doug Jones", and then probe to cell 6, where we will find "Jessica Ng". Now imagine we remove the record for "John Smith". If we simply mark cell 4 as empty, then when we try to find "Jessica Ng", we will hash her name to cell 4, see that it is empty, and conclude that "Jessica Ng" is not in the table, even though it is!
+  </p>
+
+  <figure>
+    <caption>The <pf>Jessica Ng</pf> record  maps to cell 4. Because it is empty we assume she is not in the table.</caption>
+    <image source="images/hash-tables/removal-2.svg" width="60%">
+      <shortdescription>
+        <p>
+          Nothing is in cell 4, "Doug Jones" is in cell 5, and "Jessica Ng" is in cell 6.
+          </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    Because we stopped at the empty location, we never got to cell 6 where "Jessica Ng" is. But we have to stop at empty locations. To not do so would mean we would probe the entire table every time we looked for something that was not in the table. Doing so would require <m>O(n)</m> time, which would defeat the purpose of using a hash table in the first place. So we need a way to mark a cell as having been occupied but now being empty.
+  </p>
+
+  <p>
+    We need a way to mark a cell as having been occupied but now being empty. One approach is to use <q>tombstone</q> (a marker for a dead element). When we are looking for an item in the table, we will treat tombstone cells as occupied and continue probing. When we are inserting an item into the table, we can treat tombstone cells as empty and insert the new item there. This way, we can maintain the integrity of the probing sequence while still allowing us to reuse cells that have been removed.
+  </p>
+
+  <insight>
+    <p>
+      A tombstone counts as occupied when we are looking for an item in the table, but counts as empty when we are inserting an item into the table.
+    </p>
+  </insight> 
+
+  <p>This animation demonstrates the process:</p>
+  
+  <figure>
+    <caption>A tombstone marking cell 4 tells us to continue searching if we encounter it.</caption>
+    <image source="images/hash-tables/removal-3.svg" width="60%">
+      <shortdescription>
+        <p>
+          A tombstone is in cell 4, "Doug Jones" is in cell 5, and "Jessica Ng" is in cell 6. A search starting at location 4 will continue to cell 5 and then cell 6, where it will find "Jessica Ng".
+          </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <activity>
+    <title>Hash Table Removal</title>
+    <p>The hash table is set to Remove 9. Use <c>></c> to step through the removal process.</p>
+    <p>Then try finding 33 which also belongs in cell 1.</p>
+    <p>Finally, try inserting 17. It also belongs in cell 1 and can replace the tombstone.</p>
+    <interactive platform="javascript"
+                 design-width="1000"
+                 aspect="4:2">
+      <script type="module">
+      import { ClosedHash } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new ClosedHash({zoom: "1x", initialData: [9, 2, 33, 7]});
+      anim.doRemove(9);
+    </script>
+      <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+    </interactive>
+  </activity>
+  </subsection>
+
+  <subsection>
+    <title>Special Values</title>
+
+    <p>
+      The animation shows a tombstone as <c>&lt;deleted></c>. But in a real implementation, we would need to pick a value of the type being stored to represent the tombstone. If we are storing integers, we need a tombstone that is an integer. If we were storing Person records, we would need a tombstone that is a Person record.
+    </p>
+      
+    <p>
+      This can be tricky because we need to make sure that the value we choose cannot be confused with a valid item that we might want to store in the table. For example, if we are implementing a hash table for strings, we might choose a special string like <c>###deleted###</c> to represent the tombstone. But if we want to store the string <c>###deleted###</c> in the table, we would have a problem because it would be indistinguishable from a tombstone.
+    </p>
+    
+    <p>
+      We have a similar problem for identifying empty cells. The animation we are using shows unused cells as empty. But if we are storing an array of integers, there is no such thing as an empty integer. We would likely not want 0 to mean <q>empty cell</q> because then we would not be able to store the value 0 in the table.
+    </p>
+
+    <p>
+      So we also need to pick a special value to represent an empty cell. If we were working with <pf>int</pf>s, we might decide that <pf>INT_MAX</pf> (the largest possible <pf>int</pf>) will represent a tombstone, and <pf>INT_MIN</pf> (the smallest possible <pf>int</pf>) will represent an empty cell. This way, we can store any valid integer other than those two values in the table.
+    </p>
+
+    <p>
+      Rather than deal with special values, we can instead use extra storage to keep track of whether a cell is empty, occupied, or a tombstone. A simple implementation might store a parallel array of enums that indicate the state of each cell. If a cell is marked as empty, or as a tombstone, we can ignore the value in the corresponding cell of the main array. A more complex implementation might use bit packing to store the empty state in a single bit for each cell, and the tombstone state in another bit for each cell.
+    </p>
+
+    <p>
+      This approach of using extra storage to track the state of each cell is easier to design and use as a general solution that can work for any type of data. The downside of course is some amount of extra space proportional to the size of the table.
+    </p>
+    </subsection>
+
+</section>

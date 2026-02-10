@@ -1,0 +1,128 @@
+<section xml:id="hash-tables_hash-functions-std"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Standard Library Hash Functions and Custom Types</title>
+
+  <p>
+    Rather than writing our own hash functions for built in types like doubles and strings, we can use the hash functions provided by the C++ standard library. The <pf>std::hash</pf> class is a templated functor that can be used to compute a hash value (as a <pf>size_t</pf>) for a given type. For example, to compute the hash value of a string, we can use the following code:
+  </p>
+
+  <program>
+    <![CDATA[
+    string name = "John Smith";
+    string name2 = "Sandra Jackson";
+    // Create a hash functor for strings
+    std::hash<string> stringHasher;
+    // Compute the hash values for the strings
+    size_t strHash = stringHasher(name);
+    size_t strHash2 = stringHasher(name2);
+    ]]>
+  </program>
+
+  <p>
+    For custom data types, we need to write our own hash functions that use <pf>std::hash</pf> to compute hash values for basic members and then combine them using bit shifting and xor to produce a single hash value for the entire object. For example, if we have a <pf>Point</pf> struct with <pf>x</pf> and <pf>y</pf> coordinates, we can write a hash function for it like the one below. 
+    It shifts the bits of the x coordinate's hash value to the left by 1, we ensure that (1.0, 2.0) will have a different hash value than a point with coordinates (2.0, 1.0).
+  </p>
+
+  <program>
+    <![CDATA[
+size_t myHash(const Point& p) {
+  std::hash<double> doubleHasher;
+  size_t pointHash = (doubleHasher(p.x) << 1) ^ doubleHasher(p.y);
+  return pointHash;
+}
+]]>
+</program>
+
+  <p>
+    For more complex objects, we need to carefully consider which members to include in the hash. There are a couple of general guidelines to follow when deciding which members to include in the hash:
+    <ul>
+      <li>We should include enough members to ensure that different objects that we want to treat as different will have different hash values. For example, we would not want to compute the hash value for a <pf>Person</pf> using just the age as then everyone with the age 23 would hash to the exact same value.</li>
+      <li>We should try to avoid including data that is likely to change frequently. As we will see later, changing data that is included in the hash can cause problems when using hash tables.</li>
+    </ul>
+    If there is a single member that is unique for each object (like a social security number for a person), the best strategy is often to just use the hash value of that member as the hash value for the entire object. If there is not a single unique member, we need to decide on a set of members to include in the hash and then combine their hash values in a way that produces a good distribution of hash values.
+  </p>
+
+  <p>
+    There also should be an association between the hash function and the equality operator for a type. If two objects are considered equal by the equality operator, they should have the same hash value. If two objects are not considered equal, they should ideally have different hash values (although it is not strictly required that they do). So any object we are going to hash should also have an equality operator defined, and the logic of the hash function should be consistent with the logic of the equality operator.
+  </p>
+
+  <p>Let's consider two different versions of a <pf>Student</pf> class. The first will have a <pf>studentID</pf> member that is unique for each student, and the second will have <pf>firstName</pf>, <pf>lastName</pf>, and <pf>dateOfBirth</pf> members, none of which are unique by themselves.</p>
+
+  <program>
+    <![CDATA[
+struct Student {
+    string firstName;
+    string lastName;
+    string dateOfBirth;
+    int earnedCredits;
+    double GPA;
+    int studentID;  // Unique identifier for each student
+};
+
+bool operator==(const Student& s1, const Student& s2) {
+    return s1.studentID == s2.studentID;  // Equality based on studentID
+}
+
+size_t myHash(const Student& s) {
+    std::hash<int> intHasher;
+    return intHasher(s.studentID);  // Hash based on studentID
+}
+]]>
+  </program>
+
+  <p>In that first case, the existence of a unique field makes things simple. We just need to make sure that any two items that are <pf>==</pf> always will produce the same hash value.</p>
+
+  <p>
+    In the second case, we need to combine the hash values of multiple members. We will use bit shifting and xor to combine the hash values of the first name, last name, and date of birth. We will also need to make sure that the logic of the hash function is consistent with the logic of the equality operator. If we consider two students to be equal if they have the same first name, last name, and date of birth, then our hash function should produce the same hash value for any two students with the same first name, last name, and date of birth.
+  </p>
+
+  <program>
+    <![CDATA[
+struct Student {
+    string firstName;
+    string lastName;
+    string dateOfBirth;
+    int earnedCredits;
+    double GPA;
+
+bool operator==(const Student& s1, const Student& s2) {
+    // Equality based on first name, last name, and date of birth
+    return s1.firstName == s2.firstName &&
+           s1.lastName == s2.lastName &&
+           s1.dateOfBirth == s2.dateOfBirth;  
+}
+
+size_t myHash(const Student& s) {
+    std::hash<string> stringHasher;
+    size_t h1 = stringHasher(s.firstName);
+    size_t h2 = stringHasher(s.lastName);
+    size_t h3 = stringHasher(s.dateOfBirth);
+    // Combine the hash values and shift each field by one additional bit
+    return h1 ^ (h2 << 1) ^ (h3 << 2);
+}
+]]>
+  </program>
+
+  <p>
+    Because of the bit shifting, we will produce a different hash for a student with the first name "John", last name "Smith", and date of birth "01/01/2000" than for a student with the first name "Smith", last name "John", and date of birth "01/01/2000". But, if we have two students with the same first name, last name, and date of birth, they will produce the same hash value, which is consistent with our equality operator. (It should be clear why having a unique student ID is a better idea than hoping we never have two students with the same first name, last name, and date of birth.)
+  </p>
+  
+  <insight>
+    <p>
+      Equality and hash functions for data types should be based on the core attributes that uniquely identify an object. Sometimes the <q>uniquely identifying attributes</q> is just a single member and sometimes it requires a combination of members.
+    </p>
+  </insight>
+
+  <p>
+    Note that neither version includes things like earned credits or GPA in the hash. If we included those values in the hash and then tried to update a student's GPA, the hash value for that student would change, which means its location in the table would need to change as well.
+  </p>
+
+  <warning>
+    <p>
+      When using any hash table, if you want to modify a key in a way that will change it's hash value, you must first remove the item from the table, modify the key, and then reinsert the item into the table. If you modify a key without removing and reinserting, you will break the integrity of the hash table and it may not be able to find that item anymore.
+    </p>
+  </warning>
+
+
+</section>  

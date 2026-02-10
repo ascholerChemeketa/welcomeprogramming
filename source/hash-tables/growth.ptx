@@ -1,0 +1,105 @@
+<section xml:id="hash-tables_growth"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Load Factor and Growing</title>
+
+  <p>
+    If we keep inserting items into a hash table, eventually we will run out of space in out array. Even before that point, we will start to see more and more collisions, which will degrade the performance of our hash table. As the table gets more full, the average time for insertions and lookups will increase.
+  </p>
+
+  <p>
+    To measure how full a hash table is, we use the concept of <term>load factor</term>, which is defined as the number of items in the table (not including tombstones) divided by the size of the array. A load factor of 0 means the table is empty, while a load factor of 1 means the table is full.
+  </p>
+
+  <md>\text{load factor} = \frac{\text{number of items}}{\text{size of array}}</md>
+
+  <p>
+    We can estimate the number of probes required for insertions and lookups based on the load factor. For example, with linear probing, the average number of cells that will be checked while doing an insertion or unsuccessful lookup is approximately <m>\frac{1}{2} \cdot (1 + (\frac{1}{1 - \alpha})^2)</m>, where <m>\alpha</m> is the load factor. The graph of this function is shown below.
+  </p>
+  
+  <figure>
+    <caption>The number of probes (including the initial check) required for insertions and lookups increases as the load factor increases.</caption>
+    <image source="images/hash-tables/probing-graph.png" width="100%">
+      <shortdescription>
+        <p>
+          The graph of <m>\frac{1}{2} \cdot (1 + (\frac{1}{1 - \alpha})^2)</m> bends sharply upwards after <m>\alpha</m> passes 0.7.
+          </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    Note that the graph is relatively flat until the load factor reaches something around 0.7. After that point, the number of probes starts increasing rapidly. So, in order to maintain good performance, we want to keep the load factor below that amount. This means that instead of waiting until the table is completely full, we will want to grow the table when the load factor reaches a certain threshold.
+  </p>
+
+  <p>
+    In some respects, the growth process is similar to the growth process for an array list. When we grow the table, we will create a new array that is larger than the old one and copy items over from the old array to the new one. However, there is an important difference. When we grow an array list, we can simply copy items from the old array to the same index in the new array. When we grow a hash table, we cannot do that because the size of the array has changed, which means that the value of <m>key \mod size</m> has changed for every key. This means that we will need to rehash every item in the old array and insert it into the new array. This process is more expensive than simply copying items over, but it is necessary to maintain the integrity of the hash table.
+  </p>
+
+  <p>An algorithm for growing a hash table might look like this:</p>
+
+    <listing>
+      <program>
+        <![CDATA[
+// assumes member variables
+//   m_table (pointer to array)
+//   m_capacity (size of array)
+//   m_size (number of items in table)
+void IntHashTable::grow() {
+    int oldCapacity = m_capacity;            // Keep track of the old capacity
+    int* old = m_table;                      // Keep a reference to the old array
+    m_capacity *= 2;                         // Double the size of the array
+    m_table = new int[m_capacity];           // Create a new array with the new size
+    m_size = 0;                              // Reset size to 0 before re-inserting items
+    for (int i = 0; i < oldCapacity; i++) {  // Iterate over the old array
+        int item = old[i];                   // Get the item at index i
+        // If the cell is not empty or a tombstone, re-insert the item into the hash table
+        if (item != EMPTY && item != TOMBSTONE) {           
+            insert(item);
+        }
+    }
+    delete[] old;                             // Clean up the old array
+}
+        ]]>
+      </program>
+      </listing>
+
+  <p>
+    The basic strategy involves temporarily tracking the old array and then resetting the hash table itself to an empty state with a new, larger array. We then iterate over the old array as if it was a list of items we were inserting into the hash table for the first time.
+  </p>
+
+  <p>
+    The animation below demonstrates the growth process.
+  </p>
+
+
+  <activity>
+    <title>Hash Table Growth</title>
+    <p>We have triggered a growth on the hash table below. Use <c>></c> to step through the growth process.</p>
+    <p>(Note that the load factor is currently only 4/8 = 0.5, so we did not really need to grow the table yet. But this way there are fewer items to rehash and insert.)</p>
+    <interactive platform="javascript"
+                 design-width="1000"
+                 aspect="4:2">
+      <script type="module">
+      import { ClosedHash } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new ClosedHash({zoom: "1x", initialData: [125, 310, 300, 250, 160], title: "Hash Table Growth"});
+      anim.doRemove(250);
+      anim.animationManager.skipForward();
+      anim.doGrow(16);
+    </script>
+      <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+    </interactive>
+  </activity>
+  
+  <note>
+    <p>
+      As mentioned earlier, prime sizes for the array can help to reduce collisions. When growing, we can either
+      do extra work (possibly by calculating a list of sizes to use ahead of time) to ensure that the new size is prime, or we can use a simple formula like <m>2 \cdot oldSize + 1</m> to ensure that the new size is at least odd.
+    </p>
+    <p>
+      Given a high quality hash function, and a random assortment of data, the difference between using a prime size table and not doing so is not likely to be significant.
+    </p>
+  </note>
+
+</section>

@@ -1,0 +1,59 @@
+<section xml:id="hash-tables_hashing"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Hashing</title>
+
+  <p>
+    <term>Hashing</term> is the process of transforming input data into a fixed-size value using a <term>hash function</term>. The output of a hash function is called a <term>hash</term> of the input.
+  </p>
+
+  <figure>
+    <caption>A hash function transforms input data into a fixed-size value called a hash.</caption>
+    <image source="images/hash-tables/hashing.svg" width="60%">
+      <shortdescription>
+        <p>
+          Arbitrary data is transformed by a hash function into a fixed-size set of bits.
+          </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  
+  <p>
+    We can use such a hash function to calculate indexes for items that we want to store in an array to implement what is known as a <term>hash table</term>. A hash function that took strings and produced an integer value between 0 and 6 could be used to store strings in the array shown below. Given a string like <pf>"Sandra Jackson"</pf>, we compute its hash to decide which cell to store it in (2 in the figure). If later on we need to know if that string is in the table, we can compute its hash again to know which cell to look in.
+  </p>
+
+  <figure>
+    <caption>A hash function used to decide on indexes we will use to store different strings.</caption>
+    <image source="images/hash-tables/hashing-for-table.svg" width="60%">
+      <shortdescription>
+        <p>
+          The three names "Sandra Jackson", "John Smith", and "Jesus Lopez" are hashed to the values 2, 4, and 1 respectively. Those hash values are used as indexes to store the names in an array.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    Before we look at how to implement a hash function that will work for this purpose, it is important to point out that hashing is
+    used in many different applications in programming and computer science. In addition to being useful for building data structures, hash functions are also extensively used in cryptography. These different applications require different properties from the hash function.
+  </p>
+
+  <p>
+    In cryptography hash functions are used to securely store passwords. 
+    If there is a data breach and someone gains access to the stored data, we don't want them to have access to the actual passwords.
+    So instead of storing a user's password in plain text, we can store a hash of the password. When the user tries to log in, we hash the password they enter and compare it to the stored hash. Knowing the hash of the password won't allow someone to actually log in because to do so you need to enter a string that produces the hash, not the hash itself.
+  </p>
+
+  <p>
+    In that context we want a hash function that is impossible (or at least infeasible) to reverse. We don't want anyone to be able to take a hashed password and figure out what the original password was. We also want a hash function that is resistant to collisions, meaning that it should be very difficult to find two different inputs that produce the same hash. And we likely want a hash function that is computationally expensive to compute, so that it would take a long time for an attacker to try many different inputs to find one that produces a known hash.
+  </p>
+
+  <p>
+    In contrast, when we are using hashing for building a data structure, 
+    we do not care about whether anyone can reverse the hash function. We are not trying to securely store data, we are just trying to efficiently store and retrieve data. For this application, we want a hash function that is very fast to compute, and ideally, that distributes values uniformly across the range of possible hash values to minimize the likelihood that two different inputs will produce the same hash (a collision).
+  </p>
+
+  <p>In the next section we will look at how to implement hash functions for building a hash table. Although some of the principles also apply to cryptographic hash functions, they would require additional considerations.</p>
+
+</section>
