@@ -1,0 +1,64 @@
+<section xml:id="balanced-trees_treap"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Treaps</title>
+
+  <p>
+    Another data structure that uses random information to maintain balance is the treap. A treap is a binary search tree that also maintains a heap property. Only instead of the heap property being based on the values of the nodes, it is based on a separate priority value that is randomly selected for each node as it is inserted.
+  </p>
+
+  <figure>
+    <caption>A treap. Each node has a priority value (shown next to the node) and a value (shown inside the node). The structure is a valid binary search tree with respect to the values and a valid heap with respect to the priorities.</caption>
+    <image source="images/balanced-trees/treap.svg" width="80%">
+      <shortdescription>
+        <p>
+          The root node has a value of 835 and a priority of 882. It's children both have lower priorities. The left child has value 54 and priority 754, and the right child has value 912 and and priority 774.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    Every time a value is added, we generate a random priority for it. We then insert the new node into the tree based on its value, just like we would in a normal binary search tree. After inserting the node, we check if the heap property is violated. If the new node's priority is greater than its parent's priority, we perform rotations to move it up the tree until the heap property is restored.
+  </p>
+
+  <activity>
+    <title>Treap Structure</title>
+    <p>
+      The treap below loads the values 100, 200, 300, 400, 500, and 600 in that order. In a plain BST that would produce a linear chain of nodes.
+      </p>
+      <p>
+        But because each node gets a random priority, the structure of the tree the Treap produces is different. Press the <c>Reset</c> button a few times to see how the structure changes from run to run as the random priorities change.
+      </p>
+      <p>
+        Then try inserting other values. As a value is placed in a leaf position, look at its priority. Compare that to the priority of its parents and try to guess its final position before stepping through the rotations.
+      </p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2">
+    <script type="module">
+      import { Treap } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new Treap({ initialData: [100, 200, 300, 400, 500, 600]});
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+ 
+
+  <p>
+    This process means that any given node can end up as the root node, not just the first node we insert. In addition, each time a node moves up through the heap it also changes the structure of the tree. Although not every change will make the tree more balanced, on average, the random priorities will help to keep the tree balanced.</p>
+
+    <p>
+     In fact, it can be shown that the expected height of a treap, and thus the average time complexity for search, insertion, and deletion operations is <m>O(\log n)</m>. However, this is a probabilistic guarantee, not a strict guarantee. It is possible to get unlucky with the random priorities and end up with a very unbalanced tree. In the worst case, the height (and thus the common operations) could end up being <m>O(n)</m>.
+  </p>
+
+
+  <insight>
+    <p>
+      A treap has a probabilistic average time complexity of <m>O(\log n)</m> for insert/find/delete, but the worst-case time complexity can be <m>O(n)</m>.
+    </p>
+  </insight>
+  
+
+</section>

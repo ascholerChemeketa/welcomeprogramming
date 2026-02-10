@@ -3406,11 +3406,10 @@ Algorithm.prototype.isAllDigits = function(str) {
   return true;
 };
 Algorithm.prototype.normalizeNumber = function(input, maxLen) {
-  if (!this.isAllDigits(input) || input == "") {
-    return input;
-  } else {
-    return input;
+  if (this.isAllDigits(input)) {
+    return Number(input);
   }
+  return input;
 };
 Algorithm.prototype.disableUI = function(event) {
 };
@@ -3524,6 +3523,7 @@ var skipBackButton;
 var stepBackButton;
 var stepForwardButton;
 var skipForwardButton;
+var scrubSlider;
 var keyboardStepListenerInstalled = false;
 var ctrlWheelZoomListenerInstalled = false;
 var pinchZoomListenerInstalled = false;
@@ -3545,7 +3545,6 @@ function installLTIResizer() {
     return;
   ltiResizeListenerInstalled = true;
   window.addEventListener("resize", () => {
-    console.log("Window resized inside the iframe!");
     if (!window.frameElement)
       return;
     const height = window.innerWidth > 500 ? "100%" : "600px";
@@ -3692,7 +3691,7 @@ function makeDiv(id, classes, parent) {
   parent.appendChild(element);
   return element;
 }
-function addGeneralControls(objectManager2, targetElement, title, opts2 = null) {
+function addGeneralControls(objectManager2, targetElement, title, opts = null) {
   if (targetElement == null) {
     targetElement = document.body;
   }
@@ -3710,6 +3709,19 @@ function addGeneralControls(objectManager2, targetElement, title, opts2 = null) 
   stepBackButton = addControlTo(makeInput("Button", "<", "Step Back", "stepBackButton"), stepButtons);
   stepForwardButton = addControlTo(makeInput("Button", ">", "Step Forward", "stepForwardButton"), stepButtons);
   skipForwardButton = addControlTo(makeInput("Button", ">>", "Skip Forward", "skipForwardButton"), stepButtons);
+  scrubSlider = document.createElement("input");
+  scrubSlider.type = "range";
+  scrubSlider.id = "scrubSlider";
+  scrubSlider.min = "1";
+  scrubSlider.max = "0";
+  scrubSlider.value = "0";
+  scrubSlider.step = "1";
+  scrubSlider.disabled = true;
+  scrubSlider.style.width = "100%";
+  scrubSlider.style.marginTop = "6px";
+  scrubSlider.style.height = "4px";
+  scrubSlider.style.cursor = "pointer";
+  controlBar.appendChild(scrubSlider);
   var speedSelect = document.createElement("select");
   speedSelect.setAttribute("id", "animationSpeed");
   speedSelect.setAttribute("name", "animationSpeed");
@@ -3719,7 +3731,7 @@ function addGeneralControls(objectManager2, targetElement, title, opts2 = null) 
     <option value="Medium">Medium</option>
     <option value="Fast">Fast</option>
     <option value="Max">Max</option>`;
-  const optsLabel = opts2 ? normalizeSpeedLabel(opts2.speed) : null;
+  const optsLabel = opts ? normalizeSpeedLabel(opts.speed) : null;
   const initialLabel = optsLabel ?? "Off";
   speedSelect.value = initialLabel;
   speedChange(initialLabel);
@@ -3921,36 +3933,36 @@ function installPinchZoomControls(targetEl) {
     { passive: true }
   );
 }
-function initAnimationManager(opts2) {
-  let canvas2 = opts2.canvas || document.createElement("canvas");
-  let targetElement = opts2.target || null;
-  let centered = opts2.centered || false;
-  let am = initCanvas2(canvas2, targetElement, opts2.title, centered, opts2);
-  if (opts2.zoom) {
-    am.setZoom(opts2.zoom);
+function initAnimationManager(opts) {
+  let canvas2 = opts.canvas || document.createElement("canvas");
+  let targetElement = opts.target || null;
+  let centered = opts.centered || false;
+  let am = initCanvas2(canvas2, targetElement, opts.title, centered, opts);
+  if (opts.zoom) {
+    am.setZoom(opts.zoom);
   }
-  let desiredHeight = opts2.height || 350;
-  if (opts2.singleMode) {
+  let desiredHeight = opts.height || 350;
+  if (opts.singleMode) {
     am.setSingleMode(true);
-    desiredHeight = opts2.heightSingleMode;
+    desiredHeight = opts.heightSingleMode;
   }
   if (innerWidth < 450) {
-    if (opts2.singleMode)
-      desiredHeight = opts2.heightMobileSingle || opts2.heightMobile || 400;
+    if (opts.singleMode)
+      desiredHeight = opts.heightMobileSingle || opts.heightMobile || 400;
     else
-      desiredHeight = opts2.heightMobile || 400;
+      desiredHeight = opts.heightMobile || 400;
   }
   am.requestHeight(desiredHeight);
   return am;
 }
-function initCanvas2(canvas2, targetElement = null, title = "", centered = false, opts2 = null) {
+function initCanvas2(canvas2, targetElement = null, title = "", centered = false, opts = null) {
   let link = document.createElement("link");
   link.rel = "stylesheet";
   let curURL = import.meta.url;
   link.href = curURL.slice(0, curURL.lastIndexOf("/")) + "/entry.css";
   document.head.appendChild(link);
-  const desiredViewWidth = opts2 && Number.isFinite(opts2.viewWidth) && opts2.viewWidth > 0 ? opts2.viewWidth : opts2 && Number.isFinite(opts2.width) && opts2.width > 0 ? opts2.width : 800;
-  const desiredViewHeight = opts2 && Number.isFinite(opts2.viewHeight) && opts2.viewHeight > 0 ? opts2.viewHeight : opts2 && Number.isFinite(opts2.height) && opts2.height > 0 ? opts2.height : 400;
+  const desiredViewWidth = opts && Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : opts && Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 800;
+  const desiredViewHeight = opts && Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : opts && Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 400;
   if (!Number.isFinite(canvas2.width) || canvas2.width <= 0) {
     canvas2.width = desiredViewWidth;
   }
@@ -3961,7 +3973,7 @@ function initCanvas2(canvas2, targetElement = null, title = "", centered = false
   canvas2.style.height = canvas2.height + "px";
   objectManager = new ObjectManager(canvas2, centered);
   animationManager = new AnimationManager(objectManager, canvas2);
-  addGeneralControls(objectManager, targetElement, title, opts2);
+  addGeneralControls(objectManager, targetElement, title, opts);
   var controlBar = document.getElementById("algoControlSection");
   controlBar.after(objectManager.svg);
   requestAnimationFrame(() => applyAutoZoomForMinVisibleWidth(800));
@@ -3983,6 +3995,11 @@ function initCanvas2(canvas2, targetElement = null, title = "", centered = false
   stepBackButton.onclick = animationManager.stepBack.bind(animationManager);
   stepForwardButton.onclick = animationManager.step.bind(animationManager);
   skipForwardButton.onclick = animationManager.skipForward.bind(animationManager);
+  animationManager.attachScrubSlider(scrubSlider);
+  scrubSlider.addEventListener("input", (e) => {
+    const target = parseInt(e.target.value);
+    animationManager.scrubToBlock(target);
+  });
   installKeyboardStepControls();
   installCtrlWheelZoomControls();
   installPinchZoomControls(objectManager.svg);
@@ -3999,6 +4016,9 @@ function AnimationManager(objectManager2, canvas2) {
   this.singleMode = false;
   this.AnimationSteps = [];
   this.currentAnimation = 0;
+  this.scrubSlider = null;
+  this.totalBlocks = 0;
+  this.currentBlockIndex = 0;
   this.previousAnimationSteps = [];
   this.currFrame = 0;
   this.animationBlockLength = 0;
@@ -4026,8 +4046,8 @@ function AnimationManager(objectManager2, canvas2) {
   };
   this.setZoom = function(newZoom) {
     let zoomSelect = document.getElementById("zoomLevel");
-    let opts2 = zoomSelect.options;
-    for (let o of opts2) {
+    let opts = zoomSelect.options;
+    for (let o of opts) {
       if (o.innerText == newZoom) {
         o.selected = true;
         objectManager2.setZoom(o.value);
@@ -4061,6 +4081,8 @@ function AnimationManager(objectManager2, canvas2) {
       clearTimeout(timer);
       this.animatedObjects.update();
       this.animatedObjects.draw();
+      this.currentBlockIndex = this.totalBlocks;
+      this.updateScrubUI();
       return;
     }
     this.undoAnimationStepIndices.push(this.currentAnimation);
@@ -4589,6 +4611,8 @@ function AnimationManager(objectManager2, canvas2) {
       this.animatedObjects.draw();
     }
     this.undoStack.push(undoBlock);
+    this.currentBlockIndex = Math.min(this.currentBlockIndex + 1, this.totalBlocks);
+    this.updateScrubUI();
   };
   this.StartNewAnimation = function(commands) {
     clearTimeout(timer);
@@ -4603,6 +4627,9 @@ function AnimationManager(objectManager2, canvas2) {
     }
     this.undoAnimationStepIndices = new Array();
     this.currentAnimation = 0;
+    this.totalBlocks = this.computeTotalBlocks();
+    this.currentBlockIndex = 0;
+    this.updateScrubUI();
     this.startNextBlock();
     this.currentlyAnimating = true;
     this.fireEvent("AnimationStarted", "NoData");
@@ -4683,6 +4710,8 @@ function AnimationManager(objectManager2, canvas2) {
         else
           this.fireEvent("AnimationReady", "NoData");
       }
+      this.currentBlockIndex = 0;
+      this.updateScrubUI();
     }
   };
   this.resetAll = function() {
@@ -4729,6 +4758,8 @@ function AnimationManager(objectManager2, canvas2) {
       clearTimeout(timer);
       this.animatedObjects.update();
       this.animatedObjects.draw();
+      this.currentBlockIndex = this.totalBlocks;
+      this.updateScrubUI();
     }
   };
   this.finishUndoBlock = function(undoBlock) {
@@ -4755,6 +4786,8 @@ function AnimationManager(objectManager2, canvas2) {
       clearTimeout(timer);
       this.animatedObjects.update();
       this.animatedObjects.draw();
+      this.currentBlockIndex = 0;
+      this.updateScrubUI();
       return false;
     }
     return true;
@@ -4779,6 +4812,8 @@ function AnimationManager(objectManager2, canvas2) {
         this.currFrame = this.animationBlockLength;
       }
       this.currentlyAnimating = true;
+      this.currentBlockIndex = Math.max(this.currentBlockIndex - 1, 0);
+      this.updateScrubUI();
     }
   };
   this.setLayer = function(shown, layers) {
@@ -4842,6 +4877,81 @@ function AnimationManager(objectManager2, canvas2) {
         }
       }
       this.animatedObjects.update();
+      this.updateScrubUI();
+    }
+  };
+  this.attachScrubSlider = function(sliderEl) {
+    this.scrubSlider = sliderEl;
+    this.updateScrubUI();
+  };
+  this.computeTotalBlocks = function() {
+    if (!this.AnimationSteps || !Array.isArray(this.AnimationSteps))
+      return 0;
+    let blocks = 0;
+    for (const step of this.AnimationSteps) {
+      const cmd = String(step).split("<;>")[0].toUpperCase();
+      if (cmd === "STEP")
+        blocks++;
+    }
+    return blocks;
+  };
+  this.updateScrubUI = function() {
+    if (!this.scrubSlider)
+      return;
+    const hasAnim = Array.isArray(this.AnimationSteps) && this.AnimationSteps.length > 0;
+    this.scrubSlider.disabled = !hasAnim;
+    this.scrubSlider.max = String(this.totalBlocks);
+    this.scrubSlider.value = String(Math.max(0, Math.min(this.currentBlockIndex, this.totalBlocks)));
+  };
+  this.scrubToBlock = function(targetBlockIndex) {
+    if (!Number.isFinite(targetBlockIndex))
+      return;
+    targetBlockIndex = Math.max(0, Math.min(targetBlockIndex, this.totalBlocks));
+    if (!this.AnimationSteps || this.AnimationSteps.length === 0)
+      return;
+    clearTimeout(timer);
+    this.animationPaused = true;
+    if (targetBlockIndex === this.currentBlockIndex) {
+      this.updateScrubUI();
+      return;
+    }
+    if (targetBlockIndex < this.currentBlockIndex) {
+      while (this.currentBlockIndex > targetBlockIndex && this.undoAnimationStepIndices && this.undoAnimationStepIndices.length > 0) {
+        this.undoLastBlock();
+        const undoBlock = this.undoStack.pop();
+        if (undoBlock) {
+          this.finishUndoBlock(undoBlock);
+        } else {
+          break;
+        }
+      }
+      this.updateScrubUI();
+      this.animatedObjects.update();
+      this.animatedObjects.draw();
+      return;
+    }
+    while (this.currentBlockIndex < targetBlockIndex && this.currentAnimation < this.AnimationSteps.length) {
+      this.startNextBlock();
+      this.currFrame = this.animationBlockLength;
+      for (var i = 0; i < (this.currentBlock ? this.currentBlock.length : 0); i++) {
+        var objectID = this.currentBlock[i].objectID;
+        this.animatedObjects.setNodePosition(
+          objectID,
+          this.currentBlock[i].toX,
+          this.currentBlock[i].toY
+        );
+      }
+      this.currentBlock = [];
+      this.animatedObjects.update();
+      this.animatedObjects.draw();
+    }
+    this.updateScrubUI();
+    if (targetBlockIndex === this.totalBlocks) {
+      if (this.awaitingStep) {
+        this.step();
+      } else if (this.currentlyAnimating) {
+        this.skipForward();
+      }
     }
   };
 }
@@ -4861,19 +4971,19 @@ function SingleAnimation(id, fromX, fromY, toX, toY) {
 }
 
 // AlgorithmLibrary/AVL.js
-function AVL(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = opts2.title || "AVL Tree";
-  opts2.centered = true;
-  opts2.heightSingleMode = 250;
-  opts2.height = 350;
-  opts2.heightMobile = 450;
-  opts2.heightMobileSingle = 350;
-  let am = initAnimationManager(opts2);
+function AVL(opts = {}) {
+  if (!opts.title)
+    opts.title = opts.title || "AVL Tree";
+  opts.centered = true;
+  opts.heightSingleMode = 250;
+  opts.height = 350;
+  opts.heightMobile = 450;
+  opts.heightMobileSingle = 350;
+  let am = initAnimationManager(opts);
   this.init(am, 800, 400);
   this.addControls();
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.insertElement.bind(this), d);
       am.skipForward();
     }
@@ -6496,7 +6606,7 @@ var LARGE_CURVE = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0.25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -0.4, 0, 0]
 ];
-var GRAPH_BASE_X = 350;
+var GRAPH_BASE_X = 450;
 var LARGE_X_POS_LOGICAL = [
   GRAPH_BASE_X,
   GRAPH_BASE_X + 100,
@@ -7097,15 +7207,15 @@ function BFS(canvas2) {
     w2 = legacyCanvas.width;
     h = legacyCanvas.height;
   } else {
-    const opts2 = canvas2 || {};
-    const viewWidth = Number.isFinite(opts2.viewWidth) && opts2.viewWidth > 0 ? opts2.viewWidth : Number.isFinite(opts2.width) && opts2.width > 0 ? opts2.width : 1e3;
-    const viewHeight = Number.isFinite(opts2.viewHeight) && opts2.viewHeight > 0 ? opts2.viewHeight : Number.isFinite(opts2.height) && opts2.height > 0 ? opts2.height : 500;
+    const opts = canvas2 || {};
+    const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
+    const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
-      title: opts2.title || "Breadth-First Search",
-      height: opts2.height || viewHeight,
+      title: opts.title || "Breadth-First Search",
+      height: opts.height || viewHeight,
       viewWidth,
       viewHeight,
-      ...opts2
+      ...opts
     });
     w2 = viewWidth;
     h = viewHeight;
@@ -7388,19 +7498,19 @@ BST.STARTING_Y = 40;
 BST.FIRST_PRINT_POS_X = 50;
 BST.PRINT_VERTICAL_GAP = 20;
 BST.PRINT_HORIZONTAL_GAP = 50;
-function BST(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = opts2.title || "Binary Search Tree";
-  opts2.centered = true;
-  opts2.heightSingleMode = 250;
-  opts2.height = 350;
-  opts2.heightMobile = 450;
-  opts2.heightMobileSingle = 350;
-  let am = initAnimationManager(opts2);
+function BST(opts = {}) {
+  if (!opts.title)
+    opts.title = opts.title || "Binary Search Tree";
+  opts.centered = true;
+  opts.heightSingleMode = 250;
+  opts.height = 350;
+  opts.heightMobile = 450;
+  opts.heightMobileSingle = 350;
+  let am = initAnimationManager(opts);
   this.init(am, 800, 400);
   this.addControls();
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.insertElement.bind(this), d);
       am.skipForward();
     }
@@ -8233,19 +8343,19 @@ BSTCopy.WIDTH_DELTA = 50;
 BSTCopy.HEIGHT_DELTA = 50;
 BSTCopy.ROOT_Y = 20;
 BSTCopy.STARTING_Y = 80;
-function BSTCopy(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = opts2.title || "BST Copy";
-  opts2.centered = true;
-  opts2.heightSingleMode = 250;
-  opts2.height = 350;
-  opts2.heightMobile = 450;
-  opts2.heightMobileSingle = 350;
-  let am = initAnimationManager(opts2);
+function BSTCopy(opts = {}) {
+  if (!opts.title)
+    opts.title = opts.title || "BST Copy";
+  opts.centered = true;
+  opts.heightSingleMode = 250;
+  opts.height = 350;
+  opts.heightMobile = 450;
+  opts.heightMobileSingle = 350;
+  let am = initAnimationManager(opts);
   this.init(am, 1e3, 400);
   this.addControls();
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.insertElement.bind(this), d);
       am.skipForward();
     }
@@ -8574,6 +8684,15 @@ BSTCopy.prototype.enableUI = function() {
     this.copyButton.disabled = true;
   }
 };
+BSTCopy.prototype.undo = function(event) {
+  BSTCopy.superclass.undo.call(this, event);
+  if (this.actionHistory.length === 0) {
+    this.copyDone = false;
+    if (this.copyButton)
+      this.copyButton.disabled = false;
+  }
+  this.enableUI(event);
+};
 
 // AlgorithmLibrary/BSTIterator.js
 BSTIterator.FOREGROUND_COLOR = "var(--svgColor)";
@@ -8588,19 +8707,19 @@ BSTIterator.STACK_X = 0;
 BSTIterator.STACK_Y = 40;
 BSTIterator.STACK_SPACING = 22;
 BSTIterator.STACK_TOP_COLOR = "var(--svgColor--red)";
-function BSTIterator(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = opts2.title || "BST Iterator";
-  opts2.centered = true;
-  opts2.heightSingleMode = 250;
-  opts2.height = 350;
-  opts2.heightMobile = 450;
-  opts2.heightMobileSingle = 350;
-  let am = initAnimationManager(opts2);
+function BSTIterator(opts = {}) {
+  if (!opts.title)
+    opts.title = opts.title || "BST Iterator";
+  opts.centered = true;
+  opts.heightSingleMode = 250;
+  opts.height = 350;
+  opts.heightMobile = 450;
+  opts.heightMobileSingle = 350;
+  let am = initAnimationManager(opts);
   this.init(am, 1e3, 400);
   this.addControls();
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.insertElement.bind(this), d);
       am.skipForward();
     }
@@ -8986,25 +9105,25 @@ var MESSAGE_X = 5;
 var MESSAGE_Y = 10;
 var FOREGROUND_COLOR = Colors.BASE;
 var BACKGROUND_COLOR = Colors.FILL;
-function BTree(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = "BTree";
-  opts2.centered = true;
-  opts2.heightSingleMode = 250;
-  opts2.height = 350;
-  opts2.heightMobile = 450;
-  opts2.heightMobileSingle = 350;
-  if (!opts2.maxDegree)
-    opts2.maxDegree = 3;
-  if (!opts2.preemptiveSplit)
-    opts2.preemptiveSplit = false;
-  this.max_degree = opts2.maxDegree;
+function BTree(opts = {}) {
+  if (!opts.title)
+    opts.title = "BTree";
+  opts.centered = true;
+  opts.heightSingleMode = 250;
+  opts.height = 350;
+  opts.heightMobile = 450;
+  opts.heightMobileSingle = 350;
+  if (!opts.maxDegree)
+    opts.maxDegree = 3;
+  if (!opts.preemptiveSplit)
+    opts.preemptiveSplit = false;
+  this.max_degree = opts.maxDegree;
   this.max_keys = this.max_degree - 1;
-  this.preemptiveSplit = opts2.preemptiveSplit && this.max_degree % 2 == 0;
-  let am = initAnimationManager(opts2);
+  this.preemptiveSplit = opts.preemptiveSplit && this.max_degree % 2 == 0;
+  let am = initAnimationManager(opts);
   this.init(am, 800, 400);
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.insertElement.bind(this), d);
       am.skipForward();
     }
@@ -10500,15 +10619,15 @@ function Hash(arg1, w2, h) {
     width = w2;
     height = h;
   } else {
-    const opts2 = arg1 || {};
-    const viewWidth = Number.isFinite(opts2.viewWidth) && opts2.viewWidth > 0 ? opts2.viewWidth : Number.isFinite(opts2.width) && opts2.width > 0 ? opts2.width : 1e3;
-    const viewHeight = Number.isFinite(opts2.viewHeight) && opts2.viewHeight > 0 ? opts2.viewHeight : Number.isFinite(opts2.height) && opts2.height > 0 ? opts2.height : 500;
+    const opts = arg1 || {};
+    const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
+    const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
-      title: opts2.title || "Hashing",
-      height: opts2.height || viewHeight,
+      title: opts.title || "Hashing",
+      height: opts.height || viewHeight,
       viewWidth,
       viewHeight,
-      ...opts2
+      ...opts
     });
     width = viewWidth;
     height = viewHeight;
@@ -10520,11 +10639,11 @@ Hash.prototype.constructor = Hash;
 Hash.superclass = Algorithm.prototype;
 var MAX_HASH_LENGTH = 5;
 var HASH_NUMBER_START_X = 200;
-var HASH_X_DIFF = 7;
+var HASH_X_DIFF = 8;
 var HASH_NUMBER_START_Y = 10;
 var HASH_ADD_START_Y = 30;
 var HASH_INPUT_START_X = 80;
-var HASH_INPUT_X_DIFF = 8;
+var HASH_INPUT_X_DIFF = 10;
 var HASH_INPUT_START_Y = 45;
 var HASH_ADD_LINE_Y = 42;
 var HASH_RESULT_Y = 50;
@@ -10546,49 +10665,33 @@ Hash.prototype.init = function(am, w2, h) {
   }
 };
 Hash.prototype.addControls = function() {
-  this.insertField = addControlToAlgorithmBar("Text", "");
-  this.insertField.size = MAX_HASH_LENGTH;
-  this.insertField.onkeydown = this.returnSubmit(
-    this.insertField,
+  this.inputField = addControlToAlgorithmBar("Text", "", "inputField", "Value");
+  this.inputField.size = MAX_HASH_LENGTH;
+  this.inputField.onkeydown = this.returnSubmit(
+    this.inputField,
     this.insertCallback.bind(this),
     MAX_HASH_LENGTH,
     true
   );
   this.insertButton = addControlToAlgorithmBar("Button", "Insert");
   this.insertButton.onclick = this.insertCallback.bind(this);
-  this.deleteField = addControlToAlgorithmBar("Text", "");
-  this.deleteField.size = MAX_HASH_LENGTH;
-  this.deleteField.onkeydown = this.returnSubmit(
-    this.insertField,
-    this.deleteCallback.bind(this),
-    MAX_HASH_LENGTH,
-    true
-  );
   this.deleteButton = addControlToAlgorithmBar("Button", "Remove");
   this.deleteButton.onclick = this.deleteCallback.bind(this);
-  this.findField = addControlToAlgorithmBar("Text", "");
-  this.findField.size = MAX_HASH_LENGTH;
-  this.findField.onkeydown = this.returnSubmit(
-    this.insertField,
-    this.findCallback.bind(this),
-    MAX_HASH_LENGTH,
-    true
-  );
   this.findButton = addControlToAlgorithmBar("Button", "Find");
   this.findButton.onclick = this.findCallback.bind(this);
   var radioButtonList = addRadioButtonGroupToAlgorithmBar(
-    ["Hash Integer", "Hash Strings"],
+    ["Integer Mode", "String Mode"],
     "HashType"
+  );
+  this.animateStringHashCheckbox = addCheckboxToAlgorithmBar(
+    "Animate string hashing",
+    "animateStringHashing"
   );
   this.hashIntegerButton = radioButtonList[0];
   this.hashIntegerButton.onclick = this.changeHashTypeCallback.bind(this, true);
   this.hashStringButton = radioButtonList[1];
   this.hashStringButton.onclick = this.changeHashTypeCallback.bind(this, false);
   this.hashIntegerButton.checked = true;
-  this.animateStringHashCheckbox = addCheckboxToAlgorithmBar(
-    "Animate string hashing",
-    "animateStringHashing"
-  );
   this.animateStringHashCheckbox.id = "animateStringHashing";
   this.animateStringHashCheckbox.checked = true;
   this.animateStringHashCheckbox.disabled = true;
@@ -10605,41 +10708,17 @@ Hash.prototype.changeHashType = function(newHashingIntegerValue) {
   this.hashingIntegers = newHashingIntegerValue;
   if (this.hashingIntegers) {
     this.hashIntegerButton.checked = true;
-    this.insertField.onkeydown = this.returnSubmit(
-      this.insertField,
+    this.inputField.onkeydown = this.returnSubmit(
+      this.inputField,
       this.insertCallback.bind(this),
-      MAX_HASH_LENGTH,
-      true
-    );
-    this.deleteField.onkeydown = this.returnSubmit(
-      this.insertField,
-      this.deleteCallback.bind(this),
-      MAX_HASH_LENGTH,
-      true
-    );
-    this.findField.onkeydown = this.returnSubmit(
-      this.insertField,
-      this.findCallback.bind(this),
       MAX_HASH_LENGTH,
       true
     );
   } else {
     this.hashStringButton.checked = true;
-    this.insertField.onkeydown = this.returnSubmit(
-      this.insertField,
+    this.inputField.onkeydown = this.returnSubmit(
+      this.inputField,
       this.insertCallback.bind(this),
-      MAX_HASH_LENGTH,
-      false
-    );
-    this.deleteField.onkeydown = this.returnSubmit(
-      this.insertField,
-      this.deleteCallback.bind(this),
-      MAX_HASH_LENGTH,
-      false
-    );
-    this.findField.onkeydown = this.returnSubmit(
-      this.insertField,
-      this.findCallback.bind(this),
       MAX_HASH_LENGTH,
       false
     );
@@ -10650,7 +10729,7 @@ Hash.prototype.changeHashType = function(newHashingIntegerValue) {
   }
   return this.resetAll();
 };
-Hash.prototype.doHash = function(input) {
+Hash.prototype.doHash = function(input, justHash = false) {
   if (this.hashingIntegers) {
     var labelID1 = this.nextIndex++;
     var labelID2 = this.nextIndex++;
@@ -10671,7 +10750,7 @@ Hash.prototype.doHash = function(input) {
       HASH_LABEL_X + HASH_LABEL_DELTA_X,
       HASH_LABEL_Y
     );
-    this.cmd("SetMessage", "Compute hash index = value mod table size");
+    this.cmd("SetMessage", "Compute hash");
     this.cmd("Step");
     this.cmd(
       "CreateHighlightCircle",
@@ -10818,7 +10897,7 @@ Hash.prototype.doHash = function(input) {
           HASH_ADD_START_Y
         );
       }
-      this.cmd("SetMessage", `Bring next character '${wordToHash[i]}' into position`);
+      this.cmd("SetMessage", `Bring bits for character '${wordToHash[i]}' into position`);
       this.cmd("Step");
       this.cmd(
         "CreateRectangle",
@@ -10844,6 +10923,7 @@ Hash.prototype.doHash = function(input) {
       for (j = 7; j >= 0; j--) {
         hashValue[j + 24] = hashValue[j + 24] ^ nextByte[j];
       }
+      let curHash = "";
       for (j = 0; j < 32; j++) {
         this.cmd(
           "CreateLabel",
@@ -10853,8 +10933,9 @@ Hash.prototype.doHash = function(input) {
           HASH_RESULT_Y,
           0
         );
+        curHash += hashValue[j];
       }
-      this.cmd("SetMessage", "Show updated accumulator bits");
+      this.cmd("SetMessage", "Current hash is now: " + curHash);
       this.cmd("Step");
       for (j = 0; j < 8; j++) {
         this.cmd("Delete", nextByteID[j]);
@@ -10870,7 +10951,7 @@ Hash.prototype.doHash = function(input) {
           HASH_NUMBER_START_Y
         );
       }
-      this.cmd("SetMessage", "Copy result back into accumulator line");
+      this.cmd("SetMessage", "Copy result back into accumulator");
       this.cmd("Step");
       if (i > 0) {
         this.cmd(
@@ -10920,8 +11001,11 @@ Hash.prototype.doHash = function(input) {
       HASH_NUMBER_START_Y,
       0
     );
-    this.cmd("SetMessage", "Convert final bits into an integer value");
+    this.cmd("SetMessage", "Convert final bits into an integer value. Result is " + this.currHash);
     this.cmd("Step");
+    if (justHash) {
+      return 0;
+    }
     for (j = 0; j < 32; j++) {
       this.cmd("Delete", digits[j]);
     }
@@ -10960,29 +11044,28 @@ Hash.prototype.doHash = function(input) {
   }
 };
 Hash.prototype.resetAll = function() {
-  this.insertField.value = "";
-  this.deleteField.value = "";
-  this.findField.value = "";
+  if (this.inputField)
+    this.inputField.value = "";
   return [];
 };
 Hash.prototype.insertCallback = function(event) {
-  var insertedValue = this.insertField.value;
+  var insertedValue = this.inputField.value;
   if (insertedValue != "") {
-    this.insertField.value = "";
+    this.inputField.value = "";
     this.implementAction(this.insertElement.bind(this), insertedValue);
   }
 };
 Hash.prototype.deleteCallback = function(event) {
-  var deletedValue = this.deleteField.value;
+  var deletedValue = this.inputField.value;
   if (deletedValue != "") {
-    this.deleteField.value = "";
+    this.inputField.value = "";
     this.implementAction(this.deleteElement.bind(this), deletedValue);
   }
 };
 Hash.prototype.findCallback = function(event) {
-  var findValue = this.findField.value;
+  var findValue = this.inputField.value;
   if (findValue != "") {
-    this.findField.value = "";
+    this.inputField.value = "";
     this.implementAction(this.findElement.bind(this), findValue);
   }
 };
@@ -10996,20 +11079,28 @@ Hash.prototype.reset = function() {
   this.hashIntegerButton.checked = true;
 };
 Hash.prototype.disableUI = function(event) {
-  this.insertField.disabled = true;
-  this.insertButton.disabled = true;
-  this.deleteField.disabled = true;
-  this.deleteButton.disabled = true;
-  this.findField.disabled = true;
-  this.findButton.disabled = true;
+  const ctrls = [
+    this.inputField,
+    this.insertButton,
+    this.deleteButton,
+    this.findButton
+  ];
+  for (const el of ctrls) {
+    if (el)
+      el.disabled = true;
+  }
 };
 Hash.prototype.enableUI = function(event) {
-  this.insertField.disabled = false;
-  this.insertButton.disabled = false;
-  this.deleteField.disabled = false;
-  this.deleteButton.disabled = false;
-  this.findField.disabled = false;
-  this.findButton.disabled = false;
+  const ctrls = [
+    this.inputField,
+    this.insertButton,
+    this.deleteButton,
+    this.findButton
+  ];
+  for (const el of ctrls) {
+    if (el)
+      el.disabled = false;
+  }
 };
 
 // AlgorithmLibrary/ClosedHash.js
@@ -11017,7 +11108,7 @@ function ClosedHash(canvas2) {
   let am;
   let w2;
   let h;
-  const opts2 = canvas2 || {};
+  const opts = canvas2 || {};
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
     am = initCanvas2(legacyCanvas, null, "Closed Hashing", false, {
@@ -11027,21 +11118,37 @@ function ClosedHash(canvas2) {
     w2 = legacyCanvas.width;
     h = legacyCanvas.height;
   } else {
-    const viewWidth = Number.isFinite(opts2.viewWidth) && opts2.viewWidth > 0 ? opts2.viewWidth : Number.isFinite(opts2.width) && opts2.width > 0 ? opts2.width : 1e3;
-    const viewHeight = Number.isFinite(opts2.viewHeight) && opts2.viewHeight > 0 ? opts2.viewHeight : Number.isFinite(opts2.height) && opts2.height > 0 ? opts2.height : 500;
+    const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
+    const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
-      title: opts2.title || "Closed Hashing",
-      height: opts2.height || viewHeight,
+      title: opts.title || "Closed Hashing",
+      height: opts.height || viewHeight,
       viewWidth,
       viewHeight,
-      ...opts2
+      ...opts
     });
     w2 = viewWidth;
     h = viewHeight;
   }
   this.init(am, w2, h);
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts && Array.isArray(opts.initialData)) {
+    const hasString = opts.initialData.some((d) => typeof d === "string");
+    if (hasString) {
+      this.changeHashTypeCallback(false);
+    }
+  }
+  if (opts && typeof opts.probing === "string") {
+    const mode = opts.probing.toLowerCase();
+    if (mode.startsWith("lin")) {
+      this.changeProbeType(this.linearProblingButton);
+    } else if (mode.startsWith("quad")) {
+      this.changeProbeType(this.quadraticProbingButton);
+    } else if (mode.startsWith("dou")) {
+      this.changeProbeType(this.doubleHashingButton);
+    }
+  }
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.insertElement.bind(this), d);
       am.skipForward();
     }
@@ -11096,6 +11203,18 @@ ClosedHash.prototype.growCallback = function(event) {
     this.implementAction(this.growTable.bind(this), 16);
   }
 };
+ClosedHash.prototype.doInsert = function(value) {
+  return this.implementAction(this.insertElement.bind(this), value);
+};
+ClosedHash.prototype.doRemove = function(value) {
+  return this.implementAction(this.deleteElement.bind(this), value);
+};
+ClosedHash.prototype.doFind = function(value) {
+  return this.implementAction(this.findElement.bind(this), value);
+};
+ClosedHash.prototype.doGrow = function(newSize) {
+  return this.implementAction(this.growTable.bind(this), newSize);
+};
 ClosedHash.prototype.growTable = function(newSize) {
   this.commands = [];
   if (this.hasGrown) {
@@ -11116,6 +11235,11 @@ ClosedHash.prototype.growTable = function(newSize) {
   const stagingYPos = new Array(oldSize);
   const oldRows = Math.max(1, Math.ceil(oldSize / this.elements_per_row));
   const stagingStartY = ARRAY_ELEM_START_Y + oldRows * ARRAY_VERTICAL_SEPARATION + 100;
+  this.cmd(
+    "SetMessage",
+    `Grow table: expand to ${targetSize}`
+  );
+  this.cmd("Step");
   for (let i = 0; i < oldSize; i++) {
     const nextXPos = ARRAY_ELEM_START_X + i % this.elements_per_row * ARRAY_ELEM_WIDTH;
     const nextYPos = stagingStartY + Math.floor(i / this.elements_per_row) * ARRAY_VERTICAL_SEPARATION;
@@ -11138,15 +11262,18 @@ ClosedHash.prototype.growTable = function(newSize) {
     this.cmd("SetForegroundColor", idxID, INDEX_COLOR);
   }
   this.cmd("SetMessage", "Old array becomes staging array");
+  let stagingData = [];
   for (let i = 0; i < oldSize; i++) {
     const hasValue = !this.empty[i] && !this.deleted[i];
     if (this.deleted[i]) {
       this.cmd("SetText", stagingRects[i], "<deleted>");
+      stagingData.push("<deleted>");
     } else if (hasValue) {
       const value = this.hashTableValues[i];
-      elemsToRehash.push(value);
-      stagingSlots.push(i);
       this.cmd("SetText", stagingRects[i], value);
+      stagingData.push(value);
+    } else {
+      stagingData.push("");
     }
   }
   this.cmd("Step");
@@ -11154,6 +11281,8 @@ ClosedHash.prototype.growTable = function(newSize) {
     this.cmd("Delete", oldHashTableVisual[i]);
     this.cmd("Delete", oldHashTableIndices[i]);
   }
+  let oldEmpty = this.empty.slice();
+  let oldDeleted = this.deleted.slice();
   this.table_size = targetSize;
   this.skipDist = new Array(this.table_size);
   this.hashTableVisual = new Array(this.table_size);
@@ -11199,42 +11328,49 @@ ClosedHash.prototype.growTable = function(newSize) {
   }
   this.cmd("SetMessage", `Created new table of size ${targetSize}`);
   this.cmd("Step");
-  for (let k = 0; k < elemsToRehash.length; k++) {
-    const value = elemsToRehash[k];
-    const fromSlot = stagingSlots[k];
+  for (let k = 0; k < oldSize; k++) {
+    const value = stagingData[k];
+    const fromSlot = k;
     const labelID = this.nextIndex++;
     this.cmd("SetHighlight", stagingRects[fromSlot], 1);
-    this.cmd("SetMessage", `Take ${value} from staging slot ${fromSlot}`);
-    this.cmd("Step");
-    this.cmd(
-      "CreateLabel",
-      labelID,
-      value,
-      stagingXPos[fromSlot],
-      stagingYPos[fromSlot] - ARRAY_ELEM_HEIGHT
-    );
-    this.cmd("SetText", stagingRects[fromSlot], "");
-    this.cmd("Step");
-    let index = this.doHash(value);
-    index = this.getEmptyIndex(index, value);
-    if (index !== -1) {
-      this.cmd(
-        "Move",
-        labelID,
-        this.indexXPos[index],
-        this.indexYPos[index] - ARRAY_ELEM_HEIGHT
-      );
-      this.cmd("SetMessage", `Reinsert ${value} at index ${index}`);
-      this.cmd("Step");
-      this.cmd("Delete", labelID);
-      this.cmd("SetText", this.hashTableVisual[index], value);
-      this.hashTableValues[index] = value;
-      this.empty[index] = false;
-      this.deleted[index] = false;
+    let isValid = !oldEmpty[fromSlot] && !oldDeleted[fromSlot];
+    if (isValid) {
+      this.cmd("SetMessage", `Take ${value} from staging slot ${fromSlot}`);
     } else {
-      this.cmd("SetMessage", `Table full while reinserting ${value}`);
+      this.cmd("SetMessage", `Ignoring staging slot ${fromSlot}`);
+    }
+    this.cmd("Step");
+    if (isValid) {
+      this.cmd(
+        "CreateLabel",
+        labelID,
+        value,
+        stagingXPos[fromSlot],
+        stagingYPos[fromSlot] - ARRAY_ELEM_HEIGHT
+      );
+      this.cmd("SetText", stagingRects[fromSlot], "");
       this.cmd("Step");
-      this.cmd("Delete", labelID);
+      let index = this.doHash(value);
+      index = this.getEmptyIndex(index, value);
+      if (index !== -1) {
+        this.cmd(
+          "Move",
+          labelID,
+          this.indexXPos[index],
+          this.indexYPos[index] - ARRAY_ELEM_HEIGHT
+        );
+        this.cmd("SetMessage", `Reinsert ${value} at index ${index}`);
+        this.cmd("Step");
+        this.cmd("Delete", labelID);
+        this.cmd("SetText", this.hashTableVisual[index], value);
+        this.hashTableValues[index] = value;
+        this.empty[index] = false;
+        this.deleted[index] = false;
+      } else {
+        this.cmd("SetMessage", `Table full while reinserting ${value}`);
+        this.cmd("Step");
+        this.cmd("Delete", labelID);
+      }
     }
     this.cmd("SetHighlight", stagingRects[fromSlot], 0);
   }
@@ -11296,10 +11432,10 @@ ClosedHash.prototype.linearProbeCallback = function(event) {
 };
 ClosedHash.prototype.insertElement = function(elem) {
   this.commands = new Array();
-  this.cmd("SetText", this.ExplainLabel, "Inserting element: " + String(elem));
+  this.cmd("SetMessage", "Inserting element: " + String(elem));
   var index = this.doHash(elem);
   index = this.getEmptyIndex(index, elem);
-  this.cmd("SetText", this.ExplainLabel, "");
+  this.cmd("SetMessage", "");
   if (index != -1) {
     var labID = this.nextIndex++;
     this.cmd("CreateLabel", labID, elem, 20, 25);
@@ -11341,6 +11477,7 @@ ClosedHash.prototype.resetSkipDist = function(elem, labelID) {
 };
 ClosedHash.prototype.getEmptyIndex = function(index, elem) {
   var foundIndex = -1;
+  var neededDoubleHash = false;
   for (var i = 0; i < this.table_size; i++) {
     var candidateIndex = (index + this.skipDist[i]) % this.table_size;
     this.cmd("SetHighlight", this.hashTableVisual[candidateIndex], 1);
@@ -11362,10 +11499,11 @@ ClosedHash.prototype.getEmptyIndex = function(index, elem) {
     } else {
       if (i == 0 && this.currentHashingTypeButtonState == this.doubleHashingButton) {
         this.resetSkipDist(elem, this.nextIndex++);
+        neededDoubleHash = true;
       }
     }
   }
-  if (this.currentHashingTypeButtonState == this.doubleHashingButton) {
+  if (neededDoubleHash) {
     this.cmd("Delete", --this.nextIndex);
   }
   return foundIndex;
@@ -11395,44 +11533,28 @@ ClosedHash.prototype.getElemIndex = function(index, elem) {
 };
 ClosedHash.prototype.deleteElement = function(elem) {
   this.commands = new Array();
-  this.cmd("SetText", this.ExplainLabel, "Deleting element: " + elem);
+  this.cmd("SetMessage", "Deleting element: " + elem);
   var index = this.doHash(elem);
   index = this.getElemIndex(index, elem);
   if (index > 0) {
-    this.cmd(
-      "SetText",
-      this.ExplainLabel,
-      "Deleting element: " + elem + "  Adding tombstone."
-    );
+    this.cmd("SetMessage", "Deleting element: " + elem + "  Adding tombstone.");
     this.empty[index] = true;
     this.deleted[index] = true;
     this.cmd("SetText", this.hashTableVisual[index], "<deleted>");
   } else {
-    this.cmd(
-      "SetText",
-      this.ExplainLabel,
-      "Deleting element: " + elem + "  Element not in table"
-    );
+    this.cmd("SetMessage", "Deleting element: " + elem + "  Element not in table");
   }
   return this.commands;
 };
 ClosedHash.prototype.findElement = function(elem) {
   this.commands = new Array();
-  this.cmd("SetText", this.ExplainLabel, "Finding Element: " + elem);
+  this.cmd("SetMessage", "Finding Element: " + elem);
   var index = this.doHash(elem);
   var found = this.getElemIndex(index, elem) != -1;
   if (found) {
-    this.cmd(
-      "SetText",
-      this.ExplainLabel,
-      "Finding Element: " + elem + "  Found!"
-    );
+    this.cmd("SetMessage", "Finding Element: " + elem + "  Found!");
   } else {
-    this.cmd(
-      "SetText",
-      this.ExplainLabel,
-      "Finding Element: " + elem + "  Not Found!"
-    );
+    this.cmd("SetMessage", "Finding Element: " + elem + "  Not Found!");
   }
   return this.commands;
 };
@@ -11508,267 +11630,535 @@ ClosedHash.prototype.enableUI = function(event) {
   this.doubleHashingButton.disabled = false;
 };
 
-// AlgorithmLibrary/ClosedHashBucket.js
-function ClosedHashBucket(canvas2) {
+// AlgorithmLibrary/ConnectedComponent.js
+var D_X_POS_SMALL = [760, 685, 915, 610, 910, 685, 915, 760];
+var F_X_POS_SMALL = [760, 685, 915, 610, 910, 685, 915, 760];
+var D_Y_POS_SMALL = [18, 118, 118, 218, 218, 318, 318, 418];
+var F_Y_POS_SMALL = [32, 132, 132, 232, 232, 332, 332, 432];
+var D_X_POS_LARGE = [
+  560,
+  660,
+  760,
+  860,
+  610,
+  710,
+  810,
+  560,
+  660,
+  760,
+  860,
+  610,
+  710,
+  810,
+  560,
+  660,
+  760,
+  860
+];
+var F_X_POS_LARGE = [
+  560,
+  660,
+  760,
+  860,
+  610,
+  710,
+  810,
+  560,
+  660,
+  760,
+  860,
+  610,
+  710,
+  810,
+  560,
+  660,
+  760,
+  860
+];
+var D_Y_POS_LARGE = [
+  37,
+  37,
+  37,
+  37,
+  137,
+  137,
+  137,
+  237,
+  237,
+  237,
+  237,
+  337,
+  337,
+  337,
+  437,
+  437,
+  437,
+  437
+];
+var F_Y_POS_LARGE = [
+  62,
+  62,
+  62,
+  62,
+  162,
+  162,
+  162,
+  262,
+  262,
+  262,
+  262,
+  362,
+  362,
+  362,
+  462,
+  462,
+  462,
+  462
+];
+var HIGHLIGHT_CIRCLE_COLOR2 = "#000000";
+var DFS_TREE_COLOR = "#0000FF";
+function ConnectedComponent(canvas2) {
   let am;
   let w2;
   let h;
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
-    am = initCanvas2(legacyCanvas, null, "Closed Hashing (Buckets)", false, {
+    am = initCanvas2(legacyCanvas, null, "Connected Components", false, {
       viewWidth: legacyCanvas.width,
       viewHeight: legacyCanvas.height
     });
     w2 = legacyCanvas.width;
     h = legacyCanvas.height;
   } else {
-    const opts2 = canvas2 || {};
-    const viewWidth = Number.isFinite(opts2.viewWidth) && opts2.viewWidth > 0 ? opts2.viewWidth : Number.isFinite(opts2.width) && opts2.width > 0 ? opts2.width : 1e3;
-    const viewHeight = Number.isFinite(opts2.viewHeight) && opts2.viewHeight > 0 ? opts2.viewHeight : Number.isFinite(opts2.height) && opts2.height > 0 ? opts2.height : 500;
+    const opts = canvas2 || {};
+    const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
+    const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
-      title: opts2.title || "Closed Hashing (Buckets)",
-      height: opts2.height || viewHeight,
+      title: opts.title || "Connected Components",
+      height: opts.height || viewHeight,
       viewWidth,
       viewHeight,
-      ...opts2
+      ...opts
     });
     w2 = viewWidth;
     h = viewHeight;
   }
   this.init(am, w2, h);
 }
-var ARRAY_ELEM_WIDTH2 = 90;
-var ARRAY_ELEM_HEIGHT2 = 30;
-var ARRAY_ELEM_START_X2 = 50;
-var ARRAY_ELEM_START_Y2 = 100;
-var ARRAY_VERTICAL_SEPARATION2 = 100;
-var CLOSED_HASH_TABLE_SIZE2 = 29;
-var BUCKET_SIZE = 3;
-var NUM_BUCKETS = 11;
-var CLOSED_HASH_TABLE_SIZE2 = 40;
-var INDEX_COLOR2 = "#0000FF";
-var INDEX_COLOR2 = "#0000FF";
-ClosedHashBucket.prototype = new Hash();
-ClosedHashBucket.prototype.constructor = ClosedHashBucket;
-ClosedHashBucket.superclass = Hash.prototype;
-ClosedHashBucket.prototype.init = function(am, w2, h) {
-  var sc = ClosedHashBucket.superclass;
-  var fn = sc.init;
-  fn.call(this, am, w2, h);
-  this.elements_per_row = Math.floor(w2 / ARRAY_ELEM_WIDTH2);
-  this.nextIndex = 0;
-  this.setup();
+ConnectedComponent.prototype = new Graph();
+ConnectedComponent.prototype.constructor = ConnectedComponent;
+ConnectedComponent.superclass = Graph.prototype;
+ConnectedComponent.prototype.addControls = function() {
+  this.startButton = addControlToAlgorithmBar(
+    "Button",
+    "Run Connected Component"
+  );
+  this.startButton.onclick = this.startCallback.bind(this);
+  ConnectedComponent.superclass.addControls.call(this, false);
 };
-ClosedHashBucket.prototype.addControls = function() {
-  ClosedHashBucket.superclass.addControls.call(this);
+ConnectedComponent.prototype.init = function(am, w2, h) {
+  this.showEdgeCosts = false;
+  ConnectedComponent.superclass.init.call(this, am, w2, h, true, false);
 };
-ClosedHashBucket.prototype.insertElement = function(elem) {
+ConnectedComponent.prototype.setup = function() {
+  ConnectedComponent.superclass.setup.call(this);
+  this.animationManager.setAllLayers([0, this.currentLayer]);
   this.commands = new Array();
-  this.cmd("SetText", this.ExplainLabel, "Inserting element: " + String(elem));
-  var index = this.doHash(elem);
-  var foundIndex = -1;
-  for (var candidateIndex = index * BUCKET_SIZE; candidateIndex < index * BUCKET_SIZE + BUCKET_SIZE; candidateIndex++) {
-    this.cmd("SetHighlight", this.hashTableVisual[candidateIndex], 1);
-    this.cmd("SetMessage", `Check bucket slot ${candidateIndex} for empty`);
-    this.cmd("Step");
-    this.cmd("SetHighlight", this.hashTableVisual[candidateIndex], 0);
-    if (this.empty[candidateIndex]) {
-      foundIndex = candidateIndex;
-      break;
-    }
-  }
-  if (foundIndex == -1) {
-    for (candidateIndex = BUCKET_SIZE * NUM_BUCKETS; candidateIndex < CLOSED_HASH_TABLE_SIZE2; candidateIndex++) {
-      this.cmd("SetHighlight", this.hashTableVisual[candidateIndex], 1);
-      this.cmd("SetMessage", `Check overflow slot ${candidateIndex} for empty`);
-      this.cmd("Step");
-      this.cmd("SetHighlight", this.hashTableVisual[candidateIndex], 0);
-      if (this.empty[candidateIndex]) {
-        foundIndex = candidateIndex;
-        break;
+  this.runLocked = false;
+  if (this.startButton)
+    this.startButton.disabled = false;
+  this.highlightCircleL = this.nextIndex++;
+  this.highlightCircleAL = this.nextIndex++;
+  this.highlightCircleAM = this.nextIndex++;
+  this.initialIndex = this.nextIndex;
+  this.old_adj_matrix = new Array(this.size);
+  this.old_adj_list_list = new Array(this.size);
+  this.old_adj_list_index = new Array(this.size);
+  this.old_adj_list_edges = new Array(this.size);
+  for (var i = 0; i < this.size; i++) {
+    this.old_adj_matrix[i] = new Array(this.size);
+    this.old_adj_list_index[i] = this.adj_list_index[i];
+    this.old_adj_list_list[i] = this.adj_list_list[i];
+    this.old_adj_list_edges[i] = new Array(this.size);
+    for (var j = 0; j < this.size; j++) {
+      this.old_adj_matrix[i][j] = this.adj_matrix[i][j];
+      if (this.adj_matrix[i][j] > 0) {
+        this.old_adj_list_edges[i][j] = this.adj_list_edges[i][j];
       }
     }
   }
-  if (foundIndex != -1) {
-    var labID = this.nextIndex++;
-    this.cmd("CreateLabel", labID, elem, 20, 25);
-    this.cmd(
-      "Move",
-      labID,
-      this.indexXPos2[foundIndex],
-      this.indexYPos2[foundIndex] - ARRAY_ELEM_HEIGHT2
-    );
-    this.cmd("SetMessage", `Insert into slot ${foundIndex}`);
-    this.cmd("Step");
-    this.cmd("Delete", labID);
-    this.cmd("SetText", this.hashTableVisual[foundIndex], elem);
-    this.hashTableValues[foundIndex] = elem;
-    this.empty[foundIndex] = false;
-    this.deleted[foundIndex] = false;
-  }
-  this.cmd("SetText", this.ExplainLabel, "");
-  return this.commands;
+  this.ccColors = [
+    "#cc3333",
+    "#33aa33",
+    "#3366cc",
+    "#ff9933",
+    "#9933cc",
+    "#33cccc"
+  ];
+  this.currentComponentColor = DFS_TREE_COLOR;
+  this.sortedColumnX = 200;
+  this.sortedColumnYStart = 30;
+  this.sortedRowHeight = 20;
+  this.sortedLabelsIDs = new Array(this.size);
+  this.stackBaseX = 40;
+  this.stackBaseY = 30;
+  this.stackSectionY = this.stackBaseY;
+  this.stackIndent = 10;
+  this.stackLineHeight = 20;
+  this.stackSectionGap = 12;
+  this.stackLabelIDs = [];
+  this.callStackDepth = 0;
+  this.stackRowCount = 0;
 };
-ClosedHashBucket.prototype.getElemIndex = function(elem) {
-  var foundIndex = -1;
-  var initialIndex = this.doHash(elem);
-  for (var candidateIndex = initialIndex * BUCKET_SIZE; candidateIndex < initialIndex * BUCKET_SIZE + BUCKET_SIZE; candidateIndex++) {
-    this.cmd("SetHighlight", this.hashTableVisual[candidateIndex], 1);
-    this.cmd("SetMessage", `Search bucket slot ${candidateIndex} for element ${elem}`);
-    this.cmd("Step");
-    this.cmd("SetHighlight", this.hashTableVisual[candidateIndex], 0);
-    if (!this.empty[candidateIndex] && this.hashTableValues[candidateIndex] == elem) {
-      return candidateIndex;
-    } else if (this.empty[candidateIndex] && !this.deleted[candidateIndex]) {
-      return -1;
+ConnectedComponent.prototype.startCallback = function(event) {
+  this.runLocked = true;
+  if (this.startButton)
+    this.startButton.disabled = true;
+  this.implementAction(this.doCC.bind(this), "");
+};
+ConnectedComponent.prototype.transpose = function() {
+  for (var i = 0; i < this.size; i++) {
+    for (var j = i + 1; j < this.size; j++) {
+      var tmp = this.adj_matrix[i][j];
+      this.adj_matrix[i][j] = this.adj_matrix[j][i];
+      this.adj_matrix[j][i] = tmp;
     }
   }
-  for (candidateIndex = BUCKET_SIZE * NUM_BUCKETS; candidateIndex < CLOSED_HASH_TABLE_SIZE2; candidateIndex++) {
-    this.cmd("SetHighlight", this.hashTableVisual[candidateIndex], 1);
-    this.cmd("SetMessage", `Search overflow slot ${candidateIndex} for element ${elem}`);
-    this.cmd("Step");
-    this.cmd("SetHighlight", this.hashTableVisual[candidateIndex], 0);
-    if (!this.empty[candidateIndex] && this.hashTableValues[candidateIndex] == elem) {
-      return candidateIndex;
-    } else if (this.empty[candidateIndex] && !this.deleted[candidateIndex]) {
-      return -1;
-    }
-  }
-  return -1;
 };
-ClosedHashBucket.prototype.deleteElement = function(elem) {
+ConnectedComponent.prototype.doCC = function(ignored) {
+  this.visited = new Array(this.size);
   this.commands = new Array();
-  this.cmd("SetText", this.ExplainLabel, "Deleting element: " + elem);
-  var index = this.getElemIndex(elem);
-  if (index == -1) {
-    this.cmd(
-      "SetText",
-      this.ExplainLabel,
-      "Deleting element: " + elem + "  Element not in table"
-    );
-  } else {
-    this.cmd(
-      "SetText",
-      this.ExplainLabel,
-      "Deleting element: " + elem + "  Element this.deleted"
-    );
-    this.empty[index] = true;
-    this.deleted[index] = true;
-    this.cmd("SetText", this.hashTableVisual[index], "<deleted>");
+  this.rebuildEdges();
+  this.cmd("SetMessage", "Run first DFS to compute finishing times.");
+  this.cmd("Step");
+  this.d_timesID_L = new Array(this.size);
+  this.f_timesID_L = new Array(this.size);
+  this.d_timesID_AL = new Array(this.size);
+  this.f_timesID_AL = new Array(this.size);
+  this.d_times = new Array(this.size);
+  this.f_times = new Array(this.size);
+  this.currentTime = 1;
+  for (let i = 0; i < this.size; i++) {
+    this.d_timesID_L[i] = this.nextIndex++;
+    this.f_timesID_L[i] = this.nextIndex++;
+    this.d_timesID_AL[i] = this.nextIndex++;
+    this.f_timesID_AL[i] = this.nextIndex++;
   }
-  return this.commands;
-};
-ClosedHashBucket.prototype.findElement = function(elem) {
-  this.commands = new Array();
-  this.cmd("SetText", this.ExplainLabel, "Finding Element: " + elem);
-  var index = this.getElemIndex(elem);
-  if (index == -1) {
-    this.cmd("SetText", this.ExplainLabel, "Element " + elem + " not found");
-  } else {
-    this.cmd("SetText", this.ExplainLabel, "Element " + elem + " found");
-  }
-  return this.commands;
-};
-ClosedHashBucket.prototype.setup = function() {
-  this.table_size = NUM_BUCKETS;
-  this.hashTableVisual = new Array(CLOSED_HASH_TABLE_SIZE2);
-  this.hashTableIndices = new Array(CLOSED_HASH_TABLE_SIZE2);
-  this.hashTableValues = new Array(CLOSED_HASH_TABLE_SIZE2);
-  this.indexXPos = new Array(NUM_BUCKETS);
-  this.indexYPos = new Array(NUM_BUCKETS);
-  this.indexXPos2 = new Array(CLOSED_HASH_TABLE_SIZE2);
-  this.indexYPos2 = new Array(CLOSED_HASH_TABLE_SIZE2);
-  this.empty = new Array(CLOSED_HASH_TABLE_SIZE2);
-  this.deleted = new Array(CLOSED_HASH_TABLE_SIZE2);
-  this.ExplainLabel = this.nextIndex++;
-  this.commands = [];
-  for (var i = 0; i < CLOSED_HASH_TABLE_SIZE2; i++) {
-    var nextID = this.nextIndex++;
-    this.empty[i] = true;
-    this.deleted[i] = false;
-    var nextXPos = ARRAY_ELEM_START_X2 + i % this.elements_per_row * ARRAY_ELEM_WIDTH2;
-    var nextYPos = ARRAY_ELEM_START_Y2 + Math.floor(i / this.elements_per_row) * ARRAY_VERTICAL_SEPARATION2;
-    this.cmd(
-      "CreateRectangle",
-      nextID,
-      "",
-      ARRAY_ELEM_WIDTH2,
-      ARRAY_ELEM_HEIGHT2,
-      nextXPos,
-      nextYPos
-    );
-    this.hashTableVisual[i] = nextID;
-    nextID = this.nextIndex++;
-    this.hashTableIndices[i] = nextID;
-    this.indexXPos2[i] = nextXPos;
-    this.indexYPos2[i] = nextYPos + ARRAY_ELEM_HEIGHT2;
-    this.cmd("CreateLabel", nextID, i, this.indexXPos2[i], this.indexYPos2[i]);
-    this.cmd("SetForegroundColor", nextID, INDEX_COLOR2);
-  }
-  for (i = 0; i <= NUM_BUCKETS; i++) {
-    nextID = this.nextIndex++;
-    nextXPos = ARRAY_ELEM_START_X2 + i * 3 % this.elements_per_row * ARRAY_ELEM_WIDTH2 - ARRAY_ELEM_WIDTH2 / 2;
-    nextYPos = ARRAY_ELEM_START_Y2 + Math.floor(i * 3 / this.elements_per_row) * ARRAY_VERTICAL_SEPARATION2 + ARRAY_ELEM_HEIGHT2;
-    this.cmd(
-      "CreateRectangle",
-      nextID,
-      "",
-      0,
-      ARRAY_ELEM_HEIGHT2 * 2,
-      nextXPos,
-      nextYPos
-    );
-    nextID = this.nextIndex++;
-    if (i == NUM_BUCKETS) {
+  this.messageY = 30;
+  var vertex;
+  for (vertex = 0; vertex < this.size; vertex++) {
+    if (!this.visited[vertex]) {
+      this.cmd("SetMessage", "Start DFS from vertex " + vertex + ".");
+      this.cmd("Step");
       this.cmd(
-        "CreateLabel",
-        nextID,
-        "Overflow",
-        nextXPos + 3,
-        nextYPos + ARRAY_ELEM_HEIGHT2 / 2,
-        0
+        "CreateHighlightCircle",
+        this.highlightCircleL,
+        HIGHLIGHT_CIRCLE_COLOR2,
+        this.x_pos_logical[vertex],
+        this.y_pos_logical[vertex]
       );
-    } else {
-      this.indexXPos[i] = nextXPos + 5;
-      this.indexYPos[i] = nextYPos + ARRAY_ELEM_HEIGHT2 / 2;
+      this.cmd("SetLayer", this.highlightCircleL, 1);
       this.cmd(
-        "CreateLabel",
-        nextID,
-        i,
-        this.indexXPos[i],
-        this.indexYPos[i],
-        0
+        "CreateHighlightCircle",
+        this.highlightCircleAL,
+        HIGHLIGHT_CIRCLE_COLOR2,
+        this.adj_list_x_start - this.adj_list_width,
+        this.adj_list_y_start + vertex * this.adj_list_height
       );
+      this.cmd("SetLayer", this.highlightCircleAL, 2);
+      this.cmd(
+        "CreateHighlightCircle",
+        this.highlightCircleAM,
+        HIGHLIGHT_CIRCLE_COLOR2,
+        this.adj_matrix_x_start - this.adj_matrix_width,
+        this.adj_matrix_y_start + vertex * this.adj_matrix_height
+      );
+      this.cmd("SetLayer", this.highlightCircleAM, 3);
+      this.dfsVisit(vertex, 0, false);
+      this.stackSectionY = this.stackSectionY + this.stackRowCount * this.stackLineHeight + this.stackSectionGap;
+      this.callStackDepth = 0;
+      this.stackRowCount = 0;
+      this.cmd("Delete", this.highlightCircleL, 2);
+      this.cmd("Delete", this.highlightCircleAL, 3);
+      this.cmd("Delete", this.highlightCircleAM, 4);
     }
   }
-  this.cmd("CreateLabel", this.ExplainLabel, "", 10, 25, 0);
-  this.animationManager.StartNewAnimation(this.commands);
-  this.animationManager.skipForward();
-  this.animationManager.clearHistory();
-  this.resetIndex = this.nextIndex;
-};
-ClosedHashBucket.prototype.resetAll = function() {
-  this.commands = ClosedHashBucket.superclass.resetAll.call(this);
-  for (var i = 0; i < CLOSED_HASH_TABLE_SIZE2; i++) {
-    this.empty[i] = true;
-    this.deleted[i] = false;
-    this.cmd("SetText", this.hashTableVisual[i], "");
+  this.clearEdges();
+  this.removeAdjList();
+  this.cmd("SetMessage", "Transpose graph and run DFS again to identify components.");
+  this.cmd("Step");
+  this.transpose();
+  this.buildEdges();
+  this.buildAdjList();
+  this.currentTime = 1;
+  for (let i = 0; i < this.size; i++) {
+    for (let j2 = 0; j2 < this.size; j2++) {
+      if (this.adj_matrix[i][j2] >= 0) {
+        this.cmd("SetText", this.adj_matrixID[i][j2], "1");
+      } else {
+        this.cmd("SetText", this.adj_matrixID[i][j2], "");
+      }
+    }
+  }
+  for (vertex = 0; vertex < this.size; vertex++) {
+    this.visited[vertex] = false;
+    this.cmd("Delete", this.d_timesID_L[vertex], 5);
+    this.cmd("Delete", this.f_timesID_L[vertex], 6);
+    this.cmd("Delete", this.d_timesID_AL[vertex], 7);
+    this.cmd("Delete", this.f_timesID_AL[vertex], 8);
+  }
+  var sortedVertex = new Array(this.size);
+  for (vertex = 0; vertex < this.size; vertex++) {
+    sortedVertex[vertex] = vertex;
+  }
+  this.cmd("SetMessage", "Order vertices by decreasing finishing times.");
+  this.cmd("Step");
+  for (let i = 1; i < this.size; i++) {
+    var j = i;
+    var tmpTime = this.f_times[i];
+    var tmpIndex = sortedVertex[i];
+    while (j > 0 && this.f_times[j - 1] < tmpTime) {
+      this.f_times[j] = this.f_times[j - 1];
+      sortedVertex[j] = sortedVertex[j - 1];
+      j--;
+    }
+    this.f_times[j] = tmpTime;
+    sortedVertex[j] = tmpIndex;
+  }
+  for (let i = 0; i < this.size; i++) {
+    this.sortedLabelsIDs[i] = this.nextIndex++;
+    this.cmd(
+      "CreateLabel",
+      this.sortedLabelsIDs[i],
+      "Vertex: " + String(sortedVertex[i]) + " f=" + String(this.f_times[i]),
+      this.sortedColumnX,
+      this.sortedColumnYStart + i * this.sortedRowHeight
+    );
+    this.cmd("SetLayer", this.sortedLabelsIDs[i], 1);
+  }
+  this.messageY = 30;
+  var ccNum = 1;
+  for (let i = 0; i < this.size; i++) {
+    vertex = sortedVertex[i];
+    if (!this.visited[vertex]) {
+      this.currentComponentColor = this.ccColors[(ccNum - 1) % this.ccColors.length];
+      if (this.sortedLabelsIDs && this.sortedLabelsIDs[i] != null) {
+        this.cmd("SetForegroundColor", this.sortedLabelsIDs[i], this.currentComponentColor);
+        this.cmd("Step");
+      }
+      this.cmd("SetMessage", "Connected Component #" + String(ccNum++) + ": start DFS at vertex " + vertex + ".");
+      this.cmd("Step");
+      this.cmd(
+        "CreateHighlightCircle",
+        this.highlightCircleL,
+        HIGHLIGHT_CIRCLE_COLOR2,
+        this.x_pos_logical[vertex],
+        this.y_pos_logical[vertex]
+      );
+      this.cmd("SetLayer", this.highlightCircleL, 1);
+      this.cmd(
+        "CreateHighlightCircle",
+        this.highlightCircleAL,
+        HIGHLIGHT_CIRCLE_COLOR2,
+        this.adj_list_x_start - this.adj_list_width,
+        this.adj_list_y_start + vertex * this.adj_list_height
+      );
+      this.cmd("SetLayer", this.highlightCircleAL, 2);
+      this.cmd(
+        "CreateHighlightCircle",
+        this.highlightCircleAM,
+        HIGHLIGHT_CIRCLE_COLOR2,
+        this.adj_matrix_x_start - this.adj_matrix_width,
+        this.adj_matrix_y_start + vertex * this.adj_matrix_height
+      );
+      this.cmd("SetLayer", this.highlightCircleAM, 3);
+      this.dfsVisit(vertex, 0, true);
+      this.stackSectionY = this.stackSectionY + this.stackRowCount * this.stackLineHeight + this.stackSectionGap;
+      this.callStackDepth = 0;
+      this.stackRowCount = 0;
+      this.cmd("Delete", this.highlightCircleL, 10);
+      this.cmd("Delete", this.highlightCircleAL, 11);
+      this.cmd("Delete", this.highlightCircleAM, 12);
+    }
   }
   return this.commands;
 };
-ClosedHashBucket.prototype.reset = function() {
-  for (var i = 0; i < CLOSED_HASH_TABLE_SIZE2; i++) {
-    this.empty[i] = true;
-    this.deleted[i] = false;
+ConnectedComponent.prototype.setup_large = function() {
+  this.d_x_pos = D_X_POS_LARGE;
+  this.d_y_pos = D_Y_POS_LARGE;
+  this.f_x_pos = F_X_POS_LARGE;
+  this.f_y_pos = F_Y_POS_LARGE;
+  ConnectedComponent.superclass.setup_large.call(this);
+};
+ConnectedComponent.prototype.setup_small = function() {
+  this.d_x_pos = D_X_POS_SMALL;
+  this.d_y_pos = D_Y_POS_SMALL;
+  this.f_x_pos = F_X_POS_SMALL;
+  this.f_y_pos = F_Y_POS_SMALL;
+  ConnectedComponent.superclass.setup_small.call(this);
+};
+ConnectedComponent.prototype.dfsVisit = function(startVertex, messageX, printCCNum) {
+  this.callStackDepth = (this.callStackDepth || 0) + 1;
+  var indentDepth = this.callStackDepth - 1;
+  var stackLabelID = this.nextIndex++;
+  if (!this.stackLabelIDs) {
+    this.stackLabelIDs = [];
   }
-  this.nextIndex = this.resetIndex;
-  ClosedHashBucket.superclass.reset.call(this);
+  this.stackLabelIDs.push(stackLabelID);
+  this.cmd(
+    "CreateLabel",
+    stackLabelID,
+    "DFS(" + String(startVertex) + ")",
+    this.stackBaseX + indentDepth * this.stackIndent,
+    this.stackSectionY + this.stackRowCount * this.stackLineHeight
+  );
+  this.stackRowCount++;
+  if (printCCNum) {
+    this.cmd("SetMessage", "Visit vertex " + String(startVertex) + ".");
+    this.cmd("Step");
+  }
+  this.cmd("SetMessage", "First visit to vertex " + String(startVertex) + ".");
+  this.cmd("Step");
+  this.cmd("SetMessage", "DFS(" + String(startVertex) + ")");
+  this.messageY = this.messageY + 20;
+  if (!this.visited[startVertex]) {
+    this.d_times[startVertex] = this.currentTime++;
+    this.cmd(
+      "CreateLabel",
+      this.d_timesID_L[startVertex],
+      "d = " + String(this.d_times[startVertex]),
+      this.x_pos_logical[startVertex] - 44,
+      this.y_pos_logical[startVertex] - 14
+    );
+    this.cmd("CreateLabel", this.d_timesID_AL[startVertex], "d2 = " + String(this.d_times[startVertex]), this.adj_list_x_start - 2 * this.adj_list_width, this.adj_list_y_start + startVertex * this.adj_list_height - 1 / 4 * this.adj_list_height);
+    this.cmd("SetLayer", this.d_timesID_L[startVertex], 1);
+    this.cmd("SetLayer", this.d_timesID_AL[startVertex], 2);
+    this.visited[startVertex] = true;
+    if (printCCNum && this.currentComponentColor) {
+      var c = this.currentComponentColor;
+      if (c && c[0] === "#" && c.length === 7) {
+        var r = parseInt(c.slice(1, 3), 16);
+        var g = parseInt(c.slice(3, 5), 16);
+        var b = parseInt(c.slice(5, 7), 16);
+        this.cmd("SetBackgroundColor", this.circleID[startVertex], "rgba(" + r + "," + g + "," + b + ",0.15)");
+      } else {
+        this.cmd("SetBackgroundColor", this.circleID[startVertex], c);
+      }
+    }
+    this.cmd("Step");
+    for (var neighbor = 0; neighbor < this.size; neighbor++) {
+      if (this.adj_matrix[startVertex][neighbor] > 0) {
+        this.highlightEdge(startVertex, neighbor, 1);
+        if (this.visited[neighbor]) {
+          this.cmd("SetMessage", "Neighbor " + String(neighbor) + " already visited; skip.");
+        } else {
+          this.cmd("SetMessage", "Visit unvisited neighbor " + String(neighbor) + " from " + String(startVertex) + "; recurse.");
+        }
+        this.cmd("Step");
+        this.highlightEdge(startVertex, neighbor, 0);
+        if (!this.visited[neighbor]) {
+          this.cmd(
+            "Disconnect",
+            this.circleID[startVertex],
+            this.circleID[neighbor]
+          );
+          var edgeColor = printCCNum && this.currentComponentColor ? this.currentComponentColor : DFS_TREE_COLOR;
+          this.cmd(
+            "Connect",
+            this.circleID[startVertex],
+            this.circleID[neighbor],
+            edgeColor,
+            this.curve[startVertex][neighbor],
+            1,
+            ""
+          );
+          this.cmd(
+            "Move",
+            this.highlightCircleL,
+            this.x_pos_logical[neighbor],
+            this.y_pos_logical[neighbor]
+          );
+          this.cmd(
+            "Move",
+            this.highlightCircleAL,
+            this.adj_list_x_start - this.adj_list_width,
+            this.adj_list_y_start + neighbor * this.adj_list_height
+          );
+          this.cmd(
+            "Move",
+            this.highlightCircleAM,
+            this.adj_matrix_x_start - this.adj_matrix_width,
+            this.adj_matrix_y_start + neighbor * this.adj_matrix_height
+          );
+          this.cmd("Step");
+          this.dfsVisit(neighbor, messageX + 10, printCCNum);
+          this.cmd("SetMessage", "Return from DFS(" + String(neighbor) + ")");
+          this.cmd(
+            "Move",
+            this.highlightCircleAL,
+            this.adj_list_x_start - this.adj_list_width,
+            this.adj_list_y_start + startVertex * this.adj_list_height
+          );
+          this.cmd(
+            "Move",
+            this.highlightCircleL,
+            this.x_pos_logical[startVertex],
+            this.y_pos_logical[startVertex]
+          );
+          this.cmd(
+            "Move",
+            this.highlightCircleAM,
+            this.adj_matrix_x_start - this.adj_matrix_width,
+            this.adj_matrix_y_start + startVertex * this.adj_matrix_height
+          );
+          this.cmd("Step");
+        }
+        this.cmd("Step");
+      }
+    }
+    this.f_times[startVertex] = this.currentTime++;
+    this.cmd(
+      "CreateLabel",
+      this.f_timesID_L[startVertex],
+      "f = " + String(this.f_times[startVertex]),
+      this.x_pos_logical[startVertex] - 44,
+      this.y_pos_logical[startVertex] + 14
+    );
+    this.cmd("CreateLabel", this.f_timesID_AL[startVertex], "f = " + String(this.f_times[startVertex]), this.adj_list_x_start - 2 * this.adj_list_width, this.adj_list_y_start + startVertex * this.adj_list_height + 1 / 4 * this.adj_list_height);
+    this.cmd("SetLayer", this.f_timesID_L[startVertex], 1);
+    this.cmd("SetLayer", this.f_timesID_AL[startVertex], 2);
+    this.cmd("SetMessage", "Finish vertex " + String(startVertex) + ".");
+    this.cmd("Step");
+  }
+  this.callStackDepth--;
 };
-ClosedHashBucket.prototype.disableUI = function(event) {
-  ClosedHashBucket.superclass.disableUI.call(this);
+ConnectedComponent.prototype.reset = function() {
+  this.messageID = new Array();
+  this.nextIndex = this.initialIndex;
+  this.runLocked = false;
+  for (var i = 0; i < this.size; i++) {
+    this.adj_list_list[i] = this.old_adj_list_list[i];
+    this.adj_list_index[i] = this.old_adj_list_index[i];
+    for (var j = 0; j < this.size; j++) {
+      this.adj_matrix[i][j] = this.old_adj_matrix[i][j];
+      if (this.adj_matrix[i][j] > 0) {
+        this.adj_list_edges[i][j] = this.old_adj_list_edges[i][j];
+      }
+    }
+  }
 };
-ClosedHashBucket.prototype.enableUI = function(event) {
-  ClosedHashBucket.superclass.enableUI.call(this);
+ConnectedComponent.prototype.enableUI = function(event) {
+  this.startButton.disabled = !!this.runLocked;
+  ConnectedComponent.superclass.enableUI.call(this, event);
+};
+ConnectedComponent.prototype.disableUI = function(event) {
+  this.startButton.disabled = true;
+  ConnectedComponent.superclass.disableUI.call(this, event);
+};
+ConnectedComponent.prototype.undo = function(event) {
+  ConnectedComponent.superclass.undo.call(this, event);
+  this.runLocked = false;
+  this.enableUI(event);
 };
 
 // AlgorithmLibrary/DFS.js
@@ -11777,8 +12167,8 @@ var AUX_ARRAY_HEIGHT2 = 25;
 var AUX_ARRAY_START_Y2 = 50;
 var VISITED_START_X2 = 200;
 var PARENT_START_X2 = 275;
-var HIGHLIGHT_CIRCLE_COLOR2 = "#000000";
-var DFS_TREE_COLOR = "#0000FF";
+var HIGHLIGHT_CIRCLE_COLOR3 = "#000000";
+var DFS_TREE_COLOR2 = "#0000FF";
 var DFS_CALLSTACK_FONT_SIZE_PERCENT = 80;
 function DFS(canvas2) {
   let am;
@@ -11793,15 +12183,15 @@ function DFS(canvas2) {
     w2 = legacyCanvas.width;
     h = legacyCanvas.height;
   } else {
-    const opts2 = canvas2 || {};
-    const viewWidth = Number.isFinite(opts2.viewWidth) && opts2.viewWidth > 0 ? opts2.viewWidth : Number.isFinite(opts2.width) && opts2.width > 0 ? opts2.width : 1e3;
-    const viewHeight = Number.isFinite(opts2.viewHeight) && opts2.viewHeight > 0 ? opts2.viewHeight : Number.isFinite(opts2.height) && opts2.height > 0 ? opts2.height : 500;
+    const opts = canvas2 || {};
+    const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
+    const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
-      title: opts2.title || "Depth-First Search",
-      height: opts2.height || viewHeight,
+      title: opts.title || "Depth-First Search",
+      height: opts.height || viewHeight,
       viewWidth,
       viewHeight,
-      ...opts2
+      ...opts
     });
     w2 = viewWidth;
     h = viewHeight;
@@ -11932,7 +12322,7 @@ DFS.prototype.doDFS = function(startVetex) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlightCircleL,
-    HIGHLIGHT_CIRCLE_COLOR2,
+    HIGHLIGHT_CIRCLE_COLOR3,
     this.x_pos_logical[vertex],
     this.y_pos_logical[vertex]
   );
@@ -11940,7 +12330,7 @@ DFS.prototype.doDFS = function(startVetex) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlightCircleAL,
-    HIGHLIGHT_CIRCLE_COLOR2,
+    HIGHLIGHT_CIRCLE_COLOR3,
     this.adj_list_x_start - this.adj_list_width,
     this.adj_list_y_start + vertex * this.adj_list_height
   );
@@ -11948,7 +12338,7 @@ DFS.prototype.doDFS = function(startVetex) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlightCircleAM,
-    HIGHLIGHT_CIRCLE_COLOR2,
+    HIGHLIGHT_CIRCLE_COLOR3,
     this.adj_matrix_x_start - this.adj_matrix_width,
     this.adj_matrix_y_start + vertex * this.adj_matrix_height
   );
@@ -12016,7 +12406,7 @@ DFS.prototype.dfsVisit = function(startVertex, messageX) {
             "Connect",
             this.circleID[startVertex],
             this.circleID[neighbor],
-            DFS_TREE_COLOR,
+            DFS_TREE_COLOR2,
             this.curve[startVertex][neighbor],
             1,
             ""
@@ -12115,16 +12505,16 @@ function DijkstraPrim(canvas2, runningDijkstra) {
     w2 = legacyCanvas.width;
     h = legacyCanvas.height;
   } else {
-    const opts2 = canvas2 || {};
-    const runDijkstra = typeof opts2.runningDijkstra === "boolean" ? opts2.runningDijkstra : true;
-    const viewWidth = Number.isFinite(opts2.viewWidth) && opts2.viewWidth > 0 ? opts2.viewWidth : Number.isFinite(opts2.width) && opts2.width > 0 ? opts2.width : 1e3;
-    const viewHeight = Number.isFinite(opts2.viewHeight) && opts2.viewHeight > 0 ? opts2.viewHeight : Number.isFinite(opts2.height) && opts2.height > 0 ? opts2.height : 500;
+    const opts = canvas2 || {};
+    const runDijkstra = typeof opts.runningDijkstra === "boolean" ? opts.runningDijkstra : true;
+    const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
+    const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
-      title: opts2.title || (runDijkstra ? "Dijkstra Shortest Path" : "Prim MST"),
-      height: opts2.height || viewHeight,
+      title: opts.title || (runDijkstra ? "Dijkstra Shortest Path" : "Prim MST"),
+      height: opts.height || viewHeight,
       viewWidth,
       viewHeight,
-      ...opts2
+      ...opts
     });
     w2 = viewWidth;
     h = viewHeight;
@@ -12570,9 +12960,9 @@ function Prim(canvas2) {
   if (canvas2 && typeof canvas2.getContext === "function") {
     return new DijkstraPrim(canvas2, false);
   }
-  const opts2 = canvas2 || {};
+  const opts = canvas2 || {};
   return new DijkstraPrim({
-    ...opts2,
+    ...opts,
     runningDijkstra: false
   });
 }
@@ -12580,15 +12970,15 @@ function Prim(canvas2) {
 // AlgorithmLibrary/Heap.js
 function Heap(arg) {
   let am;
-  const opts2 = arg || {};
+  const opts = arg || {};
   am = initAnimationManager({
-    title: opts2.title || "Min Heap",
-    height: opts2.height || 500,
-    ...opts2
+    title: opts.title || "Min Heap",
+    height: opts.height || 500,
+    ...opts
   });
   this.init(am);
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.insertElement.bind(this), d);
       am.skipForward();
     }
@@ -12600,8 +12990,8 @@ Heap.prototype = new Algorithm();
 Heap.prototype.constructor = Heap;
 Heap.superclass = Algorithm.prototype;
 var ARRAY_SIZE = 15;
-var ARRAY_ELEM_WIDTH3 = 30;
-var ARRAY_ELEM_HEIGHT3 = 25;
+var ARRAY_ELEM_WIDTH2 = 30;
+var ARRAY_ELEM_HEIGHT2 = 25;
 var ARRAY_INITIAL_X = 30;
 var HEAP_CAPACITY = ARRAY_SIZE;
 var ARRAY_Y_POS = 50;
@@ -12638,7 +13028,7 @@ Heap.prototype.init = function(am) {
   fn.call(this, am);
   this.addControls();
   this.nextIndex = 0;
-  const heapRootX = ARRAY_INITIAL_X + HEAP_ROOT_UNDER_ARRAY_INDEX * ARRAY_ELEM_WIDTH3;
+  const heapRootX = ARRAY_INITIAL_X + HEAP_ROOT_UNDER_ARRAY_INDEX * ARRAY_ELEM_WIDTH2;
   this.HeapXPositions = buildHeapXPositions(heapRootX);
   this.HeapYPositions = buildHeapYPositions();
   this.commands = [];
@@ -12682,7 +13072,7 @@ Heap.prototype.createArray = function() {
   this.ArrayXPositions = new Array(ARRAY_SIZE);
   this.currentHeapSize = 0;
   for (var i = 0; i < ARRAY_SIZE; i++) {
-    this.ArrayXPositions[i] = ARRAY_INITIAL_X + i * ARRAY_ELEM_WIDTH3;
+    this.ArrayXPositions[i] = ARRAY_INITIAL_X + i * ARRAY_ELEM_WIDTH2;
     this.arrayLabels[i] = this.nextIndex++;
     this.arrayRects[i] = this.nextIndex++;
     this.circleObjs[i] = this.nextIndex++;
@@ -12690,8 +13080,8 @@ Heap.prototype.createArray = function() {
       "CreateRectangle",
       this.arrayRects[i],
       "",
-      ARRAY_ELEM_WIDTH3,
-      ARRAY_ELEM_HEIGHT3,
+      ARRAY_ELEM_WIDTH2,
+      ARRAY_ELEM_HEIGHT2,
       this.ArrayXPositions[i],
       ARRAY_Y_POS
     );
@@ -12715,7 +13105,7 @@ Heap.prototype.createArray = function() {
     "CreateLabel",
     this.descriptLabel1,
     "",
-    ARRAY_INITIAL_X - ARRAY_ELEM_WIDTH3 / 2,
+    ARRAY_INITIAL_X - ARRAY_ELEM_WIDTH2 / 2,
     10,
     0
   );
@@ -13048,15 +13438,15 @@ Heap.prototype.enableUI = function(event) {
 // AlgorithmLibrary/HeapMax.js
 function HeapMax(arg) {
   let am;
-  const opts2 = arg || {};
+  const opts = arg || {};
   am = initAnimationManager({
-    title: opts2.title || "Max Heap",
-    height: opts2.height || 500,
-    ...opts2
+    title: opts.title || "Max Heap",
+    height: opts.height || 500,
+    ...opts
   });
   this.init(am);
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.insertElement.bind(this), d);
       am.skipForward();
     }
@@ -13068,8 +13458,8 @@ HeapMax.prototype = new Algorithm();
 HeapMax.prototype.constructor = HeapMax;
 HeapMax.superclass = Algorithm.prototype;
 var ARRAY_SIZE2 = 15;
-var ARRAY_ELEM_WIDTH4 = 30;
-var ARRAY_ELEM_HEIGHT4 = 25;
+var ARRAY_ELEM_WIDTH3 = 30;
+var ARRAY_ELEM_HEIGHT3 = 25;
 var ARRAY_INITIAL_X2 = 30;
 var HEAP_CAPACITY2 = ARRAY_SIZE2;
 var ARRAY_Y_POS2 = 50;
@@ -13106,7 +13496,7 @@ HeapMax.prototype.init = function(am) {
   fn.call(this, am);
   this.addControls();
   this.nextIndex = 0;
-  const heapRootX = ARRAY_INITIAL_X2 + HEAP_ROOT_UNDER_ARRAY_INDEX2 * ARRAY_ELEM_WIDTH4;
+  const heapRootX = ARRAY_INITIAL_X2 + HEAP_ROOT_UNDER_ARRAY_INDEX2 * ARRAY_ELEM_WIDTH3;
   this.HeapXPositions = buildHeapXPositions2(heapRootX);
   this.HeapYPositions = buildHeapYPositions2();
   this.commands = [];
@@ -13150,7 +13540,7 @@ HeapMax.prototype.createArray = function() {
   this.ArrayXPositions = new Array(ARRAY_SIZE2);
   this.currentHeapSize = 0;
   for (var i = 0; i < ARRAY_SIZE2; i++) {
-    this.ArrayXPositions[i] = ARRAY_INITIAL_X2 + i * ARRAY_ELEM_WIDTH4;
+    this.ArrayXPositions[i] = ARRAY_INITIAL_X2 + i * ARRAY_ELEM_WIDTH3;
     this.arrayLabels[i] = this.nextIndex++;
     this.arrayRects[i] = this.nextIndex++;
     this.circleObjs[i] = this.nextIndex++;
@@ -13158,8 +13548,8 @@ HeapMax.prototype.createArray = function() {
       "CreateRectangle",
       this.arrayRects[i],
       "",
-      ARRAY_ELEM_WIDTH4,
-      ARRAY_ELEM_HEIGHT4,
+      ARRAY_ELEM_WIDTH3,
+      ARRAY_ELEM_HEIGHT3,
       this.ArrayXPositions[i],
       ARRAY_Y_POS2
     );
@@ -13183,7 +13573,7 @@ HeapMax.prototype.createArray = function() {
     "CreateLabel",
     this.descriptLabel1,
     "",
-    ARRAY_INITIAL_X2 - ARRAY_ELEM_WIDTH4 / 2,
+    ARRAY_INITIAL_X2 - ARRAY_ELEM_WIDTH3 / 2,
     10,
     0
   );
@@ -13523,11 +13913,11 @@ function HeapSort(arg) {
   if (arg && typeof arg.getContext === "function") {
     am = initCanvas2(arg);
   } else {
-    const opts2 = arg || {};
+    const opts = arg || {};
     am = initAnimationManager({
-      title: opts2.title || "Heap Sort",
-      height: opts2.height || 500,
-      ...opts2
+      title: opts.title || "Heap Sort",
+      height: opts.height || 500,
+      ...opts
     });
   }
   this.init(am);
@@ -13536,8 +13926,8 @@ HeapSort.prototype = new Algorithm();
 HeapSort.prototype.constructor = HeapSort;
 HeapSort.superclass = Algorithm.prototype;
 var ARRAY_SIZE3 = 15;
-var ARRAY_ELEM_WIDTH5 = 30;
-var ARRAY_ELEM_HEIGHT5 = 25;
+var ARRAY_ELEM_WIDTH4 = 30;
+var ARRAY_ELEM_HEIGHT4 = 25;
 var ARRAY_INITIAL_X3 = 30;
 var ARRAY_Y_POS3 = 50;
 var ARRAY_LABEL_Y_POS3 = 70;
@@ -13576,7 +13966,7 @@ HeapSort.prototype.init = function(am) {
   fn.call(this, am);
   this.addControls();
   this.nextIndex = 0;
-  const heapRootX = ARRAY_INITIAL_X3 + HEAP_ROOT_UNDER_ARRAY_INDEX3 * ARRAY_ELEM_WIDTH5;
+  const heapRootX = ARRAY_INITIAL_X3 + HEAP_ROOT_UNDER_ARRAY_INDEX3 * ARRAY_ELEM_WIDTH4;
   this.HeapXPositions = buildHeapXPositions3(heapRootX);
   this.HeapYPositions = buildHeapYPositions3();
   this.commands = [];
@@ -13614,7 +14004,7 @@ HeapSort.prototype.createArray = function() {
   for (var i = 0; i < ARRAY_SIZE3; i++) {
     this.arrayData[i] = Math.floor(1 + Math.random() * 999);
     this.oldData[i] = this.arrayData[i];
-    this.ArrayXPositions[i] = ARRAY_INITIAL_X3 + i * ARRAY_ELEM_WIDTH5;
+    this.ArrayXPositions[i] = ARRAY_INITIAL_X3 + i * ARRAY_ELEM_WIDTH4;
     this.arrayLabels[i] = this.nextIndex++;
     this.arrayRects[i] = this.nextIndex++;
     this.circleObjs[i] = this.nextIndex++;
@@ -13622,8 +14012,8 @@ HeapSort.prototype.createArray = function() {
       "CreateRectangle",
       this.arrayRects[i],
       this.arrayData[i],
-      ARRAY_ELEM_WIDTH5,
-      ARRAY_ELEM_HEIGHT5,
+      ARRAY_ELEM_WIDTH4,
+      ARRAY_ELEM_HEIGHT4,
       this.ArrayXPositions[i],
       ARRAY_Y_POS3
     );
@@ -13911,15 +14301,15 @@ function Kruskal(canvas2) {
     w2 = legacyCanvas.width;
     h = legacyCanvas.height;
   } else {
-    const opts2 = canvas2 || {};
-    const viewWidth = Number.isFinite(opts2.viewWidth) && opts2.viewWidth > 0 ? opts2.viewWidth : Number.isFinite(opts2.width) && opts2.width > 0 ? opts2.width : 1e3;
-    const viewHeight = Number.isFinite(opts2.viewHeight) && opts2.viewHeight > 0 ? opts2.viewHeight : Number.isFinite(opts2.height) && opts2.height > 0 ? opts2.height : 500;
+    const opts = canvas2 || {};
+    const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
+    const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
-      title: opts2.title || "Kruskal MST",
-      height: opts2.height || viewHeight,
+      title: opts.title || "Kruskal MST",
+      height: opts.height || viewHeight,
       viewWidth,
       viewHeight,
-      ...opts2
+      ...opts
     });
     w2 = viewWidth;
     h = viewHeight;
@@ -14325,531 +14715,6 @@ Kruskal.prototype.disableUI = function(event) {
   Kruskal.superclass.disableUI.call(this, event);
 };
 
-// AlgorithmLibrary/LeftistHeap.js
-function LeftistHeap(canvas2) {
-  let am = initCanvas2(canvas2);
-  this.init(am, canvas2.width, canvas2.height);
-}
-LeftistHeap.prototype = new Algorithm();
-LeftistHeap.prototype.constructor = LeftistHeap;
-LeftistHeap.superclass = Algorithm.prototype;
-LeftistHeap.LINK_COLOR = "#007700";
-LeftistHeap.HIGHLIGHT_CIRCLE_COLOR = "#007700";
-LeftistHeap.FOREGROUND_COLOR = "#007700";
-LeftistHeap.BACKGROUND_COLOR = "#EEFFEE";
-LeftistHeap.WIDTH_DELTA = 50;
-LeftistHeap.HEIGHT_DELTA = 50;
-LeftistHeap.STARTING_Y = 85;
-LeftistHeap.INSERT_X = 50;
-LeftistHeap.INSERT_Y = 45;
-LeftistHeap.BACKGROUND_ALPHA = 0.5;
-LeftistHeap.MESSAGE_X = 20;
-LeftistHeap.MESSAGE_Y = 10;
-LeftistHeap.NPL_OFFSET_X = 20;
-LeftistHeap.NPL_OFFSET_Y = 20;
-LeftistHeap.NPL_COLOR = "#0000FF";
-LeftistHeap.MESSAGE_ID = 0;
-LeftistHeap.prototype.init = function(am, w2, h) {
-  LeftistHeap.superclass.init.call(this, am, w2, h);
-  this.addControls();
-  this.treeRoot = null;
-  this.secondaryRoot = null;
-  this.animationManager.setAllLayers([0, 1]);
-  this.nextIndex = 1;
-  this.commands = [];
-  this.cmd(
-    "CreateLabel",
-    0,
-    "",
-    LeftistHeap.MESSAGE_X,
-    LeftistHeap.MESSAGE_Y,
-    0
-  );
-  this.animationManager.StartNewAnimation(this.commands);
-  this.animationManager.skipForward();
-  this.animationManager.clearHistory();
-  this.commands = [];
-};
-LeftistHeap.prototype.addControls = function() {
-  this.controls = [];
-  this.insertField = addControlToAlgorithmBar("Text", "");
-  this.insertField.onkeydown = this.returnSubmit(
-    this.insertField,
-    this.insertCallback.bind(this),
-    4
-  );
-  this.controls.push(this.insertField);
-  this.insertButton = addControlToAlgorithmBar("Button", "Insert");
-  this.insertButton.onclick = this.insertCallback.bind(this);
-  this.controls.push(this.insertButton);
-  this.removeSmallestButton = addControlToAlgorithmBar(
-    "Button",
-    "Remove Smallest"
-  );
-  this.removeSmallestButton.onclick = this.removeSmallestCallback.bind(this);
-  this.controls.push(this.removeSmallestButton);
-  this.clearHeapButton = addControlToAlgorithmBar("Button", "Clear Heap");
-  this.clearHeapButton.onclick = this.clearCallback.bind(this);
-  this.controls.push(this.clearHeapButton);
-  this.showNPLBox = addCheckboxToAlgorithmBar("Show Null Path Lengths");
-  this.showNPLBox.checked = true;
-  this.showNPLBox.onclick = this.NPLChangedHandler.bind(this);
-};
-LeftistHeap.prototype.NPLChangedHandler = function(logicalRep, event) {
-  if (this.showNPLBox.checked) {
-    this.animationManager.setAllLayers([0, 1]);
-  } else {
-    this.animationManager.setAllLayers([0]);
-  }
-};
-LeftistHeap.prototype.insertCallback = function(event) {
-  var insertedValue;
-  insertedValue = this.normalizeNumber(this.insertField.value, 4);
-  if (insertedValue != "") {
-    this.insertField.value = "";
-    this.implementAction(this.insertElement.bind(this), insertedValue);
-  }
-};
-LeftistHeap.prototype.clearCallback = function(event) {
-  this.implementAction(this.clear.bind(this, ""));
-};
-LeftistHeap.prototype.clear = function(ignored) {
-  this.commands = new Array();
-  this.clearTree(this.treeRoot);
-  this.treeRoot = null;
-  this.nexIndex = 1;
-  return this.commands;
-};
-LeftistHeap.prototype.clearTree = function(tree) {
-  if (tree != null) {
-    this.cmd("Delete", tree.graphicID);
-    this.cmd("Delete", tree.nplID);
-    this.clearTree(tree.left);
-    this.clearTree(tree.right);
-  }
-};
-LeftistHeap.prototype.reset = function() {
-  this.treeRoot = null;
-  this.secondaryRoot = null;
-  this.nextIndex = 1;
-};
-LeftistHeap.prototype.removeSmallestCallback = function(event) {
-  this.implementAction(this.removeSmallest.bind(this), "");
-};
-LeftistHeap.prototype.removeSmallest = function(dummy) {
-  this.commands = new Array();
-  if (this.treeRoot != null) {
-    this.highlightLeft = this.nextIndex++;
-    this.highlightRight = this.nextIndex++;
-    this.cmd(
-      "SetText",
-      LeftistHeap.MESSAGE_ID,
-      "Remove root element, leaving two subtrees"
-    );
-    if (this.treeRoot.left != null) {
-      this.cmd(
-        "Disconnect",
-        this.treeRoot.graphicID,
-        this.treeRoot.left.graphicID
-      );
-    }
-    if (this.treeRoot.right != null) {
-      this.cmd(
-        "Disconnect",
-        this.treeRoot.graphicID,
-        this.treeRoot.right.graphicID
-      );
-    }
-    var oldElem = this.treeRoot.graphicID;
-    this.cmd("Delete", this.treeRoot.nplID);
-    this.cmd(
-      "Move",
-      this.treeRoot.graphicID,
-      LeftistHeap.INSERT_X,
-      LeftistHeap.INSERT_Y
-    );
-    this.cmd("Step");
-    this.cmd("SetText", LeftistHeap.MESSAGE_ID, "Merge the two subtrees");
-    if (this.treeRoot.left == null) {
-      this.treeRoot = null;
-    } else if (this.treeRoot.right == null) {
-      this.treeRoot = this.treeRoot.left;
-      this.resizeTrees();
-    } else {
-      var secondTree = this.treeRoot.right;
-      this.secondaryRoot = secondTree;
-      this.treeRoot = this.treeRoot.left;
-      this.resizeTrees();
-      this.cmd(
-        "CreateHighlightCircle",
-        this.highlightLeft,
-        LeftistHeap.HIGHLIGHT_CIRCLE_COLOR,
-        this.treeRoot.x,
-        this.treeRoot.y
-      );
-      this.cmd(
-        "CreateHighlightCircle",
-        this.highlightRight,
-        LeftistHeap.HIGHLIGHT_CIRCLE_COLOR,
-        secondTree.x,
-        secondTree.y
-      );
-      this.treeRoot = this.merge(this.treeRoot, secondTree);
-      this.secondaryRoot = null;
-    }
-    this.resizeTrees();
-    this.cmd("Delete", oldElem);
-    this.cmd("SetText", LeftistHeap.MESSAGE_ID, "");
-  }
-  return this.commands;
-};
-LeftistHeap.prototype.insertElement = function(insertedValue) {
-  this.commands = new Array();
-  this.cmd(
-    "SetText",
-    LeftistHeap.MESSAGE_ID,
-    "Create a heap with one node, merge with existing heap."
-  );
-  this.secondaryRoot = new LeftistHeapNode(
-    insertedValue,
-    this.nextIndex++,
-    this.nextIndex++,
-    LeftistHeap.INSERT_X,
-    LeftistHeap.INSERT_Y
-  );
-  this.cmd(
-    "CreateCircle",
-    this.secondaryRoot.graphicID,
-    insertedValue,
-    this.secondaryRoot.x,
-    this.secondaryRoot.y
-  );
-  this.cmd(
-    "CreateLabel",
-    this.secondaryRoot.nplID,
-    0,
-    LeftistHeap.INSERT_X - LeftistHeap.NPL_OFFSET_X,
-    LeftistHeap.INSERT_Y - LeftistHeap.NPL_OFFSET_Y
-  );
-  this.cmd(
-    "SetForegroundColor",
-    this.secondaryRoot.nplID,
-    LeftistHeap.NPL_COLOR
-  );
-  this.cmd("SetLayer", this.secondaryRoot.nplID, 1);
-  this.cmd(
-    "SetForegroundColor",
-    this.secondaryRoot.graphicID,
-    LeftistHeap.FOREGROUND_COLOR
-  );
-  this.cmd(
-    "SetBackgroundColor",
-    this.secondaryRoot.graphicID,
-    LeftistHeap.BACKGROUND_COLOR
-  );
-  if (this.treeRoot != null) {
-    this.resizeTrees();
-    this.highlightLeft = this.nextIndex++;
-    this.highlightRight = this.nextIndex++;
-    this.cmd(
-      "CreateHighlightCircle",
-      this.highlightLeft,
-      LeftistHeap.HIGHLIGHT_CIRCLE_COLOR,
-      this.treeRoot.x,
-      this.treeRoot.y
-    );
-    this.cmd(
-      "CreateHighlightCircle",
-      this.highlightRight,
-      LeftistHeap.HIGHLIGHT_CIRCLE_COLOR,
-      this.secondaryRoot.x,
-      this.secondaryRoot.y
-    );
-    var rightTree = this.secondaryRoot;
-    this.secondaryRoot = null;
-    this.treeRoot = this.merge(this.treeRoot, rightTree);
-    this.resizeTrees();
-  } else {
-    this.treeRoot = this.secondaryRoot;
-    this.secondaryRoot = null;
-    this.resizeTrees();
-  }
-  this.cmd("SetText", LeftistHeap.MESSAGE_ID, "");
-  return this.commands;
-};
-LeftistHeap.prototype.merge = function(tree1, tree2) {
-  if (tree1 == null) {
-    this.cmd(
-      "SetText",
-      LeftistHeap.MESSAGE_ID,
-      "Merging right heap with empty heap, return right heap"
-    );
-    this.cmd("Step");
-    this.cmd("Delete", this.highlightRight);
-    this.cmd("Delete", this.highlightLeft);
-    return tree2;
-  }
-  if (tree2 == null) {
-    this.cmd(
-      "SetText",
-      LeftistHeap.MESSAGE_ID,
-      "Merging left heap with empty heap, return left heap"
-    );
-    this.cmd("Step");
-    this.cmd("Delete", this.highlightRight);
-    this.cmd("Delete", this.highlightLeft);
-    return tree1;
-  }
-  var tmp;
-  this.cmd("SetHighlight", tree1.graphicID, 1);
-  this.cmd("SetHighlight", tree2.graphicID, 1);
-  if (tree2.data < tree1.data) {
-    this.cmd(
-      "SetText",
-      LeftistHeap.MESSAGE_ID,
-      "Min element is in right heap.  Recursively merge right subtree of right heap with left heap"
-    );
-    tmp = tree1;
-    tree1 = tree2;
-    tree2 = tmp;
-    tmp = this.highlightRight;
-    this.highlightRight = this.highlightLeft;
-    this.highlightLeft = tmp;
-  } else {
-    this.cmd(
-      "SetText",
-      LeftistHeap.MESSAGE_ID,
-      "Min element is in left heap.  Recursively merge right subtree of left heap with right heap"
-    );
-  }
-  this.cmd("Step");
-  this.cmd("SetHighlight", tree1.graphicID, 0);
-  this.cmd("SetHighlight", tree2.graphicID, 0);
-  if (tree1.right == null) {
-    this.cmd(
-      "Move",
-      this.highlightLeft,
-      tree1.x + LeftistHeap.WIDTH_DELTA / 2,
-      tree1.y + LeftistHeap.HEIGHT_DELTA
-    );
-  } else {
-    this.cmd("Move", this.highlightLeft, tree1.right.x, tree1.right.y);
-  }
-  this.cmd("Step");
-  if (tree1.right != null) {
-    this.cmd(
-      "Disconnect",
-      tree1.graphicID,
-      tree1.right.graphicID,
-      LeftistHeap.LINK_COLOR
-    );
-  }
-  var next = tree1.right;
-  this.cmd("SetAlpha", tree1.graphicID, LeftistHeap.BACKGROUND_ALPHA);
-  this.cmd("SetAlpha", tree1.nplID, LeftistHeap.BACKGROUND_ALPHA);
-  if (tree1.left != null) {
-    this.cmd(
-      "SetEdgeAlpha",
-      tree1.graphicID,
-      tree1.left.graphicID,
-      LeftistHeap.BACKGROUND_ALPHA
-    );
-    this.setTreeAlpha(tree1.left, LeftistHeap.BACKGROUND_ALPHA);
-  }
-  this.cmd("Step");
-  tree1.right = this.merge(next, tree2);
-  if (this.secondaryRoot == tree1.right) {
-    this.secondaryRoot = null;
-  }
-  if (this.treeRoot == tree1.right) {
-    this.treeRoot = null;
-  }
-  if (tree1.right.parent != tree1) {
-    tree1.right.disconnectFromParent();
-  }
-  tree1.right.parent = tree1;
-  this.cmd("SetText", LeftistHeap.MESSAGE_ID, "Reconnecting tree after merge");
-  this.cmd(
-    "Connect",
-    tree1.graphicID,
-    tree1.right.graphicID,
-    LeftistHeap.LINK_COLOR
-  );
-  this.cmd("SetAlpha", tree1.graphicID, 1);
-  this.cmd("SetAlpha", tree1.nplID, 1);
-  this.resizeTrees();
-  if (tree1.left != null) {
-    this.cmd("SetEdgeAlpha", tree1.graphicID, tree1.left.graphicID, 1);
-    this.setTreeAlpha(tree1.left, 1);
-    this.cmd("Step");
-  }
-  if (tree1.left == null || tree1.left.npl < tree1.right.npl) {
-    this.cmd("SetHighlight", tree1.graphicID, 1);
-    this.cmd(
-      "SetText",
-      LeftistHeap.MESSAGE_ID,
-      "Right subtree has larger Null Path Length than left subtree.  Swapping ..."
-    );
-    this.cmd("Step");
-    this.cmd("SetHighlight", tree1.graphicID, 0);
-    var tmp = tree1.left;
-    tree1.left = tree1.right;
-    tree1.right = tmp;
-    this.resizeTrees();
-  } else {
-    this.cmd("SetHighlight", tree1.graphicID, 1);
-    this.cmd(
-      "SetText",
-      LeftistHeap.MESSAGE_ID,
-      "Left subtree has Null Path Length at least as large as right subtree.  No swap required ..."
-    );
-    this.cmd("Step");
-    this.cmd("SetHighlight", tree1.graphicID, 0);
-  }
-  if (tree1.right == null) {
-    tree1.npl = 0;
-  } else {
-    tree1.npl = Math.min(tree1.left.npl, tree1.right.npl) + 1;
-  }
-  this.cmd("SetText", tree1.nplID, tree1.npl);
-  return tree1;
-};
-LeftistHeap.prototype.setTreeAlpha = function(tree, newAlpha) {
-  if (tree != null) {
-    this.cmd("SetAlpha", tree.graphicID, newAlpha);
-    this.cmd("SetAlpha", tree.nplID, newAlpha);
-    if (tree.left != null) {
-      this.cmd("SetEdgeAlpha", tree.graphicID, tree.left.graphicID, newAlpha);
-      this.setTreeAlpha(tree.left, newAlpha);
-    }
-    if (tree.right != null) {
-      this.cmd("SetEdgeAlpha", tree.graphicID, tree.right.graphicID, newAlpha);
-      this.setTreeAlpha(tree.right, newAlpha);
-    }
-  }
-};
-LeftistHeap.prototype.resizeWidths = function(tree) {
-  if (tree == null) {
-    return 0;
-  }
-  tree.leftWidth = Math.max(
-    this.resizeWidths(tree.left),
-    LeftistHeap.WIDTH_DELTA / 2
-  );
-  tree.rightWidth = Math.max(
-    this.resizeWidths(tree.right),
-    LeftistHeap.WIDTH_DELTA / 2
-  );
-  return tree.leftWidth + tree.rightWidth;
-};
-LeftistHeap.prototype.enableUI = function(event) {
-  for (var i = 0; i < this.controls.length; i++) {
-    this.controls[i].disabled = false;
-  }
-};
-LeftistHeap.prototype.disableUI = function(event) {
-  for (var i = 0; i < this.controls.length; i++) {
-    this.controls[i].disabled = true;
-  }
-};
-LeftistHeap.prototype.resizeTrees = function() {
-  var firstTreeStart;
-  var secondTreeStart;
-  this.resizeWidths(this.treeRoot);
-  this.resizeWidths(this.secondaryRoot);
-  if (this.treeRoot != null) {
-    var startingPoint = this.treeRoot.leftWidth;
-    this.setNewPositions(
-      this.treeRoot,
-      startingPoint,
-      LeftistHeap.STARTING_Y,
-      0
-    );
-    this.animateNewPositions(this.treeRoot);
-    if (this.secondaryRoot != null) {
-      secondTreeStart = this.treeRoot.leftWidth + this.treeRoot.rightWidth + this.secondaryRoot.leftWidth + 50;
-      this.setNewPositions(
-        this.secondaryRoot,
-        secondTreeStart,
-        LeftistHeap.STARTING_Y,
-        0
-      );
-      this.animateNewPositions(this.secondaryRoot);
-    }
-    this.cmd("Step");
-  } else if (this.secondaryRoot != null) {
-    var startingPoint = this.secondaryRoot.leftWidth;
-    this.setNewPositions(
-      this.secondaryRoot,
-      startingPoint,
-      LeftistHeap.STARTING_Y,
-      0
-    );
-    this.animateNewPositions(this.secondaryRoot);
-  }
-};
-LeftistHeap.prototype.setNewPositions = function(tree, xPosition, yPosition, side) {
-  if (tree != null) {
-    tree.y = yPosition;
-    if (side == -1) {
-      xPosition = xPosition - tree.rightWidth;
-      tree.npX = xPosition - LeftistHeap.NPL_OFFSET_X;
-    } else if (side == 1) {
-      xPosition = xPosition + tree.leftWidth;
-      tree.npX = xPosition + LeftistHeap.NPL_OFFSET_X;
-    } else {
-      tree.heightLabelX = xPosition - LeftistHeap.NPL_OFFSET_Y;
-      tree.npX = xPosition + LeftistHeap.NPL_OFFSET_X;
-    }
-    tree.x = xPosition;
-    tree.npY = tree.y - LeftistHeap.NPL_OFFSET_Y;
-    this.setNewPositions(
-      tree.left,
-      xPosition,
-      yPosition + LeftistHeap.HEIGHT_DELTA,
-      -1
-    );
-    this.setNewPositions(
-      tree.right,
-      xPosition,
-      yPosition + LeftistHeap.HEIGHT_DELTA,
-      1
-    );
-  }
-};
-LeftistHeap.prototype.animateNewPositions = function(tree) {
-  if (tree != null) {
-    this.cmd("Move", tree.graphicID, tree.x, tree.y);
-    this.cmd("Move", tree.nplID, tree.npX, tree.npY);
-    this.animateNewPositions(tree.left);
-    this.animateNewPositions(tree.right);
-  }
-};
-function LeftistHeapNode(val, id, nplID, initialX, initialY) {
-  this.data = val;
-  this.x = initialX == void 0 ? 0 : initialX;
-  this.y = initialY == void 0 ? 0 : initialY;
-  this.npX = initialX - LeftistHeap.NPL_OFFSET_X;
-  this.npY = initialY - LeftistHeap.NPL_OFFSET_Y;
-  this.graphicID = id;
-  this.nplID = nplID;
-  this.npl = 0;
-  this.left = null;
-  this.right = null;
-  this.leftWidth = 0;
-  this.rightWidth = 0;
-  this.parent = null;
-}
-LeftistHeapNode.prototype.disconnectFromParent = function() {
-  if (this.parent != null) {
-    if (this.parent.right == this) {
-      this.parent.right = null;
-    } else if (this.parent.left === this) {
-      this.parent.left == null;
-    }
-  }
-};
-
 // AlgorithmLibrary/LinkedList.js
 var LINKED_LIST_START_X = 100;
 var LINKED_LIST_START_Y = 150;
@@ -14875,16 +14740,16 @@ var ACTION_LABEL_Y = 25;
 var ACTION_ELEMENT_X = ACTION_LABEL_X;
 var ACTION_ELEMENT_Y = 50;
 var SIZE = 32;
-function LinkedList(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = opts2.title || "Singly Linked List";
-  opts2.heightSingleMode = 250;
-  opts2.height = 300;
-  opts2.heightMobile = 450;
-  let am = initAnimationManager(opts2);
+function LinkedList(opts = {}) {
+  if (!opts.title)
+    opts.title = opts.title || "Singly Linked List";
+  opts.heightSingleMode = 250;
+  opts.height = 300;
+  opts.heightMobile = 450;
+  let am = initAnimationManager(opts);
   this.init(am, 800, 400);
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.insertBack.bind(this), d);
       am.skipForward();
     }
@@ -15237,16 +15102,16 @@ var ACTION_LABEL_Y2 = 25;
 var ACTION_ELEMENT_X2 = ACTION_LABEL_X2;
 var ACTION_ELEMENT_Y2 = 50;
 var SIZE2 = 32;
-function LinkedListTail(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = opts2.title || "SinglyLinkedList";
-  opts2.heightSingleMode = 250;
-  opts2.height = 300;
-  opts2.heightMobile = 450;
-  let am = initAnimationManager(opts2);
+function LinkedListTail(opts = {}) {
+  if (!opts.title)
+    opts.title = opts.title || "SinglyLinkedList";
+  opts.heightSingleMode = 250;
+  opts.height = 300;
+  opts.heightMobile = 450;
+  let am = initAnimationManager(opts);
   this.init(am, 800, 400);
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.insertBack.bind(this), d);
       am.skipForward();
     }
@@ -16452,21 +16317,21 @@ var ACTION_LABEL_Y3 = 25;
 var ACTION_ELEMENT_X3 = ACTION_LABEL_X3;
 var ACTION_ELEMENT_Y3 = 50;
 var SIZE3 = 32;
-function LinkedListSimple(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = opts2.title || "SimpleLinkedList";
-  opts2.heightSingleMode = 250;
-  opts2.height = 300;
-  opts2.heightMobile = 450;
-  let am = initAnimationManager(opts2);
+function LinkedListSimple(opts = {}) {
+  if (!opts.title)
+    opts.title = opts.title || "SimpleLinkedList";
+  opts.heightSingleMode = 250;
+  opts.height = 300;
+  opts.heightMobile = 450;
+  let am = initAnimationManager(opts);
   this.init(am, 800, 400);
-  if (opts2.initialData) {
-    const n = opts2.initialData.length;
+  if (opts.initialData) {
+    const n = opts.initialData.length;
     if (n > 0) {
       const desiredHeadX = LINKED_LIST_START_X3;
       this._initialFirstNodeX = desiredHeadX + (n - 1) * LINKED_LIST_ELEM_SPACING3;
     }
-    for (let d of opts2.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.insertFront.bind(this), d);
       am.skipForward();
     }
@@ -17467,16 +17332,16 @@ var SIZE4 = 32;
 var LINK_INDEX_NEXT = 0;
 var LINK_INDEX_PREV = 1;
 var NUM_LINKS_DOUBLY = 2;
-function DoublyLinkedList(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = "Doubly Linked List (Dummy Head/Tail)";
-  opts2.heightSingleMode = 260;
-  opts2.height = 320;
-  opts2.heightMobile = 470;
-  let am = initAnimationManager(opts2);
+function DoublyLinkedList(opts = {}) {
+  if (!opts.title)
+    opts.title = "Doubly Linked List (Dummy Head/Tail)";
+  opts.heightSingleMode = 260;
+  opts.height = 320;
+  opts.heightMobile = 470;
+  let am = initAnimationManager(opts);
   this.init(am, 800, 400);
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.insertBack.bind(this), d);
       am.skipForward();
     }
@@ -18367,6 +18232,7 @@ function OpenHash(canvas2) {
   let am;
   let w2;
   let h;
+  const opts = canvas2 || {};
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
     am = initCanvas2(legacyCanvas, null, "Open Hashing", false, {
@@ -18390,6 +18256,12 @@ function OpenHash(canvas2) {
     h = viewHeight;
   }
   this.init(am, w2, h);
+  if (opts && Array.isArray(opts.initialData)) {
+    const hasString = opts.initialData.some((d) => typeof d === "string");
+    if (hasString) {
+      this.changeHashTypeCallback(false);
+    }
+  }
   if (opts.initialData) {
     for (let d of opts.initialData) {
       this.implementAction(this.insertElement.bind(this), d);
@@ -18407,7 +18279,7 @@ var LINKED_ITEM_WIDTH = 50;
 var LINKED_ITEM_Y_DELTA = 50;
 var HASH_TABLE_SIZE = 13;
 var ARRAY_Y_POS4 = 300;
-var INDEX_COLOR3 = "#0000FF";
+var INDEX_COLOR2 = "#0000FF";
 OpenHash.prototype = new Hash();
 OpenHash.prototype.constructor = OpenHash;
 OpenHash.superclass = Hash.prototype;
@@ -18424,7 +18296,7 @@ OpenHash.prototype.addControls = function() {
 };
 OpenHash.prototype.insertElement = function(elem) {
   this.commands = new Array();
-  this.cmd("SetText", this.ExplainLabel, "Inserting element: " + String(elem));
+  this.cmd("SetMessage", "Inserting element: " + String(elem));
   var index = this.doHash(elem);
   var node = new LinkedListNode(elem, this.nextIndex++, 100, 75);
   this.cmd(
@@ -18451,7 +18323,7 @@ OpenHash.prototype.insertElement = function(elem) {
   node.next = this.hashTableValues[index];
   this.hashTableValues[index] = node;
   this.repositionList(index);
-  this.cmd("SetText", this.ExplainLabel, "");
+  this.cmd("SetMessage", "");
   return this.commands;
 };
 OpenHash.prototype.repositionList = function(index) {
@@ -18468,14 +18340,10 @@ OpenHash.prototype.repositionList = function(index) {
 };
 OpenHash.prototype.deleteElement = function(elem) {
   this.commands = new Array();
-  this.cmd("SetText", this.ExplainLabel, "Deleting element: " + elem);
+  this.cmd("SetMessage", "Deleting element: " + elem);
   var index = this.doHash(elem);
   if (this.hashTableValues[index] == null) {
-    this.cmd(
-      "SetText",
-      this.ExplainLabel,
-      "Deleting element: " + elem + "  Element not in table"
-    );
+    this.cmd("SetMessage", "Deleting element: " + elem + "  Element not in table");
     return this.commands;
   }
   this.cmd("SetHighlight", this.hashTableValues[index].graphicID, 1);
@@ -18505,11 +18373,7 @@ OpenHash.prototype.deleteElement = function(elem) {
     this.cmd("SetHighlight", tmp.graphicID, 0);
     if (tmp.data == elem) {
       found = true;
-      this.cmd(
-        "SetText",
-        this.ExplainLabel,
-        "Deleting element: " + elem + "  Element deleted"
-      );
+      this.cmd("SetMessage", "Deleting element: " + elem + "  Element deleted");
       if (tmp.next != null) {
         this.cmd("Connect", tmpPrev.graphicID, tmp.next.graphicID);
       } else {
@@ -18524,17 +18388,13 @@ OpenHash.prototype.deleteElement = function(elem) {
     }
   }
   if (!found) {
-    this.cmd(
-      "SetText",
-      this.ExplainLabel,
-      "Deleting element: " + elem + "  Element not in table"
-    );
+    this.cmd("SetMessage", "Deleting element: " + elem + "  Element not in table");
   }
   return this.commands;
 };
 OpenHash.prototype.findElement = function(elem) {
   this.commands = new Array();
-  this.cmd("SetText", this.ExplainLabel, "Finding Element: " + elem);
+  this.cmd("SetMessage", "Finding Element: " + elem);
   var index = this.doHash(elem);
   var compareIndex = this.nextIndex++;
   var found = false;
@@ -18553,21 +18413,25 @@ OpenHash.prototype.findElement = function(elem) {
     tmp = tmp.next;
   }
   if (found) {
-    this.cmd(
-      "SetText",
-      this.ExplainLabel,
-      "Finding Element: " + elem + "  Found!"
-    );
+    this.cmd("SetMessage", "Finding Element: " + elem + "  Found!");
   } else {
-    this.cmd(
-      "SetText",
-      this.ExplainLabel,
-      "Finding Element: " + elem + "  Not Found!"
-    );
+    this.cmd("SetMessage", "Finding Element: " + elem + "  Not Found!");
   }
   this.cmd("Delete", compareIndex);
   this.nextIndex--;
   return this.commands;
+};
+OpenHash.prototype.doInsert = function(value) {
+  return this.implementAction(this.insertElement.bind(this), value);
+};
+OpenHash.prototype.doRemove = function(value) {
+  return this.implementAction(this.deleteElement.bind(this), value);
+};
+OpenHash.prototype.doFind = function(value) {
+  return this.implementAction(this.findElement.bind(this), value);
+};
+OpenHash.prototype.doGrow = function(newSize) {
+  return [];
 };
 OpenHash.prototype.setup = function() {
   this.hashTableVisual = new Array(HASH_TABLE_SIZE);
@@ -18597,7 +18461,7 @@ OpenHash.prototype.setup = function() {
     this.indexYPos[i] = this.POINTER_ARRAY_ELEM_Y + POINTER_ARRAY_ELEM_HEIGHT;
     this.hashTableValues[i] = null;
     this.cmd("CreateLabel", nextID, i, this.indexXPos[i], this.indexYPos[i]);
-    this.cmd("SetForegroundColor", nextID, INDEX_COLOR3);
+    this.cmd("SetForegroundColor", nextID, INDEX_COLOR2);
   }
   this.cmd("CreateLabel", this.ExplainLabel, "", 10, 25, 0);
   this.animationManager.StartNewAnimation(this.commands);
@@ -18649,8 +18513,8 @@ function LinkedListNode(val, id, initialX, initialY) {
 // AlgorithmLibrary/QueueArray.js
 var ARRAY_START_X = 100;
 var ARRAY_START_Y = 100;
-var ARRAY_ELEM_WIDTH6 = 35;
-var ARRAY_ELEM_HEIGHT6 = 20;
+var ARRAY_ELEM_WIDTH5 = 35;
+var ARRAY_ELEM_HEIGHT5 = 20;
 var ARRAY_ELEMS_PER_LINE = 10;
 var ARRAY_LINE_SPACING = 130;
 var HEAD_LABEL_X = 100;
@@ -18665,20 +18529,20 @@ var QUEUE_LABEL_X = HEAD_LABEL_X + 280;
 var QUEUE_LABEL_Y = 30;
 var QUEUE_ELEMENT_X = HEAD_LABEL_X + 280;
 var QUEUE_ELEMENT_Y = 30;
-var INDEX_COLOR4 = "#0000FF";
+var INDEX_COLOR3 = "#0000FF";
 var SIZE5 = 8;
-function QueueArray(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = opts2.title || "Queue (Array)";
-  opts2.heightSingleMode = 250;
-  opts2.height = 300;
-  opts2.heightMobile = 450;
-  if (opts2.size)
-    SIZE5 = opts2.size;
-  let am = initAnimationManager(opts2);
+function QueueArray(opts = {}) {
+  if (!opts.title)
+    opts.title = opts.title || "Queue (Array)";
+  opts.heightSingleMode = 250;
+  opts.height = 300;
+  opts.heightMobile = 450;
+  if (opts.size)
+    SIZE5 = opts.size;
+  let am = initAnimationManager(opts);
   this.init(am, 800, 400);
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.enqueue.bind(this), d);
       am.skipForward();
     }
@@ -18750,14 +18614,14 @@ QueueArray.prototype.setup = function() {
   this.tail = 0;
   this.leftoverLabelID = this.nextIndex++;
   for (var i = 0; i < SIZE5; i++) {
-    var xpos = i % ARRAY_ELEMS_PER_LINE * ARRAY_ELEM_WIDTH6 + ARRAY_START_X;
+    var xpos = i % ARRAY_ELEMS_PER_LINE * ARRAY_ELEM_WIDTH5 + ARRAY_START_X;
     var ypos = Math.floor(i / ARRAY_ELEMS_PER_LINE) * ARRAY_LINE_SPACING + ARRAY_START_Y;
     this.cmd(
       "CreateRectangle",
       this.arrayID[i],
       "",
-      ARRAY_ELEM_WIDTH6,
-      ARRAY_ELEM_HEIGHT6,
+      ARRAY_ELEM_WIDTH5,
+      ARRAY_ELEM_HEIGHT5,
       xpos,
       ypos
     );
@@ -18766,17 +18630,17 @@ QueueArray.prototype.setup = function() {
       this.arrayLabelID[i],
       i,
       xpos,
-      ypos + ARRAY_ELEM_HEIGHT6
+      ypos + ARRAY_ELEM_HEIGHT5
     );
-    this.cmd("SetForegroundColor", this.arrayLabelID[i], INDEX_COLOR4);
+    this.cmd("SetForegroundColor", this.arrayLabelID[i], INDEX_COLOR3);
   }
   this.cmd("CreateLabel", this.headLabelID, "Start", HEAD_LABEL_X, HEAD_LABEL_Y);
   this.cmd(
     "CreateRectangle",
     this.headID,
     0,
-    ARRAY_ELEM_WIDTH6,
-    ARRAY_ELEM_HEIGHT6,
+    ARRAY_ELEM_WIDTH5,
+    ARRAY_ELEM_HEIGHT5,
     HEAD_POS_X,
     HEAD_POS_Y
   );
@@ -18785,8 +18649,8 @@ QueueArray.prototype.setup = function() {
     "CreateRectangle",
     this.tailID,
     0,
-    ARRAY_ELEM_WIDTH6,
-    ARRAY_ELEM_HEIGHT6,
+    ARRAY_ELEM_WIDTH5,
+    ARRAY_ELEM_HEIGHT5,
     TAIL_POS_X4,
     TAIL_POS_Y
   );
@@ -18844,14 +18708,14 @@ QueueArray.prototype.enqueue = function(elemToEnqueue) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlight1ID,
-    INDEX_COLOR4,
+    INDEX_COLOR3,
     TAIL_POS_X4,
     TAIL_POS_Y
   );
   this.cmd("Step");
-  var xpos = this.tail % ARRAY_ELEMS_PER_LINE * ARRAY_ELEM_WIDTH6 + ARRAY_START_X;
+  var xpos = this.tail % ARRAY_ELEMS_PER_LINE * ARRAY_ELEM_WIDTH5 + ARRAY_START_X;
   var ypos = Math.floor(this.tail / ARRAY_ELEMS_PER_LINE) * ARRAY_LINE_SPACING + ARRAY_START_Y;
-  this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT6);
+  this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT5);
   this.cmd("Step");
   this.cmd("Move", labEnqueueValID, xpos, ypos);
   this.cmd("Step");
@@ -18882,15 +18746,15 @@ QueueArray.prototype.dequeue = function(ignored) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlight1ID,
-    INDEX_COLOR4,
+    INDEX_COLOR3,
     HEAD_POS_X,
     HEAD_POS_Y
   );
   this.cmd("SetMessage", "Start gives location of first value.");
   this.cmd("Step");
-  var xpos = this.head % ARRAY_ELEMS_PER_LINE * ARRAY_ELEM_WIDTH6 + ARRAY_START_X;
+  var xpos = this.head % ARRAY_ELEMS_PER_LINE * ARRAY_ELEM_WIDTH5 + ARRAY_START_X;
   var ypos = Math.floor(this.head / ARRAY_ELEMS_PER_LINE) * ARRAY_LINE_SPACING + ARRAY_START_Y;
-  this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT6);
+  this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT5);
   this.cmd("Step");
   this.cmd("Delete", this.highlight1ID);
   var dequeuedVal = this.arrayData[this.head];
@@ -18947,16 +18811,16 @@ var PUSH_LABEL_Y = 25;
 var PUSH_ELEMENT_X = PUSH_LABEL_X;
 var PUSH_ELEMENT_Y = 50;
 var SIZE6 = 32;
-function QueueLL(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = opts2.title || "Queue (Linked List)";
-  opts2.heightSingleMode = 250;
-  opts2.height = 300;
-  opts2.heightMobile = 450;
-  let am = initAnimationManager(opts2);
+function QueueLL(opts = {}) {
+  if (!opts.title)
+    opts.title = opts.title || "Queue (Linked List)";
+  opts.heightSingleMode = 250;
+  opts.height = 300;
+  opts.heightMobile = 450;
+  let am = initAnimationManager(opts);
   this.init(am, 800, 400);
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.enqueue.bind(this), d);
       am.skipForward();
     }
@@ -19201,19 +19065,19 @@ QueueLL.prototype.clearData = function() {
 };
 
 // AlgorithmLibrary/RedBlack.js
-function RedBlack(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = opts2.title || "Red Black Tree";
-  opts2.centered = true;
-  opts2.heightSingleMode = 250;
-  opts2.height = 350;
-  opts2.heightMobile = 450;
-  opts2.heightMobileSingle = 350;
-  let am = initAnimationManager(opts2);
+function RedBlack(opts = {}) {
+  if (!opts.title)
+    opts.title = opts.title || "Red Black Tree";
+  opts.centered = true;
+  opts.heightSingleMode = 250;
+  opts.height = 350;
+  opts.heightMobile = 450;
+  opts.heightMobileSingle = 350;
+  let am = initAnimationManager(opts);
   this.init(am, 600, 400);
   this.addControls();
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.insertElement.bind(this), d);
       am.skipForward();
     }
@@ -20779,19 +20643,19 @@ SPLAYTREE.STARTING_Y = 50;
 SPLAYTREE.FIRST_PRINT_POS_X = 50;
 SPLAYTREE.PRINT_VERTICAL_GAP = 20;
 SPLAYTREE.PRINT_HORIZONTAL_GAP = 50;
-function SPLAYTREE(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = opts2.title || "Splay Tree";
-  opts2.centered = true;
-  opts2.heightSingleMode = 250;
-  opts2.height = 350;
-  opts2.heightMobile = 450;
-  opts2.heightMobileSingle = 350;
-  let am = initAnimationManager(opts2);
+function SPLAYTREE(opts = {}) {
+  if (!opts.title)
+    opts.title = opts.title || "Splay Tree";
+  opts.centered = true;
+  opts.heightSingleMode = 250;
+  opts.height = 350;
+  opts.heightMobile = 450;
+  opts.heightMobileSingle = 350;
+  let am = initAnimationManager(opts);
   this.init(am, 800, 400);
   this.addControls();
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.insertElement.bind(this), d);
       am.skipForward();
     }
@@ -21703,11 +21567,526 @@ SPLAYTREE.prototype.enableUI = function(event) {
   }
 };
 
+// AlgorithmLibrary/Treap.js
+function Treap(opts = {}) {
+  if (!opts.title)
+    opts.title = "Treap";
+  opts.centered = true;
+  opts.heightSingleMode = 250;
+  opts.height = 350;
+  opts.heightMobile = 450;
+  opts.heightMobileSingle = 350;
+  let am = initAnimationManager(opts);
+  this.init(am, 800, 400);
+  this.addControls();
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
+      this.implementAction(this.insertElement.bind(this), d);
+      am.skipForward();
+    }
+    am.clearHistory();
+    am.animatedObjects.draw();
+  }
+}
+Treap.prototype = new Algorithm();
+Treap.prototype.constructor = Treap;
+Treap.superclass = Algorithm.prototype;
+Treap.FOREGROUND_COLOR = "var(--svgColor)";
+Treap.LINK_COLOR = Treap.FOREGROUND_COLOR;
+Treap.HIGHLIGHT_CIRCLE_COLOR = Treap.FOREGROUND_COLOR;
+Treap.PRIORITY_LABEL_COLOR = Treap.FOREGROUND_COLOR;
+Treap.STARTING_Y = 40;
+Treap.WIDTH_DELTA = 30;
+Treap.HEIGHT_DELTA = 50;
+Treap.PRIORITY_FONT_PERCENT = 85;
+Treap.PRIORITY_OFFSET_LEFT_X = 28;
+Treap.PRIORITY_OFFSET_RIGHT_X = 28;
+Treap.PRIORITY_OFFSET_Y = 18;
+Treap.PRIORITY_BASE_RGB = { r: 180, g: 220, b: 240 };
+Treap.prototype.priorityColor = function(prio) {
+  const a = Math.max(0, Math.min(1, prio / 1e3));
+  const { r, g, b } = Treap.PRIORITY_BASE_RGB;
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
+};
+Treap.prototype.init = function(am, w2, h) {
+  var sc = Treap.superclass;
+  var fn = sc.init;
+  fn.call(this, am, w2, h);
+  this.startingX = 150;
+  this.nextIndex = 0;
+  this.commands = [];
+  this.rootIndex = 0;
+  this.treeRoot = null;
+  this.cmd("CreateRectangle", this.nextIndex++, "", 50, 25, this.startingX - 70, Treap.STARTING_Y - 10);
+  this.cmd("SetNull", this.rootIndex, 1);
+  this.cmd("CreateLabel", this.nextIndex++, "root", this.startingX - 120, Treap.STARTING_Y - 10);
+  this.animationManager.StartNewAnimation(this.commands);
+  this.animationManager.skipForward();
+  this.animationManager.clearHistory();
+  this.doInsert = (val) => this.implementAction(this.insertElement.bind(this), val);
+  this.doRemove = (val) => this.implementAction(this.deleteElement.bind(this), val);
+  this.doFind = (val) => this.implementAction(this.findElement.bind(this), val);
+  this.doClear = () => this.implementAction(this.clearData.bind(this), "");
+  this.doInsertRandom = (count = 10, maxValue = 999) => {
+    for (let i = 0; i < count; i++) {
+      const insertedValue = Math.floor(1 + Math.random() * maxValue);
+      this.implementAction(this.insertElement.bind(this), insertedValue);
+      this.animationManager.skipForward();
+    }
+    this.animationManager.clearHistory();
+    this.animationManager.animatedObjects.draw();
+  };
+};
+Treap.prototype.addControls = function() {
+  addSeparatorToAlgorithmBar();
+  this.inputField = addControlToAlgorithmBar("Text", "", "inputField", "Value");
+  this.inputField.onkeydown = this.returnSubmit(
+    this.inputField,
+    this.insertCallback.bind(this),
+    6
+  );
+  this.insertButton = addControlToAlgorithmBar("Button", "Insert");
+  this.insertButton.onclick = this.insertCallback.bind(this);
+  this.deleteButton = addControlToAlgorithmBar("Button", "Remove");
+  this.deleteButton.onclick = this.deleteCallback.bind(this);
+  this.findButton = addControlToAlgorithmBar("Button", "Find");
+  this.findButton.onclick = this.findCallback.bind(this);
+  this.clearButton = addControlToAlgorithmBar("Button", "Clear");
+  this.clearButton.onclick = this.clearCallback.bind(this);
+  this.insertRandomButton = addControlToAlgorithmBar("Button", "Insert Random Values");
+  this.insertRandomButton.onclick = this.insertRandomCallback.bind(this);
+};
+Treap.prototype.reset = function() {
+  this.nextIndex = 2;
+  this.treeRoot = null;
+};
+Treap.prototype.insertCallback = function() {
+  var insertedValue = this.normalizeNumber(this.inputField.value, 4);
+  if (insertedValue != "") {
+    this.inputField.value = "";
+    this.implementAction(this.insertElement.bind(this), insertedValue);
+  }
+};
+Treap.prototype.deleteCallback = function() {
+  var deletedValue = this.normalizeNumber(this.inputField.value, 4);
+  if (deletedValue != "") {
+    this.inputField.value = "";
+    this.implementAction(this.deleteElement.bind(this), deletedValue);
+  }
+};
+Treap.prototype.findCallback = function() {
+  var findValue = this.normalizeNumber(this.inputField.value, 4);
+  if (findValue != "") {
+    this.inputField.value = "";
+    this.implementAction(this.findElement.bind(this), findValue);
+  }
+};
+Treap.prototype.clearCallback = function() {
+  this.implementAction(this.clearData.bind(this), "");
+};
+Treap.prototype.insertRandomCallback = function() {
+  this.doInsertRandom();
+};
+function TreapNode(val, prio, id, labelID, initialX, initialY) {
+  this.data = val;
+  this.priority = prio;
+  this.graphicID = id;
+  this.priorityLabelID = labelID;
+  this.x = initialX;
+  this.y = initialY;
+  this.left = null;
+  this.right = null;
+  this.parent = null;
+  this.leftWidth = Treap.WIDTH_DELTA / 2;
+  this.rightWidth = Treap.WIDTH_DELTA / 2;
+}
+Treap.prototype.insertElement = function(insertedValue) {
+  this.commands = [];
+  this.cmd("SetMessage", "Insert " + insertedValue);
+  const prio = Math.floor(Math.random() * 1e3);
+  this.cmd("SetMessage", "Set priority " + prio + " for " + insertedValue);
+  this.cmd("Step");
+  if (this.treeRoot == null) {
+    const nodeID = this.nextIndex++;
+    const labelID = this.nextIndex++;
+    this.cmd("CreateCircle", nodeID, insertedValue, this.startingX, Treap.STARTING_Y);
+    this.cmd("SetForegroundColor", nodeID, Treap.FOREGROUND_COLOR);
+    this.cmd("SetBackgroundColor", nodeID, this.priorityColor(prio));
+    this.cmd("CreateLabel", labelID, prio, this.startingX - Treap.PRIORITY_OFFSET_LEFT_X, Treap.STARTING_Y - Treap.PRIORITY_OFFSET_Y, 1, Treap.PRIORITY_FONT_PERCENT);
+    this.cmd("SetForegroundColor", labelID, Treap.PRIORITY_LABEL_COLOR);
+    this.cmd("SetNull", this.rootIndex, 0);
+    this.cmd("Connect", 0, nodeID, Treap.LINK_COLOR);
+    this.treeRoot = new TreapNode(insertedValue, prio, nodeID, labelID, this.startingX, Treap.STARTING_Y);
+  } else {
+    const nodeID = this.nextIndex++;
+    const labelID = this.nextIndex++;
+    this.cmd("CreateCircle", nodeID, insertedValue, this.startingX - 200, Treap.STARTING_Y);
+    this.cmd("SetForegroundColor", nodeID, Treap.FOREGROUND_COLOR);
+    this.cmd("SetBackgroundColor", nodeID, this.priorityColor(prio));
+    this.cmd("CreateLabel", labelID, prio, this.startingX - 200 - Treap.PRIORITY_OFFSET_LEFT_X, Treap.STARTING_Y - Treap.PRIORITY_OFFSET_Y, 1, Treap.PRIORITY_FONT_PERCENT);
+    this.cmd("SetForegroundColor", labelID, Treap.PRIORITY_LABEL_COLOR);
+    this.cmd("Step");
+    const elem = new TreapNode(insertedValue, prio, nodeID, labelID, 50, 100);
+    this.cmd("SetHighlight", elem.graphicID, 1);
+    this.insertBST(elem, this.treeRoot);
+    this.heapifyUp(elem);
+    this.resizeTree();
+  }
+  this.cmd("SetMessage", "");
+  return this.commands;
+};
+Treap.prototype.insertBST = function(elem, tree) {
+  this.cmd("SetHighlight", tree.graphicID, 1);
+  this.cmd("SetHighlight", elem.graphicID, 1);
+  if (elem.data < tree.data) {
+    this.cmd("SetMessage", elem.data + " < " + tree.data + ". Looking at left subtree");
+    if (tree.left)
+      this.cmd("SetEdgeHighlight", tree.graphicID, tree.left.graphicID, 1);
+  } else {
+    this.cmd("SetMessage", elem.data + " >= " + tree.data + ". Looking at right subtree");
+    if (tree.right)
+      this.cmd("SetEdgeHighlight", tree.graphicID, tree.right.graphicID, 1);
+  }
+  this.cmd("Step");
+  this.cmd("SetHighlight", tree.graphicID, 0);
+  this.cmd("SetHighlight", elem.graphicID, 0);
+  if (elem.data < tree.data) {
+    if (tree.left == null) {
+      this.cmd("SetMessage", "Found null tree, inserting element");
+      tree.left = elem;
+      elem.parent = tree;
+      this.cmd("Connect", tree.graphicID, elem.graphicID, Treap.LINK_COLOR);
+    } else {
+      if (tree.left)
+        this.cmd("SetEdgeHighlight", tree.graphicID, tree.left.graphicID, 0);
+      this.insertBST(elem, tree.left);
+    }
+  } else {
+    if (tree.right == null) {
+      this.cmd("SetMessage", "Found null tree, inserting element");
+      tree.right = elem;
+      elem.parent = tree;
+      this.cmd("Connect", tree.graphicID, elem.graphicID, Treap.LINK_COLOR);
+      elem.x = tree.x + Treap.WIDTH_DELTA / 2;
+      elem.y = tree.y + Treap.HEIGHT_DELTA;
+      this.cmd("Move", elem.graphicID, elem.x, elem.y);
+      this.cmd("Move", elem.priorityLabelID, elem.x + Treap.PRIORITY_OFFSET_RIGHT_X, elem.y - Treap.PRIORITY_OFFSET_Y);
+    } else {
+      if (tree.right)
+        this.cmd("SetEdgeHighlight", tree.graphicID, tree.right.graphicID, 0);
+      this.insertBST(elem, tree.right);
+    }
+  }
+};
+Treap.prototype.heapifyUp = function(node) {
+  while (node && node.parent && node.priority > node.parent.priority) {
+    const p = node.parent;
+    if (p.left === node) {
+      this.singleRotateRight(p);
+    } else {
+      this.singleRotateLeft(p);
+    }
+  }
+};
+Treap.prototype.singleRotateLeft = function(x) {
+  const y = x.right;
+  if (!y)
+    return;
+  const B = y.left;
+  const p = x.parent;
+  const xWasLeft = p && p.left === x;
+  this.cmd("SetMessage", "Rotate left at " + x.data + " (promote " + y.data + ")");
+  this.cmd("SetHighlight", x.graphicID, 1);
+  this.cmd("SetHighlight", y.graphicID, 1);
+  this.cmd("Step");
+  if (!p) {
+    this.cmd("Disconnect", 0, x.graphicID);
+    this.cmd("Connect", 0, y.graphicID, Treap.LINK_COLOR);
+    this.treeRoot = y;
+    y.parent = null;
+  } else {
+    this.cmd("Disconnect", p.graphicID, x.graphicID);
+    this.cmd("Connect", p.graphicID, y.graphicID, Treap.LINK_COLOR);
+    y.parent = p;
+    if (xWasLeft)
+      p.left = y;
+    else
+      p.right = y;
+  }
+  this.cmd("Disconnect", x.graphicID, y.graphicID);
+  this.cmd("Connect", y.graphicID, x.graphicID, Treap.LINK_COLOR);
+  if (B) {
+    this.cmd("Disconnect", y.graphicID, B.graphicID);
+    this.cmd("Connect", x.graphicID, B.graphicID, Treap.LINK_COLOR);
+  }
+  x.parent = y;
+  x.right = B;
+  if (B)
+    B.parent = x;
+  y.left = x;
+  this.cmd("SetHighlight", x.graphicID, 0);
+  this.cmd("SetHighlight", y.graphicID, 0);
+  this.resizeTree();
+};
+Treap.prototype.singleRotateRight = function(x) {
+  const y = x.left;
+  if (!y)
+    return;
+  const B = y.right;
+  const p = x.parent;
+  const xWasLeft = p && p.left === x;
+  this.cmd("SetMessage", "Rotate right at " + x.data + " (promote " + y.data + ")");
+  this.cmd("SetHighlight", x.graphicID, 1);
+  this.cmd("SetHighlight", y.graphicID, 1);
+  this.cmd("Step");
+  if (!p) {
+    this.cmd("Disconnect", 0, x.graphicID);
+    this.cmd("Connect", 0, y.graphicID, Treap.LINK_COLOR);
+    this.treeRoot = y;
+    y.parent = null;
+  } else {
+    this.cmd("Disconnect", p.graphicID, x.graphicID);
+    this.cmd("Connect", p.graphicID, y.graphicID, Treap.LINK_COLOR);
+    y.parent = p;
+    if (xWasLeft)
+      p.left = y;
+    else
+      p.right = y;
+  }
+  this.cmd("Disconnect", x.graphicID, y.graphicID);
+  this.cmd("Connect", y.graphicID, x.graphicID, Treap.LINK_COLOR);
+  if (B) {
+    this.cmd("Disconnect", y.graphicID, B.graphicID);
+    this.cmd("Connect", x.graphicID, B.graphicID, Treap.LINK_COLOR);
+  }
+  x.parent = y;
+  x.left = B;
+  if (B)
+    B.parent = x;
+  y.right = x;
+  this.cmd("SetHighlight", x.graphicID, 0);
+  this.cmd("SetHighlight", y.graphicID, 0);
+  this.resizeTree();
+};
+Treap.prototype.findElement = function(findValue) {
+  this.commands = [];
+  this.cmd("SetMessage", "Search " + findValue + " from root");
+  this.cmd("Step");
+  this.findImpl(this.treeRoot, findValue);
+  return this.commands;
+};
+Treap.prototype.findImpl = function(tree, value) {
+  if (tree != null) {
+    this.cmd("SetHighlight", tree.graphicID, 1);
+    if (tree.data == value) {
+      this.cmd("SetMessage", "Found " + value);
+      this.cmd("Step");
+      this.cmd("SetHighlight", tree.graphicID, 0);
+    } else if (value < tree.data) {
+      this.cmd("SetMessage", value + " < " + tree.data + ": go left");
+      if (tree.left)
+        this.cmd("SetEdgeHighlight", tree.graphicID, tree.left.graphicID, 1);
+      this.cmd("Step");
+      if (tree.left)
+        this.cmd("SetEdgeHighlight", tree.graphicID, tree.left.graphicID, 0);
+      this.cmd("SetHighlight", tree.graphicID, 0);
+      this.findImpl(tree.left, value);
+    } else {
+      this.cmd("SetMessage", value + " > " + tree.data + ": go right");
+      if (tree.right)
+        this.cmd("SetEdgeHighlight", tree.graphicID, tree.right.graphicID, 1);
+      this.cmd("Step");
+      if (tree.right)
+        this.cmd("SetEdgeHighlight", tree.graphicID, tree.right.graphicID, 0);
+      this.cmd("SetHighlight", tree.graphicID, 0);
+      this.findImpl(tree.right, value);
+    }
+  } else {
+    this.cmd("SetMessage", "Hit null: not found");
+    this.cmd("Step");
+  }
+};
+Treap.prototype.deleteElement = function(deletedValue) {
+  this.commands = [];
+  this.cmd("SetMessage", "Remove " + deletedValue);
+  this.cmd("Step");
+  this.treapDelete(this.treeRoot, deletedValue);
+  this.cmd("SetMessage", "");
+  return this.commands;
+};
+Treap.prototype.treapDelete = function(tree, valueToDelete) {
+  if (!tree)
+    return;
+  this.cmd("SetHighlight", tree.graphicID, 1);
+  if (valueToDelete < tree.data) {
+    this.cmd("SetMessage", valueToDelete + " < " + tree.data + ": go left");
+    if (tree.left)
+      this.cmd("SetEdgeHighlight", tree.graphicID, tree.left.graphicID, 1);
+    this.cmd("Step");
+    if (tree.left)
+      this.cmd("SetEdgeHighlight", tree.graphicID, tree.left.graphicID, 0);
+    this.cmd("SetHighlight", tree.graphicID, 0);
+    this.treapDelete(tree.left, valueToDelete);
+  } else if (valueToDelete > tree.data) {
+    this.cmd("SetMessage", valueToDelete + " > " + tree.data + ": go right");
+    if (tree.right)
+      this.cmd("SetEdgeHighlight", tree.graphicID, tree.right.graphicID, 1);
+    this.cmd("Step");
+    if (tree.right)
+      this.cmd("SetEdgeHighlight", tree.graphicID, tree.right.graphicID, 0);
+    this.cmd("SetHighlight", tree.graphicID, 0);
+    this.treapDelete(tree.right, valueToDelete);
+  } else {
+    this.cmd("SetMessage", "Found node " + tree.data + " (prio " + tree.priority + ")");
+    this.cmd("Step");
+    while (tree.left && tree.right) {
+      if (tree.left.priority > tree.right.priority) {
+        this.singleRotateRight(tree);
+      } else {
+        this.singleRotateLeft(tree);
+      }
+    }
+    const p = tree.parent;
+    if (!tree.left && !tree.right) {
+      this.cmd("Delete", tree.graphicID);
+      this.cmd("Delete", tree.priorityLabelID);
+      if (p) {
+        if (p.left === tree)
+          p.left = null;
+        else
+          p.right = null;
+      } else {
+        this.treeRoot = null;
+        this.cmd("SetNull", this.rootIndex, 1);
+        this.cmd("Disconnect", 0, tree.graphicID);
+      }
+    } else {
+      const child = tree.left ? tree.left : tree.right;
+      if (p) {
+        this.cmd("Disconnect", p.graphicID, tree.graphicID);
+        this.cmd("Connect", p.graphicID, child.graphicID, Treap.LINK_COLOR);
+        if (p.left === tree)
+          p.left = child;
+        else
+          p.right = child;
+        child.parent = p;
+      } else {
+        this.cmd("Disconnect", 0, tree.graphicID);
+        this.cmd("Connect", 0, child.graphicID, Treap.LINK_COLOR);
+        child.parent = null;
+        this.treeRoot = child;
+      }
+      this.cmd("Delete", tree.graphicID);
+      this.cmd("Delete", tree.priorityLabelID);
+    }
+    this.resizeTree();
+  }
+};
+Treap.prototype.clearData = function() {
+  this.commands = [];
+  this.clearRec(this.treeRoot);
+  this.treeRoot = null;
+  this.cmd("SetNull", this.rootIndex, 1);
+  return this.commands;
+};
+Treap.prototype.clearRec = function(tree) {
+  if (!tree)
+    return;
+  this.clearRec(tree.left);
+  this.clearRec(tree.right);
+  this.cmd("Delete", tree.graphicID);
+  this.cmd("Delete", tree.priorityLabelID);
+};
+Treap.prototype.resizeTree = function() {
+  this.resizeWidths(this.treeRoot);
+  if (this.treeRoot != null) {
+    var startingPoint = this.startingX;
+    var startingY2 = Treap.STARTING_Y;
+    this.setNewPositions(this.treeRoot, startingPoint, startingY2, 0);
+    this.animateNewPositions(this.treeRoot);
+    this.cmd("Step");
+  }
+};
+Treap.prototype.setNewPositions = function(tree, xPosition, yPosition, side) {
+  if (tree != null) {
+    tree.y = yPosition;
+    if (side == -1) {
+      xPosition = xPosition - tree.rightWidth;
+    } else if (side == 1) {
+      xPosition = xPosition + tree.leftWidth;
+    }
+    tree.x = xPosition;
+    var leftWidth = this.resizeWidths(tree.left);
+    var rightWidth = this.resizeWidths(tree.right);
+    tree.leftWidth = Math.max(leftWidth, Treap.WIDTH_DELTA / 2);
+    tree.rightWidth = Math.max(rightWidth, Treap.WIDTH_DELTA / 2);
+    this.setNewPositions(
+      tree.left,
+      xPosition - tree.rightWidth,
+      yPosition + Treap.HEIGHT_DELTA,
+      -1
+    );
+    this.setNewPositions(
+      tree.right,
+      xPosition + tree.leftWidth,
+      yPosition + Treap.HEIGHT_DELTA,
+      1
+    );
+  }
+};
+Treap.prototype.animateNewPositions = function(tree) {
+  if (tree != null) {
+    this.cmd("Move", tree.graphicID, tree.x, tree.y);
+    const isRightChild = !tree.parent || tree.parent.right === tree;
+    const labelX = isRightChild ? tree.x + Treap.PRIORITY_OFFSET_RIGHT_X : tree.x - Treap.PRIORITY_OFFSET_LEFT_X;
+    const labelY = tree.y - Treap.PRIORITY_OFFSET_Y;
+    this.cmd("Move", tree.priorityLabelID, labelX, labelY);
+    this.animateNewPositions(tree.left);
+    this.animateNewPositions(tree.right);
+  }
+};
+Treap.prototype.resizeWidths = function(tree) {
+  if (tree == null) {
+    return 0;
+  }
+  tree.leftWidth = Math.max(this.resizeWidths(tree.left), Treap.WIDTH_DELTA / 2);
+  tree.rightWidth = Math.max(this.resizeWidths(tree.right), Treap.WIDTH_DELTA / 2);
+  return tree.leftWidth + tree.rightWidth;
+};
+Treap.prototype.disableUI = function() {
+  const ctrls = [
+    this.inputField,
+    this.insertButton,
+    this.deleteButton,
+    this.findButton,
+    this.clearButton,
+    this.insertRandomButton
+  ];
+  for (const el of ctrls) {
+    if (el)
+      el.disabled = true;
+  }
+};
+Treap.prototype.enableUI = function() {
+  const ctrls = [
+    this.inputField,
+    this.insertButton,
+    this.deleteButton,
+    this.findButton,
+    this.clearButton,
+    this.insertRandomButton
+  ];
+  for (const el of ctrls) {
+    if (el)
+      el.disabled = false;
+  }
+};
+
 // AlgorithmLibrary/StackArray.js
 var ARRAY_START_X2 = 100;
 var ARRAY_START_Y2 = 100;
-var ARRAY_ELEM_WIDTH7 = 50;
-var ARRAY_ELEM_HEIGHT7 = 30;
+var ARRAY_ELEM_WIDTH6 = 50;
+var ARRAY_ELEM_HEIGHT6 = 30;
 var ARRAY_ELEMS_PER_LINE2 = 10;
 var ARRAY_LINE_SPACING2 = 130;
 var TOP_LABEL_X5 = 100;
@@ -21718,20 +22097,20 @@ var STACK_LABEL_X = TOP_LABEL_X5 + 180;
 var STACK_LABEL_Y = 30;
 var STACK_ELEMENT_X = STACK_LABEL_X;
 var STACK_ELEMENT_Y = 30;
-var INDEX_COLOR5 = "#0000FF";
+var INDEX_COLOR4 = "#0000FF";
 var SIZE7 = 8;
-function StackArray(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = opts2.title || "Stack (Array)";
-  opts2.heightSingleMode = 250;
-  opts2.height = 300;
-  opts2.heightMobile = 450;
-  if (opts2.size)
-    SIZE7 = opts2.size;
-  let am = initAnimationManager(opts2);
+function StackArray(opts = {}) {
+  if (!opts.title)
+    opts.title = opts.title || "Stack (Array)";
+  opts.heightSingleMode = 250;
+  opts.height = 300;
+  opts.heightMobile = 450;
+  if (opts.size)
+    SIZE7 = opts.size;
+  let am = initAnimationManager(opts);
   this.init(am, 800, 400);
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.push.bind(this), d);
       am.skipForward();
     }
@@ -21808,14 +22187,14 @@ StackArray.prototype.setup = function() {
   this.leftoverLabelID = this.nextIndex++;
   this.commands = new Array();
   for (var i = 0; i < SIZE7; i++) {
-    var xpos = i % ARRAY_ELEMS_PER_LINE2 * ARRAY_ELEM_WIDTH7 + ARRAY_START_X2;
+    var xpos = i % ARRAY_ELEMS_PER_LINE2 * ARRAY_ELEM_WIDTH6 + ARRAY_START_X2;
     var ypos = Math.floor(i / ARRAY_ELEMS_PER_LINE2) * ARRAY_LINE_SPACING2 + ARRAY_START_Y2;
     this.cmd(
       "CreateRectangle",
       this.arrayID[i],
       "",
-      ARRAY_ELEM_WIDTH7,
-      ARRAY_ELEM_HEIGHT7,
+      ARRAY_ELEM_WIDTH6,
+      ARRAY_ELEM_HEIGHT6,
       xpos,
       ypos
     );
@@ -21824,17 +22203,17 @@ StackArray.prototype.setup = function() {
       this.arrayLabelID[i],
       i,
       xpos,
-      ypos + ARRAY_ELEM_HEIGHT7
+      ypos + ARRAY_ELEM_HEIGHT6
     );
-    this.cmd("SetForegroundColor", this.arrayLabelID[i], INDEX_COLOR5);
+    this.cmd("SetForegroundColor", this.arrayLabelID[i], INDEX_COLOR4);
   }
   this.cmd("CreateLabel", this.topLabelID, "Top", TOP_LABEL_X5, TOP_LABEL_Y6);
   this.cmd(
     "CreateRectangle",
     this.topID,
     0,
-    ARRAY_ELEM_WIDTH7,
-    ARRAY_ELEM_HEIGHT7,
+    ARRAY_ELEM_WIDTH6,
+    ARRAY_ELEM_HEIGHT6,
     TOP_POS_X6,
     TOP_POS_Y6
   );
@@ -21888,14 +22267,14 @@ StackArray.prototype.push = function(elemToPush) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlight1ID,
-    INDEX_COLOR5,
+    INDEX_COLOR4,
     TOP_POS_X6,
     TOP_POS_Y6
   );
   this.cmd("Step");
-  var xpos = this.top % ARRAY_ELEMS_PER_LINE2 * ARRAY_ELEM_WIDTH7 + ARRAY_START_X2;
+  var xpos = this.top % ARRAY_ELEMS_PER_LINE2 * ARRAY_ELEM_WIDTH6 + ARRAY_START_X2;
   var ypos = Math.floor(this.top / ARRAY_ELEMS_PER_LINE2) * ARRAY_LINE_SPACING2 + ARRAY_START_Y2;
-  this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT7);
+  this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT6);
   this.cmd("Step");
   this.cmd("Move", labPushValID, xpos, ypos);
   this.cmd("Step");
@@ -21931,15 +22310,15 @@ StackArray.prototype.pop = function(ignored) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlight1ID,
-    INDEX_COLOR5,
+    INDEX_COLOR4,
     TOP_POS_X6,
     TOP_POS_Y6
   );
   this.cmd("SetMessage", "Top gives location of last value.");
   this.cmd("Step");
-  var xpos = this.top % ARRAY_ELEMS_PER_LINE2 * ARRAY_ELEM_WIDTH7 + ARRAY_START_X2;
+  var xpos = this.top % ARRAY_ELEMS_PER_LINE2 * ARRAY_ELEM_WIDTH6 + ARRAY_START_X2;
   var ypos = Math.floor(this.top / ARRAY_ELEMS_PER_LINE2) * ARRAY_LINE_SPACING2 + ARRAY_START_Y2;
-  this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT7);
+  this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT6);
   this.cmd("Step");
   this.cmd("Delete", this.highlight1ID);
   var poppedVal = this.arrayData[this.top];
@@ -21969,15 +22348,15 @@ StackArray.prototype.peek = function(ignored) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlight1ID,
-    INDEX_COLOR5,
+    INDEX_COLOR4,
     TOP_POS_X6,
     TOP_POS_Y6
   );
   this.cmd("SetMessage", "Top-1 gives location of last value.");
   this.cmd("Step");
-  const xpos = peekIndex % ARRAY_ELEMS_PER_LINE2 * ARRAY_ELEM_WIDTH7 + ARRAY_START_X2;
+  const xpos = peekIndex % ARRAY_ELEMS_PER_LINE2 * ARRAY_ELEM_WIDTH6 + ARRAY_START_X2;
   const ypos = Math.floor(peekIndex / ARRAY_ELEMS_PER_LINE2) * ARRAY_LINE_SPACING2 + ARRAY_START_Y2;
-  this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT7);
+  this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT6);
   this.cmd("Step");
   this.cmd("Delete", this.highlight1ID);
   this.cmd("CreateLabel", labPeekValID, peekedVal, xpos, ypos);
@@ -22022,18 +22401,18 @@ var STACK_LABEL_Y2 = 25;
 var STACK_ELEMENT_X2 = STACK_LABEL_X2;
 var STACK_ELEMENT_Y2 = 50;
 var SIZE8 = 32;
-function StackLL(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = opts2.title || "Stack (Linked List)";
-  opts2.heightSingleMode = 250;
-  opts2.height = 300;
-  opts2.heightMobile = 450;
-  if (opts2.size)
-    SIZE8 = opts2.size;
-  let am = initAnimationManager(opts2);
+function StackLL(opts = {}) {
+  if (!opts.title)
+    opts.title = opts.title || "Stack (Linked List)";
+  opts.heightSingleMode = 250;
+  opts.height = 300;
+  opts.heightMobile = 450;
+  if (opts.size)
+    SIZE8 = opts.size;
+  let am = initAnimationManager(opts);
   this.init(am, 800, 400);
-  if (opts2.initialData) {
-    for (let d of opts2.initialData) {
+  if (opts.initialData) {
+    for (let d of opts.initialData) {
       this.implementAction(this.push.bind(this), d);
       am.skipForward();
     }
@@ -22308,26 +22687,26 @@ ExpressionTree.STARTING_Y = 40;
 ExpressionTree.LEVEL_HEIGHT = 70;
 ExpressionTree.NODE_RADIUS = 20;
 ExpressionTree.MARGIN_X = 50;
-function ExpressionTree(opts2 = {}) {
-  if (!opts2.title)
-    opts2.title = "Expression Tree";
-  opts2.centered = true;
-  const viewWidth = Number.isFinite(opts2.viewWidth) && opts2.viewWidth > 0 ? opts2.viewWidth : Number.isFinite(opts2.width) && opts2.width > 0 ? opts2.width : 1e3;
-  const viewHeight = Number.isFinite(opts2.viewHeight) && opts2.viewHeight > 0 ? opts2.viewHeight : Number.isFinite(opts2.height) && opts2.height > 0 ? opts2.height : 500;
-  if (!Number.isFinite(opts2.height)) {
-    opts2.height = viewHeight;
+function ExpressionTree(opts = {}) {
+  if (!opts.title)
+    opts.title = "Expression Tree";
+  opts.centered = true;
+  const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
+  const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
+  if (!Number.isFinite(opts.height)) {
+    opts.height = viewHeight;
   }
-  if (!Number.isFinite(opts2.viewWidth)) {
-    opts2.viewWidth = viewWidth;
+  if (!Number.isFinite(opts.viewWidth)) {
+    opts.viewWidth = viewWidth;
   }
-  if (!Number.isFinite(opts2.viewHeight)) {
-    opts2.viewHeight = viewHeight;
+  if (!Number.isFinite(opts.viewHeight)) {
+    opts.viewHeight = viewHeight;
   }
-  const am = initAnimationManager(opts2);
+  const am = initAnimationManager(opts);
   this.init(am, viewWidth, viewHeight);
   this.addControls();
-  if (opts2.initialData) {
-    const root = this.parseInitialData(opts2.initialData);
+  if (opts.initialData) {
+    const root = this.parseInitialData(opts.initialData);
     this.implementAction(this.buildTree.bind(this), root);
     am.skipForward();
     am.clearHistory();
@@ -22378,10 +22757,10 @@ ExpressionTree.prototype.init = function(am, w2, h) {
     this.implementAction(this.evaluateTree.bind(this), "");
   };
 };
-ExpressionTree.prototype.deleteTreeGraphicsRec = function(node, opts2 = {}) {
+ExpressionTree.prototype.deleteTreeGraphicsRec = function(node, opts = {}) {
   if (!node)
     return;
-  const doStep = opts2.step !== false;
+  const doStep = opts.step !== false;
   const children = Array.isArray(node.children) ? node.children : [];
   let childNum = 1;
   for (const child of children) {
@@ -22394,7 +22773,7 @@ ExpressionTree.prototype.deleteTreeGraphicsRec = function(node, opts2 = {}) {
       this.cmd("Step");
       this.cmd("SetHighlight", node.graphicID, 0);
     }
-    this.deleteTreeGraphicsRec(child, opts2);
+    this.deleteTreeGraphicsRec(child, opts);
     childNum++;
   }
   if (Number.isFinite(node.graphicID)) {
@@ -23042,6 +23421,1756 @@ ExpressionTree.prototype.evaluateRec = function(node) {
   this.cmd("Step");
   return value;
 };
+
+// AlgorithmLibrary/SkipList.js
+var START_X = 120;
+var LEVEL_START_Y = 120;
+var LEVEL_SPACING_Y = 80;
+var NODE_WIDTH = 60;
+var NODE_HEIGHT2 = 25;
+var SPACING_X = 80;
+var HEAD_LABEL = "HEAD";
+var TAIL_LABEL = "TAIL";
+var MAX_LEVELS = 6;
+function SkipList(opts = {}) {
+  if (!opts.title)
+    opts.title = "SkipList";
+  opts.heightSingleMode = 420;
+  opts.height = 480;
+  opts.heightMobile = 620;
+  let am = initAnimationManager(opts);
+  this.init(am, 900, 500);
+  const seed = Array.isArray(opts.initialData) ? opts.initialData.slice() : [];
+  for (let v of seed) {
+    this.implementAction(this.insertElement.bind(this), v);
+    this.animationManager.skipForward();
+  }
+  if (seed.length > 0) {
+    this.animationManager.animatedObjects.draw();
+  }
+}
+SkipList.prototype = new Algorithm();
+SkipList.prototype.constructor = SkipList;
+SkipList.superclass = Algorithm.prototype;
+SkipList.prototype.init = function(am, w2, h) {
+  SkipList.superclass.init.call(this, am, w2, h);
+  this.nextIndex = 1e3;
+  this.commands = [];
+  this.addControls();
+  this.nodesByLevel = [];
+  this.valueSet = /* @__PURE__ */ new Set();
+  this.towerByValue = /* @__PURE__ */ new Map();
+  this.knownIDs = /* @__PURE__ */ new Set();
+  this.levelMembers = [];
+  this.nextByLevel = [];
+  this.ensureLevel(0);
+  this.animationManager.StartNewAnimation(this.commands);
+  this.commands = [];
+};
+SkipList.prototype.addControls = function() {
+  addSeparatorToAlgorithmBar();
+  this.inputField = addControlToAlgorithmBar("Text", "", "inputField", "Value");
+  this.inputField.onkeydown = this.returnSubmit(
+    this.inputField,
+    this.insertCallback.bind(this),
+    6
+  );
+  this.insertButton = addControlToAlgorithmBar("Button", "Insert");
+  this.insertButton.onclick = this.insertCallback.bind(this);
+  this.findButton = addControlToAlgorithmBar("Button", "Find");
+  this.findButton.onclick = this.findCallback.bind(this);
+  this.deleteButton = addControlToAlgorithmBar("Button", "Remove");
+  this.deleteButton.onclick = this.removeCallback.bind(this);
+  this.clearButton = addControlToAlgorithmBar("Button", "Clear");
+  this.clearButton.onclick = this.clearCallback.bind(this);
+  this.insertRandomButton = addControlToAlgorithmBar("Button", "Insert Random Values");
+  this.insertRandomButton.onclick = this.insertRandomCallback.bind(this);
+};
+SkipList.prototype.insertCallback = function() {
+  var insertedValue = this.normalizeNumber(this.inputField.value, 4);
+  if (insertedValue != "") {
+    this.inputField.value = "";
+    this.implementAction(this.insertElement.bind(this), insertedValue);
+  }
+};
+SkipList.prototype.findCallback = function() {
+  var findValue = this.normalizeNumber(this.inputField.value, 4);
+  if (findValue != "") {
+    this.inputField.value = "";
+    this.implementAction(this.findElement.bind(this), findValue);
+  }
+};
+SkipList.prototype.removeCallback = function() {
+  var deletedValue = this.normalizeNumber(this.inputField.value, 4);
+  if (deletedValue != "") {
+    this.inputField.value = "";
+    this.implementAction(this.removeElement.bind(this), deletedValue);
+  }
+};
+SkipList.prototype.clearCallback = function() {
+  this.implementAction(this.clearAll.bind(this), 0);
+};
+SkipList.prototype.reset = function() {
+  this.nextIndex = 0;
+  this.commands = [];
+  this.nodesByLevel = [];
+  this.valueSet = /* @__PURE__ */ new Set();
+  this.towerByValue = /* @__PURE__ */ new Map();
+  this.ensureLevel(0);
+};
+SkipList.prototype.doInsert = function(v) {
+  this.implementAction(this.insertElement.bind(this), v);
+};
+SkipList.prototype.doFindValue = function(v) {
+  this.implementAction(this.findElement.bind(this), v);
+};
+SkipList.prototype.doFind = function(v) {
+  this.implementAction(this.findElement.bind(this), v);
+};
+SkipList.prototype.doRemove = function(v) {
+  this.implementAction(this.removeElement.bind(this), v);
+};
+SkipList.prototype.doInsertRandom = function(count = 10, maxValue = 999) {
+  for (let i = 0; i < count; i++) {
+    const v = Math.floor(1 + Math.random() * maxValue);
+    this.implementAction(this.insertElement.bind(this), v);
+    this.animationManager.skipForward();
+  }
+  this.animationManager.clearHistory();
+  this.animationManager.animatedObjects.draw();
+};
+SkipList.prototype.doClear = function() {
+  this.implementAction(this.clearAll.bind(this), 0);
+};
+SkipList.prototype.insertRandomCallback = function() {
+  const numToInsert = 10;
+  for (let i = 0; i < numToInsert; i++) {
+    const v = Math.floor(1 + Math.random() * 999);
+    this.implementAction(this.insertElement.bind(this), v);
+    this.animationManager.skipForward();
+  }
+  this.animationManager.clearHistory();
+  this.animationManager.animatedObjects.draw();
+};
+SkipList.prototype.clearAll = function() {
+  this.commands = [];
+  for (let lvl = 0; lvl < this.nodesByLevel.length; lvl++) {
+    for (let n of this.nodesByLevel[lvl]) {
+      this.cmd("Delete", n.id);
+    }
+  }
+  this.nodesByLevel = [];
+  this.valueSet = /* @__PURE__ */ new Set();
+  this.towerByValue = /* @__PURE__ */ new Map();
+  this.knownIDs = /* @__PURE__ */ new Set();
+  this.ensureLevel(0);
+  return this.commands;
+};
+SkipList.prototype.ensureLevel = function(level) {
+  while (this.nodesByLevel.length <= level) {
+    const L = this.nodesByLevel.length;
+    const y = LEVEL_START_Y + L * LEVEL_SPACING_Y;
+    const headID = this.nextIndex++;
+    const tailID = this.nextIndex++;
+    this.cmd(
+      "CreateLinkedList",
+      headID,
+      "",
+      NODE_WIDTH,
+      NODE_HEIGHT2,
+      START_X,
+      y,
+      0.25,
+      0,
+      1,
+      1
+    );
+    this.cmd("SetText", headID, HEAD_LABEL);
+    this.cmd("SetNull", headID, 0);
+    this.knownIDs.add(headID);
+    this.cmd(
+      "CreateLinkedList",
+      tailID,
+      "",
+      NODE_WIDTH,
+      NODE_HEIGHT2,
+      START_X + SPACING_X,
+      y,
+      0.25,
+      0,
+      1,
+      1
+    );
+    this.cmd("SetText", tailID, TAIL_LABEL);
+    this.cmd("SetNull", tailID, 1);
+    this.knownIDs.add(tailID);
+    this.nodesByLevel.push([
+      { id: headID, value: -Infinity, isSentinel: true },
+      { id: tailID, value: Infinity, isSentinel: true }
+    ]);
+    this.levelMembers[L] = /* @__PURE__ */ new Set([headID, tailID]);
+    this.nextByLevel[L] = /* @__PURE__ */ new Map();
+  }
+};
+SkipList.prototype.relayoutLevel = function(level) {
+  const y = LEVEL_START_Y + (this.nodesByLevel.length - 1 - level) * LEVEL_SPACING_Y;
+  const arr = this.nodesByLevel[level];
+  const base = this.nodesByLevel[0];
+  const baseX = /* @__PURE__ */ new Map();
+  for (let i = 0; i < base.length; i++) {
+    const colX = START_X + i * SPACING_X;
+    baseX.set(base[i].value, colX);
+  }
+  for (let i = 0; i < arr.length; i++) {
+    const node = arr[i];
+    const mappedX = baseX.get(node.value);
+    const x = typeof mappedX === "number" ? mappedX : START_X + i * SPACING_X;
+    this.cmd("Move", node.id, x, y);
+  }
+  const prevMembers = this.levelMembers[level] || /* @__PURE__ */ new Set();
+  const prevNext = this.nextByLevel[level] || /* @__PURE__ */ new Map();
+  const newNext = /* @__PURE__ */ new Map();
+  for (let i = 0; i < arr.length; i++) {
+    const a = arr[i];
+    const b = arr[i + 1];
+    for (let id of prevMembers) {
+      if (id !== a.id && (!b || id !== b.id)) {
+        if (this.knownIDs.has(a.id) && this.knownIDs.has(id)) {
+          this.cmd("Disconnect", a.id, id);
+        }
+      }
+    }
+    const prevNextId = prevNext.get(a.id);
+    if (!b) {
+      if (prevNextId && this.knownIDs.has(a.id) && this.knownIDs.has(prevNextId)) {
+        this.cmd("Disconnect", a.id, prevNextId);
+      }
+      this.cmd("SetNull", a.id, 1);
+    } else {
+      this.cmd("SetNull", a.id, 0);
+      if (this.knownIDs.has(a.id) && this.knownIDs.has(b.id)) {
+        if (prevNextId !== b.id) {
+          this.cmd("Disconnect", a.id, b.id);
+          this.cmd("SetMessage", "Connect L" + level + " from " + a.id + " -> " + b.id);
+          this.cmd("Connect", a.id, b.id, "#000000", 0);
+        }
+        newNext.set(a.id, b.id);
+      } else {
+        this.cmd("SetMessage", "Skip connect: missing node " + (!this.knownIDs.has(a.id) ? a.id : b.id));
+      }
+      if (i === arr.length - 2) {
+        this.cmd("SetNull", b.id, 1);
+      }
+    }
+  }
+  this.levelMembers[level] = new Set(arr.map((n) => n.id));
+  this.nextByLevel[level] = newNext;
+};
+SkipList.prototype.insertElement = function(value) {
+  this.commands = [];
+  if (value === "" || value === null || Number.isNaN(Number(value))) {
+    return this.commands;
+  }
+  value = Number(value);
+  if (this.valueSet.has(value)) {
+    this.cmd("SetMessage", "Value already exists: " + value);
+    this.cmd("Step");
+    this.cmd("SetMessage", "");
+    return this.commands;
+  }
+  this.cmd("SetMessage", "Insert " + value);
+  this.cmd("Step");
+  const topLevel = this.nodesByLevel.length - 1;
+  const prevIndexByLevel = /* @__PURE__ */ new Map();
+  let lvl = topLevel;
+  let idx = 0;
+  const searchHi = this.nextIndex++;
+  const topHeadID = this.nodesByLevel[topLevel][0].id;
+  this.cmd("CreateHighlightCircle", searchHi, "#0088cc", this.animationManager.animatedObjects.getNodeX(topHeadID), this.animationManager.animatedObjects.getNodeY(topHeadID));
+  this.cmd("SetMessage", "Start search at top HEAD");
+  this.cmd("Step");
+  while (lvl >= 0) {
+    const arr = this.nodesByLevel[lvl];
+    this.cmd("Move", searchHi, this.animationManager.animatedObjects.getNodeX(arr[idx].id), this.animationManager.animatedObjects.getNodeY(arr[idx].id));
+    this.cmd("Step");
+    while (true) {
+      const nextNode = arr[idx + 1];
+      if (!nextNode) {
+        this.cmd("SetMessage", "At L" + lvl + ": no next \u2192 drop");
+        this.cmd("Step");
+        break;
+      }
+      const nextText = nextNode.isSentinel ? nextNode.value === Infinity ? "TAIL" : "HEAD" : String(nextNode.value);
+      this.cmd("SetHighlight", nextNode.id, 1);
+      this.cmd("SetMessage", "Check next at L" + lvl + ": " + nextText + (nextNode.value < value ? " < " : nextNode.value === value ? " = " : " \u2265 ") + value);
+      this.cmd("Step");
+      if (nextNode.value < value) {
+        this.cmd("SetMessage", "Advance right: " + nextText + " < " + value);
+        this.cmd("SetHighlight", nextNode.id, 0);
+        idx = idx + 1;
+        this.cmd("Move", searchHi, this.animationManager.animatedObjects.getNodeX(nextNode.id), this.animationManager.animatedObjects.getNodeY(nextNode.id));
+        this.cmd("Step");
+        continue;
+      } else {
+        this.cmd("SetMessage", "Drop down: " + nextText + (nextNode.value === value ? " = " : " \u2265 ") + value);
+        this.cmd("Step");
+        this.cmd("SetHighlight", nextNode.id, 0);
+        break;
+      }
+    }
+    prevIndexByLevel.set(lvl, idx);
+    if (lvl > 0) {
+      const curNode = arr[idx];
+      let downID = null;
+      if (curNode.isSentinel && curNode.value === -Infinity) {
+        downID = this.nodesByLevel[lvl - 1][0].id;
+      } else if (curNode.isSentinel && curNode.value === Infinity) {
+        downID = this.nodesByLevel[lvl - 1][this.nodesByLevel[lvl - 1].length - 1].id;
+      } else {
+        const tower2 = this.towerByValue.get(curNode.value);
+        downID = tower2 && tower2.levelToID.get(lvl - 1);
+      }
+      this.cmd("SetMessage", "Drop to L" + (lvl - 1));
+      if (downID && this.knownIDs.has(downID)) {
+        this.cmd("Move", searchHi, this.animationManager.animatedObjects.getNodeX(downID), this.animationManager.animatedObjects.getNodeY(downID));
+        this.cmd("Step");
+        const lowerArr = this.nodesByLevel[lvl - 1];
+        let newIdx = lowerArr.findIndex((n) => n.id === downID);
+        idx = newIdx >= 0 ? newIdx : 0;
+      } else {
+        idx = 0;
+      }
+    }
+    lvl = lvl - 1;
+  }
+  this.cmd("Delete", searchHi);
+  this.cmd("Step");
+  const base = this.nodesByLevel[0];
+  const idx0 = (prevIndexByLevel.get(0) || 0) + 1;
+  this.cmd("SetMessage", "Base insert between " + (base[idx0 - 1].isSentinel ? "HEAD" : base[idx0 - 1].value) + " and " + (base[idx0].isSentinel ? "TAIL" : base[idx0].value));
+  this.cmd("Step");
+  let height = 0;
+  while (height < MAX_LEVELS - 1) {
+    this.cmd("SetMessage", "Flip for level " + (height + 1));
+    this.cmd("Step");
+    const flip = Math.random() < 0.5;
+    if (flip) {
+      this.cmd("SetMessage", "Heads \u2014 promote");
+      this.cmd("Step");
+      height++;
+    } else {
+      this.cmd("SetMessage", "Tails \u2014 stop");
+      this.cmd("Step");
+      break;
+    }
+  }
+  this.ensureLevel(height);
+  const nodeIDs = [];
+  const totalLevels = this.nodesByLevel.length;
+  const columnX = START_X + idx0 * SPACING_X;
+  for (let L = 0; L <= height; L++) {
+    const y = LEVEL_START_Y + (totalLevels - 1 - L) * LEVEL_SPACING_Y;
+    const id = this.nextIndex++;
+    this.cmd("CreateLinkedList", id, "", NODE_WIDTH, NODE_HEIGHT2, columnX, y, 0.25, 0, 1, 1);
+    this.cmd("SetText", id, String(value));
+    this.knownIDs.add(id);
+    nodeIDs.push(id);
+  }
+  this.cmd("Step");
+  base.splice(idx0, 0, { id: nodeIDs[0], value, isSentinel: false });
+  this.relayoutLevel(0);
+  if (this.nodesByLevel.length > 1) {
+    for (let lvl2 = 1; lvl2 < this.nodesByLevel.length; lvl2++) {
+      this.relayoutLevel(lvl2);
+    }
+  }
+  for (let L = 1; L <= height; L++) {
+    const arr = this.nodesByLevel[L];
+    const i = (prevIndexByLevel.get(L) || 0) + 1;
+    this.cmd("SetMessage", "Insert on L" + L + " after predecessor at index " + (i - 1));
+    arr.splice(i, 0, { id: nodeIDs[L], value, isSentinel: false });
+    this.relayoutLevel(L);
+    const belowID = nodeIDs[L - 1];
+    const aboveID = nodeIDs[L];
+    this.cmd("SetMessage", "Connect tower: level " + L + " node \u2192 lower level node");
+    if (this.knownIDs.has(aboveID) && this.knownIDs.has(belowID)) {
+      this.cmd("Connect", aboveID, belowID, "#6666ff", 0);
+    } else {
+      this.cmd("SetMessage", "Skip vertical connect: missing node");
+    }
+  }
+  if (height + 1 < this.nodesByLevel.length) {
+    for (let lvl2 = height + 1; lvl2 < this.nodesByLevel.length; lvl2++) {
+      this.relayoutLevel(lvl2);
+    }
+  }
+  this.valueSet.add(value);
+  const tower = /* @__PURE__ */ new Map();
+  for (let lvl2 = 0; lvl2 <= height; lvl2++) {
+    tower.set(lvl2, nodeIDs[lvl2]);
+  }
+  this.towerByValue.set(value, { levelToID: tower });
+  this.cmd("SetMessage", "Inserted " + value + (height > 0 ? " with height " + (height + 1) : ""));
+  this.cmd("Step");
+  this.cmd("SetMessage", "");
+  return this.commands;
+};
+SkipList.prototype.disableUI = function() {
+  const ctrls = [
+    this.inputField,
+    this.insertButton,
+    this.findButton,
+    this.deleteButton,
+    this.clearButton,
+    this.insertRandomButton
+  ];
+  for (const el of ctrls) {
+    if (el)
+      el.disabled = true;
+  }
+};
+SkipList.prototype.enableUI = function() {
+  const ctrls = [
+    this.inputField,
+    this.insertButton,
+    this.findButton,
+    this.deleteButton,
+    this.clearButton,
+    this.insertRandomButton
+  ];
+  for (const el of ctrls) {
+    if (el)
+      el.disabled = false;
+  }
+};
+SkipList.prototype.findElement = function(value) {
+  this.commands = [];
+  if (value === "" || value === null || Number.isNaN(Number(value))) {
+    return this.commands;
+  }
+  value = Number(value);
+  if (this.nodesByLevel.length === 0)
+    return this.commands;
+  this.cmd("SetMessage", "Find " + value);
+  this.cmd("Step");
+  const topLevel = this.nodesByLevel.length - 1;
+  let lvl = topLevel;
+  let idx = 0;
+  const topHeadID = this.nodesByLevel[topLevel][0].id;
+  const highlightID = this.nextIndex++;
+  this.cmd(
+    "CreateHighlightCircle",
+    highlightID,
+    "#00aa00",
+    this.animationManager.animatedObjects.getNodeX(topHeadID),
+    this.animationManager.animatedObjects.getNodeY(topHeadID)
+  );
+  this.cmd("Step");
+  while (lvl >= 0) {
+    const arr = this.nodesByLevel[lvl];
+    const currentID = arr[idx].id;
+    this.cmd(
+      "Move",
+      highlightID,
+      this.animationManager.animatedObjects.getNodeX(currentID),
+      this.animationManager.animatedObjects.getNodeY(currentID)
+    );
+    this.cmd("Step");
+    let advanced = false;
+    while (true) {
+      const nextNode = arr[idx + 1];
+      if (!nextNode) {
+        this.cmd("SetMessage", "At level " + lvl + ": no next \u2192 drop down");
+        this.cmd("Step");
+        break;
+      }
+      this.cmd("SetHighlight", nextNode.id, 1);
+      const nextValText = nextNode.isSentinel ? nextNode.value === Infinity ? "TAIL" : "HEAD" : String(nextNode.value);
+      this.cmd("SetMessage", "Check next at L" + lvl + ": " + nextValText + (nextNode.value < value ? " < " : nextNode.value === value ? " = " : " \u2265 ") + value);
+      this.cmd("Step");
+      if (nextNode.value < value) {
+        this.cmd("SetMessage", "Advance right: " + nextValText + " < " + value);
+        this.cmd("Step");
+        this.cmd("SetHighlight", nextNode.id, 0);
+        idx = idx + 1;
+        const nid = arr[idx].id;
+        this.cmd(
+          "Move",
+          highlightID,
+          this.animationManager.animatedObjects.getNodeX(nid),
+          this.animationManager.animatedObjects.getNodeY(nid)
+        );
+        this.cmd("Step");
+        advanced = true;
+        continue;
+      } else if (nextNode.value === value) {
+        const targetID = nextNode.id;
+        this.cmd("SetMessage", "Found " + value + " at level " + lvl);
+        this.cmd(
+          "CreateHighlightCircle",
+          this.nextIndex++,
+          "#ff8800",
+          this.animationManager.animatedObjects.getNodeX(targetID),
+          this.animationManager.animatedObjects.getNodeY(targetID)
+        );
+        this.cmd("Step");
+        this.cmd("SetHighlight", nextNode.id, 0);
+        this.cmd("SetMessage", "");
+        this.cmd("Delete", highlightID);
+        return this.commands;
+      } else {
+        this.cmd("SetMessage", "Drop down: " + nextValText + " \u2265 " + value);
+        this.cmd("Step");
+        this.cmd("SetHighlight", nextNode.id, 0);
+        break;
+      }
+    }
+    if (lvl > 0) {
+      const cur = arr[idx];
+      let downID = null;
+      if (cur.isSentinel && cur.value === -Infinity) {
+        downID = this.nodesByLevel[lvl - 1][0].id;
+      } else if (cur.isSentinel && cur.value === Infinity) {
+        downID = this.nodesByLevel[lvl - 1][this.nodesByLevel[lvl - 1].length - 1].id;
+      } else {
+        const tower = this.towerByValue.get(cur.value);
+        downID = tower && tower.levelToID.get(lvl - 1);
+      }
+      this.cmd("SetMessage", "Drop down to level " + (lvl - 1));
+      if (downID && this.knownIDs.has(downID)) {
+        this.cmd(
+          "Move",
+          highlightID,
+          this.animationManager.animatedObjects.getNodeX(downID),
+          this.animationManager.animatedObjects.getNodeY(downID)
+        );
+      }
+      this.cmd("Step");
+      const lowerArr = this.nodesByLevel[lvl - 1];
+      let newIdx = lowerArr.findIndex((n) => n.id === downID);
+      idx = newIdx >= 0 ? newIdx : 0;
+    }
+    lvl = lvl - 1;
+  }
+  this.cmd("SetMessage", "Not found: " + value);
+  this.cmd("Step");
+  this.cmd("SetMessage", "");
+  this.cmd("Delete", highlightID);
+  return this.commands;
+};
+SkipList.prototype.removeElement = function(value) {
+  this.commands = [];
+  if (value === "" || value === null || Number.isNaN(Number(value))) {
+    return this.commands;
+  }
+  value = Number(value);
+  if (this.nodesByLevel.length === 0)
+    return this.commands;
+  this.cmd("SetMessage", "Remove " + value);
+  this.cmd("Step");
+  const topLevel = this.nodesByLevel.length - 1;
+  let lvl = topLevel;
+  let idx = 0;
+  const topHeadID = this.nodesByLevel[topLevel][0].id;
+  const hi = this.nextIndex++;
+  this.cmd("CreateHighlightCircle", hi, "#cc0000", this.animationManager.animatedObjects.getNodeX(topHeadID), this.animationManager.animatedObjects.getNodeY(topHeadID));
+  this.cmd("Step");
+  let found = false;
+  while (lvl >= 0) {
+    const arr = this.nodesByLevel[lvl];
+    this.cmd("Move", hi, this.animationManager.animatedObjects.getNodeX(arr[idx].id), this.animationManager.animatedObjects.getNodeY(arr[idx].id));
+    this.cmd("Step");
+    while (true) {
+      const hasNext = idx + 1 < arr.length;
+      if (!hasNext) {
+        break;
+      }
+      const nextNode = arr[idx + 1];
+      const nextLabel = nextNode.isSentinel ? nextNode.value === Infinity ? "TAIL" : "HEAD" : String(nextNode.value);
+      this.cmd("SetHighlight", nextNode.id, 1);
+      this.cmd("SetMessage", "L" + lvl + ": check next " + nextLabel + " vs " + value);
+      this.cmd("Step");
+      if (nextNode.value < value) {
+        this.cmd("SetMessage", "L" + lvl + ": move right \u2192 " + nextLabel);
+        this.cmd("Move", hi, this.animationManager.animatedObjects.getNodeX(nextNode.id), this.animationManager.animatedObjects.getNodeY(nextNode.id));
+        this.cmd("Step");
+        this.cmd("SetHighlight", nextNode.id, 0);
+        idx = idx + 1;
+        continue;
+      }
+      if (nextNode.value === value) {
+        found = true;
+        this.cmd("SetMessage", "Found " + value + " \u2014 removing tower");
+        this.cmd("Step");
+        this.cmd("SetHighlight", nextNode.id, 0);
+        break;
+      }
+      this.cmd("SetMessage", "L" + lvl + ": cannot move right (" + nextLabel + ">" + value + ") \u2014 drop");
+      this.cmd("Step");
+      this.cmd("SetHighlight", nextNode.id, 0);
+      break;
+    }
+    if (found) {
+      break;
+    }
+    if (lvl > 0) {
+      const cur = arr[idx];
+      let downID = null;
+      if (cur.isSentinel && cur.value === -Infinity) {
+        downID = this.nodesByLevel[lvl - 1][0].id;
+      } else if (cur.isSentinel && cur.value === Infinity) {
+        downID = this.nodesByLevel[lvl - 1][this.nodesByLevel[lvl - 1].length - 1].id;
+      } else {
+        const tower2 = this.towerByValue.get(cur.value);
+        downID = tower2 && tower2.levelToID.get(lvl - 1);
+      }
+      this.cmd("SetMessage", "Drop down to level " + (lvl - 1));
+      if (downID && this.knownIDs.has(downID)) {
+        this.cmd("Move", hi, this.animationManager.animatedObjects.getNodeX(downID), this.animationManager.animatedObjects.getNodeY(downID));
+      }
+      this.cmd("Step");
+      const lowerArr = this.nodesByLevel[lvl - 1];
+      let newIdx = lowerArr.findIndex((n) => n.id === downID);
+      idx = newIdx >= 0 ? newIdx : 0;
+    }
+    lvl = lvl - 1;
+  }
+  if (!found) {
+    this.cmd("SetMessage", "Not found: " + value);
+    this.cmd("Step");
+    this.cmd("Delete", hi);
+    this.cmd("SetMessage", "");
+    return this.commands;
+  }
+  const tower = this.towerByValue.get(value);
+  if (tower) {
+    const levels = Array.from(tower.levelToID.keys()).sort((a, b) => b - a);
+    for (const L of levels) {
+      const id = tower.levelToID.get(L);
+      const arr = this.nodesByLevel[L];
+      const pos = arr.findIndex((n) => n.id === id);
+      if (pos >= 0) {
+        const belowId = tower.levelToID.get(L - 1);
+        if (belowId && this.knownIDs.has(id) && this.knownIDs.has(belowId)) {
+          this.cmd("Disconnect", id, belowId);
+        }
+        arr.splice(pos, 1);
+        if (this.knownIDs.has(id)) {
+          this.cmd("Delete", id);
+          this.knownIDs.delete(id);
+        }
+        this.relayoutLevel(L);
+      }
+    }
+  }
+  if (this.nodesByLevel.length > 1) {
+    for (let L = 0; L < this.nodesByLevel.length; L++) {
+      this.relayoutLevel(L);
+    }
+  }
+  this.valueSet.delete(value);
+  this.towerByValue.delete(value);
+  this.cmd("Delete", hi);
+  this.cmd("SetMessage", "Removed " + value);
+  this.cmd("Step");
+  this.cmd("SetMessage", "");
+  return this.commands;
+};
+
+// AlgorithmLibrary/TopoSortDFS.js
+function TopoSortDFS(canvas2) {
+  let am;
+  let w2;
+  let h;
+  if (canvas2 && typeof canvas2.getContext === "function") {
+    const legacyCanvas = canvas2;
+    am = initCanvas2(legacyCanvas, null, "Topological Sort (DFS)", false, {
+      viewWidth: legacyCanvas.width,
+      viewHeight: legacyCanvas.height
+    });
+    w2 = legacyCanvas.width;
+    h = legacyCanvas.height;
+  } else {
+    const opts = canvas2 || {};
+    const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
+    const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
+    am = initAnimationManager({
+      title: opts.title || "Topological Sort (DFS)",
+      height: opts.height || viewHeight,
+      viewWidth,
+      viewHeight,
+      ...opts
+    });
+    w2 = viewWidth;
+    h = viewHeight;
+  }
+  this.init(am, w2, h);
+}
+TopoSortDFS.ORDERING_INITIAL_X = 200;
+TopoSortDFS.ORDERING_INITIAL_Y = 50;
+TopoSortDFS.ORDERING_DELTA_Y = 20;
+TopoSortDFS.D_X_POS_SMALL = [760, 685, 915, 610, 910, 685, 915, 760];
+TopoSortDFS.F_X_POS_SMALL = [760, 685, 915, 610, 910, 685, 915, 760];
+TopoSortDFS.D_Y_POS_SMALL = [18, 118, 118, 218, 218, 318, 318, 418];
+TopoSortDFS.F_Y_POS_SMALL = [32, 132, 132, 232, 232, 332, 332, 432];
+TopoSortDFS.D_X_POS_LARGE = [
+  560,
+  660,
+  760,
+  860,
+  610,
+  710,
+  810,
+  560,
+  660,
+  760,
+  860,
+  610,
+  710,
+  810,
+  560,
+  660,
+  760,
+  860
+];
+TopoSortDFS.F_X_POS_LARGE = [
+  560,
+  660,
+  760,
+  860,
+  610,
+  710,
+  810,
+  560,
+  660,
+  760,
+  860,
+  610,
+  710,
+  810,
+  560,
+  660,
+  760,
+  860
+];
+TopoSortDFS.D_Y_POS_LARGE = [
+  37,
+  37,
+  37,
+  37,
+  137,
+  137,
+  137,
+  237,
+  237,
+  237,
+  237,
+  337,
+  337,
+  337,
+  437,
+  437,
+  437,
+  437
+];
+TopoSortDFS.F_Y_POS_LARGE = [
+  62,
+  62,
+  62,
+  62,
+  162,
+  162,
+  162,
+  262,
+  262,
+  262,
+  262,
+  362,
+  362,
+  362,
+  462,
+  462,
+  462,
+  462
+];
+TopoSortDFS.HIGHLIGHT_CIRCLE_COLOR = "#000000";
+TopoSortDFS.DFS_TREE_COLOR = "#0000FF";
+TopoSortDFS.prototype = new Graph();
+TopoSortDFS.prototype.constructor = TopoSortDFS;
+TopoSortDFS.superclass = Graph.prototype;
+TopoSortDFS.prototype.addControls = function() {
+  this.startButton = addControlToAlgorithmBar("Button", "Do Topological Sort");
+  this.startButton.onclick = this.startCallback.bind(this);
+  TopoSortDFS.superclass.addControls.call(this, false);
+};
+TopoSortDFS.prototype.init = function(am, w2, h) {
+  this.showEdgeCosts = false;
+  TopoSortDFS.superclass.init.call(this, am, w2, h, true, true);
+};
+TopoSortDFS.prototype.setup = function() {
+  TopoSortDFS.superclass.setup.call(this);
+  this.animationManager.setAllLayers([0, this.currentLayer]);
+  this.commands = new Array();
+  this.messageID = new Array();
+  this.runLocked = false;
+  if (this.startButton)
+    this.startButton.disabled = false;
+  this.highlightCircleL = this.nextIndex++;
+  this.highlightCircleAL = this.nextIndex++;
+  this.highlightCircleAM = this.nextIndex++;
+  this.initialIndex = this.nextIndex;
+  this.old_adj_matrix = new Array(this.size);
+  this.old_adj_list_list = new Array(this.size);
+  this.old_adj_list_index = new Array(this.size);
+  this.old_adj_list_edges = new Array(this.size);
+  for (var i = 0; i < this.size; i++) {
+    this.old_adj_matrix[i] = new Array(this.size);
+    this.old_adj_list_index[i] = this.adj_list_index[i];
+    this.old_adj_list_list[i] = this.adj_list_list[i];
+    this.old_adj_list_edges[i] = new Array(this.size);
+    for (var j = 0; j < this.size; j++) {
+      this.old_adj_matrix[i][j] = this.adj_matrix[i][j];
+      if (this.adj_matrix[i][j] > 0) {
+        this.old_adj_list_edges[i][j] = this.adj_list_edges[i][j];
+      }
+    }
+  }
+  this.stackBaseX = 30;
+  this.stackBaseY = 20;
+  this.stackSectionY = this.stackBaseY;
+  this.stackIndent = 10;
+  this.stackLineHeight = 20;
+  this.stackSectionGap = 12;
+  this.stackLabelIDs = [];
+  this.callStackDepth = 0;
+  this.stackRowCount = 0;
+};
+TopoSortDFS.prototype.startCallback = function(event) {
+  this.runLocked = true;
+  if (this.startButton)
+    this.startButton.disabled = true;
+  this.implementAction(this.doTopoSort.bind(this), "");
+};
+TopoSortDFS.prototype.doTopoSort = function(ignored) {
+  this.visited = new Array(this.size);
+  this.commands = new Array();
+  this.topoOrderArrayL = new Array();
+  this.topoOrderArrayAL = new Array();
+  this.topoOrderArrayAM = new Array();
+  var i;
+  if (this.messageID != null) {
+    for (i = 0; i < this.messageID.length; i++) {
+      this.cmd("Delete", this.messageID[i], 1);
+    }
+  }
+  this.rebuildEdges();
+  this.messageID = new Array();
+  this.cmd("SetMessage", "Run DFS and build topological order.");
+  this.cmd("Step");
+  var headerID = this.nextIndex++;
+  this.messageID.push(headerID);
+  this.cmd("CreateLabel", headerID, "Topological Order", TopoSortDFS.ORDERING_INITIAL_X, TopoSortDFS.ORDERING_INITIAL_Y - 1.5 * TopoSortDFS.ORDERING_DELTA_Y);
+  headerID = this.nextIndex++;
+  this.messageID.push(headerID);
+  this.cmd(
+    "CreateRectangle",
+    headerID,
+    "",
+    100,
+    0,
+    TopoSortDFS.ORDERING_INITIAL_X,
+    TopoSortDFS.ORDERING_INITIAL_Y - TopoSortDFS.ORDERING_DELTA_Y,
+    "center",
+    "center"
+  );
+  this.d_timesID_L = new Array(this.size);
+  this.f_timesID_L = new Array(this.size);
+  this.d_timesID_AL = new Array(this.size);
+  this.f_timesID_AL = new Array(this.size);
+  this.d_times = new Array(this.size);
+  this.f_times = new Array(this.size);
+  this.currentTime = 1;
+  for (i = 0; i < this.size; i++) {
+    this.d_timesID_L[i] = this.nextIndex++;
+    this.f_timesID_L[i] = this.nextIndex++;
+    this.d_timesID_AL[i] = this.nextIndex++;
+    this.f_timesID_AL[i] = this.nextIndex++;
+  }
+  this.messageY = 30;
+  var vertex;
+  for (vertex = 0; vertex < this.size; vertex++) {
+    if (!this.visited[vertex]) {
+      if (vertex > 0) {
+        this.stackSectionY = this.stackSectionY + this.stackRowCount * this.stackLineHeight + this.stackSectionGap;
+        this.callStackDepth = 0;
+        this.stackRowCount = 0;
+      }
+      this.cmd("SetMessage", "Start DFS from vertex " + vertex + ".");
+      this.cmd("Step");
+      this.cmd(
+        "CreateHighlightCircle",
+        this.highlightCircleL,
+        TopoSortDFS.HIGHLIGHT_CIRCLE_COLOR,
+        this.x_pos_logical[vertex],
+        this.y_pos_logical[vertex]
+      );
+      this.cmd("SetLayer", this.highlightCircleL, 1);
+      this.cmd(
+        "CreateHighlightCircle",
+        this.highlightCircleAL,
+        TopoSortDFS.HIGHLIGHT_CIRCLE_COLOR,
+        this.adj_list_x_start - this.adj_list_width,
+        this.adj_list_y_start + vertex * this.adj_list_height
+      );
+      this.cmd("SetLayer", this.highlightCircleAL, 2);
+      this.cmd(
+        "CreateHighlightCircle",
+        this.highlightCircleAM,
+        TopoSortDFS.HIGHLIGHT_CIRCLE_COLOR,
+        this.adj_matrix_x_start - this.adj_matrix_width,
+        this.adj_matrix_y_start + vertex * this.adj_matrix_height
+      );
+      this.cmd("SetLayer", this.highlightCircleAM, 3);
+      this.dfsVisit(vertex, 0, false);
+      this.cmd("Delete", this.highlightCircleL, 2);
+      this.cmd("Delete", this.highlightCircleAL, 3);
+      this.cmd("Delete", this.highlightCircleAM, 4);
+    }
+  }
+  return this.commands;
+};
+TopoSortDFS.prototype.setup_large = function() {
+  this.d_x_pos = TopoSortDFS.D_X_POS_LARGE;
+  this.d_y_pos = TopoSortDFS.D_Y_POS_LARGE;
+  this.f_x_pos = TopoSortDFS.F_X_POS_LARGE;
+  this.f_y_pos = TopoSortDFS.F_Y_POS_LARGE;
+  TopoSortDFS.superclass.setup_large.call(this);
+};
+TopoSortDFS.prototype.setup_small = function() {
+  this.d_x_pos = TopoSortDFS.D_X_POS_SMALL;
+  this.d_y_pos = TopoSortDFS.D_Y_POS_SMALL;
+  this.f_x_pos = TopoSortDFS.F_X_POS_SMALL;
+  this.f_y_pos = TopoSortDFS.F_Y_POS_SMALL;
+  TopoSortDFS.superclass.setup_small.call(this);
+};
+TopoSortDFS.prototype.dfsVisit = function(startVertex, messageX, printCCNum) {
+  this.callStackDepth = (this.callStackDepth || 0) + 1;
+  var indentDepth = this.callStackDepth - 1;
+  var stackLabelID = this.nextIndex++;
+  if (!this.stackLabelIDs) {
+    this.stackLabelIDs = [];
+  }
+  this.stackLabelIDs.push(stackLabelID);
+  this.cmd("CreateLabel", stackLabelID, "DFS(" + String(startVertex) + ")", this.stackBaseX + indentDepth * this.stackIndent, this.stackSectionY + this.stackRowCount * this.stackLineHeight);
+  this.stackRowCount++;
+  this.cmd("SetMessage", "First visit to " + String(startVertex) + ".");
+  this.cmd("Step");
+  this.cmd("SetMessage", "DFS(" + String(startVertex) + ")");
+  this.messageY = this.messageY + 20;
+  if (!this.visited[startVertex]) {
+    this.d_times[startVertex] = this.currentTime++;
+    this.cmd("CreateLabel", this.d_timesID_L[startVertex], "d = " + String(this.d_times[startVertex]), this.x_pos_logical[startVertex] - 44, this.y_pos_logical[startVertex] - 14);
+    this.cmd(
+      "CreateLabel",
+      this.d_timesID_AL[startVertex],
+      "d = " + String(this.d_times[startVertex]),
+      this.adj_list_x_start - 2 * this.adj_list_width,
+      this.adj_list_y_start + startVertex * this.adj_list_height - 1 / 4 * this.adj_list_height
+    );
+    this.cmd("SetLayer", this.d_timesID_L[startVertex], 1);
+    this.cmd("SetLayer", this.d_timesID_AL[startVertex], 2);
+    this.visited[startVertex] = true;
+    this.cmd("Step");
+    for (var neighbor = 0; neighbor < this.size; neighbor++) {
+      if (this.adj_matrix[startVertex][neighbor] > 0) {
+        this.highlightEdge(startVertex, neighbor, 1);
+        if (this.visited[neighbor]) {
+          this.cmd("SetMessage", "Neighbor " + String(neighbor) + " already visited; skip.");
+        } else {
+          this.cmd("SetMessage", "Visit unvisited neighbor " + String(neighbor) + ".");
+        }
+        this.cmd("Step");
+        this.highlightEdge(startVertex, neighbor, 0);
+        if (this.visited[neighbor]) {
+        }
+        if (!this.visited[neighbor]) {
+          this.cmd(
+            "Disconnect",
+            this.circleID[startVertex],
+            this.circleID[neighbor]
+          );
+          this.cmd(
+            "Connect",
+            this.circleID[startVertex],
+            this.circleID[neighbor],
+            TopoSortDFS.DFS_TREE_COLOR,
+            this.curve[startVertex][neighbor],
+            1,
+            ""
+          );
+          this.cmd(
+            "Move",
+            this.highlightCircleL,
+            this.x_pos_logical[neighbor],
+            this.y_pos_logical[neighbor]
+          );
+          this.cmd(
+            "Move",
+            this.highlightCircleAL,
+            this.adj_list_x_start - this.adj_list_width,
+            this.adj_list_y_start + neighbor * this.adj_list_height
+          );
+          this.cmd(
+            "Move",
+            this.highlightCircleAM,
+            this.adj_matrix_x_start - this.adj_matrix_width,
+            this.adj_matrix_y_start + neighbor * this.adj_matrix_height
+          );
+          this.cmd("Step");
+          this.dfsVisit(neighbor, messageX + 10, printCCNum);
+          this.cmd("SetMessage", "Return from DFS(" + String(neighbor) + ")");
+          this.cmd(
+            "Move",
+            this.highlightCircleAL,
+            this.adj_list_x_start - this.adj_list_width,
+            this.adj_list_y_start + startVertex * this.adj_list_height
+          );
+          this.cmd(
+            "Move",
+            this.highlightCircleL,
+            this.x_pos_logical[startVertex],
+            this.y_pos_logical[startVertex]
+          );
+          this.cmd(
+            "Move",
+            this.highlightCircleAM,
+            this.adj_matrix_x_start - this.adj_matrix_width,
+            this.adj_matrix_y_start + startVertex * this.adj_matrix_height
+          );
+          this.cmd("Step");
+        }
+        this.cmd("Step");
+      }
+    }
+    this.f_times[startVertex] = this.currentTime++;
+    this.cmd("CreateLabel", this.f_timesID_L[startVertex], "f = " + String(this.f_times[startVertex]), this.x_pos_logical[startVertex] - 44, this.y_pos_logical[startVertex] + 14);
+    this.cmd(
+      "CreateLabel",
+      this.f_timesID_AL[startVertex],
+      "f = " + String(this.f_times[startVertex]),
+      this.adj_list_x_start - 2 * this.adj_list_width,
+      this.adj_list_y_start + startVertex * this.adj_list_height + 1 / 4 * this.adj_list_height
+    );
+    this.cmd("SetMessage", `Finish vertex ${startVertex}. Push on top of topological order.`);
+    this.cmd("SetLayer", this.f_timesID_L[startVertex], 1);
+    this.cmd("SetLayer", this.f_timesID_AL[startVertex], 2);
+    this.cmd("Step");
+    var i;
+    for (i = this.topoOrderArrayL.length; i > 0; i--) {
+      this.topoOrderArrayL[i] = this.topoOrderArrayL[i - 1];
+      this.topoOrderArrayAL[i] = this.topoOrderArrayAL[i - 1];
+      this.topoOrderArrayAM[i] = this.topoOrderArrayAM[i - 1];
+    }
+    var nextVertexLabel = this.nextIndex++;
+    this.messageID.push(nextVertexLabel);
+    this.cmd(
+      "CreateLabel",
+      nextVertexLabel,
+      startVertex,
+      this.x_pos_logical[startVertex],
+      this.y_pos_logical[startVertex]
+    );
+    this.cmd("SetLayer", nextVertexLabel, 1);
+    this.topoOrderArrayL[0] = nextVertexLabel;
+    nextVertexLabel = this.nextIndex++;
+    this.messageID.push(nextVertexLabel);
+    this.cmd(
+      "CreateLabel",
+      nextVertexLabel,
+      startVertex,
+      this.adj_list_x_start - this.adj_list_width,
+      this.adj_list_y_start + startVertex * this.adj_list_height
+    );
+    this.cmd("SetLayer", nextVertexLabel, 2);
+    this.topoOrderArrayAL[0] = nextVertexLabel;
+    nextVertexLabel = this.nextIndex++;
+    this.messageID.push(nextVertexLabel);
+    this.cmd(
+      "CreateLabel",
+      nextVertexLabel,
+      startVertex,
+      this.adj_matrix_x_start - this.adj_matrix_width,
+      this.adj_matrix_y_start + startVertex * this.adj_matrix_height
+    );
+    this.cmd("SetLayer", nextVertexLabel, 3);
+    this.topoOrderArrayAM[0] = nextVertexLabel;
+    for (i = 0; i < this.topoOrderArrayL.length; i++) {
+      this.cmd(
+        "Move",
+        this.topoOrderArrayL[i],
+        TopoSortDFS.ORDERING_INITIAL_X,
+        TopoSortDFS.ORDERING_INITIAL_Y + i * TopoSortDFS.ORDERING_DELTA_Y
+      );
+      this.cmd(
+        "Move",
+        this.topoOrderArrayAL[i],
+        TopoSortDFS.ORDERING_INITIAL_X,
+        TopoSortDFS.ORDERING_INITIAL_Y + i * TopoSortDFS.ORDERING_DELTA_Y
+      );
+      this.cmd(
+        "Move",
+        this.topoOrderArrayAM[i],
+        TopoSortDFS.ORDERING_INITIAL_X,
+        TopoSortDFS.ORDERING_INITIAL_Y + i * TopoSortDFS.ORDERING_DELTA_Y
+      );
+    }
+    this.cmd("Step");
+  }
+  this.callStackDepth--;
+};
+TopoSortDFS.prototype.reset = function() {
+  this.messageID = new Array();
+  this.nextIndex = this.initialIndex;
+  this.runLocked = false;
+  for (var i = 0; i < this.size; i++) {
+    this.adj_list_list[i] = this.old_adj_list_list[i];
+    this.adj_list_index[i] = this.old_adj_list_index[i];
+    for (var j = 0; j < this.size; j++) {
+      this.adj_matrix[i][j] = this.old_adj_matrix[i][j];
+      if (this.adj_matrix[i][j] > 0) {
+        this.adj_list_edges[i][j] = this.old_adj_list_edges[i][j];
+      }
+    }
+  }
+};
+TopoSortDFS.prototype.enableUI = function(event) {
+  this.startButton.disabled = !!this.runLocked;
+  TopoSortDFS.superclass.enableUI.call(this, event);
+};
+TopoSortDFS.prototype.disableUI = function(event) {
+  this.startButton.disabled = true;
+  TopoSortDFS.superclass.disableUI.call(this, event);
+};
+TopoSortDFS.prototype.undo = function(event) {
+  TopoSortDFS.superclass.undo.call(this, event);
+  this.runLocked = false;
+  this.enableUI(event);
+};
+
+// AlgorithmLibrary/Trie.js
+Trie.NODE_WIDTH = 30;
+Trie.FOREGROUND_COLOR = "var(--svgColor)";
+Trie.LINK_COLOR = Trie.FOREGROUND_COLOR;
+Trie.HIGHLIGHT_CIRCLE_COLOR = Trie.FOREGROUND_COLOR;
+Trie.BACKGROUND_COLOR = "#d3f0d2ff";
+Trie.TRUE_COLOR = "#d3f0d2ff";
+Trie.PRINT_COLOR = Trie.FOREGROUND_COLOR;
+Trie.FALSE_COLOR = "#FFFFFF";
+Trie.WIDTH_DELTA = 50;
+Trie.HEIGHT_DELTA = 50;
+Trie.STARTING_Y = 50;
+Trie.LeftMargin = 100;
+Trie.NEW_NODE_Y = 100;
+Trie.NEW_NODE_X = 50;
+Trie.FIRST_PRINT_POS_X = 50;
+Trie.PRINT_VERTICAL_GAP = 20;
+Trie.PRINT_HORIZONTAL_GAP = 50;
+function Trie(opts = {}) {
+  if (!opts.title)
+    opts.title = "Trie (Prefix Tree)";
+  opts.centered = true;
+  opts.heightSingleMode = 250;
+  opts.height = 350;
+  opts.heightMobile = 450;
+  opts.heightMobileSingle = 350;
+  let am = initAnimationManager(opts);
+  this.init(am, 1e3, 400);
+  this.addControls();
+}
+Trie.prototype = new Algorithm();
+Trie.prototype.constructor = Trie;
+Trie.superclass = Algorithm.prototype;
+Trie.prototype.init = function(am, w2, h) {
+  var sc = Trie.superclass;
+  this.startingX = 200;
+  this.first_print_pos_y = h - 2 * Trie.PRINT_VERTICAL_GAP;
+  this.print_max = w2 - 10;
+  var fn = sc.init;
+  fn.call(this, am);
+  this.nextIndex = 0;
+  this.commands = [];
+  this.cmd("CreateLabel", 0, "", 20, 10, 0);
+  this.cmd("CreateLabel", 1, "", 20, 10, 0);
+  this.cmd("CreateLabel", 2, "", 20, 30, 0);
+  this.nextIndex = 3;
+  this.animationManager.StartNewAnimation(this.commands);
+  this.animationManager.skipForward();
+  this.animationManager.clearHistory();
+};
+Trie.prototype.addControls = function() {
+  addSeparatorToAlgorithmBar();
+  this.inputField = addControlToAlgorithmBar("Text", "", "inputField", "Value");
+  this.inputField.onkeydown = this.returnSubmit(
+    this.inputField,
+    this.insertCallback.bind(this),
+    24,
+    false
+  );
+  this.insertButton = addControlToAlgorithmBar("Button", "Insert");
+  this.insertButton.onclick = this.insertCallback.bind(this);
+  this.deleteButton = addControlToAlgorithmBar("Button", "Remove");
+  this.deleteButton.onclick = this.deleteCallback.bind(this);
+  this.findButton = addControlToAlgorithmBar("Button", "Find");
+  this.findButton.onclick = this.findCallback.bind(this);
+  this.printButton = addControlToAlgorithmBar("Button", "Print");
+  this.printButton.onclick = this.printCallback.bind(this);
+};
+Trie.prototype.reset = function() {
+  this.nextIndex = 3;
+  this.root = null;
+};
+Trie.prototype.insertCallback = function() {
+  var insertedValue = this.inputField.value.toUpperCase();
+  insertedValue = insertedValue.replace(/[^a-z]/gi, "");
+  if (insertedValue != "") {
+    this.inputField.value = "";
+    this.implementAction(this.add.bind(this), insertedValue);
+  }
+};
+Trie.prototype.deleteCallback = function() {
+  var deletedValue = this.inputField.value.toUpperCase();
+  deletedValue = deletedValue.replace(/[^a-z]/gi, "");
+  if (deletedValue != "") {
+    this.inputField.value = "";
+    this.implementAction(this.deleteElement.bind(this), deletedValue);
+  }
+};
+Trie.prototype.printCallback = function(event) {
+  this.implementAction(this.printTree.bind(this), "");
+};
+Trie.prototype.findCallback = function() {
+  var findValue = this.inputField.value.toUpperCase();
+  findValue = findValue.replace(/[^a-z]/gi, "");
+  this.inputField.value = "";
+  this.implementAction(this.findElement.bind(this), findValue);
+};
+Trie.prototype.printTree = function(unused) {
+  this.commands = [];
+  if (this.root != null) {
+    this.highlightID = this.nextIndex++;
+    this.printLabel1 = this.nextIndex++;
+    this.printLabel2 = this.nextIndex++;
+    var firstLabel = this.nextIndex++;
+    this.cmd(
+      "CreateLabel",
+      firstLabel,
+      "Output: ",
+      Trie.FIRST_PRINT_POS_X,
+      this.first_print_pos_y
+    );
+    this.cmd(
+      "CreateHighlightCircle",
+      this.highlightID,
+      Trie.HIGHLIGHT_CIRCLE_COLOR,
+      this.root.x,
+      this.root.y
+    );
+    this.cmd("SetWidth", this.highlightID, Trie.NODE_WIDTH);
+    this.cmd("CreateLabel", this.printLabel1, "Current String: ", 20, 10, 0);
+    this.cmd("CreateLabel", this.printLabel2, "", 20, 10, 0);
+    this.cmd("AlignRight", this.printLabel2, this.printLabel1);
+    this.xPosOfNextLabel = Trie.FIRST_PRINT_POS_X;
+    this.yPosOfNextLabel = this.first_print_pos_y;
+    this.printTreeRec(this.root, "");
+    this.cmd("Delete", this.highlightID);
+    this.cmd("Delete", this.printLabel1);
+    this.cmd("Delete", this.printLabel2);
+    this.cmd("Step");
+    for (var i = firstLabel; i < this.nextIndex; i++) {
+      this.cmd("Delete", i);
+    }
+    this.nextIndex = this.highlightID;
+  }
+  return this.commands;
+};
+Trie.prototype.printTreeRec = function(tree, stringSoFar) {
+  if (tree.wordRemainder != "") {
+  }
+  if (tree.isword) {
+    var nextLabelID = this.nextIndex++;
+    this.cmd("CreateLabel", nextLabelID, stringSoFar + "  ", 20, 10, 0);
+    this.cmd("SetForegroundColor", nextLabelID, Trie.PRINT_COLOR);
+    this.cmd("AlignRight", nextLabelID, this.printLabel1, Trie.PRINT_COLOR);
+    this.cmd("MoveToAlignRight", nextLabelID, nextLabelID - 1);
+    this.cmd("Step");
+    this.xPosOfNextLabel += Trie.PRINT_HORIZONTAL_GAP;
+    if (this.xPosOfNextLabel > this.print_max) {
+      this.xPosOfNextLabel = Trie.FIRST_PRINT_POS_X;
+      this.yPosOfNextLabel += Trie.PRINT_VERTICAL_GAP;
+    }
+  }
+  for (var i = 0; i < 26; i++) {
+    if (tree.children[i] != null) {
+      var stringSoFar2 = stringSoFar + tree.children[i].wordRemainder;
+      var nextLabelID = this.nextIndex++;
+      var fromx = (tree.children[i].x + tree.x) / 2 + Trie.NODE_WIDTH / 2;
+      var fromy = (tree.children[i].y + tree.y) / 2;
+      this.cmd(
+        "CreateLabel",
+        nextLabelID,
+        tree.children[i].wordRemainder,
+        fromx,
+        fromy,
+        0
+      );
+      this.cmd("MoveToAlignRight", nextLabelID, this.printLabel2);
+      this.cmd(
+        "Move",
+        this.highlightID,
+        tree.children[i].x,
+        tree.children[i].y
+      );
+      this.cmd("Step");
+      this.cmd("Delete", nextLabelID);
+      this.nextIndex--;
+      this.cmd("SetText", this.printLabel2, stringSoFar2);
+      this.printTreeRec(tree.children[i], stringSoFar2);
+      this.cmd("Move", this.highlightID, tree.x, tree.y);
+      this.cmd("SetText", this.printLabel2, stringSoFar);
+      this.cmd("Step");
+    }
+  }
+};
+Trie.prototype.findElement = function(word) {
+  this.commands = [];
+  this.commands = new Array();
+  this.cmd("SetMessage", "Finding: '" + word + "' ");
+  this.cmd("AlignRight", 1, 0);
+  this.cmd("Step");
+  var node = this.doFind(this.root, word);
+  if (node != null) {
+    this.cmd("SetMessage", 'Found "' + word + '"');
+  } else {
+    this.cmd("SetMessage", '"' + word + '" not Found');
+  }
+  this.cmd("SetMessage", "");
+  this.cmd("SetMessage", "");
+  return this.commands;
+};
+Trie.prototype.doFind = function(tree, s) {
+  if (tree == null) {
+    return null;
+  }
+  this.cmd("SetHighlight", tree.graphicID, 1);
+  if (s.length == 0) {
+    if (tree.isword == true) {
+      this.cmd(
+        "SetMessage",
+        "Reached the end of the string \nCurrent node is True\nWord is in the tree"
+      );
+      this.cmd("Step");
+      this.cmd("SetHighlight", tree.graphicID, 0);
+      return tree;
+    } else {
+      this.cmd(
+        "SetMessage",
+        "Reached the end of the string \nCurrent node is False\nWord is Not the tree"
+      );
+      this.cmd("Step");
+      this.cmd("SetHighlight", tree.graphicID, 0);
+      return null;
+    }
+  } else {
+    this.cmd("SetHighlightIndex", 1, 1);
+    var index = s.charCodeAt(0) - "A".charCodeAt(0);
+    if (tree.children[index] == null) {
+      this.cmd(
+        "SetMessage",
+        "Child " + s.charAt(0) + " does not exist\nWord is Not the tree"
+      );
+      this.cmd("Step");
+      this.cmd("SetHighlight", tree.graphicID, 0);
+      return null;
+    }
+    this.cmd(
+      "CreateHighlightCircle",
+      this.highlightID,
+      Trie.HIGHLIGHT_CIRCLE_COLOR,
+      tree.x,
+      tree.y
+    );
+    this.cmd("SetWidth", this.highlightID, Trie.NODE_WIDTH);
+    this.cmd(
+      "SetMessage",
+      "Making recursive call to " + s.charAt(0) + " child, passing in " + s.substring(1)
+    );
+    this.cmd("Step");
+    this.cmd("SetHighlight", tree.graphicID, 0);
+    this.cmd("SetHighlightIndex", 1, -1);
+    this.cmd("SetMessage", '"' + s.substring(1) + '"');
+    this.cmd(
+      "Move",
+      this.highlightID,
+      tree.children[index].x,
+      tree.children[index].y
+    );
+    this.cmd("Step");
+    this.cmd("Delete", this.highlightID);
+    return this.doFind(tree.children[index], s.substring(1));
+  }
+};
+Trie.prototype.insertElement = function(insertedValue) {
+  this.cmd("SetText", 0, "");
+  return this.commands;
+};
+Trie.prototype.insert = function(elem, tree) {
+};
+Trie.prototype.deleteElement = function(word) {
+  this.commands = [];
+  this.cmd("SetMessage", "Deleting: '" + word + "' ");
+  this.cmd("AlignRight", 1, 0);
+  this.cmd("Step");
+  var node = this.doFind(this.root, word);
+  if (node != null) {
+    this.cmd("SetHighlight", node.graphicID, 1);
+    this.cmd(
+      "SetMessage",
+      'Found "' + word + '", setting value in tree to False'
+    );
+    this.cmd("step");
+    this.cmd("SetBackgroundColor", node.graphicID, Trie.FALSE_COLOR);
+    node.isword = false;
+    this.cmd("SetHighlight", node.graphicID, 0);
+    this.cleanupAfterDelete(node);
+    this.resizeTree();
+  } else {
+    this.cmd("SetMessage", '"' + word + '" not in tree, nothing to delete');
+    this.cmd("step");
+    this.cmd("SetHighlightIndex", 1, -1);
+  }
+  this.cmd("SetMessage", "");
+  this.cmd("SetMessage", "");
+  this.cmd("SetMessage", "");
+  return this.commands;
+};
+Trie.prototype.numChildren = function(tree) {
+  if (tree == null) {
+    return 0;
+  }
+  var children = 0;
+  for (var i = 0; i < 26; i++) {
+    if (tree.children[i] != null) {
+      children++;
+    }
+  }
+  return children;
+};
+Trie.prototype.cleanupAfterDelete = function(tree) {
+  var children = this.numChildren(tree);
+  if (children == 0 && !tree.isword) {
+    this.cmd(
+      "SetMessage",
+      'Deletion left us with a "False" leaf\nRemoving false leaf'
+    );
+    this.cmd("SetHighlight", tree.graphicID, 1);
+    this.cmd("Step");
+    this.cmd("SetHighlight", tree.graphicID, 0);
+    if (tree.parent != null) {
+      var index = 0;
+      while (tree.parent.children[index] != tree) {
+        index++;
+      }
+      this.cmd("Disconnect", tree.parent.graphicID, tree.graphicID);
+      this.cmd("Delete", tree.graphicID, 0);
+      tree.parent.children[index] = null;
+      this.cleanupAfterDelete(tree.parent);
+    } else {
+      this.cmd("Delete", tree.graphicID, 0);
+      this.root = null;
+    }
+  }
+};
+Trie.prototype.resizeTree = function() {
+  this.resizeWidths(this.root);
+  if (this.root != null) {
+    var startingPoint = this.root.width / 2 + 1 + Trie.LeftMargin;
+    this.setNewPositions(this.root, startingPoint, Trie.STARTING_Y);
+    this.animateNewPositions(this.root);
+    this.cmd("Step");
+  }
+};
+Trie.prototype.add = function(word) {
+  this.commands = new Array();
+  this.cmd("SetMessage", "Inserting '" + word + "'");
+  this.cmd("AlignRight", 1, 0);
+  this.cmd("Step");
+  if (this.root == null) {
+    this.cmd(
+      "CreateCircle",
+      this.nextIndex,
+      "",
+      Trie.NEW_NODE_X,
+      Trie.NEW_NODE_Y
+    );
+    this.cmd("SetForegroundColor", this.nextIndex, Trie.FOREGROUND_COLOR);
+    this.cmd("SetBackgroundColor", this.nextIndex, Trie.FALSE_COLOR);
+    this.cmd("SetWidth", this.nextIndex, Trie.NODE_WIDTH);
+    this.cmd("SetMessage", "Creating a new root");
+    this.root = new TrieNode(
+      "",
+      this.nextIndex,
+      Trie.NEW_NODE_X,
+      Trie.NEW_NODE_Y
+    );
+    this.cmd("Step");
+    this.resizeTree();
+    this.cmd("SetMessage", "");
+    this.highlightID = this.nextIndex++;
+    this.nextIndex += 1;
+  }
+  this.addR(word.toUpperCase(), this.root);
+  this.cmd("SetMessage", "");
+  this.cmd("SetMessage", "");
+  this.cmd("SetMessage", "");
+  return this.commands;
+};
+Trie.prototype.addR = function(s, tree) {
+  this.cmd("SetHighlight", tree.graphicID, 1);
+  if (s.length == 0) {
+    this.cmd(
+      "SetMessage",
+      "Reached the end of the string \nSet current node to true"
+    );
+    this.cmd("Step");
+    this.cmd("SetBackgroundColor", tree.graphicID, Trie.TRUE_COLOR);
+    this.cmd("SetHighlight", tree.graphicID, 0);
+    tree.isword = true;
+    return;
+  } else {
+    this.cmd("SetHighlightIndex", 1, 1);
+    var index = s.charCodeAt(0) - "A".charCodeAt(0);
+    if (tree.children[index] == null) {
+      this.cmd(
+        "CreateCircle",
+        this.nextIndex,
+        s.charAt(0),
+        Trie.NEW_NODE_X,
+        Trie.NEW_NODE_Y
+      );
+      this.cmd("SetForegroundColor", this.nextIndex, Trie.FOREGROUND_COLOR);
+      this.cmd("SetBackgroundColor", this.nextIndex, Trie.FALSE_COLOR);
+      this.cmd("SetWidth", this.nextIndex, Trie.NODE_WIDTH);
+      this.cmd(
+        "SetMessage",
+        "Child " + s.charAt(0) + " does not exist.  Creating ... "
+      );
+      tree.children[index] = new TrieNode(
+        s.charAt(0),
+        this.nextIndex,
+        Trie.NEW_NODE_X,
+        Trie.NEW_NODE_Y
+      );
+      tree.children[index].parent = tree;
+      this.cmd(
+        "Connect",
+        tree.graphicID,
+        tree.children[index].graphicID,
+        Trie.FOREGROUND_COLOR,
+        0,
+        false,
+        s.charAt(0)
+      );
+      this.cmd("Step");
+      this.resizeTree();
+      this.cmd("SetMessage", "");
+      this.nextIndex += 1;
+      this.highlightID = this.nextIndex++;
+    }
+    this.cmd(
+      "CreateHighlightCircle",
+      this.highlightID,
+      Trie.HIGHLIGHT_CIRCLE_COLOR,
+      tree.x,
+      tree.y
+    );
+    this.cmd("SetWidth", this.highlightID, Trie.NODE_WIDTH);
+    this.cmd(
+      "SetMessage",
+      "Making recursive call to " + s.charAt(0) + ' child, passing in "' + s.substring(1) + '"'
+    );
+    this.cmd("Step");
+    this.cmd("SetHighlight", tree.graphicID, 0);
+    this.cmd("SetHighlightIndex", 1, -1);
+    this.cmd("SetMessage", '"' + s.substring(1) + '"');
+    this.cmd(
+      "Move",
+      this.highlightID,
+      tree.children[index].x,
+      tree.children[index].y
+    );
+    this.cmd("Step");
+    this.cmd("Delete", this.highlightID);
+    this.addR(s.substring(1), tree.children[index]);
+  }
+};
+Trie.prototype.setNewPositions = function(tree, xPosition, yPosition) {
+  if (tree != null) {
+    tree.x = xPosition;
+    tree.y = yPosition;
+    var newX = xPosition - tree.width / 2;
+    var newY = yPosition + Trie.HEIGHT_DELTA;
+    for (var i = 0; i < 26; i++) {
+      if (tree.children[i] != null) {
+        this.setNewPositions(
+          tree.children[i],
+          newX + tree.children[i].width / 2,
+          newY
+        );
+        newX = newX + tree.children[i].width;
+      }
+    }
+  }
+};
+Trie.prototype.animateNewPositions = function(tree) {
+  if (tree != null) {
+    this.cmd("Move", tree.graphicID, tree.x, tree.y);
+    for (var i = 0; i < 26; i++) {
+      this.animateNewPositions(tree.children[i]);
+    }
+  }
+};
+Trie.prototype.resizeWidths = function(tree) {
+  if (tree == null) {
+    return 0;
+  }
+  var size = 0;
+  for (var i = 0; i < 26; i++) {
+    tree.childWidths[i] = this.resizeWidths(tree.children[i]);
+    size += tree.childWidths[i];
+  }
+  tree.width = Math.max(size, Trie.NODE_WIDTH + 4);
+  return tree.width;
+};
+function TrieNode(val, id, initialX, initialY) {
+  this.wordRemainder = val;
+  this.x = initialX;
+  this.y = initialY;
+  this.graphicID = id;
+  this.children = new Array(26);
+  this.childWidths = new Array(26);
+  for (var i = 0; i < 26; i++) {
+    this.children[i] = null;
+    this.childWidths[i] = 0;
+  }
+  this.width = 0;
+  this.parent = null;
+}
+Trie.prototype.disableUI = function() {
+  const ctrls = [
+    this.inputField,
+    this.insertButton,
+    this.deleteButton,
+    this.findButton,
+    this.printButton
+  ];
+  for (const el of ctrls) {
+    if (el)
+      el.disabled = true;
+  }
+};
+Trie.prototype.enableUI = function() {
+  const ctrls = [
+    this.inputField,
+    this.insertButton,
+    this.deleteButton,
+    this.findButton,
+    this.printButton
+  ];
+  for (const el of ctrls) {
+    if (el)
+      el.disabled = false;
+  }
+};
+
+// AlgorithmLibrary/StringHash.js
+function StringHash(opts = {}) {
+  if (!opts.title)
+    opts.title = "String Hash";
+  opts.centered = true;
+  opts.heightSingleMode = 250;
+  opts.height = 350;
+  opts.heightMobile = 450;
+  opts.heightMobileSingle = 350;
+  let am = initAnimationManager(opts);
+  this.init(am, 800, 300);
+  this.hashingIntegers = false;
+  this.animateStringHashing = true;
+  this.table_size = 13;
+  const om = am && am.animatedObjects;
+  const vb = om.svg.getAttribute("viewBox").split(" ").map(parseFloat);
+  const baseW = Number.isFinite(om.svgBaseViewWidth) ? om.svgBaseViewWidth : vb[2];
+  const shiftX = 100;
+  vb[0] = vb[0] + shiftX;
+  om.svg.setAttribute("viewBox", vb.join(" "));
+}
+StringHash.prototype = new Hash();
+StringHash.prototype.constructor = StringHash;
+StringHash.superclass = Hash.prototype;
+StringHash.prototype.init = function(am, w2, h) {
+  StringHash.superclass.init.call(this, am, w2, h);
+  this.nextIndex = 0;
+  this.commands = [];
+  this.hashingIntegers = false;
+  this.animateStringHashing = true;
+  this.table_size = 13;
+  this.doHash = (str) => this.implementAction(this.runHash.bind(this), String(str));
+};
+StringHash.prototype.addControls = function() {
+  addSeparatorToAlgorithmBar();
+  this.inputField = addControlToAlgorithmBar("Text", "", "inputField", "String");
+  this.inputField.setAttribute("placeholder", "String to hash");
+  this.inputField.onkeydown = this.returnSubmit(
+    this.inputField,
+    this.hashCallback.bind(this),
+    64,
+    false
+  );
+  this.hashButton = addControlToAlgorithmBar("Button", "Hash");
+  this.hashButton.onclick = this.hashCallback.bind(this);
+};
+StringHash.prototype.reset = function() {
+  this.nextIndex = 0;
+  this.commands = [];
+};
+StringHash.prototype.hashCallback = function() {
+  const value = String(this.inputField.value);
+  if (value !== "") {
+    this.inputField.value = "";
+    this.implementAction(this.runHash.bind(this), value);
+  }
+};
+StringHash.prototype.runHash = function(str) {
+  this.commands = [];
+  this.cmd("SetMessage", "Hash '" + str + "'");
+  this.cmd("Step");
+  Hash.prototype.doHash.call(this, str, true);
+  this.cmd("SetMessage", "");
+  return this.commands;
+};
+StringHash.prototype.disableUI = function() {
+  const ctrls = [this.inputField, this.hashButton];
+  for (const el of ctrls) {
+    if (el)
+      el.disabled = true;
+  }
+};
+StringHash.prototype.enableUI = function() {
+  const ctrls = [this.inputField, this.hashButton];
+  for (const el of ctrls) {
+    if (el)
+      el.disabled = false;
+  }
+};
 export {
   AVL,
   BFS,
@@ -23050,7 +25179,7 @@ export {
   BSTIterator,
   BTree,
   ClosedHash,
-  ClosedHashBucket,
+  ConnectedComponent,
   DFS,
   DijkstraPrim,
   DoublyLinkedList,
@@ -23060,7 +25189,6 @@ export {
   HeapMax,
   HeapSort,
   Kruskal,
-  LeftistHeap,
   LinkedList,
   LinkedListSimple,
   LinkedListTail,
@@ -23070,8 +25198,40 @@ export {
   QueueLL,
   RandomGenerator,
   RedBlack,
+  SkipList,
   SPLAYTREE as SplayTree,
   StackArray,
-  StackLL
+  StackLL,
+  StringHash,
+  TopoSortDFS,
+  Treap,
+  Trie
 };
+/* @license
+// Copyright 2011 David Galles, University of San Francisco. All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without modification, are
+// permitted provided that the following conditions are met:
+//
+// 1. Redistributions of source code must retain the above copyright notice, this list of
+// conditions and the following disclaimer.
+//
+// 2. Redistributions in binary form must reproduce the above copyright notice, this list
+// of conditions and the following disclaimer in the documentation and/or other materials
+// provided with the distribution.
+//
+// THIS SOFTWARE IS PROVIDED BY <COPYRIGHT HOLDER> ``AS IS'' AND ANY EXPRESS OR IMPLIED
+// WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL <COPYRIGHT HOLDER> OR
+// CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+// ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+// ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+// The views and conclusions contained in the software and documentation are those of the
+// authors and should not be interpreted as representing official policies, either expressed
+// or implied, of the University of San Francisco
+*/
 //# sourceMappingURL=entry.js.map

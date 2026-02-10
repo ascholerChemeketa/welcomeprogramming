@@ -1,0 +1,113 @@
+<section xml:id="balanced-trees_skip-list"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Skip Lists</title>
+
+  <p> The final <q>self-balancing tree</q> structure we will look at is the <term>Skip List</term>.
+    A skip list is not actually a tree at all. But it can be used to provide the same logarithmic
+    time complexity for search, insertion, and deletion operations as the other self-balancing trees
+    we have looked at.</p>
+
+  <p>A skip list is a linked list with multiple levels. The bottom level is a regular linked list
+    that contains all the values in sorted order. Each higher level is a subset of the level below
+    it, and contains pointers that allow us to skip over large sections of the list when searching
+    for a value.</p>
+
+  <figure>
+    <caption>A skip list with five levels. The bottom level has every value. Each higher level has fewer values.</caption>
+    <image source="images/balanced-trees/skip-list.svg"
+           width="80%">
+      <shortdescription>
+        <p>Five linked Lists stacked on top of each other, representing the levels of the skip list. Each level has a subset of the nodes in the level below it.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    Any search process, including finding a location to insert a new value, starts at the
+    head of the highest level. We move across that list as long as the next value is less than the value we are looking for. Once we can't move across any more, we drop down to the next level and repeat the process. We continue this process until we reach the bottom level. At that point, we are at the position where the value we are looking for should be, and we can check if it is there or not.
+  </p>
+
+  <insight>
+    <p>
+      Think of the higher levels of a skip list as <q>express lanes</q> We can move faster using
+      them, but can only get on and off at certain points.
+    </p>
+  </insight>
+
+  <activity>
+    <title>Skip List Find</title>
+    <p> The skip list below is set to find the value 800. Press the <c>></c> button to step through
+      the process of finding that value. Notice how the skip list uses the higher levels to quickly
+      skip over large sections of the list, and then drops down to lower levels to find the exact
+      value. </p>
+    <p> The structure will be randomly generated each time you reset it, so try resetting it a few
+      times to see how the structure changes. </p>
+    <interactive platform="javascript"
+                 design-width="1000"
+                 aspect="4:2">
+      <script type="module">
+      import { SkipList } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new SkipList({ initialData: [100, 200, 300, 400, 500, 600, 700, 800], title: "Skip List Find"});
+      anim.doFind(800);
+    </script>
+      <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+    </interactive>
+  </activity>
+
+  <p>
+    So how do we decide how many levels there are and what levels each node should be on? We flip a coin!.
+  </p>
+
+  <p>
+    Every time we insert a new value, we flip a coin to determine how many levels it should be on. If the coin comes up heads, we add the value to the next level up. We keep flipping the coin until we get tails. This means that on average, half of the values will be on the first level, a quarter of the values will be on the second level, an eighth of the values will be on the third level, and so on.
+  </p>
+
+  <activity>
+    <title>Skip List Insertion</title>
+    <p>The skip list below is set to find the value 350. Press the <c>Step</c> button to step through
+      the process.</p>
+    <p>Each time you run the animation a different sequence of <q>coin flips</q> will be generated, so use the <c>Reset</c> button to try it multiple times.</p>
+    <p>You may want to use the <c>>></c> button to skip to the end and then <c>&lt;</c> to step backwards to see the coin flips so you can avoid watching the find process.</p>
+    <interactive platform="javascript"
+                 design-width="1000"
+                 aspect="4:2">
+      <script type="module">
+      import { SkipList } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new SkipList({ initialData: [100, 200, 300, 400, 500, 600, 700, 800], title: "Skip List Insertion"});
+      anim.doInsert(350);
+    </script>
+      <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+    </interactive>
+  </activity>
+
+  <p>
+    So how does this structure provide logarithmic time complexity for search, insertion, and deletion operations?
+  </p>
+
+  <p>First, let's focus on the expected height of the skip list. In a list of <m>n</m> values, we expect about <m>n/2</m> values to be on the first level, <m>n/4</m> values to be on the second level, <m>n/8</m> values to be on the third level, and so on. This means that the expected number of levels is about <m>\log_2 n</m>. So, the expected height of the skip list is logarithmic with respect to the number of values.</p>
+
+  <p>
+    Now, working backwards from a node that was found at the end of the lowest level (the worst case), let's consider how many moves it took to get to that location. Every time we move to the left (working back towards the head), there is a 50% chance that we can step up a level. (Because every node that reached this level got a coin flip to decide if it should be on the level above this one.) So, on average, every two times we move left, we can also move up a level. We expect to have to move up <m>\log_2 n</m> times. If we move left two times for each move up, that means we expect to move left about <m>2 \log_2 n</m> times. So, the expected number of moves either up or to the left is <m>O(3 \log_2 n) = O(\log n)</m>.
+  </p>
+
+  <p>
+    So, the expected time complexity for search, insertion, and deletion operations in a skip list is <m>O(\log n)</m>. However, like with a treap, this is a probabilistic guarantee, not a strict guarantee. It is possible to get unlucky with the random coin flips and end up with a very unbalanced skip list.
+  </p>
+
+  <p>
+    We also might wonder about the space required to store all of those extra levels. We expect that each level has about half as many nodes as the level below it. So if the first level has <m>n</m> nodes, the number of nodes in the other levels is <m>n/2 + n/4 + n/8 + \cdots</m>. That sequence converges to <m>n</m>, so all of the extra levels combine to just <m>O(n)</m> extra space, which is the same order of magnitude as the space required to store the values themselves.
+  </p>
+
+  <p>
+    Aside from being an interesting alternate way of achieving logarithmic time complexity, skip lists have some practical advantages over self-balancing trees. One key benefit is that insertions and deletions can never affect the rest of the structure. In self-balancing trees, insertions and deletions can cause rotations that affect the structure of the tree in other places.
+  </p>
+
+  <p>
+    In data structures designed to support concurrent access by multiple threads, this property of skip lists can be a big advantage. In a self-balancing tree, if one thread is performing an insertion or deletion that causes rotations, other threads that are trying to access the tree may have to wait until the rotations are complete. In a skip list, insertions and deletions only affect the local structure around the inserted or deleted node, so other threads can continue to access the rest of the skip list without waiting.</p>
+
+  <p>Real world examples of skip list can be found in Java, which provides a <pf>ConcurrentSkipListMap</pf> class that is more performant than the standard <pf>TreeMap</pf> class in concurrent scenarios. and the popular in-memory database Redis, which uses skip lists to implement sorted sets.</p>
+
+</section>
