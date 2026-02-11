@@ -49,6 +49,9 @@ public:
     //   Returns -1 if not found
     int search(const T& searchItem) const;
 
+    // Split the list at the given index, returning a new list with the "rear" items
+    ArrayList<T> splitAt(int index);
+
 private:
     // double storage capacity
     void grow();
@@ -108,9 +111,8 @@ void ArrayList<T>::removeEnd() {
     if (m_size == 0) {
         throw std::out_of_range("ArrayList is empty");
     }
-    // reduce size, return the item just past the new end
+    // reduce size
     --m_size;
-    return m_arr[m_size];
 }
 
 template<typename T>
@@ -192,6 +194,19 @@ void ArrayList<T>::grow() {
     // delete old array and update pointer
     delete[] m_arr;
     m_arr = newArr;
+}
+
+template<typename T>
+ArrayList<T> ArrayList<T>::splitAt(int index) {
+    ArrayList<T> rear;
+    int numItemsToSplit = m_size - index;
+    for(int i = 0; i < numItemsToSplit; ++i) {
+        int oldArrayIndex = index + i;
+        T value = this->m_arr[oldArrayIndex];
+        rear.insertEnd(value);
+    }
+    m_size = index; // "remove" the items from the original ArrayList
+    return rear;
 }
 
 #endif // ARRAY_LIST_HPP
