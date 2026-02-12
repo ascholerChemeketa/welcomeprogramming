@@ -47,7 +47,7 @@ bool Pair<T>::operator==(const Pair<T>& other) const {...}
 
   <program><![CDATA[
 template<typename T>
-Pair<T>::Pair(T a, T b) {...}  // Note: no <T> after constructor name
+Pair<T>::Pair(T a, T b) {...}  // Note: no <T> after constructor name before parameter list
 
 // Definition of equality operator for Pair<T>
 template<typename T>
@@ -61,13 +61,24 @@ bool Pair<T>::operator==(const Pair& other) const {...} // Note: no <T> in param
   <p>Here is the complete version of a templated Pair class with member functions:</p>
 
   <listing>
-    <program label="templates-array-list_member-finctions-1">
+    <program label="templates-array-list_member-functions-1" 
+             xml:id="templates-array-list_member-functions-1"
+             filename="Pair.hpp">
 <xi:include href="../../programs/templates-array-list/types-pair-class.cpp" parse="text"/>
 </program>
   </listing>
 
-  <exercise label="templates-array-list_member-functions-exercises-1">
+  <p>Given that, we can now construct Pairs of any type. We can even make Pairs of Pairs! A pair of pairs of integers would look like <pf>Pair&lt;Pair&lt;int&gt;&gt;</pf> and it would be constructed with two <pf>Pair&lt;int&gt;</pf> objects.</p>
 
+  <listing>
+    <program label="templates-array-list_member-functions-2" 
+             add-files="templates-array-list_member-functions-1"
+             interactive="activecode">
+<xi:include href="../../programs/templates-array-list/types-pair-class-user.cpp" parse="text"/>
+    </program>
+  </listing>
+
+  <exercise label="templates-array-list_member-functions-exercises-1">
     <statement>
       <p>Imagine the <pf>Pair</pf> class had a function <pf>copy</pf> that took in another <pf>Pair</pf> of the same type and had a return type of void. (The function would copy the data from the other object into the current one. The other object would not be modified.) What would its prototype look like?</p>
     </statement>

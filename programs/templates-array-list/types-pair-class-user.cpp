@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+
+#include "Pair.hpp"
+
+int main() {
+    Pair<int> intPair(3, 4);
+    cout << "intPair: " << intPair.getFirst() << ", " << intPair.getSecond() << endl;
+
+    Pair<double> doublePair(2.5, 3.7);
+    cout << "doublePair: " << doublePair.getFirst() << ", " << doublePair.getSecond() << endl;
+
+    Pair<int> anotherIntPair(3, 4);
+    cout << "intPair and anotherIntPair are equal: "
+         << (intPair == anotherIntPair) << endl;
+
+    Pair< Pair<int> > nestedPair(Pair<int>(1, 2), Pair<int>(3, 4));
+    cout << "nestedPair: (" << nestedPair.getFirst().getFirst() << ", "
+         << nestedPair.getFirst().getSecond() << "), ("
+         << nestedPair.getSecond().getFirst() << ", "
+         << nestedPair.getSecond().getSecond() << ")" << endl;
+}
