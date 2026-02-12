@@ -77,11 +77,12 @@
 
   <p>To resolve this ambiguity, we can explicitly specify the type when calling the function by
     placing <pf>&lt;TYPENAME&gt;</pf> after the function name. When we do this, the compiler knows exactly which
-    type to use for <pf>T</pf>. It will try to convert any other types will be converted to the
-    specified type:</p>
+    type to use for <pf>T</pf>. If a piece of data is not the right type, the compiler will
+    do type coercion like any other function call.
+  </p>
 
   <listing>
-    <program label="templates-array-list_functions-5" highlight-lines="11,14" line-numbers="yes"
+    <program label="templates-array-list_functions-5" highlight-lines="11,14, 18" line-numbers="yes"
              interactive="activecode">
 <xi:include href="../../programs/templates-array-list/functions-myMax-fixed.cpp" parse="text"/>
 </program>
