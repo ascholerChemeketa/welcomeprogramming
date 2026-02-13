@@ -1,0 +1,114 @@
+<section xml:id="graphs_dijkstras"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Dijkstra's Algorithm</title>
+
+  <p> We know that breadth-first search can be used to find the shortest path between two vertices
+    in an unweighted graph. But it will not always find the lowest cost path in a weighted graph.
+    Consider the graph below. </p>
+
+  <figure>
+    <caption>Shortest weighted path vs least number of edges.</caption>
+    <image source="images/graphs/shortest-path-weighted.svg"
+           width="50%">
+      <shortdescription>
+        <p> 1 -> 4 -> 5 has a total weight of 70. 1 -> 2 -> 3 -> 5 has a total weight of 60. </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p> The shortest path from vertex 1 to vertex 5 is not the path with the fewest edges. But breadth
+    first search from vertex 1 would start by exploring 2 and 4. As it explored 2, it would find 5
+    and determine that the path from 1 to 5 should be <c>1 -> 4 -> 5</c> when that path is actually longer (a
+    total weight of 70) than the optimal path <c>1 -> 2 -> 3 -> 5</c> (total weight of 60). </p>
+
+  <p> The whole point of a weighted graph is that different edges have different costs. If we want
+    to find the most efficient path from one vertex to another, we want to focus on the total cost
+    of the path, not just the number of edges. To find the true shortest path, we need a different
+    algorithm.</p>
+
+  <p><term>Dijkstra's algorithm</term> is a generalization of breadth-first search that can be used
+    to find the shortest path in a weighted graph. In it, we keep track of the cost to reach each
+    vertex from the start vertex. At each step, we select the vertex with the lowest cost that has
+    not yet been visited. We visit it and check each neighbor. If the cost to reach a neighbor
+    through the current vertex is less than the known cost to reach that neighbor, we update the
+    cost and parent of that neighbor.</p>
+
+  <program language="text"
+           line-numbers="yes"
+           highlight-lines="3, 5-7, 12">
+Dijkstra(graph, start):
+  Map parentMap
+  Map costMap
+  Map knownMap
+  costMap[start] = 0
+  while costMap has a vertex that is not in knownMap:
+    select lowest cost vertex that is not in knownMap as minCostVertex
+    knownMap[minCostVertex] = true
+    for each neighbor in graph.getNeighbors(minCostVertex):
+      if neighbor not in knownMap:
+        costThroughVertex = costMap[minCostVertex] + graph.getEdgeWeight(minCostVertex, neighbor)
+        if (neighbor not in costMap) or (costThroughVertex &lt; costMap[neighbor]):
+          costMap[neighbor] = costThroughVertex
+          parentMap[neighbor] = minCostVertex
+
+  return parentMap
+    </program>
+
+  <p>When the algorithm is finished, we can reconstruct the shortest path to any desired vertex from
+    the parent map that it produced.</p>
+
+  <insight>
+    <p> Dijkstra's algorithm finds the shortest path from one vertex to all other reachable
+      vertices. If we only care about the shortest path to a specific vertex, we can stop the
+      algorithm once we visit that vertex. </p>
+  </insight>
+
+  <p>The pseudocode contains these two somewhat ugly lines:</p>
+
+  <program>
+    ...
+    while not costMap has a vertex that is not in knownMap:
+      select lowest cost vertex that is not in knownMap as minCostVertex
+    ...
+  </program>
+
+  <p> They illustrate one of the key differences between breadth-first search (see <xref ref="graphs_bfs-bfs-pseudocode"/>)
+    and Dijkstra's algorithm. BFS uses a first-in first-out queue to decide what to explore next. In
+    contrast, Dijkstra's algorithm needs to select the vertex with the lowest cost that has not yet
+    been visited. The pseudocode matches the animation below. As you step through the algorithm,
+    observe that every time we need to select the next vertex to visit, it scans through the cost
+    map to find the vertex with the lowest cost that has not yet been visited. </p>
+
+  <activity>
+    <title>Dijkstra's Algorithm</title>
+    <p> Pick a vertex to find shortest paths from by entering a value into <c>Start Vertex</c> and then pressing <c>Run Dijkstra</c>.
+      Then step through the animation. </p>
+
+    <p>This animation shows a cost table instead of a priority queue. Each time it needs to select
+      the next vertex to visit, it will scan the cost table to find the vertex with the lowest cost
+      that has not yet been visited. The initial cost for each vertex is shown as INF (infinity)<mdash/>that
+      corresponds to something that is not yet in the cost map.</p>
+
+    <interactive platform="javascript"
+                 design-width="1000"
+                 aspect="4:2.75">
+      <script type="module">
+      import { DijkstraPrim } from "./external/interactives/data-structures/entry.js";
+      let anim = new DijkstraPrim({
+        runningDijkstra: true,
+      });
+    </script>
+      <xi:include href="../../fragments/ds-graph-instructions.xml"/>
+    </interactive>
+  </activity>
+
+  <p>In an actual implementation, those lines would need to be replaced with some loop logic to pick
+    the right vertex. The cost to scan through all vertices in the known map is <m>O(n)</m>, where n
+    is the number of vertices. However, we could use a priority queue (min-heap) to store the
+    vertices by their cost. If we used a priority queue, we could find and remove the lowest cost
+    vertex in logarithmic time instead of linear time. However, that would make increasing the cost
+    of a vertex more complex, since we would have to update the priority queue to reflect the new
+    cost.</p>
+
+</section>

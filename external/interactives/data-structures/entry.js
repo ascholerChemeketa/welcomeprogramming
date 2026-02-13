@@ -2603,12 +2603,18 @@ function makeSVG(centered, viewWidth = 800, viewHeight = 400) {
         <path fill="var(--svgColor--highlight)" d="M 0 0 L 10 5 L 0 10 z"></path>
       </marker>
       <style>
-        :root {
-          --svgFillColor: rgba(255,255,255,0);
-          --svgColor: #111111;
-          --svgColor--highlight: #FF5733;
-          font-family: sans-serif;
-        }
+      // :root {
+      //   --svgColor: var(rgb(0,0,0);
+      //   --svgColor--red: rgb(231, 36, 36);
+      //   --svgColor--redback: rgb(255, 233, 233);
+      //   --svgColor--black: rgb(0, 0 ,0);
+      //   --svgColor--blackback: rgb(227, 227, 227);
+      //   --svgColor--highlight: rgb(33, 139, 33);
+      //   --svgColor--althighlight: rgb(52, 133, 198);
+      //   --svgFillColor: white;
+      //   --controlBackground: #f0f8ff;
+      //   font-family: sans-serif;
+      // }
       </style>
     </defs>
     <g id="allElements">
@@ -2678,6 +2684,18 @@ function ObjectManager(canvas2, centered = false) {
     vb[1] = vb[1] + centerFactorY;
     vb[2] = nextVbW;
     vb[3] = nextVbH;
+    this.svg.setAttribute("viewBox", vb.join(" "));
+  };
+  this.shiftView = function(deltaX = 0, deltaY = 0) {
+    const dx = Number(deltaX);
+    const dy = Number(deltaY);
+    if (!Number.isFinite(dx) || !Number.isFinite(dy))
+      return;
+    const vb = this.svg.getAttribute("viewBox").split(" ").map(parseFloat);
+    if (vb.length < 4 || vb.some((v) => !Number.isFinite(v)))
+      return;
+    vb[0] += dx;
+    vb[1] += dy;
     this.svg.setAttribute("viewBox", vb.join(" "));
   };
   this.cssStyle = window.getComputedStyle(canvas2);
@@ -2863,8 +2881,18 @@ function ObjectManager(canvas2, centered = false) {
       if (svgElement && svgElement.parentNode) {
         svgElement.parentNode.removeChild(svgElement);
       }
+      let secondaryTextElement = null;
+      if (this.Nodes[objectID] && this.Nodes[objectID].svgText && this.Nodes[objectID].svgText !== svgElement) {
+        secondaryTextElement = this.Nodes[objectID].svgText;
+        if (secondaryTextElement.parentNode) {
+          secondaryTextElement.parentNode.removeChild(secondaryTextElement);
+        }
+      }
       if (svgElement) {
         this.svg.getElementById(`layer_${layer}`).appendChild(svgElement);
+        if (secondaryTextElement) {
+          svgElement.after(secondaryTextElement);
+        }
       }
       this.Nodes[objectID].draw(this.ctx);
       if (this.Edges.has(objectID)) {
@@ -3397,6 +3425,11 @@ Algorithm.prototype.implementAction = function(funct, val) {
   var retVal = funct(val);
   this.animationManager.StartNewAnimation(retVal);
 };
+Algorithm.prototype.shift = function(deltaX, deltaY) {
+  if (this.animationManager && this.animationManager.shift) {
+    this.animationManager.shift(deltaX, deltaY);
+  }
+};
 Algorithm.prototype.isAllDigits = function(str) {
   for (var i = str.length - 1; i >= 0; i--) {
     if (str.charAt(i) < "0" || str.charAt(i) > "9") {
@@ -3531,6 +3564,25 @@ var ltiResizeListenerInstalled = false;
 var zoomHoverTrackingInstalled = false;
 var pendingZoomFocusClient = null;
 var lastHoverClient = null;
+var BASE_ZOOM_COOKIE_NAME = "VisualizationZoom";
+var zoomCookieName = BASE_ZOOM_COOKIE_NAME;
+function sanitizeCookieToken(value) {
+  const raw = String(value ?? "").trim().toLowerCase();
+  const cleaned = raw.replace(/[^a-z0-9_-]+/g, "_").replace(/^_+|_+$/g, "");
+  return cleaned || "default";
+}
+function deriveZoomCookieName(title, opts = null) {
+  const explicitScope = opts && typeof opts.zoomCookieScope === "string" ? opts.zoomCookieScope : null;
+  if (explicitScope && explicitScope.trim() !== "") {
+    return `${BASE_ZOOM_COOKIE_NAME}_${sanitizeCookieToken(explicitScope)}`;
+  }
+  const path = typeof window !== "undefined" && window.location && window.location.pathname || "";
+  const lastSegment = path.split("/").filter(Boolean).pop() || "index";
+  const pageToken = lastSegment.replace(/\.[^.]+$/, "");
+  const fallbackTitle = title && String(title).trim() !== "" ? String(title) : "animation";
+  const scope = pageToken || fallbackTitle;
+  return `${BASE_ZOOM_COOKIE_NAME}_${sanitizeCookieToken(scope)}`;
+}
 function installZoomHoverTracking(targetEl) {
   if (zoomHoverTrackingInstalled)
     return;
@@ -3739,7 +3791,11 @@ function addGeneralControls(objectManager2, targetElement, title, opts = null) {
     speedChange(e.target.value);
   });
   addControlTo(speedSelect, controlBar, "Auto Step Speed");
-  var zoom = getCookie("VisualizationZoom");
+  zoomCookieName = deriveZoomCookieName(title, opts);
+  var zoom = getCookie(zoomCookieName);
+  if (zoom == void 0 || zoom === null || zoom === "") {
+    zoom = getCookie(BASE_ZOOM_COOKIE_NAME);
+  }
   {
     let parsed = parseFloat(zoom);
     if (!Number.isFinite(parsed) || parsed <= 0) {
@@ -3768,7 +3824,7 @@ function addGeneralControls(objectManager2, targetElement, title, opts = null) {
     <option value="2" ${zoom == 2 ? "selected" : ""}>2x</option>
     <option value="1.3333333333" ${zoom == 1.3333333333 ? "selected" : ""}>3x</option>`;
   zoomSelect.addEventListener("change", (e) => {
-    setCookie("VisualizationZoom", e.target.value);
+    setCookie(zoomCookieName, e.target.value);
     let focus = pendingZoomFocusClient;
     pendingZoomFocusClient = null;
     if (!focus && lastHoverClient && objectManager2 && objectManager2.svg) {
@@ -3825,7 +3881,7 @@ function applyAutoZoomForMinVisibleWidth(minVisibleWorldWidth) {
       zoomSelect.value = String(chosenZoom);
     }
   }
-  setCookie("VisualizationZoom", chosenZoom);
+  setCookie(zoomCookieName, chosenZoom);
   objectManager.setZoom(chosenZoom);
 }
 function installKeyboardStepControls() {
@@ -4054,6 +4110,9 @@ function AnimationManager(objectManager2, canvas2) {
         break;
       }
     }
+  };
+  this.shift = function(deltaX = 0, deltaY = 0) {
+    this.animatedObjects.shiftView(deltaX, deltaY);
   };
   this.parseBool = function(str) {
     var uppercase = str.toUpperCase();
@@ -4287,12 +4346,15 @@ function AnimationManager(objectManager2, canvas2) {
         undoBlock.push(new UndoSetBackgroundColor(id, oldColor));
       } else if (nextCommand[0].toUpperCase() == "SETHIGHLIGHT") {
         var newHighlight = this.parseBool(nextCommand[2]);
+        var oldHighlight = this.animatedObjects.getHighlight(
+          parseInt(nextCommand[1])
+        );
         this.animatedObjects.setHighlight(
           parseInt(nextCommand[1]),
           newHighlight
         );
         undoBlock.push(
-          new UndoHighlight(parseInt(nextCommand[1]), !newHighlight)
+          new UndoHighlight(parseInt(nextCommand[1]), oldHighlight)
         );
       } else if (nextCommand[0].toUpperCase() == "DISCONNECT") {
         var undoConnect = this.animatedObjects.disconnect(
@@ -4903,6 +4965,22 @@ function AnimationManager(objectManager2, canvas2) {
     this.scrubSlider.max = String(this.totalBlocks);
     this.scrubSlider.value = String(Math.max(0, Math.min(this.currentBlockIndex, this.totalBlocks)));
   };
+  this.finishCurrentBlockInstantly = function() {
+    if (!this.currentBlock || this.currentBlock.length === 0)
+      return;
+    for (var i = 0; i < this.currentBlock.length; i++) {
+      var objectID = this.currentBlock[i].objectID;
+      this.animatedObjects.setNodePosition(
+        objectID,
+        this.currentBlock[i].toX,
+        this.currentBlock[i].toY
+      );
+    }
+    this.currFrame = this.animationBlockLength;
+    this.currentBlock = [];
+    this.animatedObjects.update();
+    this.animatedObjects.draw();
+  };
   this.scrubToBlock = function(targetBlockIndex) {
     if (!Number.isFinite(targetBlockIndex))
       return;
@@ -4911,16 +4989,32 @@ function AnimationManager(objectManager2, canvas2) {
       return;
     clearTimeout(timer);
     this.animationPaused = true;
+    if (this.currentlyAnimating) {
+      this.finishCurrentBlockInstantly();
+    }
+    this.currentlyAnimating = false;
+    this.doingUndo = false;
     if (targetBlockIndex === this.currentBlockIndex) {
+      this.awaitingStep = targetBlockIndex < this.totalBlocks;
       this.updateScrubUI();
+      this.fireEvent(this.awaitingStep ? "AnimationWaiting" : "AnimationEnded", "NoData");
       return;
     }
     if (targetBlockIndex < this.currentBlockIndex) {
       while (this.currentBlockIndex > targetBlockIndex && this.undoAnimationStepIndices && this.undoAnimationStepIndices.length > 0) {
         this.undoLastBlock();
+        for (var i = 0; this.currentBlock != null && i < this.currentBlock.length; i++) {
+          var objectID = this.currentBlock[i].objectID;
+          this.animatedObjects.setNodePosition(
+            objectID,
+            this.currentBlock[i].toX,
+            this.currentBlock[i].toY
+          );
+        }
         const undoBlock = this.undoStack.pop();
         if (undoBlock) {
           this.finishUndoBlock(undoBlock);
+          this.currentBlock = [];
         } else {
           break;
         }
@@ -4928,31 +5022,21 @@ function AnimationManager(objectManager2, canvas2) {
       this.updateScrubUI();
       this.animatedObjects.update();
       this.animatedObjects.draw();
+      this.currentlyAnimating = false;
+      this.doingUndo = false;
+      this.awaitingStep = targetBlockIndex < this.totalBlocks;
+      this.fireEvent(this.awaitingStep ? "AnimationWaiting" : "AnimationEnded", "NoData");
       return;
     }
     while (this.currentBlockIndex < targetBlockIndex && this.currentAnimation < this.AnimationSteps.length) {
       this.startNextBlock();
-      this.currFrame = this.animationBlockLength;
-      for (var i = 0; i < (this.currentBlock ? this.currentBlock.length : 0); i++) {
-        var objectID = this.currentBlock[i].objectID;
-        this.animatedObjects.setNodePosition(
-          objectID,
-          this.currentBlock[i].toX,
-          this.currentBlock[i].toY
-        );
-      }
-      this.currentBlock = [];
-      this.animatedObjects.update();
-      this.animatedObjects.draw();
+      this.finishCurrentBlockInstantly();
     }
     this.updateScrubUI();
-    if (targetBlockIndex === this.totalBlocks) {
-      if (this.awaitingStep) {
-        this.step();
-      } else if (this.currentlyAnimating) {
-        this.skipForward();
-      }
-    }
+    this.currentlyAnimating = false;
+    this.doingUndo = false;
+    this.awaitingStep = targetBlockIndex < this.totalBlocks;
+    this.fireEvent(this.awaitingStep ? "AnimationWaiting" : "AnimationEnded", "NoData");
   };
 }
 AnimationManager.prototype = new EventListener();
@@ -6214,12 +6298,754 @@ AVLNode.prototype.isLeftChild = function() {
   return this.parent.left == this;
 };
 
+// node_modules/random/dist/index.js
+var __defProp = Object.defineProperty;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+var RNG = class {
+};
+var FunctionRNG = class _FunctionRNG extends RNG {
+  constructor(rngFn) {
+    var _a;
+    super();
+    __publicField(this, "_name");
+    __publicField(this, "_rngFn");
+    this._name = (_a = rngFn.name) != null ? _a : "function";
+    this._rngFn = rngFn;
+  }
+  get name() {
+    return this._name;
+  }
+  next() {
+    return this._rngFn();
+  }
+  clone() {
+    return new _FunctionRNG(this._rngFn);
+  }
+};
+function createRNG(seedOrRNG) {
+  switch (typeof seedOrRNG) {
+    case "object":
+      if (seedOrRNG instanceof RNG) {
+        return seedOrRNG;
+      }
+      break;
+    case "function":
+      return new FunctionRNG(seedOrRNG);
+    default:
+      return new ARC4RNG(seedOrRNG);
+  }
+  throw new Error(`invalid RNG seed or instance "${seedOrRNG}"`);
+}
+function mixKey(seed, key) {
+  var _a;
+  const seedStr = `${seed}`;
+  let smear = 0;
+  let j = 0;
+  while (j < seedStr.length) {
+    key[255 & j] = 255 & (smear ^= ((_a = key[255 & j]) != null ? _a : 0) * 19) + seedStr.charCodeAt(j++);
+  }
+  if (!key.length) {
+    return [0];
+  }
+  return key;
+}
+function shuffleInPlace(gen, array) {
+  for (let i = array.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(gen.next() * (i + 1));
+    const tmp = array[i];
+    array[i] = array[j];
+    array[j] = tmp;
+  }
+}
+function sparseFisherYates(gen, array, k) {
+  var _a, _b;
+  const H = /* @__PURE__ */ new Map();
+  const lastIndex = array.length - 1;
+  const result = Array.from({ length: k });
+  for (let i = 0; i < k; i++) {
+    const remaining = lastIndex - i + 1;
+    const r = Math.floor(gen.next() * remaining);
+    result[i] = array[(_a = H.get(r)) != null ? _a : r];
+    H.set(r, (_b = H.get(lastIndex - i)) != null ? _b : lastIndex - i);
+  }
+  return result;
+}
+var _arc4_startdenom = 281474976710656;
+var _arc4_significance = 4503599627370496;
+var _arc4_overflow = 9007199254740992;
+var ARC4RNG = class _ARC4RNG extends RNG {
+  constructor(seed = crypto.randomUUID()) {
+    super();
+    __publicField(this, "_seed");
+    __publicField(this, "i");
+    __publicField(this, "j");
+    __publicField(this, "S");
+    this._seed = seed;
+    const key = mixKey(seed, []);
+    const S = [];
+    const keylen = key.length;
+    this.i = 0;
+    this.j = 0;
+    this.S = S;
+    let i = 0;
+    while (i <= 255) {
+      S[i] = i++;
+    }
+    for (let i2 = 0, j = 0; i2 <= 255; i2++) {
+      const t = S[i2];
+      j = 255 & j + key[i2 % keylen] + t;
+      S[i2] = S[j];
+      S[j] = t;
+    }
+    this.g(256);
+  }
+  get name() {
+    return "arc4";
+  }
+  next() {
+    let n = this.g(6);
+    let d = _arc4_startdenom;
+    let x = 0;
+    while (n < _arc4_significance) {
+      n = (n + x) * 256;
+      d *= 256;
+      x = this.g(1);
+    }
+    while (n >= _arc4_overflow) {
+      n /= 2;
+      d /= 2;
+      x >>>= 1;
+    }
+    return (n + x) / d;
+  }
+  g(count) {
+    const { S } = this;
+    let { i, j } = this;
+    let r = 0;
+    while (count--) {
+      i = 255 & i + 1;
+      const t = S[i];
+      S[j] = t;
+      j = 255 & j + t;
+      S[i] = S[j];
+      r = r * 256 + S[255 & S[i] + t];
+    }
+    this.i = i;
+    this.j = j;
+    return r;
+  }
+  clone() {
+    return new _ARC4RNG(this._seed);
+  }
+};
+var MathRandomRNG = class _MathRandomRNG extends RNG {
+  get name() {
+    return "Math.random";
+  }
+  next() {
+    return Math.random();
+  }
+  clone() {
+    return new _MathRandomRNG();
+  }
+};
+function numberValidator(num) {
+  return new NumberValidator(num);
+}
+var NumberValidator = class {
+  constructor(num) {
+    __publicField(this, "n");
+    __publicField(this, "isInt", () => {
+      if (Number.isInteger(this.n)) {
+        return this;
+      }
+      throw new Error(`Expected number to be an integer, got ${this.n}`);
+    });
+    __publicField(this, "isPositive", () => {
+      if (this.n > 0) {
+        return this;
+      }
+      throw new Error(`Expected number to be positive, got ${this.n}`);
+    });
+    __publicField(this, "lessThan", (v) => {
+      if (this.n < v) {
+        return this;
+      }
+      throw new Error(`Expected number to be less than ${v}, got ${this.n}`);
+    });
+    __publicField(this, "lessThanOrEqual", (v) => {
+      if (this.n <= v) {
+        return this;
+      }
+      throw new Error(
+        `Expected number to be less than or equal to ${v}, got ${this.n}`
+      );
+    });
+    __publicField(this, "greaterThanOrEqual", (v) => {
+      if (this.n >= v) {
+        return this;
+      }
+      throw new Error(
+        `Expected number to be greater than or equal to ${v}, got ${this.n}`
+      );
+    });
+    __publicField(this, "greaterThan", (v) => {
+      if (this.n > v) {
+        return this;
+      }
+      throw new Error(`Expected number to be greater than ${v}, got ${this.n}`);
+    });
+    this.n = num;
+  }
+};
+function bates(random, n = 1) {
+  numberValidator(n).isInt().isPositive();
+  const irwinHall2 = random.irwinHall(n);
+  return () => {
+    return irwinHall2() / n;
+  };
+}
+function bernoulli(random, p = 0.5) {
+  numberValidator(p).greaterThanOrEqual(0).lessThanOrEqual(1);
+  return () => {
+    return Math.min(1, Math.floor(random.next() + p));
+  };
+}
+function binomial(random, n = 1, p = 0.5) {
+  numberValidator(n).isInt().isPositive();
+  numberValidator(p).greaterThanOrEqual(0).lessThan(1);
+  return () => {
+    let i = 0;
+    let x = 0;
+    while (i++ < n) {
+      if (random.next() < p) {
+        x++;
+      }
+    }
+    return x;
+  };
+}
+function exponential(random, lambda = 1) {
+  numberValidator(lambda).isPositive();
+  return () => {
+    return -Math.log(1 - random.next()) / lambda;
+  };
+}
+function geometric(random, p = 0.5) {
+  numberValidator(p).greaterThan(0).lessThan(1);
+  const invLogP = 1 / Math.log(1 - p);
+  return () => {
+    return Math.floor(1 + Math.log(random.next()) * invLogP);
+  };
+}
+function irwinHall(random, n = 1) {
+  numberValidator(n).isInt().greaterThanOrEqual(0);
+  return () => {
+    let sum = 0;
+    for (let i = 0; i < n; ++i) {
+      sum += random.next();
+    }
+    return sum;
+  };
+}
+function logNormal(random, mu = 0, sigma = 1) {
+  const normal2 = random.normal(mu, sigma);
+  return () => {
+    return Math.exp(normal2());
+  };
+}
+function normal(random, mu = 0, sigma = 1) {
+  return () => {
+    let x, y, r;
+    do {
+      x = random.next() * 2 - 1;
+      y = random.next() * 2 - 1;
+      r = x * x + y * y;
+    } while (!r || r > 1);
+    return mu + sigma * y * Math.sqrt(-2 * Math.log(r) / r);
+  };
+}
+function pareto(random, alpha = 1) {
+  numberValidator(alpha).greaterThanOrEqual(0);
+  const invAlpha = 1 / alpha;
+  return () => {
+    return 1 / Math.pow(1 - random.next(), invAlpha);
+  };
+}
+var logFactorialTable = [
+  0,
+  0,
+  0.6931471805599453,
+  1.791759469228055,
+  3.1780538303479458,
+  4.787491742782046,
+  6.579251212010101,
+  8.525161361065415,
+  10.60460290274525,
+  12.801827480081469
+];
+var logFactorial = (k) => {
+  return logFactorialTable[k];
+};
+var logSqrt2PI = 0.9189385332046727;
+function poisson(random, lambda = 1) {
+  numberValidator(lambda).isPositive();
+  if (lambda < 10) {
+    const expMean = Math.exp(-lambda);
+    return () => {
+      let p = expMean;
+      let x = 0;
+      let u = random.next();
+      while (u > p) {
+        u = u - p;
+        p = lambda * p / ++x;
+      }
+      return x;
+    };
+  } else {
+    const smu = Math.sqrt(lambda);
+    const b = 0.931 + 2.53 * smu;
+    const a = -0.059 + 0.02483 * b;
+    const invAlpha = 1.1239 + 1.1328 / (b - 3.4);
+    const vR = 0.9277 - 3.6224 / (b - 2);
+    return () => {
+      var _a;
+      while (true) {
+        let u;
+        let v = random.next();
+        if (v <= 0.86 * vR) {
+          u = v / vR - 0.43;
+          return Math.floor(
+            (2 * a / (0.5 - Math.abs(u)) + b) * u + lambda + 0.445
+          );
+        }
+        if (v >= vR) {
+          u = random.next() - 0.5;
+        } else {
+          u = v / vR - 0.93;
+          u = (u < 0 ? -0.5 : 0.5) - u;
+          v = random.next() * vR;
+        }
+        const us = 0.5 - Math.abs(u);
+        if (us < 0.013 && v > us) {
+          continue;
+        }
+        const k = Math.floor((2 * a / us + b) * u + lambda + 0.445);
+        v = v * invAlpha / (a / (us * us) + b);
+        if (k >= 10) {
+          const t = (k + 0.5) * Math.log(lambda / k) - lambda - logSqrt2PI + k - (1 / 12 - (1 / 360 - 1 / (1260 * k * k)) / (k * k)) / k;
+          if (Math.log(v * smu) <= t) {
+            return k;
+          }
+        } else if (k >= 0) {
+          const f = (_a = logFactorial(k)) != null ? _a : 0;
+          if (Math.log(v) <= k * Math.log(lambda) - lambda - f) {
+            return k;
+          }
+        }
+      }
+    };
+  }
+}
+function uniform(random, min = 0, max = 1) {
+  return () => {
+    return random.next() * (max - min) + min;
+  };
+}
+function uniformBoolean(random) {
+  return () => {
+    return random.next() >= 0.5;
+  };
+}
+function uniformInt(random, min = 0, max = 1) {
+  if (max === void 0) {
+    max = min === void 0 ? 1 : min;
+    min = 0;
+  }
+  numberValidator(min).isInt();
+  numberValidator(max).isInt();
+  return () => {
+    return Math.floor(random.next() * (max - min + 1) + min);
+  };
+}
+function weibull(random, lambda, k) {
+  numberValidator(lambda).greaterThan(0);
+  numberValidator(k).greaterThan(0);
+  return () => {
+    const u = 1 - random.next();
+    return lambda * Math.pow(-Math.log(u), 1 / k);
+  };
+}
+var Random = class _Random {
+  constructor(seedOrRNG = new MathRandomRNG()) {
+    __publicField(this, "_rng");
+    __publicField(this, "_cache", {});
+    this._rng = createRNG(seedOrRNG);
+  }
+  /**
+   * @member {RNG} rng - Underlying pseudo-random number generator.
+   */
+  get rng() {
+    return this._rng;
+  }
+  /**
+   * Creates a new `Random` instance, optionally specifying parameters to
+   * set a new seed.
+   */
+  clone(seedOrRNG = this.rng.clone()) {
+    return new _Random(seedOrRNG);
+  }
+  /**
+   * Sets the underlying pseudorandom number generator.
+   *
+   * @example
+   * ```ts
+   * import random from 'random'
+   *
+   * random.use('example-seed')
+   * // or
+   * random.use(Math.random)
+   * ```
+   */
+  use(seedOrRNG) {
+    this._rng = createRNG(seedOrRNG);
+    this._cache = {};
+  }
+  // --------------------------------------------------------------------------
+  // Uniform utility functions
+  // --------------------------------------------------------------------------
+  /**
+   * Convenience wrapper around `this.rng.next()`
+   *
+   * Returns a floating point number in [0, 1).
+   *
+   * @return {number}
+   */
+  next() {
+    return this._rng.next();
+  }
+  /**
+   * Samples a uniform random floating point number, optionally specifying
+   * lower and upper bounds.
+   *
+   * Convenience wrapper around `random.uniform()`
+   *
+   * @param {number} [min=0] - Lower bound (float, inclusive)
+   * @param {number} [max=1] - Upper bound (float, exclusive)
+   */
+  float(min, max) {
+    return this.uniform(min, max)();
+  }
+  /**
+   * Samples a uniform random integer, optionally specifying lower and upper
+   * bounds.
+   *
+   * Convenience wrapper around `random.uniformInt()`
+   *
+   * @param {number} [min=0] - Lower bound (integer, inclusive)
+   * @param {number} [max=1] - Upper bound (integer, inclusive)
+   */
+  int(min, max) {
+    return this.uniformInt(min, max)();
+  }
+  /**
+   * Samples a uniform random integer, optionally specifying lower and upper
+   * bounds.
+   *
+   * Convenience wrapper around `random.uniformInt()`
+   *
+   * @alias `random.int`
+   *
+   * @param {number} [min=0] - Lower bound (integer, inclusive)
+   * @param {number} [max=1] - Upper bound (integer, inclusive)
+   */
+  integer(min, max) {
+    return this.uniformInt(min, max)();
+  }
+  /**
+   * Samples a uniform random boolean value.
+   *
+   * Convenience wrapper around `random.uniformBoolean()`
+   *
+   * @alias `random.boolean`
+   */
+  bool() {
+    return this.uniformBoolean()();
+  }
+  /**
+   * Samples a uniform random boolean value.
+   *
+   * Convenience wrapper around `random.uniformBoolean()`
+   */
+  boolean() {
+    return this.uniformBoolean()();
+  }
+  /**
+   * Returns an item chosen uniformly at random from the given array.
+   *
+   * Convenience wrapper around `random.uniformInt()`
+   *
+   * @param {Array<T>} [array] - Input array
+   */
+  choice(array) {
+    if (!Array.isArray(array)) {
+      throw new TypeError(
+        `Random.choice expected input to be an array, got ${typeof array}`
+      );
+    }
+    const length = array.length;
+    if (length > 0) {
+      const index = this.uniformInt(0, length - 1)();
+      return array[index];
+    } else {
+      return void 0;
+    }
+  }
+  /**
+   * Returns a random subset of k items from the given array (without replacement).
+   *
+   * @param {Array<T>} [array] - Input array
+   */
+  sample(array, k) {
+    if (!Array.isArray(array)) {
+      throw new TypeError(
+        `Random.sample expected input to be an array, got ${typeof array}`
+      );
+    }
+    if (k < 0 || k > array.length) {
+      throw new Error(
+        `Random.sample: k must be between 0 and array.length (${array.length}), got ${k}`
+      );
+    }
+    return sparseFisherYates(this.rng, array, k);
+  }
+  /**
+   * Generates a thunk which returns samples of size k from the given array.
+   *
+   * This is for convenience only; there is no gain in efficiency.
+   *
+   * @param {Array<T>} [array] - Input array
+   */
+  sampler(array, k) {
+    if (!Array.isArray(array)) {
+      throw new TypeError(
+        `Random.sampler expected input to be an array, got ${typeof array}`
+      );
+    }
+    if (k < 0 || k > array.length) {
+      throw new Error(
+        `Random.sampler: k must be between 0 and array.length (${array.length}), got ${k}`
+      );
+    }
+    const gen = this.rng;
+    return () => {
+      return sparseFisherYates(gen, array, k);
+    };
+  }
+  /**
+   * Returns a shuffled copy of the given array.
+   *
+   * @param {Array<T>} [array] - Input array
+   */
+  shuffle(array) {
+    if (!Array.isArray(array)) {
+      throw new TypeError(
+        `Random.shuffle expected input to be an array, got ${typeof array}`
+      );
+    }
+    const copy = [...array];
+    shuffleInPlace(this.rng, copy);
+    return copy;
+  }
+  /**
+   * Generates a thunk which returns shuffled copies of the given array.
+   *
+   * @param {Array<T>} [array] - Input array
+   */
+  shuffler(array) {
+    if (!Array.isArray(array)) {
+      throw new TypeError(
+        `Random.shuffler expected input to be an array, got ${typeof array}`
+      );
+    }
+    const gen = this.rng;
+    const copy = [...array];
+    return () => {
+      shuffleInPlace(gen, copy);
+      return [...copy];
+    };
+  }
+  // --------------------------------------------------------------------------
+  // Uniform distributions
+  // --------------------------------------------------------------------------
+  /**
+   * Generates a [Continuous uniform distribution](https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)).
+   *
+   * @param {number} [min=0] - Lower bound (float, inclusive)
+   * @param {number} [max=1] - Upper bound (float, exclusive)
+   */
+  uniform(min, max) {
+    return this._memoize("uniform", uniform, min, max);
+  }
+  /**
+   * Generates a [Discrete uniform distribution](https://en.wikipedia.org/wiki/Discrete_uniform_distribution).
+   *
+   * @param {number} [min=0] - Lower bound (integer, inclusive)
+   * @param {number} [max=1] - Upper bound (integer, inclusive)
+   */
+  uniformInt(min, max) {
+    return this._memoize("uniformInt", uniformInt, min, max);
+  }
+  /**
+   * Generates a [Discrete uniform distribution](https://en.wikipedia.org/wiki/Discrete_uniform_distribution),
+   * with two possible outcomes, `true` or `false.
+   *
+   * This method is analogous to flipping a coin.
+   */
+  uniformBoolean() {
+    return this._memoize("uniformBoolean", uniformBoolean);
+  }
+  // --------------------------------------------------------------------------
+  // Normal distributions
+  // --------------------------------------------------------------------------
+  /**
+   * Generates a [Normal distribution](https://en.wikipedia.org/wiki/Normal_distribution).
+   *
+   * @param {number} [mu=0] - Mean
+   * @param {number} [sigma=1] - Standard deviation
+   */
+  normal(mu, sigma) {
+    return normal(this, mu, sigma);
+  }
+  /**
+   * Generates a [Log-normal distribution](https://en.wikipedia.org/wiki/Log-normal_distribution).
+   *
+   * @param {number} [mu=0] - Mean of underlying normal distribution
+   * @param {number} [sigma=1] - Standard deviation of underlying normal distribution
+   */
+  logNormal(mu, sigma) {
+    return logNormal(this, mu, sigma);
+  }
+  // --------------------------------------------------------------------------
+  // Bernoulli distributions
+  // --------------------------------------------------------------------------
+  /**
+   * Generates a [Bernoulli distribution](https://en.wikipedia.org/wiki/Bernoulli_distribution).
+   *
+   * @param {number} [p=0.5] - Success probability of each trial.
+   */
+  bernoulli(p) {
+    return bernoulli(this, p);
+  }
+  /**
+   * Generates a [Binomial distribution](https://en.wikipedia.org/wiki/Binomial_distribution).
+   *
+   * @param {number} [n=1] - Number of trials.
+   * @param {number} [p=0.5] - Success probability of each trial.
+   */
+  binomial(n, p) {
+    return binomial(this, n, p);
+  }
+  /**
+   * Generates a [Geometric distribution](https://en.wikipedia.org/wiki/Geometric_distribution).
+   *
+   * @param {number} [p=0.5] - Success probability of each trial.
+   */
+  geometric(p) {
+    return geometric(this, p);
+  }
+  // --------------------------------------------------------------------------
+  // Poisson distributions
+  // --------------------------------------------------------------------------
+  /**
+   * Generates a [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution).
+   *
+   * @param {number} [lambda=1] - Mean (lambda > 0)
+   */
+  poisson(lambda) {
+    return poisson(this, lambda);
+  }
+  /**
+   * Generates an [Exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution).
+   *
+   * @param {number} [lambda=1] - Inverse mean (lambda > 0)
+   */
+  exponential(lambda) {
+    return exponential(this, lambda);
+  }
+  // --------------------------------------------------------------------------
+  // Misc distributions
+  // --------------------------------------------------------------------------
+  /**
+   * Generates an [Irwin Hall distribution](https://en.wikipedia.org/wiki/Irwin%E2%80%93Hall_distribution).
+   *
+   * @param {number} [n=1] - Number of uniform samples to sum (n >= 0)
+   */
+  irwinHall(n) {
+    return irwinHall(this, n);
+  }
+  /**
+   * Generates a [Bates distribution](https://en.wikipedia.org/wiki/Bates_distribution).
+   *
+   * @param {number} [n=1] - Number of uniform samples to average (n >= 1)
+   */
+  bates(n) {
+    return bates(this, n);
+  }
+  /**
+   * Generates a [Pareto distribution](https://en.wikipedia.org/wiki/Pareto_distribution).
+   *
+   * @param {number} [alpha=1] - Alpha
+   */
+  pareto(alpha) {
+    return pareto(this, alpha);
+  }
+  /**
+   * Generates a [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution).
+   *
+   * @param {number} [lambda] - Lambda, the scale parameter
+   * @param {number} [k] - k, the shape parameter
+   */
+  weibull(lambda, k) {
+    return weibull(this, lambda, k);
+  }
+  // --------------------------------------------------------------------------
+  // Internal
+  // --------------------------------------------------------------------------
+  /**
+   * Memoizes distributions to ensure they're only created when necessary.
+   *
+   * Returns a thunk which that returns independent, identically distributed
+   * samples from the specified distribution.
+   *
+   * @internal
+   *
+   * @param {string} label - Name of distribution
+   * @param {function} getter - Function which generates a new distribution
+   * @param {...*} args - Distribution-specific arguments
+   */
+  _memoize(label, getter, ...args) {
+    const key = `${args.join(";")}`;
+    let value = this._cache[label];
+    if (value === void 0 || value.key !== key) {
+      value = {
+        key,
+        distribution: getter(this, ...args)
+      };
+      this._cache[label] = value;
+    }
+    return value.distribution;
+  }
+};
+var random_default = new Random();
+
 // AlgorithmLibrary/Graph.js
-function Graph(am, w2, h, dir, dag) {
+function Graph(am, w2, h, dir, dag, opts) {
   if (am == void 0) {
     return;
   }
-  this.init(am, w2, h, dir, dag);
+  this.init(am, w2, h, dir, dag, opts);
 }
 Graph.prototype = new Algorithm();
 Graph.prototype.constructor = Graph;
@@ -6704,15 +7530,48 @@ var VERTEX_INDEX_COLOR = "#0000FF";
 var EDGE_COLOR = "#000000";
 var SMALL_SIZE = 8;
 var LARGE_SIZE = 18;
-Graph.prototype.init = function(am, w2, h, directed, dag) {
-  directed = directed == void 0 ? true : directed;
-  dag = dag == void 0 ? false : dag;
+function parseStartingRepresentation(representation, fallbackLayer = 1) {
+  if (Number.isFinite(representation)) {
+    const n = Math.trunc(representation);
+    if (n >= 1 && n <= 3)
+      return n;
+  }
+  if (typeof representation === "string") {
+    const lower = representation.trim().toLowerCase();
+    if (lower === "1" || lower === "logical")
+      return 1;
+    if (lower === "2" || lower === "adjacencylist" || lower === "adjacency list" || lower === "adjlist" || lower === "list") {
+      return 2;
+    }
+    if (lower === "3" || lower === "adjacencymatrix" || lower === "adjacency matrix" || lower === "matrix") {
+      return 3;
+    }
+  }
+  return fallbackLayer;
+}
+Graph.prototype.init = function(am, w2, h, directed, dag, opts) {
+  if (directed && typeof directed === "object") {
+    opts = directed;
+    directed = void 0;
+    dag = void 0;
+  }
+  opts = opts && typeof opts === "object" ? opts : {};
+  if (opts.randomSeed !== void 0 && opts.randomSeed !== null) {
+    random_default.use(opts.randomSeed);
+  }
+  directed = typeof opts.directed === "boolean" ? opts.directed : directed == void 0 ? true : directed;
+  dag = typeof opts.dag === "boolean" ? opts.dag : dag == void 0 ? false : dag;
+  const requestedLayer = opts.startingGraphRepresentation ?? opts.graphRepresentation ?? opts.startingRepresentation;
+  const initialLayer = parseStartingRepresentation(requestedLayer, 1);
+  const requestedEdgePercentage = opts.edgePercentage ?? opts.edgePercent ?? opts.edgeDensity;
+  const parsedEdgePercentage = Number(requestedEdgePercentage);
+  this.edgePercentage = Number.isFinite(parsedEdgePercentage) && parsedEdgePercentage >= 0 && parsedEdgePercentage <= 1 ? parsedEdgePercentage : null;
+  this.preventBidirectionalEdge = typeof opts.preventBidirectionalEdge === "boolean" ? opts.preventBidirectionalEdge : false;
   Graph.superclass.init.call(this, am, w2, h);
   this.nextIndex = 0;
-  this.currentLayer = 1;
+  this.currentLayer = initialLayer;
   this.isDAG = dag;
   this.directed = directed;
-  this.currentLayer = 1;
   this.addControls();
   this.setup_small();
 };
@@ -6766,7 +7625,9 @@ Graph.prototype.addControls = function(addDirection) {
     this,
     3
   );
-  this.logicalButton.checked = true;
+  this.logicalButton.checked = this.currentLayer === 1;
+  this.adjacencyListButton.checked = this.currentLayer === 2;
+  this.adjacencyMatrixButton.checked = this.currentLayer === 3;
 };
 Graph.prototype.directedGraphCallback = function(newDirected, event) {
   if (newDirected != this.directed) {
@@ -6948,17 +7809,21 @@ Graph.prototype.setup = function() {
     this.adj_matrixID[i] = new Array(this.size);
   }
   var edgePercent;
-  if (this.size == SMALL_SIZE) {
-    if (this.directed) {
-      edgePercent = 0.4;
-    } else {
-      edgePercent = 0.5;
-    }
+  if (this.edgePercentage != null) {
+    edgePercent = this.edgePercentage;
   } else {
-    if (this.directed) {
-      edgePercent = 0.35;
+    if (this.size == SMALL_SIZE) {
+      if (this.directed) {
+        edgePercent = 0.4;
+      } else {
+        edgePercent = 0.5;
+      }
     } else {
-      edgePercent = 0.6;
+      if (this.directed) {
+        edgePercent = 0.35;
+      } else {
+        edgePercent = 0.6;
+      }
     }
   }
   var lowerBound = 0;
@@ -6966,7 +7831,8 @@ Graph.prototype.setup = function() {
     for (i = 0; i < this.size; i++) {
       for (var j = 0; j < this.size; j++) {
         this.adj_matrixID[i][j] = this.nextIndex++;
-        if (this.allowed[i][j] && Math.random() <= edgePercent && (i < j || Math.abs(this.curve[i][j]) < 0.01 || this.adj_matrixID[j][i] == -1) && (!this.isDAG || i < j)) {
+        const reverseEdgeExists = this.adj_matrix[j] != null && this.adj_matrix[j][i] >= 0;
+        if (this.allowed[i][j] && random_default.float() <= edgePercent && (i < j || Math.abs(this.curve[i][j]) < 0.01 || this.adj_matrixID[j][i] == -1) && (!this.preventBidirectionalEdge || !reverseEdgeExists) && (!this.isDAG || i < j)) {
           if (this.showEdgeCosts) {
             this.adj_matrix[i][j] = Math.floor(Math.random() * 9) + 1;
           } else {
@@ -7189,7 +8055,8 @@ var AUX_ARRAY_START_Y = 50;
 var VISITED_START_X = 175;
 var PARENT_START_X = 250;
 var HIGHLIGHT_CIRCLE_COLOR = "#9c0303ff";
-var BFS_TREE_COLOR = "#0000FF";
+var SEARCH_TREE_FINAL_COLOR = "var(--svgColor--althighlight)";
+var EDGE_CHECK_COLOR = "var(--svgColor--althighlight)";
 var BFS_QUEUE_HEAD_COLOR = "#0000FF";
 var QUEUE_START_X = 30;
 var QUEUE_START_Y = 40;
@@ -7198,6 +8065,7 @@ function BFS(canvas2) {
   let am;
   let w2;
   let h;
+  let graphOpts = null;
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
     am = initCanvas2(legacyCanvas, null, "Breadth-First Search", false, {
@@ -7208,6 +8076,7 @@ function BFS(canvas2) {
     h = legacyCanvas.height;
   } else {
     const opts = canvas2 || {};
+    graphOpts = opts;
     const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
     const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
@@ -7220,7 +8089,7 @@ function BFS(canvas2) {
     w2 = viewWidth;
     h = viewHeight;
   }
-  this.init(am, w2, h);
+  this.init(am, w2, h, graphOpts);
 }
 BFS.prototype = new Graph();
 BFS.prototype.constructor = BFS;
@@ -7240,9 +8109,9 @@ BFS.prototype.addControls = function() {
   this.startButton.onclick = this.startCallback.bind(this);
   BFS.superclass.addControls.call(this);
 };
-BFS.prototype.init = function(am, w2, h) {
+BFS.prototype.init = function(am, w2, h, graphOpts) {
   this.showEdgeCosts = false;
-  BFS.superclass.init.call(this, am, w2, h);
+  BFS.superclass.init.call(this, am, w2, h, true, false, graphOpts);
 };
 BFS.prototype.setup = function() {
   BFS.superclass.setup.call(this);
@@ -7303,7 +8172,7 @@ BFS.prototype.setup = function() {
   this.cmd(
     "CreateLabel",
     this.nextIndex++,
-    "Visited",
+    "Known",
     VISITED_START_X - AUX_ARRAY_WIDTH,
     AUX_ARRAY_START_Y - AUX_ARRAY_HEIGHT * 1.5,
     0
@@ -7325,12 +8194,51 @@ BFS.prototype.setup = function() {
   this.highlightCircleAM = this.nextIndex++;
 };
 BFS.prototype.startCallback = function(event) {
-  var startvalue;
   if (this.startField.value != "") {
-    startvalue = this.startField.value;
+    const startvalue = this.startField.value;
     this.startField.value = "";
-    if (parseInt(startvalue) < this.size)
-      this.implementAction(this.doBFS.bind(this), startvalue);
+    this.doSearch(startvalue);
+  }
+};
+BFS.prototype.doSearch = function(startVertex) {
+  const parsedStart = parseInt(startVertex);
+  if (!Number.isFinite(parsedStart) || parsedStart < 0 || parsedStart >= this.size) {
+    return false;
+  }
+  this.implementAction(this.doBFS.bind(this), parsedStart);
+  return true;
+};
+BFS.prototype.initEdgeVisualState = function() {
+  this.edgeColorState = new Array(this.size);
+  this.edgeHighlightState = new Array(this.size);
+  for (var i = 0; i < this.size; i++) {
+    this.edgeColorState[i] = new Array(this.size);
+    this.edgeHighlightState[i] = new Array(this.size);
+    for (var j = 0; j < this.size; j++) {
+      this.edgeColorState[i][j] = EDGE_COLOR;
+      this.edgeHighlightState[i][j] = false;
+    }
+  }
+};
+BFS.prototype.recordEdgeVisualState = function(i, j, color, highlighted) {
+  this.edgeColorState[i][j] = color;
+  this.edgeHighlightState[i][j] = highlighted;
+  if (!this.directed) {
+    this.edgeColorState[j][i] = color;
+    this.edgeHighlightState[j][i] = highlighted;
+  }
+};
+BFS.prototype.applyEdgeVisualState = function(i, j, color, highlighted) {
+  this.setEdgeColor(i, j, color);
+  this.highlightEdge(i, j, highlighted ? 1 : 0);
+  this.recordEdgeVisualState(i, j, color, highlighted);
+};
+BFS.prototype.clearAdjacencyRepEdgeHighlight = function(i, j) {
+  if (this.adj_list_edges && this.adj_list_edges[i] && this.adj_list_edges[i][j]) {
+    this.cmd("SetHighlight", this.adj_list_edges[i][j], 0);
+  }
+  if (this.adj_matrixID && this.adj_matrixID[i] && this.adj_matrixID[i][j]) {
+    this.cmd("SetHighlight", this.adj_matrixID[i][j], 0);
   }
 };
 BFS.prototype.doBFS = function(startVetex) {
@@ -7348,25 +8256,32 @@ BFS.prototype.doBFS = function(startVetex) {
     }
   }
   this.rebuildEdges();
+  this.initEdgeVisualState();
   this.messageID = new Array();
   for (i = 0; i < this.size; i++) {
     this.cmd("SetText", this.visitedID[i], "f");
+    this.cmd("SetHighlight", this.visitedID[i], 0);
     this.cmd("SetText", this.parentID[i], "");
     this.visited[i] = false;
     this.parent[i] = -1;
     queueID[i] = this.nextIndex++;
+    this.cmd(
+      "CreateLabel",
+      queueID[i],
+      "",
+      QUEUE_START_X,
+      QUEUE_START_Y + i * QUEUE_SPACING
+    );
+    this.cmd("SetAlpha", queueID[i], 0);
   }
   var vertex = parseInt(startVetex);
   this.visited[vertex] = true;
   this.parent[vertex] = -1;
   this.queue[tail] = vertex;
-  this.cmd(
-    "CreateLabel",
-    queueID[tail],
-    vertex,
-    QUEUE_START_X,
-    QUEUE_START_Y + queueSize * QUEUE_SPACING
-  );
+  this.cmd("SetText", queueID[tail], vertex);
+  this.cmd("SetTextColor", queueID[tail], "#000000");
+  this.cmd("SetAlpha", queueID[tail], 1);
+  this.cmd("Move", queueID[tail], QUEUE_START_X, QUEUE_START_Y);
   queueSize = queueSize + 1;
   tail = (tail + 1) % this.size;
   while (queueSize > 0) {
@@ -7400,35 +8315,24 @@ BFS.prototype.doBFS = function(startVetex) {
     this.cmd("Step");
     for (var neighbor = 0; neighbor < this.size; neighbor++) {
       if (this.adj_matrix[vertex][neighbor] > 0) {
-        this.highlightEdge(vertex, neighbor, 1);
+        const savedEdgeColor = this.edgeColorState[vertex][neighbor];
+        const savedEdgeHighlight = this.edgeHighlightState[vertex][neighbor];
+        this.applyEdgeVisualState(vertex, neighbor, EDGE_CHECK_COLOR, false);
         this.cmd("SetHighlight", this.visitedID[neighbor], 1);
-        this.cmd("SetMessage", `Explore edge ${vertex} -> ${neighbor} (check whether ${neighbor} is unvisited).`);
+        this.cmd("SetMessage", `Explore edge ${vertex} -> ${neighbor} (check whether ${neighbor} is known).`);
         this.cmd("Step");
         if (!this.visited[neighbor]) {
           this.visited[neighbor] = true;
           this.parent[neighbor] = vertex;
           this.cmd("SetText", this.visitedID[neighbor], "T");
           this.cmd("SetText", this.parentID[neighbor], vertex);
-          this.highlightEdge(vertex, neighbor, 0);
-          this.cmd(
-            "Disconnect",
-            this.circleID[vertex],
-            this.circleID[neighbor]
-          );
-          this.cmd(
-            "Connect",
-            this.circleID[vertex],
-            this.circleID[neighbor],
-            BFS_TREE_COLOR,
-            this.curve[vertex][neighbor],
-            1,
-            ""
-          );
           this.queue[tail] = neighbor;
+          this.cmd("SetText", queueID[tail], neighbor);
+          this.cmd("SetTextColor", queueID[tail], "#000000");
+          this.cmd("SetAlpha", queueID[tail], 1);
           this.cmd(
-            "CreateLabel",
+            "Move",
             queueID[tail],
-            neighbor,
             QUEUE_START_X,
             QUEUE_START_Y + queueSize * QUEUE_SPACING
           );
@@ -7438,16 +8342,25 @@ BFS.prototype.doBFS = function(startVetex) {
             "SetMessage",
             `Discovered ${neighbor}; set parent to ${vertex}, add to BFS tree, and enqueue ${neighbor}.`
           );
+          this.applyEdgeVisualState(vertex, neighbor, savedEdgeColor, true);
         } else {
-          this.highlightEdge(vertex, neighbor, 0);
           this.cmd("SetMessage", `Neighbor ${neighbor} was already visited; ignore this edge.`);
+          this.applyEdgeVisualState(
+            vertex,
+            neighbor,
+            savedEdgeColor,
+            savedEdgeHighlight
+          );
         }
         this.cmd("Step");
+        this.clearAdjacencyRepEdgeHighlight(vertex, neighbor);
         this.cmd("SetHighlight", this.visitedID[neighbor], 0);
         this.cmd("Step");
       }
     }
-    this.cmd("Delete", queueID[head]);
+    this.cmd("SetTextColor", queueID[head], "#000000");
+    this.cmd("SetText", queueID[head], "");
+    this.cmd("SetAlpha", queueID[head], 0);
     head = (head + 1) % this.size;
     queueSize = queueSize - 1;
     for (i = 0; i < queueSize; i++) {
@@ -7462,17 +8375,15 @@ BFS.prototype.doBFS = function(startVetex) {
     this.cmd("Delete", this.highlightCircleL);
     this.cmd("Delete", this.highlightCircleAM);
     this.cmd("Delete", this.highlightCircleAL);
-    this.cmd("SetMessage", "BFS complete. Search tree highlighted.");
-    for (i = 0; i < this.size; i++) {
-      if (this.parent[i] >= 0) {
-        this.highlightEdge(this.parent[i], i, 1);
-      }
-    }
-    this.cmd("Step");
     this.cmd("SetMessage", `Done exploring ${vertex}.`);
     this.cmd("Step");
   }
-  this.cmd("SetMessage", `Queue is empty. Done.`);
+  this.cmd("SetMessage", "Queue is empty. BFS complete. Search tree highlighted.");
+  for (i = 0; i < this.size; i++) {
+    if (this.parent[i] >= 0) {
+      this.applyEdgeVisualState(this.parent[i], i, SEARCH_TREE_FINAL_COLOR, true);
+    }
+  }
   this.cmd("Step");
   return this.commands;
 };
@@ -11721,6 +12632,7 @@ function ConnectedComponent(canvas2) {
   let am;
   let w2;
   let h;
+  let graphOpts = null;
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
     am = initCanvas2(legacyCanvas, null, "Connected Components", false, {
@@ -11731,6 +12643,7 @@ function ConnectedComponent(canvas2) {
     h = legacyCanvas.height;
   } else {
     const opts = canvas2 || {};
+    graphOpts = opts;
     const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
     const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
@@ -11743,7 +12656,7 @@ function ConnectedComponent(canvas2) {
     w2 = viewWidth;
     h = viewHeight;
   }
-  this.init(am, w2, h);
+  this.init(am, w2, h, graphOpts);
 }
 ConnectedComponent.prototype = new Graph();
 ConnectedComponent.prototype.constructor = ConnectedComponent;
@@ -11756,9 +12669,9 @@ ConnectedComponent.prototype.addControls = function() {
   this.startButton.onclick = this.startCallback.bind(this);
   ConnectedComponent.superclass.addControls.call(this, false);
 };
-ConnectedComponent.prototype.init = function(am, w2, h) {
+ConnectedComponent.prototype.init = function(am, w2, h, graphOpts) {
   this.showEdgeCosts = false;
-  ConnectedComponent.superclass.init.call(this, am, w2, h, true, false);
+  ConnectedComponent.superclass.init.call(this, am, w2, h, true, false, graphOpts);
 };
 ConnectedComponent.prototype.setup = function() {
   ConnectedComponent.superclass.setup.call(this);
@@ -12161,19 +13074,381 @@ ConnectedComponent.prototype.undo = function(event) {
   this.enableUI(event);
 };
 
-// AlgorithmLibrary/DFS.js
+// AlgorithmLibrary/DetectCycle.js
 var AUX_ARRAY_WIDTH2 = 25;
 var AUX_ARRAY_HEIGHT2 = 25;
 var AUX_ARRAY_START_Y2 = 50;
 var VISITED_START_X2 = 200;
-var PARENT_START_X2 = 275;
+var ONSTACK_START_X = 285;
+var STACK_START_X = 25;
+var STACK_START_Y = 30;
+var STACK_INDENT = 10;
+var STACK_LINE_HEIGHT = 20;
 var HIGHLIGHT_CIRCLE_COLOR3 = "#000000";
-var DFS_TREE_COLOR2 = "#0000FF";
+var EDGE_CONSIDER_COLOR = "var(--svgColor--althighlight)";
+var TREE_EDGE_COLOR = "#0000FF";
+var CYCLE_EDGE_COLOR = "var(--svgColor--althighlight)";
+function DetectCycle(canvas2) {
+  let am;
+  let w2;
+  let h;
+  let graphOpts = null;
+  if (canvas2 && typeof canvas2.getContext === "function") {
+    const legacyCanvas = canvas2;
+    am = initCanvas2(legacyCanvas, null, "Detect Cycle (Directed Graph)", false, {
+      viewWidth: legacyCanvas.width,
+      viewHeight: legacyCanvas.height
+    });
+    w2 = legacyCanvas.width;
+    h = legacyCanvas.height;
+  } else {
+    const opts = canvas2 || {};
+    graphOpts = opts;
+    const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
+    const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
+    am = initAnimationManager({
+      title: opts.title || "Detect Cycle (Directed Graph)",
+      height: opts.height || viewHeight,
+      viewWidth,
+      viewHeight,
+      ...opts
+    });
+    w2 = viewWidth;
+    h = viewHeight;
+  }
+  this.init(am, w2, h, graphOpts);
+}
+DetectCycle.prototype = new Graph();
+DetectCycle.prototype.constructor = DetectCycle;
+DetectCycle.superclass = Graph.prototype;
+DetectCycle.prototype.addControls = function() {
+  this.startButton = addControlToAlgorithmBar("Button", "Run Cycle Detection");
+  this.startButton.onclick = this.startCallback.bind(this);
+  DetectCycle.superclass.addControls.call(this, false);
+};
+DetectCycle.prototype.init = function(am, w2, h, graphOpts) {
+  this.showEdgeCosts = false;
+  const opts = graphOpts && typeof graphOpts === "object" ? { ...graphOpts } : {};
+  const requestedEdgePercentage = opts.edgePercentage ?? opts.edgePercent ?? opts.edgeDensity;
+  const parsedEdgePercentage = Number(requestedEdgePercentage);
+  const hasValidEdgePercentage = Number.isFinite(parsedEdgePercentage) && parsedEdgePercentage >= 0 && parsedEdgePercentage <= 1;
+  if (typeof opts.preventBidirectionalEdge !== "boolean") {
+    opts.preventBidirectionalEdge = true;
+  }
+  DetectCycle.superclass.init.call(this, am, w2, h, true, false, opts);
+};
+DetectCycle.prototype.setup = function() {
+  DetectCycle.superclass.setup.call(this);
+  this.commands = [];
+  this.messageID = [];
+  this.visitedID = new Array(this.size);
+  this.visitedIndexID = new Array(this.size);
+  this.onStackID = new Array(this.size);
+  this.onStackIndexID = new Array(this.size);
+  for (var i = 0; i < this.size; i++) {
+    this.visitedID[i] = this.nextIndex++;
+    this.visitedIndexID[i] = this.nextIndex++;
+    this.onStackID[i] = this.nextIndex++;
+    this.onStackIndexID[i] = this.nextIndex++;
+    this.cmd(
+      "CreateRectangle",
+      this.visitedID[i],
+      "F",
+      AUX_ARRAY_WIDTH2,
+      AUX_ARRAY_HEIGHT2,
+      VISITED_START_X2,
+      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+    );
+    this.cmd(
+      "CreateLabel",
+      this.visitedIndexID[i],
+      i,
+      VISITED_START_X2 - AUX_ARRAY_WIDTH2,
+      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+    );
+    this.cmd("SetForegroundColor", this.visitedIndexID[i], VERTEX_INDEX_COLOR);
+    this.cmd(
+      "CreateRectangle",
+      this.onStackID[i],
+      "F",
+      AUX_ARRAY_WIDTH2,
+      AUX_ARRAY_HEIGHT2,
+      ONSTACK_START_X,
+      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+    );
+    this.cmd(
+      "CreateLabel",
+      this.onStackIndexID[i],
+      i,
+      ONSTACK_START_X - AUX_ARRAY_WIDTH2,
+      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+    );
+    this.cmd("SetForegroundColor", this.onStackIndexID[i], VERTEX_INDEX_COLOR);
+  }
+  this.cmd(
+    "CreateLabel",
+    this.nextIndex++,
+    "Visited",
+    VISITED_START_X2 - AUX_ARRAY_WIDTH2,
+    AUX_ARRAY_START_Y2 - AUX_ARRAY_HEIGHT2 * 1.5,
+    0
+  );
+  this.cmd(
+    "CreateLabel",
+    this.nextIndex++,
+    "On Stack",
+    ONSTACK_START_X - AUX_ARRAY_WIDTH2,
+    AUX_ARRAY_START_Y2 - AUX_ARRAY_HEIGHT2 * 1.5,
+    0
+  );
+  this.cmd(
+    "CreateLabel",
+    this.nextIndex++,
+    "Stack",
+    STACK_START_X,
+    STACK_START_Y - 18,
+    0
+  );
+  this.animationManager.setAllLayers([0, this.currentLayer]);
+  this.animationManager.StartNewAnimation(this.commands);
+  this.animationManager.skipForward();
+  this.animationManager.clearHistory();
+  this.highlightCircleL = this.nextIndex++;
+  this.highlightCircleAL = this.nextIndex++;
+  this.highlightCircleAM = this.nextIndex++;
+};
+DetectCycle.prototype.startCallback = function() {
+  this.doDetectCycle();
+};
+DetectCycle.prototype.doDetectCycle = function() {
+  this.implementAction(this.doDetectCycleAction.bind(this), 0);
+  return true;
+};
+DetectCycle.prototype.doDetectCycleAction = function() {
+  this.commands = [];
+  if (this.messageID != null) {
+    for (var i = 0; i < this.messageID.length; i++) {
+      if (this.objectExists(this.messageID[i])) {
+        this.cmd("Delete", this.messageID[i]);
+      }
+    }
+  }
+  this.rebuildEdges();
+  this.visited = new Array(this.size);
+  this.onStack = new Array(this.size);
+  this.callLabelByVertex = new Array(this.size);
+  this.messageID = [];
+  this.foundCycle = false;
+  this.lastCycleStartRoot = -1;
+  this.lastStartsTried = [];
+  for (i = 0; i < this.size; i++) {
+    this.visited[i] = false;
+    this.onStack[i] = false;
+    this.callLabelByVertex[i] = -1;
+    this.cmd("SetText", this.visitedID[i], "F");
+    this.cmd("SetText", this.onStackID[i], "F");
+    this.cmd("SetHighlight", this.visitedID[i], 0);
+    this.cmd("SetHighlight", this.onStackID[i], 0);
+  }
+  this.cmd(
+    "CreateHighlightCircle",
+    this.highlightCircleL,
+    HIGHLIGHT_CIRCLE_COLOR3,
+    this.x_pos_logical[0],
+    this.y_pos_logical[0]
+  );
+  this.cmd("SetLayer", this.highlightCircleL, 1);
+  this.cmd(
+    "CreateHighlightCircle",
+    this.highlightCircleAL,
+    HIGHLIGHT_CIRCLE_COLOR3,
+    this.adj_list_x_start - this.adj_list_width,
+    this.adj_list_y_start
+  );
+  this.cmd("SetLayer", this.highlightCircleAL, 2);
+  this.cmd(
+    "CreateHighlightCircle",
+    this.highlightCircleAM,
+    HIGHLIGHT_CIRCLE_COLOR3,
+    this.adj_matrix_x_start - this.adj_matrix_width,
+    this.adj_matrix_y_start
+  );
+  this.cmd("SetLayer", this.highlightCircleAM, 3);
+  this.stackVisualDepth = 0;
+  for (var start = 0; start < this.size && !this.foundCycle; start++) {
+    if (!this.visited[start]) {
+      this.lastStartsTried.push(start);
+      if (start === 0) {
+        this.cmd("SetMessage", "Start DFS at 0.");
+      } else {
+        this.cmd("SetMessage", `Start new DFS at ${start}.`);
+      }
+      this.cmd(
+        "Move",
+        this.highlightCircleL,
+        this.x_pos_logical[start],
+        this.y_pos_logical[start]
+      );
+      this.cmd(
+        "Move",
+        this.highlightCircleAL,
+        this.adj_list_x_start - this.adj_list_width,
+        this.adj_list_y_start + start * this.adj_list_height
+      );
+      this.cmd(
+        "Move",
+        this.highlightCircleAM,
+        this.adj_matrix_x_start - this.adj_matrix_width,
+        this.adj_matrix_y_start + start * this.adj_matrix_height
+      );
+      this.cmd("Step");
+      if (this.dfsDetect(start, STACK_START_X)) {
+        this.lastCycleStartRoot = start;
+      }
+    }
+  }
+  this.cmd("Delete", this.highlightCircleL);
+  this.cmd("Delete", this.highlightCircleAL);
+  this.cmd("Delete", this.highlightCircleAM);
+  if (this.foundCycle) {
+    this.cmd("SetMessage", "Cycle detected (found an edge to a node currently on the DFS stack).");
+  } else {
+    this.cmd("SetMessage", "No directed cycle found.");
+  }
+  this.cmd("Step");
+  return this.commands;
+};
+DetectCycle.prototype.objectExists = function(id) {
+  return this.animationManager && this.animationManager.animatedObjects && this.animationManager.animatedObjects.Nodes && this.animationManager.animatedObjects.Nodes[id] != null;
+};
+DetectCycle.prototype.getLastCycleDebugInfo = function() {
+  return {
+    foundCycle: !!this.foundCycle,
+    cycleStartRoot: this.lastCycleStartRoot,
+    startsTried: Array.isArray(this.lastStartsTried) ? this.lastStartsTried.slice() : []
+  };
+};
+DetectCycle.prototype.pushStackVisual = function(vertex, messageX) {
+  var id = this.nextIndex++;
+  this.messageID.push(id);
+  this.callLabelByVertex[vertex] = id;
+  this.cmd(
+    "CreateLabel",
+    id,
+    `DFS(${vertex})`,
+    messageX,
+    STACK_START_Y + this.stackVisualDepth * STACK_LINE_HEIGHT,
+    0,
+    80
+  );
+  this.stackVisualDepth += 1;
+};
+DetectCycle.prototype.popStackVisual = function(vertex) {
+  var id = this.callLabelByVertex[vertex];
+  if (id >= 0) {
+    this.cmd("Delete", id);
+    this.callLabelByVertex[vertex] = -1;
+  }
+  this.stackVisualDepth = Math.max(0, this.stackVisualDepth - 1);
+};
+DetectCycle.prototype.setCurrentCursor = function(vertex) {
+  this.cmd(
+    "Move",
+    this.highlightCircleL,
+    this.x_pos_logical[vertex],
+    this.y_pos_logical[vertex]
+  );
+  this.cmd(
+    "Move",
+    this.highlightCircleAL,
+    this.adj_list_x_start - this.adj_list_width,
+    this.adj_list_y_start + vertex * this.adj_list_height
+  );
+  this.cmd(
+    "Move",
+    this.highlightCircleAM,
+    this.adj_matrix_x_start - this.adj_matrix_width,
+    this.adj_matrix_y_start + vertex * this.adj_matrix_height
+  );
+};
+DetectCycle.prototype.dfsDetect = function(vertex, messageX) {
+  this.pushStackVisual(vertex, messageX);
+  this.visited[vertex] = true;
+  this.onStack[vertex] = true;
+  this.cmd("SetText", this.visitedID[vertex], "T");
+  this.cmd("SetText", this.onStackID[vertex], "T");
+  this.setCurrentCursor(vertex);
+  this.cmd("SetMessage", `Visit ${vertex}; mark as on the stack.`);
+  this.cmd("Step");
+  for (var neighbor = 0; neighbor < this.size; neighbor++) {
+    if (this.adj_matrix[vertex][neighbor] > 0) {
+      this.setEdgeColor(vertex, neighbor, EDGE_CONSIDER_COLOR);
+      this.highlightEdge(vertex, neighbor, 1);
+      if (this.onStack[neighbor]) {
+        this.setEdgeColor(vertex, neighbor, CYCLE_EDGE_COLOR);
+        this.highlightEdge(vertex, neighbor, 1);
+        this.cmd("SetMessage", `Edge ${vertex} -> ${neighbor} reaches a node on the stack. Cycle found.`);
+        this.cmd("Step");
+        this.foundCycle = true;
+        return true;
+      }
+      if (!this.visited[neighbor]) {
+        this.setEdgeColor(vertex, neighbor, TREE_EDGE_COLOR);
+        this.highlightEdge(vertex, neighbor, 1);
+        this.cmd("SetMessage", `Recurse to ${neighbor}.`);
+        this.cmd("Step");
+        if (this.dfsDetect(neighbor, messageX + STACK_INDENT)) {
+          return true;
+        }
+        this.setEdgeColor(vertex, neighbor, "#000000");
+        this.highlightEdge(vertex, neighbor, 0);
+        this.setCurrentCursor(vertex);
+        this.cmd("SetMessage", `Return to ${vertex} from ${neighbor}.`);
+        this.cmd("Step");
+      } else {
+        this.setEdgeColor(vertex, neighbor, "#000000");
+        this.highlightEdge(vertex, neighbor, 0);
+        this.cmd("SetMessage", `${neighbor} already fully processed; continue.`);
+        this.cmd("Step");
+      }
+    }
+  }
+  this.onStack[vertex] = false;
+  this.cmd("SetText", this.onStackID[vertex], "F");
+  this.popStackVisual(vertex);
+  this.cmd("SetMessage", `Done at ${vertex}. Mark as not on the stack.`);
+  this.cmd("Step");
+  return false;
+};
+DetectCycle.prototype.reset = function() {
+};
+DetectCycle.prototype.enableUI = function(event) {
+  this.startButton.disabled = false;
+  DetectCycle.superclass.enableUI.call(this, event);
+};
+DetectCycle.prototype.disableUI = function(event) {
+  this.startButton.disabled = true;
+  DetectCycle.superclass.disableUI.call(this, event);
+};
+
+// AlgorithmLibrary/DFS.js
+var AUX_ARRAY_WIDTH3 = 25;
+var AUX_ARRAY_HEIGHT3 = 25;
+var AUX_ARRAY_START_Y3 = 50;
+var VISITED_START_X3 = 200;
+var PARENT_START_X2 = 275;
+var HIGHLIGHT_CIRCLE_COLOR4 = "#000000";
+var SEARCH_TREE_FINAL_COLOR2 = "var(--svgColor--althighlight)";
+var EDGE_CHECK_COLOR2 = "var(--svgColor--althighlight)";
+var QUEUE_START_X2 = 30;
+var QUEUE_START_Y2 = 50;
+var QUEUE_SPACING2 = 30;
 var DFS_CALLSTACK_FONT_SIZE_PERCENT = 80;
 function DFS(canvas2) {
   let am;
   let w2;
   let h;
+  let graphOpts = null;
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
     am = initCanvas2(legacyCanvas, null, "Depth-First Search", false, {
@@ -12184,6 +13459,7 @@ function DFS(canvas2) {
     h = legacyCanvas.height;
   } else {
     const opts = canvas2 || {};
+    graphOpts = opts;
     const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
     const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
@@ -12196,7 +13472,7 @@ function DFS(canvas2) {
     w2 = viewWidth;
     h = viewHeight;
   }
-  this.init(am, w2, h);
+  this.init(am, w2, h, graphOpts);
 }
 DFS.prototype = new Graph();
 DFS.prototype.constructor = DFS;
@@ -12213,11 +13489,34 @@ DFS.prototype.addControls = function() {
   );
   this.startButton = addControlToAlgorithmBar("Button", "Run DFS");
   this.startButton.onclick = this.startCallback.bind(this);
+  var radioButtonList = addRadioButtonGroupToAlgorithmBar(
+    ["Recursive", "Iterative"],
+    "DFSMode"
+  );
+  this.recursiveModeButton = radioButtonList[0];
+  this.recursiveModeButton.onclick = this.dfsModeChangedCallback.bind(this, false);
+  this.iterativeModeButton = radioButtonList[1];
+  this.iterativeModeButton.onclick = this.dfsModeChangedCallback.bind(this, true);
+  this.recursiveModeButton.checked = !this.useIterative;
+  this.iterativeModeButton.checked = this.useIterative;
   DFS.superclass.addControls.call(this);
 };
-DFS.prototype.init = function(am, w2, h) {
+DFS.prototype.init = function(am, w2, h, graphOpts) {
+  this.useIterative = false;
+  if (graphOpts && typeof graphOpts === "object") {
+    if (typeof graphOpts.iterative === "boolean") {
+      this.useIterative = graphOpts.iterative;
+    } else if (typeof graphOpts.searchMode === "string") {
+      this.useIterative = graphOpts.searchMode.toLowerCase() === "iterative";
+    }
+  }
   this.showEdgeCosts = false;
-  DFS.superclass.init.call(this, am, w2, h);
+  DFS.superclass.init.call(this, am, w2, h, true, false, graphOpts);
+};
+DFS.prototype.dfsModeChangedCallback = function(iterativeMode) {
+  if (this.useIterative !== iterativeMode) {
+    this.useIterative = iterativeMode;
+  }
 };
 DFS.prototype.setup = function() {
   DFS.superclass.setup.call(this);
@@ -12236,34 +13535,34 @@ DFS.prototype.setup = function() {
       "CreateRectangle",
       this.visitedID[i],
       "f",
-      AUX_ARRAY_WIDTH2,
-      AUX_ARRAY_HEIGHT2,
-      VISITED_START_X2,
-      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+      AUX_ARRAY_WIDTH3,
+      AUX_ARRAY_HEIGHT3,
+      VISITED_START_X3,
+      AUX_ARRAY_START_Y3 + i * AUX_ARRAY_HEIGHT3
     );
     this.cmd(
       "CreateLabel",
       this.visitedIndexID[i],
       i,
-      VISITED_START_X2 - AUX_ARRAY_WIDTH2,
-      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+      VISITED_START_X3 - AUX_ARRAY_WIDTH3,
+      AUX_ARRAY_START_Y3 + i * AUX_ARRAY_HEIGHT3
     );
     this.cmd("SetForegroundColor", this.visitedIndexID[i], VERTEX_INDEX_COLOR);
     this.cmd(
       "CreateRectangle",
       this.parentID[i],
       "",
-      AUX_ARRAY_WIDTH2,
-      AUX_ARRAY_HEIGHT2,
+      AUX_ARRAY_WIDTH3,
+      AUX_ARRAY_HEIGHT3,
       PARENT_START_X2,
-      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+      AUX_ARRAY_START_Y3 + i * AUX_ARRAY_HEIGHT3
     );
     this.cmd(
       "CreateLabel",
       this.parentIndexID[i],
       i,
-      PARENT_START_X2 - AUX_ARRAY_WIDTH2,
-      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+      PARENT_START_X2 - AUX_ARRAY_WIDTH3,
+      AUX_ARRAY_START_Y3 + i * AUX_ARRAY_HEIGHT3
     );
     this.cmd("SetForegroundColor", this.parentIndexID[i], VERTEX_INDEX_COLOR);
   }
@@ -12271,16 +13570,16 @@ DFS.prototype.setup = function() {
     "CreateLabel",
     this.nextIndex++,
     "Parent",
-    PARENT_START_X2 - AUX_ARRAY_WIDTH2,
-    AUX_ARRAY_START_Y2 - AUX_ARRAY_HEIGHT2 * 1.5,
+    PARENT_START_X2 - AUX_ARRAY_WIDTH3,
+    AUX_ARRAY_START_Y3 - AUX_ARRAY_HEIGHT3 * 1.5,
     0
   );
   this.cmd(
     "CreateLabel",
     this.nextIndex++,
     "Visited",
-    VISITED_START_X2 - AUX_ARRAY_WIDTH2,
-    AUX_ARRAY_START_Y2 - AUX_ARRAY_HEIGHT2 * 1.5,
+    VISITED_START_X3 - AUX_ARRAY_WIDTH3,
+    AUX_ARRAY_START_Y3 - AUX_ARRAY_HEIGHT3 * 1.5,
     0
   );
   this.animationManager.setAllLayers([0, this.currentLayer]);
@@ -12292,15 +13591,60 @@ DFS.prototype.setup = function() {
   this.highlightCircleAM = this.nextIndex++;
 };
 DFS.prototype.startCallback = function(event) {
-  var startvalue;
   if (this.startField.value != "") {
-    startvalue = this.startField.value;
+    const startvalue = this.startField.value;
     this.startField.value = "";
-    if (parseInt(startvalue) < this.size)
-      this.implementAction(this.doDFS.bind(this), startvalue);
+    this.doSearch(startvalue);
+  }
+};
+DFS.prototype.doSearch = function(startVertex) {
+  const parsedStart = parseInt(startVertex);
+  if (!Number.isFinite(parsedStart) || parsedStart < 0 || parsedStart >= this.size) {
+    return false;
+  }
+  this.implementAction(this.doDFS.bind(this), parsedStart);
+  return true;
+};
+DFS.prototype.initEdgeVisualState = function() {
+  this.edgeColorState = new Array(this.size);
+  this.edgeHighlightState = new Array(this.size);
+  for (var i = 0; i < this.size; i++) {
+    this.edgeColorState[i] = new Array(this.size);
+    this.edgeHighlightState[i] = new Array(this.size);
+    for (var j = 0; j < this.size; j++) {
+      this.edgeColorState[i][j] = EDGE_COLOR;
+      this.edgeHighlightState[i][j] = false;
+    }
+  }
+};
+DFS.prototype.recordEdgeVisualState = function(i, j, color, highlighted) {
+  this.edgeColorState[i][j] = color;
+  this.edgeHighlightState[i][j] = highlighted;
+  if (!this.directed) {
+    this.edgeColorState[j][i] = color;
+    this.edgeHighlightState[j][i] = highlighted;
+  }
+};
+DFS.prototype.applyEdgeVisualState = function(i, j, color, highlighted) {
+  this.setEdgeColor(i, j, color);
+  this.highlightEdge(i, j, highlighted ? 1 : 0);
+  this.recordEdgeVisualState(i, j, color, highlighted);
+};
+DFS.prototype.clearAdjacencyRepEdgeHighlight = function(i, j) {
+  if (this.adj_list_edges && this.adj_list_edges[i] && this.adj_list_edges[i][j]) {
+    this.cmd("SetHighlight", this.adj_list_edges[i][j], 0);
+  }
+  if (this.adj_matrixID && this.adj_matrixID[i] && this.adj_matrixID[i][j]) {
+    this.cmd("SetHighlight", this.adj_matrixID[i][j], 0);
   }
 };
 DFS.prototype.doDFS = function(startVetex) {
+  if (this.useIterative) {
+    return this.doDFSIterative(startVetex);
+  }
+  return this.doDFSRecursive(startVetex);
+};
+DFS.prototype.doDFSRecursive = function(startVetex) {
   this.visited = new Array(this.size);
   this.parent = new Array(this.size);
   this.commands = new Array();
@@ -12310,9 +13654,11 @@ DFS.prototype.doDFS = function(startVetex) {
     }
   }
   this.rebuildEdges();
+  this.initEdgeVisualState();
   this.messageID = new Array();
   for (i = 0; i < this.size; i++) {
     this.cmd("SetText", this.visitedID[i], "f");
+    this.cmd("SetHighlight", this.visitedID[i], 0);
     this.cmd("SetText", this.parentID[i], "");
     this.visited[i] = false;
     this.parent[i] = -1;
@@ -12322,7 +13668,7 @@ DFS.prototype.doDFS = function(startVetex) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlightCircleL,
-    HIGHLIGHT_CIRCLE_COLOR3,
+    HIGHLIGHT_CIRCLE_COLOR4,
     this.x_pos_logical[vertex],
     this.y_pos_logical[vertex]
   );
@@ -12330,7 +13676,7 @@ DFS.prototype.doDFS = function(startVetex) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlightCircleAL,
-    HIGHLIGHT_CIRCLE_COLOR3,
+    HIGHLIGHT_CIRCLE_COLOR4,
     this.adj_list_x_start - this.adj_list_width,
     this.adj_list_y_start + vertex * this.adj_list_height
   );
@@ -12338,7 +13684,7 @@ DFS.prototype.doDFS = function(startVetex) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlightCircleAM,
-    HIGHLIGHT_CIRCLE_COLOR3,
+    HIGHLIGHT_CIRCLE_COLOR4,
     this.adj_matrix_x_start - this.adj_matrix_width,
     this.adj_matrix_y_start + vertex * this.adj_matrix_height
   );
@@ -12354,7 +13700,207 @@ DFS.prototype.doDFS = function(startVetex) {
   );
   for (i = 0; i < this.size; i++) {
     if (this.parent[i] >= 0) {
+      this.setEdgeColor(this.parent[i], i, SEARCH_TREE_FINAL_COLOR2);
       this.highlightEdge(this.parent[i], i, 1);
+    }
+  }
+  this.cmd("Step");
+  return this.commands;
+};
+DFS.prototype.doDFSIterative = function(startVetex) {
+  this.visited = new Array(this.size);
+  this.parent = new Array(this.size);
+  this.commands = new Array();
+  if (this.messageID != null) {
+    for (var i = 0; i < this.messageID.length; i++) {
+      this.cmd("Delete", this.messageID[i]);
+    }
+  }
+  this.rebuildEdges();
+  this.initEdgeVisualState();
+  this.messageID = new Array();
+  var stackTitleID = this.nextIndex++;
+  this.messageID.push(stackTitleID);
+  this.cmd(
+    "CreateLabel",
+    stackTitleID,
+    "Stack",
+    QUEUE_START_X2,
+    QUEUE_START_Y2 - 30,
+    0
+  );
+  var stackCapacity = this.size * this.size;
+  var stackLabelID = new Array(stackCapacity);
+  for (i = 0; i < this.size; i++) {
+    this.cmd("SetText", this.visitedID[i], "f");
+    this.cmd("SetHighlight", this.visitedID[i], 0);
+    this.cmd("SetText", this.parentID[i], "");
+    this.visited[i] = false;
+    this.parent[i] = -1;
+  }
+  for (i = 0; i < stackCapacity; i++) {
+    stackLabelID[i] = this.nextIndex++;
+    this.cmd(
+      "CreateLabel",
+      stackLabelID[i],
+      "",
+      QUEUE_START_X2,
+      QUEUE_START_Y2 + i * QUEUE_SPACING2
+    );
+    this.cmd("SetAlpha", stackLabelID[i], 0);
+  }
+  var vertex = parseInt(startVetex);
+  this.parent[vertex] = -1;
+  var stackVertex = new Array(stackCapacity);
+  var stackSize = 0;
+  stackVertex[stackSize] = vertex;
+  this.cmd("SetText", stackLabelID[stackSize], vertex);
+  this.cmd("SetAlpha", stackLabelID[stackSize], 1);
+  this.cmd(
+    "Move",
+    stackLabelID[stackSize],
+    QUEUE_START_X2,
+    QUEUE_START_Y2 + stackSize * QUEUE_SPACING2
+  );
+  stackSize++;
+  this.cmd(
+    "CreateHighlightCircle",
+    this.highlightCircleL,
+    HIGHLIGHT_CIRCLE_COLOR4,
+    this.x_pos_logical[vertex],
+    this.y_pos_logical[vertex]
+  );
+  this.cmd("SetLayer", this.highlightCircleL, 1);
+  this.cmd(
+    "CreateHighlightCircle",
+    this.highlightCircleAL,
+    HIGHLIGHT_CIRCLE_COLOR4,
+    this.adj_list_x_start - this.adj_list_width,
+    this.adj_list_y_start + vertex * this.adj_list_height
+  );
+  this.cmd("SetLayer", this.highlightCircleAL, 2);
+  this.cmd(
+    "CreateHighlightCircle",
+    this.highlightCircleAM,
+    HIGHLIGHT_CIRCLE_COLOR4,
+    this.adj_matrix_x_start - this.adj_matrix_width,
+    this.adj_matrix_y_start + vertex * this.adj_matrix_height
+  );
+  this.cmd("SetLayer", this.highlightCircleAM, 3);
+  this.cmd("SetMessage", `Initialize stack with ${vertex}.`);
+  this.cmd("Step");
+  while (stackSize > 0) {
+    stackSize--;
+    var currentVertex = stackVertex[stackSize];
+    this.cmd("SetText", stackLabelID[stackSize], "");
+    this.cmd("SetAlpha", stackLabelID[stackSize], 0);
+    this.cmd("SetMessage", `Pop ${currentVertex} from stack.`);
+    this.cmd("Step");
+    if (this.visited[currentVertex]) {
+      this.cmd("SetMessage", `${currentVertex} is already visited; skip.`);
+      this.cmd("Step");
+      continue;
+    }
+    this.visited[currentVertex] = true;
+    this.cmd("SetText", this.visitedID[currentVertex], "T");
+    if (this.parent[currentVertex] >= 0) {
+      this.applyEdgeVisualState(
+        this.parent[currentVertex],
+        currentVertex,
+        EDGE_COLOR,
+        true
+      );
+    }
+    this.cmd(
+      "Move",
+      this.highlightCircleL,
+      this.x_pos_logical[currentVertex],
+      this.y_pos_logical[currentVertex]
+    );
+    this.cmd(
+      "Move",
+      this.highlightCircleAL,
+      this.adj_list_x_start - this.adj_list_width,
+      this.adj_list_y_start + currentVertex * this.adj_list_height
+    );
+    this.cmd(
+      "Move",
+      this.highlightCircleAM,
+      this.adj_matrix_x_start - this.adj_matrix_width,
+      this.adj_matrix_y_start + currentVertex * this.adj_matrix_height
+    );
+    this.cmd("SetMessage", `Visit ${currentVertex}; scan neighbors.`);
+    this.cmd("Step");
+    for (var neighbor = this.size - 1; neighbor >= 0; neighbor--) {
+      if (this.adj_matrix[currentVertex][neighbor] > 0) {
+        const savedEdgeColor = this.edgeColorState[currentVertex][neighbor];
+        const savedEdgeHighlight = this.edgeHighlightState[currentVertex][neighbor];
+        this.applyEdgeVisualState(currentVertex, neighbor, EDGE_CHECK_COLOR2, false);
+        this.cmd("SetHighlight", this.visitedID[neighbor], 1);
+        if (this.visited[neighbor]) {
+          this.cmd(
+            "SetMessage",
+            `Explore edge ${currentVertex} -> ${neighbor}; neighbor already visited (skip).`
+          );
+        } else {
+          this.cmd(
+            "SetMessage",
+            `Explore edge ${currentVertex} -> ${neighbor}; neighbor unvisited (push).`
+          );
+        }
+        this.cmd("Step");
+        if (!this.visited[neighbor]) {
+          this.parent[neighbor] = currentVertex;
+          this.cmd("SetText", this.parentID[neighbor], currentVertex);
+          this.applyEdgeVisualState(
+            currentVertex,
+            neighbor,
+            savedEdgeColor,
+            savedEdgeHighlight
+          );
+          stackVertex[stackSize] = neighbor;
+          this.cmd("SetText", stackLabelID[stackSize], neighbor);
+          this.cmd("SetAlpha", stackLabelID[stackSize], 1);
+          this.cmd(
+            "Move",
+            stackLabelID[stackSize],
+            QUEUE_START_X2,
+            QUEUE_START_Y2 + stackSize * QUEUE_SPACING2
+          );
+          stackSize++;
+          this.cmd(
+            "SetMessage",
+            `Discover ${neighbor}; set parent to ${currentVertex} and push ${neighbor} onto stack (edge locks when ${neighbor} is visited).`
+          );
+          this.cmd("Step");
+        } else {
+          this.applyEdgeVisualState(
+            currentVertex,
+            neighbor,
+            savedEdgeColor,
+            savedEdgeHighlight
+          );
+          this.cmd(
+            "SetMessage",
+            `Neighbor ${neighbor} already visited; skip edge ${currentVertex} -> ${neighbor}.`
+          );
+        }
+        this.cmd("Step");
+        this.clearAdjacencyRepEdgeHighlight(currentVertex, neighbor);
+        this.cmd("SetHighlight", this.visitedID[neighbor], 0);
+        this.cmd("Step");
+      }
+    }
+    this.cmd("SetMessage", `Finished scanning neighbors of ${currentVertex}.`);
+    this.cmd("Step");
+  }
+  this.cmd("Delete", this.highlightCircleL);
+  this.cmd("Delete", this.highlightCircleAL);
+  this.cmd("Delete", this.highlightCircleAM);
+  this.cmd("SetMessage", "DFS complete. Search tree highlighted.");
+  for (i = 0; i < this.size; i++) {
+    if (this.parent[i] >= 0) {
+      this.applyEdgeVisualState(this.parent[i], i, SEARCH_TREE_FINAL_COLOR2, true);
     }
   }
   this.cmd("Step");
@@ -12380,7 +13926,9 @@ DFS.prototype.dfsVisit = function(startVertex, messageX) {
     this.cmd("Step");
     for (var neighbor = 0; neighbor < this.size; neighbor++) {
       if (this.adj_matrix[startVertex][neighbor] > 0) {
-        this.highlightEdge(startVertex, neighbor, 1);
+        const savedEdgeColor = this.edgeColorState[startVertex][neighbor];
+        const savedEdgeHighlight = this.edgeHighlightState[startVertex][neighbor];
+        this.applyEdgeVisualState(startVertex, neighbor, EDGE_CHECK_COLOR2, false);
         this.cmd("SetHighlight", this.visitedID[neighbor], 1);
         if (this.visited[neighbor]) {
           this.cmd(
@@ -12394,23 +13942,8 @@ DFS.prototype.dfsVisit = function(startVertex, messageX) {
           );
         }
         this.cmd("Step");
-        this.highlightEdge(startVertex, neighbor, 0);
-        this.cmd("SetHighlight", this.visitedID[neighbor], 0);
         if (!this.visited[neighbor]) {
-          this.cmd(
-            "Disconnect",
-            this.circleID[startVertex],
-            this.circleID[neighbor]
-          );
-          this.cmd(
-            "Connect",
-            this.circleID[startVertex],
-            this.circleID[neighbor],
-            DFS_TREE_COLOR2,
-            this.curve[startVertex][neighbor],
-            1,
-            ""
-          );
+          this.applyEdgeVisualState(startVertex, neighbor, savedEdgeColor, true);
           this.cmd(
             "Move",
             this.highlightCircleL,
@@ -12460,7 +13993,18 @@ DFS.prototype.dfsVisit = function(startVertex, messageX) {
             `Returned to DFS(${startVertex}) from DFS(${neighbor}); continue scanning neighbors.`
           );
           this.cmd("Step");
+        } else {
+          this.applyEdgeVisualState(
+            startVertex,
+            neighbor,
+            savedEdgeColor,
+            savedEdgeHighlight
+          );
         }
+        this.cmd("Step");
+        this.clearAdjacencyRepEdgeHighlight(startVertex, neighbor);
+        this.cmd("SetHighlight", this.visitedID[neighbor], 0);
+        this.cmd("Step");
         this.cmd(
           "SetMessage",
           `Finished processing edge ${startVertex} -> ${neighbor}.`
@@ -12495,6 +14039,7 @@ function DijkstraPrim(canvas2, runningDijkstra) {
   let am;
   let w2;
   let h;
+  let graphOpts = null;
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
     const title = runningDijkstra ? "Dijkstra Shortest Path" : "Prim MST";
@@ -12506,6 +14051,7 @@ function DijkstraPrim(canvas2, runningDijkstra) {
     h = legacyCanvas.height;
   } else {
     const opts = canvas2 || {};
+    graphOpts = opts;
     const runDijkstra = typeof opts.runningDijkstra === "boolean" ? opts.runningDijkstra : true;
     const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
     const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
@@ -12520,7 +14066,7 @@ function DijkstraPrim(canvas2, runningDijkstra) {
     h = viewHeight;
     runningDijkstra = runDijkstra;
   }
-  this.init(am, runningDijkstra, w2, h);
+  this.init(am, runningDijkstra, w2, h, graphOpts);
 }
 DijkstraPrim.prototype = new Graph();
 DijkstraPrim.prototype.constructor = DijkstraPrim;
@@ -12543,10 +14089,10 @@ DijkstraPrim.prototype.addControls = function() {
   this.startButton.onclick = this.startCallback.bind(this);
   DijkstraPrim.superclass.addControls.call(this, this.runningDijkstra);
 };
-DijkstraPrim.prototype.init = function(am, runningDijkstra, w2, h) {
+DijkstraPrim.prototype.init = function(am, runningDijkstra, w2, h, graphOpts) {
   this.runningDijkstra = runningDijkstra;
   this.showEdgeCosts = true;
-  DijkstraPrim.superclass.init.call(this, am, w2, h, false, false);
+  DijkstraPrim.superclass.init.call(this, am, w2, h, false, false, graphOpts);
 };
 DijkstraPrim.prototype.setup = function() {
   this.message1ID = this.nextIndex++;
@@ -12966,6 +14512,78 @@ function Prim(canvas2) {
     runningDijkstra: false
   });
 }
+
+// AlgorithmLibrary/GraphRepresentation.js
+function GraphRepresentation(canvas2) {
+  let am;
+  let w2;
+  let h;
+  let graphOpts = null;
+  if (canvas2 && typeof canvas2.getContext === "function") {
+    const legacyCanvas = canvas2;
+    am = initCanvas2(legacyCanvas, null, "Graph Representation", false, {
+      viewWidth: legacyCanvas.width,
+      viewHeight: legacyCanvas.height
+    });
+    w2 = legacyCanvas.width;
+    h = legacyCanvas.height;
+  } else {
+    const opts = canvas2 || {};
+    graphOpts = opts;
+    const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
+    const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
+    am = initAnimationManager({
+      title: opts.title || "Graph Representation",
+      height: opts.height || viewHeight,
+      viewWidth,
+      viewHeight,
+      ...opts
+    });
+    w2 = viewWidth;
+    h = viewHeight;
+  }
+  this.init(am, w2, h, graphOpts);
+}
+GraphRepresentation.prototype = new Graph();
+GraphRepresentation.prototype.constructor = GraphRepresentation;
+GraphRepresentation.superclass = Graph.prototype;
+GraphRepresentation.prototype.addControls = function() {
+  GraphRepresentation.superclass.addControls.call(this);
+  var radioButtonList = addRadioButtonGroupToAlgorithmBar(
+    ["Unweighted Graph", "Weighted Graph"],
+    "GraphWeightType"
+  );
+  this.unweightedGraphButton = radioButtonList[0];
+  this.unweightedGraphButton.onclick = this.weightedGraphCallback.bind(
+    this,
+    false
+  );
+  this.weightedGraphButton = radioButtonList[1];
+  this.weightedGraphButton.onclick = this.weightedGraphCallback.bind(this, true);
+  this.unweightedGraphButton.checked = !this.showEdgeCosts;
+  this.weightedGraphButton.checked = this.showEdgeCosts;
+};
+GraphRepresentation.prototype.weightedGraphCallback = function(newWeighted) {
+  if (newWeighted != this.showEdgeCosts) {
+    this.showEdgeCosts = newWeighted;
+    this.animationManager.resetAll();
+    this.setup();
+  }
+};
+GraphRepresentation.prototype.init = function(am, w2, h, graphOpts) {
+  if (graphOpts && typeof graphOpts === "object") {
+    if (typeof graphOpts.showEdgeCosts === "boolean") {
+      this.showEdgeCosts = graphOpts.showEdgeCosts;
+    } else if (typeof graphOpts.weighted === "boolean") {
+      this.showEdgeCosts = graphOpts.weighted;
+    } else {
+      this.showEdgeCosts = false;
+    }
+  } else {
+    this.showEdgeCosts = false;
+  }
+  GraphRepresentation.superclass.init.call(this, am, w2, h, true, false, graphOpts);
+};
 
 // AlgorithmLibrary/Heap.js
 function Heap(arg) {
@@ -14292,6 +15910,7 @@ function Kruskal(canvas2) {
   let am;
   let w2;
   let h;
+  let graphOpts = null;
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
     am = initCanvas2(legacyCanvas, null, "Kruskal MST", false, {
@@ -14302,6 +15921,7 @@ function Kruskal(canvas2) {
     h = legacyCanvas.height;
   } else {
     const opts = canvas2 || {};
+    graphOpts = opts;
     const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
     const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
@@ -14314,7 +15934,7 @@ function Kruskal(canvas2) {
     w2 = viewWidth;
     h = viewHeight;
   }
-  this.init(am, w2, h);
+  this.init(am, w2, h, graphOpts);
 }
 Kruskal.HIGHLIGHT_CIRCLE_COLOR = "#000000";
 Kruskal.SET_ARRAY_ELEM_WIDTH = 25;
@@ -14343,9 +15963,9 @@ Kruskal.prototype.addControls = function() {
   this.startButton.onclick = this.startCallback.bind(this);
   Kruskal.superclass.addControls.call(this, false);
 };
-Kruskal.prototype.init = function(am, w2, h) {
+Kruskal.prototype.init = function(am, w2, h, graphOpts) {
   this.showEdgeCosts = true;
-  Kruskal.superclass.init.call(this, am, w2, h, false, false);
+  Kruskal.superclass.init.call(this, am, w2, h, false, false, graphOpts);
 };
 Kruskal.prototype.setup = function() {
   Kruskal.superclass.setup.call(this);
@@ -24082,6 +25702,7 @@ function TopoSortDFS(canvas2) {
   let am;
   let w2;
   let h;
+  let graphOpts = null;
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
     am = initCanvas2(legacyCanvas, null, "Topological Sort (DFS)", false, {
@@ -24092,6 +25713,7 @@ function TopoSortDFS(canvas2) {
     h = legacyCanvas.height;
   } else {
     const opts = canvas2 || {};
+    graphOpts = opts;
     const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
     const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
@@ -24104,7 +25726,7 @@ function TopoSortDFS(canvas2) {
     w2 = viewWidth;
     h = viewHeight;
   }
-  this.init(am, w2, h);
+  this.init(am, w2, h, graphOpts);
 }
 TopoSortDFS.ORDERING_INITIAL_X = 200;
 TopoSortDFS.ORDERING_INITIAL_Y = 50;
@@ -24203,9 +25825,9 @@ TopoSortDFS.prototype.addControls = function() {
   this.startButton.onclick = this.startCallback.bind(this);
   TopoSortDFS.superclass.addControls.call(this, false);
 };
-TopoSortDFS.prototype.init = function(am, w2, h) {
+TopoSortDFS.prototype.init = function(am, w2, h, graphOpts) {
   this.showEdgeCosts = false;
-  TopoSortDFS.superclass.init.call(this, am, w2, h, true, true);
+  TopoSortDFS.superclass.init.call(this, am, w2, h, true, true, graphOpts);
 };
 TopoSortDFS.prototype.setup = function() {
   TopoSortDFS.superclass.setup.call(this);
@@ -24249,9 +25871,16 @@ TopoSortDFS.prototype.startCallback = function(event) {
   this.runLocked = true;
   if (this.startButton)
     this.startButton.disabled = true;
-  this.implementAction(this.doTopoSort.bind(this), "");
+  this.doTopoSort();
 };
-TopoSortDFS.prototype.doTopoSort = function(ignored) {
+TopoSortDFS.prototype.doTopoSort = function() {
+  this.runLocked = true;
+  if (this.startButton)
+    this.startButton.disabled = true;
+  this.implementAction(this.doTopoSortAction.bind(this), "");
+  return true;
+};
+TopoSortDFS.prototype.doTopoSortAction = function(ignored) {
   this.visited = new Array(this.size);
   this.commands = new Array();
   this.topoOrderArrayL = new Array();
@@ -25181,9 +26810,11 @@ export {
   ClosedHash,
   ConnectedComponent,
   DFS,
+  DetectCycle,
   DijkstraPrim,
   DoublyLinkedList,
   ExpressionTree,
+  GraphRepresentation,
   Hash,
   Heap,
   HeapMax,

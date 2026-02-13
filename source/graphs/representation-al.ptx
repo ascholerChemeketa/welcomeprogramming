@@ -1,0 +1,119 @@
+<section xml:id="graphs_representation-al"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Adjacency List and Map Representations</title>
+
+  <p>An <term>adjacency list</term> is a collection of lists, where for each vertex in the graph
+    there is a list that contains the neighbors of that vertex. In an unweighted graph, we can
+    simply store the neighbors as a list. If we want to support weighted graphs, we can store the
+    neighbors as a list of pairs, where each pair contains a neighbor and the weight of the edge to
+    that neighbor.</p>
+
+  <figure>
+    <caption>Partial Adjacency List representation for the Class Prerequisite Graph. The edge
+      weights are stored, but all have a value of 1.</caption>
+    <image source="images/graphs/al-representation"
+           width="40%">
+      <shortdescription>
+        <p> MTH111 points to a list containing MTH112 and CS161. MTH112 points to an empty list.
+          CS160 points to a list containing CS161. </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <activity>
+    <title>Adjacency List Representation</title>
+    <p> The animation will load a random graph and display its adjacency list representation. </p>
+    <p> Click on the <c>Logical Representation</c> radio button in the controls panel to see the logical representation of
+      the graph. </p>
+    <p> You can click on <c>Weighted Graph</c> to switch to a (new) weighted graph. </p>
+    <interactive platform="javascript"
+                 design-width="1000"
+                 aspect="4:2.75">
+      <script type="module">
+      import { GraphRepresentation } from "./external/interactives/data-structures/entry.js";
+      let anim = new GraphRepresentation({
+        title: "Graph Representation",
+        startingGraphRepresentation: "adjacency list",
+        zoom: "1x"
+      });
+      anim.shift(300, -20);
+    </script>
+      <xi:include href="../../fragments/ds-graph-instructions.xml"/>
+    </interactive>
+  </activity>
+
+  <p> The top level of this structure maps a vertex to a list. We can do this indirectly by first
+    assigning an integer index to each vertex and then using an array to map from the vertex index
+    to the list of neighbors. Or we could use a hash table to directly map from the vertex to the
+    list of neighbors. The later choice might define the graph's data using something like: </p>
+
+  <program>
+    <![CDATA[
+class Graph {
+public:
+    ...
+private:
+    unordered_map<T, list<pair<T, int>>> adjacencyList;
+};
+    ]]>
+  </program>
+
+  <p> The code above uses a <pf>list</pf> to store the neighbors of each vertex (represented as a <pf>pair&lt;T, int&gt;</pf>
+    of the neighbor vertex and the weight of the edge to that neighbor), but we could use a <pf>vector</pf>
+    instead. A list is a nice choice in that it requires a minimal amount of memory to store an
+    empty list of neighbors. And it is rare that we need to ask <q>what is the 3rd neighbor of
+    vertex X?</q>, so we don't need the random access that a vector provides. </p>
+
+  <p> Using a list would mean that the logic for <pf>hasEdge(T source, T destination)</pf> will need to iterate through the list of
+    neighbors for the source vertex to check if the destination vertex is in that list. To check <pf>hasEdge("MTH111", "CS162")</pf>,
+    for example, we would have to access the list of neighbors for "MTH111" and iterate through that
+    list to see if "CS162" is in it. That would mean that the time complexity of <pf>hasEdge</pf> would be
+    O(n) where <m>n</m> is the number of neighbors of the source vertex. </p>
+
+  <p> To make that process more efficient, in a graph where vertices have many edges (and thus many
+    neighbors), we could use another unordered map to store the neighbors of each vertex. Thus
+    looking up the record for <pf>"MTH111"</pf> would give us a <pf>unordered_map&lt;string, int&gt;</pf> that contains the mappings: <pf>{ "MTH112": 1, "CS161": 1 }</pf>.
+    In the Graph class, it would </p>
+  <program>
+    <![CDATA[
+class Graph {
+public:
+    ...
+private:
+    unordered_map<T, unordered_map<T, int>> adjacencyList;
+};
+    ]]>
+  </program>
+
+  <p> This approach is known as an <term>adjacency map</term> representation of a graph and would
+    allow us to check if an edge exists in O(1) time by looking up the source vertex in the top
+    level map and then looking up the destination vertex in the second level map. However, it would
+    use more memory than the list-based approach, especially for vertices with few neighbors. </p>
+
+  <p> Both the list-based and map-based adjacency list representations require space proportional to
+    the number of vertices plus the number of edges in the graph, or <m>O(V + E)</m>, which is more
+    efficient than the <m>O(V^2)</m> space requirement of the adjacency matrix representation for
+    sparse graphs. They have to store a record for each vector and each edge, but they don't have to
+    allocate space for every possible edge like the adjacency matrix representation does. There is
+    likely to be less memory overhead in the list-based approach (for storing next pointers) than
+    the map-based approach (for spae space in the hash table), especially for vertices with few
+    neighbors. </p>
+
+  <insight>
+    <p> Implementations often have to choose between optimizing for time or space. The adjacency
+      list representation is more space efficient than the adjacency map (or adjacency matrix)
+      representation, but it is less time efficient for certain operations like checking if an edge
+      exists. </p>
+  </insight>
+
+  <p>They also have the advantage that it is much easier to add or a vertex to the graph. To add a
+    vertex, we can simply add a new entry to the top level map with an empty list or map of
+    neighbors. (In the adjacency matrix representation, we would need to create a new matrix with an
+    additional row and column for the new vertex and copy over the existing data.) Removing a vertex
+    is more complicated as we have to not only remove the vertex from the top level map, but also
+    remove any edges to that vertex from the neighbor lists of other vertices. But it is still more
+    efficient than the adjacency matrix representation, where we would need to create a new matrix
+    with one fewer row and column and copy over the existing data. </p>
+
+</section>
