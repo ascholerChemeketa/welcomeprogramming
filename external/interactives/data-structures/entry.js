@@ -2603,12 +2603,18 @@ function makeSVG(centered, viewWidth = 800, viewHeight = 400) {
         <path fill="var(--svgColor--highlight)" d="M 0 0 L 10 5 L 0 10 z"></path>
       </marker>
       <style>
-        :root {
-          --svgFillColor: rgba(255,255,255,0);
-          --svgColor: #111111;
-          --svgColor--highlight: #FF5733;
-          font-family: sans-serif;
-        }
+      // :root {
+      //   --svgColor: var(rgb(0,0,0);
+      //   --svgColor--red: rgb(231, 36, 36);
+      //   --svgColor--redback: rgb(255, 233, 233);
+      //   --svgColor--black: rgb(0, 0 ,0);
+      //   --svgColor--blackback: rgb(227, 227, 227);
+      //   --svgColor--highlight: rgb(33, 139, 33);
+      //   --svgColor--althighlight: rgb(52, 133, 198);
+      //   --svgFillColor: white;
+      //   --controlBackground: #f0f8ff;
+      //   font-family: sans-serif;
+      // }
       </style>
     </defs>
     <g id="allElements">
@@ -2678,6 +2684,18 @@ function ObjectManager(canvas2, centered = false) {
     vb[1] = vb[1] + centerFactorY;
     vb[2] = nextVbW;
     vb[3] = nextVbH;
+    this.svg.setAttribute("viewBox", vb.join(" "));
+  };
+  this.shiftView = function(deltaX = 0, deltaY = 0) {
+    const dx = Number(deltaX);
+    const dy = Number(deltaY);
+    if (!Number.isFinite(dx) || !Number.isFinite(dy))
+      return;
+    const vb = this.svg.getAttribute("viewBox").split(" ").map(parseFloat);
+    if (vb.length < 4 || vb.some((v) => !Number.isFinite(v)))
+      return;
+    vb[0] += dx;
+    vb[1] += dy;
     this.svg.setAttribute("viewBox", vb.join(" "));
   };
   this.cssStyle = window.getComputedStyle(canvas2);
@@ -2863,8 +2881,18 @@ function ObjectManager(canvas2, centered = false) {
       if (svgElement && svgElement.parentNode) {
         svgElement.parentNode.removeChild(svgElement);
       }
+      let secondaryTextElement = null;
+      if (this.Nodes[objectID] && this.Nodes[objectID].svgText && this.Nodes[objectID].svgText !== svgElement) {
+        secondaryTextElement = this.Nodes[objectID].svgText;
+        if (secondaryTextElement.parentNode) {
+          secondaryTextElement.parentNode.removeChild(secondaryTextElement);
+        }
+      }
       if (svgElement) {
         this.svg.getElementById(`layer_${layer}`).appendChild(svgElement);
+        if (secondaryTextElement) {
+          svgElement.after(secondaryTextElement);
+        }
       }
       this.Nodes[objectID].draw(this.ctx);
       if (this.Edges.has(objectID)) {
@@ -3397,6 +3425,11 @@ Algorithm.prototype.implementAction = function(funct, val) {
   var retVal = funct(val);
   this.animationManager.StartNewAnimation(retVal);
 };
+Algorithm.prototype.shift = function(deltaX, deltaY) {
+  if (this.animationManager && this.animationManager.shift) {
+    this.animationManager.shift(deltaX, deltaY);
+  }
+};
 Algorithm.prototype.isAllDigits = function(str) {
   for (var i = str.length - 1; i >= 0; i--) {
     if (str.charAt(i) < "0" || str.charAt(i) > "9") {
@@ -3531,6 +3564,25 @@ var ltiResizeListenerInstalled = false;
 var zoomHoverTrackingInstalled = false;
 var pendingZoomFocusClient = null;
 var lastHoverClient = null;
+var BASE_ZOOM_COOKIE_NAME = "VisualizationZoom";
+var zoomCookieName = BASE_ZOOM_COOKIE_NAME;
+function sanitizeCookieToken(value) {
+  const raw = String(value ?? "").trim().toLowerCase();
+  const cleaned = raw.replace(/[^a-z0-9_-]+/g, "_").replace(/^_+|_+$/g, "");
+  return cleaned || "default";
+}
+function deriveZoomCookieName(title, opts = null) {
+  const explicitScope = opts && typeof opts.zoomCookieScope === "string" ? opts.zoomCookieScope : null;
+  if (explicitScope && explicitScope.trim() !== "") {
+    return `${BASE_ZOOM_COOKIE_NAME}_${sanitizeCookieToken(explicitScope)}`;
+  }
+  const path = typeof window !== "undefined" && window.location && window.location.pathname || "";
+  const lastSegment = path.split("/").filter(Boolean).pop() || "index";
+  const pageToken = lastSegment.replace(/\.[^.]+$/, "");
+  const fallbackTitle = title && String(title).trim() !== "" ? String(title) : "animation";
+  const scope = pageToken || fallbackTitle;
+  return `${BASE_ZOOM_COOKIE_NAME}_${sanitizeCookieToken(scope)}`;
+}
 function installZoomHoverTracking(targetEl) {
   if (zoomHoverTrackingInstalled)
     return;
@@ -3739,7 +3791,11 @@ function addGeneralControls(objectManager2, targetElement, title, opts = null) {
     speedChange(e.target.value);
   });
   addControlTo(speedSelect, controlBar, "Auto Step Speed");
-  var zoom = getCookie("VisualizationZoom");
+  zoomCookieName = deriveZoomCookieName(title, opts);
+  var zoom = getCookie(zoomCookieName);
+  if (zoom == void 0 || zoom === null || zoom === "") {
+    zoom = getCookie(BASE_ZOOM_COOKIE_NAME);
+  }
   {
     let parsed = parseFloat(zoom);
     if (!Number.isFinite(parsed) || parsed <= 0) {
@@ -3768,7 +3824,7 @@ function addGeneralControls(objectManager2, targetElement, title, opts = null) {
     <option value="2" ${zoom == 2 ? "selected" : ""}>2x</option>
     <option value="1.3333333333" ${zoom == 1.3333333333 ? "selected" : ""}>3x</option>`;
   zoomSelect.addEventListener("change", (e) => {
-    setCookie("VisualizationZoom", e.target.value);
+    setCookie(zoomCookieName, e.target.value);
     let focus = pendingZoomFocusClient;
     pendingZoomFocusClient = null;
     if (!focus && lastHoverClient && objectManager2 && objectManager2.svg) {
@@ -3825,7 +3881,7 @@ function applyAutoZoomForMinVisibleWidth(minVisibleWorldWidth) {
       zoomSelect.value = String(chosenZoom);
     }
   }
-  setCookie("VisualizationZoom", chosenZoom);
+  setCookie(zoomCookieName, chosenZoom);
   objectManager.setZoom(chosenZoom);
 }
 function installKeyboardStepControls() {
@@ -4054,6 +4110,9 @@ function AnimationManager(objectManager2, canvas2) {
         break;
       }
     }
+  };
+  this.shift = function(deltaX = 0, deltaY = 0) {
+    this.animatedObjects.shiftView(deltaX, deltaY);
   };
   this.parseBool = function(str) {
     var uppercase = str.toUpperCase();
@@ -4287,12 +4346,15 @@ function AnimationManager(objectManager2, canvas2) {
         undoBlock.push(new UndoSetBackgroundColor(id, oldColor));
       } else if (nextCommand[0].toUpperCase() == "SETHIGHLIGHT") {
         var newHighlight = this.parseBool(nextCommand[2]);
+        var oldHighlight = this.animatedObjects.getHighlight(
+          parseInt(nextCommand[1])
+        );
         this.animatedObjects.setHighlight(
           parseInt(nextCommand[1]),
           newHighlight
         );
         undoBlock.push(
-          new UndoHighlight(parseInt(nextCommand[1]), !newHighlight)
+          new UndoHighlight(parseInt(nextCommand[1]), oldHighlight)
         );
       } else if (nextCommand[0].toUpperCase() == "DISCONNECT") {
         var undoConnect = this.animatedObjects.disconnect(
@@ -4903,6 +4965,22 @@ function AnimationManager(objectManager2, canvas2) {
     this.scrubSlider.max = String(this.totalBlocks);
     this.scrubSlider.value = String(Math.max(0, Math.min(this.currentBlockIndex, this.totalBlocks)));
   };
+  this.finishCurrentBlockInstantly = function() {
+    if (!this.currentBlock || this.currentBlock.length === 0)
+      return;
+    for (var i = 0; i < this.currentBlock.length; i++) {
+      var objectID = this.currentBlock[i].objectID;
+      this.animatedObjects.setNodePosition(
+        objectID,
+        this.currentBlock[i].toX,
+        this.currentBlock[i].toY
+      );
+    }
+    this.currFrame = this.animationBlockLength;
+    this.currentBlock = [];
+    this.animatedObjects.update();
+    this.animatedObjects.draw();
+  };
   this.scrubToBlock = function(targetBlockIndex) {
     if (!Number.isFinite(targetBlockIndex))
       return;
@@ -4911,16 +4989,32 @@ function AnimationManager(objectManager2, canvas2) {
       return;
     clearTimeout(timer);
     this.animationPaused = true;
+    if (this.currentlyAnimating) {
+      this.finishCurrentBlockInstantly();
+    }
+    this.currentlyAnimating = false;
+    this.doingUndo = false;
     if (targetBlockIndex === this.currentBlockIndex) {
+      this.awaitingStep = targetBlockIndex < this.totalBlocks;
       this.updateScrubUI();
+      this.fireEvent(this.awaitingStep ? "AnimationWaiting" : "AnimationEnded", "NoData");
       return;
     }
     if (targetBlockIndex < this.currentBlockIndex) {
       while (this.currentBlockIndex > targetBlockIndex && this.undoAnimationStepIndices && this.undoAnimationStepIndices.length > 0) {
         this.undoLastBlock();
+        for (var i = 0; this.currentBlock != null && i < this.currentBlock.length; i++) {
+          var objectID = this.currentBlock[i].objectID;
+          this.animatedObjects.setNodePosition(
+            objectID,
+            this.currentBlock[i].toX,
+            this.currentBlock[i].toY
+          );
+        }
         const undoBlock = this.undoStack.pop();
         if (undoBlock) {
           this.finishUndoBlock(undoBlock);
+          this.currentBlock = [];
         } else {
           break;
         }
@@ -4928,31 +5022,21 @@ function AnimationManager(objectManager2, canvas2) {
       this.updateScrubUI();
       this.animatedObjects.update();
       this.animatedObjects.draw();
+      this.currentlyAnimating = false;
+      this.doingUndo = false;
+      this.awaitingStep = targetBlockIndex < this.totalBlocks;
+      this.fireEvent(this.awaitingStep ? "AnimationWaiting" : "AnimationEnded", "NoData");
       return;
     }
     while (this.currentBlockIndex < targetBlockIndex && this.currentAnimation < this.AnimationSteps.length) {
       this.startNextBlock();
-      this.currFrame = this.animationBlockLength;
-      for (var i = 0; i < (this.currentBlock ? this.currentBlock.length : 0); i++) {
-        var objectID = this.currentBlock[i].objectID;
-        this.animatedObjects.setNodePosition(
-          objectID,
-          this.currentBlock[i].toX,
-          this.currentBlock[i].toY
-        );
-      }
-      this.currentBlock = [];
-      this.animatedObjects.update();
-      this.animatedObjects.draw();
+      this.finishCurrentBlockInstantly();
     }
     this.updateScrubUI();
-    if (targetBlockIndex === this.totalBlocks) {
-      if (this.awaitingStep) {
-        this.step();
-      } else if (this.currentlyAnimating) {
-        this.skipForward();
-      }
-    }
+    this.currentlyAnimating = false;
+    this.doingUndo = false;
+    this.awaitingStep = targetBlockIndex < this.totalBlocks;
+    this.fireEvent(this.awaitingStep ? "AnimationWaiting" : "AnimationEnded", "NoData");
   };
 }
 AnimationManager.prototype = new EventListener();
@@ -6215,11 +6299,11 @@ AVLNode.prototype.isLeftChild = function() {
 };
 
 // AlgorithmLibrary/Graph.js
-function Graph(am, w2, h, dir, dag) {
+function Graph(am, w2, h, dir, dag, opts) {
   if (am == void 0) {
     return;
   }
-  this.init(am, w2, h, dir, dag);
+  this.init(am, w2, h, dir, dag, opts);
 }
 Graph.prototype = new Algorithm();
 Graph.prototype.constructor = Graph;
@@ -6704,15 +6788,41 @@ var VERTEX_INDEX_COLOR = "#0000FF";
 var EDGE_COLOR = "#000000";
 var SMALL_SIZE = 8;
 var LARGE_SIZE = 18;
-Graph.prototype.init = function(am, w2, h, directed, dag) {
-  directed = directed == void 0 ? true : directed;
-  dag = dag == void 0 ? false : dag;
+function parseStartingRepresentation(representation, fallbackLayer = 1) {
+  if (Number.isFinite(representation)) {
+    const n = Math.trunc(representation);
+    if (n >= 1 && n <= 3)
+      return n;
+  }
+  if (typeof representation === "string") {
+    const lower = representation.trim().toLowerCase();
+    if (lower === "1" || lower === "logical")
+      return 1;
+    if (lower === "2" || lower === "adjacencylist" || lower === "adjacency list" || lower === "adjlist" || lower === "list") {
+      return 2;
+    }
+    if (lower === "3" || lower === "adjacencymatrix" || lower === "adjacency matrix" || lower === "matrix") {
+      return 3;
+    }
+  }
+  return fallbackLayer;
+}
+Graph.prototype.init = function(am, w2, h, directed, dag, opts) {
+  if (directed && typeof directed === "object") {
+    opts = directed;
+    directed = void 0;
+    dag = void 0;
+  }
+  opts = opts && typeof opts === "object" ? opts : {};
+  directed = typeof opts.directed === "boolean" ? opts.directed : directed == void 0 ? true : directed;
+  dag = typeof opts.dag === "boolean" ? opts.dag : dag == void 0 ? false : dag;
+  const requestedLayer = opts.startingGraphRepresentation ?? opts.graphRepresentation ?? opts.startingRepresentation;
+  const initialLayer = parseStartingRepresentation(requestedLayer, 1);
   Graph.superclass.init.call(this, am, w2, h);
   this.nextIndex = 0;
-  this.currentLayer = 1;
+  this.currentLayer = initialLayer;
   this.isDAG = dag;
   this.directed = directed;
-  this.currentLayer = 1;
   this.addControls();
   this.setup_small();
 };
@@ -6766,7 +6876,9 @@ Graph.prototype.addControls = function(addDirection) {
     this,
     3
   );
-  this.logicalButton.checked = true;
+  this.logicalButton.checked = this.currentLayer === 1;
+  this.adjacencyListButton.checked = this.currentLayer === 2;
+  this.adjacencyMatrixButton.checked = this.currentLayer === 3;
 };
 Graph.prototype.directedGraphCallback = function(newDirected, event) {
   if (newDirected != this.directed) {
@@ -7189,7 +7301,8 @@ var AUX_ARRAY_START_Y = 50;
 var VISITED_START_X = 175;
 var PARENT_START_X = 250;
 var HIGHLIGHT_CIRCLE_COLOR = "#9c0303ff";
-var BFS_TREE_COLOR = "#0000FF";
+var SEARCH_TREE_FINAL_COLOR = "var(--svgColor--althighlight)";
+var EDGE_CHECK_COLOR = "var(--svgColor--althighlight)";
 var BFS_QUEUE_HEAD_COLOR = "#0000FF";
 var QUEUE_START_X = 30;
 var QUEUE_START_Y = 40;
@@ -7198,6 +7311,7 @@ function BFS(canvas2) {
   let am;
   let w2;
   let h;
+  let graphOpts = null;
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
     am = initCanvas2(legacyCanvas, null, "Breadth-First Search", false, {
@@ -7208,6 +7322,7 @@ function BFS(canvas2) {
     h = legacyCanvas.height;
   } else {
     const opts = canvas2 || {};
+    graphOpts = opts;
     const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
     const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
@@ -7220,7 +7335,7 @@ function BFS(canvas2) {
     w2 = viewWidth;
     h = viewHeight;
   }
-  this.init(am, w2, h);
+  this.init(am, w2, h, graphOpts);
 }
 BFS.prototype = new Graph();
 BFS.prototype.constructor = BFS;
@@ -7240,9 +7355,9 @@ BFS.prototype.addControls = function() {
   this.startButton.onclick = this.startCallback.bind(this);
   BFS.superclass.addControls.call(this);
 };
-BFS.prototype.init = function(am, w2, h) {
+BFS.prototype.init = function(am, w2, h, graphOpts) {
   this.showEdgeCosts = false;
-  BFS.superclass.init.call(this, am, w2, h);
+  BFS.superclass.init.call(this, am, w2, h, true, false, graphOpts);
 };
 BFS.prototype.setup = function() {
   BFS.superclass.setup.call(this);
@@ -7303,7 +7418,7 @@ BFS.prototype.setup = function() {
   this.cmd(
     "CreateLabel",
     this.nextIndex++,
-    "Visited",
+    "Known",
     VISITED_START_X - AUX_ARRAY_WIDTH,
     AUX_ARRAY_START_Y - AUX_ARRAY_HEIGHT * 1.5,
     0
@@ -7325,12 +7440,51 @@ BFS.prototype.setup = function() {
   this.highlightCircleAM = this.nextIndex++;
 };
 BFS.prototype.startCallback = function(event) {
-  var startvalue;
   if (this.startField.value != "") {
-    startvalue = this.startField.value;
+    const startvalue = this.startField.value;
     this.startField.value = "";
-    if (parseInt(startvalue) < this.size)
-      this.implementAction(this.doBFS.bind(this), startvalue);
+    this.doSearch(startvalue);
+  }
+};
+BFS.prototype.doSearch = function(startVertex) {
+  const parsedStart = parseInt(startVertex);
+  if (!Number.isFinite(parsedStart) || parsedStart < 0 || parsedStart >= this.size) {
+    return false;
+  }
+  this.implementAction(this.doBFS.bind(this), parsedStart);
+  return true;
+};
+BFS.prototype.initEdgeVisualState = function() {
+  this.edgeColorState = new Array(this.size);
+  this.edgeHighlightState = new Array(this.size);
+  for (var i = 0; i < this.size; i++) {
+    this.edgeColorState[i] = new Array(this.size);
+    this.edgeHighlightState[i] = new Array(this.size);
+    for (var j = 0; j < this.size; j++) {
+      this.edgeColorState[i][j] = EDGE_COLOR;
+      this.edgeHighlightState[i][j] = false;
+    }
+  }
+};
+BFS.prototype.recordEdgeVisualState = function(i, j, color, highlighted) {
+  this.edgeColorState[i][j] = color;
+  this.edgeHighlightState[i][j] = highlighted;
+  if (!this.directed) {
+    this.edgeColorState[j][i] = color;
+    this.edgeHighlightState[j][i] = highlighted;
+  }
+};
+BFS.prototype.applyEdgeVisualState = function(i, j, color, highlighted) {
+  this.setEdgeColor(i, j, color);
+  this.highlightEdge(i, j, highlighted ? 1 : 0);
+  this.recordEdgeVisualState(i, j, color, highlighted);
+};
+BFS.prototype.clearAdjacencyRepEdgeHighlight = function(i, j) {
+  if (this.adj_list_edges && this.adj_list_edges[i] && this.adj_list_edges[i][j]) {
+    this.cmd("SetHighlight", this.adj_list_edges[i][j], 0);
+  }
+  if (this.adj_matrixID && this.adj_matrixID[i] && this.adj_matrixID[i][j]) {
+    this.cmd("SetHighlight", this.adj_matrixID[i][j], 0);
   }
 };
 BFS.prototype.doBFS = function(startVetex) {
@@ -7348,25 +7502,32 @@ BFS.prototype.doBFS = function(startVetex) {
     }
   }
   this.rebuildEdges();
+  this.initEdgeVisualState();
   this.messageID = new Array();
   for (i = 0; i < this.size; i++) {
     this.cmd("SetText", this.visitedID[i], "f");
+    this.cmd("SetHighlight", this.visitedID[i], 0);
     this.cmd("SetText", this.parentID[i], "");
     this.visited[i] = false;
     this.parent[i] = -1;
     queueID[i] = this.nextIndex++;
+    this.cmd(
+      "CreateLabel",
+      queueID[i],
+      "",
+      QUEUE_START_X,
+      QUEUE_START_Y + i * QUEUE_SPACING
+    );
+    this.cmd("SetAlpha", queueID[i], 0);
   }
   var vertex = parseInt(startVetex);
   this.visited[vertex] = true;
   this.parent[vertex] = -1;
   this.queue[tail] = vertex;
-  this.cmd(
-    "CreateLabel",
-    queueID[tail],
-    vertex,
-    QUEUE_START_X,
-    QUEUE_START_Y + queueSize * QUEUE_SPACING
-  );
+  this.cmd("SetText", queueID[tail], vertex);
+  this.cmd("SetTextColor", queueID[tail], "#000000");
+  this.cmd("SetAlpha", queueID[tail], 1);
+  this.cmd("Move", queueID[tail], QUEUE_START_X, QUEUE_START_Y);
   queueSize = queueSize + 1;
   tail = (tail + 1) % this.size;
   while (queueSize > 0) {
@@ -7400,35 +7561,24 @@ BFS.prototype.doBFS = function(startVetex) {
     this.cmd("Step");
     for (var neighbor = 0; neighbor < this.size; neighbor++) {
       if (this.adj_matrix[vertex][neighbor] > 0) {
-        this.highlightEdge(vertex, neighbor, 1);
+        const savedEdgeColor = this.edgeColorState[vertex][neighbor];
+        const savedEdgeHighlight = this.edgeHighlightState[vertex][neighbor];
+        this.applyEdgeVisualState(vertex, neighbor, EDGE_CHECK_COLOR, false);
         this.cmd("SetHighlight", this.visitedID[neighbor], 1);
-        this.cmd("SetMessage", `Explore edge ${vertex} -> ${neighbor} (check whether ${neighbor} is unvisited).`);
+        this.cmd("SetMessage", `Explore edge ${vertex} -> ${neighbor} (check whether ${neighbor} is known).`);
         this.cmd("Step");
         if (!this.visited[neighbor]) {
           this.visited[neighbor] = true;
           this.parent[neighbor] = vertex;
           this.cmd("SetText", this.visitedID[neighbor], "T");
           this.cmd("SetText", this.parentID[neighbor], vertex);
-          this.highlightEdge(vertex, neighbor, 0);
-          this.cmd(
-            "Disconnect",
-            this.circleID[vertex],
-            this.circleID[neighbor]
-          );
-          this.cmd(
-            "Connect",
-            this.circleID[vertex],
-            this.circleID[neighbor],
-            BFS_TREE_COLOR,
-            this.curve[vertex][neighbor],
-            1,
-            ""
-          );
           this.queue[tail] = neighbor;
+          this.cmd("SetText", queueID[tail], neighbor);
+          this.cmd("SetTextColor", queueID[tail], "#000000");
+          this.cmd("SetAlpha", queueID[tail], 1);
           this.cmd(
-            "CreateLabel",
+            "Move",
             queueID[tail],
-            neighbor,
             QUEUE_START_X,
             QUEUE_START_Y + queueSize * QUEUE_SPACING
           );
@@ -7438,16 +7588,25 @@ BFS.prototype.doBFS = function(startVetex) {
             "SetMessage",
             `Discovered ${neighbor}; set parent to ${vertex}, add to BFS tree, and enqueue ${neighbor}.`
           );
+          this.applyEdgeVisualState(vertex, neighbor, savedEdgeColor, true);
         } else {
-          this.highlightEdge(vertex, neighbor, 0);
           this.cmd("SetMessage", `Neighbor ${neighbor} was already visited; ignore this edge.`);
+          this.applyEdgeVisualState(
+            vertex,
+            neighbor,
+            savedEdgeColor,
+            savedEdgeHighlight
+          );
         }
         this.cmd("Step");
+        this.clearAdjacencyRepEdgeHighlight(vertex, neighbor);
         this.cmd("SetHighlight", this.visitedID[neighbor], 0);
         this.cmd("Step");
       }
     }
-    this.cmd("Delete", queueID[head]);
+    this.cmd("SetTextColor", queueID[head], "#000000");
+    this.cmd("SetText", queueID[head], "");
+    this.cmd("SetAlpha", queueID[head], 0);
     head = (head + 1) % this.size;
     queueSize = queueSize - 1;
     for (i = 0; i < queueSize; i++) {
@@ -7462,17 +7621,15 @@ BFS.prototype.doBFS = function(startVetex) {
     this.cmd("Delete", this.highlightCircleL);
     this.cmd("Delete", this.highlightCircleAM);
     this.cmd("Delete", this.highlightCircleAL);
-    this.cmd("SetMessage", "BFS complete. Search tree highlighted.");
-    for (i = 0; i < this.size; i++) {
-      if (this.parent[i] >= 0) {
-        this.highlightEdge(this.parent[i], i, 1);
-      }
-    }
-    this.cmd("Step");
     this.cmd("SetMessage", `Done exploring ${vertex}.`);
     this.cmd("Step");
   }
-  this.cmd("SetMessage", `Queue is empty. Done.`);
+  this.cmd("SetMessage", "Queue is empty. BFS complete. Search tree highlighted.");
+  for (i = 0; i < this.size; i++) {
+    if (this.parent[i] >= 0) {
+      this.applyEdgeVisualState(this.parent[i], i, SEARCH_TREE_FINAL_COLOR, true);
+    }
+  }
   this.cmd("Step");
   return this.commands;
 };
@@ -11721,6 +11878,7 @@ function ConnectedComponent(canvas2) {
   let am;
   let w2;
   let h;
+  let graphOpts = null;
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
     am = initCanvas2(legacyCanvas, null, "Connected Components", false, {
@@ -11731,6 +11889,7 @@ function ConnectedComponent(canvas2) {
     h = legacyCanvas.height;
   } else {
     const opts = canvas2 || {};
+    graphOpts = opts;
     const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
     const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
@@ -11743,7 +11902,7 @@ function ConnectedComponent(canvas2) {
     w2 = viewWidth;
     h = viewHeight;
   }
-  this.init(am, w2, h);
+  this.init(am, w2, h, graphOpts);
 }
 ConnectedComponent.prototype = new Graph();
 ConnectedComponent.prototype.constructor = ConnectedComponent;
@@ -11756,9 +11915,9 @@ ConnectedComponent.prototype.addControls = function() {
   this.startButton.onclick = this.startCallback.bind(this);
   ConnectedComponent.superclass.addControls.call(this, false);
 };
-ConnectedComponent.prototype.init = function(am, w2, h) {
+ConnectedComponent.prototype.init = function(am, w2, h, graphOpts) {
   this.showEdgeCosts = false;
-  ConnectedComponent.superclass.init.call(this, am, w2, h, true, false);
+  ConnectedComponent.superclass.init.call(this, am, w2, h, true, false, graphOpts);
 };
 ConnectedComponent.prototype.setup = function() {
   ConnectedComponent.superclass.setup.call(this);
@@ -12168,12 +12327,17 @@ var AUX_ARRAY_START_Y2 = 50;
 var VISITED_START_X2 = 200;
 var PARENT_START_X2 = 275;
 var HIGHLIGHT_CIRCLE_COLOR3 = "#000000";
-var DFS_TREE_COLOR2 = "#0000FF";
+var SEARCH_TREE_FINAL_COLOR2 = "var(--svgColor--althighlight)";
+var EDGE_CHECK_COLOR2 = "var(--svgColor--althighlight)";
+var QUEUE_START_X2 = 30;
+var QUEUE_START_Y2 = 50;
+var QUEUE_SPACING2 = 30;
 var DFS_CALLSTACK_FONT_SIZE_PERCENT = 80;
 function DFS(canvas2) {
   let am;
   let w2;
   let h;
+  let graphOpts = null;
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
     am = initCanvas2(legacyCanvas, null, "Depth-First Search", false, {
@@ -12184,6 +12348,7 @@ function DFS(canvas2) {
     h = legacyCanvas.height;
   } else {
     const opts = canvas2 || {};
+    graphOpts = opts;
     const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
     const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
@@ -12196,7 +12361,7 @@ function DFS(canvas2) {
     w2 = viewWidth;
     h = viewHeight;
   }
-  this.init(am, w2, h);
+  this.init(am, w2, h, graphOpts);
 }
 DFS.prototype = new Graph();
 DFS.prototype.constructor = DFS;
@@ -12213,11 +12378,34 @@ DFS.prototype.addControls = function() {
   );
   this.startButton = addControlToAlgorithmBar("Button", "Run DFS");
   this.startButton.onclick = this.startCallback.bind(this);
+  var radioButtonList = addRadioButtonGroupToAlgorithmBar(
+    ["Recursive", "Iterative"],
+    "DFSMode"
+  );
+  this.recursiveModeButton = radioButtonList[0];
+  this.recursiveModeButton.onclick = this.dfsModeChangedCallback.bind(this, false);
+  this.iterativeModeButton = radioButtonList[1];
+  this.iterativeModeButton.onclick = this.dfsModeChangedCallback.bind(this, true);
+  this.recursiveModeButton.checked = !this.useIterative;
+  this.iterativeModeButton.checked = this.useIterative;
   DFS.superclass.addControls.call(this);
 };
-DFS.prototype.init = function(am, w2, h) {
+DFS.prototype.init = function(am, w2, h, graphOpts) {
+  this.useIterative = false;
+  if (graphOpts && typeof graphOpts === "object") {
+    if (typeof graphOpts.iterative === "boolean") {
+      this.useIterative = graphOpts.iterative;
+    } else if (typeof graphOpts.searchMode === "string") {
+      this.useIterative = graphOpts.searchMode.toLowerCase() === "iterative";
+    }
+  }
   this.showEdgeCosts = false;
-  DFS.superclass.init.call(this, am, w2, h);
+  DFS.superclass.init.call(this, am, w2, h, true, false, graphOpts);
+};
+DFS.prototype.dfsModeChangedCallback = function(iterativeMode) {
+  if (this.useIterative !== iterativeMode) {
+    this.useIterative = iterativeMode;
+  }
 };
 DFS.prototype.setup = function() {
   DFS.superclass.setup.call(this);
@@ -12292,15 +12480,60 @@ DFS.prototype.setup = function() {
   this.highlightCircleAM = this.nextIndex++;
 };
 DFS.prototype.startCallback = function(event) {
-  var startvalue;
   if (this.startField.value != "") {
-    startvalue = this.startField.value;
+    const startvalue = this.startField.value;
     this.startField.value = "";
-    if (parseInt(startvalue) < this.size)
-      this.implementAction(this.doDFS.bind(this), startvalue);
+    this.doSearch(startvalue);
+  }
+};
+DFS.prototype.doSearch = function(startVertex) {
+  const parsedStart = parseInt(startVertex);
+  if (!Number.isFinite(parsedStart) || parsedStart < 0 || parsedStart >= this.size) {
+    return false;
+  }
+  this.implementAction(this.doDFS.bind(this), parsedStart);
+  return true;
+};
+DFS.prototype.initEdgeVisualState = function() {
+  this.edgeColorState = new Array(this.size);
+  this.edgeHighlightState = new Array(this.size);
+  for (var i = 0; i < this.size; i++) {
+    this.edgeColorState[i] = new Array(this.size);
+    this.edgeHighlightState[i] = new Array(this.size);
+    for (var j = 0; j < this.size; j++) {
+      this.edgeColorState[i][j] = EDGE_COLOR;
+      this.edgeHighlightState[i][j] = false;
+    }
+  }
+};
+DFS.prototype.recordEdgeVisualState = function(i, j, color, highlighted) {
+  this.edgeColorState[i][j] = color;
+  this.edgeHighlightState[i][j] = highlighted;
+  if (!this.directed) {
+    this.edgeColorState[j][i] = color;
+    this.edgeHighlightState[j][i] = highlighted;
+  }
+};
+DFS.prototype.applyEdgeVisualState = function(i, j, color, highlighted) {
+  this.setEdgeColor(i, j, color);
+  this.highlightEdge(i, j, highlighted ? 1 : 0);
+  this.recordEdgeVisualState(i, j, color, highlighted);
+};
+DFS.prototype.clearAdjacencyRepEdgeHighlight = function(i, j) {
+  if (this.adj_list_edges && this.adj_list_edges[i] && this.adj_list_edges[i][j]) {
+    this.cmd("SetHighlight", this.adj_list_edges[i][j], 0);
+  }
+  if (this.adj_matrixID && this.adj_matrixID[i] && this.adj_matrixID[i][j]) {
+    this.cmd("SetHighlight", this.adj_matrixID[i][j], 0);
   }
 };
 DFS.prototype.doDFS = function(startVetex) {
+  if (this.useIterative) {
+    return this.doDFSIterative(startVetex);
+  }
+  return this.doDFSRecursive(startVetex);
+};
+DFS.prototype.doDFSRecursive = function(startVetex) {
   this.visited = new Array(this.size);
   this.parent = new Array(this.size);
   this.commands = new Array();
@@ -12310,9 +12543,11 @@ DFS.prototype.doDFS = function(startVetex) {
     }
   }
   this.rebuildEdges();
+  this.initEdgeVisualState();
   this.messageID = new Array();
   for (i = 0; i < this.size; i++) {
     this.cmd("SetText", this.visitedID[i], "f");
+    this.cmd("SetHighlight", this.visitedID[i], 0);
     this.cmd("SetText", this.parentID[i], "");
     this.visited[i] = false;
     this.parent[i] = -1;
@@ -12354,7 +12589,207 @@ DFS.prototype.doDFS = function(startVetex) {
   );
   for (i = 0; i < this.size; i++) {
     if (this.parent[i] >= 0) {
+      this.setEdgeColor(this.parent[i], i, SEARCH_TREE_FINAL_COLOR2);
       this.highlightEdge(this.parent[i], i, 1);
+    }
+  }
+  this.cmd("Step");
+  return this.commands;
+};
+DFS.prototype.doDFSIterative = function(startVetex) {
+  this.visited = new Array(this.size);
+  this.parent = new Array(this.size);
+  this.commands = new Array();
+  if (this.messageID != null) {
+    for (var i = 0; i < this.messageID.length; i++) {
+      this.cmd("Delete", this.messageID[i]);
+    }
+  }
+  this.rebuildEdges();
+  this.initEdgeVisualState();
+  this.messageID = new Array();
+  var stackTitleID = this.nextIndex++;
+  this.messageID.push(stackTitleID);
+  this.cmd(
+    "CreateLabel",
+    stackTitleID,
+    "Stack",
+    QUEUE_START_X2,
+    QUEUE_START_Y2 - 30,
+    0
+  );
+  var stackCapacity = this.size * this.size;
+  var stackLabelID = new Array(stackCapacity);
+  for (i = 0; i < this.size; i++) {
+    this.cmd("SetText", this.visitedID[i], "f");
+    this.cmd("SetHighlight", this.visitedID[i], 0);
+    this.cmd("SetText", this.parentID[i], "");
+    this.visited[i] = false;
+    this.parent[i] = -1;
+  }
+  for (i = 0; i < stackCapacity; i++) {
+    stackLabelID[i] = this.nextIndex++;
+    this.cmd(
+      "CreateLabel",
+      stackLabelID[i],
+      "",
+      QUEUE_START_X2,
+      QUEUE_START_Y2 + i * QUEUE_SPACING2
+    );
+    this.cmd("SetAlpha", stackLabelID[i], 0);
+  }
+  var vertex = parseInt(startVetex);
+  this.parent[vertex] = -1;
+  var stackVertex = new Array(stackCapacity);
+  var stackSize = 0;
+  stackVertex[stackSize] = vertex;
+  this.cmd("SetText", stackLabelID[stackSize], vertex);
+  this.cmd("SetAlpha", stackLabelID[stackSize], 1);
+  this.cmd(
+    "Move",
+    stackLabelID[stackSize],
+    QUEUE_START_X2,
+    QUEUE_START_Y2 + stackSize * QUEUE_SPACING2
+  );
+  stackSize++;
+  this.cmd(
+    "CreateHighlightCircle",
+    this.highlightCircleL,
+    HIGHLIGHT_CIRCLE_COLOR3,
+    this.x_pos_logical[vertex],
+    this.y_pos_logical[vertex]
+  );
+  this.cmd("SetLayer", this.highlightCircleL, 1);
+  this.cmd(
+    "CreateHighlightCircle",
+    this.highlightCircleAL,
+    HIGHLIGHT_CIRCLE_COLOR3,
+    this.adj_list_x_start - this.adj_list_width,
+    this.adj_list_y_start + vertex * this.adj_list_height
+  );
+  this.cmd("SetLayer", this.highlightCircleAL, 2);
+  this.cmd(
+    "CreateHighlightCircle",
+    this.highlightCircleAM,
+    HIGHLIGHT_CIRCLE_COLOR3,
+    this.adj_matrix_x_start - this.adj_matrix_width,
+    this.adj_matrix_y_start + vertex * this.adj_matrix_height
+  );
+  this.cmd("SetLayer", this.highlightCircleAM, 3);
+  this.cmd("SetMessage", `Initialize stack with ${vertex}.`);
+  this.cmd("Step");
+  while (stackSize > 0) {
+    stackSize--;
+    var currentVertex = stackVertex[stackSize];
+    this.cmd("SetText", stackLabelID[stackSize], "");
+    this.cmd("SetAlpha", stackLabelID[stackSize], 0);
+    this.cmd("SetMessage", `Pop ${currentVertex} from stack.`);
+    this.cmd("Step");
+    if (this.visited[currentVertex]) {
+      this.cmd("SetMessage", `${currentVertex} is already visited; skip.`);
+      this.cmd("Step");
+      continue;
+    }
+    this.visited[currentVertex] = true;
+    this.cmd("SetText", this.visitedID[currentVertex], "T");
+    if (this.parent[currentVertex] >= 0) {
+      this.applyEdgeVisualState(
+        this.parent[currentVertex],
+        currentVertex,
+        EDGE_COLOR,
+        true
+      );
+    }
+    this.cmd(
+      "Move",
+      this.highlightCircleL,
+      this.x_pos_logical[currentVertex],
+      this.y_pos_logical[currentVertex]
+    );
+    this.cmd(
+      "Move",
+      this.highlightCircleAL,
+      this.adj_list_x_start - this.adj_list_width,
+      this.adj_list_y_start + currentVertex * this.adj_list_height
+    );
+    this.cmd(
+      "Move",
+      this.highlightCircleAM,
+      this.adj_matrix_x_start - this.adj_matrix_width,
+      this.adj_matrix_y_start + currentVertex * this.adj_matrix_height
+    );
+    this.cmd("SetMessage", `Visit ${currentVertex}; scan neighbors.`);
+    this.cmd("Step");
+    for (var neighbor = this.size - 1; neighbor >= 0; neighbor--) {
+      if (this.adj_matrix[currentVertex][neighbor] > 0) {
+        const savedEdgeColor = this.edgeColorState[currentVertex][neighbor];
+        const savedEdgeHighlight = this.edgeHighlightState[currentVertex][neighbor];
+        this.applyEdgeVisualState(currentVertex, neighbor, EDGE_CHECK_COLOR2, false);
+        this.cmd("SetHighlight", this.visitedID[neighbor], 1);
+        if (this.visited[neighbor]) {
+          this.cmd(
+            "SetMessage",
+            `Explore edge ${currentVertex} -> ${neighbor}; neighbor already visited (skip).`
+          );
+        } else {
+          this.cmd(
+            "SetMessage",
+            `Explore edge ${currentVertex} -> ${neighbor}; neighbor unvisited (push).`
+          );
+        }
+        this.cmd("Step");
+        if (!this.visited[neighbor]) {
+          this.parent[neighbor] = currentVertex;
+          this.cmd("SetText", this.parentID[neighbor], currentVertex);
+          this.applyEdgeVisualState(
+            currentVertex,
+            neighbor,
+            savedEdgeColor,
+            savedEdgeHighlight
+          );
+          stackVertex[stackSize] = neighbor;
+          this.cmd("SetText", stackLabelID[stackSize], neighbor);
+          this.cmd("SetAlpha", stackLabelID[stackSize], 1);
+          this.cmd(
+            "Move",
+            stackLabelID[stackSize],
+            QUEUE_START_X2,
+            QUEUE_START_Y2 + stackSize * QUEUE_SPACING2
+          );
+          stackSize++;
+          this.cmd(
+            "SetMessage",
+            `Discover ${neighbor}; set parent to ${currentVertex} and push ${neighbor} onto stack (edge locks when ${neighbor} is visited).`
+          );
+          this.cmd("Step");
+        } else {
+          this.applyEdgeVisualState(
+            currentVertex,
+            neighbor,
+            savedEdgeColor,
+            savedEdgeHighlight
+          );
+          this.cmd(
+            "SetMessage",
+            `Neighbor ${neighbor} already visited; skip edge ${currentVertex} -> ${neighbor}.`
+          );
+        }
+        this.cmd("Step");
+        this.clearAdjacencyRepEdgeHighlight(currentVertex, neighbor);
+        this.cmd("SetHighlight", this.visitedID[neighbor], 0);
+        this.cmd("Step");
+      }
+    }
+    this.cmd("SetMessage", `Finished scanning neighbors of ${currentVertex}.`);
+    this.cmd("Step");
+  }
+  this.cmd("Delete", this.highlightCircleL);
+  this.cmd("Delete", this.highlightCircleAL);
+  this.cmd("Delete", this.highlightCircleAM);
+  this.cmd("SetMessage", "DFS complete. Search tree highlighted.");
+  for (i = 0; i < this.size; i++) {
+    if (this.parent[i] >= 0) {
+      this.applyEdgeVisualState(this.parent[i], i, SEARCH_TREE_FINAL_COLOR2, true);
     }
   }
   this.cmd("Step");
@@ -12380,7 +12815,9 @@ DFS.prototype.dfsVisit = function(startVertex, messageX) {
     this.cmd("Step");
     for (var neighbor = 0; neighbor < this.size; neighbor++) {
       if (this.adj_matrix[startVertex][neighbor] > 0) {
-        this.highlightEdge(startVertex, neighbor, 1);
+        const savedEdgeColor = this.edgeColorState[startVertex][neighbor];
+        const savedEdgeHighlight = this.edgeHighlightState[startVertex][neighbor];
+        this.applyEdgeVisualState(startVertex, neighbor, EDGE_CHECK_COLOR2, false);
         this.cmd("SetHighlight", this.visitedID[neighbor], 1);
         if (this.visited[neighbor]) {
           this.cmd(
@@ -12394,23 +12831,8 @@ DFS.prototype.dfsVisit = function(startVertex, messageX) {
           );
         }
         this.cmd("Step");
-        this.highlightEdge(startVertex, neighbor, 0);
-        this.cmd("SetHighlight", this.visitedID[neighbor], 0);
         if (!this.visited[neighbor]) {
-          this.cmd(
-            "Disconnect",
-            this.circleID[startVertex],
-            this.circleID[neighbor]
-          );
-          this.cmd(
-            "Connect",
-            this.circleID[startVertex],
-            this.circleID[neighbor],
-            DFS_TREE_COLOR2,
-            this.curve[startVertex][neighbor],
-            1,
-            ""
-          );
+          this.applyEdgeVisualState(startVertex, neighbor, savedEdgeColor, true);
           this.cmd(
             "Move",
             this.highlightCircleL,
@@ -12460,7 +12882,18 @@ DFS.prototype.dfsVisit = function(startVertex, messageX) {
             `Returned to DFS(${startVertex}) from DFS(${neighbor}); continue scanning neighbors.`
           );
           this.cmd("Step");
+        } else {
+          this.applyEdgeVisualState(
+            startVertex,
+            neighbor,
+            savedEdgeColor,
+            savedEdgeHighlight
+          );
         }
+        this.cmd("Step");
+        this.clearAdjacencyRepEdgeHighlight(startVertex, neighbor);
+        this.cmd("SetHighlight", this.visitedID[neighbor], 0);
+        this.cmd("Step");
         this.cmd(
           "SetMessage",
           `Finished processing edge ${startVertex} -> ${neighbor}.`
@@ -12495,6 +12928,7 @@ function DijkstraPrim(canvas2, runningDijkstra) {
   let am;
   let w2;
   let h;
+  let graphOpts = null;
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
     const title = runningDijkstra ? "Dijkstra Shortest Path" : "Prim MST";
@@ -12506,6 +12940,7 @@ function DijkstraPrim(canvas2, runningDijkstra) {
     h = legacyCanvas.height;
   } else {
     const opts = canvas2 || {};
+    graphOpts = opts;
     const runDijkstra = typeof opts.runningDijkstra === "boolean" ? opts.runningDijkstra : true;
     const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
     const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
@@ -12520,7 +12955,7 @@ function DijkstraPrim(canvas2, runningDijkstra) {
     h = viewHeight;
     runningDijkstra = runDijkstra;
   }
-  this.init(am, runningDijkstra, w2, h);
+  this.init(am, runningDijkstra, w2, h, graphOpts);
 }
 DijkstraPrim.prototype = new Graph();
 DijkstraPrim.prototype.constructor = DijkstraPrim;
@@ -12543,10 +12978,10 @@ DijkstraPrim.prototype.addControls = function() {
   this.startButton.onclick = this.startCallback.bind(this);
   DijkstraPrim.superclass.addControls.call(this, this.runningDijkstra);
 };
-DijkstraPrim.prototype.init = function(am, runningDijkstra, w2, h) {
+DijkstraPrim.prototype.init = function(am, runningDijkstra, w2, h, graphOpts) {
   this.runningDijkstra = runningDijkstra;
   this.showEdgeCosts = true;
-  DijkstraPrim.superclass.init.call(this, am, w2, h, false, false);
+  DijkstraPrim.superclass.init.call(this, am, w2, h, false, false, graphOpts);
 };
 DijkstraPrim.prototype.setup = function() {
   this.message1ID = this.nextIndex++;
@@ -12966,6 +13401,78 @@ function Prim(canvas2) {
     runningDijkstra: false
   });
 }
+
+// AlgorithmLibrary/GraphRepresentation.js
+function GraphRepresentation(canvas2) {
+  let am;
+  let w2;
+  let h;
+  let graphOpts = null;
+  if (canvas2 && typeof canvas2.getContext === "function") {
+    const legacyCanvas = canvas2;
+    am = initCanvas2(legacyCanvas, null, "Graph Representation", false, {
+      viewWidth: legacyCanvas.width,
+      viewHeight: legacyCanvas.height
+    });
+    w2 = legacyCanvas.width;
+    h = legacyCanvas.height;
+  } else {
+    const opts = canvas2 || {};
+    graphOpts = opts;
+    const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
+    const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
+    am = initAnimationManager({
+      title: opts.title || "Graph Representation",
+      height: opts.height || viewHeight,
+      viewWidth,
+      viewHeight,
+      ...opts
+    });
+    w2 = viewWidth;
+    h = viewHeight;
+  }
+  this.init(am, w2, h, graphOpts);
+}
+GraphRepresentation.prototype = new Graph();
+GraphRepresentation.prototype.constructor = GraphRepresentation;
+GraphRepresentation.superclass = Graph.prototype;
+GraphRepresentation.prototype.addControls = function() {
+  GraphRepresentation.superclass.addControls.call(this);
+  var radioButtonList = addRadioButtonGroupToAlgorithmBar(
+    ["Unweighted Graph", "Weighted Graph"],
+    "GraphWeightType"
+  );
+  this.unweightedGraphButton = radioButtonList[0];
+  this.unweightedGraphButton.onclick = this.weightedGraphCallback.bind(
+    this,
+    false
+  );
+  this.weightedGraphButton = radioButtonList[1];
+  this.weightedGraphButton.onclick = this.weightedGraphCallback.bind(this, true);
+  this.unweightedGraphButton.checked = !this.showEdgeCosts;
+  this.weightedGraphButton.checked = this.showEdgeCosts;
+};
+GraphRepresentation.prototype.weightedGraphCallback = function(newWeighted) {
+  if (newWeighted != this.showEdgeCosts) {
+    this.showEdgeCosts = newWeighted;
+    this.animationManager.resetAll();
+    this.setup();
+  }
+};
+GraphRepresentation.prototype.init = function(am, w2, h, graphOpts) {
+  if (graphOpts && typeof graphOpts === "object") {
+    if (typeof graphOpts.showEdgeCosts === "boolean") {
+      this.showEdgeCosts = graphOpts.showEdgeCosts;
+    } else if (typeof graphOpts.weighted === "boolean") {
+      this.showEdgeCosts = graphOpts.weighted;
+    } else {
+      this.showEdgeCosts = false;
+    }
+  } else {
+    this.showEdgeCosts = false;
+  }
+  GraphRepresentation.superclass.init.call(this, am, w2, h, true, false, graphOpts);
+};
 
 // AlgorithmLibrary/Heap.js
 function Heap(arg) {
@@ -14292,6 +14799,7 @@ function Kruskal(canvas2) {
   let am;
   let w2;
   let h;
+  let graphOpts = null;
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
     am = initCanvas2(legacyCanvas, null, "Kruskal MST", false, {
@@ -14302,6 +14810,7 @@ function Kruskal(canvas2) {
     h = legacyCanvas.height;
   } else {
     const opts = canvas2 || {};
+    graphOpts = opts;
     const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
     const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
@@ -14314,7 +14823,7 @@ function Kruskal(canvas2) {
     w2 = viewWidth;
     h = viewHeight;
   }
-  this.init(am, w2, h);
+  this.init(am, w2, h, graphOpts);
 }
 Kruskal.HIGHLIGHT_CIRCLE_COLOR = "#000000";
 Kruskal.SET_ARRAY_ELEM_WIDTH = 25;
@@ -14343,9 +14852,9 @@ Kruskal.prototype.addControls = function() {
   this.startButton.onclick = this.startCallback.bind(this);
   Kruskal.superclass.addControls.call(this, false);
 };
-Kruskal.prototype.init = function(am, w2, h) {
+Kruskal.prototype.init = function(am, w2, h, graphOpts) {
   this.showEdgeCosts = true;
-  Kruskal.superclass.init.call(this, am, w2, h, false, false);
+  Kruskal.superclass.init.call(this, am, w2, h, false, false, graphOpts);
 };
 Kruskal.prototype.setup = function() {
   Kruskal.superclass.setup.call(this);
@@ -24082,6 +24591,7 @@ function TopoSortDFS(canvas2) {
   let am;
   let w2;
   let h;
+  let graphOpts = null;
   if (canvas2 && typeof canvas2.getContext === "function") {
     const legacyCanvas = canvas2;
     am = initCanvas2(legacyCanvas, null, "Topological Sort (DFS)", false, {
@@ -24092,6 +24602,7 @@ function TopoSortDFS(canvas2) {
     h = legacyCanvas.height;
   } else {
     const opts = canvas2 || {};
+    graphOpts = opts;
     const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
     const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
     am = initAnimationManager({
@@ -24104,7 +24615,7 @@ function TopoSortDFS(canvas2) {
     w2 = viewWidth;
     h = viewHeight;
   }
-  this.init(am, w2, h);
+  this.init(am, w2, h, graphOpts);
 }
 TopoSortDFS.ORDERING_INITIAL_X = 200;
 TopoSortDFS.ORDERING_INITIAL_Y = 50;
@@ -24203,9 +24714,9 @@ TopoSortDFS.prototype.addControls = function() {
   this.startButton.onclick = this.startCallback.bind(this);
   TopoSortDFS.superclass.addControls.call(this, false);
 };
-TopoSortDFS.prototype.init = function(am, w2, h) {
+TopoSortDFS.prototype.init = function(am, w2, h, graphOpts) {
   this.showEdgeCosts = false;
-  TopoSortDFS.superclass.init.call(this, am, w2, h, true, true);
+  TopoSortDFS.superclass.init.call(this, am, w2, h, true, true, graphOpts);
 };
 TopoSortDFS.prototype.setup = function() {
   TopoSortDFS.superclass.setup.call(this);
@@ -25184,6 +25695,7 @@ export {
   DijkstraPrim,
   DoublyLinkedList,
   ExpressionTree,
+  GraphRepresentation,
   Hash,
   Heap,
   HeapMax,

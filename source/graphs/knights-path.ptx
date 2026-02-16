@@ -1,0 +1,58 @@
+<section xml:id="graphs_knights-path"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Implicit Graphs : The Knight's Path</title>
+
+  <p>
+    Many problems can be modeled as graph problems without explicitly constructing a graph data structure. We will call these <term>implicit graphs</term>. In an implicit graph, the vertices and edges are not explicitly stored in a class like <pf>Graph</pf>. Instead, we have a way to generate the neighbors of a vertex on the fly. This is often more efficient than constructing an explicit graph data structure, especially if the graph is very large or infinite.
+  </p>
+
+  <p>
+    To explore this idea, we will consider the problem of finding a path for a knight on a chessboard. A knight in chess moves in an L shape: it can move two squares in one direction and then one square perpendicular to that. 
+  </p>
+
+  <figure>
+    <caption>The possible moves of a knight at (2,3).</caption>
+    <image source="images/graphs/knight-moves" width="60%">
+      <shortdescription>
+        <p>
+          A knight on an 8x8 chessboard at position (2,3) with its possible moves highlighted. The knight can move to (0,2), (0,4), (1,1), (1,5), (3,1), (3,5), (4,2), or (4,4).
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>The knight's path problem is to find a sequence of moves for the knight to get from one square on the chessboard to another square. For instance, if we want to get from square (2,3) to square (6, 6), we might use the sequence of moves: (2,3) → (3,5) → (5,4) → (6,6).</p>
+
+  <figure>
+    <caption>The knight's path from (2,3) to (6,6).</caption>
+    <image source="images/graphs/knight-path" width="60%">
+      <shortdescription>
+        <p>
+          A knight on an 8x8 chessboard at position (2,3). It then moves to (3,5), then to (5,4), and finally to (6,6).
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>We would like to discover a shortest path (there are likely multiple shortest paths) for the knight to move from one given square to another square on the chessboard. Since we are interested in the shortest path, we should use a breadth-first search (BFS) algorithm to find it.</p>
+
+  <p>
+    We could set up an explicit graph data structure to represent the chessboard and the knight's moves. The vertices would be the squares on the chessboard, and there would be an edge from vertex A to vertex B if the knight can move from square A to square B in one move. However, this would require us to construct a graph with 64 vertices (for an 8x8 chessboard) and up to 8 edges per vertex (since a knight can have up to 8 possible moves).
+  </p>
+
+  <p>
+    However, we don't really need to represent a full list of vertices and edges to solve this problem. Instead, given a vertex (square) we can generate its neighbors (the squares that the knight can move to) on the fly. This allows us to perform a search without ever making a <pf>Graph</pf>.
+  </p>
+
+  <p>
+    Below is an implementation of the knight's path problem. We start off by defining a <pf>Position</pf> struct to represent the squares on the chessboard. It needs to support equality and hashing so that we can use it in an unordered map. We then define a function <pf>getKnightMoves</pf> that takes a <pf>Position</pf> and returns a list of valid knight moves from that position. This function is our implicit graph generator. Finally, we perform a breadth-first search using a queue and a parent map to keep track of the path we are building.
+  </p>
+
+  <listing>
+  <program interactive="activecode" label="graphs_knights-path-program" >
+<xi:include href="../../programs/graphs/knight-path.cpp" parse="text"/>
+  </program>
+  </listing>
+
+</section>

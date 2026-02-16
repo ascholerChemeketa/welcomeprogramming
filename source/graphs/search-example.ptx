@@ -1,0 +1,50 @@
+<section xml:id="graphs_search-example"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Search Example : Course Prerequisites</title>
+
+  <p>
+    As a concrete example of using graph search, we will consider the problem of determining what classes are prerequisites (directly or indirectly) for a given class. For example, given the class prerequisite graph shown below, we would like to determine the prerequisites for CS205.
+  </p>
+
+  <figure>
+    <caption>A prerequisite chart for a Computer Science major.</caption>
+    <image source="images/graphs/graphs-intro-1" width="40%">
+      <shortdescription>
+        <p>
+          Math 111, CS 160, CS161, CS162, CS205 are all circles (nodes). Math 111 has an arrow (edge) pointing to CS 160. CS 160 has an arrow pointing to CS 161, which has an arrow pointing to CS 162, which has an arrow pointing to CS 205.
+          </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>Visually,we can see that the direct prerequisite for CS205 is CS162, and the indirect prerequisites are CS161, CS160, and MTH111. To determine this in a program, we can set up a graph representation of the prerequisite relationships and then perform a search. We will start by considering the structure of the graph we will need.</p>
+
+  <p>
+    We will represent vertices as strings (the course names). Edges will be directed and unweighted. Starting from CS205, we want to work backwards to find all the courses that are prerequisites for CS205. This means we will want our edges pointing in the opposite direction of the arrows in the diagram. So we will have an edge from CS205 to CS162, an edge from CS162 to CS161, an edge from CS161 to CS160, and an edge from CS160 to MTH111.
+  </p>
+
+  <program>
+    <![CDATA[
+Graph<string> prereqGraph;
+prereqGraph.addVertex("MTH111");
+prereqGraph.addVertex("CS160");
+prereqGraph.addVertex("CS161");
+...
+prereqGraph.addEdge("CS161", "CS160");
+prereqGraph.addEdge("CS161", "MTH111");
+...
+    ]]>
+  </program>
+
+  <p>
+    Once the graph is set up, we can perform a search to find all the reachable vertices from a given vertex like CS205. Since we do not care about the path to each prerequisite or the length of the path, we can use either a breadth-first search or a depth-first search. We will use a recursive depth-first search.
+  </p>
+
+  <listing>
+  <program interactive="activecode" label="graphs_search-example" compile-also="graph-code_graph-cxx">
+<xi:include href="../../programs/graphs/search-example.cpp" parse="text"/>
+  </program>
+  </listing>
+
+</section>

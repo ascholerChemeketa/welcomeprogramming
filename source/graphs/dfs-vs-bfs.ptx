@@ -1,0 +1,86 @@
+<section xml:id="graphs_dfs-vs-bfs"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Depth-First Search vs Breadth-First Search</title>
+
+  <p>Depth-first search and breadth-first search are similar in their structure and implementation (at least if using the iterative approach for depth-first search). Both will identify every reachable vertex when starting from a given vertex in a graph.</p>
+  
+  <p>The exact time efficiency of each algorithm will depend on the implementation we are using, but in both cases, we potentially need to explore every vertex and every edge in the graph. If we are able to do each exploration in constant time (which is possible), then our time efficiency will be <m>O(|V| + |E|)</m>, where <m>|V|</m> is the number of vertices and <m>|E|</m> is the number of edges in the graph.
+  </p>
+  
+  <p>However, the differing order of exploration by the two algorithm has implications for the properties of the resulting search tree.</p>
+
+  <p>
+    By only exploring vertices in the order they were first seen, breadth-first search guarantee that the search tree contains the shortest path from the starting vertex to every other vertex in the search tree. 
+    Depth-first search offers no such guarantee. By focusing on exploring the immediate neighbors of each vertex, depth-first search may follow a long path to reach a vertex that was only one edge away from the starting vertex.
+    Thus, if we are interested in finding the shortest path from one vertex to another, we need to use breadth-first search or an algorithm that is based on it.
+  </p>
+  
+  <p>
+    If breadth-first search guarantees shortest paths, why would we ever want to use depth-first search? A primary reason is that depth-first search is often more efficient than breadth-first search in terms of memory used (space complexity). In particular, if the graph has a large branching factor (i.e. each vertex has many neighbors), then breadth-first search can quickly become infeasible because it needs to keep track of all the vertices at each level of the search tree. Depth-first search, on the other hand, only needs to keep track of the vertices along the current path from the starting vertex to the current vertex, which can be much more manageable in terms of memory usage.
+  </p>
+
+  <p>Consider a graph where every vertex connects to 3 new neighbors. A breadth first search would produce a search tree like this:</p>
+
+  <figure>
+    <caption>Search tree produced by breadth-first search in a graph where each vertex has 3 new neighbors.</caption>
+    <image source="images/graphs/dfs-vs-bfs-1" width="80%">
+      <shortdescription>
+        <p>
+          A tree with 3 levels. Each node branches to 3 new nodes. The root and second level have been explored. The third level has 9 nodes and we are just starting to explore the first one.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    The first level has 1 vertex. When we explore it, we learn about the 3 on the second level. When we start exploring the second level, we have those 3 vertices in our queue. We As we work through the vertices at level 2, we learn about the 9 vertices at level 3. This is where we are in the illustration. We have just started exploring the first vertex at level 3, and we have the other 8 vertices in our queue (colored in blue). When we start exploring the fourth level, we will have 27 vertices in our queue. When we start exploring the fifth level, we will have 81 vertices in our queue. When we start exploring the 15th level, we would have <m>3^{15}</m>, or 14,348,907 nodes in our queue at the same time. That is a lot of memory to keep track of all those nodes.
+  </p>
+
+  <p>
+    If each vertex had 10 new neighbors instead of 3, the situation would be even worse. We would have <m>10^n</m> new vertices at the nth level. To explore to the 15th level, we would need to have <m>10^{15}</m>, or 1,000,000,000,000,000,000 (one quadrillion), vertices in our queue at the same time. That is infeasible.
+  </p>
+
+  <insight>
+    <p>
+      Breadth-first search's memory grows exponentially with the depth of the search tree. It is <m>O(b^d)</m> where b is the branching factor (the number of neighbors each vertex has) and d is the depth of the search tree.
+    </p>
+  </insight>
+
+  <p>
+    Now consider the same graph, but with depth-first search. The search tree would look like this:
+  </p>
+
+  <figure>
+    <caption>Search tree produced by depth-first search in a graph where each vertex has 3 new neighbors.</caption>
+    <image source="images/graphs/dfs-vs-bfs-2" width="50%">
+      <shortdescription>
+        <p>
+          A tree with 3 levels. Each node branches to 3 new nodes. At the second level, we started exploring the first node. We know there are two others there, but we do not know about their children. In the third level, we are exploring the first child of the first child of the root. We do not know about any of the other nodes in the third level.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>Again, when we explore the root level, we learn about 3 vertices. Then, we exploring the first one at the next level. It's siblings will remain in the stack. Then, in level three, we only know about the children of that one node from level 2. To explore the next level down, we again only will need to keep track of the three new vertices in our stack. We can estimate the memory needed by multiplying the depth we are at by the branching factor (3).</p>
+
+  <p>Instead of <m>O(b^d)</m> memory usage, depth-first search only needs <m>O(b \cdot d)</m> memory usage, where b is the branching factor and d is the depth of the search tree. This value is much more tractable for large values. In a tree with a branching factor of 10, while search at a depth of 15, we would only need to keep track of 150 vertices in our stack (10 * 15).</p>
+
+  <insight>
+    <p>
+      Breadth-first search's memory grows exponentially with the depth of the search tree. It is <m>O(b \cdot d)</m> where b is the branching factor (the number of neighbors each vertex has) and d is the depth of the search tree.
+    </p>
+  </insight>
+
+  <p>
+    So if all we want to know is whether a vertex is reachable from another vertex, especially in a graph with a large branching factor, depth-first search may be preferable due to its lower memory usage.</p>
+
+  <p>
+    However, in a very deep graph that only produces success down one path, depth-first search can get us into trouble. It can keep drilling down a long path and miss a solution that is only a few steps from the starting vertex but down a different path.
+  </p>
+
+  <p>
+    It is possible to modify depth-first search to mitigate this problem. One common approach is to use a technique called <term>iterative deepening</term>, where we perform a depth-first search with a depth limit, and if we don't find the target vertex, we increase the depth limit and repeat the search. This way, we can still benefit from the lower memory usage of depth-first search while also ensuring that we don't miss solutions that are close to the starting vertex.
+  </p>
+
+</section>

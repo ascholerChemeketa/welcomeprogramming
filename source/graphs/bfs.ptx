@@ -1,0 +1,200 @@
+<section xml:id="graphs_bfs"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Breadth-First Search</title>
+
+    <p>
+      Most graph algorithms are based on a traversal of the graph, which is a systematic way of visiting all the vertices and edges in the graph. The two most common types of graph traversals are <term>breadth-first search (BFS)</term> and <term>depth-first search (DFS)</term>. Both of these algorithms start at a given vertex and explore the graph to find all the vertices that are reachable from that starting point.
+    </p>
+
+    <p>We will first explore breadth-first search. Breadth first search explores the graph in layers, starting from the given vertex and visiting all of its neighbors before moving on to the neighbors of those neighbors. (It spreads out wide or <q>broadly</q> from the starting vertex.) It does so by storing a queue of vertices to be explored. At each step, it removes the front item from the queue and explores all of its neighbors that have not yet been explored. Those neighbors are added to the back of the queue to be explored later.</p>
+
+    <program language="text">
+BFS(graph, start):
+  Queue searchQueue
+  searchQueue.enqueue(start)
+  Map parentMap
+  Map knownMap
+  knownMap[start] = true
+  while not searchQueue.isEmpty():
+    vertex = searchQueue.dequeue()
+    for each neighbor of vertex:
+      if not knownMap.contains(neighbor):
+        knownMap[neighbor] = true
+        parentMap[neighbor] = vertex
+        searchQueue.enqueue(neighbor)
+    </program>
+    
+  <investigation label="graphs_bfs-investigation">
+    <introduction>
+      <p>A breadth-first search over a graph.</p>
+    </introduction>
+    <task>
+      <p>We will do a breadth-first search over the graph shown below starting from vertex 1. To do so we add 1 to the search queue.</p>
+      <p>Current search queue: <c>[1]</c></p>
+      <image source="images/graphs/bfs-detail-0.svg" width="50%">
+        <shortdescription>A graph with 8 nodes</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the first element from the search queue: 1. Get the list of neighbors of 1. For each neighbor that we do not yet know about, add it to the search queue and remember that we will reach it from 1.</p>
+      <p>Current search queue: <c>[2 3 5]</c></p>
+      <image source="images/graphs/bfs-detail-1.svg" width="50%">
+        <shortdescription>Node 1 is connected to nodes 2, 3, and 5</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the first element from the search queue: 2. Get the list of neighbors of 2. For each neighbor that we do not yet know about, add it to the search queue and remember that we will reach it from 2.</p>
+      <p>2 has two neighbors: 0 and 1. We already know about 1, so it is ignored. We add 0 to the search queue. Because we are using a queue, the newly added vertex will be at the back of the line to be explored.</p>
+      <p>Current search queue: <c>[3 5 0]</c></p>
+      <image source="images/graphs/bfs-detail-2.svg" width="50%">
+        <shortdescription>Node 2 is connected to 0 and 1</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the first element from the search queue: 3. Get the list of neighbors of 3. For each neighbor that we do not yet know about, add it to the search queue and remember that we will reach it from 3.</p>
+      <p>3 has neighbors 1 and 7. 1 is known. 7 goes in the search queue.</p>
+      <p>Current search queue: <c>[5 0 7]</c></p>
+      <image source="images/graphs/bfs-detail-3.svg" width="50%">
+        <shortdescription>Node 3 is connected to nodes 1 and 7</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the first element from the search queue: 5. Get the list of neighbors of 5. For each neighbor that we do not yet know about, add it to the search queue and remember that we will reach it from 5.</p>
+      <p>5 has neighbors 1 and 7. Both are already known.</p>
+      <p>Current search queue: <c>[0 7]</c></p>
+      <image source="images/graphs/bfs-detail-4.svg" width="50%">
+        <shortdescription>Node 5 is connected to nodes 1 and 7</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the first element from the search queue: 0. Get the list of neighbors of 0. For each neighbor that we do not yet know about, add it to the search queue and remember that we will reach it from 0.</p>
+      <p>0 has neighbor 2. It is already known.</p>
+      <p>Current search queue: <c>[7]</c></p>
+      <image source="images/graphs/bfs-detail-5.svg" width="50%">
+        <shortdescription>Node 0 is connected to node 2</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the first element from the search queue: 7. Get the list of neighbors of 7. For each neighbor that we do not yet know about, add it to the search queue and remember that we will reach it from 7.</p>
+      <p>7 has neighbors 3, 5, 4, and 6. 3 and 5 are known. 4 and 6 are new, so we add them to the search queue.</p>
+      <p>Current search queue: <c>[4 6]</c></p>
+      <image source="images/graphs/bfs-detail-6.svg" width="50%">
+        <shortdescription>Node 7 is connected to nodes 3, 5, 4, and 6</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the first element from the search queue: 4. Get the list of neighbors of 4. For each neighbor that we do not yet know about, add it to the search queue and remember that we will reach it from 4.</p>
+      <p>4's only neighbor is 7 which is already known.</p>
+      <p>Current search queue: <c>[6]</c></p>
+      <image source="images/graphs/bfs-detail-7.svg" width="50%">
+        <shortdescription>Node 4 is only connected to 7</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the first element from the search queue: 6. Get the list of neighbors of 6. For each neighbor that we do not yet know about, add it to the search queue and remember that we will reach it from 6.</p>
+      <p>6's only neighbor is 7 which is already known.</p>
+      <p>Current search queue: <c>[]</c></p>
+      <p>Because the search queue is now empty, we are done with the search.</p>
+      <image source="images/graphs/bfs-detail-8.svg" width="50%">
+        <shortdescription>Node 6 is only connected to 7</shortdescription>
+      </image>
+    </task>
+  </investigation>
+
+  <p>
+    A breadth or depth first search always produces a <term>search tree</term>, which is a subgraph of the original graph that contains all the vertices that were reached during the search and the edges that were used to reach those vertices. Below, this search tree is shown in the original graph and then isolated and restructured to make the tree shape more clear.
+  </p>
+
+  <sidebyside widths="45% 45%">
+  <figure>
+    <caption>Search tree (red edges) within the original graph. Note that not every edge in the original graph is in the search tree.</caption>
+      <image source="images/graphs/bfs-final.svg" width="50%">
+        <shortdescription>Search tree for breadth-first search</shortdescription>
+      </image>
+  </figure>
+  <figure>
+    <caption>Search tree produced by the breadth-first search in the investigation above.</caption>
+      <image source="images/graphs/bfs-final-tree.svg" width="50%">
+        <shortdescription>Search tree for breadth-first search</shortdescription>
+      </image>
+  </figure>
+  </sidebyside>
+
+  <p>
+    Examining the search tree helps to clarify why this is called <q>breadth-first search</q>. It explores out in layers, first exploring all the vertices that are one edge away from the starting vertex, then all the vertices that are two edges away, and so on. This means that the path from the starting vertex to any other vertex in the search tree is the shortest path (in terms of number of edges) from the starting vertex to that vertex in the original graph.
+  </p>
+  
+  <p>Starting from a different vertex in the same graph would produce a different search tree - one that contains the shortest path from that vertex to every other vertex in the search tree.</p>
+
+  <insight>
+    <p>
+      Breadth-first search produces a search tree with the shortest (unweighted) path from the starting vertex to every other vertex in the search tree.
+    </p>
+  </insight>
+
+
+  <p>Use the interactive below to explore breadth-first search.</p>
+
+    <activity>
+    <title>Breadth-First Search</title>
+    <p>
+      The animation will load a random graph and start a breadth-first search from vertex 0. Step through the animation. As you do so, note how the <pf>Known</pf> and <pf>Parent</pf> tables are updated.
+    </p>
+    <p>
+      Once you are done exploring from 0, explore from a different starting vertex by entering a <c>Start Vertex</c> number in the input field and clicking on the <c>Run BFS</c> button.
+    </p>
+    <p>Use <c>New Graph</c> button to generate a new random graph. (You may need to fast forward to the end before being able to create a new graph.</p>
+    <interactive platform="javascript" 
+                design-width="1000"
+                 aspect="4:2.75">
+    <script type="module">
+      import { BFS } from "./external/interactives/data-structures/entry.js";
+      let anim = new BFS({
+        zoom: "0.75x",
+        directed: false
+      });
+      anim.doSearch(0);
+    </script>
+    <xi:include href="../../fragments/ds-graph-instructions.xml"/>
+  </interactive>
+  </activity>
+    
+
+   <p>
+      The final results of this process can be represented as a full <pf>Graph</pf> object that contains all the vertices and edges in the search tree. Or, as shown in the animation, we can simply keep track of the parent of each vertex and use that as the search tree representation. With it , we can find the path from the starting vertex to any other vertex in the search tree by following the parent mappings back to the starting vertex. We will know that we have reached the starting vertex when we encounter a vertex that does not have a parent.
+   </p>
+
+   <p>
+      For example, consider the parent mapping below (turned horizontal for readability). We can see that vertex 0 was the starting point of the search since it has no parent. To determine the path to vertex 7, we can see that we reach it from vertex 3, which we reach from vertex 1, which we reach from vertex 0. So the path from vertex 0 to vertex 7 is <c>0 -> 1 -> 3 -> 7</c>.
+   </p>
+
+   <figure>
+    <caption>A parent table resulting from a search</caption>
+    <tabular row-headers="yes">
+      <row>
+        <cell>Vertex</cell>
+        <cell>0</cell>
+        <cell>1</cell>
+        <cell>2</cell>
+        <cell>3</cell>
+        <cell>4</cell>
+        <cell>5</cell>
+        <cell>6</cell>
+        <cell>7</cell>
+      </row>
+      <row>
+        <cell>Parent</cell>
+        <cell></cell>
+        <cell>1</cell>
+        <cell>1</cell>
+        <cell>2</cell>
+        <cell>7</cell>
+        <cell>1</cell>
+        <cell>7</cell>
+        <cell>3</cell>
+      </row>
+    </tabular>
+   </figure>
+
+</section>
