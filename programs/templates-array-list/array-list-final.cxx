@@ -202,7 +202,9 @@ void ArrayList<T>::grow() {
 
 template<typename T>
 ArrayList<T> ArrayList<T>::splitAt(int index) {
+    // Create a new ArrayList to hold the rear items
     ArrayList<T> rear;
+    // Fill the rear list with items from index to end of this list
     int numItemsToSplit = m_size - index;
     for(int i = 0; i < numItemsToSplit; ++i) {
         int oldArrayIndex = index + i;
@@ -212,3 +214,4 @@ ArrayList<T> ArrayList<T>::splitAt(int index) {
     m_size = index; // "remove" the items from the original ArrayList
     return rear;
 }
+
