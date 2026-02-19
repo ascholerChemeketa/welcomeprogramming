@@ -6298,6 +6298,748 @@ AVLNode.prototype.isLeftChild = function() {
   return this.parent.left == this;
 };
 
+// node_modules/random/dist/index.js
+var __defProp = Object.defineProperty;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+var RNG = class {
+};
+var FunctionRNG = class _FunctionRNG extends RNG {
+  constructor(rngFn) {
+    var _a;
+    super();
+    __publicField(this, "_name");
+    __publicField(this, "_rngFn");
+    this._name = (_a = rngFn.name) != null ? _a : "function";
+    this._rngFn = rngFn;
+  }
+  get name() {
+    return this._name;
+  }
+  next() {
+    return this._rngFn();
+  }
+  clone() {
+    return new _FunctionRNG(this._rngFn);
+  }
+};
+function createRNG(seedOrRNG) {
+  switch (typeof seedOrRNG) {
+    case "object":
+      if (seedOrRNG instanceof RNG) {
+        return seedOrRNG;
+      }
+      break;
+    case "function":
+      return new FunctionRNG(seedOrRNG);
+    default:
+      return new ARC4RNG(seedOrRNG);
+  }
+  throw new Error(`invalid RNG seed or instance "${seedOrRNG}"`);
+}
+function mixKey(seed, key) {
+  var _a;
+  const seedStr = `${seed}`;
+  let smear = 0;
+  let j = 0;
+  while (j < seedStr.length) {
+    key[255 & j] = 255 & (smear ^= ((_a = key[255 & j]) != null ? _a : 0) * 19) + seedStr.charCodeAt(j++);
+  }
+  if (!key.length) {
+    return [0];
+  }
+  return key;
+}
+function shuffleInPlace(gen, array) {
+  for (let i = array.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(gen.next() * (i + 1));
+    const tmp = array[i];
+    array[i] = array[j];
+    array[j] = tmp;
+  }
+}
+function sparseFisherYates(gen, array, k) {
+  var _a, _b;
+  const H = /* @__PURE__ */ new Map();
+  const lastIndex = array.length - 1;
+  const result = Array.from({ length: k });
+  for (let i = 0; i < k; i++) {
+    const remaining = lastIndex - i + 1;
+    const r = Math.floor(gen.next() * remaining);
+    result[i] = array[(_a = H.get(r)) != null ? _a : r];
+    H.set(r, (_b = H.get(lastIndex - i)) != null ? _b : lastIndex - i);
+  }
+  return result;
+}
+var _arc4_startdenom = 281474976710656;
+var _arc4_significance = 4503599627370496;
+var _arc4_overflow = 9007199254740992;
+var ARC4RNG = class _ARC4RNG extends RNG {
+  constructor(seed = crypto.randomUUID()) {
+    super();
+    __publicField(this, "_seed");
+    __publicField(this, "i");
+    __publicField(this, "j");
+    __publicField(this, "S");
+    this._seed = seed;
+    const key = mixKey(seed, []);
+    const S = [];
+    const keylen = key.length;
+    this.i = 0;
+    this.j = 0;
+    this.S = S;
+    let i = 0;
+    while (i <= 255) {
+      S[i] = i++;
+    }
+    for (let i2 = 0, j = 0; i2 <= 255; i2++) {
+      const t = S[i2];
+      j = 255 & j + key[i2 % keylen] + t;
+      S[i2] = S[j];
+      S[j] = t;
+    }
+    this.g(256);
+  }
+  get name() {
+    return "arc4";
+  }
+  next() {
+    let n = this.g(6);
+    let d = _arc4_startdenom;
+    let x = 0;
+    while (n < _arc4_significance) {
+      n = (n + x) * 256;
+      d *= 256;
+      x = this.g(1);
+    }
+    while (n >= _arc4_overflow) {
+      n /= 2;
+      d /= 2;
+      x >>>= 1;
+    }
+    return (n + x) / d;
+  }
+  g(count) {
+    const { S } = this;
+    let { i, j } = this;
+    let r = 0;
+    while (count--) {
+      i = 255 & i + 1;
+      const t = S[i];
+      S[j] = t;
+      j = 255 & j + t;
+      S[i] = S[j];
+      r = r * 256 + S[255 & S[i] + t];
+    }
+    this.i = i;
+    this.j = j;
+    return r;
+  }
+  clone() {
+    return new _ARC4RNG(this._seed);
+  }
+};
+var MathRandomRNG = class _MathRandomRNG extends RNG {
+  get name() {
+    return "Math.random";
+  }
+  next() {
+    return Math.random();
+  }
+  clone() {
+    return new _MathRandomRNG();
+  }
+};
+function numberValidator(num) {
+  return new NumberValidator(num);
+}
+var NumberValidator = class {
+  constructor(num) {
+    __publicField(this, "n");
+    __publicField(this, "isInt", () => {
+      if (Number.isInteger(this.n)) {
+        return this;
+      }
+      throw new Error(`Expected number to be an integer, got ${this.n}`);
+    });
+    __publicField(this, "isPositive", () => {
+      if (this.n > 0) {
+        return this;
+      }
+      throw new Error(`Expected number to be positive, got ${this.n}`);
+    });
+    __publicField(this, "lessThan", (v) => {
+      if (this.n < v) {
+        return this;
+      }
+      throw new Error(`Expected number to be less than ${v}, got ${this.n}`);
+    });
+    __publicField(this, "lessThanOrEqual", (v) => {
+      if (this.n <= v) {
+        return this;
+      }
+      throw new Error(
+        `Expected number to be less than or equal to ${v}, got ${this.n}`
+      );
+    });
+    __publicField(this, "greaterThanOrEqual", (v) => {
+      if (this.n >= v) {
+        return this;
+      }
+      throw new Error(
+        `Expected number to be greater than or equal to ${v}, got ${this.n}`
+      );
+    });
+    __publicField(this, "greaterThan", (v) => {
+      if (this.n > v) {
+        return this;
+      }
+      throw new Error(`Expected number to be greater than ${v}, got ${this.n}`);
+    });
+    this.n = num;
+  }
+};
+function bates(random, n = 1) {
+  numberValidator(n).isInt().isPositive();
+  const irwinHall2 = random.irwinHall(n);
+  return () => {
+    return irwinHall2() / n;
+  };
+}
+function bernoulli(random, p = 0.5) {
+  numberValidator(p).greaterThanOrEqual(0).lessThanOrEqual(1);
+  return () => {
+    return Math.min(1, Math.floor(random.next() + p));
+  };
+}
+function binomial(random, n = 1, p = 0.5) {
+  numberValidator(n).isInt().isPositive();
+  numberValidator(p).greaterThanOrEqual(0).lessThan(1);
+  return () => {
+    let i = 0;
+    let x = 0;
+    while (i++ < n) {
+      if (random.next() < p) {
+        x++;
+      }
+    }
+    return x;
+  };
+}
+function exponential(random, lambda = 1) {
+  numberValidator(lambda).isPositive();
+  return () => {
+    return -Math.log(1 - random.next()) / lambda;
+  };
+}
+function geometric(random, p = 0.5) {
+  numberValidator(p).greaterThan(0).lessThan(1);
+  const invLogP = 1 / Math.log(1 - p);
+  return () => {
+    return Math.floor(1 + Math.log(random.next()) * invLogP);
+  };
+}
+function irwinHall(random, n = 1) {
+  numberValidator(n).isInt().greaterThanOrEqual(0);
+  return () => {
+    let sum = 0;
+    for (let i = 0; i < n; ++i) {
+      sum += random.next();
+    }
+    return sum;
+  };
+}
+function logNormal(random, mu = 0, sigma = 1) {
+  const normal2 = random.normal(mu, sigma);
+  return () => {
+    return Math.exp(normal2());
+  };
+}
+function normal(random, mu = 0, sigma = 1) {
+  return () => {
+    let x, y, r;
+    do {
+      x = random.next() * 2 - 1;
+      y = random.next() * 2 - 1;
+      r = x * x + y * y;
+    } while (!r || r > 1);
+    return mu + sigma * y * Math.sqrt(-2 * Math.log(r) / r);
+  };
+}
+function pareto(random, alpha = 1) {
+  numberValidator(alpha).greaterThanOrEqual(0);
+  const invAlpha = 1 / alpha;
+  return () => {
+    return 1 / Math.pow(1 - random.next(), invAlpha);
+  };
+}
+var logFactorialTable = [
+  0,
+  0,
+  0.6931471805599453,
+  1.791759469228055,
+  3.1780538303479458,
+  4.787491742782046,
+  6.579251212010101,
+  8.525161361065415,
+  10.60460290274525,
+  12.801827480081469
+];
+var logFactorial = (k) => {
+  return logFactorialTable[k];
+};
+var logSqrt2PI = 0.9189385332046727;
+function poisson(random, lambda = 1) {
+  numberValidator(lambda).isPositive();
+  if (lambda < 10) {
+    const expMean = Math.exp(-lambda);
+    return () => {
+      let p = expMean;
+      let x = 0;
+      let u = random.next();
+      while (u > p) {
+        u = u - p;
+        p = lambda * p / ++x;
+      }
+      return x;
+    };
+  } else {
+    const smu = Math.sqrt(lambda);
+    const b = 0.931 + 2.53 * smu;
+    const a = -0.059 + 0.02483 * b;
+    const invAlpha = 1.1239 + 1.1328 / (b - 3.4);
+    const vR = 0.9277 - 3.6224 / (b - 2);
+    return () => {
+      var _a;
+      while (true) {
+        let u;
+        let v = random.next();
+        if (v <= 0.86 * vR) {
+          u = v / vR - 0.43;
+          return Math.floor(
+            (2 * a / (0.5 - Math.abs(u)) + b) * u + lambda + 0.445
+          );
+        }
+        if (v >= vR) {
+          u = random.next() - 0.5;
+        } else {
+          u = v / vR - 0.93;
+          u = (u < 0 ? -0.5 : 0.5) - u;
+          v = random.next() * vR;
+        }
+        const us = 0.5 - Math.abs(u);
+        if (us < 0.013 && v > us) {
+          continue;
+        }
+        const k = Math.floor((2 * a / us + b) * u + lambda + 0.445);
+        v = v * invAlpha / (a / (us * us) + b);
+        if (k >= 10) {
+          const t = (k + 0.5) * Math.log(lambda / k) - lambda - logSqrt2PI + k - (1 / 12 - (1 / 360 - 1 / (1260 * k * k)) / (k * k)) / k;
+          if (Math.log(v * smu) <= t) {
+            return k;
+          }
+        } else if (k >= 0) {
+          const f = (_a = logFactorial(k)) != null ? _a : 0;
+          if (Math.log(v) <= k * Math.log(lambda) - lambda - f) {
+            return k;
+          }
+        }
+      }
+    };
+  }
+}
+function uniform(random, min = 0, max = 1) {
+  return () => {
+    return random.next() * (max - min) + min;
+  };
+}
+function uniformBoolean(random) {
+  return () => {
+    return random.next() >= 0.5;
+  };
+}
+function uniformInt(random, min = 0, max = 1) {
+  if (max === void 0) {
+    max = min === void 0 ? 1 : min;
+    min = 0;
+  }
+  numberValidator(min).isInt();
+  numberValidator(max).isInt();
+  return () => {
+    return Math.floor(random.next() * (max - min + 1) + min);
+  };
+}
+function weibull(random, lambda, k) {
+  numberValidator(lambda).greaterThan(0);
+  numberValidator(k).greaterThan(0);
+  return () => {
+    const u = 1 - random.next();
+    return lambda * Math.pow(-Math.log(u), 1 / k);
+  };
+}
+var Random = class _Random {
+  constructor(seedOrRNG = new MathRandomRNG()) {
+    __publicField(this, "_rng");
+    __publicField(this, "_cache", {});
+    this._rng = createRNG(seedOrRNG);
+  }
+  /**
+   * @member {RNG} rng - Underlying pseudo-random number generator.
+   */
+  get rng() {
+    return this._rng;
+  }
+  /**
+   * Creates a new `Random` instance, optionally specifying parameters to
+   * set a new seed.
+   */
+  clone(seedOrRNG = this.rng.clone()) {
+    return new _Random(seedOrRNG);
+  }
+  /**
+   * Sets the underlying pseudorandom number generator.
+   *
+   * @example
+   * ```ts
+   * import random from 'random'
+   *
+   * random.use('example-seed')
+   * // or
+   * random.use(Math.random)
+   * ```
+   */
+  use(seedOrRNG) {
+    this._rng = createRNG(seedOrRNG);
+    this._cache = {};
+  }
+  // --------------------------------------------------------------------------
+  // Uniform utility functions
+  // --------------------------------------------------------------------------
+  /**
+   * Convenience wrapper around `this.rng.next()`
+   *
+   * Returns a floating point number in [0, 1).
+   *
+   * @return {number}
+   */
+  next() {
+    return this._rng.next();
+  }
+  /**
+   * Samples a uniform random floating point number, optionally specifying
+   * lower and upper bounds.
+   *
+   * Convenience wrapper around `random.uniform()`
+   *
+   * @param {number} [min=0] - Lower bound (float, inclusive)
+   * @param {number} [max=1] - Upper bound (float, exclusive)
+   */
+  float(min, max) {
+    return this.uniform(min, max)();
+  }
+  /**
+   * Samples a uniform random integer, optionally specifying lower and upper
+   * bounds.
+   *
+   * Convenience wrapper around `random.uniformInt()`
+   *
+   * @param {number} [min=0] - Lower bound (integer, inclusive)
+   * @param {number} [max=1] - Upper bound (integer, inclusive)
+   */
+  int(min, max) {
+    return this.uniformInt(min, max)();
+  }
+  /**
+   * Samples a uniform random integer, optionally specifying lower and upper
+   * bounds.
+   *
+   * Convenience wrapper around `random.uniformInt()`
+   *
+   * @alias `random.int`
+   *
+   * @param {number} [min=0] - Lower bound (integer, inclusive)
+   * @param {number} [max=1] - Upper bound (integer, inclusive)
+   */
+  integer(min, max) {
+    return this.uniformInt(min, max)();
+  }
+  /**
+   * Samples a uniform random boolean value.
+   *
+   * Convenience wrapper around `random.uniformBoolean()`
+   *
+   * @alias `random.boolean`
+   */
+  bool() {
+    return this.uniformBoolean()();
+  }
+  /**
+   * Samples a uniform random boolean value.
+   *
+   * Convenience wrapper around `random.uniformBoolean()`
+   */
+  boolean() {
+    return this.uniformBoolean()();
+  }
+  /**
+   * Returns an item chosen uniformly at random from the given array.
+   *
+   * Convenience wrapper around `random.uniformInt()`
+   *
+   * @param {Array<T>} [array] - Input array
+   */
+  choice(array) {
+    if (!Array.isArray(array)) {
+      throw new TypeError(
+        `Random.choice expected input to be an array, got ${typeof array}`
+      );
+    }
+    const length = array.length;
+    if (length > 0) {
+      const index = this.uniformInt(0, length - 1)();
+      return array[index];
+    } else {
+      return void 0;
+    }
+  }
+  /**
+   * Returns a random subset of k items from the given array (without replacement).
+   *
+   * @param {Array<T>} [array] - Input array
+   */
+  sample(array, k) {
+    if (!Array.isArray(array)) {
+      throw new TypeError(
+        `Random.sample expected input to be an array, got ${typeof array}`
+      );
+    }
+    if (k < 0 || k > array.length) {
+      throw new Error(
+        `Random.sample: k must be between 0 and array.length (${array.length}), got ${k}`
+      );
+    }
+    return sparseFisherYates(this.rng, array, k);
+  }
+  /**
+   * Generates a thunk which returns samples of size k from the given array.
+   *
+   * This is for convenience only; there is no gain in efficiency.
+   *
+   * @param {Array<T>} [array] - Input array
+   */
+  sampler(array, k) {
+    if (!Array.isArray(array)) {
+      throw new TypeError(
+        `Random.sampler expected input to be an array, got ${typeof array}`
+      );
+    }
+    if (k < 0 || k > array.length) {
+      throw new Error(
+        `Random.sampler: k must be between 0 and array.length (${array.length}), got ${k}`
+      );
+    }
+    const gen = this.rng;
+    return () => {
+      return sparseFisherYates(gen, array, k);
+    };
+  }
+  /**
+   * Returns a shuffled copy of the given array.
+   *
+   * @param {Array<T>} [array] - Input array
+   */
+  shuffle(array) {
+    if (!Array.isArray(array)) {
+      throw new TypeError(
+        `Random.shuffle expected input to be an array, got ${typeof array}`
+      );
+    }
+    const copy = [...array];
+    shuffleInPlace(this.rng, copy);
+    return copy;
+  }
+  /**
+   * Generates a thunk which returns shuffled copies of the given array.
+   *
+   * @param {Array<T>} [array] - Input array
+   */
+  shuffler(array) {
+    if (!Array.isArray(array)) {
+      throw new TypeError(
+        `Random.shuffler expected input to be an array, got ${typeof array}`
+      );
+    }
+    const gen = this.rng;
+    const copy = [...array];
+    return () => {
+      shuffleInPlace(gen, copy);
+      return [...copy];
+    };
+  }
+  // --------------------------------------------------------------------------
+  // Uniform distributions
+  // --------------------------------------------------------------------------
+  /**
+   * Generates a [Continuous uniform distribution](https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)).
+   *
+   * @param {number} [min=0] - Lower bound (float, inclusive)
+   * @param {number} [max=1] - Upper bound (float, exclusive)
+   */
+  uniform(min, max) {
+    return this._memoize("uniform", uniform, min, max);
+  }
+  /**
+   * Generates a [Discrete uniform distribution](https://en.wikipedia.org/wiki/Discrete_uniform_distribution).
+   *
+   * @param {number} [min=0] - Lower bound (integer, inclusive)
+   * @param {number} [max=1] - Upper bound (integer, inclusive)
+   */
+  uniformInt(min, max) {
+    return this._memoize("uniformInt", uniformInt, min, max);
+  }
+  /**
+   * Generates a [Discrete uniform distribution](https://en.wikipedia.org/wiki/Discrete_uniform_distribution),
+   * with two possible outcomes, `true` or `false.
+   *
+   * This method is analogous to flipping a coin.
+   */
+  uniformBoolean() {
+    return this._memoize("uniformBoolean", uniformBoolean);
+  }
+  // --------------------------------------------------------------------------
+  // Normal distributions
+  // --------------------------------------------------------------------------
+  /**
+   * Generates a [Normal distribution](https://en.wikipedia.org/wiki/Normal_distribution).
+   *
+   * @param {number} [mu=0] - Mean
+   * @param {number} [sigma=1] - Standard deviation
+   */
+  normal(mu, sigma) {
+    return normal(this, mu, sigma);
+  }
+  /**
+   * Generates a [Log-normal distribution](https://en.wikipedia.org/wiki/Log-normal_distribution).
+   *
+   * @param {number} [mu=0] - Mean of underlying normal distribution
+   * @param {number} [sigma=1] - Standard deviation of underlying normal distribution
+   */
+  logNormal(mu, sigma) {
+    return logNormal(this, mu, sigma);
+  }
+  // --------------------------------------------------------------------------
+  // Bernoulli distributions
+  // --------------------------------------------------------------------------
+  /**
+   * Generates a [Bernoulli distribution](https://en.wikipedia.org/wiki/Bernoulli_distribution).
+   *
+   * @param {number} [p=0.5] - Success probability of each trial.
+   */
+  bernoulli(p) {
+    return bernoulli(this, p);
+  }
+  /**
+   * Generates a [Binomial distribution](https://en.wikipedia.org/wiki/Binomial_distribution).
+   *
+   * @param {number} [n=1] - Number of trials.
+   * @param {number} [p=0.5] - Success probability of each trial.
+   */
+  binomial(n, p) {
+    return binomial(this, n, p);
+  }
+  /**
+   * Generates a [Geometric distribution](https://en.wikipedia.org/wiki/Geometric_distribution).
+   *
+   * @param {number} [p=0.5] - Success probability of each trial.
+   */
+  geometric(p) {
+    return geometric(this, p);
+  }
+  // --------------------------------------------------------------------------
+  // Poisson distributions
+  // --------------------------------------------------------------------------
+  /**
+   * Generates a [Poisson distribution](https://en.wikipedia.org/wiki/Poisson_distribution).
+   *
+   * @param {number} [lambda=1] - Mean (lambda > 0)
+   */
+  poisson(lambda) {
+    return poisson(this, lambda);
+  }
+  /**
+   * Generates an [Exponential distribution](https://en.wikipedia.org/wiki/Exponential_distribution).
+   *
+   * @param {number} [lambda=1] - Inverse mean (lambda > 0)
+   */
+  exponential(lambda) {
+    return exponential(this, lambda);
+  }
+  // --------------------------------------------------------------------------
+  // Misc distributions
+  // --------------------------------------------------------------------------
+  /**
+   * Generates an [Irwin Hall distribution](https://en.wikipedia.org/wiki/Irwin%E2%80%93Hall_distribution).
+   *
+   * @param {number} [n=1] - Number of uniform samples to sum (n >= 0)
+   */
+  irwinHall(n) {
+    return irwinHall(this, n);
+  }
+  /**
+   * Generates a [Bates distribution](https://en.wikipedia.org/wiki/Bates_distribution).
+   *
+   * @param {number} [n=1] - Number of uniform samples to average (n >= 1)
+   */
+  bates(n) {
+    return bates(this, n);
+  }
+  /**
+   * Generates a [Pareto distribution](https://en.wikipedia.org/wiki/Pareto_distribution).
+   *
+   * @param {number} [alpha=1] - Alpha
+   */
+  pareto(alpha) {
+    return pareto(this, alpha);
+  }
+  /**
+   * Generates a [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution).
+   *
+   * @param {number} [lambda] - Lambda, the scale parameter
+   * @param {number} [k] - k, the shape parameter
+   */
+  weibull(lambda, k) {
+    return weibull(this, lambda, k);
+  }
+  // --------------------------------------------------------------------------
+  // Internal
+  // --------------------------------------------------------------------------
+  /**
+   * Memoizes distributions to ensure they're only created when necessary.
+   *
+   * Returns a thunk which that returns independent, identically distributed
+   * samples from the specified distribution.
+   *
+   * @internal
+   *
+   * @param {string} label - Name of distribution
+   * @param {function} getter - Function which generates a new distribution
+   * @param {...*} args - Distribution-specific arguments
+   */
+  _memoize(label, getter, ...args) {
+    const key = `${args.join(";")}`;
+    let value = this._cache[label];
+    if (value === void 0 || value.key !== key) {
+      value = {
+        key,
+        distribution: getter(this, ...args)
+      };
+      this._cache[label] = value;
+    }
+    return value.distribution;
+  }
+};
+var random_default = new Random();
+
 // AlgorithmLibrary/Graph.js
 function Graph(am, w2, h, dir, dag, opts) {
   if (am == void 0) {
@@ -6814,10 +7556,17 @@ Graph.prototype.init = function(am, w2, h, directed, dag, opts) {
     dag = void 0;
   }
   opts = opts && typeof opts === "object" ? opts : {};
+  if (opts.randomSeed !== void 0 && opts.randomSeed !== null) {
+    random_default.use(opts.randomSeed);
+  }
   directed = typeof opts.directed === "boolean" ? opts.directed : directed == void 0 ? true : directed;
   dag = typeof opts.dag === "boolean" ? opts.dag : dag == void 0 ? false : dag;
   const requestedLayer = opts.startingGraphRepresentation ?? opts.graphRepresentation ?? opts.startingRepresentation;
   const initialLayer = parseStartingRepresentation(requestedLayer, 1);
+  const requestedEdgePercentage = opts.edgePercentage ?? opts.edgePercent ?? opts.edgeDensity;
+  const parsedEdgePercentage = Number(requestedEdgePercentage);
+  this.edgePercentage = Number.isFinite(parsedEdgePercentage) && parsedEdgePercentage >= 0 && parsedEdgePercentage <= 1 ? parsedEdgePercentage : null;
+  this.preventBidirectionalEdge = typeof opts.preventBidirectionalEdge === "boolean" ? opts.preventBidirectionalEdge : false;
   Graph.superclass.init.call(this, am, w2, h);
   this.nextIndex = 0;
   this.currentLayer = initialLayer;
@@ -7060,17 +7809,21 @@ Graph.prototype.setup = function() {
     this.adj_matrixID[i] = new Array(this.size);
   }
   var edgePercent;
-  if (this.size == SMALL_SIZE) {
-    if (this.directed) {
-      edgePercent = 0.4;
-    } else {
-      edgePercent = 0.5;
-    }
+  if (this.edgePercentage != null) {
+    edgePercent = this.edgePercentage;
   } else {
-    if (this.directed) {
-      edgePercent = 0.35;
+    if (this.size == SMALL_SIZE) {
+      if (this.directed) {
+        edgePercent = 0.4;
+      } else {
+        edgePercent = 0.5;
+      }
     } else {
-      edgePercent = 0.6;
+      if (this.directed) {
+        edgePercent = 0.35;
+      } else {
+        edgePercent = 0.6;
+      }
     }
   }
   var lowerBound = 0;
@@ -7078,7 +7831,8 @@ Graph.prototype.setup = function() {
     for (i = 0; i < this.size; i++) {
       for (var j = 0; j < this.size; j++) {
         this.adj_matrixID[i][j] = this.nextIndex++;
-        if (this.allowed[i][j] && Math.random() <= edgePercent && (i < j || Math.abs(this.curve[i][j]) < 0.01 || this.adj_matrixID[j][i] == -1) && (!this.isDAG || i < j)) {
+        const reverseEdgeExists = this.adj_matrix[j] != null && this.adj_matrix[j][i] >= 0;
+        if (this.allowed[i][j] && random_default.float() <= edgePercent && (i < j || Math.abs(this.curve[i][j]) < 0.01 || this.adj_matrixID[j][i] == -1) && (!this.preventBidirectionalEdge || !reverseEdgeExists) && (!this.isDAG || i < j)) {
           if (this.showEdgeCosts) {
             this.adj_matrix[i][j] = Math.floor(Math.random() * 9) + 1;
           } else {
@@ -12320,13 +13074,370 @@ ConnectedComponent.prototype.undo = function(event) {
   this.enableUI(event);
 };
 
-// AlgorithmLibrary/DFS.js
+// AlgorithmLibrary/DetectCycle.js
 var AUX_ARRAY_WIDTH2 = 25;
 var AUX_ARRAY_HEIGHT2 = 25;
 var AUX_ARRAY_START_Y2 = 50;
 var VISITED_START_X2 = 200;
-var PARENT_START_X2 = 275;
+var ONSTACK_START_X = 285;
+var STACK_START_X = 25;
+var STACK_START_Y = 30;
+var STACK_INDENT = 10;
+var STACK_LINE_HEIGHT = 20;
 var HIGHLIGHT_CIRCLE_COLOR3 = "#000000";
+var EDGE_CONSIDER_COLOR = "var(--svgColor--althighlight)";
+var TREE_EDGE_COLOR = "#0000FF";
+var CYCLE_EDGE_COLOR = "var(--svgColor--althighlight)";
+function DetectCycle(canvas2) {
+  let am;
+  let w2;
+  let h;
+  let graphOpts = null;
+  if (canvas2 && typeof canvas2.getContext === "function") {
+    const legacyCanvas = canvas2;
+    am = initCanvas2(legacyCanvas, null, "Detect Cycle (Directed Graph)", false, {
+      viewWidth: legacyCanvas.width,
+      viewHeight: legacyCanvas.height
+    });
+    w2 = legacyCanvas.width;
+    h = legacyCanvas.height;
+  } else {
+    const opts = canvas2 || {};
+    graphOpts = opts;
+    const viewWidth = Number.isFinite(opts.viewWidth) && opts.viewWidth > 0 ? opts.viewWidth : Number.isFinite(opts.width) && opts.width > 0 ? opts.width : 1e3;
+    const viewHeight = Number.isFinite(opts.viewHeight) && opts.viewHeight > 0 ? opts.viewHeight : Number.isFinite(opts.height) && opts.height > 0 ? opts.height : 500;
+    am = initAnimationManager({
+      title: opts.title || "Detect Cycle (Directed Graph)",
+      height: opts.height || viewHeight,
+      viewWidth,
+      viewHeight,
+      ...opts
+    });
+    w2 = viewWidth;
+    h = viewHeight;
+  }
+  this.init(am, w2, h, graphOpts);
+}
+DetectCycle.prototype = new Graph();
+DetectCycle.prototype.constructor = DetectCycle;
+DetectCycle.superclass = Graph.prototype;
+DetectCycle.prototype.addControls = function() {
+  this.startButton = addControlToAlgorithmBar("Button", "Run Cycle Detection");
+  this.startButton.onclick = this.startCallback.bind(this);
+  DetectCycle.superclass.addControls.call(this, false);
+};
+DetectCycle.prototype.init = function(am, w2, h, graphOpts) {
+  this.showEdgeCosts = false;
+  const opts = graphOpts && typeof graphOpts === "object" ? { ...graphOpts } : {};
+  const requestedEdgePercentage = opts.edgePercentage ?? opts.edgePercent ?? opts.edgeDensity;
+  const parsedEdgePercentage = Number(requestedEdgePercentage);
+  const hasValidEdgePercentage = Number.isFinite(parsedEdgePercentage) && parsedEdgePercentage >= 0 && parsedEdgePercentage <= 1;
+  if (typeof opts.preventBidirectionalEdge !== "boolean") {
+    opts.preventBidirectionalEdge = true;
+  }
+  DetectCycle.superclass.init.call(this, am, w2, h, true, false, opts);
+};
+DetectCycle.prototype.setup = function() {
+  DetectCycle.superclass.setup.call(this);
+  this.commands = [];
+  this.messageID = [];
+  this.visitedID = new Array(this.size);
+  this.visitedIndexID = new Array(this.size);
+  this.onStackID = new Array(this.size);
+  this.onStackIndexID = new Array(this.size);
+  for (var i = 0; i < this.size; i++) {
+    this.visitedID[i] = this.nextIndex++;
+    this.visitedIndexID[i] = this.nextIndex++;
+    this.onStackID[i] = this.nextIndex++;
+    this.onStackIndexID[i] = this.nextIndex++;
+    this.cmd(
+      "CreateRectangle",
+      this.visitedID[i],
+      "F",
+      AUX_ARRAY_WIDTH2,
+      AUX_ARRAY_HEIGHT2,
+      VISITED_START_X2,
+      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+    );
+    this.cmd(
+      "CreateLabel",
+      this.visitedIndexID[i],
+      i,
+      VISITED_START_X2 - AUX_ARRAY_WIDTH2,
+      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+    );
+    this.cmd("SetForegroundColor", this.visitedIndexID[i], VERTEX_INDEX_COLOR);
+    this.cmd(
+      "CreateRectangle",
+      this.onStackID[i],
+      "F",
+      AUX_ARRAY_WIDTH2,
+      AUX_ARRAY_HEIGHT2,
+      ONSTACK_START_X,
+      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+    );
+    this.cmd(
+      "CreateLabel",
+      this.onStackIndexID[i],
+      i,
+      ONSTACK_START_X - AUX_ARRAY_WIDTH2,
+      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+    );
+    this.cmd("SetForegroundColor", this.onStackIndexID[i], VERTEX_INDEX_COLOR);
+  }
+  this.cmd(
+    "CreateLabel",
+    this.nextIndex++,
+    "Visited",
+    VISITED_START_X2 - AUX_ARRAY_WIDTH2,
+    AUX_ARRAY_START_Y2 - AUX_ARRAY_HEIGHT2 * 1.5,
+    0
+  );
+  this.cmd(
+    "CreateLabel",
+    this.nextIndex++,
+    "On Stack",
+    ONSTACK_START_X - AUX_ARRAY_WIDTH2,
+    AUX_ARRAY_START_Y2 - AUX_ARRAY_HEIGHT2 * 1.5,
+    0
+  );
+  this.cmd(
+    "CreateLabel",
+    this.nextIndex++,
+    "Stack",
+    STACK_START_X,
+    STACK_START_Y - 18,
+    0
+  );
+  this.animationManager.setAllLayers([0, this.currentLayer]);
+  this.animationManager.StartNewAnimation(this.commands);
+  this.animationManager.skipForward();
+  this.animationManager.clearHistory();
+  this.highlightCircleL = this.nextIndex++;
+  this.highlightCircleAL = this.nextIndex++;
+  this.highlightCircleAM = this.nextIndex++;
+};
+DetectCycle.prototype.startCallback = function() {
+  this.doDetectCycle();
+};
+DetectCycle.prototype.doDetectCycle = function() {
+  this.implementAction(this.doDetectCycleAction.bind(this), 0);
+  return true;
+};
+DetectCycle.prototype.doDetectCycleAction = function() {
+  this.commands = [];
+  if (this.messageID != null) {
+    for (var i = 0; i < this.messageID.length; i++) {
+      if (this.objectExists(this.messageID[i])) {
+        this.cmd("Delete", this.messageID[i]);
+      }
+    }
+  }
+  this.rebuildEdges();
+  this.visited = new Array(this.size);
+  this.onStack = new Array(this.size);
+  this.callLabelByVertex = new Array(this.size);
+  this.messageID = [];
+  this.foundCycle = false;
+  this.lastCycleStartRoot = -1;
+  this.lastStartsTried = [];
+  for (i = 0; i < this.size; i++) {
+    this.visited[i] = false;
+    this.onStack[i] = false;
+    this.callLabelByVertex[i] = -1;
+    this.cmd("SetText", this.visitedID[i], "F");
+    this.cmd("SetText", this.onStackID[i], "F");
+    this.cmd("SetHighlight", this.visitedID[i], 0);
+    this.cmd("SetHighlight", this.onStackID[i], 0);
+  }
+  this.cmd(
+    "CreateHighlightCircle",
+    this.highlightCircleL,
+    HIGHLIGHT_CIRCLE_COLOR3,
+    this.x_pos_logical[0],
+    this.y_pos_logical[0]
+  );
+  this.cmd("SetLayer", this.highlightCircleL, 1);
+  this.cmd(
+    "CreateHighlightCircle",
+    this.highlightCircleAL,
+    HIGHLIGHT_CIRCLE_COLOR3,
+    this.adj_list_x_start - this.adj_list_width,
+    this.adj_list_y_start
+  );
+  this.cmd("SetLayer", this.highlightCircleAL, 2);
+  this.cmd(
+    "CreateHighlightCircle",
+    this.highlightCircleAM,
+    HIGHLIGHT_CIRCLE_COLOR3,
+    this.adj_matrix_x_start - this.adj_matrix_width,
+    this.adj_matrix_y_start
+  );
+  this.cmd("SetLayer", this.highlightCircleAM, 3);
+  this.stackVisualDepth = 0;
+  for (var start = 0; start < this.size && !this.foundCycle; start++) {
+    if (!this.visited[start]) {
+      this.lastStartsTried.push(start);
+      if (start === 0) {
+        this.cmd("SetMessage", "Start DFS at 0.");
+      } else {
+        this.cmd("SetMessage", `Start new DFS at ${start}.`);
+      }
+      this.cmd(
+        "Move",
+        this.highlightCircleL,
+        this.x_pos_logical[start],
+        this.y_pos_logical[start]
+      );
+      this.cmd(
+        "Move",
+        this.highlightCircleAL,
+        this.adj_list_x_start - this.adj_list_width,
+        this.adj_list_y_start + start * this.adj_list_height
+      );
+      this.cmd(
+        "Move",
+        this.highlightCircleAM,
+        this.adj_matrix_x_start - this.adj_matrix_width,
+        this.adj_matrix_y_start + start * this.adj_matrix_height
+      );
+      this.cmd("Step");
+      if (this.dfsDetect(start, STACK_START_X)) {
+        this.lastCycleStartRoot = start;
+      }
+    }
+  }
+  this.cmd("Delete", this.highlightCircleL);
+  this.cmd("Delete", this.highlightCircleAL);
+  this.cmd("Delete", this.highlightCircleAM);
+  if (this.foundCycle) {
+    this.cmd("SetMessage", "Cycle detected (found an edge to a node currently on the DFS stack).");
+  } else {
+    this.cmd("SetMessage", "No directed cycle found.");
+  }
+  this.cmd("Step");
+  return this.commands;
+};
+DetectCycle.prototype.objectExists = function(id) {
+  return this.animationManager && this.animationManager.animatedObjects && this.animationManager.animatedObjects.Nodes && this.animationManager.animatedObjects.Nodes[id] != null;
+};
+DetectCycle.prototype.getLastCycleDebugInfo = function() {
+  return {
+    foundCycle: !!this.foundCycle,
+    cycleStartRoot: this.lastCycleStartRoot,
+    startsTried: Array.isArray(this.lastStartsTried) ? this.lastStartsTried.slice() : []
+  };
+};
+DetectCycle.prototype.pushStackVisual = function(vertex, messageX) {
+  var id = this.nextIndex++;
+  this.messageID.push(id);
+  this.callLabelByVertex[vertex] = id;
+  this.cmd(
+    "CreateLabel",
+    id,
+    `DFS(${vertex})`,
+    messageX,
+    STACK_START_Y + this.stackVisualDepth * STACK_LINE_HEIGHT,
+    0,
+    80
+  );
+  this.stackVisualDepth += 1;
+};
+DetectCycle.prototype.popStackVisual = function(vertex) {
+  var id = this.callLabelByVertex[vertex];
+  if (id >= 0) {
+    this.cmd("Delete", id);
+    this.callLabelByVertex[vertex] = -1;
+  }
+  this.stackVisualDepth = Math.max(0, this.stackVisualDepth - 1);
+};
+DetectCycle.prototype.setCurrentCursor = function(vertex) {
+  this.cmd(
+    "Move",
+    this.highlightCircleL,
+    this.x_pos_logical[vertex],
+    this.y_pos_logical[vertex]
+  );
+  this.cmd(
+    "Move",
+    this.highlightCircleAL,
+    this.adj_list_x_start - this.adj_list_width,
+    this.adj_list_y_start + vertex * this.adj_list_height
+  );
+  this.cmd(
+    "Move",
+    this.highlightCircleAM,
+    this.adj_matrix_x_start - this.adj_matrix_width,
+    this.adj_matrix_y_start + vertex * this.adj_matrix_height
+  );
+};
+DetectCycle.prototype.dfsDetect = function(vertex, messageX) {
+  this.pushStackVisual(vertex, messageX);
+  this.visited[vertex] = true;
+  this.onStack[vertex] = true;
+  this.cmd("SetText", this.visitedID[vertex], "T");
+  this.cmd("SetText", this.onStackID[vertex], "T");
+  this.setCurrentCursor(vertex);
+  this.cmd("SetMessage", `Visit ${vertex}; mark as on the stack.`);
+  this.cmd("Step");
+  for (var neighbor = 0; neighbor < this.size; neighbor++) {
+    if (this.adj_matrix[vertex][neighbor] > 0) {
+      this.setEdgeColor(vertex, neighbor, EDGE_CONSIDER_COLOR);
+      this.highlightEdge(vertex, neighbor, 1);
+      if (this.onStack[neighbor]) {
+        this.setEdgeColor(vertex, neighbor, CYCLE_EDGE_COLOR);
+        this.highlightEdge(vertex, neighbor, 1);
+        this.cmd("SetMessage", `Edge ${vertex} -> ${neighbor} reaches a node on the stack. Cycle found.`);
+        this.cmd("Step");
+        this.foundCycle = true;
+        return true;
+      }
+      if (!this.visited[neighbor]) {
+        this.setEdgeColor(vertex, neighbor, TREE_EDGE_COLOR);
+        this.highlightEdge(vertex, neighbor, 1);
+        this.cmd("SetMessage", `Recurse to ${neighbor}.`);
+        this.cmd("Step");
+        if (this.dfsDetect(neighbor, messageX + STACK_INDENT)) {
+          return true;
+        }
+        this.setEdgeColor(vertex, neighbor, "#000000");
+        this.highlightEdge(vertex, neighbor, 0);
+        this.setCurrentCursor(vertex);
+        this.cmd("SetMessage", `Return to ${vertex} from ${neighbor}.`);
+        this.cmd("Step");
+      } else {
+        this.setEdgeColor(vertex, neighbor, "#000000");
+        this.highlightEdge(vertex, neighbor, 0);
+        this.cmd("SetMessage", `${neighbor} already fully processed; continue.`);
+        this.cmd("Step");
+      }
+    }
+  }
+  this.onStack[vertex] = false;
+  this.cmd("SetText", this.onStackID[vertex], "F");
+  this.popStackVisual(vertex);
+  this.cmd("SetMessage", `Done at ${vertex}. Mark as not on the stack.`);
+  this.cmd("Step");
+  return false;
+};
+DetectCycle.prototype.reset = function() {
+};
+DetectCycle.prototype.enableUI = function(event) {
+  this.startButton.disabled = false;
+  DetectCycle.superclass.enableUI.call(this, event);
+};
+DetectCycle.prototype.disableUI = function(event) {
+  this.startButton.disabled = true;
+  DetectCycle.superclass.disableUI.call(this, event);
+};
+
+// AlgorithmLibrary/DFS.js
+var AUX_ARRAY_WIDTH3 = 25;
+var AUX_ARRAY_HEIGHT3 = 25;
+var AUX_ARRAY_START_Y3 = 50;
+var VISITED_START_X3 = 200;
+var PARENT_START_X2 = 275;
+var HIGHLIGHT_CIRCLE_COLOR4 = "#000000";
 var SEARCH_TREE_FINAL_COLOR2 = "var(--svgColor--althighlight)";
 var EDGE_CHECK_COLOR2 = "var(--svgColor--althighlight)";
 var QUEUE_START_X2 = 30;
@@ -12424,34 +13535,34 @@ DFS.prototype.setup = function() {
       "CreateRectangle",
       this.visitedID[i],
       "f",
-      AUX_ARRAY_WIDTH2,
-      AUX_ARRAY_HEIGHT2,
-      VISITED_START_X2,
-      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+      AUX_ARRAY_WIDTH3,
+      AUX_ARRAY_HEIGHT3,
+      VISITED_START_X3,
+      AUX_ARRAY_START_Y3 + i * AUX_ARRAY_HEIGHT3
     );
     this.cmd(
       "CreateLabel",
       this.visitedIndexID[i],
       i,
-      VISITED_START_X2 - AUX_ARRAY_WIDTH2,
-      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+      VISITED_START_X3 - AUX_ARRAY_WIDTH3,
+      AUX_ARRAY_START_Y3 + i * AUX_ARRAY_HEIGHT3
     );
     this.cmd("SetForegroundColor", this.visitedIndexID[i], VERTEX_INDEX_COLOR);
     this.cmd(
       "CreateRectangle",
       this.parentID[i],
       "",
-      AUX_ARRAY_WIDTH2,
-      AUX_ARRAY_HEIGHT2,
+      AUX_ARRAY_WIDTH3,
+      AUX_ARRAY_HEIGHT3,
       PARENT_START_X2,
-      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+      AUX_ARRAY_START_Y3 + i * AUX_ARRAY_HEIGHT3
     );
     this.cmd(
       "CreateLabel",
       this.parentIndexID[i],
       i,
-      PARENT_START_X2 - AUX_ARRAY_WIDTH2,
-      AUX_ARRAY_START_Y2 + i * AUX_ARRAY_HEIGHT2
+      PARENT_START_X2 - AUX_ARRAY_WIDTH3,
+      AUX_ARRAY_START_Y3 + i * AUX_ARRAY_HEIGHT3
     );
     this.cmd("SetForegroundColor", this.parentIndexID[i], VERTEX_INDEX_COLOR);
   }
@@ -12459,16 +13570,16 @@ DFS.prototype.setup = function() {
     "CreateLabel",
     this.nextIndex++,
     "Parent",
-    PARENT_START_X2 - AUX_ARRAY_WIDTH2,
-    AUX_ARRAY_START_Y2 - AUX_ARRAY_HEIGHT2 * 1.5,
+    PARENT_START_X2 - AUX_ARRAY_WIDTH3,
+    AUX_ARRAY_START_Y3 - AUX_ARRAY_HEIGHT3 * 1.5,
     0
   );
   this.cmd(
     "CreateLabel",
     this.nextIndex++,
     "Visited",
-    VISITED_START_X2 - AUX_ARRAY_WIDTH2,
-    AUX_ARRAY_START_Y2 - AUX_ARRAY_HEIGHT2 * 1.5,
+    VISITED_START_X3 - AUX_ARRAY_WIDTH3,
+    AUX_ARRAY_START_Y3 - AUX_ARRAY_HEIGHT3 * 1.5,
     0
   );
   this.animationManager.setAllLayers([0, this.currentLayer]);
@@ -12557,7 +13668,7 @@ DFS.prototype.doDFSRecursive = function(startVetex) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlightCircleL,
-    HIGHLIGHT_CIRCLE_COLOR3,
+    HIGHLIGHT_CIRCLE_COLOR4,
     this.x_pos_logical[vertex],
     this.y_pos_logical[vertex]
   );
@@ -12565,7 +13676,7 @@ DFS.prototype.doDFSRecursive = function(startVetex) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlightCircleAL,
-    HIGHLIGHT_CIRCLE_COLOR3,
+    HIGHLIGHT_CIRCLE_COLOR4,
     this.adj_list_x_start - this.adj_list_width,
     this.adj_list_y_start + vertex * this.adj_list_height
   );
@@ -12573,7 +13684,7 @@ DFS.prototype.doDFSRecursive = function(startVetex) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlightCircleAM,
-    HIGHLIGHT_CIRCLE_COLOR3,
+    HIGHLIGHT_CIRCLE_COLOR4,
     this.adj_matrix_x_start - this.adj_matrix_width,
     this.adj_matrix_y_start + vertex * this.adj_matrix_height
   );
@@ -12655,7 +13766,7 @@ DFS.prototype.doDFSIterative = function(startVetex) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlightCircleL,
-    HIGHLIGHT_CIRCLE_COLOR3,
+    HIGHLIGHT_CIRCLE_COLOR4,
     this.x_pos_logical[vertex],
     this.y_pos_logical[vertex]
   );
@@ -12663,7 +13774,7 @@ DFS.prototype.doDFSIterative = function(startVetex) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlightCircleAL,
-    HIGHLIGHT_CIRCLE_COLOR3,
+    HIGHLIGHT_CIRCLE_COLOR4,
     this.adj_list_x_start - this.adj_list_width,
     this.adj_list_y_start + vertex * this.adj_list_height
   );
@@ -12671,7 +13782,7 @@ DFS.prototype.doDFSIterative = function(startVetex) {
   this.cmd(
     "CreateHighlightCircle",
     this.highlightCircleAM,
-    HIGHLIGHT_CIRCLE_COLOR3,
+    HIGHLIGHT_CIRCLE_COLOR4,
     this.adj_matrix_x_start - this.adj_matrix_width,
     this.adj_matrix_y_start + vertex * this.adj_matrix_height
   );
@@ -24760,9 +25871,16 @@ TopoSortDFS.prototype.startCallback = function(event) {
   this.runLocked = true;
   if (this.startButton)
     this.startButton.disabled = true;
-  this.implementAction(this.doTopoSort.bind(this), "");
+  this.doTopoSort();
 };
-TopoSortDFS.prototype.doTopoSort = function(ignored) {
+TopoSortDFS.prototype.doTopoSort = function() {
+  this.runLocked = true;
+  if (this.startButton)
+    this.startButton.disabled = true;
+  this.implementAction(this.doTopoSortAction.bind(this), "");
+  return true;
+};
+TopoSortDFS.prototype.doTopoSortAction = function(ignored) {
   this.visited = new Array(this.size);
   this.commands = new Array();
   this.topoOrderArrayL = new Array();
@@ -25692,6 +26810,7 @@ export {
   ClosedHash,
   ConnectedComponent,
   DFS,
+  DetectCycle,
   DijkstraPrim,
   DoublyLinkedList,
   ExpressionTree,

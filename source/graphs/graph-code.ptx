@@ -3,10 +3,16 @@
 
   <title>Graph Class</title>
 
-  <p>Below is an implementation of a graph class in C++ based on an adjacency map. The adjacency map makes most operations have a time complexity of O(1). The notable exception is the <c>getNeighbors</c> method, which has a time complexity of O(n) where n is the number of neighbors of the vertex since we must construct a list of neighbors. An optimized version might return an iterator over the neighbors instead of a list to avoid this work.</p>
+  <p>Below is an implementation of a graph class in C++ based on an adjacency map. The adjacency map
+    makes most operations have a time complexity of O(1). The notable exception is the <c>getNeighbors</c>
+    method, which has a time complexity of O(n) where n is the number of neighbors of the vertex
+    since we must construct a list of neighbors. An optimized version might return an iterator over
+    the neighbors instead of a list to avoid this work.</p>
 
   <listing>
-    <program label="graph-code_graph-cxx" xml:id="graph-code_graph-cxx" filename="Graph.cxx">
+    <program label="graph-code_graph-cxx"
+             xml:id="graph-code_graph-cxx"
+             filename="Graph.cxx">
 <xi:include href="../../programs/graphs/graph.cxx" parse="text"/>
     </program>
   </listing>
@@ -14,7 +20,9 @@
   <p>And below is a sample of using the graph class.</p>
 
   <listing>
-    <program interactive="activecode" compile-also="graph-code_graph-cxx" label="graph-code_graph-test">
+    <program interactive="activecode"
+             compile-also="graph-code_graph-cxx"
+             label="graph-code_graph-test">
 <xi:include href="../../programs/graphs/graph-test.cpp" parse="text"/>
     </program>
   </listing>
