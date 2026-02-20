@@ -1,17 +1,13 @@
 <section xml:id="recursive-functions_flood-fill"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <title>Advanced Recursion - Flood Fill</title>
+  <title>Flood Fill</title>
 
-  <p>Recursion often excels for problems that can be solved using a <term>divide and conquer</term>
-    strategy. Divide and conquer means breaking a problem down into smaller, similar sub-problems,
-    solving those sub-problems, and then combining the results to solve the original problem. (Even
-    description of the strategy should sound a lot like how we have described recursion.)</p>
-
-  <p>A classic example of this is the <term>flood fill</term> algorithm, which is used in computer
-    graphics to fill an area with a color. We will look at a simple version of flood fill that <q>
-    colors</q> in elements of a 2D matrix. Flood fill starts from a single point and keeps spreading
+  <p>Another example of using multiple recursive calls is the <term>flood fill</term> algorithm, which is
+    used in computer graphics to fill an area with a color. Flood fill starts from a single point and keeps spreading
     out, only stopping when we reach the edge of the area or a different color.</p>
+
+    <p>Our version of flood fill will <q>color</q> in elements of a 2D matrix of characters by replacing spaces with dots.</p>
 
   <sidebyside>
     <figure>

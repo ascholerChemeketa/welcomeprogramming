@@ -9,33 +9,58 @@
 <xi:include href="../../programs/recursive-functions/tail-1.cpp" parse="text"/>
   </program>
 
-  <p>Our other recipes have not been tail-recursive, as we always do something to build on the answer produced by the recursive call:</p>
+  <p>In our other recursive recipes, we have always done something to build on the answer produced by the recursive call. For example, our <pf>factorial</pf> function takes the answer produced by the recursive call and multiplies it by the current number:</p>
 
   <program highlight-lines="5-6" line-numbers="yes">
 <xi:include href="../../programs/recursive-functions/tail-2.cpp" parse="text"/>
   </program>
 
-  <p>The advantage of tail-recursive functions is that they can be optimized by the compiler to avoid increasing the call stack depth, thus preventing stack overflow errors for deep recursions. Essentially, the compiler can <q>cheat</q> and just keep using the same stack frame for each recursive call. If the call to <pf>factorial(5)</pf> does not need to do anything once <pf>factorial(4)</pf> is done producing an answer, there is no need to keep a stack frame around for it. We can just overwrite it with the data for <pf>factorial(4)</pf>. Then we can wipe that out and reuse the space for <pf>factorial(3)</pf>. And so on...</p>
+  <p>This means those functions have not been tail recursive.</p>
 
-  <p>But how do we make the function tail recursive? <pf>factorial(4)</pf> counts on being able to ask <pf>factorial(3)</pf> for its answer and then <pf>factorial(4)</pf> produces the answer including 4. To make it tail-recursive, we need <pf>factorial(4)</pf> to give all the information <pf>factorial(3)</pf> needs to get the final answer.</p>
+  <p>Why would we care if our function is tail recursive? In a function that is not tail recursive, we have to keep track of the state of each stack frame while we wait for the recursive call to return. <pf>factorial(5)</pf> needs to store its copy of <pf>n</pf> while waiting on <pf>factorial(4)</pf>. <pf>factorial(4)</pf> needs to store its copy of <pf>n</pf> while waiting on <pf>factorial(3)</pf>. And so on. If we have a very deep recursion, we can run out of stack space and get a stack overflow error.
+  </p>
+
+  <listing>
+  <program label="recursive-functions_tail-program-non-tail"
+           interactive="activecode">
+<xi:include href="../../programs/recursive-functions/tail-program-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>In a tail recursive function, there is no need to remember anything in the current stack frame. All the work at that level is already done. So, given a tail recursive function, the compiler can <q>cheat</q> and reuse the same stack frame for each recursive call. When <pf>factorial(5)</pf> calls <pf>factorial(4)</pf> a new stack frame won't be created. Instead the data for the new call will just overwrite the current stack frame.</p>
+
+  <note>
+    <p>
+      This depends on the compiler being smart enough to recognize that the function is tail recursive and optimize it. Some compilers will do this optimization, but not all. In functional programming languages like Scheme that rely heavily on recursion, the language specification often requires that tail recursion be optimized. In C++, the compiler is allowed to optimize tail recursion, but it is not required to do so.
+    </p>
+  </note>
+
+  <p>But how do we make the function tail recursive? <pf>factorial(4)</pf> counts on being able to ask <pf>factorial(3)</pf> for its answer and then produces its own answer based on that. To make it tail-recursive, we need to change where the work happens. We need <pf>factorial(4)</pf> to pass all the information needed to calculate a final answer to <pf>factorial(3)</pf> and count on it to return the final answer. <pf>factorial(3)</pf> will in turn have to pass all the information needed to calculate a final answer to <pf>factorial(2)</pf>.</p>
   
   <p>As always when we want to pass more information from one recursive call to the next, that means a new parameter. We will call this parameter the <pf>accumulator</pf> as it will accumulate the <q>answer so far</q>.</p>
 
   <program><![CDATA[int factorial(int n, int accumulator);]]></program>
 
-  <p>Now if we start with factorial of 4, it will call <pf>factorial(3, 4)</pf> to say <q>Hey, you need to calculate 3! and multiply that by 4.</q>. <pf>factorial(3)</pf>, will take the 4, multiply it by 3, and then call <pf>factorial(2, 12)</pf> to say <q>Hey, you need to calculate 2! and multiply that by 12.</q>. Eventually we will call <pf>factorial(0, 12)</pf> to say <q>Hey, you need to calculate 0! and multiply that by 12.</q>. Factorial of 0 is still our base case. But when we reach <pf>n == 0</pf>, we already should have a final result to return.</p>
+  <p>Now if we start with factorial of 4, it will call <pf>factorial(3, 4)</pf> to say <q>Hey, you need to calculate 3! and multiply that by 4.</q>. <pf>factorial(3)</pf>, will take the 4, multiply it by 3, and then call <pf>factorial(2, 12)</pf> to say <q>Hey, you need to calculate 2! and multiply that by 12.</q>. Eventually we will call <pf>factorial(0, 12)</pf> to say <q>Hey, you need to calculate 0! and multiply that by 12.</q>. Factorial of 0 is still our base case. Only now, instead of returning 1, it returns the final answer. The call sequence for an initial input of 4 looks like:</p>
 
-  <p>Here is that function. Note that it does the work to calculate <pf>newAccumulator</pf> (<q>the answer so far</q>) before the recursive call and then hands that value off to the next call. We also have a non-recursive function to kick start the recursive process with an accumulator of 1.</p>
+  <pre>
+factorial(4, 1)
+factorial(3, 4)
+factorial(2, 12)
+factorial(1, 24)
+factorial(0, 24)
+  </pre>
+  
+  <insight><p>Tail recursion focuses on doing work on the way down the recursion stack. Non-tail recursive algorithms do work on the way back out of the recursion calls.</p></insight>
+
+  <p>Here is an implementation of that function. Note that it does the work to calculate <pf>newAccumulator</pf> (<q>the answer so far</q>) before the recursive call and then hands that value off to the next call. The result of trying to calculate something like <pf>factorial(20000)</pf> will be incorrect as we overflow the integer being used. But there is no
+  stack overflow error!</p>
 
   <listing>
   <program label="recursive-functions_tail-program-1" interactive="codelens" >
 <xi:include href="../../programs/recursive-functions/tail-3.cpp" parse="text"/>
   </program>
   </listing>
-
-  <p>It is harder to see what is getting returned from each level of recursion, as we do not store the result at each level before returning it to the next (that would not be tail recursive!). However, you can see that the base case returns the answer 24 and every recursive level just returns that same answer.</p>
-
-  <insight><p>Tail recursion focuses on doing work on the way down the recursion stack. Non-tail recursive algorithms do work on the way back out of the recursion calls.</p></insight>
 
   <exercise label="recursive-functions_tail-ex-1"
   numbered="yes"

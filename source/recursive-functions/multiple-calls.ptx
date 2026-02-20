@@ -1,0 +1,101 @@
+<section xml:id="recursive-functions_multiple-calls"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Multiple Recursive Calls</title>
+
+  <p>
+    It is possible to make multiple recursive calls within a function.
+    This is often used to solve problems via <term>divide and conquer</term>
+    strategy. Divide and conquer means breaking a problem down into smaller, similar sub-problems,
+    solving those sub-problems, and then combining the results to solve the original problem. This kind of problem is where recursion really shines as divide and conquer is a natural fit for a recursive design.
+  </p>
+
+  <p>
+    For example, consider the task of generating all binary strings of a given length.
+    A binary string is a string that only contains 0s and 1s. Given a particular binary string, like <c>011</c>,
+    if we want to add one more bit to the end of it, we have two options: we can add a 0 or we can add a 1. So from <c>011</c>, we can generate <c>0110</c> and <c>0111</c>. Then we can take both of those strings and add a 0 or a 1 to the end of them.
+  </p>
+
+  <p>
+    To will design this as a tail recursive function where we pass <q>the string so far</q> to each level of recursion along with <q>how many more bits to add</q>. That choice implies that the base case will be when there are no more bits to add. 
+    <dl>
+      <li>
+        <title>What are the inputs/outputs</title>
+        <p>Takes string built so far and number of remaining bits to add. Returns nothing.</p>
+      </li>
+      <li>
+        <title>What is the base case</title>
+        <p>Remaining bits is 0. Print the current string.</p>
+      </li>
+      <li>
+        <title>What is the recursive case</title>
+        <p>
+          Make two recursive calls, one where we add a 0 to the current string and one where we add a 1 to the current string. In each call, there will be one fewer remaining bit to add.
+        </p>
+      </li>
+    </dl>
+  </p>
+
+  <p>Below is an implementation of our function:</p>
+
+  <listing>
+  <program highlight-lines="4-11" interactive="activecode"
+           label="recursive-functions_multiple-calls-program-1"
+           line-numbers="yes">
+<xi:include href="../../programs/recursive-functions/print-binary-strings.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <p>From an input of 3, we end up with 8 lines of output. This is because each recursive call produces two new calls:</p>
+
+  <figure>
+    <caption>Recursive calls for <pf>printBinaryStrings(3)</pf></caption>
+    <image
+           source="images/recursion-printBinary.svg"
+           >
+      <shortdescription>Three levels of recursion. Each function call leads to two new functions at the next level.</shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    The actual order these calls are made is determined by the order of the recursive calls in the code. In our implementation, we first make the call that adds a 0 and then we make the call that adds a 1. So, we will first generate all the strings that start with 0 and then we will generate all the strings that start with 1.
+  </p>
+
+  <p>The next level down makes the same decision: it first generates all the strings that start with 0 and then all the strings that start with 1. This pattern continues until we reach the base case.</p>
+
+  <p>
+    So the process looks like:
+    <ol>
+      <li><p><pf>printBinaryStrings("", 3)</pf> starts. It calls <pf>printBinaryStrings("0", 2)</pf></p></li>
+      <li><p><pf>printBinaryStrings("0", 2)</pf> starts. It calls <pf>printBinaryStrings("00", 1)</pf></p></li>
+      <li><p><pf>printBinaryStrings("00", 1)</pf> starts. It calls <pf>printBinaryStrings("000", 0)</pf></p></li>
+      <li><p><pf>printBinaryStrings("000", 0)</pf> starts. It prints <c>000</c> and returns.</p></li>
+      <li><p>We return to <pf>printBinaryStrings("00", 1)</pf>. It is done printing 0's, so it now calls <pf>printBinaryStrings("001", 0)</pf> to print ones.</p></li>
+      <li><p><pf>printBinaryStrings("001", 0)</pf> starts. It prints <c>001</c> and returns.</p></li>
+      <li><p>We return to <pf>printBinaryStrings("00", 1)</pf>. It is done printing 1's, so it returns.</p></li>
+      <li><p>We return to <pf>printBinaryStrings("0", 2)</pf>. It is done printing 0's, so it now calls <pf>printBinaryStrings("01", 1)</pf></p></li>
+      <li><p>...</p></li>
+    </ol>
+  </p>
+
+  <p>We keep drilling down the left branch (zero branch) until we bottom out. Then we back track to somewhere where we have yet to do the right branch (one branch) and do a recursive call there. To change the order of the output, you can simply swap the order of the recursive calls in the code. That will force the right branch to be explored first.</p>
+
+  <exercise label="recursive-functions_multiple-calls-ex-1">
+    <statement>
+      <p>How many strings would be printed by <pf>printBinaryStrings("", 10)</pf>? 
+        <fillin mode="number"
+                answer="1024"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test>
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>Each recursive call doubles the number of strings generated.</feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+</section>
