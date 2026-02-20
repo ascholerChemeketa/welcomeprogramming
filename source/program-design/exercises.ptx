@@ -55,8 +55,8 @@ convertDeclarationToCamel("double another_variable_name = 3.14;") -> "double ano
 
   <exercise label="program-design_exercises-ex-1">
     <statement>
-      <p>Design functions to help solve the following problem. Use the answer guidelines in <xref text="title" ref="program-design_exercises_introduction"/>.</p>
       <p>We will start with 6 doubles, <pf>x1</pf>, <pf>y1</pf>, <pf>x2</pf>, <pf>y2</pf>, <pf>x3</pf>, and <pf>y3</pf>, that represent the coordinates of the three vertices of a triangle. We want to compute and print the area of the triangle.</p>
+      <p>Design at least two functions to help solve this problem and provide prototypes and sample input/output pairs. Do not write any code. Make sure to follow the answer guidelines in <xref text="custom" ref="program-design_exercises">Ch 12 Exercises</xref>.</p>
     </statement>
     <response>
     </response>
@@ -64,8 +64,8 @@ convertDeclarationToCamel("double another_variable_name = 3.14;") -> "double ano
 
   <exercise label="program-design_exercises-ex-2">
     <statement>
-      <p>Design functions to help solve the following problem. Use the answer guidelines in <xref text="title" ref="program-design_exercises_introduction"/>.</p>
       <p>We have a string containing two cards of a hand in blackjack, like <c>"KH 7D"</c> (the king of hearts and the seven of diamonds) or <c>"AS 9C"</c> (the ace of spades and the nine of clubs). We want to compute the total value of the hand. The king, queen, and jack are worth 10 points each. The ace is worth either 1 point or 11 points, whichever is more favorable to the hand without going over 21. All other cards are worth their numeric value.</p>
+      <p>Design at least three functions to help solve this problem and provide prototypes and sample input/output pairs. Do not write any code. Make sure to follow the answer guidelines in <xref text="custom" ref="program-design_exercises">Ch 12 Exercises</xref>.</p>
     </statement>
     <response>
     </response>
@@ -73,7 +73,6 @@ convertDeclarationToCamel("double another_variable_name = 3.14;") -> "double ano
 
   <exercise label="program-design_exercises-ex-3">
     <statement>
-      <p>Design functions to help solve the following problem. Use the answer guidelines in <xref text="title" ref="program-design_exercises_introduction"/>.</p>
 
       <p>Given two blood types like <pf>AB+</pf> and <pf>O-</pf>, we want to determine if the first blood type can donate to the second blood type and if the second can donate to the first.</p>
 
@@ -83,7 +82,7 @@ convertDeclarationToCamel("double another_variable_name = 3.14;") -> "double ano
         <p>Blood that has the <pf>+</pf> factor can only be given to someone who also has the <pf>+</pf> factor. (Blood with the <pf>-</pf> factor can be given to anyone.)</p>
       </note>
 
-      <p>We will write a program that asks for two blood types. We should print out two lines of output like:</p>
+      <p>We want to write a program that can read in pairs of blood types and determine donation compatibility:</p>
 
       <console>
         <output>
@@ -92,6 +91,8 @@ convertDeclarationToCamel("double another_variable_name = 3.14;") -> "double ano
         </output>
       </console>
 
+      <p>Design at least three functions to help solve this problem and provide prototypes and sample input/output pairs. Do not write any code. Make sure to follow the answer guidelines in <xref text="custom" ref="program-design_exercises">Ch 12 Exercises</xref>.</p>
+
     </statement>
     <response>
     </response>
@@ -99,7 +100,6 @@ convertDeclarationToCamel("double another_variable_name = 3.14;") -> "double ano
 
   <exercise label="program-design_exercises-ex-4">
     <statement>
-      <p>Design functions to help solve the following problem. Use the answer guidelines in <xref text="title" ref="program-design_exercises_introduction"/>.</p>
       <p>Given a month/year date like <c>"12/2025"</c> or <c>"1/2023"</c>, print a calendar page for that month and year.</p>
       <p>For example, a calendar page for December 2025 might look like this:</p>
       <pre>
@@ -111,6 +111,7 @@ Su Mo Tu We Th Fr Sa
 21 22 23 24 25 26 27
 28 29 30 31
       </pre>
+      <p>Design at least three functions to help solve this problem and provide prototypes and sample input/output pairs. Do not write any code. Make sure to follow the answer guidelines in <xref text="custom" ref="program-design_exercises">Ch 12 Exercises</xref>.</p>
     </statement>
     <response>
     </response>
@@ -118,10 +119,10 @@ Su Mo Tu We Th Fr Sa
 
   <exercise label="program-design_exercises-ex-5">
     <statement>
-      <p>Design functions to help solve the following problem. Use the answer guidelines in <xref text="title" ref="program-design_exercises_introduction"/>.</p>
       <p>In Roman numerals the letters I, V, X, L, and C represent the values 1, 5, 10, 50, and 100 respectively. Numbers are formed by combining these letters and adding their values. For example, the Roman numeral for 3 is <pf>III</pf>, which is three ones added together. The Roman numeral for 12 is <pf>XII</pf>, which is a ten plus two ones. The Roman numeral for 27 is <pf>XXVII</pf>, which is two tens plus a five plus two ones.</p>
       <p>In real Roman numerals, there are some special rules for avoiding more than three of the same letter in a row. But we will ignore those.</p>
       <p>We want to write a program that reads in two Roman numerals (both less than 100), adds them together, and outputs the result as a Roman numeral.</p>
+      <p>Design at least three functions to help solve this problem and provide prototypes and sample input/output pairs. Do not write any code. Make sure to follow the answer guidelines in <xref text="custom" ref="program-design_exercises">Ch 12 Exercises</xref>.</p>
     </statement>
     <response>
     </response>
@@ -129,10 +130,10 @@ Su Mo Tu We Th Fr Sa
 
   <exercise label="program-design_exercises-ex-6">
     <statement>
-      <p>Design functions to help solve the following problem. Use the answer guidelines in <xref text="title" ref="program-design_exercises_introduction"/>.</p>
       <p>The perceptual brightness of a color can be estimated with the formula:</p>
       <md>\text{brightness} = (0.2126 * R) + (0.7152 * G) + (0.0722 * B)</md>
       <p>Given a string with a color value in the format <pf>#RRGGBB</pf> where RR, GG, and BB are two-digit hexadecimal numbers. (See <url href="https://runestone.academy/ns/books/published/welcomecs2/data-representation_hex-data-colors.html?mode=browsing">Welcome to CS - Hex Data &amp; Colors</url> for more details), we want to calculate the perceptual brightness.</p>
+      <p>Design at least three functions to help solve this problem and provide prototypes and sample input/output pairs. Do not write any code. Make sure to follow the answer guidelines in <xref text="custom" ref="program-design_exercises">Ch 12 Exercises</xref>.</p>
     </statement>
     <response>
     </response>
@@ -140,11 +141,11 @@ Su Mo Tu We Th Fr Sa
 
   <exercise label="program-design_exercises-ex-7">
     <statement>
-      <p>Design functions to help solve the following problem. Use the answer guidelines in <xref text="title" ref="program-design_exercises_introduction"/>.</p>
       <p>We would like to calculate blends of HTML colors in the format <pf>#RRGGBB</pf> where RR, GG, and BB are two-digit hexadecimal numbers. (See <url href="https://runestone.academy/ns/books/published/welcomecs2/data-representation_hex-data-colors.html?mode=browsing">Welcome to CS - Hex Data &amp; Colors</url> for more details).</p>
 
       <p>Our input will be lines of text like <pf>#406000 #AAFFBB 80%</pf> that have two colors and a percentage. The percentage will describe how much of the second color to use. So <pf>#406000 #AAFFBB 80%</pf> would mean to give the color <pf>#AAFFBB</pf> 80% weight and the color <pf>#406000</pf> 20% weight. We should print a new string in the format <pf>#RRGGBB</pf> that represents the blended color.</p>
 
+      <p>Design at least three functions to help solve this problem and provide prototypes and sample input/output pairs. Do not write any code. Make sure to follow the answer guidelines in <xref text="custom" ref="program-design_exercises">Ch 12 Exercises</xref>.</p>
     </statement>
     <response>
     </response>
