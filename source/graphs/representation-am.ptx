@@ -3,9 +3,10 @@
 
   <title>Adjacency Matrix Representation</title>
 
-  <p>One way to representing a graph so that it is efficient to look up <q>is X connected to Y?</q> is an <term>adjacency matrix</term>. An adjacency matrix is a 2D array where the rows and columns represent vertices, and the value
-    at row i and column j indicates whether there is an edge from vertex i to vertex j (and possibly
-    the weight of that edge).</p>
+  <p>One way to representing a graph so that it is efficient to look up <q>is X connected to Y?</q>
+    is an <term>adjacency matrix</term>. An adjacency matrix is a 2D array where the rows and
+    columns represent vertices, and the value at row i and column j indicates whether there is an
+    edge from vertex i to vertex j (and possibly the weight of that edge).</p>
 
   <p> As an example, let's consider representing the class prerequisite graph from the introduction
     section. First, we will need to assign an integer index to each vertex. For example, we could
@@ -103,39 +104,28 @@
     matrix would be symmetric (mirrored across the diagonal) because if there is an edge from vertex
     i to vertex j, there is also an edge from vertex j to vertex i. </p>
 
-  <p>We can modify this basic idea to support weighted graphs and storing parallel edges:
-    <ul>
-      <li><p>
-        To support weighted graphs, we can store the weight of the edge in the matrix instead of just a 1 to indicate the presence of an edge.
-      </p></li>
+  <p>We can modify this basic idea to support weighted graphs and storing parallel edges: <ul>
       <li>
-        <p>
-          To support parallel edges, we could store the number of parallel edges in the matrix. So if there are 3 parallel edges from vertex i to vertex j, we would store the number 3 in the entry at row i and column j.
-        </p>
+        <p> To support weighted graphs, we can store the weight of the edge in the matrix instead of
+    just a 1 to indicate the presence of an edge. </p>
       </li>
       <li>
-        <p>
-          To support both weighted graphs and parallel edges, we could store a list of weights in the matrix. So if there are 3 parallel edges from vertex i to vertex j with weights 5, 10, and 15, we would store the list [5, 10, 15] in the entry at row i and column j.
-        </p>
+        <p> To support parallel edges, we could store the number of parallel edges in the matrix. So
+    if there are 3 parallel edges from vertex i to vertex j, we would store the number 3 in the
+    entry at row i and column j. </p>
+      </li>
+      <li>
+        <p> To support both weighted graphs and parallel edges, we could store a list of weights in
+    the matrix. So if there are 3 parallel edges from vertex i to vertex j with weights 5, 10, and
+    15, we would store the list [5, 10, 15] in the entry at row i and column j. </p>
       </li>
     </ul>
   </p>
 
-  <activity>
-    <title>Adjacency Matrix Representation</title>
-    <p>
-      The animation will load a random graph and display its adjacency matrix representation.
-    </p>
-    <p>
-      Click on the <c>Logical Representation</c> radio button in the controls panel to see the logical representation of the graph.
-    </p>
-    <p>
-      You can click on  <c>Weighted Graph</c> to switch to a (new) weighted graph.
-    </p>
-    <interactive platform="javascript" 
-                design-width="1000"
+    <interactive platform="javascript"
+                 design-width="1000"
                  aspect="4:2.75">
-    <script type="module">
+      <script type="module">
       import { GraphRepresentation } from "./external/interactives/data-structures/entry.js";
       let anim = new GraphRepresentation({
         title: "Graph Representation",
@@ -144,12 +134,35 @@
       });
       anim.shift(300, -20);
     </script>
-    <xi:include href="../../fragments/ds-graph-instructions.xml"/>
-  </interactive>
+      <xi:include href="../../fragments/ds-graph-instructions.xml"/>
+    </interactive>
+
+  <activity>
+    <title>Adjacency Matrix Representation</title>
+    <p> The animation will load a random graph and display its adjacency matrix representation. </p>
+    <p> Click on the <c>Logical Representation</c> radio button in the controls panel to see the logical representation of
+      the graph. </p>
+    <p> You can click on <c>Weighted Graph</c> to switch to a (new) weighted graph. </p>
+    <interactive platform="javascript"
+                 design-width="1500"
+                 aspect="4:2.75">
+      <script type="module">
+      import { GraphRepresentation } from "./external/interactives/data-structures/entry.js";
+      let anim = new GraphRepresentation({
+        title: "Graph Representation",
+        startingGraphRepresentation: "adjacency matrix",
+        zoom: "1x"
+      });
+      anim.shift(300, -20);
+    </script>
+      <xi:include href="../../fragments/ds-graph-instructions.xml"/>
+    </interactive>
   </activity>
 
 
-  <p>Part of this implementation would involve storing a mapping between vertex identifiers (like "MTH111") and their corresponding integer indices in the matrix. That way, external code can ask for <pf>hasEdge("MTH111", "CS161")</pf> instead of using (or even knowing about) the internal integer indices.</p>
+  <p>Part of this implementation would involve storing a mapping between vertex identifiers (like
+    "MTH111") and their corresponding integer indices in the matrix. That way, external code can ask
+    for <pf>hasEdge("MTH111", "CS161")</pf> instead of using (or even knowing about) the internal integer indices.</p>
 
   <p> This representation makes it very easy to check if an edge exists between two vertices. In <m>
     O(1)</m> time, we can look up the entry in the matrix corresponding to those two vertices and
