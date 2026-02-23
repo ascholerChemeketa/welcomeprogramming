@@ -174,8 +174,8 @@
       <p>In algorithmic analysis, Big Theta (<m>\Theta</m>) notation is used to describe a tight
         bound. That is to say a class of function that could describe both an upper and lower bound.</p>
       <p>However, in practice, when people say that an algorithm is <m>O(n)</m>, they generally mean
-        the tighter bound. Outside the context of deep mathematical analysis, you should assume Big
-        O means the dominant term or a tightest upper bound.</p>
+        the tighter bound. Outside the context of deep mathematical analysis, you should assume when we
+        say <q>Big O</q> we are interested in a tight upper bound, not just any upper bound.</p>
     </note>
 
   </subsection>
@@ -372,29 +372,36 @@
           <p>No, <m>2n</m> dominates <m>\log n</m>. Try again.</p>
         </feedback>
       </choice>
-      <choice>
+      <choice correct="yes">
         <statement>
           <p>O(<m>n \log n</m>)</p>
         </statement>
         <feedback>
-          <p>No, <m>n \log n</m> means <q>n times log n</q>. Here the <m>\log n</m> term is separate
-            from the <m>n</m> term.</p>
+          <p>Right!</p>
         </feedback>
       </choice>
       <choice>
         <statement>
-          <p>O(<m>2n</m>)</p>
+          <p>O(<m>n^{2}</m>)</p>
         </statement>
         <feedback>
-          <p>No, the 2 should be omitted because we don't care about constants in Big-O notation.</p>
+          <p>There is no <m>n^{2}</m> term.</p>
         </feedback>
       </choice>
-      <choice correct="yes">
+      <choice>
+        <statement>
+          <p>O(<m>100n</m>)</p>
+        </statement>
+        <feedback>
+          <p>No, the 100 should be omitted because we don't care about constants in Big-O notation.</p>
+        </feedback>
+      </choice>
+      <choice>
         <statement>
           <p>O(<m>n</m>)</p>
         </statement>
         <feedback>
-          <p>Right!</p>
+          <p>Despite the large coefficient for the <m>n</m> term, in Big-O notation we only care about the dominant term.</p>
         </feedback>
       </choice>
       <choice>
@@ -458,10 +465,20 @@
         </feedback>
       </choice>
 
-      <choice correct="yes">
+      <choice>
         <statement>
           <p>At large values of n, Algorithm 1 will require a greater number of steps to complete
             than Algorithm 2</p>
+        </statement>
+        <feedback>
+          <p>Correct!</p>
+        </feedback>
+      </choice>
+
+      <choice correct="yes">
+        <statement>
+          <p>At large values of n, Algorithm 2 will require a greater number of steps to complete
+            than Algorithm 1</p>
         </statement>
         <feedback>
           <p>Correct!</p>
