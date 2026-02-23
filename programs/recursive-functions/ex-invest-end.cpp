@@ -6,19 +6,19 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
-TEST_CASE("Test investmentLength") {
-    int n1 = investmentLength(10000, 10000, 8);
-    CHECK(n1 == 0);
+TEST_CASE("Test invest") {
+    double i1 = investment(10000, 5, 0);
+    CHECK(i1 == doctest::Approx(10000));
 
-    int n2 = investmentLength(10000, 10001, 8);
-    CHECK(n2 == 1);
+    double i2 = investment(10000, 5, 1);
+    CHECK(i2 == doctest::Approx(10500));
 
-    int n3 = investmentLength(10000, 11000, 5);
-    CHECK(n3 == 2);
+    double i3 = investment(10000, 5, 2);
+    CHECK(i3 == doctest::Approx(11025));
 
-    int n4 = investmentLength(10000, 20000, 10);
-    CHECK(n4 == 8);
+    double i4 = investment(10000, 5, 3);
+    CHECK(i4 == doctest::Approx(11576.25).epsilon(0.01));
 
-    int n5 = investmentLength(50, 20000, 4);
-    CHECK(n5 == 153);
+    double i5 = investment(5000, 10, 8);
+    CHECK(i5 == doctest::Approx(10717.94).epsilon(0.01));
 }

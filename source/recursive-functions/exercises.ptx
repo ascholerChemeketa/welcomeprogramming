@@ -4,11 +4,15 @@
   <title>Exercises</title>
 
   
-  <exercise label="recursive-functions_exercises-ex-1">
+  <exercise label="recursive-functions_exercises-ex-stars-1">
     <statement>
-      <p>Implement the recursive function: <pf>int power(int x, int p)</pf></p>
-
-      <p>The returned value should be <pf>x</pf> to the <pf>p</pf> power. You don't have to worry about negative exponents. Note that the function header is there, you just need to fill in the body.</p>
+      <p>Write a recursive function <pf>void printPattern(string s)</pf>. It will be passed a string of stars (e.g. "****") and should print out a pattern of stars that looks like this:</p>
+      <pre>
+****
+***
+**
+*
+      </pre>
     </statement>
     <program interactive="activecode">
         <preamble>
@@ -16,22 +20,60 @@
         </preamble>
         <code>
 
-int power(int x, int p) {
+void printPattern(string s) {
     //YOUR CODE HERE
 }
+
         </code>
-        <tests visible="yes">
-<xi:include href="../../programs/recursive-functions/ex-power-end.cpp" parse="text"/>
+        <postamble visible="no"><![CDATA[
+int main() {
+  string start;
+  cin >> start;
+  printPattern(start);
+}]]>
+        </postamble>
+        <tests>
+          <iotest>
+            <input>****</input>
+            <output>
+****
+***
+**
+*
+            </output>
+          </iotest>
+          <iotest>
+            <input>******</input>
+            <output>
+******
+*****
+****
+***
+**
+*
+            </output>
+          </iotest>
+          <iotest>
+            <input>*</input>
+            <output>
+*
+            </output>
+          </iotest>
         </tests>
     </program>
-    <hint><p>What is an easy obvious power to calculate for any value x? That is a base case.</p></hint>
-    <hint><p>Say you were told to calculate 5 to the 10th power and knew you could ask me what the value of 5 to the 9th power was. How could you get your answer?</p></hint>
+    <hint><p>What is the shortest pattern you need to print. That will be your base case.</p></hint>
   </exercise>
 
   
-  <exercise label="recursive-functions_exercises-ex-2">
+  <exercise label="recursive-functions_exercises-ex-stars-2">
     <statement>
-      <p>Write a function int <pf>investmentLength(double money, double goal, double interestRate)</pf> that returns the time it will take to reach the given goal if you start with the given amount of money and invest at the specified interest rate. (Interest rate will be a %, divide by 100.0 before using).</p>
+      <p>Write a recursive function <pf>void printPattern(string s)</pf>. It will be passed a string of stars (e.g. "****") and should print out a pattern of stars that looks like this:</p>
+      <pre>
+*
+**
+***
+****
+      </pre>
     </statement>
     <program interactive="activecode">
         <preamble>
@@ -39,21 +81,152 @@ int power(int x, int p) {
         </preamble>
         <code>
 
-int investmentLength(double money, double goal, double interestRate) {
+void printPattern(string s) {
     //YOUR CODE HERE
 }
 
         </code>
-        <tests visible="yes">
-<xi:include href="../../programs/recursive-functions/ex-invest-end.cpp" parse="text"/>
+        <postamble visible="no"><![CDATA[
+int main() {
+  string start;
+  cin >> start;
+  printPattern(start);
+}]]>
+        </postamble>
+        <tests>
+          <iotest>
+            <input>****</input>
+            <output>
+*
+**
+***
+****
+            </output>
+          </iotest>
+          <iotest>
+            <input>******</input>
+            <output>
+*
+**
+***
+****
+*****
+******
+            </output>
+          </iotest>
+          <iotest>
+            <input>*</input>
+            <output>
+*
+            </output>
+          </iotest>
         </tests>
     </program>
-    <hint><p>Your base case should return 0 - indicating you don't need to invest for any years because you've met your goal</p></hint>
-    <hint><p>The general case represents one more year of your money having been invested. It should return one year plus the result of the recursive call with updated parameters.</p></hint>
-    <hint><p>If you leave the money invested until next year, what would the new amount of money be? Would the goal or interest rate change for the recursive call?</p></hint>
+    <hint><p>What is the shortest pattern you need to print. That will be your base case.</p></hint>
+    <hint><p>The general case should do its work after the recursive call.</p></hint>
   </exercise>
 
-  <exercise label="recursive-functions_exercises-ex-3">
+  
+  <exercise label="recursive-functions_exercises-ex-stars-3">
+    <statement>
+      <p>Write a recursive function <pf>void printPattern(string s)</pf>. It will be passed a string of stars (e.g. "****") and should print out a pattern of stars that looks like this:</p>
+      <pre>
+****
+***
+**
+*
+**
+***
+****
+      </pre>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/ex-recursion-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+void printPattern(string s) {
+    //YOUR CODE HERE
+}
+
+        </code>
+        <postamble visible="no"><![CDATA[
+int main() {
+  string start;
+  cin >> start;
+  printPattern(start);
+}]]>
+        </postamble>
+        <tests>
+          <iotest>
+            <input>****</input>
+            <output>
+****
+***
+**
+*
+**
+***
+****
+            </output>
+          </iotest>
+          <iotest>
+            <input>******</input>
+            <output>
+******
+*****
+****
+***
+**
+*
+**
+***
+****
+*****
+******
+            </output>
+          </iotest>
+          <iotest>
+            <input>*</input>
+            <output>
+*
+            </output>
+          </iotest>
+        </tests>
+    </program>
+    <hint><p>What is the shortest pattern you need to print. That will be your base case.</p></hint>
+    <hint><p>The general case will need to do work before and after the recursive call.</p></hint>
+  </exercise>
+
+
+  
+  <exercise label="recursive-functions_exercises-ex-1">
+    <statement>
+      <p>Implement the recursive function: <pf>string repeat(string s, int times)</pf></p>
+
+      <p>The returned value should be the string <pf>s</pf> repeated <pf>times</pf> times. You don't have to worry about negative values of <pf>times</pf>. Note that the function header is there, you just need to fill in the body.</p>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/ex-recursion-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+string repeat(string s, int times) {
+    //YOUR CODE HERE
+}
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/ex-repeat-end.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint><p>You do need to handle 0 repetitions. What string should that produce? That is your base case.</p></hint>
+    <hint><p>Say you were told to repeat the string "hello" 5 times and knew you could ask me what the value of repeating "hello" 4 times was. How could you get your answer?</p></hint>
+  </exercise>
+
+  
+<exercise label="recursive-functions_exercises-ex-3">
     <statement>
       <p>Implement a recursive function to turn an integer into a string of binary digits (1s and 0s) <pf>string makeBinary(int n)</pf></p>
       <p>Use the divide by 2 method to convert decimal to binary (you can refer to <url href="https://runestone.academy/ns/books/published/welcomecs2/data-representation_binary-conversions-multiplication-division-method.html#data-representation_decimal-to-binary-1">Welcome to CS</url> for how the algorithm works).</p>
@@ -126,6 +299,58 @@ string makeBinary(int n) {
         </tests>
     </program>
   </exercise>
+
+  
+  <exercise label="recursive-functions_exercises-ex-2">
+    <statement>
+      <p>Write a function <pf>double investment(double money, double interestRate, int years)</pf> that returns the final value of an amount of money invested at a given interest rate for a given number of years.</p>
+      <p><pf>years</pf> will never be negative, but it may be 0.</p>
+      <p>The interest rate will be given as a percentage (e.g., 5.0 for 5%). Compute simple interest for each year. E.g. Starting with 10000 and an interest rate of 5%, the interest earned for the first year will be 10000 * 0.05 = 500.</p>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/ex-recursion-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+double investment(double money, double interestRate, int years) {
+    //YOUR CODE HERE
+}
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/ex-invest-end.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint><p>The smallest value you need to handle is your base case.</p></hint>
+    <hint><p>Each recursive case represents one more year of your money having been invested.</p></hint>
+  </exercise>
+
+  
+  <exercise label="recursive-functions_exercises-ex-2b">
+    <statement>
+      <p>Write a function <pf>int investmentLength(double money, double goal, double interestRate)</pf> that returns the number of years it will take to reach the given investment goal if you start with the given amount of money and invest at the specified interest rate.</p>
+      <p>The interest rate will be given as a percentage (e.g., 5.0 for 5%). Compute simple interest for each year. E.g. Starting with 10000 and an interest rate of 5%, the interest earned for the first year will be 10000 * 0.05 = 500.</p>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<xi:include href="../../programs/recursive-functions/ex-recursion-start.cpp" parse="text"/>
+        </preamble>
+        <code>
+
+int investmentLength(double money, double goal, double interestRate) {
+    //YOUR CODE HERE
+}
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/recursive-functions/ex-invest-end2.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint><p>How would you know it will take 0 years to reach the goal? That will be your base case.</p></hint>
+    <hint><p>If you leave the money invested until next year, what would the new amount of money be? Would the goal or interest rate change for the recursive call?</p></hint>
+    <hint><p>Each recursive case represents one more year of your money having been invested. It should return a value one larger than the result of the recursive call with updated parameters.</p></hint>
+  </exercise>
   
 
   <exercise label="recursive-functions_exercises-ex-4">
@@ -139,6 +364,8 @@ string makeBinary(int n) {
         <li>series(3) would give 1.75</li>
         <li>series(4) would give 1.875</li>
       </ul></p>
+      <p>You can add another parameter. Although you do not have to, it may make the logic easier. If you want to do so, make sure it has a default value or you have a non-recursive
+        version of the function to kick start things.</p>
     </statement>
     <program interactive="activecode">
         <preamble>
@@ -155,6 +382,7 @@ double series(int steps) {
 <xi:include href="../../programs/recursive-functions/ex-series-end.cpp" parse="text"/>
         </tests>
     </program>
+    <hint><p>Add a parameter that stores the denominator to use for the current term. 1 is the same as 1/1.</p></hint>
   </exercise>
 
   <exercise label="recursive-functions_exercises-ex-5">
