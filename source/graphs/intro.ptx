@@ -3,75 +3,99 @@
 
   <title>Introduction to Graphs</title>
 
-  <p>
-    A <term>graph</term> is the name we give to a collection of elements called <term>vertices</term> (or sometimes <term>nodes</term>) that are connected by links called <term>edges</term>.
-  </p>
+  <p> A <term>graph</term> is the name we give to a collection of elements called <term>vertices</term>
+    (or sometimes <term>nodes</term>) that are connected by links called <term>edges</term>. </p>
 
-  <p>
-    Graphs are a very general structure that can be used to model a wide variety of problems. For example, we can use a graph to represent a road map, where the vertices are cities and the edges are roads connecting those cities. We can also use a graph to represent a social network, where the vertices are people and the edges represent friendships. Or we can use a graph to represent the courses we need to take in order to complete a major in computer science, where the vertices are courses and the edges represent prerequisite relationships.
-  </p>
+  <p> Graphs are a very general structure that can be used to model a wide variety of problems. For
+    example, we can use a graph to represent a road map, where the vertices are cities and the edges
+    are roads connecting those cities. We can also use a graph to represent a social network, where
+    the vertices are people and the edges represent friendships. Or we can use a graph to represent
+    the courses we need to take in order to complete a major in computer science, where the vertices
+    are courses and the edges represent prerequisite relationships. </p>
 
   <sidebyside widths="35% 25% 25%">
-  <figure xml:id="graphs_intro_figure_1">
-    <caption>A prerequisite chart for a Computer Science major.</caption>
-    <image source="images/graphs/graphs-intro-1">
-      <shortdescription>
-        <p>
-          Math 111, CS 160, CS161, CS162, CS205 are all circles (nodes). Math 111 has an arrow (edge) pointing to CS 160. CS 160 has an arrow pointing to CS 161, which has an arrow pointing to CS 162, which has an arrow pointing to CS 205.
-          </p>
-      </shortdescription>
-    </image>
-  </figure>
-  <figure xml:id="graphs_intro_figure_2">
-    <caption>A social network.</caption>
-    <image source="images/graphs/graphs-intro-2">
-      <shortdescription>
-        <p>
-          Nodes for Anna, Ben, Charlie, Diego, Erin and Fred. Erin is connected to Charlie, Diego and Fred. Diego is also connected to Anna and Ben. Anna and Ben are connected.
-          </p>
-      </shortdescription>
-    </image>
-  </figure>
-  <figure xml:id="graphs_intro_figure_3">
-    <caption>Driving distances.</caption>
-    <image source="images/graphs/graphs-intro-3">
-      <shortdescription>
-        <p>
-          Nodes for Portland, Salem, Eugene, and Bend. Portland is connected to Salem (47 miles) and Bend (163 miles). Salem is connected to Eugene (66 miles) and Bend (132 miles). Eugene is connected to Bend (130 miles).
-          </p>
-      </shortdescription>
-    </image>
-  </figure>
-</sidebyside>
+    <figure xml:id="graphs_intro_figure_1">
+      <caption>A prerequisite chart for a Computer Science major.</caption>
+      <image source="images/graphs/graphs-intro-1">
+        <shortdescription>
+          <p> Math 111, CS 160, CS161, CS162, CS205 are all circles (nodes). Math 111 has an arrow
+            (edge) pointing to CS 160. CS 160 has an arrow pointing to CS 161, which has an arrow
+            pointing to CS 162, which has an arrow pointing to CS 205. </p>
+        </shortdescription>
+      </image>
+    </figure>
+    <figure xml:id="graphs_intro_figure_2">
+      <caption>A social network.</caption>
+      <image source="images/graphs/graphs-intro-2">
+        <shortdescription>
+          <p> Nodes for Anna, Ben, Charlie, Diego, Erin and Fred. Erin is connected to Charlie,
+            Diego and Fred. Diego is also connected to Anna and Ben. Anna and Ben are connected. </p>
+        </shortdescription>
+      </image>
+    </figure>
+    <figure xml:id="graphs_intro_figure_3">
+      <caption>Driving distances.</caption>
+      <image source="images/graphs/graphs-intro-3">
+        <shortdescription>
+          <p> Nodes for Portland, Salem, Eugene, and Bend. Portland is connected to Salem (47 miles)
+            and Bend (163 miles). Salem is connected to Eugene (66 miles) and Bend (132 miles).
+            Eugene is connected to Bend (130 miles). </p>
+        </shortdescription>
+      </image>
+    </figure>
+  </sidebyside>
 
-  <p>There are many complications that can be added to the basic idea of nodes connected by edges. In a <term>directed graph</term>, edges only link in one direction. This is the case in the prerequisite chart above. The link from CS160 to CS161 is drawn with an arrow pointing at CS161 to show that CS160 is a prerequisite to CS161. You can go from CS161 to CS160, but not vice verse. If we wanted to show links going in both directions in a directed graph, we would draw arrows pointing both ways or separate lines traveling in each direction.</p>
+  <p>There are many complications that can be added to the basic idea of nodes connected by edges.
+    In a <term>directed graph</term>, edges only link in one direction. This is the case in the
+    prerequisite chart above. The link from CS160 to CS161 is drawn with an arrow pointing at CS161
+    to show that CS160 is a prerequisite to CS161. You can go from CS161 to CS160, but not vice
+    verse. If we wanted to show links going in both directions in a directed graph, we would draw
+    arrows pointing both ways or separate lines traveling in each direction.</p>
 
-  <p>In an <term>undirected graph</term>, each edge links in both directions. This is the case in the social network graph above. The link between Erin and Charlie is not drawn with an arrow because it represents a mutual friendship.</p>
+  <p>In an <term>undirected graph</term>, each edge links in both directions. This is the case in
+    the social network graph above. The link between Erin and Charlie is not drawn with an arrow
+    because it represents a mutual friendship.</p>
 
-  <p>In a <term>weighted graph</term>, edges have values associated with them. For example, in the driving distances graph above, the edges have weights that represent the distance between cities. These values typically represent something like the cost, length, or capacity of the connection. In an <term>unweighted graph</term>, every edge has the same value (typically thought of as 1).</p>
+  <p>In a <term>weighted graph</term>, edges have values associated with them. For example, in the
+    driving distances graph above, the edges have weights that represent the distance between
+    cities. These values typically represent something like the cost, length, or capacity of the
+    connection. In an <term>unweighted graph</term>, every edge has the same value (typically
+    thought of as 1).</p>
 
-  <p>Some graphs may allow for multiple <term>parallel edges</term> that connect the same two nodes (in the same direction in a directed graph). If all we care about is <q>can you reach A from B?</q>, and existing edges can't be removed, then we likely don't care about parallel edges. However, in modeling other situations, like modeling traffic, knowing there are multiple routes from A to B might be important.</p>
+  <p>Some graphs may allow for multiple <term>parallel edges</term> that connect the same two nodes
+    (in the same direction in a directed graph). If all we care about is <q>can you reach A from B?</q>,
+    and existing edges can't be removed, then we likely don't care about parallel edges. However, in
+    modeling other situations, like modeling traffic, knowing there are multiple routes from A to B
+    might be important.</p>
 
-  <p>Typically, we name vertices, either using numbers or strings. We might refer to the vertices in the friendship graph as <c>{Anna, Ben, Charlie, Diego, Erin, Fred}</c>, or might might shorten those to <c>{A, B, C, D, E, F}</c> or call them <c>{v1, v2, v3, v4, v5, v6}</c>.</p>
-  
-  <p>
-    Edges are referred to by the vertices they connect. So the edge <c>(Anna, Ben)</c> connects the vertices Anna and Ben. In a directed graph, the edge pair is ordered, with the first vertex being the source and the second vertex being the destination. So in the prerequisite graph, the edge <c>(CS160, CS161)</c> would describe the edge that pointing from CS160 to CS161. If we needed to refer to the edge in the opposite direction, we would write <c>(CS161, CS160)</c>. To specify a weight, we would write something like <c>(Portland, Salem, 47)</c> to indicate the edge from Portland to Salem with a weight of 47 miles.
-  </p>
+  <p>Typically, we name vertices, either using numbers or strings. We might refer to the vertices in
+    the friendship graph as <c>{Anna, Ben, Charlie, Diego, Erin, Fred}</c>, or might might shorten those to <c>{A, B, C, D, E, F}</c> or call them <c>{v1, v2, v3, v4, v5, v6}</c>.</p>
 
-  <p>
-    Many graph algorithms focus on computing <term>paths</term> through a graph. A <term>path</term> is an ordered sequence of vertices where each adjacent pair of vertices is connected by an edge. For example, in the prerequisite graph, <c>(CS160, CS161, CS162)</c> is a path from CS160 to CS162. In the social network graph, <c>(Anna, Diego, Erin)</c> is a path from Anna to Erin.</p>
-    
-  <p>Another path from Anna to Erin is <c>(Anna, Ben, Diego, Anna, Diego, Erin)</c>. This second path is a bit silly because it contains a <term>loop</term><mdash/>a path that starts and ends at the same vertex: <c>(Anna, Ben, Diego, Anna)</c>. If we are trying to connect Anna to Erin, there is no need to  A <term>simple path</term> is one that does not contain any loops (like <c>(Anna, Ben, Diego, Erin)</c>).
-  </p>
+  <p> Edges are referred to by the vertices they connect. So the edge <c>(Anna, Ben)</c> connects the vertices
+    Anna and Ben. In a directed graph, the edge pair is ordered, with the first vertex being the
+    source and the second vertex being the destination. So in the prerequisite graph, the edge <c>(CS160, CS161)</c>
+    would describe the edge that pointing from CS160 to CS161. If we needed to refer to the edge in
+    the opposite direction, we would write <c>(CS161, CS160)</c>. To specify a weight, we would write something
+    like <c>(Portland, Salem, 47)</c> to indicate the edge from Portland to Salem with a weight of 47 miles. </p>
 
-  <p>
-    Graph theory is a rich field of study that overlaps both mathematics and computer science. We will not be diving deeply into the mathematics of graphs, or the notation used to describe them. Instead, we will focus on some fundamental techniques for writing code to represent and manipulate graphs and a few important algorithms that operate on graphs.
-  </p>
+  <p> Many graph algorithms focus on computing <term>paths</term> through a graph. A <term>path</term>
+    is an ordered sequence of vertices where each adjacent pair of vertices is connected by an edge.
+    For example, in the prerequisite graph, <c>(CS160, CS161, CS162)</c> is a path from CS160 to CS162. In the social
+    network graph, <c>(Anna, Diego, Erin)</c> is a path from Anna to Erin.</p>
+
+  <p>Another path from Anna to Erin is <c>(Anna, Ben, Diego, Anna, Diego, Erin)</c>. This second path is a bit silly because it contains
+    a <term>loop</term><mdash/>a path that starts and ends at the same vertex: <c>(Anna, Ben, Diego, Anna)</c>. If we are
+    trying to connect Anna to Erin, there is no need to A <term>simple path</term> is one that does
+    not contain any loops (like <c>(Anna, Ben, Diego, Erin)</c>). </p>
+
+  <p> Graph theory is a rich field of study that overlaps both mathematics and computer science. We
+    will not be diving deeply into the mathematics of graphs, or the notation used to describe them.
+    Instead, we will focus on some fundamental techniques for writing code to represent and
+    manipulate graphs and a few important algorithms that operate on graphs. </p>
 
   <insight>
-  <p>
-    Graphs should look familiar. The trees and linked lists we studied were really just special (and simple) types of graphs.
-  </p>
+    <p> Graphs should look familiar. The trees and linked lists we studied were really just special
+      (and simple) types of graphs. </p>
   </insight>
 
 </section>
