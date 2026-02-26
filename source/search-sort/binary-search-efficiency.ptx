@@ -1,0 +1,140 @@
+<section xml:id="search-sort_binary-search-efficiency">
+  <title>Binary Search Efficiency</title>
+  <subsection>
+
+    <title>Iterative Analysis</title>
+      <p>
+        Below is a simplified version of the binary search algorithm:
+      </p>
+        <program>
+    int low = 0;
+    int high = vec.size() - 1;
+
+    while (low &lt;= high) {
+        int mid = low + (high - low) / 2;
+        T midValue = vec.at(mid);
+
+        if (midValue == key) {
+        } else if (midValue &lt; key) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    return -1;
+          </program>
+
+      <p>As always, the indexing, comparisons, arithmetic and assignment operations are all constant time. As is asking for the size of a vector. So we are simply left with:</p>
+        <program>
+          // O (1)
+          while (low &lt;= high) {
+            // O (1)
+          }
+          // O (1)
+      </program>
+
+      <p>
+        We are simply left with the loop. How many times will it run? The loop runs until the low index is greater than the high index. Each iteration of the loop cuts the search space in half. So if we start with <m>n</m> items between <pf>low</pf> and <pf>high</pf>, after one iteration we have at most <m>n/2</m> items left to check. After two iterations we have at most <m>n/4</m> items left to check, and so on.
+      </p>
+
+      <p><m>n ... n/2 ... n/4 ... n/8 ... n/16 ... </m> is a classic logarithmic sequence. The number of steps before the search space is reduced to 1 is <m>\log_2 n</m>. So, we now have:</p>
+
+        <program>
+          // O (1)
+          loop O(log n) times {
+            // O (1)
+          }
+          // O (1)
+      </program>
+
+      <p>The loop represents <m>O(\log n) \cdot O(1) = O(\log n)</m> work in total and dominates the extra constant time work that happens outside the loop. So our binary search algorithm has a time complexity of <m>O(\log n)</m>.</p>
+    </subsection>
+
+    <subsection>
+      <title>Recursive Analysis</title>
+      <p>
+        We should expect the recursive version of binary search to have the same time complexity as the iterative version. Let's see if that is the case.
+      </p>
+      <p>Here is the recursive version again:</p>
+      <program>
+        <![CDATA[ 
+        int binarySearchRecursive(const vector<T>& vec, T key, int lowIndex, int highIndex) {
+            if (lowIndex > highIndex) {
+                return -1; // Base case: key not found
+            }
+            int midIndex = lowIndex + (highIndex - lowIndex) / 2;
+            T midValue = vec.at(midIndex);
+            if (midValue == key) {
+                return midIndex; // Key found
+            } else if (midValue < key) {
+                return binarySearchRecursive(vec, key, midIndex + 1, highIndex);
+            } else {
+                return binarySearchRecursive(vec, key, lowIndex, midIndex - 1);
+            }
+        }
+       ]]>
+      </program>
+      <p>All of the work is constant other than the recursive calls. Which leaves:</p>
+      
+      <program>
+        <![CDATA[ 
+        int binarySearchRecursive(const vector<T>& vec, T key, int lowIndex, int highIndex) {
+            // O(1)
+            if (midValue == key) {
+                // O(1)
+            } else if (midValue < key) {
+                return binarySearchRecursive(vec, key, midIndex + 1, highIndex);
+            } else {
+                return binarySearchRecursive(vec, key, lowIndex, midIndex - 1);
+            }
+        }
+       ]]>
+      </program>
+
+      <p>Note that although there are two recursive calls, we only do one or the other. Which ever recursive call is made, the size of the problem is reduced by half. So, we are left with a recursive call that operates on a problem of size <m>n/2</m>.</p>
+
+      <p>Intuitively, we see the same pattern as with iteration. Our recursive calls will be on a range of size <m>n/2</m>, then <m>n/4</m>, then <m>n/8</m>, and so on, until we run out of items. This will mean <m>\log n</m> recursive calls.</p>
+
+      <p>We can also see that the pattern matches one of the recurrence relation we defined in <xref ref="big-o_recurrence-relations"/>. To do binary search on <m>n</m> items, you have to do some constant work and then do binary search on <m>n/2</m> items. That corresponds to <m>T(n) = T(n/2) + O(1)</m>, which solves to <m>O(\log n)</m>.</p>
+
+    </subsection>
+
+    <subsection>
+      <title>Average Case</title>
+      <p>
+        As with linear search, the average case for binary search will end up the same as the worst case. However it is even trickier to reason about.</p>
+
+      <p>
+        Imagine starting a list of items. In our first iteration, we check the middle item. That one item can be found in one step. If it is not the correct item, then we will either check the middle of the upper half or the middle of the lower half. Those two items can be found in two steps. If we still haven't found the item, we will be checking the middle of one of the quarters of the original list. On this third iteration, there are 4 things that could potentially be found.</p>
+
+
+      <figure>
+        <caption>The items that can be found in the first three iterations of a binary search on 15 items. The first iteration checks index 7. The second iteration checks indexes 3 or 11. The third iteration checks indexes 1, 5, 9, or 13.</caption>
+        <image source="images/search-sort/binary-search-pattern.svg" width="80%">
+          <shortdescription>
+            <p>
+              Iteration 1 checks index 7. Iteration 2 checks indexes 3 or 11. Iteration 3 checks indexes 1, 5, 9, or 13.
+            </p>
+          </shortdescription>
+        </image>
+      </figure>
+
+
+      <p>
+        The next iteration (the fourth) would get us to 8 possible items. Assuming there were more items, the fifth iteration would get us to 16 more items, and so on. Because the number of items that can be found doubles with each iteration, half of the items will not be reached until the final iteration. (Once we have managed to reach half the potential items, one more doubling will reach all the remaining items.) These items at the last iteration will require <m>\log n</m> steps to find.
+      </p>
+
+      <p>So there are <m>\frac{n}{2}</m> items that take the full <m>\log n</m> time to be found. If we assume all the other items are <q>free</q> (cost nothing), we still have <m>\frac{n \cdot \log n}{2}</m> total work represented by these items from the last iteration. The average work per item will be:</p>
+
+      <md>\frac{\text{total work}}{\text{number of items}} = \frac{\frac{n \cdot \log n}{2}}{n} = \frac{\log n}{2}</md>
+
+      <p>Of course, <m>\frac{\log n}{2}</m>, is <m>O(\log n)</m>. So even assuming half the items were <q>free</q>, the average work is still <m>O(\log n)</m>.</p>
+
+    </subsection>
+
+
+    <conclusion>
+      <p>Binary search has a time complexity of <m>O(\log n)</m> in the worst and average cases.</p>
+    </conclusion>
+
+</section>

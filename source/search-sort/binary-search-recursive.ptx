@@ -42,20 +42,6 @@
     <p>Note that the <pf>currentIndex</pf> parameter has a default value of 0. So we can make a call to the
       function without specifying that parameter to start searching from the beginning of the list.</p>
 
-    <note>
-      <p> Another way to implement the recursive linear search is to reduce the size of the list
-        being searched with each recursive call. Check the first item of the list, and if it is not
-        the key, make a recursive call with a sublist that excludes the first item. For example, if
-        we started with the list <pf>{10, 20, 30, 40, 50}</pf> and did not find what we were looking for at index 0, we
-        would make a recursive call with the list <pf>{20, 30, 40, 50}</pf>. </p>
-      <p> Making new lists is much less efficient than just keeping track of the current index. If
-        we start with a list of <m>n</m> items using that approach, we would create a list of size <m>
-        n-1</m> for the first recursive call, then a list of size <m>n-2</m> for the next call, and
-        so on down to size 1. The total amount of work creating all those lists would be
-        proportional to <m>n^2</m>. Which is significantly more work than the work we want to do
-        with the search itself, which is proportional to <m>n</m>. </p>
-    </note>
-
   </subsection>
   <subsection>
     <title>Binary Search Recursively</title>
@@ -86,6 +72,14 @@
       When <pf>main</pf> calls <pf>binarySearch(numbers, key)</pf>, that function calls the recursive function with indexes 0 and
       size - 1. We could skip that helper by having main pass those indexes directly to the
       recursive function. But having the wrapper function makes it easier to use.</p>
+
+    <note>
+      <p>
+        Another way to implement the recursive binary search would be to only pass half the list on each recursive call. For example, if we started with the list <pf>{10, 20, 30, 40, 50}</pf> and realized that the middle value (30) was too small, we would make a recursive call with the list <pf>{40, 50}</pf>. This version would not need to keep track of the start and end indexes as parameters.
+      </p>
+      <p>However, making new lists would be much less efficient. If we start with <m>n</m> items, the first recursive call would create a new list with <m>n/2</m> items, the second recursive call would create a new list with <m>n/4</m> items, and so on. The total number of items copied across all recursive calls would be <m>n + n/2 + n/4 + ... + 1</m>. This series simplifies to <m>O(n)</m>. Thus, we would spend at least <m>O(n)</m> time just copying items into new lists, which means our binary search would not be <m>O(log n)</m>
+      </p>
+    </note>
 
   </subsection>
 

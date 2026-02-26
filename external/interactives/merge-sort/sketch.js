@@ -15,7 +15,7 @@ function setup() {
   textFont('Consolas, monospace');
   textAlign(CENTER, TOP);
 
-  mergeSortReset();
+  mergeSortResetLarge();
 }
 
 function draw() {

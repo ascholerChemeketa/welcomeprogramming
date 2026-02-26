@@ -1,0 +1,65 @@
+<section xml:id="search-sort_linear-search-efficiency">
+  <title>Linear Search Efficiency</title>
+  <subsection>
+
+    <title>Informal Analysis</title>
+      <p>An informal analysis of linear search is pretty straightforward. If we have a list of <m>n</m> items, we may have to check each item once to find the key. The work to check a single item is constant, so the total work is <m>O(n)</m>. Thus, we can say that linear search requires <m>O(n)</m> work in the worst case.</p>
+
+      <p>
+        To analyze the efficiency of linear search in a more concrete way, we can examine the algorithm and do some accounting. The algorithm looks like this:
+      </p>
+        <program>
+          for (int i = 0; i &lt; list.size(); i++) {
+            if (list.at(i) == key) {
+              return i;
+            }
+          }
+          return -1;
+          </program>  
+      <p>All of the indexing and comparison operations are constant time. So:</p>
+        <program>
+          for (int i = 0; i &lt; list.size(); i++) {
+            // O (1)
+          }
+          // O (1)
+      </program>
+      <p>
+        In this algorithm, the list size is <m>n</m>, so the loop runs <m>n</m> times. So:
+      </p>
+        <program>
+          loop O(n) times {
+            // O (1)
+          }
+          // O (1)
+      </program>
+
+      <p>Thus we have <m>O(n) \cdot O(1) + O(1) = O(n) + O(1) = O(n)</m> work in total if the loop runs to completion.</p>
+      </subsection>
+
+
+    <subsection>
+      <title>Best and Average Cases</title>
+      <p>Of course we don't always have to check all <m>n</m> items. If the key is at the beginning of the list, we check the first item and find what we are looking for. In this case, it does not matter how long the list is. The amount of work will be the same regardless of the length. That means it is <m>O(1)</m>.</p>
+
+      <insight>
+        <p>The best case is not a very useful measure of performance. In this case it only applies if we happen to be searching for the first item in the list. So it only tells us what to expect if we get really lucky.</p>
+      </insight>
+
+      <p>
+        What about the average case? If we are looking for a key that is equally likely to be at any position in the list, then sometimes we will check 1 item, sometimes 2 items, and so on, up to <m>n</m> items. The average number of items we check is therefore <m>(1 + 2 + ... + n) / n</m>. That simplifies to <m>(n + 1) / 2</m>.</p>
+        
+      <p>Put simply, we check approximately half the items (<m>n/2</m> on average). Of course, in terms of Big-O, doing <m>n</m> units of work and doing <m>n/2</m> units of work are the same thing. They are both <m>O(n)</m>. Thus, the average case for linear search is also <m>O(n)</m>.
+      </p>
+
+      <insight>
+        <p>This is a common situation: the average case for many algorithms is trickier to analyze than the worst case, but ends up being the same complexity class as the worst case.</p>
+        <p>However, this is not always true, so it is worth thinking through the average case separately.</p>
+      </insight>
+    </subsection>
+
+
+    <conclusion>
+      <p>Linear search has a time complexity of <m>O(n)</m> in the worst and average cases.</p>
+    </conclusion>
+
+</section>

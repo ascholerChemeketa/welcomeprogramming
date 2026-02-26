@@ -8,6 +8,7 @@ let curi = 0;      // current position to place the minimum
 let curj = 1;      // current scanning index
 let minIndex = 0;  // current minimum index in the unsorted region
 const xOffset = 45;
+let doingSwap = false;
 
 function setup() {
   const cnv = createCanvas(600, 400);
@@ -109,21 +110,21 @@ function drawSingleBars() {
     }
 
     stroke('#000000');
-    fill('#96c170');
+    fill('#dfc969ff');
     rect(curi * unitWidth + xOffset, height - ((list[curi] + 1) / max) * h, unitWidth, ((list[curi] + 1) / max) * h - 20);
     noStroke();
 
     if (curi !== minIndex) {
       stroke('#000000');
-      fill('#9db9d3');
+      fill('#96c170');
       rect(minIndex * unitWidth + xOffset, height - ((list[minIndex] + 1) / max) * h, unitWidth, ((list[minIndex] + 1) / max) * h - 20);
       noStroke();
     }
 
     // current scan j highlighted blue if within bounds
     if (curj < list.length) {
-      stroke('#9db9d3');
-      fill('#fff');
+      stroke('#000000');
+      fill('#9db9d3');
       let tempj = curj;
       if (curj === curi) {
         // cheat a little to show where j starts
@@ -140,6 +141,7 @@ function selectionReset() {
   curi = 0;
   minIndex = 0;
   curj = 0;
+  doingSwap = false;
 }
 
 function selectionResetMostlySorted() {
@@ -147,6 +149,7 @@ function selectionResetMostlySorted() {
   curi = 0;
   minIndex = 0;
   curj = 0;
+  doingSwap = false;
 }
 
 function shuffleList() {
@@ -172,11 +175,16 @@ function selectionStep() {
     return false;
   }
 
-  // end of scan: swap min into position curi
-  const tmp = list[curi];
-  list[curi] = list[minIndex];
-  list[minIndex] = tmp;
+  if (!doingSwap) {
+    doingSwap = true;
+    // end of scan: swap min into position curi
+    const tmp = list[curi];
+    list[curi] = list[minIndex];
+    list[minIndex] = tmp;
+    return false;
+  }
 
+  doingSwap = false;
   // move boundary forward and reset scan
   curi++;
   minIndex = curi;

@@ -1,4 +1,4 @@
-let numVals = 10;
+let numVals = 16;
 let numbers = new Array(numVals);
 let isKeySet = false;
 let keyInUse = 0;

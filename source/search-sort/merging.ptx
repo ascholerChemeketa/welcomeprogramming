@@ -112,7 +112,7 @@
     temporary vector for multiple merge operations once we implement the full merge sort algorithm. </p>
 
 
-  <p>Implemented to sort a vector in C++, it looks like this:</p>
+  <p>Below is a merge implementation. The program is set to merge the vector <c>{0, 0, 1, 4, 5, 2, 6, 7, 0, 0}</c>. </p>
 
   <listing>
     <program label="search-sort_merging"
@@ -126,8 +126,9 @@
   </listing>
 
   <note>
-    <p>Most implementations will reduce the selection logic to something like:</p>
+    <p>Many implementations will reduce the selection logic to something like:</p>
     <program><![CDATA[ 
+      // left is not empty and (right is empty or left item <= right item)
       if (nextLeft <= mid && (nextRight > end || vec.at(nextLeft) <= vec.at(nextRight))) {
           // left is not empty and (right is empty or left <= right)
           // take from left

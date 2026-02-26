@@ -84,8 +84,8 @@ function drawSingleBars() {
     fill(0);
     text(`Current item is larger than value index ${curj - 1} (${list[curj - 1]})`, 10, 60);
     text(`Current item done`, 10, 75);
-    stroke('#9db9d3');
-    fill('#ffffff');
+    stroke('#000');
+    fill('#dfc969ff');
     rect((curj - 1) * unitWidth + xOffset, height - ((list[curj - 1] + 1) / max) * h, unitWidth, ((list[curj - 1] + 1) / max) * h - 20);
     } else {
       
@@ -110,8 +110,8 @@ function drawSingleBars() {
     curY += 15;
     text(`Current item swaps left`, 10, curY);
 
-    stroke('#9db9d3');
-    fill('#ffffff');
+    stroke('#000');
+    fill('#dfc969ff');
     rect((curj - 1) * unitWidth + xOffset, height - ((list[curj - 1] + 1) / max) * h, unitWidth, ((list[curj - 1] + 1) / max) * h - 20);
 
     stroke('#000000');    
