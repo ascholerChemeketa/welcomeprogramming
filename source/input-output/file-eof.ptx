@@ -57,13 +57,13 @@
   <exercise label="input-output_file-eof-ex-1">
     <statement>
       <p>The <pf>ifstream</pf> member function <fillin mode="string"
-                answer="^(\\.)?eof(\\(\\))?"/>
+                answer="eof\(\)"/>
         detects if the end of the file has been reached. </p>
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp>eof\s*(\(\s*\))?</strcmp>
         </test>
       </evaluate>
     </evaluation>

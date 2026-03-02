@@ -80,12 +80,12 @@
   <exercise label="structs_compound-structures-ex-2">
     <statement>
       <p>Write a single statement that sets <pf>s1</pf>'s enrollment date to be 10/3/2020.</p>
-      <p><fillin mode="string" answer="s1.enrollmentDate\\s*=\\s*{\\s*10\\s*,\\s*3\\s*,\\s*2020\\s*};?"/> </p>
+      <p><fillin mode="string" answer="s1.enrollmentDate = {10, 3, 2020};"/> </p>
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp>s1.enrollmentDate\s*=\s*{\s*10\s*,\s*3\s*,\s*2020\s*};?</strcmp>
         </test>
         <test>
           <strcmp>.*s2.*</strcmp>

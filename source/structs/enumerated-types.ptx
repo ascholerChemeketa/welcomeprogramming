@@ -156,7 +156,7 @@ cout << static_cast<int>(Suit::CLUBS);    // Prints 0
       <p>
         <fillin width="40"
                 mode="string"
-                answer="Flavor\\s+scoop1\\s*=\\s*Flavor::MINTCHIP;?"/>
+                answer="Flavor scoop1 = Flavor::MINTCHIP;"/>
       </p>
       <program>enum class Flavor {
     VANILLA, CHOCOLATE, STRAWBERRY,
@@ -165,8 +165,8 @@ cout << static_cast<int>(Suit::CLUBS);    // Prints 0
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp>Flavor\s+scoop1\s*=\s*Flavor::MINTCHIP;?</strcmp>
         </test>
         <test>
           <strcmp>^[^:]+$</strcmp>

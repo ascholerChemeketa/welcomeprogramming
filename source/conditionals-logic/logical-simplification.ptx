@@ -20,12 +20,12 @@ if (!(x &lt;= 5))
 
   <exercise label="conditionals-logic_logical-simplification-ex-1">
   <statement>
-    <p>An easier way to write <pf>!(x != 10)</pf> is <fillin answer="x\\s*==\\s*10" mode="string"/>?</p>
+    <p>An easier way to write <pf>!(x != 10)</pf> is <fillin answer="x == 10" mode="string"/>?</p>
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp>x\s*==\s*10</strcmp>
         </test>
         <test>
           <strcmp>.*\(.*</strcmp>

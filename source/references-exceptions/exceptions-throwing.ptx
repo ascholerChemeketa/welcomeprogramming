@@ -25,12 +25,12 @@
   <exercise label="references-exceptions_exceptions-throwing-ex-1">
     <statement>
       <p>Write the code to throw a <pf>logic_error</pf> with the string <pf>s</pf> as its message. Assume <pf>s</pf> already exists. <fillin mode="string"
-                answer="throw\\s+logic_error\\s*\\(\\s*s\\s*\\)"/> </p>
+                answer="throw logic_error\(s\)"/> </p>
     </statement>
     <evaluation>
       <evaluate>
-        <test>
-          <strcmp use-answer="yes"/>
+        <test correct="yes">
+          <strcmp>throw\s+logic_error\s*\(\s*s\s*\);?</strcmp>
         </test>
       </evaluate>
     </evaluation>
