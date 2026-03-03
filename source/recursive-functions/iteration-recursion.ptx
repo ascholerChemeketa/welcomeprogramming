@@ -84,7 +84,7 @@ string cleanUpSpaces(const string&amp; input) {
   <p>This version will not actually clean spaces, it will just progress through the string character by character.</p>
   </statement>
   <blocks>
-    <block order="3">
+    <block order="3" name="a" depends="">
         <choice correct="yes">
           <cline><![CDATA[string cleanUpSpaces(const string& input,]]></cline>
           <cline><![CDATA[|                    bool inSpace = false,]]></cline>
@@ -94,54 +94,54 @@ string cleanUpSpaces(const string&amp; input) {
           <cline></cline>
         </choice>
     </block>
-    <block order="7">
+    <block order="7" name="b" depends="a">
         <choice correct="yes">
-          <cline><![CDATA[    if (curIndex >= input.size()) {]]></cline>
+          <cline><![CDATA[ if (curIndex >= input.size()) {]]></cline>
         </choice>
         <choice>
-          <cline><![CDATA[    if (input.empty()) {]]></cline>
+          <cline><![CDATA[ if (input.empty()) {]]></cline>
         </choice>
     </block>
-    <block order="6">
+    <block order="6" name="c" depends="b">
         <choice correct="yes">
-          <cline><![CDATA[        return "";]]></cline>
-          <cline><![CDATA[    }]]></cline>
-          <cline></cline>
+          <cline><![CDATA[  return "";]]></cline>
+          <cline><![CDATA[ }]]></cline>
         </choice>
     </block>
-    <block order="2">
+    <block order="2" name="d" depends="c">
         <choice correct="yes">
-          <cline><![CDATA[    char curChar = input.at(curIndex);]]></cline>
+          <cline><![CDATA[ char curChar = input.at(curIndex);]]></cline>
         </choice>
         <choice>
-          <cline><![CDATA[    char curChar = input.at(0);]]></cline>
+          <cline><![CDATA[ char curChar = input.at(0);]]></cline>
         </choice>
     </block>
-    <block order="5">
+    <block order="5" name="e" depends="c">
         <choice correct="yes">
-          <cline><![CDATA[    string restCleaned = cleanUpSpaces(input,]]></cline>
-          <cline><![CDATA[    |                                  false,]]></cline>
-          <cline><![CDATA[    |                                  curIndex + 1);]]></cline>
+          <cline><![CDATA[ string restCleaned = cleanUpSpaces(input,]]></cline>
+          <cline><![CDATA[ |                                  false,]]></cline>
+          <cline><![CDATA[ |                                  curIndex + 1);]]></cline>
         </choice>
         <choice>
-          <cline><![CDATA[    string restCleaned = cleanUpSpaces(input,]]></cline>
-          <cline><![CDATA[    |                                  false,]]></cline>
-          <cline><![CDATA[    |                                  1);]]></cline>
+          <cline><![CDATA[ string restCleaned = cleanUpSpaces(input,]]></cline>
+          <cline><![CDATA[ |                                  false,]]></cline>
+          <cline><![CDATA[ |                                  1);]]></cline>
         </choice>
         <choice>
-          <cline><![CDATA[    string restCleaned = cleanUpSpaces(input,]]></cline>
-          <cline><![CDATA[    |                                  false,]]></cline>
-          <cline><![CDATA[    |                                  curIndex);]]></cline>
+          <cline><![CDATA[ string restCleaned = cleanUpSpaces(input,]]></cline>
+          <cline><![CDATA[ |                                  false,]]></cline>
+          <cline><![CDATA[ |                                  curIndex);]]></cline>
         </choice>
     </block>
-    <block order="1">
+    <block order="1" name="f" depends="d e">
         <choice correct="yes">
-          <cline><![CDATA[    string result = curChar + restCleaned;]]></cline>
+          <cline><![CDATA[ string result = curChar + restCleaned;]]></cline>
         </choice>
     </block>
-    <block order="7">
+    <block order="7" name="g" depends="f">
         <choice correct="yes">
-          <cline><![CDATA[    return result;]]></cline>
+          <cline><![CDATA[ return result;]]></cline>
+          <cline><![CDATA[}]]></cline>
         </choice>
     </block>
   </blocks>
