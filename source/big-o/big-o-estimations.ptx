@@ -180,6 +180,10 @@
                   tolerance="0.001"/>
         </test>
         <test>
+          <strcmp>.*\.[\d.]{3,}</strcmp>
+          <feedback>Use two decimal places.</feedback>
+        </test>
+        <test>
           <strcmp>.*</strcmp>
           <feedback>Use the proportion relating work and time. Remember to use the Big O to estimate
             the work for each input size.</feedback>
@@ -211,6 +215,10 @@
                   tolerance="0.001"/>
         </test>
         <test>
+          <strcmp>.*\.[\d.]{3,}</strcmp>
+          <feedback>Use two decimal places.</feedback>
+        </test>
+        <test>
           <strcmp>.*</strcmp>
           <feedback>Use the proportion relating work and time. Remember to use the Big O to estimate
             the work for each input size.</feedback>
@@ -234,7 +242,7 @@
       <evaluate>
         <test correct="yes">
           <numcmp use-answer="yes"
-                  tolerance="1"/>
+                  tolerance="0.5"/>
           <feedback>Correct. This answer is likely not very accurate, but it is clear that an <m>
             O(n^2)</m> algorithm is much slower than an <m>O(n)</m> algorithm on the same input
             size.</feedback>
