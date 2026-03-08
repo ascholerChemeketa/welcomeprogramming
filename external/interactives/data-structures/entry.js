@@ -3596,13 +3596,15 @@ function installLTIResizer() {
   if (ltiResizeListenerInstalled)
     return;
   ltiResizeListenerInstalled = true;
-  window.addEventListener("resize", () => {
+  let requestSizeChangeForLTI = function() {
     if (!window.frameElement)
       return;
-    const height = window.innerWidth > 500 ? "100%" : "600px";
+    const height = window.innerWidth > 600 ? "100%" : "600px";
     const data = { subject: "lti.frameResize", message_id: window.frameElement.id, height };
     window.parent.postMessage(data, "*");
-  });
+  };
+  window.addEventListener("resize", requestSizeChangeForLTI);
+  requestSizeChangeForLTI();
 }
 function getZoomSelect() {
   return document.getElementById("zoomLevel");
