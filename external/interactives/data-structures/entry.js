@@ -16611,14 +16611,14 @@ LinkedList.prototype.deleteFront = function(ignored) {
   this.cmd("Move", labPopValID, ACTION_ELEMENT_X + 20, ACTION_ELEMENT_Y);
   this.cmd("Step");
   if (this.top == 1) {
-    this.cmd("SetMessage", "That was the last node; head and tail become null.");
+    this.cmd("SetMessage", "head gets set to head->next which is null.");
     this.cmd("Step");
     this.cmd("SetNull", this.headID, 1);
     this.cmd("SetNull", this.tailID, 1);
     this.cmd("Disconnect", this.headID, this.linkedListElemID[this.top - 1]);
     this.cmd("Disconnect", this.tailID, this.linkedListElemID[this.top - 1]);
   } else {
-    this.cmd("SetMessage", "Advance head to the next node.");
+    this.cmd("SetMessage", "head gets set to head->next.");
     this.cmd("Disconnect", this.headID, this.linkedListElemID[this.top - 1]);
     this.cmd(
       "Connect",
@@ -17642,14 +17642,14 @@ LinkedListTail.prototype.deleteFront = function(ignored, inClear) {
   this.cmd("connect", toDeleteID, deletedID, "#000000", 0.1);
   this.cmd("Step");
   if (this.top == 1) {
-    this.cmd("SetMessage", "That was the last node; head and tail become null.");
+    this.cmd("SetMessage", "head gets set to head->next which is null.");
     this.cmd("Step");
     this.cmd("SetNull", this.headID, 1);
     this.cmd("SetNull", this.tailID, 1);
     this.cmd("Disconnect", this.headID, this.LinkedListTailElemID[this.top - 1]);
     this.cmd("Disconnect", this.tailID, this.LinkedListTailElemID[this.top - 1]);
   } else {
-    this.cmd("SetMessage", "Advance head to the next node.");
+    this.cmd("SetMessage", "head gets set to head->next.");
     this.cmd("Disconnect", this.headID, this.LinkedListTailElemID[this.top - 1]);
     this.cmd(
       "Connect",
@@ -18667,12 +18667,12 @@ LinkedListSimple.prototype.deleteFront = function(ignored, inClear) {
   this.cmd("connect", toDeleteID, deletedID, "#000000", 0.1);
   this.cmd("Step");
   if (this.top == 1) {
-    this.cmd("SetMessage", "That was the last node; head becomes null.");
+    this.cmd("SetMessage", "head gets set to head->next which is null.");
     this.cmd("Step");
     this.cmd("SetNull", this.headID, 1);
     this.cmd("Disconnect", this.headID, this.linkedListElemID[this.top - 1]);
   } else {
-    this.cmd("SetMessage", "Advance head to the next node.");
+    this.cmd("SetMessage", "head gets set to head->next.");
     this.cmd("Disconnect", this.headID, this.linkedListElemID[this.top - 1]);
     this.cmd(
       "Connect",
