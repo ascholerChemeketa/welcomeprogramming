@@ -70,12 +70,10 @@ section.exercises #scprogresscontainer{
 
 /* TEMPORARY CENTERING FOR INTERACTIVES  */
 @container ptx-main (width > 821px) {
-    :is(.timedAssessment,.theorem-like,.definition-like,.example-like,.exercise-like,.project-like,.remark-like,.openproblem-like,.openproblems-like,.computation-like,.knowl__content):has(.wide-iframe) {
-        --max-width: min((100cqw - 2 * 48px), 10000px);
+    :is(.timedAssessment,.theorem-like,.definition-like,.example-like,.exercise-like,.project-like,.remark-like,.openproblem-like,.openproblems-like,.computation-like,.knowl__content):has([data-design-width]) {
+        max-width: min((100cqw - 2 * 48px), 10000px);
         min-width: 100%;
         clear: right;
-        width: var(--max-width);
-        max-width: var(--max-width);
         margin-left: calc(-.5 * (100cqw - 821px));
     }
 }
@@ -107,4 +105,10 @@ section.exercises #scprogresscontainer{
 /* TEMPORARY FIX FOR CODEBOX */
 .code-box {
   background: var(--page-color);
+}
+
+
+/* MAKE INTO A PR */
+code[class*=language-].code-inline, pre[class*=language-].code-inline {
+    margin-top: -.15em;
 }
