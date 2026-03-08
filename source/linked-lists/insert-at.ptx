@@ -41,5 +41,41 @@
   </interactive>
   </activity>
 
+  <exercise label="linked-lists_simple-linked-list-insert-at_ex-1">
+    <statement>
+      <p>Why is index 0 a special case for insertion in the simple linked list?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Because the node at index 0 is tracked by the head pointer</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Because the node at index 0 does not have a previous node</p>
+        </statement>
+        <feedback>
+          <p>While it is true that the first node does not have a previous node, that does not directly explain why it is a special case for insertion.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Because index 0 means there are no nodes in the list</p>
+        </statement>
+        <feedback>
+          <p>Index 0 can be a valid index in a non-empty list, so it is not necessarily the case that there are no nodes in the list when inserting at index 0.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Because inserting at index 0 requires shifting all the other nodes down one index</p>
+        </statement>
+        <feedback>
+          <p>In a linked list, we do not need to shift any nodes when inserting at index 0. We just need to update the head pointer and the next pointer of the new node.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

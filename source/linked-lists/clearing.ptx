@@ -33,12 +33,19 @@ LinkedList<T>::~LinkedList() {
 
   <program language="text">
   <![CDATA[
-while head is not nullptr:
+clear():
+  while head is not nullptr:
     removeFirst()
   ]]>
   </program>
 
   <p>This loop will keep calling <pf>removeFirst()</pf> until the head pointer is <pf>nullptr</pf>, indicating the list is empty. Each call to <pf>removeFirst()</pf> will delete the first node in the list, so by the time the loop finishes, all nodes will have been deleted.</p>
+
+  <note>
+    <p>
+      It is worth stopping to think about the efficiency of this approach. In particular, we should make sure that <pf>removeFirst()</pf> doesn't represent a costly operation that would make this approach inefficient. Although we have not analyzed the efficiency of <pf>removeFirst()</pf> yet, it is not hard to see that it runs in constant time<mdash/>it has no loops or recursive calls. So calling it is no more expensive than doing the equivalent work directly in clear.
+    </p>
+  </note>
 
   <activity>
     <title>Linked List Clear</title>
@@ -92,7 +99,7 @@ while head is not nullptr:
     </p>
 
     <figure>
-      <caption>Making a deep copy using current pointers in both the source and destination lists.</caption>
+      <caption>Making a deep copy using current pointers in both the source and destination lists. When sourceCur advances to the next node, we will make a new node and copyCur will be updated to point.</caption>
       <image source="images/linked-list/linked-list-copy-painful.svg" width="60%">
         <shortdescription>
           <p>The stack shows two lists, myList and other. Both lists point to different chains of nodes. The pointers <pf>sourceCur</pf> and <pf>copyCur</pf> indicate the current nodes being copied and the last node in the new list, respectively.</p>
@@ -104,14 +111,13 @@ while head is not nullptr:
 
     <program language="text">
       while sourceCur->next is not nullptr:
-          sourceCur = sourceCur->next
-          create newNode with sourceCur->data
-          copyCur->next = newNode
-          copyCur = newNode
+          sourceCur = sourceCur->next               // advance to the next node in the source
+          copyCur->next = new Node(sourceCur->data)
+          copyCur = copyCur->next;                  // advance copyCur to the new last node
     </program>
 
     <p>
-      However, we will soon improve our linked list to allow inserting at the end of the list more easily. That will allow us to simplify this logic significantly. For now, we might just disable copying by deleting the copy constructor and assignment operator.
+      However, we will soon improve our linked list to allow inserting at the end of the list more easily. That will allow us to simplify this logic significantly. For now, we might just disable copying by deleting the copy constructor and assignment operator. That way we won't accidentally create shallow copies of our list and cause memory management issues. To do so, we simply set each of them to <pf>delete</pf> in the class definition:
     </p>
 
     <program>
@@ -120,6 +126,7 @@ template <class T>
 class SimpleLinkedList {
     //...
     public:
+        // Disable the default copy constructor and assignment operator to prevent shallow copies
         SimpleLinkedList(const SimpleLinkedList<T>& other) = delete;
         SimpleLinkedList<T>& operator=(const SimpleLinkedList<T>& other) = delete;
     //...
@@ -127,8 +134,45 @@ class SimpleLinkedList {
       ]]>
     </program>
 
-    <p>This prevents copying of linked list objects, which avoids the complexity of implementing deep copies for now.</p>
-
   </subsection>
+
+  <exercise label="linked-lists_simple-linked-list-clearing-ex-1">
+    <statement>
+      <p>Trace this attempt at a copy constructor and identify its flaw:</p>
+      <program>
+        <![CDATA[
+SimpleLinkedList(const SimpleLinkedList<T>& other) {
+  ListNode<T>* copyCur = other.head;
+  while (copyCur != nullptr) {
+    this->insertStart(copyCur->data);
+    copyCur = copyCur->next;
+  }
+}
+        ]]>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>The elements will get added in reverse order.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>insertStart is too inefficient to use as a helper.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It would skip the first element of the original list.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It would skip the last element of the original list.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

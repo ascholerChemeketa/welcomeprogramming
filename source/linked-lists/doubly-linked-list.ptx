@@ -27,8 +27,8 @@ export struct ListNode {
 
   <figure>
     <caption>A chain of doubly-linked nodes containing {15, 8, 14}</caption>
-    <image source="images/linked-list/doubly-linked-list.svg"
-           width="80%">
+    <image source="images/linked-list/doubly-linked-nodes.svg"
+           width="50%">
       <shortdescription>
         <p>The 15 node points to the 8 node as its next node, and has null as its previous. The 8 node points back to the 15 node as its previous node and to the 14 node as its next node. The 14 node points back to the 8 node as its previous node and has no next.</p>
       </shortdescription>
@@ -89,6 +89,20 @@ export struct ListNode {
 
 <p>We could start the process by making another temporary pointer to hold the <pf>oldNext</pf> and set it to <pf>current->next</pf>. Then, it would be harder to lose track of. And we could use <pf>oldNext->prev</pf> instead of <pf>newNode->next->prev</pf> to make that node point back at our new node.</p>
 
+<program >
+  <![CDATA[
+    ListNode* oldNext = current->next;         // Save the old next node
+    ListNode* newNode = new ListNode(value);   // Create the new node
+    newNode->next = oldNext;                   // Point new node to the old next node
+    newNode->prev = current;                   // Point new node back to current
+    // If there is an old next node, update its prev pointer
+    if (oldNext != nullptr) {                  
+        oldNext->prev = newNode;
+    }
+    size++;                                    // Update the size of the list
+  ]]>
+</program>
+
 <p>
   When removing a node from a doubly linked list, we also have to update two pointers. We need to make the previous and next nodes point to each other, skipping over the node being removed. This requires updating the <pf>next</pf> pointer of the previous node and the <pf>prev</pf> pointer of the next node.
 </p>
@@ -139,11 +153,62 @@ export struct ListNode {
 
   <p>Using dummy nodes helps with some of the insertion and removal logic. But the do add their own complications. The constructor needs to make sure to allocate the dummy nodes and have them point at each other correctly. (An empty list will have the start dummy node's next pointer point to the end dummy node, and the end dummy node's previous pointer point to the start dummy node.) And the destructor needs to properly deallocate these dummy nodes to avoid memory leaks.</p>
 
-  <p>We can use dummy nodes with a singly linked list as well (though we might just need a start dummy node in that case).</p>
+  <p>We can use dummy nodes with a singly linked list as well (although there we might only want a start dummy node).</p>
 
-  <p>They are, however, just a convenience to simplify the code and do not change the fundamental behavior of the list. They add a small amount of memory overhead (for two extra nodes), but will not speed up any operations.</p>
+  <p>Dummy nodes do not add any capabilities to a linked list, or improve the efficiency of any operations. They are just a convenience to simplify the code.</p>
 
   <insight>
     <p>Using dummy nodes can simplify the logic of a linked list. But they do not affect the time complexity of any operations.</p>
   </insight>
+
+<exercise label="linked-lists_doubly-linked-list-remove-at-ex-1"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  <statement>
+    <p>Arrange the blocks to implement the <pf>removeAt</pf> method for a doubly linked list with dummy nodes. We will assume the index is valid. You will not use all the blocks</p>
+  </statement>
+  <blocks>
+    <block order="1" name="a" depends="">
+        <cline><![CDATA[void removeAt(int index) {]]></cline>
+    </block>
+    <block order="6" name="b" depends="a">
+        <cline><![CDATA[  ListNode* current = head->next;]]></cline>
+        <cline><![CDATA[  for(int i = 0; i < index; i++) {]]></cline>
+        <cline><![CDATA[      current = current->next;]]></cline>
+        <cline><![CDATA[  }]]></cline>
+    </block>
+    <block order="3" name="c" depends="b">
+        <choice correct="yes">
+          <cline><![CDATA[  current->prev->next = current->next;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[  current->prev->next = current->prev;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[  current->prev->next = current;]]></cline>
+        </choice>
+    </block>
+    <block order="4" name="d" depends="b">
+        <choice correct="yes">
+          <cline><![CDATA[  current->next->prev = current->prev;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[  current->next->prev = current->next;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[  current->next->prev = current;]]></cline>
+        </choice>
+    </block>
+    <block order="2" name="e" depends="c d">
+        <cline><![CDATA[  delete current;]]></cline>
+    </block>
+    <block order="5" name="f" depends="e">
+        <cline><![CDATA[  size--;]]></cline>
+        <cline><![CDATA[}]]></cline>
+    </block>
+  </blocks>
+</exercise>
+
+
 </section>

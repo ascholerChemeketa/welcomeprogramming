@@ -115,4 +115,51 @@
   </program>
   </listing>
 
+<exercise label="linked-lists_simple-linked-list-remove-at_ex-1"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  <statement>
+  <p>Instead of advancing the current pointer index - 1 times, we can use a trailing pointer that is always one node behind the current pointer. Design the logic for this approach.</p>
+  </statement>
+  <blocks>
+    <block order="4" name="a" depends="">
+        <cline><![CDATA[void SimpleLinkedList<T>::removeAt(int index) {]]></cline>
+    </block>
+    <block order="5" name="b" depends="a">
+        <cline><![CDATA[    if(index == 0) {]]></cline>
+        <cline><![CDATA[        removeFirst();]]></cline>
+        <cline><![CDATA[        return;]]></cline>
+        <cline><![CDATA[    }]]></cline>
+    </block>
+    <block order="6" name="c" depends="b">
+        <cline><![CDATA[    ListNode<T>* current = head;]]></cline>
+        <cline><![CDATA[    ListNode<T>* previous = nullptr;]]></cline>
+    </block>
+    <block order="3" name="d" depends="">
+        <cline><![CDATA[    for(int i = 0; i < index; i++) {]]></cline>
+    </block>
+    <block order="2" name="e" depends="d">
+        <cline><![CDATA[        previous = current;]]></cline>
+    </block>
+    <block order="7" name="f" depends="e">
+        <cline><![CDATA[        current = current->next;]]></cline>
+    </block>
+    <block order="8" name="g" depends="f">
+        <cline><![CDATA[    } // end of loop]]></cline>
+    </block>
+    <block order="1" name="h" depends="g">
+        <cline><![CDATA[    previous->next = current->next;]]></cline>
+    </block>
+    <block order="9" name="i" depends="h">
+        <cline><![CDATA[    delete current;]]></cline>
+    </block>
+    <block order="10" name="j" depends="i">
+        <cline><![CDATA[} // end of function]]></cline>
+    </block>
+  </blocks>
+</exercise>
+
+
+
 </section>

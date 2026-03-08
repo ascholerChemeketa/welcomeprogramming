@@ -20,10 +20,13 @@
       </shortdescription>
     </image>
   </figure>
-  
+
   <insight>
-    <p>In a memory diagram, each node is a box containing two parts: the data and the next pointer. The next pointer stores the address of the next node in the list, or nullptr if it is the last node.</p>
-    <p>We draw the pointer as an arrow from one node to the next, but in memory, it is just stored as a memory address.</p>
+    <p>In a memory diagram, each node is a box containing two parts: the data and the next pointer.
+      The next pointer stores the address of the next node in the list, or nullptr if it is the last
+      node.</p>
+    <p>We draw the pointer as an arrow from one node to the next, but in memory, it is just stored
+      as a memory address.</p>
   </insight>
 
 
@@ -117,32 +120,33 @@ node2->next = node3;
     the list by following the pointers from one node to the next: </p>
 
   <program label="linked-lists_list-nodes-program-1"
-           interactive="activecode" line-numbers="yes" highlight-lines="28-30">
+           interactive="activecode"
+           line-numbers="yes"
+           highlight-lines="28-30">
 <xi:include href="../../programs/linked-lists/list-node-int-2.cpp" parse="text"/>
   </program>
 
-  <p>
-    Notice that to access the data we are only relying on the <pf>node1</pf> pointer variable. From there, we
-    follow the <pf>next</pf> pointers to get to the other nodes in the list. <pf>node1->next->next->data</pf> says something like:
-    <ul>
+  <p> Notice that to access the data we are only relying on the <pf>node1</pf> pointer variable. From
+    there, we follow the <pf>next</pf> pointers to get to the other nodes in the list. <pf>node1->next->next->data</pf> says
+    something like: <ul>
       <li>Go to the node that <pf>node1</pf> points to...</li>
       <li>...then go to the node that its <pf>next</pf> pointer points to...</li>
       <li>...then go to the node that its <pf>next</pf> pointer points to...</li>
       <li>...then get the <pf>data</pf> value stored there.</li>
-    </ul>
-    If you trace these steps through <xref ref="linked-lists_list-nodes-figure-3"/>, you can see that this gets us to the value 10.
-  </p>
+    </ul> If you trace these steps
+    through <xref ref="linked-lists_list-nodes-figure-3"/>, you can see that this gets us to the
+    value 10. </p>
 
   <insight>
     <p>Every time we see <pf>-></pf> we should be following an arrow to a new node in the diagram.</p>
   </insight>
 
-  <p>
-    Do you notice something we have not taken care of yet? We allocated three nodes on the heap using <pf>new</pf>, but we have not
-    deleted them. (The program above was set to run without the address sanitizer introduced in <xref ref="memory-management_detecting-leaks"/>.) So our program has memory leaks. To fix that, we need to make sure to delete each node
-    when we are done with it. Our program should end with something like:
-  </p>
-  
+  <p> Do you notice something we have not taken care of yet? We allocated three nodes on the heap
+    using <pf>new</pf>, but we have not deleted them. (The program above was set to run without the
+    address sanitizer introduced in <xref ref="memory-management_detecting-leaks"/>.) So our program
+    has memory leaks. To fix that, we need to make sure to delete each node when we are done with
+    it. Our program should end with something like: </p>
+
   <program>
     ...
     delete node1;  // delete the node that node1 points to
@@ -151,6 +155,121 @@ node2->next = node3;
 }  //end of main
   </program>
 
-  <p>Because a linked list allocates each node as a separate allocation on the heap, we need to also delete each node individually.</p>
+  <p>Because a linked list allocates each node as a separate allocation on the heap, we need to also
+    delete each node individually.</p>
+
+  <exercise label="linked-lists_list-nodes_ex1">
+    <statement>
+      <p>What best describes the contents of <pf>node1</pf> in the snippet below?</p>
+      <program>
+ListNode* node1 = new ListNode(12);
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>The memory address of a ListNode</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>A ListNode</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>An integer</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The memory address of an integer</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="linked-lists_list-nodes_ex2">
+    <statement>
+      <p>Given this code:</p>
+      <program>
+ListNode* x = new ListNode(2);
+ListNode* y = new ListNode(1);
+      </program>
+      <p> What would you write to connect the y node to the x node so that the list would be {1, 2}? </p>
+      <p>
+        <fillin mode="string"
+                answer="y->next = x;"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>y\s*->\s*next\s*=\s*x;?</strcmp>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>
+            <p>You will need to set the <pf>next</pf> pointer of the y node to point to the x node.</p>
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+    </exercise>
+
+    <exercise label="linked-lists_list-nodes_ex3">
+      <statement>
+      <p>Given this code:</p>
+      <program>
+ListNode* a = new ListNode(10);
+ListNode* b = new ListNode(20);
+ListNode* c = new ListNode(30);
+c->next = b;
+b->next = a;
+      </program>
+        <p>How could we access the value 10? Select all options that would work.</p>
+      </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>
+            <p><pf>a->data</pf></p>
+          </statement>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p><pf>b->next->data</pf></p>
+          </statement>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p><pf>c->next->next->data</pf></p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p><pf>b->data</pf></p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p><pf>a->next->data</pf></p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p><pf>c->next->data</pf></p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p><pf>b->next->next->data</pf></p>
+          </statement>
+        </choice>
+      </choices>
+    </exercise>
+
+  
+
+
 
 </section>

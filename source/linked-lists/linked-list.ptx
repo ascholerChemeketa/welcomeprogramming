@@ -19,7 +19,7 @@
     The <pf>SimpleLinkedList</pf> objects themselves will be variables we create on the stack using something like <pf>SimpleLinkedList&lt;int> myList1;</pf>. Any nodes they are keeping track of will be allocated on the heap.
   </p>
 
-  <figure>
+  <figure xml:id="linked-lists_simple-linked-list-figure-1">
     <caption>Two simple linked lists. <pf>myList1</pf> is empty and thus it has a <pf>nullptr</pf> head pointer. <pf>myList2</pf> is managing a linked list that starts at the node containing the value 6. So myList2's head pointer points to the node containing 6.</caption>
     <image source="images/linked-list/simple-linked-list-1.svg"
            width="80%">
@@ -42,6 +42,7 @@
   </p>
 
   <listing label="linked-lists_list-node-tmpl-cxx"
+            xml:id="linked-lists_list-node-tmpl-cxx"
            filename="list-node-tmpl.cxx"
            language="cpp">
            <title>Templated ListNode <pf>ListNode.cxx</pf></title>
@@ -76,5 +77,45 @@
        // head is already initialized to nullptr
      }
   </program>
+
+  <exercise label="linked-lists_simple-linked-list-ex-1">
+    <statement>
+      <p>Consider <xref ref="linked-lists_simple-linked-list-figure-1"/> and <xref ref="linked-lists_list-node-tmpl-cxx"/>. Which job seems like it would be easiest to implement?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Checking to see if the list is empty</p>
+        </statement>
+        <feedback>
+          <p>To check if the list is empty, we just need to check if the head pointer is null.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Checking the size of the list</p>
+        </statement>
+        <feedback>
+          <p>To check the size of the list, we would need to traverse the entire list and count the nodes.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Destruct the list</p>
+        </statement>
+        <feedback>
+          <p>To delete all the items in the list, we would need to traverse the entire list and delete each node.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Print the list</p>
+        </statement>
+        <feedback>
+          <p>To print the items in the list, we would need to traverse the entire list and output each node's data.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

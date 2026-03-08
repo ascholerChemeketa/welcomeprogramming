@@ -3,9 +3,9 @@
 
   <title>Indexing and Accessing Elements</title>
   
-  <p>The only reason that a vector can efficiently access a particular element via its index, is that the vector stores its elements in a contiguous block of memory. This allows it to do some simple arithmetic to calculate the address of any element based on its index.</p>
+  <p>Vectors can access a particular element via its index efficiently because they store their elements in a contiguous block of memory. This allows them to do some simple arithmetic to calculate the address of any element based on its index.</p>
 
-  <p>In a linked list, the elements are potentially scattered throughout memory, so there is no easy way to jump to a particular element based on its index. Instead, we need to make a pointer that points at the head of the list and then follow the links from one node to the next until we reach the desired index.</p>
+  <p>In a linked list however, the elements are scattered throughout memory, so there is no easy way to calculate the address of a particular element based on its position in the list. Thus, in a linked list, accessing an element by index requires traversing the list from the beginning and following next pointers until we reach the desired index.</p>
 
   <activity>
     <title>Linked List At</title>
@@ -25,11 +25,8 @@
   </activity>
 
   <p>
-    Now imagine that we want to implement an <pf>at</pf> function for our linked list class that returns the value at a particular index.
-    For this loop, we can use a for loop that runs from 0 up to (but not including) the desired index. In each iteration of the loop, we will move our pointer to the next node in the list. After the loop finishes, our pointer will be pointing at the desired node, and we can return its data.
+    To automate this in an <pf>at</pf> function for our linked list, we can use a for loop that advances a <pf>current</pf> as many times as the desired index. After the loop finishes, our pointer will be pointing at the desired node, and we can return its data.
   </p>
-
-  <p>An implementation might look like this:</p>
 
   <listing>
     <title>SimpleLinkedList at Implementation (No bounds checking)</title>
@@ -87,9 +84,9 @@ T LinkedList<T>::at(int index) const {
     Having to keep checking <q>did we go too far</q> (line 9) is a bit clunky. If we knew in advance how many elements were in the list, we could just check the index against that at the start of the function and avoid having to check inside the loop. (We will examine that possibility in a later section.)
   </p>
 
-  <p>We will cover all the efficiencies of linked lists in a later section. But it is worth pointing out now that doing <pf>.at(index)</pf> on a linked list needs to traverse the list node by node from the beginning up to the desired index. In a list of <m>n</m> elements, this operation has a time complexity of <m>O(n)</m>. This is much slower than doing the same operation on a <pf>std::vector</pf>, which has a time complexity of <m>O(1)</m>.</p>
+  <p>Examining this function, we can see that in a list of <m>n</m> elements, this operation has a worst-case time complexity of <m>O(n)</m>. If we call <pf>.at(n - 1)</pf>, the loop will repeat <m>n - 1</m> times. This is much slower than doing the same operation on a <pf>std::vector</pf>, which has a time complexity of <m>O(1)</m>.</p>
   
-  <p>For this reason, although we generally like reusing existing logic to implement new functions, we do not want to use <pf>.at()</pf> in a linked list as a helper for other functions. Imagine we implement a print function like this:
+  <p>For this reason, although we generally like reusing existing logic to implement new functions, we will not want to use <pf>.at()</pf> as a helper for other linked list functions. Imagine we implement a print function like this:
   </p>
 
   <program>
@@ -113,5 +110,56 @@ void LinkedList<T>::print() const {
   <warning>
     <p>Remember: we never want to use <pf>.at()</pf> as a helper in linked list logic.</p>
   </warning>
+
+
+  <exercise label="linked-lists_simple-linked-list-at_ex-1"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  <statement>
+  <p>Design the logic to print a range of elements [a, b] in a linked list. You may assume <pf>a</pf> and <pf>b</pf> are valid indices and a is less than or equal to b.</p>
+  </statement>
+  <blocks>
+    <block order="15" name="b" depends="">
+        <cline><![CDATA[void LinkedList<T>::printRange(int a, int b) const {]]></cline>
+    </block>
+    <block order="12" name="c" depends="b">
+        <cline><![CDATA[    ListNode<T>* current = head;]]></cline>
+    </block>
+    <block order="7" name="d" depends="b">
+        <cline><![CDATA[    int i = 0;]]></cline>
+    </block>
+    <block order="9" name="e" depends="c d">
+        <cline><![CDATA[    while (i < a) {]]></cline>
+    </block>
+    <block order="14" name="f" depends="e">
+        <cline><![CDATA[        current = current->next; // advance in a loop]]></cline>
+        <cline><![CDATA[        i++;]]></cline>
+    </block>
+    <block order="8" name="g" depends="e">
+        <cline><![CDATA[    } // end of a loop]]></cline>
+    </block>
+    <block order="13" name="i" depends="g">
+        <cline><![CDATA[    while (i <= b) {]]></cline>
+    </block>
+    <block order="1" name="j" depends="i">
+        <cline><![CDATA[        cout << current->data << " ";]]></cline>
+    </block>
+    <block order="2" name="k" depends="j">
+        <cline><![CDATA[        current = current->next; // advance in b loop]]></cline>
+        <cline><![CDATA[        i++;]]></cline>
+    </block>
+    <block order="10" name="l" depends="i">
+        <cline><![CDATA[    } // end of b loop]]></cline>
+    </block>
+    <block order="6" name="n" depends="l">
+        <cline><![CDATA[    cout << endl;]]></cline>
+    </block>
+    <block order="3" name="o" depends="n">
+        <cline><![CDATA[}]]></cline>
+    </block>
+  </blocks>
+</exercise>
+
 
 </section>

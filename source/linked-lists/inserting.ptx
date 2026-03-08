@@ -124,4 +124,37 @@
     <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
   </interactive>
   </activity>
+
+  <exercise label="linked-lists_simple-linked-list-inserting-ex-1"
+    numbered="yes"
+    adaptive="yes"
+    indentation="hide">
+    <statement>
+    <p>Build an alternate version of the <pf>insertStart</pf> function that correctly inserts a new node at the beginning of the list. You will not use all the blocks.</p>
+    </statement>
+    <blocks>
+      <block order="5" name="a" depends="">
+          <cline><![CDATA[void SimpleLinkedList<T>::insertStart(T value) {]]></cline>
+      </block>
+      <block order="1" name="b" depends="a">
+          <cline><![CDATA[    ListNode<T>* oldHead = head;]]></cline>
+      </block>
+      <block order="4" name="c" depends="b">
+          <cline><![CDATA[    head = new ListNode<T>(value);]]></cline>
+      </block>
+      <block order="3" name="d" depends="c">
+          <cline><![CDATA[    head->next = oldHead;]]></cline>
+      </block>
+      <block order="7" name="f" depends="d">
+          <cline><![CDATA[}]]></cline>
+      </block>
+      <block order="6" correct="no">
+          <cline><![CDATA[    delete oldHead;]]></cline>
+      </block>
+      <block order="2" correct="no">
+          <cline><![CDATA[    oldHead->next = head;]]></cline>
+      </block>
+    </blocks>
+  </exercise>
+
 </section>

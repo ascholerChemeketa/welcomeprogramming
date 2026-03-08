@@ -24,6 +24,10 @@ public:
 
     // Get the number of elements in the list
     size_t getSize() const;
+
+    // Disable copying and assignment to prevent accidental shallow copies of the list
+    SinglyLinkedList(const SinglyLinkedList&) = delete;
+    SinglyLinkedList& operator=(const SinglyLinkedList&) = delete;
 };
 
 template <typename T>

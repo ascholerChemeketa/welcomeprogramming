@@ -75,8 +75,12 @@
   </program>
   </listing>
 
-  <p>This new capability comes with a cost. 
-    Our existing functions also will need to worry about maintaining the tail pointer. Here are some new special cases we will need to handle:
+  <p>
+    Although this allows us to efficiently insert at the end of the list, we still can't efficiently remove an element from the end of the list. To remove the last element, we need to set the tail pointer to the second-to-last node and set the next pointer of that node to <pf>nullptr</pf>. But we have no way to reach the second-to-last node without starting at the head and walking through the list.
+  </p>
+
+  <p>In addition to this limitation, our new capability comes with a cost. 
+    Existing functions will need to worry about maintaining the tail pointer. Here are some new special cases we will need to handle:
     <ul>
       <li>When inserting into an empty list <pf>insertStart</pf> needs to set both the head and tail pointers to point to the new node.</li>
       <li>If <pf>removeAt</pf> is called on the index of the last node, we need to make sure to update the tail pointer.</li>
@@ -84,32 +88,61 @@
     </ul>
   </p>
 
-  <p>The logic for <pf>removeAt</pf> will now need to look like:</p>
+  <p>As an example, the logic for <pf>removeAt</pf> will now need to look like:</p>
   
-  <program language="text">
+  <program language="text" line-numbers="yes" highlight-lines="12-15">
     <![CDATA[
+    // index 0 is a special case
     if (index == 0) {
-        removeFirst();
-        return;
+        removeFirst()
+        return
     }
-    ListNode* current = head
-    while (index > 1) {
-        current = current->next
-        index--
+    ListNode* previousNode = head
+    for(int i = 0; i < index - 1; i++) {
+        previousNode = previousNode->next
     }
-    ListNode* toDelete = current->next
-    current->next = toDelete->next
+    ListNode* toDelete = previousNode->next
+    previousNode->next = toDelete->next
+    // if we are deleting the last node, update the tail pointer
     if (toDelete == tail) {
-        tail = current
+        tail = previousNode
     }
     delete toDelete
     size--
     ]]>
   </program>
 
-  <p>
-    We still can't efficiently remove an element from the end of the list. To remove the last element, we need to adjust the next pointer of the second-to-last node to be <pf>nullptr</pf> and adjust the tail pointer to point to that node as we delete the last one. But we have no way to reach the second-to-last node without starting at the head and walking through the list. To allow for this, we will need to add pointers that go backwards in the list as well, creating a doubly linked list.
-  </p>
-
+  <exercise label="linked-lists_simple-linked-list-improvements_ex-1">
+    <statement>
+      <p>What does adding a tail pointer to our simple linked list allow us to do? Check all that apply.</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Efficiently insert elements at the end of the list</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Efficiently remove elements from the end of the list</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Efficiently access the last element in the list</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Efficiently access the second-to-last element in the list</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Efficiently print the list in reverse order</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>
