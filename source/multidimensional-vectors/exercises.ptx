@@ -306,19 +306,19 @@ vector<vector<int>> mirror(const vector<vector<int>>& data) {
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
-TEST_CASE("revDiagonalAdder") {
-    vector<vector<int>> mirror = {{1,7,3},
-                                 {4,5,6}};
-    vector<vector<int>> result = {{3,7,1},
-                                   {6,5,4}};
-    CHECK(mirror(result) == result);
+TEST_CASE("mirrorTest")
+{
+  vector<vector<int>> start1 = {{1, 7, 3}, {4, 5, 6}};
+  vector<vector<int>> goal1 = {{3, 7, 1}, {6, 5, 4}};
+  vector<vector<int>> mirror1 = mirror(start1);
+  CHECK(mirror1 == goal1);
 
-    vector<vector<int>> test2 = {{-4,0},
-                                 {3,2}};
-    vector<vector<int>> result2 = {{0,-4},
-                                    {2,3}};
-    CHECK(mirror(result2) == result2);
-}]]>
+  vector<vector<int>> start2 = {{-4, 0}, {3, 2}};
+  vector<vector<int>> goal2 = {{0, -4}, {2, 3}};
+  vector<vector<int>> mirror2 = mirror(start2);
+  CHECK(mirror2 == goal2);
+}
+]]>
         </tests>
     </program>
   </exercise>
