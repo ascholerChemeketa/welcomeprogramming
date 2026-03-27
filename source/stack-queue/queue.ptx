@@ -1,0 +1,98 @@
+<section xml:id="stack-queue_queues"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Queue ADT</title>
+
+  <p>
+    We have already encountered the <term>queue</term> abstract data type in <xref ref="practical-programming_queue"/>. (If you chose to skip that section, you should go read it now.)
+  </p>
+
+  <p>The <term>first in, first out</term> property of a queue lends itself to more straight forward uses than stacks. We pretty much just want a queue if we need to be able to add things to a collection and then remove them in the same order.</p>
+
+  <p>
+    Like a stack, a queue does not imply any particular implementation. The only real requirement is that we can efficiently add items to one end of the collection (the back of the queue) and remove items from the other end (the front of the queue).</p>
+
+  <p>
+    In a linked list based implementation of a queue, to efficiently add items to the back and remove them from the front, we have two choices:
+    <ul>
+      <li>Use a doubly linked list with a tail pointer, so we can efficiently add or remove at both the head and tail of the list. In this case we can call either end the <q>front</q> and the other the <q>back</q>.</li>
+      <li>Use a singly linked list with a tail pointer. In this case, the only thing that we can efficiently do at the tail of the list is to add values. Values can only be efficiently removed at the head. So in this implementation, we have to define the <q>front</q> of the queue to be at the head of the list, and the <q>back</q> of the queue to be at the tail of the list.</li>
+    </ul>
+  </p>
+
+  <p>This animation shows a queue implemented with a singly linked list with a tail pointer.</p>
+
+  
+  <activity>
+    <title>Queue Implemented with a Linked List</title>
+    <p>
+      A queue of integers has been implemented using a singly linked list. Use the interactive below to experiment with enqueueing and dequeueing items from the queue.
+    </p>
+    <interactive platform="javascript" 
+                design-width="1600"
+                 aspect="4:2">
+    <script type="module">
+      import { QueueLL } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new QueueLL({ initialData: [10, 6, 12] });
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+
+  <p>Because this behavior is identical to that of a linked list, just with different terminology, we can easily use an existing linked list implementation (as long as that implementation provides the necessary operations) to create a queue.</p>
+
+  <program>
+    <![CDATA[
+class IntQueue {
+private:
+    list<int> list;  // Underlying linked list to store queue elements
+public:
+    void enqueue(const int& item) {
+        list.push_back(item);  // Add item to the back of the list
+    }
+    int dequeue() {
+        if (list.empty()) {
+            throw std::out_of_range("Queue is empty");
+        }
+        int frontItem = list.front();  // Get the item at the front of the list
+        list.pop_front();              // Remove the item from the front of the list
+        return frontItem;              // Return the dequeued item
+    }
+    bool isEmpty() const {
+        return list.empty();  // Check if the queue is empty
+    }
+};
+]]>
+  </program>
+
+  <p>
+    As when we examined implementing a stack using a list (or a vector), using an existing list implementation means the queue class is not responsible for managing the memory of the underlying data structure. It is just responsible for providing the queue interface.
+  </p>
+
+  <exercise label="stack-queue_queue-linked-list-ex1">
+    <statement>
+      <p>What would be an issue with using a vector to implement a queue and treating the beginning of the vector (index 0) as the front of the queue?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p><pf>dequeue</pf> would be <m>O(n)</m></p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf>enqueue</pf> would be <m>O(n)</m></p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf>enqueue</pf> and <pf>dequeue</pf> would be <m>O(n)</m></p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

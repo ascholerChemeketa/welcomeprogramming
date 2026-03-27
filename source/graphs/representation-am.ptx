@@ -1,0 +1,196 @@
+<section xml:id="graphs_representation-am"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Adjacency Matrix Representation</title>
+
+  <p>One way to representing a graph so that it is efficient to look up <q>is X connected to Y?</q>
+    is an <term>adjacency matrix</term>. An adjacency matrix is a 2D array where the rows and
+    columns represent vertices, and the value at row i and column j indicates whether there is an
+    edge from vertex i to vertex j (and possibly the weight of that edge).</p>
+
+  <p> As an example, let's consider representing the class prerequisite graph from the introduction
+    section. First, we will need to assign an integer index to each vertex. For example, we could
+    assign 0 to MTH111, 1 to MTH112, 2 to CS160, 3 to CS161, 4 to CS162, and 5 to CS205. We would
+    then create a 6x6 matrix where the entry at row i and column j is 1 if there is an edge from
+    vertex i to vertex j, and 0 otherwise. The resulting adjacency matrix would look like this: </p>
+
+  <figure>
+    <caption>An Adjacency Matrix representation for the Class Prerequisite Graph.</caption>
+    <tabular row-headers="yes"
+             halign="center"
+             valign="middle"
+             right="minor"
+             bottom="minor">
+      <col halign="left"
+           right="major"/>
+      <col/>
+      <col/>
+      <col/>
+      <col/>
+      <col/>
+      <col/>
+      <row header="vertical"
+           bottom="major"
+           halign="left">
+        <cell right="minor"
+              bottom="minor"></cell>
+        <cell>0 <em>(MTH111)</em></cell>
+        <cell>1 <em>(MTH112)</em></cell>
+        <cell>2 <em>(CS160)</em></cell>
+        <cell>3 <em>(CS161)</em></cell>
+        <cell>4 <em>(CS162)</em></cell>
+        <cell>5 <em>(CS205)</em></cell>
+      </row>
+      <row bottom="minor">
+        <cell>0 <em>(MTH111)</em></cell>
+        <cell>0</cell>
+        <cell>1</cell>
+        <cell>0</cell>
+        <cell>1</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+      </row>
+      <row>
+        <cell>1 <em>(MTH112)</em></cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+      </row>
+      <row>
+        <cell>2 <em>(CS160)</em></cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>1</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+      </row>
+      <row>
+        <cell>3 <em>(CS161)</em></cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>1</cell>
+        <cell>1</cell>
+      </row>
+      <row>
+        <cell>4 <em>(CS162)</em></cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+      </row>
+      <row>
+        <cell>5 <em>(CS205)</em></cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+      </row>
+    </tabular>
+  </figure>
+
+  <p> Note that the matrix is not symmetric because this is a directed graph. There is an entry at
+    row 0, column 3 because there is an edge (dependency) from MTH111 to CS161. There is no entry at
+    row 3, column 0 because CS161 is not a prerequisite for MTH111. In an undirected graph, the
+    matrix would be symmetric (mirrored across the diagonal) because if there is an edge from vertex
+    i to vertex j, there is also an edge from vertex j to vertex i. </p>
+
+  <p>We can modify this basic idea to support weighted graphs and storing parallel edges: <ul>
+      <li>
+        <p> To support weighted graphs, we can store the weight of the edge in the matrix instead of
+    just a 1 to indicate the presence of an edge. </p>
+      </li>
+      <li>
+        <p> To support parallel edges, we could store the number of parallel edges in the matrix. So
+    if there are 3 parallel edges from vertex i to vertex j, we would store the number 3 in the
+    entry at row i and column j. </p>
+      </li>
+      <li>
+        <p> To support both weighted graphs and parallel edges, we could store a list of weights in
+    the matrix. So if there are 3 parallel edges from vertex i to vertex j with weights 5, 10, and
+    15, we would store the list [5, 10, 15] in the entry at row i and column j. </p>
+      </li>
+    </ul>
+  </p>
+
+    <interactive platform="javascript"
+                 design-width="1600"
+                 aspect="4:2.75">
+      <script type="module">
+      import { GraphRepresentation } from "./external/interactives/data-structures/entry.js";
+      let anim = new GraphRepresentation({
+        title: "Graph Representation",
+        startingGraphRepresentation: "adjacency matrix",
+        zoom: "1x"
+      });
+      anim.shift(300, -20);
+    </script>
+      <xi:include href="../../fragments/ds-graph-instructions.xml"/>
+    </interactive>
+
+  <activity>
+    <title>Adjacency Matrix Representation</title>
+    <p> The animation will load a random graph and display its adjacency matrix representation. </p>
+    <p> Click on the <c>Logical Representation</c> radio button in the controls panel to see the logical representation of
+      the graph. </p>
+    <p> You can click on <c>Weighted Graph</c> to switch to a (new) weighted graph. </p>
+    <interactive platform="javascript"
+                 design-width="1500"
+                 aspect="4:2.75">
+      <script type="module">
+      import { GraphRepresentation } from "./external/interactives/data-structures/entry.js";
+      let anim = new GraphRepresentation({
+        title: "Graph Representation",
+        startingGraphRepresentation: "adjacency matrix",
+        zoom: "1x"
+      });
+      anim.shift(300, -20);
+    </script>
+      <xi:include href="../../fragments/ds-graph-instructions.xml"/>
+    </interactive>
+  </activity>
+
+
+  <p>Part of this implementation would involve storing a mapping between vertex identifiers (like
+    "MTH111") and their corresponding integer indices in the matrix. That way, external code can ask
+    for <pf>hasEdge("MTH111", "CS161")</pf> instead of using (or even knowing about) the internal integer indices.</p>
+
+  <p> This representation makes it very easy to check if an edge exists between two vertices. In <m>
+    O(1)</m> time, we can look up the entry in the matrix corresponding to those two vertices and
+    see if it indicates the presence of an edge. Similarly, it only takes <m>O(1)</m> time to add a
+    new edge or remove an existing edge by updating the corresponding entry in the matrix. </p>
+
+  <p> However, this representation can be inefficient in terms of space, especially for sparse
+    graphs (graphs with relatively few edges compared to the number of vertices), because we need to
+    allocate space for every possible edge, even if most of them are not present. We can see that in
+    the class prerequisite graph, there are only 5 edges, but we need to allocate space for 36
+    possible edges (6 vertices x 6 vertices). The space requirement is <m>O(V^2)</m> where V is the
+    number of vertices in the graph. </p>
+
+  <p> It is also potentially inefficient to get the neighbors of a vertex in an adjacency matrix
+    representation. To get the neighbors of a vertex, we would need to look at the entire row
+    corresponding to that vertex and check which entries indicate the presence of an edge. This
+    would take <m>O(V)</m> time, where V is the number of vertices in the graph. In a sparse graph,
+    we will spend a lot of time looking at entries that indicate the absence of edges. </p>
+
+  <p> Finally, if we want to add or remove a vertex, we would need to resize the entire matrix,
+    which can be quite expensive indeed. Say we want to remove MTH112 from the class prerequisite
+    graph. We would need to remove the row and column corresponding to MTH112, and shift all the
+    other rows and columns accordingly. This would take <m>O(V^2)</m> time because we would need to
+    update every entry in the matrix. </p>
+
+  <p> There are situations where this representation might be appropriate, such as when we have a
+    dense graph (a graph with many edges) and we want to run algorithms that do lots of edge lookups
+    or modifications and very few vertex modifications. However, to provide more balanced
+    performance across a wider variety of graph algorithms, we will typically use a different
+    representation. </p>
+</section>

@@ -1,0 +1,178 @@
+<section xml:id="linked-lists_simple-linked-list-clearing"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Memory Management</title>
+
+  <introduction>
+    <p>Because linked lists are responsible for managing dynamic memory (using <pf>new</pf> to create nodes), they also are responsible for properly deleting that memory and doing deep copies of that memory when needed. This means we should be implementing a destructor, copy constructor, and copy assignment operator (the Rule of Three).</p>
+  </introduction>
+
+  <subsection>
+    <title>Destruction</title>
+  <p>If the linked list itself is destroyed, say by going out of scope, we need to make sure that all the nodes in the list are deleted to avoid memory leaks. This of course is the responsibility of the destructor.</p>
+
+  <p>We might also want to provide a method to clear the list explicitly, which would delete all the nodes and leave the list empty. If so, the destructor can call this method to avoid duplicating code.</p>
+
+<program>
+  <![CDATA[ 
+template <class T>
+LinkedList<T>::~LinkedList() {
+    clear();
+}
+  ]]>
+</program>
+
+  <p>
+    There is no easy way to delete all the individual nodes. If we do <pf>delete head;</pf>, it would only delete the first node in the list. (And the rest of the nodes would then be unreachable and cause a memory leak.) Instead, we need to remove the nodes one by one until the list is empty.</p>
+
+  <insight>
+    <p>Every <pf>new</pf> call requires a <pf>delete</pf> call. We allocated each node individually using <pf>new</pf>, so we must delete each node individually as well.</p>
+  </insight>
+
+  <p>Fortunately, we can use a loop to repeatedly remove the first node until the list is empty. The logic is pretty simple:</p>
+
+  <program language="text">
+  <![CDATA[
+clear():
+  while head is not nullptr:
+    removeFirst()
+  ]]>
+  </program>
+
+  <p>This loop will keep calling <pf>removeFirst()</pf> until the head pointer is <pf>nullptr</pf>, indicating the list is empty. Each call to <pf>removeFirst()</pf> will delete the first node in the list, so by the time the loop finishes, all nodes will have been deleted.</p>
+
+  <note>
+    <p>
+      It is worth stopping to think about the efficiency of this approach. In particular, we should make sure that <pf>removeFirst()</pf> doesn't represent a costly operation that would make this approach inefficient. Although we have not analyzed the efficiency of <pf>removeFirst()</pf> yet, it is not hard to see that it runs in constant time<mdash/>it has no loops or recursive calls. So calling it is no more expensive than doing the equivalent work directly in clear.
+    </p>
+  </note>
+
+  <activity>
+    <title>Linked List Clear</title>
+    <p>
+      The animation is set to clear the list by deleting nodes until head is null. Use <c> > </c> to step through the process.
+    </p>
+    <interactive platform="javascript" 
+                design-width="1600"
+                 aspect="4:2">
+    <script type="module">
+      import { LinkedListSimple } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new LinkedListSimple({ initialData: [10, 6, 15] });
+
+      anim.doClear();
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+  </subsection>
+  <subsection>
+    <title>Copying</title>
+
+    <p>When copying a linked list, either using a copy constructor or an assignment operator, we need to make sure to perform a deep copy of the nodes. We can't just do something like <pf>newList.head = oldList.head;</pf> because we would end up with a shallow copy where both lists share the same nodes, leading to potential issues like double deletion.</p>
+
+    <sidebyside widths="45% 45%">
+      <figure>
+        <caption>A shallow copy. The list <pf>other</pf> shares the same nodes as the original list.</caption>
+        <image source="images/linked-list/linked-list-shallow-copy.svg">
+          <shortdescription>
+            <p>The stack shows two lists, myList and other. Both lists have head pointers that point to the same node on the heap.</p>
+          </shortdescription>
+        </image>
+      </figure>
+      <figure>
+        <caption>A deep copy. The list <pf>other</pf> has its own separate nodes.</caption>
+        <image source="images/linked-list/linked-list-deep-copy.svg">
+          <shortdescription>
+            <p>The stack shows two lists, myList and other. Both lists point to different chains of nodes that have the same values.</p>
+          </shortdescription>
+        </image>
+      </figure>
+    </sidebyside>
+
+    <p>
+      To perform a deep copy, we can iterate through the nodes of the original list and create new nodes for the new list with the same data values. Each new node will need to be added to the end of the list of copied nodes we are building. Currently, this will be challenging since we don't have an easy way to add nodes to the end of the list.
+    </p>
+
+    <p>
+      We could make an efficient implementation by tracking the location of what node we are copying in the other list (<pf>sourceCur</pf>) and the last node in the new list (<pf>copyCur</pf>).
+    </p>
+
+    <figure>
+      <caption>Making a deep copy using current pointers in both the source and destination lists. When sourceCur advances to the next node, we will make a new node and copyCur will be updated to point.</caption>
+      <image source="images/linked-list/linked-list-copy-painful.svg" width="60%">
+        <shortdescription>
+          <p>The stack shows two lists, myList and other. Both lists point to different chains of nodes. The pointers <pf>sourceCur</pf> and <pf>copyCur</pf> indicate the current nodes being copied and the last node in the new list, respectively.</p>
+        </shortdescription>
+      </image>
+    </figure>
+
+    <p>Our algorithm might look something like:</p>
+
+    <program language="text">
+      while sourceCur->next is not nullptr:
+          sourceCur = sourceCur->next               // advance to the next node in the source
+          copyCur->next = new Node(sourceCur->data)
+          copyCur = copyCur->next;                  // advance copyCur to the new last node
+    </program>
+
+    <p>
+      However, we will soon improve our linked list to allow inserting at the end of the list more easily. That will allow us to simplify this logic significantly. For now, we might just disable copying by deleting the copy constructor and assignment operator. That way we won't accidentally create shallow copies of our list and cause memory management issues. To do so, we simply set each of them to <pf>delete</pf> in the class definition:
+    </p>
+
+    <program>
+      <![CDATA[
+template <class T>
+class SimpleLinkedList {
+    //...
+    public:
+        // Disable the default copy constructor and assignment operator to prevent shallow copies
+        SimpleLinkedList(const SimpleLinkedList<T>& other) = delete;
+        SimpleLinkedList<T>& operator=(const SimpleLinkedList<T>& other) = delete;
+    //...
+};
+      ]]>
+    </program>
+
+  </subsection>
+
+  <exercise label="linked-lists_simple-linked-list-clearing-ex-1">
+    <statement>
+      <p>Trace this attempt at a copy constructor and identify its flaw:</p>
+      <program>
+        <![CDATA[
+SimpleLinkedList(const SimpleLinkedList<T>& other) {
+  ListNode<T>* copyCur = other.head;
+  while (copyCur != nullptr) {
+    this->insertStart(copyCur->data);
+    copyCur = copyCur->next;
+  }
+}
+        ]]>
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>The elements will get added in reverse order.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>insertStart is too inefficient to use as a helper.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It would skip the first element of the original list.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It would skip the last element of the original list.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

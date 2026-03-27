@@ -68,9 +68,12 @@ section.exercises #scprogresscontainer{
   }
 }
 
+
+
+
 /* TEMPORARY CENTERING FOR INTERACTIVES  */
 @container ptx-main (width > 821px) {
-    :is(.timedAssessment,.theorem-like,.definition-like,.example-like,.exercise-like,.project-like,.remark-like,.openproblem-like,.openproblems-like,.computation-like,.knowl__content):has(.wide-iframe) {
+    :is(.timedAssessment,.theorem-like,.definition-like,.example-like,.exercise-like,.project-like,.remark-like,.openproblem-like,.openproblems-like,.computation-like,.knowl__content):has([data-design-width]) {
         --max-width: min((100cqw - 2 * 48px), 10000px);
         min-width: 100%;
         clear: right;
@@ -82,20 +85,27 @@ section.exercises #scprogresscontainer{
 
 
 /* TEMPORARY SPACING FIXES FOR RUNESTONE ELEMENTS */
-@layer spacing {
+/* @layer spacing {
   .runestone :is(.exercise-statement, .exercise-content) > *:not(:first-child) {
     margin-top: 1em;
   }
   .ptx-runestone-container + .solutions {
     margin-top: 0.5em;
   }
-}
+} */
 
 /* TEMPORARY FIX FOR CODEBOX */
 .code-box {
   background: var(--page-color);
 }
 
+
+/* MAKE INTO A PR */
+code[class*=language-].code-inline, pre[class*=language-].code-inline {
+    margin-top: -.15em;
+}    
+
+/* TEST CHANGE */
 .line-highlight {
     max-width: 100%;
 }

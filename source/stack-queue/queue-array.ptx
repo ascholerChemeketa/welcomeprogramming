@@ -1,0 +1,207 @@
+<section xml:id="stack-queue_queue-array"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Queues Implemented with Arrays</title>
+
+  <p> Although we can use an array to implement a queue, we can not simply make the queue as a
+    wrapper around an array-based list. We need to efficiently add items to one end of the queue and
+    remove them from the other end. In an array-based list, adding or removing items at the front of
+    the list takes <m>O(n)</m> time because all the other items have to be shifted over. So whether
+    we call the front of the queue the start of the array or the end of the array, one of our two
+    queue operations (enqueue or dequeue) will be inefficient. </p>
+
+  <p> To implement a queue with an array, we can use a technique called a <term>circular buffer</term>
+    or <term>ring buffer</term>. In a circular buffer, we treat the array as if it wraps around from
+    the end back to the beginning. We keep track of two indices: one for the front of the queue (<pf>start</pf>)
+    and one for the back of the queue (<pf>end</pf>). The end index will always point to the position
+    just past the last item in the queue (the location of the next item to be added). </p>
+
+  <p>Experiment with the animation below to see how we can efficiently add and remove items from a
+    queue because we are maintaining a floating start and end index instead of trying to force the
+    elements in use to always start from index 0.</p>
+
+  <activity>
+    <title>Queue Implemented with an Array</title>
+    <p> A queue of integers that has the values 6 and 12. Start points at where the first value in
+      the queue is stored, and end points just past the last value in the queue. Experiment with
+      enqueueing and dequeueing items from the queue. </p>
+    <interactive platform="javascript"
+                 design-width="1600"
+                 aspect="4:2">
+      <script type="module">
+        import { QueueArray } from "./external/interactives/data-structures/entry.js";
+        let anim = new QueueArray({ initialData: [10, 6, 12] }); 
+        anim.doDequeue(); 
+        anim.animationManager.skipForward(); 
+      </script>
+      <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+    </interactive>
+  </activity>
+
+  <p>When we create the queue, start and end will both be 0. Any time the two indices are equal, the queue will be considered empty. (If you did not try dequeuing all the items in the animation above, go try doing so now. Notice that <q>empty</q> is any time start and end match, not just when they are both 0.)</p>
+
+  <listing>
+  <program>
+    <![CDATA[
+template <class T>
+class ArrayQueue {
+private:
+    T *list;            //array to hold the list elements
+    int arraySize;      //capacity of array used for storage
+
+    int start;          //index of the front of the queue
+    int end;            //index of next available location at back
+public:
+    ArrayQueue() {
+        arraySize = 8;
+        list = new T[arraySize];
+        start = 0;
+        end = 0;
+    }
+    bool isEmpty() const {
+        return start == end;
+    }
+};
+    ]]>
+  </program>
+  </listing>
+
+  <p>
+    If we keep adding and removing items, we will eventually reach the end of the array. To handle this, we use the circular buffer technique described above. Whenever we dequeue an item, we move the start index forward, and whenever we enqueue an item, we move the end index forward. If either index reaches the end of the array (it equals the arraySize), we wrap it around to 0.
+  </p>
+
+  <p>This version of the animation has been set up to demonstrate the circular buffer technique in action.</p>
+
+  <activity>
+    <title>Circular Buffer Operations</title>
+    <p> The queue has had multiple items enqueued and dequeued. Enqueue two new values (type a value into the Value box and then press <c>Enqueue</c>) to see the end index wrap around to the beginning of the array. Then dequeue items to see the start index wrap around as well. </p>
+    <interactive platform="javascript"
+                 design-width="1600"
+                 aspect="4:2">
+      <script type="module">
+        import { QueueArray } from "./external/interactives/data-structures/entry.js";
+        let anim = new QueueArray({ initialData: [10, 6, 12, 5, 8, 3, 1] }); 
+        <!-- anim.doDequeue(); 
+        anim.animationManager.skipForward(); 
+        anim.doDequeue(); 
+        anim.animationManager.skipForward(); 
+        anim.doDequeue(); 
+        anim.animationManager.skipForward();  -->
+        <!-- anim.doDequeue(); 
+        anim.animationManager.skipForward(); 
+        anim.doDequeue(); 
+        anim.animationManager.skipForward(); 
+        anim.doEnqueue(7); 
+        anim.animationManager.skipForward(); 
+        anim.doEnqueue(4); 
+        anim.animationManager.skipForward();  -->
+      </script>
+      <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+    </interactive>
+  </activity>
+
+
+  <p>
+    Defining empty as when start and end are equal means that we can only use arraySize - 1 elements of the array to store data. If we used all arraySize elements, then start and end would be equal when the queue was both full and empty, which would be a problem. So a <q>full</q> queue is when moving the end index forward by one (wrapping around if necessary) would make it equal to the start index. That could look like either of these two conditions:
+  </p>
+
+  
+    <sidebyside widths="45% 45%">
+      <figure>
+        <caption>The queue is full because end is one less than start.</caption>
+        <image source="images/stack-queue/full-queue-1.png">
+          <shortdescription>
+            <p>Start has a value of 2 and end has a value of 1.</p>
+          </shortdescription>
+        </image>
+      </figure>
+      <figure>
+        <caption>The queue is full because end is at the last position in the array. If we increase it by 1, it would wrap to 0 and be the same as the start index.</caption>
+        <image source="images/stack-queue/full-queue-2.png">
+          <shortdescription>
+            <p>Start has a value of 0 and end has a value of 7.</p>
+          </shortdescription>
+        </image>
+      </figure>
+    </sidebyside>
+
+    <p>
+      As with our array based stack, we can either use a fixed size array and limit the capacity of the queue, or we can implement <pf>grow()</pf> logic to allocate a larger array and copy the items over when we run out of space. If we do grow the storage, we can't just copy the start and end indices as-is and move items from the old array to the new one in their same locations. If we did so, we might end up making the queue look like it contains a bunch of new (and uninitialized) items.
+    </p>
+
+    <figure>
+      <caption>A bad attempt at growing the array. In the new version, indexes 4 through 7 contain uninitialized data but count as part of the queue because they are between the start and end indices. We inadvertently added 4 elements.</caption>
+      <image source="images/stack-queue/grow-bad.svg" width="80%">
+        <shortdescription>
+          <p>In the original, the array size is 4. Start is 2 and end is 1. Thus indexes 2, 3, 0 are part of the queue.</p>
+          <p>After the grow, the array size is 8. Start is 2 and end is 1. Thus indexes 2, 3, 4, 5, 6, 7, 0 are part of the queue, but indexes 4 through 7 contain uninitialized data.</p>
+        </shortdescription>
+      </image>
+    </figure>
+
+    <p>
+      Instead, when we grow the array, we should copy the items in the queue to the start of the new array. We can then reset the start index to 0 and set the end index to the number of items we copied over. This way, the queue will occupy a contiguous block at the start of the new array.
+    </p>
+
+    <figure>
+      <caption>A good attempt at growing the array. In the new version, the three items between start and end have been copied to the start of the new array. Then start and end indices have been reset to reflect the new positions of the items.</caption>
+      <image source="images/stack-queue/grow-good.svg" width="80%">
+        <shortdescription>
+          <p>In the original, the array size is 4. Start is 2 and end is 1. Thus indexes 2, 3, 0 are part of the queue.</p>
+          <p>After the grow, the array size is 8. Start is 0 and end is 3. Thus indexes 0, 1, 2 are part of the queue. The values that used to be at indexes 2, 3, 0 have been moved to 0, 1, 2.</p>
+        </shortdescription>
+      </image>
+    </figure>
+
+    <exercise label="stack-queue_queue-array-grow-ex1">
+      <statement>
+        <p>We have a queue implemented with a circular buffer. The storage array has a capacity of 8 and contains <pf>5, 10, 15, 20, 25, 30, 35, 40</pf> (not all of those values are <q>in</q> the queue).</p>
+        <p><pf>start</pf> is currently 4 and <pf>end</pf> is currently 1.</p>
+        <p>
+          The first value in the queue is: <fillin mode="number" answer="25"/>.
+        </p>
+        <p>
+          The last value in the queue is: <fillin mode="number" answer="5"/>.
+        </p>
+        <p>
+          There currently are <fillin mode="number" answer="5"/> elements in the queue.
+        </p>
+      </statement>
+      <evaluation>
+        <evaluate>
+          <test correct="yes">
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              <p><pf>start</pf> is the index of the first element in the queue</p>
+            </feedback>
+          </test>
+        </evaluate>
+        <evaluate>
+          <test correct="yes">
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              <p><pf>end</pf> is the index one past the last element in the queue</p>
+            </feedback>
+          </test>
+        </evaluate>
+        <evaluate>
+          <test correct="yes">
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              <p>The queue currently <q>wraps around</q> in the circular buffer. How many elements are there from start to the size of the array? How many are there from 0 to end?</p>
+            </feedback>
+          </test>
+        </evaluate>
+      </evaluation>
+    </exercise>
+
+</section>

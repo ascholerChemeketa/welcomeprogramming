@@ -1,0 +1,128 @@
+<section xml:id="linked-lists_simple-linked-list-remove-start"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Removing the First Node</title>
+
+  <p>Now that we have some data, we need to be able to remove it. In a linked list, the easiest
+    place to work is at the start of the list as that is where we have direct access via the head
+    pointer. So we will focus on removing the first node.</p>
+
+  <p> Two things need to happen when we remove the first node from a linked list: <ul>
+      <li>We need to update the head pointer so that it points to the second node in the list (or to <pf>nullptr</pf>
+    if there is no second node).</li>
+      <li>We need to delete the old first node to free up the memory it was using.</li>
+    </ul>
+  </p>
+
+  <activity>
+    <title>Linked List Remove Start</title>
+    <p> The animation is set to remove the first node from the list. Use <c> > </c> to step through the
+      removal process. Then press <c>Delete Front</c> and continue stepping to delete the second node. </p>
+    <interactive platform="javascript"
+                 design-width="1600"
+                 aspect="4:2">
+      <script type="module">
+      import { LinkedListSimple } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new LinkedListSimple({ initialData: [10, 6]});
+
+      anim.doDeleteFront();
+    </script>
+      <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+    </interactive>
+  </activity>
+
+  <p>Notice that we need a pointer to keep track of the node that we will be deleting after we
+    update head. If we just do <pf>head = head->next;</pf>, we will lose the address of the old first node and will
+    not be able to delete it:</p>
+
+  <figure>
+    <caption>The 6 node is unreachable after updating head.</caption>
+    <image source="images/linked-list/simple-linked-list-remove-bad-1.svg"
+           width="80%">
+      <shortdescription>
+        <p>Head points to a node containing 10 as does newNode. The 6 node is now unreachable.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>If we try to delete the head node without saving a pointer to the next node, we are in even
+    worse shape because we will lose the address of the 10 node:</p>
+
+  <figure>
+    <caption>The 10 node is unreachable after deleting the 6 node.</caption>
+    <image source="images/linked-list/simple-linked-list-remove-bad-2.svg"
+           width="80%">
+      <shortdescription>
+        <p>Head points to a bad address. The 10 node is now unreachable.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>So, as the animation shows, we need to: <ul>
+      <li>Save a pointer to the node we want to delete.</li>
+      <li>Update the head pointer to point to the next node.</li>
+      <li>Delete the old first node using the saved pointer.</li>
+    </ul>
+  </p>
+
+  <p>Right before deleting the old first node, the list looks like this:</p>
+
+  <figure>
+    <caption>toDelete points at the node we will delete. Head points to the next node.</caption>
+    <image source="images/linked-list/simple-linked-list-remove-good.svg"
+           width="80%">
+      <shortdescription>
+        <p>toDelete points at the node we will delete. Head points to the next node.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p> We then delete the node that toDelete is pointing at. Then, as we leave the <pf>removeFirst</pf>
+    function, the <pf>toDelete</pf> variable goes out of scope. As long as we have called <pf>delete toDelete;</pf> before
+    leaving the function, the memory used by the deleted node will also have been cleaned up. </p>
+
+  <p> This logic works for both the case where there are multiple nodes in the list and the case
+    where there is only one node in the list. If there is currently just one node in the list, head
+    will end up pointing to <pf>nullptr</pf>, which correctly indicates that the list is now empty. </p>
+
+  <figure>
+    <caption>A list with one node. <pf>head->next</pf> is <pf>nullptr</pf>. When our remove copies that to head as
+      node is deleted, the final state will be correct.</caption>
+    <image source="images/linked-list/simple-linked-list-insert-3.svg"
+           width="80%">
+      <shortdescription>
+        <p>A linked list with a single node. The head pointer points to the node containing 10, and
+          head->next is nullptr.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <exercise label="linked-lists_simple-linked-list-remove-start-ex-1"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Implement the <pf>removeStart</pf> function for our <pf>SimpleLinkedList</pf>.</p>
+    </statement>
+    <blocks>
+      <block order="4">
+          <cline><![CDATA[void SimpleLinkedList<T>::removeStart() {]]></cline>
+      </block>
+      <block order="5">
+          <cline><![CDATA[  ListNode<T>* toDelete = head;]]></cline>
+      </block>
+      <block order="3">
+          <cline><![CDATA[  head = head->next;]]></cline>
+      </block>
+      <block order="1">
+          <cline><![CDATA[  delete toDelete;]]></cline>
+      </block>
+      <block order="2">
+          <cline><![CDATA[}]]></cline>
+      </block>
+    </blocks>
+  </exercise>
+
+
+</section>

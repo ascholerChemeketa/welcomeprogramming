@@ -1,0 +1,206 @@
+<section xml:id="list-algorithms-iterators_recursive-delete"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Recursive Remove Last</title>
+
+  <p>
+    Next, let's consider the implementation of <pf>SimpleLinkedList::removeLast()</pf>. This function's job is simply to remove the last node in the list. This job will require us to traverse the entire list to find the last node. Once we find it, we need to delete it and set the <pf>next</pf> pointer of the previous node to <pf>nullptr</pf>.
+  </p>
+
+  <p>
+    This means we need to think carefully about our base case. There are three options we will consider:
+    <ul>
+      <li><pf>current == nullptr</pf></li>
+      <li><pf>current->next == nullptr</pf></li>
+      <li><pf>current->next->next == nullptr</pf></li>
+    </ul>
+  </p>
+
+  <p>
+    Starting with <pf>current == nullptr</pf>, it is clear we would have an issue. Detecting that we went <q>one step too far</q> means we missed our opportunity to delete the last node. For this algorithm, we need to stop earlier.
+  </p>
+
+  <p>
+    Next, consider <pf>current->next == nullptr</pf>. In this case, we are at the last node. However, we have no way to update the previous node's <pf>next</pf> pointer to <pf>nullptr</pf> because we don't have a pointer to the previous node:
+  </p>
+
+  <figure>
+    <caption>Base case of <pf>current->next == nullptr</pf></caption>
+    <image source="images/list-algorithms-iterators/removelast-issue.svg"  width="60%"
+           alt="The current pointer points at the last node in a linked list"/>
+  </figure>
+
+  <p>
+    When we used iteration, we designed the <pf>removeAt</pf> and <pf>insertAt</pf> to stop one earlier than the target index so that we could update the <pf>next</pf> pointer of whatever node needed to be changed. We could do the same thing here by using <pf>current->next->next == nullptr</pf> as our base case:
+  </p>
+  
+  <figure>
+    <caption>Base case of <pf>current->next->next == nullptr</pf></caption>
+    <image source="images/list-algorithms-iterators/removelast-next-next.svg"  width="60%"
+           alt="The current pointer points at the next to last node in a linked list"/>
+  </figure>
+
+  <p>
+    At this location, we could delete <pf>current->next</pf> and then set <pf>current->next</pf> to <pf>nullptr</pf>.
+  </p>
+
+  <p>
+    There is a downside to looking ahead two nodes like this. If the list has only one node, then <pf>current->next</pf> will be <pf>nullptr</pf>, and trying to access <pf>current->next->next</pf> will cause a runtime error. We could add a check in our member function to see if the list has only one node and handle that case separately. (In addition to the special case we will need for if the list is empty.) Fortunately, there is a way to avoid this extra check.
+  </p>
+
+  <p>
+    To avoid the extra case, we need to use <pf>current->next == nullptr</pf> as our base case. But we still need a way to update the previous node's <pf>next</pf> pointer. We can do that by having our recursive function function return a pointer to the caller. This pointer will be the updated pointer that the caller should use.
+  </p>
+  
+
+  <listing>
+  <program line-numbers="yes" highlight-lines="4,7,8">
+ListNode* recursiveRemoveLast(ListNode* current) {
+    if(current->next == nullptr) {
+        delete current;
+        return nullptr;  // I was deleted!
+    }
+    else {
+        current->next = recursiveRemoveLast(current->next);
+        return current;  // I'm still here!
+    }
+}
+
+void SimpleLinkedList::removeLast() {
+    if(head != nullptr)
+        head = recursiveRemoveLast(head);
+}
+  </program>
+</listing>
+
+  <p>
+    When a node is deleted, we will return <pf>nullptr</pf> to the caller. If a node is not deleted, we will return the original <pf>current</pf> pointer back to the caller. This way, each call can update its <pf>next</pf> pointer based on what the callee returns. In our list of {6, 10, 3}, we would produce the following series of calls:
+    <ul>
+      <li><pf>myList::removeLast()</pf> would call <pf>recursiveRemoveLast(head)</pf> (on the 6 node)</li>
+      <li><pf>recursiveRemoveLast({6 node})</pf> would call <pf>recursiveRemoveLast(current->next)</pf> (on the 10 node)</li>
+      <li><pf>recursiveRemoveLast({10 node})</pf> would call <pf>recursiveRemoveLast(current->next)</pf> (on the 3 node)</li>
+      <li><pf>recursiveRemoveLast({3 node})</pf> would see that <pf>current->next == nullptr</pf> and delete the <pf>current</pf> node, then return <pf>nullptr</pf> to its caller</li>
+      <li>
+        <pf>recursiveRemoveLast({10 node})</pf> would receive <pf>nullptr</pf> from its callee and set its <pf>next</pf> pointer to <pf>nullptr</pf>, then return its own <pf>current</pf> pointer (the 10 node) to its caller
+      </li>
+      <li>
+        <pf>recursiveRemoveLast({6 node})</pf> would receive the 10 node pointer from its callee and set its <pf>next</pf> pointer to that value, then return its own <pf>current</pf> pointer (the 6 node) to its caller
+        </li>
+      <li>
+        <pf>myList::removeLast()</pf> would receive the 6 node pointer from its callee and set the <pf>head</pf> pointer to that value
+      </li>
+    </ul>
+  </p>
+
+  <p>
+    In this implementation, each node is responsible for updating its own <pf>next</pf> pointer, but what it updates it to is <q>someone else's problem</q>. The next node in the chain will either let the caller know that it was deleted (by returning <pf>nullptr</pf>) or that it is still there (by returning its own pointer).
+  </p>
+
+  <p>
+    The key bits are shown in the listing below. On either line 4 or 8, we return the correct pointer. The caller stores whatever value that is into its own <pf>next</pf> pointer on line 7. Eventually, this propagates all the way back to the original call in <pf>removeLast</pf>, which updates the <pf>head</pf> pointer. Most of those assignments will not actually change anything. The only next pointer that should actually change is the one in the call that gets a <pf>nullptr</pf> back from its callee.
+  </p>
+
+  <listing>
+  <program line-numbers="yes" highlight-lines="4,7,8">
+ListNode* recursiveRemoveLast(ListNode* current) {
+    if(current->next == nullptr) {
+        delete current;
+        return nullptr;  // I was deleted!
+    }
+    else {
+        current->next = recursiveRemoveLast(current->next);
+        return current;  // I'm still here!
+    }
+}
+
+void SimpleLinkedList::removeLast() {
+    if(head != nullptr)
+        head = recursiveRemoveLast(head);
+}
+  </program>
+</listing>
+
+  <note>
+    <p>
+      This technique may feel a little mind bending at first. However, it is a common strategy in recursive algorithms where nodes need to be removed from a linked structure. In more complex structures, eliminating special cases can greatly simplify the code.
+    </p>
+    <p>
+      It is also very <q>true</q> to the philosophy of recursion. Each node is responsible for managing its own state and delegating the rest of the work to recursive calls. No one ever needs to inspect or change the thing that its <pf>next</pf> pointer points to.
+    </p>
+  </note>
+
+  <p>
+    The implementation below includes lots of debugging information about the memory addresses being returned and set. You can see that version of the code in <xref ref="RecursiveSimpleLinkedList-cxx-listing"/>
+  </p>
+
+  <listing>
+    <program label="list-algorithms-iterators_recursive-delete"
+             interactive="activecode"
+             compile-also="RecursiveSimpleLinkedList-cxx"
+             line-numbers="yes">
+<xi:include href="../../programs/list-algorithms-iterators/recursive-delete-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+
+  <exercise label="list-algorithms-iterators_recursive-remove-last-ex1"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  <statement>
+    <p>Implement a recursive <pf>insertLast</pf> function. It should add a new node with the given value to the end of the list using the strategy of returning the address of the updated list.</p>
+  </statement>
+  <blocks>
+    <block order="4">
+        <cline><![CDATA[ListNode* insertLast(ListNode* current, int value) {]]></cline>
+    </block>
+    <block order="1">
+        <choice correct="yes">
+          <cline><![CDATA[    if(current == nullptr) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    if(current->next == nullptr) {]]></cline>
+        </choice>
+    </block>
+    <block order="8">
+        <cline><![CDATA[        ListNode* temp = new ListNode(value);]]></cline>
+    </block>
+    <block order="10">
+        <choice correct="yes">
+          <cline><![CDATA[        return temp;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        return nullptr;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        return current;]]></cline>
+        </choice>
+    </block>
+    <block order="3">
+        <cline><![CDATA[    }]]></cline>
+        <cline><![CDATA[    else {]]></cline>
+    </block>
+    <block order="6">
+        <choice correct="yes">
+          <cline><![CDATA[        current->next = insertLast(current->next, value);]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        insertLast(current->next, value);]]></cline>
+        </choice>
+    </block>
+    <block order="9">
+        <choice correct="yes">
+          <cline><![CDATA[        return current;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        return nullptr;]]></cline>
+        </choice>
+    </block>
+    <block order="7">
+        <cline><![CDATA[    }]]></cline>
+        <cline><![CDATA[}]]></cline>
+    </block>
+  </blocks>
+</exercise>
+
+</section>

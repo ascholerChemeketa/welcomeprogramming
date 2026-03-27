@@ -1,0 +1,126 @@
+<section xml:id="list-algorithms-iterators_getting-iterators"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Getting Iterators</title>
+
+  <p>
+    An iterator only makes sense in the context of a specific collection. We can't just make a <pf>ListIterator</pf> out of thin air - we need to get it from a list. The list class will construct the iterator for us, initializing it with the right pointer, and then give it to us.</p>
+
+    <p>
+    Say we wanted to add an iterator to our <pf>SinglyLinkedList</pf> class. We would could add two functions like this:
+  </p>
+  
+  <listing>
+    <program>
+      <![CDATA[ 
+    template<typename T>
+    class SinglyLinkedList {
+    ...
+    public:
+      ListIterator<T> begin() {
+          // Return an iterator pointing to the first node
+          return ListIterator<T>(head);
+      }
+
+      ListIterator<T> end() {
+          // Return an iterator representing "one past the end"
+          return ListIterator<T>(nullptr);
+      }
+      ...
+    };
+      ]]>
+    </program>
+  </listing>
+
+  <p>
+    The <pf>.begin()</pf> function is supposed to return an iterator that points to the first element in the list. It does this by constructing a <pf>ListIterator</pf> initialized with the <pf>head</pf> pointer of the list. The <pf>.end()</pf> function returns an iterator that represents the position just past the last element in the list. In our implementation, if you have a pointer that is at the last node, and then advance it to the <pf>next</pf> address, it will become <pf>nullptr</pf>. So we can represent the "one past the end" position with an iterator initialized with <pf>nullptr</pf>.
+  </p>
+
+  <insight>
+    <p>An end iterator is always represents the location you end up at if you go <q>one step too far</q> while iterating through a collection.</p>
+  </insight>
+
+  <p>
+    Now, our loop to print out all the elements in the list is complete. <pf>myList.begin()</pf> gives us an iterator that holds a pointer to the head node. We will keep advancing that iterator until it reports that it is equal to <pf>myList.end()</pf>, which is the iterator holding <pf>nullptr</pf>. 
+  </p>
+
+  <program>
+    <![CDATA[
+    for(ListIterator<int> it = myList.begin(); it != myList.end(); ++it) {
+        cout << *it << " ";
+    }
+    ]]>
+  </program>
+
+
+  <exercise label="list-algorithms-iterators_getting-iterators-ex-1">
+    <statement>
+      <p>
+        Imagine we are implementing an iterator for an <pf>ArrayList&lt;T></pf>. Imagine our ArrayList is defined like this:
+      </p>
+
+      <program>
+        <![CDATA[
+template <typename T>
+class ArrayList {
+private:
+    T* data;        // pointer to the array
+    int size;       // logical size
+    int capacity;   // array size
+public:
+    ArrayListIterator<T> begin();
+    ArrayListIterator<T> end();
+    ...
+};
+        ]]>
+      </program>
+      <p>What should the <pf>end()</pf> function return?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <program>
+              ArrayListIterator&lt;T>(data, size);
+          </program>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <program>
+              ArrayListIterator&lt;T>(data, capacity);
+          </program>
+        </statement>
+        <feedback>
+          <p>
+            The end should be right after the last valid element. Capacity does not necessarily reflect where the last element is.
+          </p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <program>
+              ArrayListIterator&lt;T>(data, capacity + 1);
+          </program>
+        </statement>
+        <feedback>
+          <p>
+            The end should be right after the last valid element. Capacity does not necessarily reflect where the last element is.
+          </p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <program>
+              ArrayListIterator&lt;T>(data, size + 1);
+          </program>
+        </statement>
+        <feedback>
+          <p>
+            If the size is 5, the valid indices are 0 through 4. End should be at index 5.
+            </p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

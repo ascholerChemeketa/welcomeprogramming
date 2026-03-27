@@ -1,0 +1,275 @@
+<section xml:id="linked-lists_list-nodes"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>List Nodes</title>
+
+  <p> The alternate implementation of a <term>list</term> that we will explore is known as a <term>linked
+    list</term>. A linked list is made up of a series of <term>nodes</term>. Each node contains a
+    value and a pointer to the next node in the list. To make a list, we will chain together a
+    series of nodes, with each node pointing to the next one. </p>
+
+  <p> A simple chain of nodes to store the list of values 12, 6, and 10 would look like this: </p>
+
+  <figure>
+    <caption>A basic Linked List</caption>
+    <image source="images/linked-list/list-nodes-1.svg"
+           width="40%">
+      <shortdescription>
+        <p>Three nodes. The first has data of 12 and points to the second node, which has data of 6
+          and points to the third node, which has data of 10 and points to nothing.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <insight>
+    <p>In a memory diagram, each node is a box containing two parts: the data and the next pointer.
+      The next pointer stores the address of the next node in the list, or nullptr if it is the last
+      node.</p>
+    <p>We draw the pointer as an arrow from one node to the next, but in memory, it is just stored
+      as a memory address.</p>
+  </insight>
+
+
+  <p> Each node is a separate object in memory. And we make no assumptions that the nodes are stored
+    contiguously, or even in any particular order, in memory. The only connection between the nodes,
+    what makes them into a list, are the pointers from one node to the next. </p>
+
+  <p>A <pf>ListNode</pf> that was only capable of storing an integer value and a pointer to the next node
+    could be defined like this:</p>
+
+  <program>
+<xi:include href="../../programs/linked-lists/list-node-int.cpp" parse="text"/>
+  </program>
+
+  <p>Note that each node (implemented as a struct to avoid public/private access control) has a
+    constructor that initializes its value. The next pointer is initialized to <pf>nullptr</pf> by default.
+    Which means the node is not connected to anything.</p>
+
+  <p> To make a list node, we can use the constructor to create a new node with a given value. When
+    we do so, we will always allocate the node on the heap using <pf>new</pf>, which means we need to
+    use a pointer to keep track of where the node is stored. Here is how we could create three nodes
+    to store the values 12, 6, and 10: </p>
+
+  <program>
+ListNode* node1 = new ListNode(12);
+ListNode* node2 = new ListNode(6);
+ListNode* node3 = new ListNode(10);
+  </program>
+
+  <warning>
+    <p>If we wanted to, we could allocate a node on the stack instead of the heap. However, doing so
+      would limit the node's lifetime to the scope in which it was created, which is usually not
+      what we want for linked lists.</p>
+    <p>We will always allocate nodes on the heap.</p>
+  </warning>
+
+  <p> At this point, we have the stack based pointer variables <pf>node1</pf>, <pf>node2</pf>, and <pf>node3</pf>
+    that point to the three nodes on the heap: </p>
+
+  <figure>
+    <caption>Three List Nodes</caption>
+    <image source="images/linked-list/list-nodes-2.svg"
+           width="80%">
+      <shortdescription>
+        <p>Three List Node pointer variables on the stack. node1 points at a node with 12. node2
+          points at a node with 6. node3 points at a node with 10.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p> The nodes are not yet connected into a list. To do that, we need to set the <pf>next</pf> pointer
+    of each node to point to the next node in the list. We can do that like this: </p>
+
+  <program>
+node1->next = node2;
+node2->next = node3;
+  </program>
+
+  <p> Note that <pf>node1</pf> is not storing a node. It stores the memory address of a node. To access
+    the <pf>next</pf> pointer of the node that <pf>node1</pf> points to, we use the arrow operator to say <q>go
+    to the thing node1 points at and access the next member there</q>. We want to set <pf>node1->next</pf> to
+    point to the node that has the value 6, which is the node that <pf>node2</pf> points to. So we set <pf>node1->next = node2;</pf>,
+    which says <q>go to the node that node1 points to and set its next pointer to the memory address
+    stored in node2</q>. </p>
+
+  <warning>
+    <p>It is critical to remember that a pointer always just stores a memory address.</p>
+    <p>When we do something like <pf>node1->next = node2;</pf>, we are not copying a node. We are only copying the
+      memory address stored in <pf>node2</pf> into the <pf>next</pf> pointer of the node that <pf>node1</pf>
+      points to.</p>
+  </warning>
+
+  <p> After connecting the nodes, our linked list looks like this: </p>
+
+
+  <figure xml:id="linked-lists_list-nodes-figure-3">
+    <caption>Three List Nodes</caption>
+    <image source="images/linked-list/list-nodes-3.svg"
+           width="80%">
+      <shortdescription>
+        <p>Three List Node pointer variables on the stack. node1 points at a node with 12. node2
+          points at a node with 6. node3 points at a node with 10. node1's next pointer points the
+          node with 6o, and node2's next pointer points to the node with 10.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p> At this point, we have a very simply linked list made up of three nodes storing the list {12,
+    6, 10}. The list starts at the node that <pf>node1</pf> points to. From there, we can follow the <pf>next</pf>
+    pointers to get to the other nodes in the list. Here is a program that prints out the values in
+    the list by following the pointers from one node to the next: </p>
+
+  <program label="linked-lists_list-nodes-program-1"
+           interactive="activecode"
+           line-numbers="yes"
+           highlight-lines="28-30">
+<xi:include href="../../programs/linked-lists/list-node-int-2.cpp" parse="text"/>
+  </program>
+
+  <p> Notice that to access the data we are only relying on the <pf>node1</pf> pointer variable. From
+    there, we follow the <pf>next</pf> pointers to get to the other nodes in the list. <pf>node1->next->next->data</pf> says
+    something like: <ul>
+      <li>Go to the node that <pf>node1</pf> points to...</li>
+      <li>...then go to the node that its <pf>next</pf> pointer points to...</li>
+      <li>...then go to the node that its <pf>next</pf> pointer points to...</li>
+      <li>...then get the <pf>data</pf> value stored there.</li>
+    </ul> If you trace these steps
+    through <xref ref="linked-lists_list-nodes-figure-3"/>, you can see that this gets us to the
+    value 10. </p>
+
+  <insight>
+    <p>Every time we see <pf>-></pf> we should be following an arrow to a new node in the diagram.</p>
+  </insight>
+
+  <p> Do you notice something we have not taken care of yet? We allocated three nodes on the heap
+    using <pf>new</pf>, but we have not deleted them. (The program above was set to run without the
+    address sanitizer introduced in <xref ref="memory-management_detecting-leaks"/>.) So our program
+    has memory leaks. To fix that, we need to make sure to delete each node when we are done with
+    it. Our program should end with something like: </p>
+
+  <program>
+    ...
+    delete node1;  // delete the node that node1 points to
+    delete node2;  // delete the node that node2 points to
+    delete node3;  // delete the node that node3 points to
+}  //end of main
+  </program>
+
+  <p>Because a linked list allocates each node as a separate allocation on the heap, we need to also
+    delete each node individually.</p>
+
+  <exercise label="linked-lists_list-nodes_ex1">
+    <statement>
+      <p>What best describes the contents of <pf>node1</pf> in the snippet below?</p>
+      <program>
+ListNode* node1 = new ListNode(12);
+      </program>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>The memory address of a ListNode</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>A ListNode</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>An integer</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The memory address of an integer</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="linked-lists_list-nodes_ex2">
+    <statement>
+      <p>Given this code:</p>
+      <program>
+ListNode* x = new ListNode(2);
+ListNode* y = new ListNode(1);
+      </program>
+      <p> What would you write to connect the y node to the x node so that the list would be {1, 2}? </p>
+      <p>
+        <fillin mode="string"
+                answer="y->next = x;"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>y\s*->\s*next\s*=\s*x;?</strcmp>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>
+            <p>You will need to set the <pf>next</pf> pointer of the y node to point to the x node.</p>
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+    </exercise>
+
+    <exercise label="linked-lists_list-nodes_ex3">
+      <statement>
+      <p>Given this code:</p>
+      <program>
+ListNode* a = new ListNode(10);
+ListNode* b = new ListNode(20);
+ListNode* c = new ListNode(30);
+c->next = b;
+b->next = a;
+      </program>
+        <p>How could we access the value 10? Select all options that would work.</p>
+      </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>
+            <p><pf>a->data</pf></p>
+          </statement>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p><pf>b->next->data</pf></p>
+          </statement>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p><pf>c->next->next->data</pf></p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p><pf>b->data</pf></p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p><pf>a->next->data</pf></p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p><pf>c->next->data</pf></p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p><pf>b->next->next->data</pf></p>
+          </statement>
+        </choice>
+      </choices>
+    </exercise>
+
+  
+
+
+
+</section>

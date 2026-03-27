@@ -1,0 +1,80 @@
+<section xml:id="graphs_representation"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Graph Abstract Data Type</title>
+
+  <p> To represent a graph, we typically define an abstract data type (ADT) that supports operations
+    like adding and removing vertices and edges, checking if a vertex or edge exists, and retrieving
+    neighbors of a vertex. </p>
+
+  <p> We will need to be able to identify vertices and edges in our graph representation. In the
+    examples in the previous section, we used strings to identify vertices (e.g. "Anna", "Ben",
+    "Charlie") and edges (e.g. "(Anna, Ben)"). But it could be the case that our vertices are
+    complex objects. Perhaps instead of the string "Anna", we have a <c>Person</c> object that contains
+    Anna's name, age, and other information. In that situation, we might want to be able to ask the
+    graph to add and manage a vertex that is a complex <c>Person</c> object instead of a string. </p>
+
+  <p> Thinking in the other direction, we might want to simplify the way we identify vertices and
+    edges. For example, instead of using strings to identify vertices, we could use integers. We
+    could assign the integer 0 to Anna, 1 to Ben, and 2 to Charlie. We could then represent the edge
+    between Anna and Ben as the pair of integers (0, 1). Working with integers would almost
+    certainly be more efficient than working with strings or complex objects. But it would add
+    complexity. We would need to maintain a mapping between integers and the original identifiers,
+    and we would need to be careful to ensure that we don't accidentally reuse integers for
+    different vertices. </p>
+
+  <p> We will punt on the issue while defining our graph ADT. We will assume that we have some type <c>T</c>
+    that we can use to identify vertices and edges. It could be a string, an integer, or a complex
+    object. If a particular implementation wants to use some internal mapping to integers, it can do
+    so transparently to the user of the graph ADT. </p>
+
+  <p> Given this, a simple API might look like this: </p>
+
+  <program>
+    <![CDATA[
+class Graph {
+public:
+    void addVertex(T vertex);
+    void removeVertex(T vertex);
+    bool hasVertex(T vertex);
+    void addEdge(T source, T destination, int weight);
+    void removeEdge(T source, T destination);
+    bool hasEdge(T source, T destination);
+    int getEdgeWeight(T source, T destination);
+    list<T> getNeighbors(T vertex);
+}
+    ]]>
+  </program>
+
+  <p> When we think about how to implement this ADT, we might look at a graph like the one below and
+    start thinking about implementing vertices as objects and edges as pointers, much like we did
+    with linked lists and trees. This is termed the <term>logical representation</term> of a graph.
+    It is a natural way to think about graphs, and it is how we often represent them visually. </p>
+
+  <figure>
+    <caption>Driving distances : logical representation.</caption>
+    <image source="images/graphs/graphs-intro-1"
+           width="35%">
+      <shortdescription>
+        <p> Nodes for Portland, Salem, Eugene, and Bend. Portland is connected to Salem (47 miles)
+          and Bend (163 miles). Salem is connected to Eugene (66 miles) and Bend (132 miles). Eugene
+          is connected to Bend (130 miles). </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p> However, if we think about trying to implement a graph in that way, we will quickly run into
+    problems. Consider the function <pf>hasVertex</pf>. If our graph class merely had a pointer to a single
+    vertex like the root of a tree, and we relied on following pointers to get to other vertices,
+    there would be no efficient way to check if a vertex exists. We would have to start from our one
+    reference point and explore the graph by following pointers until we either found the vertex or
+    exhausted all possibilities. </p>
+
+  <p> Many graph algorithms require us to be able to quickly check if a vertex exists, or to quickly
+    get the neighbors of a vertex. If we implemented our graph with vertices as objects and edges as
+    pointers, we would not be able to do those things efficiently. So we will generally represent
+    graphs in code with something that directly models the <term>logical representation</term> of a
+    graph. Instead, we will typically use a data structure that allows us to directly access
+    vertices and their neighbors without having to follow pointers through the graph. </p>
+
+</section>

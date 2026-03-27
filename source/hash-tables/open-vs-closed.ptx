@@ -1,0 +1,72 @@
+<section xml:id="hash-tables_open-hashing"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Open Hashing</title>
+
+  <p>
+    Up until now, we have been focusing on <term>closed hashing</term> or <term>open addressing</term>, where we are locked into storing items within the array itself. Instead of doing this, we can store items in a separate data structure and use the hash function to determine which data structure to store each item in. This approach is known as <term>open hashing</term> or <term>separate chaining</term>. 
+  </p>
+
+  <p>
+    Although we can use other data structures, the simplest way to implement open hashing is to store a linked list of items in each cell of the array. Linked lists have the advantage of taking up minimal space while they are empty, and can grow to accommodate as many items as we need without needing to worry about resizing.
+  </p>
+
+  <figure>
+    <caption>A hash table using open hashing stores a linked list at each cell.</caption>
+    <image source="images/hash-tables/open-hashing.svg" width="100%">
+      <shortdescription>
+        <p>
+          An array where some cells are null pointers and some cells contain a pointer to one or more items in a linked list.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <insight>
+    <p>
+      The names are a bit confusing. Open and closed hashing refer to whether we are <q>open</q> or <q>closed</q> to storing items outside of the array. In closed hashing, we are closed off from storing items outside of the array, and in open hashing, we are open to storing items outside of the array.
+    </p>
+    <p>
+      Open addressing means we are <q>open</q> to looking in other addresses in the array if there is a collision.
+    </p>
+  </insight>
+
+  <p>
+    This approach means we no longer worry about probing between cells in the array. When we want to insert an item, we will compute its hash to determine which cell to store it in, and then we will add it to the linked list at that cell. To find an item, we again compute its hash and then search through the linked list at the corresponding cell.
+  </p>
+
+  <activity>
+    <title>Open Hash Table</title>
+    <p>A hash table using open hashing is set to insert 22. Use <c>></c> to step through the process.</p>
+    <interactive platform="javascript"
+                 design-width="1600"
+                 aspect="4:2">
+      <script type="module">
+      import { OpenHash } from "./external/interactives/data-structures/entry.js";
+
+
+      let anim = new OpenHash({zoom: "1x", initialData: [32, 9, 7, 14, 12, 16, 18, 31, ]});
+      anim.doInsert(22);
+    </script>
+      <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+    </interactive>
+  </activity>
+  
+  <p>
+    When removing items from an open hash table, we can simply remove the item from the linked list at the corresponding cell. We do not have to worry about leaving behind tombstones. (You can try it out in the animation above.)
+  </p>
+
+  <p>
+    When using open hashing, we don't have to worry about keeping the load factor significantly below 1 because we can't build up clusters of occupied cells in the array. We can even have a load factor greater than 1, and still have efficient operations as long as the data is relatively randomly distributed across the cells. (The average number of items in each cell will be equal to the load factor, so if the load factor is 2, we will have an average of 2 items in each cell.)
+  </p>
+
+  <p>
+    The expected work to find an item in an open hash table is proportional to the load factor, <m>O(n/m)</m> where <m>n</m> is the number of items and <m>m</m> is the number of cells in the array. If <m>m</m> is fixed at a value like 100, then the expected work is <m>O(n / 100)</m> which is still <m>O(n)</m>. On the other hand, if <m>m</m> grows in proportion to <m>n</m>, then <m>n / m</m> will remain below some constant. For example, if we grow the table so that <m>n</m> is never more than <m>2m</m>, then the expected work will be <m>O(2m / m) = O(2)</m>, which is a constant.
+  </p>
+
+  <p>
+    So, we will want to grow the table once the load factor hits some constant threshold. And when we grow the table, we will still need to rehash all of the items and reinsert them into the new table, just like we did with closed hashing.
+  </p>
+
+
+</section>

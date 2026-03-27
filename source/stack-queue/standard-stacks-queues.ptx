@@ -1,0 +1,95 @@
+<section xml:id="linked-lists_standard-stacks-queues"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Standard Stacks, Queues and Deques</title>
+
+  <p>
+    We already encountered the <pf>std::queue</pf> in <xref ref="practical-programming_queue"/>. And we used <pf>std::stack</pf> (without discussing it much) in <xref ref="stack-queue_lifo"/>. Both of these classes
+    are defined as <term>container adapters</term>. They <q>adapt</q> an underlying container (like <pf>std::list</pf>) to provide the stack or queue interface.
+  </p>
+
+  <p>
+    The full prototype for <pf>std::stack</pf> is:
+  </p>
+
+  <program>
+    <![CDATA[
+template<
+    class T,
+    class Container = std::deque<T>
+> class queue;
+    ]]>
+  </program>
+
+  <p>There are two types we can specify while making a <pf>std::stack</pf>. The first is the type of item the stack will store <pf>T</pf>. The other is the kind of underlying <pf>Container</pf> it will use to store those items. For example, to declare a stack of strings that uses a <pf>std::vector</pf> as the underlying container, you would write:</p>
+
+  <program>
+    <![CDATA[
+stack<string, vector<string>> stringStack;
+    ]]>
+  </program>
+
+  <p>The same is true for <pf>std::queue</pf>. We could specify that we want to use a <pf>std::list</pf> as the underlying container for a queue of integers like this:</p>
+
+  <program>
+    <![CDATA[
+queue<int, list<int>> intQueue;
+    ]]>
+  </program>
+
+  <p>
+    The container adapter classes require that the underlying container support certain operations. For both stacks and queues, the underlying container must support adding and removing items from the back of the container. For queues, the underlying container must also support accessing the front item.
+  </p>
+
+  <p>That means some combinations of container adapter and underlying container won't work.
+    <ul>
+      <li>You can't use a <pf>std::vector</pf> as the underlying container for a <pf>std::queue</pf> because <pf>std::vector</pf> does not support adding/removing the front item efficiently.</li>
+      <li>You can't use a <pf>std::forward_list</pf> as the underlying container for either a <pf>std::stack</pf> or a <pf>std::queue</pf> because <pf>std::forward_list</pf> does not support adding/removing items from the back of the container.</li>
+    </ul>
+  </p>
+
+  <p>
+    If you do not specify an underlying container type when declaring a stack or queue, the default container will be used. The default underlying container for both <pf>std::stack</pf> and <pf>std::queue</pf> is <pf>std::deque</pf>. So what is a <pf>std::deque</pf>?
+  </p>
+
+  <p>
+    A <term>deque</term> (pronounced <q>deck</q>) is a <q>double-ended queue</q>. It is a sequence container that tries to provide some of the advantages of both linked lists and array based lists. It allows adding and removing items from both the front and the back of the container efficiently (<m>O(1)</m>) and allows for efficient random access to elements (<pf>.at()</pf> is also <m>O(1)</m>).
+  </p>
+
+  <p>
+    Because it supports efficient addition and removal at both ends, it can be used as the underlying container for both stacks and queues. But it can also be used directly as a double-ended queue data structure. A <pf>std::deque</pf> provides <pf>.push_front()</pf> and <pf>.pop_front()</pf> methods to add and remove items from the front of the deque, in addition to the usual <pf>.push_back()</pf> and <pf>.pop_back()</pf> methods to add and remove items from the back.
+  </p>
+
+  <p>The implementation of a <pf>std::deque</pf> typically involves storing items in fixed-size blocks, with the deque maintaining a map of pointers to these blocks:</p>
+
+  <figure>
+    <caption>A standard deque. Items in the deque are stored in fixed-size blocks, and the deque maintains a map of pointers to these blocks.</caption>
+    <image source="images/stack-queue/deque.svg">
+      <shortdescription>
+        <p>The deque consists of a map of pointers to fixed-size blocks, allowing efficient addition and removal at both ends.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    This block-based structure allows the deque to efficiently add and remove items from both ends. When items are added or removed, they are added to the block closest to the end being modified. If a block becomes full or empty, the deque can allocate or deallocate blocks as needed.</p>
+    
+  <p>
+    If we ever reach the limits of the current map of blocks, the deque can create a new, larger map and copy the pointers to the existing blocks into the new map. This resize only requires copying pointers, not the actual data items, so it is relatively efficient. It also means that the actual data items in the blocks remain in the same place in memory, so any existing references or pointers to those items remain valid.
+  </p>
+
+  <p>
+    Note that in this structure you can figure out the exact location of any logical index within the deque by calculating which block it belongs to and the index within that block. For example, if we know that the blocks have a 
+  size of 3, and the first block in use is at index 2 in the map, and the first index in use in that block is 1, then we can calculate that logical index 0 is at block 2, index 1; logical index 1 is at block 2, index 2; logical index 2 is at block 3, index 0; logical index 3 is at block 3, index 1; and so on.
+  </p>
+
+  <p>
+     You can find documentation for these containers on cppreference.com:
+    <ul>
+      <li><url href="https://en.cppreference.com/w/cpp/container/stack">std::stack documentation</url></li>
+      <li><url href="https://en.cppreference.com/w/cpp/container/queue">std::queue documentation</url></li>
+      <li><url href="https://en.cppreference.com/w/cpp/container/deque">std::deque documentation</url></li>
+    </ul>
+  </p>
+
+</section>

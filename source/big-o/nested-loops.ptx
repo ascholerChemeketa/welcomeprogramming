@@ -128,7 +128,7 @@
     <p>Thus the entire nested loop is <m>O(\log n) \cdot (O(n) + O(1)) = O(n \log n) + O(\log n)</m>.
       The dominant term is <m>O(n \log n)</m>, so the entire nested loop is <m>O(n \log n)</m>.</p>
 
-    <p>Again, we could have simplified the contents of the outer loop first. It does <m>O(n) + O(1)</m>,
+    <p>Again, we could have simplified the work of the outer loop before considering it. Each iteration does <m>O(n) + O(1)</m>,
       but that is really just <m>O(n)</m>.</p>
 
     <program>

@@ -1,0 +1,165 @@
+<section xml:id="linked-lists_simple-linked-list-remove-at"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Remove At an Index</title>
+  
+  <p>Say we want to remove the third element from our linked list (index 2). Based on the previous section, we might start by making a current pointer that points at the head of the list and then advancing it 2 times.</p>
+
+  <p>You would end up in a situation like the one shown below:</p>
+
+    <figure>
+    <caption>The current pointer started at head and advanced twice.</caption>
+    <image source="images/linked-list/simple-linked-list-insert-at-1.png"
+           width="50%">
+      <shortdescription>
+        <p>The linked list consists of 3, 15, 8, and 12. The current pointer started at the node containing 3 and advanced twice, so it is now pointing at the node containing 8.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    Now imagine what needs to happen to successfully remove the node containing 8. We need to delete the node that contains 8. But we also need to change the next pointer in the node containing 15 so that it points to the node containing 12. That way the list remains connected after we delete the 8 node.
+  </p>
+
+  <p>
+    But how do we get access to the node containing 15? Our current pointer is pointing at the 8 node, and we have no way to get back to the previous node in the list! Our SimpleLinkedList is what is referred to as a <term>singly linked list</term> - each node only has a pointer to the next node in the list, and no pointer to the previous node.
+  </p>
+
+  <insight>
+    <p>In a singly linked list, there is no way to go backwards.</p>
+  </insight>
+  
+  <p>
+    As with storing the size of the list, adding pointers to previous nodes would make certain operations easier, but it would also add complexity and overhead to every operation that modifies the list. We will explore doing so later. For now, we will stick with a singly linked list and figure out how to work within its limitations.
+  </p>
+
+  <p>
+    Although we can't reach back to access the previous node, it is easy to reach forward. If we advance our current pointer one less time, it will be pointing at the node before the one we want to remove (15 in this list). From there, we can access the node we want to remove (the 8 node) via the next pointer.
+  </p>
+
+  <p>So, to add or remove an element at a particular index, we need to stop our current pointer at the node before the one we want to add or remove.</p>
+
+  <activity>
+    <title>Linked List Remove At</title>
+    <p>
+      The animation has already created a current pointer and advanced it once. Try using <c>Delete Next</c> to remove the node at index 2 (the node containing 8).
+    </p>
+    <interactive platform="javascript" 
+                design-width="1600"
+                 aspect="4:2.5">
+    <script type="module">
+      import { LinkedListSimple } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new LinkedListSimple({ initialData: [12, 8, 15, 3] , speed: "Off" });
+      anim.doMakeCurrentPointer();
+      anim.animationManager.skipForward();
+      anim.doAdvanceCurrent();
+      anim.animationManager.skipForward();
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <p>
+    In code, this would look something like this:
+  </p>
+
+  <listing>
+    <title>SimpleLinkedList&lt;T>::removeAt (no bounds checking or special cases)</title>
+  <program>
+    <![CDATA[
+  void SimpleLinkedList<T>::removeAt(int index) {
+      ListNode<T>* current = head;
+      // Move current to the node before the desired index
+      for(int i = 0; i < index - 1; i++) {
+          current = current->next;
+      }
+      ListNode<T>* toDelete = current->next;
+      current->next = toDelete->next;
+      delete toDelete;
+  }
+    ]]>
+  </program>
+  </listing>
+
+  <p>
+    This code assumes that the index is valid. In a real implementation, we would need to add checks for negative indices and indices that are too large. (For the rest of the SimpleLinkedList methods, we will omit bounds checking for simplicity.)
+  </p>
+
+  <p>There is another issue to consider for our <pf>removeAt</pf>: what if we want to remove the first node (at index 0)?</p>
+  
+  <p>Our logic assumes we will be modifying the node before the one we want to remove, but there is no node before the first node! The first node is a special case<mdash/>it is tracked by the head pointer instead of the next pointer of a previous node.</p>
+
+  <p>Fortunately, we already have a function <pf>removeFirst</pf> that handles removing the first node. So, if the index is 0, we can just call <pf>removeFirst</pf>.</p>
+
+  
+  <listing>
+    <title>SimpleLinkedList&lt;T>::removeAt (no bounds checking)</title>
+  <program line-numbers="yes" highlight-lines="2-5">
+    <![CDATA[
+  void SimpleLinkedList<T>::removeAt(int index) {
+      if(index == 0) {
+          removeFirst();
+          return;
+      }
+      ListNode<T>* current = head;
+      // Move current to the node before the desired index
+      for(int i = 0; i < index - 1; i++) {
+          current = current->next;
+      }
+      ListNode<T>* toDelete = current->next;
+      current->next = toDelete->next;
+      delete toDelete;
+  }
+    ]]>
+  </program>
+  </listing>
+
+<exercise label="linked-lists_simple-linked-list-remove-at_ex-1"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  <statement>
+  <p>Instead of advancing the current pointer index - 1 times, we can use a trailing pointer that is always one node behind the current pointer. Design the logic for this approach.</p>
+  </statement>
+  <blocks>
+    <block order="4" name="a" depends="">
+        <cline><![CDATA[void SimpleLinkedList<T>::removeAt(int index) {]]></cline>
+    </block>
+    <block order="5" name="b" depends="a">
+        <cline><![CDATA[    if(index == 0) {]]></cline>
+        <cline><![CDATA[        removeFirst();]]></cline>
+        <cline><![CDATA[        return;]]></cline>
+        <cline><![CDATA[    }]]></cline>
+    </block>
+    <block order="6" name="c" depends="b">
+        <cline><![CDATA[    ListNode<T>* current = head;]]></cline>
+        <cline><![CDATA[    ListNode<T>* previous = nullptr;]]></cline>
+    </block>
+    <block order="3" name="d" depends="">
+        <cline><![CDATA[    for(int i = 0; i < index; i++) {]]></cline>
+    </block>
+    <block order="2" name="e" depends="d">
+        <cline><![CDATA[        previous = current;]]></cline>
+    </block>
+    <block order="7" name="f" depends="e">
+        <cline><![CDATA[        current = current->next;]]></cline>
+    </block>
+    <block order="8" name="g" depends="f">
+        <cline><![CDATA[    } // end of loop]]></cline>
+    </block>
+    <block order="1" name="h" depends="g">
+        <cline><![CDATA[    previous->next = current->next;]]></cline>
+    </block>
+    <block order="9" name="i" depends="h">
+        <cline><![CDATA[    delete current;]]></cline>
+    </block>
+    <block order="10" name="j" depends="i">
+        <cline><![CDATA[} // end of function]]></cline>
+    </block>
+  </blocks>
+</exercise>
+
+
+
+</section>

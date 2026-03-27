@@ -1,0 +1,146 @@
+<section xml:id="balanced-trees_avl-performance"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>AVL Tree Guarantees</title>
+
+  <subsection>
+    <title>Do Rotations Work?</title>
+  <p>
+    First, we should convince ourselves that a rotation is sufficient to restore balance when we find a node with a balance factor of 2 or -2.</p>
+
+  <p>
+    The rotation will update the height of the nodes involved in the rotation, but not subtrees below the nodes being rotated (pivot and its longer child). When we start the process, one subtree is taller than the other by 2. That taller subtree is the one that will rotate up. As we do so, it will lose one height (because it is losing the node that was at the top). Meanwhile, the other subtree (the shorter one) will gain one height because the pivot node is being rotated down into it. The net effect is that the heights of the two subtrees will now be equal, restoring balance.
+  </p>
+  
+  </subsection>
+
+  <subsection>
+    <title>Structure of a Worst-Case AVL Tree</title>
+
+  <p>
+    Even if we use rotations to fix trees with a balance factor of 2 or -2, we do allow a balance factor of -1, 1 at each node. So what kind of performance guarantees can we make given that we won't always have perfectly balanced trees?
+  </p>
+  
+  <p>To answer this, we depict the minimum number of
+    nodes to construct trees of height 0, 1, 2, and 3 in <xref ref="fig-worstavl"/>. In the diagram,
+    the most left-heavy tree possible is constructed for each height. Take a minute to convince yourself that each tree is a legal AVL tree and that removing any node on the right side of a subtree would make it invalid.</p>
+
+  <figure xml:id="fig-worstavl">
+    <caption>Worst-Case Left-Heavy AVL Trees.</caption>
+    <image source="images/balanced-trees/avl-performance-1.svg" width="100%">
+      <shortdescription>
+        <p>Image showing the most unbalanced left-heavy AVL trees for heights 0, 1, 2, and 3,
+          adhering to the AVL balance factor rules. Each tree is labeled with nodes and balance
+          factors: - For height 0, the tree contains a single node "A" with a balance factor of 0. -
+          For height 1, the tree has "B" as the root with a balance factor of 1 and "A" as its left
+          child with a balance factor of 0. - For height 2, the tree has "C" as the root with a
+          balance factor of 1. "B" is the left child of "C" with a balance factor of 1, and "A" is
+          the left child of "B" with a balance factor of 0. "D" is the right child of "C" with a
+          balance factor of 0. - For height 3, the tree has "E" as the root with a balance factor of
+          1. "C" is the left child of "E" with a balance factor of 1. "B" is the left child of "C"
+          with a balance factor of 1, and "A" is the left child of "B" with a balance factor of 0.
+          "D" is the right child of "C" with a balance factor of 0. "G" is the right child of "E"
+          with a balance factor of 1, and "F" is the left child of "G" with a balance factor of 0.
+          This sequence demonstrates the maximum permissible left-heavy configurations in AVL trees
+          while maintaining balance factors of -1, 0, or 1 at all nodes. </p>
+      </shortdescription>
+
+    </image>
+  </figure>
+
+  <p>The number of nodes in each tree is summarized in the table below.</p>
+
+  <table>
+    <title>Number of Nodes in Worst-Case AVL Trees</title>
+  <tabular row-headers="yes">
+    <row>
+      <cell>Height</cell>
+      <cell>0</cell>
+      <cell>1</cell>
+      <cell>2</cell>
+      <cell>3</cell>
+      <cell>4</cell>
+    </row>
+    <row>
+      <cell>Number of Nodes</cell>
+      <cell>1</cell>
+      <cell>2</cell>
+      <cell>4</cell>
+      <cell>7</cell>
+      <cell>12</cell>
+    </row>
+  </tabular>
+  </table>
+
+  <p>If you look carefully at the trees, you can see that each tree is constructed by making a root node and then attaching the worst-case tree of height h-1 as the left child and the worst-case tree of height h-2 as the right child. (i.e. The height 3 tree has a height 2 tree on its left and a height 1 tree on its right.)</p>
+
+  <p>
+    This means that the number of nodes in a worst-case AVL tree of height <m>h</m> (<m>N_h</m>) can be expressed using the recurrence:
+    <me>N_h = 1 + N_{h-1} + N_{h-2}</me>.
+  </p>
+
+  <p>
+    We can see that this is true of the values in the table. For instance, for height 3 we have <m>N_3 = 1 + N_2 + N_1 = 1 + 4 + 2 = 7</m>. For height 4 we have <m>N_4 = 1 + N_3 + N_2 = 1 + 7 + 4 = 12</m>.
+  </p>
+
+  </subsection>
+
+  <subsection>
+    <title>Height of an AVL Tree - Informal</title>
+
+    <p>
+      The number of nodes in a worst-case AVL tree of height <m>h</m> can be expressed using the recurrence <me>N_h = 1 + N_{h-1} + N_{h-2}</me>
+      as established in the previous section. Because <m>N_{h - 1}</m> is larger than <m>N_{h - 2}</m>, we can say that <me>N_h &gt; 2N_{h-2} + 1</me>. The number of nodes in a worst-case AVL tree of height <m>h</m> is always greater than twice the number of nodes in a worst-case AVL tree of height <m>h-2</m> plus one.
+    </p>
+
+    <p>
+      The recurrence <me>T(n) = 2T(n-2) + 1</me> solves to <m>O(2^{\frac{n}{2}})</m>. By analogy, we can see that the number of nodes in a worst-case AVL tree of height <m>h</m> is greater than <m>2^{\frac{n}{2}}</m>. So, at this point we have <me>N_h &gt; 2^{\frac{n}{2}}</me>
+    </p>
+
+    <p>
+      What we really care about is the height of an AVL tree given the number of nodes in the tree. If we take the base 2 log of both sides of the inequality <me>N_h &gt; 2^{\frac{n}{2}}</me> we get <me>\log_2{N_h} &gt; \frac{h}{2}</me>. If we rearrange this to solve for <m>h</m> we get <me>h &lt; 2\log_2{N_h}</me>.
+    </p>
+
+    <p>
+      This final equation tells us that the height of an AVL tree is less than twice the base 2 log of the number of nodes in the tree. This is great news for searching our AVL tree because it limits height of the tree to <m>O(\log{N})</m>. This ensures that our search, insertion, and deletion operations will all run in <m>O(\log{N})</m> time.
+    </p>
+
+    <insight>
+      <p>The height of an AVL tree is <m>O(\log{N})</m>, guaranteeing logarithmic time complexity for search, insertion, and deletion operations.</p>
+    </insight>
+
+  </subsection>
+
+  <subsection>
+    <title>Height of an AVL Tree - Formal</title>
+    <p>A stricter analysis of the AVL relies on identifying that the pattern <me>N_h = 1 + N_{h-1} +
+    N_{h-2}</me> is very similar to the Fibonacci sequence. We can use this fact to derive a formula for the height of an AVL tree given the number of nodes
+    in the tree.</p>
+  <p>
+     For the Fibonacci sequence the <m>i_{th}</m> Fibonacci number is given
+    by: <me>\begin{split} F_0 &amp;= 0 \\ F_1 &amp;= 1 \\ &amp;\vdots \\ F_i &amp;= F_{i-1} +
+    F_{i-2} \text{ for all } i \ge 2 \end{split} </me>.</p>
+  <p>We can express the value of the number of nodes in a tree of height <m>h</m> in terms of its
+    position in the Fibonacci sequence: <me>N_h = F_{h+3} - 1, h \ge 0</me>.</p>
+
+  <p>An important mathematical result is that the <m>i^{th}</m> Fibonacci number can be found using
+    Binet's formula: <me>F_i = \frac{\Phi^i - (1 - \Phi)^i}{\sqrt{5}}</me>.</p>
+
+  <p>You can consult a math text if you want to see a derivation of the previous formula. <m>\Phi</m>
+    is the golden ratio and as is defined as: <me>\Phi = \frac{1 + \sqrt{5}}{2} \approx 1.618</me>.</p>
+
+  <p>In Binet's formula, as <m>i</m> grows large, the term <m>(1 - \Phi)^i</m> approaches zero, so
+    we can use the following approximation to obtain a value close to the <m>i^{th}</m> Fibonacci
+    number: <me>F_i \approx \frac{\Phi^i}{\sqrt{5}}</me>.</p>
+
+  <p>By replacing the Fibonacci reference with its golden ratio approximation we get: <me>N_h =
+    \frac{\Phi^{h+3}}{\sqrt{5}} - 1</me>.</p>
+  <p>If we rearrange the terms, and take the base 2 log of both sides and then solve for <m>h</m> we
+    get the following derivation: <me>\begin{split} \log_2{(N_h + 1)} &amp;= (h+3)\log_2{\Phi} -
+    \frac{1}{2} \log_2{5} \\ h &amp;= \frac{\log_2{(N_h + 1)} - 3 \log_2{\Phi} + \frac{1}{2}
+    \log_2{5}}{\log_2{\Phi}} \\ h &amp;\approx 1.44 \log_2{(N_h + 1) - 2.57} \end{split} </me>.</p>
+  <p>This derivation shows us that at any time the height of our AVL tree is equal to a
+    constant(1.44) times the log of the number of nodes in the tree. This is great news for
+    searching our AVL tree because it limits the search to <m>O(\log{N})</m>.</p>
+    </subsection>
+</section>

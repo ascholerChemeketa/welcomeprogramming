@@ -1,0 +1,67 @@
+<section xml:id="trees_tree-implementation"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Implementing a Tree</title>
+
+  <p>
+    To implement a tree in C++, we typically define a <term>Node</term> struct or object that contains data and pointers to its children. For a binary tree, each node will have two pointers: one for the left child and one for the right child. Here is a simple definition of a binary tree node that stores an integer value:
+  </p>
+
+  <program>
+<xi:include href="../../programs/trees/node-struct.cxx" parse="text"/>
+  </program>
+
+  <p>
+    This node structure is used in a similar way to a Node in a linked-list, only it points to two other nodes. We can build a binary tree by creating Node instances and linking them together using the left and right pointers. For example, to create a simple tree we could do the following:
+  </p>
+
+  <program>
+    <![CDATA[
+    Node* root = new Node(10);
+    root->left = new Node(5);
+    root->right = new Node(15);
+    root->right->left = new Node(12);
+    root->right->right = new Node(20);
+    ]]>
+  </program>
+
+  <p>
+    Again, as with a linked list, we need to keep track of just a single pointer. We just call it the <q>root</q> pointer instead of <q>head</q>. From the root, we can access all other nodes in the tree by following the left and right pointers.
+  </p>
+
+  <p>
+    Note that this implementation is like a singly linked list - we can only travel in one direction (from parent to child). If we need to be able to travel back up the tree (from child to parent), we would need to add a parent pointer to each node. This is sometimes useful, but it does add complexity to the implementation.
+  </p>
+
+  <p>
+    To implement a traversal of a tree, we can use recursion to visit each node:
+  </p>
+
+  <listing>
+  <program>
+    <![CDATA[
+void traversal(Node* node) {
+    if (node == nullptr) {
+        return;
+    }
+    // A: Do preorder work on node
+    traversal(node->left);
+    // B: Do preorder work on node
+    traversal(node->right);
+    // C: Do preorder work on node
+}
+    ]]>
+  </program>
+  </listing>
+
+  <p>
+    The base case is generally when we hit a null pointer. This is a sign that we have tried to go past a leaf node. In that case, we just return without doing anything. Otherwise, we do some work at the current node and then recursively visit the left and right children. The order in which we do the work at the current node (spots A, B, and C in the code) determines which type of traversal we are performing.
+    A <term>pre-order traversal</term> will do its work at spot A, an <term>in-order traversal</term> will do its work at spot B, and a <term>post-order traversal</term> will do its work at spot C.
+  </p>
+
+  <p>
+    Not every algorithm fits neatly into just one bucket. To print the inorder traversal of a tree with parentheses to indicate order of operations, we would need to do some work at all three spots. At spot A, we would print an opening parenthesis, then we would go to the left child, then at spot B we would print the node's data, then go to the right child, and finally at spot C we would print a closing parenthesis. But, the pre/in/post terminology is a useful framework for thinking about when the work in the parent needs to happen in comparison to work in the children.
+  </p>
+
+
+</section>

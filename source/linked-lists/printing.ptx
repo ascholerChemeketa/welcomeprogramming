@@ -1,0 +1,91 @@
+<section xml:id="linked-lists_simple-linked-list-print"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Printing and Looping</title>
+  
+  <p>Any algorithm that needs to work with elements other than the first one in our simple linked list will need to work its way through the list by following the <pf>next</pf> pointers from one node to the next.</p>
+
+  <p>For example, to print all the values in the list, we can start at the head node and repeatedly follow the <pf>next</pf> pointer to get to the next node, printing each node's value. To keep track of where we are in the list, we can use a temporary pointer that starts at the head and moves through the list.</p>
+
+  <p>Assuming we call our pointer <pf>current</pf>, we can advance it to the next node by setting <pf>current = current->next;</pf>. That accesses the node that current points at, gets the memory address stored in its <pf>next</pf> member, and then updates the current pointer to point at that address.</p>
+
+  <activity>
+    <title>Linked List Traversals</title>
+    <p>
+      The animation is set to print the list. Use <c> > </c> to step through the process.
+    </p>
+    <interactive platform="javascript" 
+                design-width="1600"
+                 aspect="4:2">
+    <script type="module">
+      import { LinkedListSimple } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new LinkedListSimple({ initialData: [10, 6, 12, 4] });
+
+      anim.doPrint();
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <warning>
+    <p>We never want to change the head pointer itself when traversing the list, because that would lose track of the list's first node. Any loop logic will usually use a temporary pointer like the <pf>current</pf> in the animation to move through the list.</p>
+  </warning>
+
+  <p>
+    We don't know in advance how many nodes are in the list, so we need a way to keep going until we reach the end. There are two conditions that we could use to determine when to stop:
+    <ul>
+      <li>Stop when the current pointer is <pf>nullptr</pf>, indicating we have moved past the last node.</li>
+      <li>Stop when the current pointer's <pf>next</pf> pointer is <pf>nullptr</pf>, indicating the current node is the last node.</li>
+    </ul>
+    Both approaches work, but the first one is often simpler because it allows us to handle the last node in the same way as all the others.
+    It also allows us to handle the case of an empty list more easily, since the current pointer will be <pf>nullptr</pf> right from the start.
+  </p>
+
+  <insight>
+    <p>Doing <pf>current->next</pf> when <pf>current</pf> is <pf>nullptr</pf> will cause an error because you are trying to access a member of a null pointer.</p>
+    <p>If we are going to test or use <pf>current->next</pf>, we need to make sure that <pf>current</pf> is not <pf>nullptr</pf> first.</p>
+  </insight>
+
+  <p>Our print function thus might look like:</p>
+
+<program>
+  <![CDATA[
+template <class T>
+void SimpleLinkedList<T>::print() const {
+    //current will point to each element in turn
+    ListNode<T>* current = head;
+
+    while(current != nullptr) {
+        cout << current->data << " ";   //print current item
+        current = current->next;        //advance to next
+    }
+    cout << endl;
+}
+  ]]>
+</program>
+
+<exercise label="linked-lists_simple-linked-list-print-ex-1">
+  <statement>
+    <p>Why do we not delete current at the end of the print function?</p>
+  </statement>
+  <choices randomize="yes">
+    <choice correct="yes">
+      <statement>
+        <p>It does not <q>own</q> any of the memory it points to. It just temporarily points to nodes in the list.</p>
+      </statement>
+    </choice>
+    <choice>
+      <statement>
+        <p>Because it is a Node, not a pointer.</p>
+      </statement>
+    </choice>
+    <choice>
+      <statement>
+        <p>The memory will be automatically deleted when we do <pf>current = current->next</pf>.</p>
+      </statement>
+    </choice>
+  </choices>
+</exercise>
+
+</section>

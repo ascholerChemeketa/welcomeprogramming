@@ -1,0 +1,119 @@
+<section xml:id="graphs_topological-sort"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Topological Sort</title>
+
+  <p> We now will turn out attention to a few examples of graph algorithms that build on a basic
+    depth-first or breadth-first search to solve a particular problem. As our first example, we will
+    look at <term>topological sorting</term>. </p>
+
+  <p> Given a directed graph like the one below, a natural desire is to find a valid ordering for
+    the verticies. If we are going to take one class at a time, what would be a valid order to take
+    them in? </p>
+
+  <figure>
+    <caption>A prerequisite chart for a Computer Science major.</caption>
+    <image source="images/graphs/graphs-intro-1"
+           width="40%">
+      <shortdescription>
+        <p> Math 111, CS 160, CS161, CS162, CS205 are all circles (nodes). Math 111 has an arrow
+          (edge) pointing to CS 160. CS 160 has an arrow pointing to CS 161, which has an arrow
+          pointing to CS 162, which has an arrow pointing to CS 205. </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p> Taking a directed graph and producing a valid ordering of the vertices is called <term>topological
+    sorting</term>. In the example above, one valid topological sort would be <c>MTH111 -> MTH112 -> CS160 -> CS161 -> CS162 -> CS205</c>. But that is
+    not the only valid topological sort. CS160 does not depend on anything and nothing depends on
+    MTH 112, so another valid topological sort would be <c>CS160 -> MTH111 -> CS161 -> CS162 -> CS205 -> MTH112</c>. </p>
+
+  <p> Finding a valid ordering for that simple graph is not too difficult. Some simple rules of
+    thumb get us most of the way there. Anything with no prerequisites can be taken first. Anything
+    that is not a prerequisite for anything else can be taken last. That leaves only a few things to
+    sort out in the middle. But what if we had a much larger graph with many vertices and edges? The
+    graph below is not much larger, but already much harder to sort at a glance. </p>
+
+  <sidebyside widths="32% 58%">
+    <figure>
+      <caption>A directed graph.</caption>
+      <image source="images/graphs/topo-sort-1">
+        <shortdescription>
+          <p> A graph with vertices 1 through 7. 1 points to 5 and 7. 2 points to 4. 3 points to 4.
+            4 points to 5 and 6. 5 points to 6. </p>
+        </shortdescription>
+      </image>
+    </figure>
+    <figure>
+      <caption>Two valid topological sorts.</caption>
+      <image source="images/graphs/topo-sort-2">
+        <shortdescription>
+          <p> Two valid topological sorts for the graph on the left. The first is <c>3->2->4->1->7->5->6</c>. The
+            second is <c>1->7->2->3->4->5->6</c>. </p>
+        </shortdescription>
+      </image>
+    </figure>
+  </sidebyside>
+
+  <p>We can do a topological sort by doing a series of depth-first searches until all vertices are
+    visited. We will start from the first vertex and explore from there. When we finish a recursive
+    call, we add the vertex to the front of a list of visited vertices.</p>
+
+  <insight>
+    <p> If we are done with recursive calls in a depth-first search, we know that we have explored
+      all vertices reachable from that vertex and they are already in the list. So it is safe to add
+      the vertex to the front of the list at that point. </p>
+  </insight>
+
+  <program language="text"
+           line-numbers="yes"
+           highlight-lines="3-7, 15">
+TopologicalSort(graph):
+  Set visitedSet
+  List topoSortOrder
+  for each vertex in graph:
+    if not visitedSet.contains(vertex):
+      // start a depth-first search from vertex
+      doTopoSort(graph, vertex, visitedSet, topoSortOrder)
+
+doTopoSort(graph, vertex, visitedSet, topoSortOrder):
+  if visitedSet.contains(vertex):
+    return
+  visitedSet.add(vertex)
+  for each neighbor in graph.getNeighbors(vertex):
+    doTopoSort(graph, neighbor, visitedSet, topoSortOrder)
+  topoSortOrder.addFront(vertex)
+    </program>
+
+  <p>If you compare <pf>doTopoSort</pf> with <pf>DFS</pf> from <xref ref="graphs_dfs-dfs-pseudocode"/>, you'll
+    notice that the basic structure is the same. All we do is a little extra work to add items to
+    the front of a list when we finish exploring them (line 15). Lines 4-7 make sure we visit every
+    vertex in the graph by starting a depth-first search from each unvisited vertex.</p>
+
+  <p>Use the interactive below to explore topological sorting.</p>
+
+  <activity>
+    <title>Topological Sort - Depth-First Search</title>
+    <p> The animation will load a random graph and start a depth-first search from vertex 0. Step
+      through the animation. As you do so, watch how the <pf>TopoSortOrder</pf> table is updated. </p>
+    <p>The <c>d</c> label on each node shows the timestep we enter that vertex. The <c>f</c> label
+      shows the timestep we finish exploring that vertex. When we finish exploring a vertex, we add
+      it to the front of the <pf>TopoSortOrder</pf> list. Thus the final list is a reverse ordering of the finish
+      times.</p>
+    <p>Use <c>New Graph</c> button to generate a new random graph. (You may need to fast forward to the end
+      before being able to create a new graph.</p>
+    <interactive platform="javascript"
+                 design-width="1600"
+                 aspect="4:2.75">
+      <script type="module">
+      import { TopoSortDFS } from "./external/interactives/data-structures/entry.js";
+      let anim = new TopoSortDFS({
+      });
+      anim.doTopoSort();
+    </script>
+      <xi:include href="../../fragments/ds-graph-instructions.xml"/>
+    </interactive>
+  </activity>
+
+
+</section>

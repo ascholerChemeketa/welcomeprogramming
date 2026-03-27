@@ -1,0 +1,103 @@
+{
+	// Place your welcomeprogramming workspace snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	"PTX: Multiple Choice": {
+		"scope": "xml",
+		"prefix": "ptx",
+		"body": [
+			"<exercise label=\"${0}\">",
+      "  <statement>",
+      "    <p></p>",
+      "  </statement>",
+      "  <choices randomize=\"yes\">",
+      "    <choice correct=\"yes\">",
+      "      <statement>",
+      "        <p></p>",
+      "      </statement>",
+      "    </choice>",
+      "    <choice>",
+      "      <statement>",
+      "        <p></p>",
+      "      </statement>",
+      "    </choice>",
+      "  </choices>",
+      "</exercise>"
+		],
+		"description": "multiple choice"
+	},
+  
+	"PTX: Fillin String": {
+		"scope": "xml",
+		"prefix": "ptx",
+		"body": [
+      "<exercise label=\"${0}\">",
+      "  <statement>",
+      "    <p>",
+      "      <fillin mode=\"string\" answer=\"floating point\"/>",
+      "    </p>",
+      "  </statement>",
+      "  <evaluation>",
+      "    <evaluate>",
+      "      <test correct=\"yes\">",
+      "        <strcmp></strcmp>",
+      "      </test>",
+      "      <test>",
+      "        <strcmp>.*</strcmp>",
+      "        <feedback>",
+      "          <p></p>",
+      "        </feedback>",
+      "      </test>",
+      "    </evaluate>",
+      "  </evaluation>",
+      "</exercise>"
+		],
+		"description": "fillin string"
+	},
+
+  "PTX: Matching": {
+		"scope": "xml",
+		"prefix": "ptx",
+		"body": [
+      "<exercise label=\"${0}\">",
+      "  <statement>",
+      "    <p>",
+      "      ",
+      "    </p>",
+      "  </statement>",
+      "  <matching>",
+      "    <premise ref=\"\"></premise>",
+      "    <premise ref=\"\"></premise>",
+      "    <response xml:id=\"\"></response>",
+      "    <response xml:id=\"\"></response>",
+      "  </matching>",
+      "</exercise>"
+		],
+		"description": "matching"
+	},
+
+  "PTX: Cardsort": {
+		"scope": "xml",
+		"prefix": "ptx",
+		"body": [
+      "<exercise label=\"${0}\">",
+      "  <statement>",
+      "    <p>",
+      "      ",
+      "    </p>",
+      "  </statement>",
+      "  <cardsort>",
+      "    <match>",
+      "      <premise></premise>",
+      "      <response></response>",
+      "    </match>",
+      "  </cardsort>",
+      "</exercise>"
+		],
+		"description": "cardsort"
+	}
+}

@@ -1,0 +1,168 @@
+<section xml:id="list-algorithms-iterators_recursive-at"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>A Partial Recursive Traversal</title>
+
+  <p>
+    What if we want to implement <pf>SimpleLinkedList::retrieveAt(int i)</pf>?
+  </p>
+
+  <p>
+    Our base case no longer can be <q>hit a null pointer</q>. Instead, we need to stop once we have advanced a certain distance in the linked list. This means that we need to communicate through the call stack how far we are going. Any time we want to pass information from one call to the next, we need an extra parameter. In this case that extra information is <q>how many more steps</q>.
+  </p>
+
+  <program>
+int recursiveRetrieveAt(ListNode* current, int stepsLeft);
+  </program>
+
+  <p>
+    When we call the member function <pf>retrieveAt</pf>, we will pass the head pointer and the index requested:
+  </p>
+
+  <program>
+int SimpleLinkedList::retrieveAt(int index) {
+    return recursiveRetrieveAt(head, index);
+}
+  </program>
+
+  <p>
+    The recursive function will then check to see if <pf>stepsLeft</pf> is zero. If it is, we are at the requested index and can return the data in the current node. If not, we make a recursive call, passing the <pf>next</pf> pointer and decrementing <pf>stepsLeft</pf> by one. (We are one step closer to the answer.) Whatever answer comes back, we just return back to our caller.
+  </p>
+
+  <program>
+<![CDATA[
+int recursiveRetrieveAt(ListNode* current, int stepsLeft) {
+    // Missing : if current == nullptr throw exception
+
+    if(stepsLeft == 0)
+        return current->data;
+    else {
+        return recursiveRetrieveAt(current->next, stepsLeft - 1);
+    }
+}
+    ]]>
+  </program>
+
+  <insight>
+    <p>Sometimes recursion is a process of <q>I don't know the answer, but I can ask someone else who will know</q>. In that case, no call but the base case contributes anything to the answer, they all just pass along the answer once it is found.
+    </p>
+  </insight>
+
+
+  <p>
+    A call to <pf>retrieveAt(2)</pf> on a list with the values 6, 10, 3 would produce this series of calls and returns:
+    <ul>
+      <li><pf>SimpleLinkedList::retrieveAt(2)</pf> calls <pf>recursiveRetrieveAt(head, 2)</pf> (passes the 6 node as the parameter)</li>
+      <li><pf>recursiveRetrieveAt({6 node}, 2)</pf> calls <pf>recursiveRetrieveAt(current->next, 1)</pf> (passes the 10 node as the parameter)</li>
+      <li><pf>recursiveRetrieveAt({10 node}, 1)</pf> calls <pf>recursiveRetrieveAt(current->next, 0)</pf> (passes the 3 node as the parameter)</li>
+      <li><pf>recursiveRetrieveAt({3 node}, 0)</pf> sees that <pf>stepsLeft</pf> is zero and returns 3</li>
+      <li>The call in the 10 node receives the 3 and returns it</li>
+      <li>The call in the 6 node receives the 3 and returns it</li>
+      <li><pf>SimpleLinkedList::retrieveAt</pf> receives the 3 and returns it to the caller</li>
+    </ul>
+  </p>
+
+  <listing>
+    <program label="list-algorithms-iterators_recursive-at"
+             interactive="activecode"
+             compile-also="RecursiveSimpleLinkedList-cxx"
+             line-numbers="yes">
+<xi:include href="../../programs/list-algorithms-iterators/recursive-at-1.cpp" parse="text"/>
+  </program>
+  </listing>
+
+  <exercise label="list-algorithms-iterators_recursive-range-ex2">
+    <statement>
+      <p>If we call the <pf>printRange</pf> function below with a list containing <pf>5, 10, 15, 20, 25</pf> and parameters (head, 1, 3), organize the series of function calls that will be made. You will not use all the blocks.</p>
+      <program>
+<![CDATA[
+void printRange(ListNode* current, int stepsToStart, int stepsToEnd) {
+    if(current == nullptr || stepsToEnd < 0) {
+        return;
+    }
+    if(stepsToStart < 1) {
+        cout << current->data << endl;
+    }
+    printRange(current->next, stepsToStart - 1, stepsToEnd - 1);
+}
+    ]]>
+      </program>
+    </statement>
+  <blocks>
+    <block order="4">
+        <cline>printRange({5 node's address}, 1, 3)</cline>
+    </block>
+    <block order="9">
+        <cline>printRange({10 node's address}, 0, 2)</cline>
+    </block>
+    <block order="5">
+        <cline>printRange({15 node's address}, -1, 1)</cline>
+    </block>
+    <block order="7">
+        <cline>printRange({20 node's address}, -2, 0)</cline>
+    </block>
+    <block order="3">
+        <cline>printRange({25 node's address}, -3, -1)</cline>
+    </block>
+    <block order="6" correct="no">
+        <cline>printRange({nullptr}, -4, -2)</cline>
+    </block>
+    <block order="10" correct="no">
+        <cline>printRange({15 node's address}, 0, 1)</cline>
+    </block>
+    <block order="11" correct="no">
+        <cline>printRange({10 node's address}, 1, 3)</cline>
+    </block>
+    <block order="2" correct="no">
+        <cline>printRange({20 node's address}, 0, 0)</cline>
+    </block>
+    <block order="1" correct="no">
+        <cline>printRange({25 node's address}, 0, -1)</cline>
+    </block>
+    <block order="8" correct="no">
+        <cline>printRange({nullptr}, 0, -2)</cline>
+    </block>
+  </blocks>
+  <hint>
+    <p>The base case will be a call, so it should be in the list (and the last block).</p>
+  </hint>
+
+  </exercise>
+
+<exercise label="list-algorithms-iterators_recursive-range-ex2">
+  <statement>
+    <p>In the <pf>printRange</pf> function, what will the <pf>current == nullptr</pf> part of the base case do?</p>
+    <program>
+    <![CDATA[
+void printRange(ListNode* current, int stepsToStart, int stepsToEnd) {
+    if(current == nullptr || stepsToEnd < 0) {
+        return;
+    }
+    if(stepsToStart < 1) {
+        cout << current->data << endl;
+    }
+    printRange(current->next, stepsToStart - 1, stepsToEnd - 1);
+}
+    ]]>
+    </program>
+  </statement>
+  <choices randomize="yes">
+    <choice correct="yes">
+      <statement>
+        <p>It will stop recursion if the indexes are too large.</p>
+      </statement>
+    </choice> 
+    <choice>
+      <statement>
+        <p>It will stop recursion when we are done with the items to be printed.</p>
+      </statement>
+    </choice>
+    <choice>
+      <statement>
+        <p>It will handle the case where the start index is after the end index.</p>
+      </statement>
+    </choice>
+  </choices>
+</exercise>
+
+</section>

@@ -1,0 +1,90 @@
+<section xml:id="graphs_prims"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Prims's Algorithm</title>
+
+  <p> Another common goal in a weighted graph is to find the least expensive way to connect all the
+    vertices together. Consider the graph below. It represents a number of buildings that we want to
+    connect with fiber optic cable. We don't care about how far it is is from any particular
+    building to any other particular building. We just want to make sure that all the buildings are
+    connected together and that the total length of cable we need to use is as small as possible. </p>
+
+  <figure>
+    <caption>A set of building connected with the minimum total cost.</caption>
+    <image source="images/graphs/prims.svg"
+           width="70%">
+      <shortdescription>
+        <p> The minimum spanning tree for a graph connects all the vertices together with the least
+          total weight. </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p> A collection of edges that connects all the vertices in a graph with as little cost as
+    possible is known as a <term>minimum spanning tree</term>. To find a minimum spanning tree we
+    can use <term>Prim's algorithm</term>. It is almost identical to Dijkstra's algorithm except
+    that instead of tracking the cost to reach each vertex from the start vertex, it tracks the
+    minimum cost to reach each vertex from any vertex in the tree that has already been built. </p>
+
+  <p> In Djikstra's algorithm the cost function to access a neighbor looks like this: </p>
+
+  <program language="text">
+    costThroughVertex = costMap[minCostVertex] + graph.getEdgeWeight(minCostVertex, neighbor)
+  </program>
+
+  <p>In Prim's algorithm, we don't worry about the cost involved in reaching the current vertex. We
+    just care about the cost to reach the neighbor from the current vertex. So the cost function
+    looks like this: </p>
+
+  <program language="text">
+    costThroughVertex = graph.getEdgeWeight(minCostVertex, neighbor)
+  </program>
+
+  <program language="text"
+           line-numbers="yes"
+           highlight-lines="11">
+Prims(graph, start):
+  Map parentMap
+  Map costMap
+  Map knownMap
+  costMap[start] = 0
+  while costMap has a vertex that is not in knownMap:
+    select lowest cost vertex that is not in knownMap as minCostVertex
+    knownMap[minCostVertex] = true
+    for each neighbor in graph.getNeighbors(minCostVertex):
+      if neighbor not in knownMap:
+        costThroughVertex = graph.getEdgeWeight(minCostVertex, neighbor)
+        if (neighbor not in costMap) or (costThroughVertex &lt; costMap[neighbor]):
+          costMap[neighbor] = costThroughVertex
+          parentMap[neighbor] = minCostVertex
+
+  return parentMap
+    </program>
+
+  <p>In Prim's algorithm, the starting vertex is less meaningful than in Dijkstra's algorithm.
+    Picking any vertex within a connected set of vertices of the graph will produce a minimum
+    spanning tree for those vertices.</p>
+
+  <activity>
+    <title>Prim's Algorithm</title>
+    <p> Pick a vertex to find shortest paths from by entering a value into <c>Start Vertex</c> and then pressing <c>Run Dijkstra</c>.
+      Then step through the animation. </p>
+
+    <p>This animation shows a cost table instead of a priority queue. Each time it needs to select
+      the next vertex to visit, it will scan the cost table to find the vertex with the lowest cost
+      that has not yet been visited. Making that table into a priority queue would make </p>
+
+    <interactive platform="javascript"
+                 design-width="1600"
+                 aspect="4:2.75">
+      <script type="module">
+      import { DijkstraPrim } from "./external/interactives/data-structures/entry.js";
+      let anim = new DijkstraPrim({
+        runningDijkstra: false,
+      });
+    </script>
+      <xi:include href="../../fragments/ds-graph-instructions.xml"/>
+    </interactive>
+  </activity>
+
+</section>

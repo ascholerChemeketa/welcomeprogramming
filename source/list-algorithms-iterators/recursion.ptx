@@ -1,0 +1,118 @@
+<section xml:id="list-algorithms-iterators_recursion"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Recursion in Linked Lists</title>
+
+  <p>
+    In the last chapter, we learned to implement core list algorithms iteratively (printing a list, deleting all its memory, copying a list, etc...). However, it is also possible to use recursion to do any of these jobs. In fact, recursion is often a natural fit for working with linked lists since each node points to the next node, which is itself a linked list (or <pf>null</pf> if it is the end of the list). This means that many operations on linked lists can be defined in terms of operations on smaller linked lists.
+  </p>
+
+  <p>
+    Learning to think recursively about linked lists is also good practice for learning to think about recursion in more complex pointer based structures like trees. Many algorithms on trees are defined recursively and most naturally implemented using recursion. Practicing recursion with linked lists is a good stepping stone to understanding those more complex algorithms.
+  </p>
+
+  <p>
+    In <xref ref="recursive-functions_recursive-design2"/> we learned to focus on the following while designing recursive functions:
+    <ul>
+      <li>Identify the inputs and outputs for the function</li>
+      <li>Determine the base case for the recursion</li>
+      <li>Define the recursive case to break down the problem into a smaller version that is one step closer to the base case</li>
+    </ul>
+    We will continue to use this process as we design recursive algorithms for linked lists.
+  </p>
+
+  <p>
+    The output of every recursive function on a linked list will differ. But the inputs will often be similar. Each recursive call will be responsible for processing one node. The rest of the list is <q>somebody else's problem</q>. So, a recursive function will always take as an input a pointer to the node it is responsible for. We will call that pointer <pf>current</pf>.
+  </p>
+
+  <figure>
+    <caption>A recursive function will be passed a pointer that points to node (<pf>current</pf>) it is responsible for.</caption>
+    <image source="images/list-algorithms-iterators/linked-list-recursion-context.svg"
+           width="70%">
+      <shortdescription>
+        <p>A function has a pointer for current. It points at a list node. We don't know what links to the node. We don't know anything about the next node or what may be beyond it.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>The function has access to the data in the current node, and to the <pf>next</pf> pointer. But it should generally not care about what is actually being pointed to. Any node that is beyond the current node is the responsibility of the next recursive call.</p>
+
+  <p>
+    The first recursive call will typically be passed the head pointer of the list. Each subsequent recursive call will be passed the <pf>next</pf> pointer of the current node, which points to the next node in the list (or <pf>nullptr</pf> if we are at the end of the list).
+  </p>
+
+  <figure>
+    <caption>A series of stack frames for a recursive function. The first call was passed a copy of the head pointer from <pf>myList</pf>. Each subsequent call was passed the <pf>next</pf> pointer from the previous call.</caption>
+    <image source="images/list-algorithms-iterators/linked-list-recursion-full-stack.svg"
+           width="100%">
+      <shortdescription>
+        <p>The main stack frame has a linked list with a head pointer. It points at a list with nodes for 10, 20, and 30. Then there are successive stack frames for a recursive function. The first has a current pointer pointing at the 10 node. The next has a current pointer pointing at the 20 node. The next has a current pointer pointing at the 30 node. The final stack frame is holding a null pointer in its current.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    This diagram helps us think about how to identify a base case. The base case should be a situation where we can answer the given question, or do the operation, without having to break the problem down any further. In the case of a linked list, that will often be when the <pf>current</pf> pointer is <pf>nullptr</pf>, indicating we have reached the end of the list. So our basic logic will often look like this:
+  </p>
+
+  <program>
+    if (current == nullptr) {
+        // reached end of the list
+        // base case logic
+        return ...;
+    }
+    // recursive case logic
+  </program>
+
+  <p>
+    Defining our base case this way means that we can gracefully handle empty lists as well. If the list is empty, the head pointer will be <pf>nullptr</pf>. The first call to our recursive function will be passed that <pf>nullptr</pf> head pointer. The base case will immediately be satisfied and we can return the appropriate result for an empty list.
+  </p>
+
+  <p>
+    We can also define our base case by looking to see if we are in the last node (i.e., if <pf>current-&gt;next</pf> is <pf>nullptr</pf>):
+  </p>
+
+  <program>
+    if (current->next == nullptr) {
+        // this is the last node
+        // base case logic
+        return ...;
+    }
+    // recursive case logic
+  </program>
+
+  <p>
+    However, using that approach, we have to be careful to handle the empty list case separately. If the list is empty, the first call will be passed a <pf>nullptr</pf> head pointer. Trying to access <pf>current-&gt;next</pf> in that case would lead to a runtime error. So unless there is a good reason to stop at the last node, it is often better to let the recursion continue until we actually reach <pf>nullptr</pf>.
+  </p>
+
+  <insight>
+    <p>
+      This will also be common in more complex structures. It is often easier to end recursion at <q>one step too far</q> rather than trying to stop exactly at the last valid element.
+    </p>
+  </insight>
+
+  <exercise label="list-algorithms-iterators_algorithms-ex-1">
+    <statement>
+      <p>Why is <pf>current == nullptr</pf> a better base case than <pf>current->next == nullptr</pf>?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>It handles the empty list case gracefully without requiring special logic.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It stops one step earlier, reducing the number of recursive calls.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It makes sure we reach the end of the list before stopping.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+
+</section>

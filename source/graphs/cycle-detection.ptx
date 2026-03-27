@@ -1,0 +1,89 @@
+<section xml:id="graphs_cycle-detection"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Cycle Detection</title>
+
+  <p> Another algorithm that can be build on top of depth-first search is a <q>cycle detection</q>.
+    A cycle in a graph is a path that starts and ends at the same vertex. For example, in the graph
+    below, we can start at 1 and navigate through the path <c>1 -> 2 -> 6 -> 5 -> 1</c> back to vertex 1. </p>
+
+  <figure>
+    <caption>A cycle within a graph.</caption>
+    <image source="images/graphs/cycle.svg"
+           width="40%">
+      <shortdescription>Graph where 1 connects to 2; 2 connects to 6; 6 connects to 5; 5 connects to
+        1</shortdescription>
+    </image>
+  </figure>
+
+  <p>We can detect a cycle in a graph by doing a series of depth-first searches. We will start from
+    the first vertex and explore from there. As we recurse into a particular vertex, we mark it as <q>on
+    the stack</q>. When we finish a recursive call, we unmark it as <q>on the stack</q>. If we ever
+    encounter a vertex that is already on the stack, we have found a cycle.</p>
+
+  <p>When this first depth-first search is complete, we will start a new depth-first search from the
+    first vertex that was not yet visited. We continue this process until all vertices have been
+    visited.</p>
+
+  <program language="text"
+           line-numbers="yes"
+           highlight-lines="7-8, 12-13, 17, 21">
+DetectCycle(graph):
+  Set visitedSet
+  for each vertex in graph:
+    if not visitedSet.contains(vertex):
+      // start a depth-first search from vertex
+      Set onStack
+      if doDFSCycle(graph, vertex, visitedSet, onStack):
+        return true  // found a cycle
+  return false  // no cycle found
+
+doDFSCycle(graph, vertex, visitedSet, onStack):
+  if onStack.contains(vertex):
+    return true  // found a cycle
+  if visitedSet.contains(vertex):
+    return false  // already visited, but not on the current path
+  visitedSet.add(vertex)
+  onStack.add(vertex)    // this is on the path we are currently exploring
+  for each neighbor in graph.getNeighbors(vertex):
+    if doDFSCycle(graph, neighbor, visitedSet, onStack):
+      return true  // found a cycle through this neighbor
+  onStack.remove(vertex) // done exploring through this vertex
+  return false
+    </program>
+
+  <p>Again, <pf>doDFSCycle</pf> looks very similar to the base <pf>DFS</pf> algorithm from <xref ref="graphs_dfs-dfs-pseudocode"/>.
+    The key differences this time are: <ul>
+      <li>We keep track of what is <q>on the stack</q> in addition to what is <q>visited</q>.</li>
+      <li>We return <c>true</c> when we detect a cycle and <c>false</c> if we fully explore a given vertex
+    without finding a cycle.</li>
+    </ul>
+  </p>
+
+
+  <p>Use the interactive below to explore cycle detection.</p>
+
+  <activity>
+    <title>Cycle Detection - Depth-First Search</title>
+    <p> The animation will load a specific graph and start a depth-first search from vertex 0. Step
+      through the animation. As you do so, note how the <pf>OnStack</pf> tables is updated. </p>
+    <p>Fast forward to the end of the animation and then click <c>New Graph</c> button to generate a new
+      random graph.</p>
+    <interactive platform="javascript"
+                 design-width="1600"
+                 aspect="4:2.75">
+      <script type="module">
+      import { DetectCycle } from "./external/interactives/data-structures/entry.js";
+      let anim = new DetectCycle({
+        // values that are known to produce a cycle on search from 2
+        randomSeed: 74919,
+        edgePercentage: 0.35
+      });
+      anim.doDetectCycle();
+    </script>
+      <xi:include href="../../fragments/ds-graph-instructions.xml"/>
+    </interactive>
+  </activity>
+
+
+</section>

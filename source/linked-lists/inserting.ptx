@@ -1,0 +1,160 @@
+<section xml:id="linked-lists_simple-linked-list-inserting"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Inserting Values</title>
+
+  <p>
+    To add a new item to our list means adding a new node. If the item is being inserted at the start of the list, that means that the list's head pointer should point at this new node. If we knew the list was empty, that would be easy: we would just create the new node and set the head pointer to point to it:
+  </p>
+
+  <listing>
+    <title>Flawed insertStart Implementation</title>
+  <program>
+    <![CDATA[
+  void SimpleLinkedList<T>::insertStart(T value) {
+      // allocate new node on the heap. Store the address in "newNode"
+      ListNode<T>* newNode = new ListNode<T>(value);
+      // set the list's head pointer to point to the new node
+      head = newNode;
+  }
+    ]]>
+  </program>
+  </listing>
+
+  <p>
+    At the end of insertStart, the memory looks like this:
+  </p>
+
+  <figure>
+    <caption>The memory at the end of insertStart</caption>
+    <image source="images/linked-list/simple-linked-list-insert-1.svg"
+           width="80%">
+      <shortdescription>
+        <p>Both head and newNode point to the new node containing the inserted value.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    When we leave <pf>insertStart</pf>, the <pf>newNode</pf> variable goes out of scope and is destroyed. But the node it was pointing to is still allocated on the heap, and the list's head pointer is still pointing to it. So the list still has access to the new node.
+  </p>
+  
+  <figure>
+    <caption>Memory of main after calling <pf>myList1.insertStart(6)</pf>.</caption>
+    <image source="images/linked-list/simple-linked-list-insert-3.svg"
+           width="80%">
+      <shortdescription>
+        <p>myList1 has a head pointer. It points to a node containing 6.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    But what if there is already something pointed at by head? Consider the figure below. We have started the insert process and created a new node to store the value 6. But head is already pointing to a node containing 10. We don't want to just change head to point to the new node, because then we would lose track of the 10 node:
+  </p>
+  <figure>
+    <caption>Adding a new node with 6 while a node with 10 is the existing first node</caption>
+    <image source="images/linked-list/simple-linked-list-insert-2.svg"
+           width="80%">
+      <shortdescription>
+        <p>Head points to a node containing 10, and newNode points to a node containing 6.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+
+  <p>
+    To avoid losing track of the old first node, we have to do two things:
+    <ul>
+      <li>Set the new node's <pf>next</pf> pointer to point to the old first node (the one that head is currently pointing to).</li>
+      <li>Then set head to point to the new node.</li>
+    </ul>
+    A full implementation of <pf>insertStart</pf> that handles both the empty and non-empty list cases looks like this:
+  </p>
+
+  <listing>
+    <title>Correct insertStart Implementation</title>
+  <program>
+    <![CDATA[
+  template <typename T>
+  void SimpleLinkedList<T>::insertStart(T value) {
+      // allocate new node on the heap. Store the address in "newNode"
+      ListNode<T>* newNode = new ListNode<T>(value);
+      // set the new node's next pointer to point to the old first node
+      newNode->next = head;
+      // set the list's head pointer to point to the new node
+      head = newNode;
+  }
+    ]]>
+  </program>
+  </listing>
+
+  <p>This handles both the empty and non-empty list cases. If the list is empty, then head is <pf>nullptr</pf>, so the line <pf>newNode->next = head;</pf> sets the new node's next pointer to <pf>nullptr</pf>, which is correct for a one-item list. If the list is not empty, then head points to the old first node, and we set the new node's next pointer to point to that old first node. We should end up with something that looks like this:</p>
+
+  <figure>
+    <caption>The result of inserting 6 at the start of a list that had 10.</caption>
+    <image source="images/linked-list/simple-linked-list-insert-4.svg"
+           width="80%">
+      <shortdescription>
+        <p>Head points to a node containing 6 as does newNode. The new node's next pointer points to the node containing 10.</p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>As we leave the <pf>insertStart</pf> function, the <pf>newNode</pf> variable goes out of scope, but the linked list still has access to both nodes via the head pointer.</p>
+
+  <activity>
+    <title>Linked List Insertion</title>
+    <p>The animation is set to insert the value 6 at the start of the list.
+      Press the <c> > </c> button to step through the insertion process.
+    </p>
+    <p>When it finishes, type another value into the <term>Value</term> textbox and press <c>Insert Front</c> to start adding another value and then continue stepping.</p>
+    <interactive platform="javascript" 
+                design-width="1600"
+                 aspect="4:2">
+    <script type="module">
+      import { LinkedListSimple } from "./external/interactives/data-structures/entry.js";
+
+      // Starts with a few sample values.
+      // let anim = new LinkedListSimple({ initialData: [200, 100, 50, 101, 120] });
+      let anim = new LinkedListSimple({ initialData: [10] });
+      
+      anim.doInsertFront(6);
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <exercise label="linked-lists_simple-linked-list-inserting-ex-1"
+    numbered="yes"
+    adaptive="yes"
+    indentation="hide">
+    <statement>
+    <p>Build an alternate version of the <pf>insertStart</pf> function that correctly inserts a new node at the beginning of the list. You will not use all the blocks.</p>
+    </statement>
+    <blocks>
+      <block order="5" name="a" depends="">
+          <cline><![CDATA[void SimpleLinkedList<T>::insertStart(T value) {]]></cline>
+      </block>
+      <block order="1" name="b" depends="a">
+          <cline><![CDATA[    ListNode<T>* oldHead = head;]]></cline>
+      </block>
+      <block order="4" name="c" depends="b">
+          <cline><![CDATA[    head = new ListNode<T>(value);]]></cline>
+      </block>
+      <block order="3" name="d" depends="c">
+          <cline><![CDATA[    head->next = oldHead;]]></cline>
+      </block>
+      <block order="7" name="f" depends="d">
+          <cline><![CDATA[}]]></cline>
+      </block>
+      <block order="6" correct="no">
+          <cline><![CDATA[    delete oldHead;]]></cline>
+      </block>
+      <block order="2" correct="no">
+          <cline><![CDATA[    oldHead->next = head;]]></cline>
+      </block>
+    </blocks>
+  </exercise>
+
+</section>

@@ -1,0 +1,94 @@
+<section xml:id="heaps_heap-structure"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>The Heap Structure</title>
+
+  <p>
+    A heap is our first example of a tree-based data structure. A <term>tree</term> is a non-linear data structure that consists of <term>nodes</term> connected by <term>edges</term>. Each tree has a single root node at the top, and each node can have zero or more child nodes branching out below it.
+  </p>
+
+  <figure>
+    <caption>A tree rooted at 20.</caption>
+    <image source="images/heaps/tree.svg" width="40%">
+      <shortdescription>
+        <p>
+          This tree has a root node with the value 20. The root has two children: the left child with the value 8 and right with a value 12. The 8 node has a right child 50. The 12 node has two children: left child 6 and 14.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    A heap is a special kind of tree called a <term>binary tree</term>, where each node has at most two children: a left child and a right child. In addition, heaps have two important properties:
+    <ul>
+      <li>
+        <p><term>Shape Property</term>: A heap is a complete binary tree, meaning all levels of the tree are fully filled except possibly for the last level, which is filled from left to right.</p>
+      </li>
+      <li>
+        <p><term>Heap Property</term>: In a max-heap, for any given node, its value is greater than or equal to the values of its children. In a min-heap, the value of a node is less than or equal to the values of its children.</p>
+      </li>
+    </ul>
+  </p>
+
+  <p>Thus, a heap might look like either of the following:</p>
+
+  <sidebyside widths="45% 45%">
+    <figure>
+      <caption>A heap that has 3 complete levels.</caption>
+      <image source="images/heaps/valid-heap-1.svg" >
+        <shortdescription>
+          <p>
+            The first level has one node. The next has two nodes. The last level has four nodes. All levels are completely full, so this is a valid heap. The heap property is also satisfied since each parent node is larger than its children.
+          </p>
+        </shortdescription>
+      </image>
+    </figure>
+    <figure>
+      <caption>A heap that has an incomplete last level.</caption>
+      <image source="images/heaps/valid-heap-2.svg" >
+        <shortdescription>
+          <p>
+            The first level has one node. The next has two nodes. The last level has two nodes. The last level is not completely full, but the nodes are filled from left to right, so this is a valid heap. The heap property is also satisfied since each parent node is larger than its children.
+          </p>
+        </shortdescription>
+      </image>
+    </figure>
+  </sidebyside>
+
+  <p>These are both <term>max heaps</term> where every node must have a larger value than its children. This
+    means that the largest value in the heap is always at the root node. A <term>min heap</term> is similar, but every node must have a smaller value than its children, meaning that the smallest value is at the top.</p>
+
+    <note>
+      <p>For simplicity, we will focus on max heaps. A min heap uses the same logic, but will simply reverse comparison operators (<pf>&lt;</pf> vs <pf>&gt;</pf>) when comparing parents to their children.</p>
+    </note>
+
+    <p>The heap shown on the left is <term>complete</term> because every node has two children except for the nodes at the last level which have none. The right heap is incomplete, as there are some available positions at the last level that are not filled. However, those locations are all to the right of the filled nodes, maintaining the shape property.</p>
+
+  <p>If there are gaps anywhere but the last level, or if the gaps in the last level are not all on the right side, the structure is not a valid heap. In the figure below, there is a gap in the middle of the last row. This would not be allowed in a heap.</p>
+    <figure>
+      <caption>A heap that violates the shape property. The nodes at the last level are not filled from left to right.</caption>
+      <image source="images/heaps/invalid-heap-1.svg" width="45%">
+        <shortdescription>
+          <p>
+            The last level has a missing node on the left side, violating the shape property of heaps.
+          </p>
+        </shortdescription>
+      </image>
+    </figure>
+
+    <p>A violation of the heap property occurs when a parent node has a smaller value than one of its children (in a max-heap) or a larger value (in a min-heap).</p>
+
+    <figure>
+      <caption>A heap that violates the heap property. The 20 node is smaller than one of its children.</caption>
+      <image source="images/heaps/invalid-heap-2.svg" width="30%">
+        <shortdescription>
+          <p>
+            The node with 20 has a child node with the value 30, violating the heap property of max-heaps.
+          </p>
+        </shortdescription>
+      </image>
+    </figure>
+
+
+
+</section>

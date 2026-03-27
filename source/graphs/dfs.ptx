@@ -1,0 +1,255 @@
+<section xml:id="graphs_dfs"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Depth-First Search</title>
+  <p>While breadth-first search explores the graph in layers, depth-first search explores the graph
+    by going as deep as possible down one path before backtracking. It does so by storing a stack of
+    vertices to be explored. At each step, it removes the top item from the stack and explores all
+    of its neighbors that have not yet been explored. Those neighbors are added to the top of the
+    stack to be explored later.</p>
+
+  <p>Below is the pseudocode for depth-first search:</p>
+
+  <program language="text"
+           line-numbers="yes"
+           highlight-lines="2, 6, 9-11, 14">
+DFS(graph, start):
+  Stack searchStack
+  searchStack.push(start)
+  Map parentMap
+  Set visitedSet
+  visitedSet.insert(start)
+  while not searchStack.isEmpty():
+    vertex = searchStack.pop()
+    if visitedSet.contains(vertex):
+      continue
+    visitedSet.insert(vertex)
+    for each neighbor of vertex:
+      if not visitedSet.contains(neighbor):
+        parentMap[neighbor] = vertex
+        searchStack.push(neighbor)
+    </program>
+
+  <p> Key differences between depth-first search and the breadth-first search algorithm we saw
+    earlier include: <ul>
+      <li>Depth-first search uses a stack while breadth-first search uses a queue. (Line 2)</li>
+      <li>DFS does not mark a node as visited until it is popped from the stack. (Line 11) In
+    contrast, breadth-first search marked a node as <q>known</q> as soon as it was discovered.</li>
+    </ul>
+    The second item means that DFS may add the same vertex to the stack multiple times if it is
+    reachable from multiple paths. Each time we <q>see</q> a vertex, we will change its parent to be
+    the vertex we are currently exploring. We won't lock in that choice until the vertex is popped
+    from the stack and marked as visited. In contrast, breadth-first search locked in the parent of
+    a vertex as soon as it was discovered. </p>
+
+  <insight>
+    <p> Depth-first search locks in edges in the search tree when a vertex is selected to be
+      explored. Breadth-first search locks in edges when a vertex is first discovered. </p>
+  </insight>
+
+  <investigation label="graphs_dfs-investigation">
+    <introduction>
+      <p>A depth-first search over a graph.</p>
+    </introduction>
+    <task>
+      <p>We will do a depth-first search over the graph shown below starting from vertex 1. To do so
+        we add 1 to the search stack.</p>
+      <p>Current search stack (top at front): <c>[1]</c></p>
+      <image source="images/graphs/dfs-detail-0.svg"
+             width="50%">
+        <shortdescription>A graph with 8 nodes</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the top element from the search stack: 1. Get the list of neighbors of 1. For each
+        neighbor that we have not explored yet, add it to the search stack and remember that we will
+        reach it from 1.</p>
+      <p>We will push the neighbors of 1 (2, 3, and 5) onto the search stack in reverse order (5, 3,
+        2) so that they are explored in numeric order.</p>
+      <p>Current search stack (top at front): <c>[2 3 5]</c></p>
+      <image source="images/graphs/dfs-detail-1.svg"
+             width="50%">
+        <shortdescription>Node 1 is connected to nodes 2, 3, and 5</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the top element from the search stack: 2. Get the list of neighbors of 2. For each
+        neighbor that we have not explored yet, add it to the search stack and remember that we will
+        reach it from 2.</p>
+      <p>The only neighbor of 2 that we have not yet explored is 0. Push it onto the search stack
+        and remember that we will reach it from 2.</p>
+      <p>Current search stack (top at front): <c>[0 3 5]</c></p>
+      <image source="images/graphs/dfs-detail-2.svg"
+             width="50%">
+        <shortdescription>Node 2 is connected to nodes 0 and 1</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the top element from the search stack: 0. Get the list of neighbors of 0. For each
+        neighbor that we have not explored yet, add it to the search stack and remember that we will
+        reach it from 0.</p>
+      <p>We have explored all neighbors of 0.</p>
+      <p>Current search stack (top at front): <c>[3 5]</c></p>
+      <p>Not adding anything to the stack represents hitting a dead end in the search tree and
+        backtracking to explore a different path.</p>
+      <image source="images/graphs/dfs-detail-3.svg"
+             width="50%">
+        <shortdescription>Node 0 is connected to node 2</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the top element from the search stack: 3. Get the list of neighbors of 3. For each
+        neighbor that we have not explored yet, add it to the search stack and remember that we will
+        reach it from 3.</p>
+      <p>We have explored 1 already. But we have not explored 7, so push it onto the search stack
+        and remember that we will reach it from 3.</p>
+      <p>Current search stack (top at front): <c>[7 5]</c></p>
+      <image source="images/graphs/dfs-detail-4.svg"
+             width="50%">
+        <shortdescription>Node 3 is connected to node 7</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the top element from the search stack: 7. Get the list of neighbors of 7. For each
+        neighbor that we have not explored yet, add it to the search stack and remember that we will
+        reach it from 7.</p>
+      <p>We have explored 3 already. But we have not explored 4, 5, or 6 so push them onto the
+        search stack and remember that we will reach them from 7. Note that this means we have <q>changed
+        our minds</q> about how to reach 5. Before we thought we would reach 5 from 1, but now we
+        know we will reach it from 7.</p>
+      <p>Current search stack (top at front): <c>[4 5 6 5]</c></p>
+      <p>The search stack contains multiple copies of 5, because we have seen 5 from both 1 and 7.</p>
+      <image source="images/graphs/dfs-detail-5.svg"
+             width="50%">
+        <shortdescription>Node 7 is connected to node 3, 4, 5, and 6</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the top element from the search stack: 4. Get the list of neighbors of 4. For each
+        neighbor that we have not explored yet, add it to the search stack and remember that we will
+        reach it from 4.</p>
+      <p>We have explored 7 already. But we have not explored 5, so push it onto the search stack
+        and remember that we will reach it from 5.</p>
+      <p>Current search stack (top at front): <c>[5 5 6 5]</c></p>
+      <p>Yet again, we have changed our minds about how to reach 5. We now believe we will reach 5
+        from 4. It appears on the stack multiple times, once for each time we have seen it from a
+        different vertex.</p>
+      <image source="images/graphs/dfs-detail-6.svg"
+             width="50%">
+        <shortdescription>Node 4 is connected to nodes 5 and 7</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the top element from the search stack: 5. Get the list of neighbors of 5. For each
+        neighbor that we have not explored yet, add it to the search stack and remember that we will
+        reach it from 5.</p>
+      <p>We have explored 4 and 7 already.</p>
+      <p>Current search stack (top at front): <c>[5 6 5]</c></p>
+      <image source="images/graphs/dfs-detail-7.svg"
+             width="50%">
+        <shortdescription>Node 5 is connected to nodes 4, and 6</shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>Remove the top element from the search stack: 5. Since we have already explored 5, we will
+        continue to the next element in the search stack.</p>
+      <p>Current search stack (top at front): <c>[6 5]</c></p>
+      <p>Remove the top element from the search stack: 6. Get the list of neighbors of 6. For each
+        neighbor that we have not explored yet, add it to the search stack and remember that we will
+        reach it from 6.</p>
+      <p>We have explored 7 already.</p>
+      <p>Current search stack (top at front): <c>[5]</c></p>
+      <p>At this point we would continue popping elements from the search stack until it is empty.
+        All the remaining elements have already been explored.</p>
+      <image source="images/graphs/dfs-detail-8.svg"
+             width="50%">
+        <shortdescription>Node 6 is connected to node 7</shortdescription>
+      </image>
+    </task>
+  </investigation>
+
+  <p> Below is the final search tree rendered in the original graph and as a standalone tree. The
+    depth-first search produced a search tree with longer chains because it keeps going in one
+    direction as long as it can, repeatedly changing its mind about how to reach certain vertices.
+    Thus a depth-first search generally does not produce the shortest path between vertices in the
+    search tree. </p>
+
+  <sidebyside widths="45% 25%">
+    <figure>
+      <caption>Search tree (red edges) within the original graph.</caption>
+      <image source="images/graphs/dfs-final.svg"
+             width="50%">
+        <shortdescription>Search tree for depth-first search</shortdescription>
+      </image>
+    </figure>
+    <figure>
+      <caption>Search tree produced by the depth-first search in the investigation above.</caption>
+      <image source="images/graphs/dfs-final-tree.svg"
+             width="50%">
+        <shortdescription>Search tree for depth-first search</shortdescription>
+      </image>
+    </figure>
+  </sidebyside>
+
+  <p> The search tree is not unique. If we had added neighbors to the search stack in a different
+    order, we would have produced a different search tree. For example, if we had added neighbors in
+    numeric order instead of reverse numeric order, we would have explored 5 before 3 and eventually
+    reached 3 through <c>1 -> 5 -> 7 -> 3</c>. </p>
+
+  <p>Starting from a different vertex in the same graph would produce a different search tree - one
+    that contains the shortest path from that vertex to every other vertex in the search tree.</p>
+
+
+  <p> Because-depth first search relies on a stack, it is often implemented using recursion instead
+    of an explicit stack. Below is the pseudocode for a recursive implementation of depth-first
+    search. It produces the same search tree as the iterative version, but it does so by implicitly
+    using the call stack to keep track of which vertex to explore next. </p>
+
+  <listing xml:id="graphs_dfs-dfs-pseudocode">
+    <program language="text"
+             line-numbers="yes"
+             highlight-lines="2, 6, 9-11, 14">
+StartDFS(graph, start):
+  Map parentMap
+  Set visitedSet
+  DFS(graph, start, visitedMap, parentMap)
+
+DFS(graph, vertex, visitedSet, parentMap):
+  if visitedSet.contains(vertex):
+    return
+  visitedSet.insert(vertex)
+  for each neighbor of vertex:
+    if not visitedSet.contains(neighbor):
+      parentMap[neighbor] = vertex
+      DFS(graph, neighbor, visitedSet, parentMap)
+  </program>
+  </listing>
+
+  <p>Use the interactive below to explore both implementations of depth-first search.</p>
+
+  <activity>
+    <title>Depth-First Search</title>
+    <p> The animation will load a random graph and start a depth-first search using the iterative
+      algorithm from vertex 0. Step through the animation. As you do so, note how the <pf>Known</pf> and <pf>Parent</pf>
+      tables are updated. </p>
+    <p> Once it is done, switch to <c>Recursive</c>, enter 0 as the <c>Start Vertex</c> in the input field and click <c>Run DFS</c>
+      to see the recursive version of depth-first search produce the same search tree. </p>
+    <p>Use <c>New Graph</c> button to generate a new random graph. (You may need to fast forward to the end
+      before being able to create a new graph.</p>
+    <interactive platform="javascript"
+                 design-width="1600"
+                 aspect="4:2.75">
+      <script type="module">
+      import { DFS } from "./external/interactives/data-structures/entry.js";
+      let anim = new DFS({
+        zoom: "0.75x",
+        directed: false,
+        iterative: true
+      });
+      anim.doSearch(0);
+    </script>
+      <xi:include href="../../fragments/ds-graph-instructions.xml"/>
+    </interactive>
+  </activity>
+
+</section>

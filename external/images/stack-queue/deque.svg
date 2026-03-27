@@ -1,0 +1,151 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="460" viewBox="55 80 800 540">
+  <defs>
+    <style>
+      .title { font: 22px sans-serif; font-weight: 700; fill: #111; }
+      .label { font: 14px sans-serif; font-weight: 600; fill: #111; }
+      .small { font: 12px sans-serif; fill: #222; }
+      .tiny { font: 11px sans-serif; fill: #333; }
+      .box { fill: #fff; stroke: #111; stroke-width: 2; }
+      .cell { fill: #f7f7f7; stroke: #111; stroke-width: 1.5; }
+      .used { fill: #e9f3ff; }
+      .unused { fill: #fafafa; }
+      .ptr  { stroke: #111; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .dashed { stroke-dasharray: 6 5; }
+      .idx { font: 11px monospace; fill: #111; }
+      .name { font: 12px sans-serif; fill: #111; font-weight: 600; }
+      .note { fill: #fff; stroke: #111; stroke-width: 1.5; }
+    </style>
+
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="30" y="38" class="title">std::deque (conceptual): map of pointers → fixed-size blocks</text>
+ 
+  <!-- MAP (vertical array of pointers) -->
+  <text x="30" y="105" class="label">map</text>
+  <rect x="30" y="120" width="210" height="330" class="box"/>
+
+  <!-- NEW: small labels inside the map block (top) -->
+  <text x="45" y="145" class="tiny">startBlock = 2</text>
+  <text x="45" y="161" class="tiny">endBlock = 4</text>
+  <text x="45" y="177" class="tiny">blockSize = 3</text>
+  <text x="45" y="193" class="tiny">numBlocks = 6</text>
+
+  <!-- Map cells (vertical): 0..5 -->
+  <!-- each cell: 170x44 -->
+  <!-- Adjusted DOWN to make room for the labels -->
+  <!-- cell x=55 y=210+i*38 (fits 6 rows within the map box) -->
+  <g id="map">
+    <!-- row 0 -->
+    <rect x="55" y="210" width="170" height="38" class="cell unused"/>
+    <text x="42" y="234" class="idx">0</text>
+
+    <!-- row 1 -->
+    <rect x="55" y="248" width="170" height="38" class="cell unused"/>
+    <text x="42" y="272" class="idx">1</text>
+
+    <!-- row 2 (in use) -->
+    <rect x="55" y="286" width="170" height="38" class="cell used"/>
+    <text x="42" y="310" class="idx">2</text>
+    <text x="140" y="310" class="tiny" text-anchor="middle">block A pointer</text>
+
+    <!-- row 3 (in use) -->
+    <rect x="55" y="324" width="170" height="38" class="cell used"/>
+    <text x="42" y="348" class="idx">3</text>
+    <text x="140" y="348" class="tiny" text-anchor="middle">block B pointer</text>
+
+    <!-- row 4 (in use) -->
+    <rect x="55" y="362" width="170" height="38" class="cell used"/>
+    <text x="42" y="386" class="idx">4</text>
+    <text x="140" y="386" class="tiny" text-anchor="middle">block C pointer</text>
+
+    <!-- row 5 -->
+    <rect x="55" y="400" width="170" height="38" class="cell unused"/>
+    <text x="42" y="424" class="idx">5</text>
+  </g>
+
+  <!-- Blocks area -->
+  <text x="300" y="105" class="label">blocks</text>
+
+  <!-- Block A -->
+  <g id="blockA">
+    <text x="300" y="140" class="label">block A</text>
+    <rect x="300" y="150" width="260" height="190" class="box"/>
+    <text x="312" y="172" class="tiny">start index = 1</text>
+    <text x="312" y="190" class="tiny">end index = 3 (one past last)</text>
+
+    <text x="312" y="232" class="idx">[0]</text>
+    <text x="312" y="272" class="idx">[1]</text>
+    <text x="312" y="312" class="idx">[2]</text>
+
+    <rect x="345" y="205" width="190" height="40" class="cell unused"/>
+    <rect x="345" y="245" width="190" height="40" class="cell used"/>
+    <rect x="345" y="285" width="190" height="40" class="cell used"/>
+
+    <text x="440" y="270" class="name" text-anchor="middle">Ava</text>
+    <text x="440" y="310" class="name" text-anchor="middle">Ben</text>
+  </g>
+
+  <!-- Block B -->
+  <g id="blockB">
+    <text x="620" y="140" class="label">block B</text>
+    <rect x="620" y="150" width="260" height="190" class="box"/>
+    <text x="632" y="172" class="tiny">start index = 0</text>
+    <text x="632" y="190" class="tiny">end index = 3 (one past last)</text>
+
+    <text x="632" y="232" class="idx">[0]</text>
+    <text x="632" y="272" class="idx">[1]</text>
+    <text x="632" y="312" class="idx">[2]</text>
+
+    <rect x="665" y="205" width="190" height="40" class="cell used"/>
+    <rect x="665" y="245" width="190" height="40" class="cell used"/>
+    <rect x="665" y="285" width="190" height="40" class="cell used"/>
+
+    <text x="760" y="230" class="name" text-anchor="middle">Cam</text>
+    <text x="760" y="270" class="name" text-anchor="middle">Dee</text>
+    <text x="760" y="310" class="name" text-anchor="middle">Eli</text>
+  </g>
+
+  <!-- Block C -->
+  <g id="blockC">
+    <text x="300" y="390" class="label">block C</text>
+    <rect x="300" y="400" width="260" height="190" class="box"/>
+    <text x="312" y="422" class="tiny">start index = 0</text>
+    <text x="312" y="440" class="tiny">end index = 2 (one past last)</text>
+
+    <text x="312" y="482" class="idx">[0]</text>
+    <text x="312" y="522" class="idx">[1]</text>
+    <text x="312" y="562" class="idx">[2]</text>
+
+    <rect x="345" y="455" width="190" height="40" class="cell used"/>
+    <rect x="345" y="495" width="190" height="40" class="cell used"/>
+    <rect x="345" y="535" width="190" height="40" class="cell unused"/>
+
+    <text x="440" y="480" class="name" text-anchor="middle">Fay</text>
+    <text x="440" y="520" class="name" text-anchor="middle">Gus</text>
+  </g>
+
+  <!-- Pointers from map entries to blocks -->
+  <!-- UPDATED y-coordinates because the map rows moved down -->
+  <!-- map[2] center: y = 286 + 19 = 305 -->
+  <path class="ptr" d="M225 305 L300 305"/>
+  <!-- map[3] center: y = 324 + 19 = 343 -->
+  <path class="ptr" d="M225 343 L270 343 L270 352 L585 352 L585 240 L620 240"/>
+  <!-- map[4] center: y = 362 + 19 = 381 -->
+  <path class="ptr" d="M225 381 L260 381 L260 495 L300 495"/>
+
+  <!-- Overall deque front/back (conceptual) -->
+  <g id="frontback">
+    <rect x="620" y="400" width="260" height="190" class="note"/>
+    <text x="632" y="426" class="label">deque logical range</text>
+    <text x="632" y="452" class="small">front = block 2 (A), index 1</text>
+    <text x="632" y="474" class="small">back  = block 4 (C), index 2</text>
+    <text x="632" y="504" class="tiny">Elements in order:</text>
+    <text x="632" y="526" class="tiny">Ava, Ben, Cam, Dee, Eli, Fay, Gus</text>
+  </g>
+
+</svg>

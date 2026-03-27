@@ -1,0 +1,156 @@
+<section xml:id="trees_bst-copy-clear"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Destroying and Copying</title>
+
+  <introduction>
+  <p>
+    Because our <pf>IntBST</pf> manages dynamic memory, it needs to implement a destructor, copy constructor, and assignment operator to ensure that memory is properly managed when a tree goes out of scope or is copied.
+  </p>
+  </introduction>
+
+  <subsection>
+    <title>Destructor</title>
+
+    <p>
+      The binary search tree is responsible for the all of the memory used by its nodes. Therefore, when the tree is destroyed, it needs to free all of that memory. This is most easily accomplished with a recursive helper function that deletes all nodes in a subtree rooted at a given node. The destructor can then call this helper on the root of the tree.
+    </p>
+
+    <p>
+      We need to visit every node in the tree, which means one of our standard tree traversals will be required. As to which traversal to use, a post-order traversal is the most natural fit. When we reach a node, we will first delete its left and right subtrees so that we don't lose track of them. Then, we can delete the current node itself.
+    </p>
+
+    <p>First our recursive helper function:</p>
+
+    <listing>
+    <program>
+      <![CDATA[
+void clearRecursive(Node* node) {
+    if (node == nullptr) {
+        return;  // Base case: nothing to delete
+    }
+    // Recurse on left and right subtrees
+    clearRecursive(node->left);
+    clearRecursive(node->right);
+    // Now delete this node
+    delete node;
+}
+      ]]>
+      </program>
+      </listing>
+
+    <p>And now we can worry about the member function that calls this helper. We might want to call this function in multiple places, so we will make it a public member function of the <pf>IntBST</pf> class.</p>
+
+    <p>One place we will definitely need to use the clear function is in the destructor. And in that case, the entire tree will be going away, so it would be OK to not bother resetting the root. But we might want to call <pf>clear()</pf> directly or in other situations where we want to reuse the tree object. So it should make sure the root is set to <pf>nullptr</pf>.</p>
+
+  <listing>
+  <program>
+    <![CDATA[
+class IntBST {
+private:
+    Node* root = nullptr;
+public:
+    ~IntBST();      // Destructor
+    void clear();   // Public clear function
+};
+
+void IntBST::clear() {
+    clearRecursive(root);  // Call helper on root
+    root = nullptr;        // Tree is now empty
+}
+
+// Destructor implementation
+IntBST::~IntBST() {
+    clear();  // Clear all nodes
+}
+]]>
+    </program>
+    </listing>
+
+  </subsection>
+
+  <subsection>
+    <title>Copy Constructor and Assignment Operator</title>
+
+    <p>
+      To implement a copy constructor and assignment operator for the binary search tree, we need a way to copy all of the nodes from one tree to another. We want to do a deep copy, meaning that we create an entirely new set of nodes with the same values and structure as the source tree.
+    </p>
+
+    <p>
+      Our parameter will be the node in the source tree that we want to copy. Our job will be to make a new node with the same value, recursively copy its left and right subtrees, and then return the address of the new node we created. This time, a pre-order traversal makes the most sense. We need to create the current node first, and then we can recursively create its children and attach them.
+    </p>
+
+    <listing>
+    <program highlight-lines="8-9" line-numbers="yes">
+      <![CDATA[
+Node* copyRecursive(Node* sourceNode) {
+    if (sourceNode == nullptr) {
+        return nullptr;  // Base case: nothing to copy
+    }
+    // Create new node with same value
+    Node* newNode = new Node(sourceNode->data);
+    // Recursively copy left and right subtrees
+    newNode->left = copyRecursive(sourceNode->left);
+    newNode->right = copyRecursive(sourceNode->right);
+    return newNode;  // Return address of new node
+}
+      ]]>
+    </program>
+    </listing>
+
+    <p>Note how we make each recursive call, which will return a pointer, and then store that as the address of the new node's appropriate child.</p>
+    
+  <activity>
+    <title>Binary Search Trees</title>
+    <p>
+      This animation is prepared to copy the tree on the left into a new tree on the right. Press the <c>></c> button to step through the insertion process.
+      </p>
+    <interactive platform="javascript" 
+                design-width="1600"
+                 aspect="4:1.5">
+    <script type="module">
+      import { BSTCopy } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new BSTCopy({initialData: [4,2,6,1,3,5] });
+      anim.doCopy();
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+    <p>
+      Now we can implement the copy constructor and assignment operator using this helper function. The copy constructor will call the helper on the source tree's root and set its own root to the result. The assignment operator will first clear its own tree to avoid memory leaks, then call the helper on the source tree's root, and finally set its own root to the result. (It will also need to do the usual self-assignment check and return <pf>*this</pf>.)
+    </p>
+
+    <listing>
+    <program>
+<![CDATA[
+class IntBST {
+private:
+    Node* root = nullptr;
+public:
+    IntBST(const IntBST& other);            // Copy constructor
+    IntBST& operator=(const IntBST& other); // Assignment operator
+};
+
+// Copy constructor implementation
+IntBST::IntBST(const IntBST& other) {
+    root = copyRecursive(other.root);  // Deep copy of other's tree's nodes
+}
+
+// Assignment operator implementation
+IntBST& IntBST::operator=(const IntBST& other) {
+    if (this != &other) {                  // Self-assignment check
+        clear();                           // Clear current tree
+        root = copyRecursive(other.root);  // Deep copy of other's tree's nodes
+    }
+    return *this;                          // Return this object
+}
+]]>
+</program>
+</listing>
+
+  </subsection>
+
+</section>

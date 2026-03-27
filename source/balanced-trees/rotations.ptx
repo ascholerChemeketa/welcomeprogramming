@@ -1,0 +1,133 @@
+<section xml:id="balanced-trees_rotations"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Rotations</title>
+
+  <p>
+    There are different strategies for tracking and maintaining balance in a binary tree. But all of the strategies rely on a fundamental operation called a <em>rotation</em>. A rotation is a local restructuring of a small part of the tree that changes the heights of the left and right subtrees of a node. By performing rotations during insertions and deletions, we can keep the overall tree balanced.
+  </p>
+
+  <p>
+    A rotation can be named in multiple ways, but the most common is to name it based on the direction that the subtree is rotated. A <term>right rotation</term> is one where a node is rotated down to the right, and its left child is rotated up to take its place. A <term>left rotation</term> is the opposite: a node is rotated down to the left, and its right child is rotated up to take its place.
+  </p>
+
+  <figure>
+    <caption>Right Rotation of 5. On the left is the initial state. On the right is the state after the rotation.</caption>
+    <image source="images/balanced-trees/right-rotation-1.svg" width="60%">
+      <shortdescription>
+        <p>
+          A right rotation is performed on the node with value 5. The left child (3) becomes the new root of the subtree, and 5 becomes the right child of 3.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <note>
+    <p>
+      The other common way to name rotations is based on the child that is rotated up. In that naming scheme, the above rotation would be a rotation of the 3 node (because it is the left child that is rotated up). Both naming schemes are widely used, so be sure to understand which one is being used in any particular context. We will use the direction-based naming scheme in this book.
+    </p>
+  </note>
+
+  <p>
+    This rotation improves the balance of the tree by reducing the height of the left subtree and increasing the height of the right subtree of the rotated node. In the simple example above, the heights of the left and right subtrees of the root node went from 2 and 0 to 1 and 1.
+  </p>
+
+  <p>
+    Of course, not every tree is as simple as that one. Often times there will be children below the nodes being rotated. The rotation operation must preserve the binary search tree property, so we need to be careful about where those children end up after the rotation.
+  </p>
+
+  <p>
+    When rotating right, the two nodes involved in the rotation are the <term>pivot</term> (the node being rotated down) and its left child (the node being rotated up). The left child may have both left and right children of its own. The pivot may have a right child.
+    We will refer to the left child's left child as <m>A</m>, its right child as <m>B</m>, and the pivot's right child as <m>C</m>.
+  </p>
+
+  <figure>
+    <caption>Right Rotation of 5 with children of the pivot and left child labeled.</caption>
+    <image source="images/balanced-trees/rotation-children.svg" width="40%">
+      <shortdescription>
+        <p>
+          A right rotation is performed on the node with value 5. The left child (3) becomes the new root of the subtree, and 5 becomes the right child of 3. The left child of 3 is A. The right child of 3 is B. The right child of 5 is C.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p><m>A</m> and <m>C</m> can stay where they are in the rotation. <m>B</m> however presents a problem. The old left child (3 in our diagram) will need to use its right pointer to point at the pivot (the 5 node). So we need to do something with <m>B</m>.</p>
+
+  <p>Note that whatever value <m>B</m> has, it must be less than the pivot or it would not have ended up in the left subtree. Also, it must be greater than the left child or it would not have ended up as the right child of the left child. So <m>B</m> needs to remain between the left child and the pivot after the rotation.</p>
+
+  <p>
+    Fortunately, as the pivot rotates down, it no longer needs to use its left pointer. The node it was pointing at is now its parent. So we can have the pivot use its left pointer to point at <m>B</m>. This keeps <m>B</m> in the correct position in the tree and preserves the binary search tree property.
+  </p>
+  
+
+  <figure>
+    <caption>The pivot (5) adopts its middle grandchild (4) as a new child.</caption>
+    <image source="images/balanced-trees/right-rotation-2.svg" width="60%">
+      <shortdescription>
+        <p>
+          A right rotation is performed on the node with value 5. The left child (3) becomes the new root of the subtree, and 5 becomes the right child of 3. The right child of 3 (4) becomes the left child of 5.
+        </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <insight>
+    <p>
+      During a rotation, the original parent adopts its <q>middle grandchild</q> as a new child.
+    </p>
+  </insight>
+
+  <p>
+    Left rotations are simply a mirror image of right rotations. In a left rotation, the pivot is rotated down to the left, and its right child is rotated up to take its place. The pivot adopts its middle grandchild (the left child of the right child) as a new right child.
+  </p>
+
+  <activity>
+    <title>Rotations</title>
+    <p>
+      The animation is set to perform a right rotation on the node with value 5. Use the <c>></c> button to step through the rotation process.
+    </p>
+    <p>Once it is done, try doing a left rotation of 3 (click on the 3 node and then press <c>Rotate Left</c>).</p>
+    <interactive platform="javascript" 
+                design-width="1600"
+                 aspect="4:2">
+    <script type="module">
+      import { BST } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new BST({initialData: [5,3,6,1,4] });
+      anim.doRotateRight(5);
+
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+
+  <p>The code to do a rotation like this is relatively simple. Given a pointer to the pivot node, we can perform the rotation as follows:</p>
+
+  <listing>
+    <program>
+      <![CDATA[
+Node* rotateRight(Node* pivot) {
+    Node* leftChild = pivot->left;
+    Node* middleGrandchild = leftChild->right;  // may be null, doesn't matter
+    pivot->left = middleGrandchild;             // Pivot adopts middle grandchild
+    leftChild->right = pivot;                   // Left child adopts pivot
+    return leftChild;                           // New root of the subtree
+}
+      ]]>
+      </program>
+  </listing>
+
+  <p>Note that we return the new root of the subtree after the rotation. We would need to update the parent node's pointer to point to this new root.</p>
+
+  <program>
+    <![CDATA[ 
+    ...
+    // left child of "parent" need to rotate right
+    parent->left = rotateRight(parent->left);
+    ...
+    ]]>
+  </program>
+
+</section>

@@ -1,0 +1,64 @@
+<section xml:id="hash-tables_using-std"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Using Standard Library Hash Tables</title>
+
+  <p>
+    The C++ standard library provides <pf>unordered_set</pf> and <pf>unordered_map</pf> classes that implement hash table based sets and maps. (As opposed to the <pf>set</pf> and <pf>map</pf> classes that implement BST based sets and maps.)
+  </p>
+
+  <p>
+    The standard library specifications require that elements are not moved in memory even when the hash table grows. This essentially requires that implementations use open hashing and do not store elements directly in the array. Because this approach may not be as efficient for small data types, there are popular third-party libraries like <url href="https://www.boost.org/doc/libs/latest/libs/unordered/doc/html/unordered/reference/unordered_flat_map.html">boost::unordered_flat_map</url> and <url href="https://github.com/martinus/robin-hood-hashing">robin_hood::map</url> that provide hash table implementations that are work just like the standard library version but use closed hashing and store elements directly in the array. 
+  </p>
+  
+  <p>The most significant requirement for using the <pf>std::unordered_set</pf> and <pf>std::unordered_map</pf> classes is that the key type must be hashable and comparable for equality.</p>
+
+  <p>
+    If a custom type already has an equality operator defined, it is possible to provide a specialization of <pf>std::hash</pf> for that type. Although normally you do not want to add things to the <pf>std</pf> namespace, specializing <pf>std::hash</pf> for a custom data type is an exception to that rule. The listing below shows this being done for a simple <pf>Person</pf> struct.
+  </p>
+
+    <listing>
+      <program label="hash-tables_std-hash-specialize-1" interactive="activecode">
+<xi:include href="../../programs/hash-tables/std-hash-specialize.cpp" parse="text"/>
+      </program>
+    </listing>
+
+    <p>Because we have an equality operator, and now there is a definition for <pf>std::hash&lt;Person></pf>, on line 38, we can simply declare:</p>
+
+    <program>
+      std::unordered_map&lt;Person, string> personToCity;
+    </program>
+
+    <p>The standard library will use our specialization of <pf>std::hash&lt;Person></pf> to hash the keys and the equality operator to compare keys for equality when needed.</p>
+
+    <p>Alternatively, we can define our own functor for hashing and pass it as a template argument to <pf>std::unordered_map</pf>. We can also pass in a functor that determines equality if we don't want to use the default equality operator. This second version of the program uses this approach:</p>
+
+    <listing>
+      <program label="hash-tables_std-hash-specialize-2" interactive="activecode">
+<xi:include href="../../programs/hash-tables/std-hash-specialize-2.cpp" parse="text"/>
+      </program>
+    </listing>
+
+    <p>
+      This time, on like 36 we declare the unordered map with our custom hash and equality functors:
+    </p>
+
+    <program>
+    std::unordered_map&lt;Person, string, PersonHash, PersonEqual> personToCity;
+    </program>
+
+    <p>
+      Note that the hash and equality functors we defined are consistent with each other. They both rely on just the name to to determine the hash value and equality. If the Person <pf>==</pf> used the same logic, we could skip the equality functor and just use the default equality operator. In that case, we could declare the unordered map like this:
+    </p>
+
+    <program>
+    std::unordered_map&lt;Person, string, PersonHash> personToCity;
+    </program>
+
+    <note>
+      <p>
+        Always remember that a hash function and equality operation for objects in a hash table always should be based on the same attributes.
+      </p>
+    </note>
+
+</section>

@@ -1,0 +1,75 @@
+<section xml:id="hash-tables_hash-functions-numbers"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Hash Functions for Numeric Data</title>
+
+  <p>
+    To insert a piece of data into a hash table, we need to calculate an index in the array where that data should be stored. To do that, we need to perform two tasks:
+    <ul>
+      <li>We need to transform the data into an integer. This is the <q>hashing</q> part of the task.</li>
+      <li>We then need to take the integer and map it to a valid index in the array we are using to store our data. This is the <q>indexing</q>, or <q>mapping</q>, part of the task.</li>
+    </ul>
+    The second task is relatively straightforward. If we have an array of size <m>n</m>, we can take the integer <m>i</m> we got from hashing and compute <pf>i % n</pf> to get a valid index in the array. (Dividing by <m>n</m> and taking the remainder ensures the result is between 0 and <m>n - 1</m>.) The value of <m>n</m> will depend on the size of the array, not the input. So we will leave that task for the data structure to worry about. The first task, hashing, is independent of the data structure, with logic that only depends on the type of data we are trying to hash. This is the only part of the process that our hash functions will worry about.
+  </p>
+
+  <figure>
+    <caption>The two tasks. A hash function transforms our key into a number. Then we map that number to an index in the array.</caption>
+    <image source="images/hash-tables/hashing-vs-mapping.svg" width="60%">
+      <shortdescription>
+        <p>
+          The string "John Smith" is transformed by a hash function into the integer 18. Then, because our array has size 7, we compute 18 % 7 to get the index 4, which is where we will store "John Smith" in the array.
+          </p>
+      </shortdescription>
+    </image>
+  </figure>
+
+  <p>
+    The simplest type of data to hash is an integer. We can just use the integer itself as the hash value. For example, if we want to store the number 42 in our hash table, we can just use 42 as the hash value. If we want to store the number 12345, we can just use 12345 as the hash value. The values are already unique and can be easily mapped to an index in the array using the modulo operator as described above. (We don't care that the original value is obviously recoverable from the hash value, because we are not using hashing for security purposes.)
+  </p>
+
+  <program>
+    <![CDATA[
+int myHash(int value) {
+    return value;  // The hash of an integer is just the integer itself
+}
+    ]]>
+  </program>
+
+  <p>
+    For other primitive types, we can simply turn them into integers. For example, for a character, we can use its ASCII value as the hash:
+  </p>
+  
+  <program>
+    <![CDATA[
+int myHash(char value) {
+    return static_cast<int>(value);  // The hash of a char is its ASCII value
+}
+    ]]>
+  </program>
+
+  <p>
+    While turning a floating point value into an integer, we don't want <pf>3.1</pf> and <pf>3.14</pf> to have the same hash value. But we might be worried about the fact that a value we expect to be 3.1 might actually be stored as 3.0999999999999996 due to the way floating point numbers are represented in memory. So, like when deciding if floating point values are <q>equal</q>, we will want to only consider a certain number of decimal places when hashing. For example, we might decide to multiply the value by 10000 and then round it to the nearest integer before using that as the hash value. That way, 3.1 and 3.14 would have different hash values, but 3.1 and 3.0999999999999996 would have the same hash value.
+  </p>
+      
+  <listing>
+    <program interactive="activecode" label="hash-tables_hash-functions-program-1">
+<xi:include href="../../programs/hash-tables/double-hash.cpp" parse="text"/>
+    </program>
+  </listing>
+
+  <p>
+    Note that although 3.01 and 3.0999999999999996 hash to the same value, it is not 30100! 3.01 has a binary representation that is slightly less than 3.01. But, our function successfully treats those values as the same for hashing purposes, which is what we wanted.
+  </p>
+
+  <p>
+    Other approaches might directly convert the bits of the floating point value into an integer, but that would not give us the ability to treat values that are close enough as the same for hashing purposes. Regardless of the approach taken, we will need to be careful to ensure that the hash function produces the same hash value for values that we want to treat as the same, and different hash values for values that we want to treat as different.
+  </p>
+
+  <warning>
+    <p>
+      Floating point values like doubles are not great candidates for hashing. Given a choice of data types to hash, you should generally avoid hashing floating point values. If you do need to hash them, be sure to carefully consider how you will handle the issues described above.
+    </p>
+  </warning>
+
+
+</section>

@@ -1,0 +1,124 @@
+<section xml:id="hash-tables_hash-functions-strings"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Hash Functions for Strings</title>
+
+  <p>
+    To hash a string, or other complex data type, we need to find a way to combine the hash values of the individual characters (or other components) into a single hash value. One simple approach would be to combine all of the character codes together to produce a single integer.
+    While this is a valid hash function, it is not a very good one. It will produce the same hash value for any two strings that have the same characters in any order. Two string like <q>sheet</q> and <q>these</q> would produce the same hash value, even though they are different strings.
+  </p>
+
+  <p>
+    Before looking at why this happens and what we can do about it, let's consider how we should <q>combine</q> the character codes together. We could just add them all together. Another common method is to use <term>exclusive or</term>, or <term>xor</term>, to combine the bits. <term>xor</term> is an operation that takes two bits and produces a 1 if exactly one of the bits is 1, and produces a 0 otherwise. (1 if they are different, 0 if they are the same.) In C++, the <pf>^</pf> operator is the <q>bitwise exclusive or</q> operator. It combines two values by performing the <q>xor</q> operation on each pair of corresponding bits.
+  </p>
+  
+  <figure>
+    <caption><pf>'e' ^ 's'</pf>. Every column where the bits are different has a 1 in the result. Every column where the bits are the same has a 0.</caption>
+    <pre>
+      01100101  (bits of 'e')
+      01110011  (bits of 's')
+      --------
+      00010110  (xor of 'e' and 's')
+    </pre>
+  </figure>
+
+  <note>
+    <p>
+      XOR is often chosen because it is a simple operation that can be performed efficiently by just about any processor. Other logical operations like AND and OR tend to force values towards either 1 (for OR) or 0 (for AND), which can lead to more collisions. For any random pair of bits, XOR will produce a 1 half of the time and a 0 half of the time, which can help to spread out hash values more evenly.
+    </p>
+    <p>
+      Xor has its own issues as a hash operation. If you hash the same value with itself, you will get a hash value of 0. Both <pf>'e' ^ 'e'</pf> and <pf>'s' ^ 's'</pf> would produce 0. Ideally, the strings <pf>ee</pf> and <pf>ss</pf> would produce different hash values.</p>
+    <p>Robust hash functions often combine xor with other operations like addition to avoid this problem.</p>
+  </note>
+
+  <p>
+    Whether we use addition or xor, we still have the problem that <q>sheet</q> and <q>these</q> produce the same hash value. In general, we can't guarantee that every object will produce a unique hash value. But we can try to design our hash function to minimize the number of collisions (cases where different objects produce the same hash value). To do this in a string, we need to make sure that the order of the characters matters. One way to do that is to shift the bits of different characters by different amounts before combining them.
+  </p>
+
+  <p>First, look at the results of <pf>'e' ^ 's'</pf> and <pf>'s' ^ 'e'</pf>.</p>
+
+  <sidebyside>
+
+    <figure>
+      <caption><pf>'e' ^ 's'</pf></caption>
+      <pre>
+        01100101  (bits of 'e')
+        01110011  (bits of 's')
+        --------
+        00010110  (xor)
+      </pre>
+    </figure>
+
+    <figure>
+      <caption><pf>'s' ^ 'e'</pf></caption>
+      <pre>
+        01110011  (bits of 's')
+        01100101  (bits of 'e')
+        --------
+        00010110  (xor)
+      </pre>
+    </figure>
+
+  </sidebyside>
+
+  <p>Now, look at the results if we take the first character and shift its bits left by 4 before combining with the second character.</p>
+
+  <sidebyside>
+    <figure>
+      <caption><pf>'e' ^ 's'</pf> with bits of 'e' shifted left by 4</caption>
+      <pre>
+        01100101      (bits of 'e' &lt;&lt; 4)
+            01110011  (bits of 's')
+        ------------
+        011000100011  (xor)
+      </pre>
+    </figure>
+
+    <figure>
+      <caption><pf>'s' ^ 'e'</pf> with bits of 's' shifted left by 4</caption>
+      <pre>
+        01110011      (bits of 's' &lt;&lt; 4)
+            01100101  (bits of 'e')
+        ------------
+        011100110110  (xor)
+      </pre>
+    </figure>
+</sidebyside>
+
+<p>When we shift the bits of the first character, the order of the characters affects the hash value, which will make sure <pf>se</pf> and <pf>es</pf> produce different hash values.</p>
+
+<p>Shifting bits in this way is a simple example of a technique called a <term>rolling hash</term>, which is often used in string hashing algorithms. We can continue to shift the bits we have so far before each character is added to the hash value. The animation below demonstrates the process.</p>
+
+  <activity>
+    <title>String Hashing</title>
+    <p>The animation is set to hash <pf>these</pf>. Click the <c>></c> button to step through the process.</p>
+    <interactive platform="javascript"
+                 design-width="1600"
+                 aspect="4:2">
+      <script type="module">
+      import { StringHash } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new StringHash({zoom: "1.5x"});
+      anim.doHash("these");
+    </script>
+      <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+    </interactive>
+  </activity>
+
+  <p>
+    A C++ implementation of this hash function for strings is shown below. We start with a hash value of 0, and for each character in the string, we shift the current hash value left by 4 bits and then xor it with the character code of the current character. We introduce the <pf>^</pf> operator above. The <pf>&lt;&lt;</pf> operator shifts bits to the left.
+  </p>
+
+  <program>
+<![CDATA[
+int hashString(const std::string& str) {
+    int hash = 0;
+    for (char c : str) {
+        hash = (hash << 4) ^ c;  // Shift hash left by 4 bits and xor with character code
+    }
+    return hash;
+}
+    ]]>
+  </program>
+
+</section>

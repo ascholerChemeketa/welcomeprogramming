@@ -1,0 +1,72 @@
+<section xml:id="linked-lists_lists"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Abstract Data Types and List</title>
+
+  <p>
+    So far, when we have needed to store a list of values, we have used a <pf>vector</pf> (or the ArrayList that we built). Those structures are a particular way to store a sequence of items in memory. They allocate an array and use that array to store the items. Then it gives us an interface to work with those items in a particular way (<pf>push_back</pf>, <pf>size</pf>, etc...).
+  </p>
+    
+  <p>
+    Most of the time, when we are using the structure, all we  care about is what we can do with the data. We don't care how the data is stored or how the operations are implemented. As long as a <pf>push_back</pf> adds an item to the end of the list, we don't care how it does that. This idea is known as an <term>abstract data type</term> (ADT).
+  </p>
+
+  <p>
+    An abstract data type (ADT) describes what operations are allowed on that data,
+    but not how the data is stored or how the operations are implemented. For example, a <term>list</term> ADT might define operations like:
+
+    <ul>
+      <li><pf>add(item)</pf> <mdash/> Add an item to the list (like <pf>push_back</pf>)</li>
+      <li><pf>get(index)</pf> <mdash/> Get the value at a particular position in the list</li>
+      <li><pf>set(index, item)</pf> <mdash/> Set the value at a particular position in the list</li>
+      <li><pf>remove(index)</pf> <mdash/> Remove the item at a particular position in the list</li>
+      <li><pf>insert(index, item)</pf> <mdash/> Insert an item at a particular position in the list</li>
+      <li><pf>size()</pf> <mdash/> Get the number of items in the list</li>
+    </ul>
+
+    The <term>list</term> ADT does not say anything about how the list is stored or how those operations are implemented. It just says what operations are available and what they do.
+  </p>
+
+  <p>
+    An <pf>ArrayList</pf> is one way to implement a list ADT. The particular implementation will affect the performance of various operations. We already know that in an <pf>ArrayList</pf> it is much easier to add an item to the end of the list than it is to insert an item at the front of the list. (Which is why <pf>std::vector</pf> doesn't provide a <pf>push_front</pf>.) 
+  </p>
+
+  <p>
+    If we use a different technology to implement the list ADT, we can get different performance characteristics. In the coming sections, we will explore implementing a <term>list</term> without using an array. A different implementation will often offer different performance trade-offs.
+  </p>
+
+  <p>
+    The advantage of defining and using an abstract data type is that we can change the implementation without changing the code that uses it. Code that relies on a <q>list</q> can easily switch from using an <pf>ArrayList</pf> to some other implementation. For lists in particular, there is no one best implementation. Different implementations have different performance trade-offs, and the best choice depends on how the list will be used. Thinking in terms of the <pf>list</pf> ADT allows us to write code that can more easily switch between different implementations.
+  </p>
+
+  <exercise label="linked-lists_lists_ex1">
+    <statement>
+      <p>
+        Which of the following describe an ADT? Select all that apply.
+      </p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+        <p>Specifies an interface for working with data</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+        <p>Specifies an implementation strategy</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+        <p>Guarantees certain performance characteristics</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+        <p>Enables code abstraction and flexible implementation</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>

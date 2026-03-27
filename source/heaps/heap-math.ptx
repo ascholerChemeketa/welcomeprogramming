@@ -1,0 +1,114 @@
+<section xml:id="heaps_heap-math"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>The Math of Complete Binary Trees</title>
+
+  <p>
+    The shape property of heaps is essential because a complete binary tree provides some important mathematical relationships between the number of nodes in the tree and its height.
+  </p>
+
+  <p>
+    We refer to the <term>height</term> of a tree as the number of edges on the longest path from the root to a leaf. A tree with just a single node has a height of 0, since there are no edges. A tree with a single layer of children has a height of 1. If there are children of those children, the height is 2, and so on.
+  </p>
+  
+    <sidebyside widths="30% 30% 30%">
+      <figure>
+        <caption>A height 0 tree.</caption>
+        <image source="images/heaps/height0.svg">
+          <shortdescription>
+            <p>A single node</p>
+          </shortdescription>
+        </image>
+      </figure>
+      <figure>
+        <caption>A height 1 tree.</caption>
+        <image source="images/heaps/height1.svg">
+          <shortdescription>
+            <p>A single node with two children.</p>
+          </shortdescription>
+        </image>
+      </figure>
+      <figure>
+        <caption>A height 2 tree.</caption>
+        <image source="images/heaps/height2.svg">
+          <shortdescription>
+            <p>A single node with two children. Each of those children has two children.</p>
+          </shortdescription>
+        </image>
+      </figure>
+    </sidebyside>
+
+    <insight>
+      <p>Height is number of steps you can take from the root to the deepest node.</p>
+    </insight>
+
+    <p>Note that in a complete binary tree, every level has twice as many nodes as the level above it. The first level (the root) has 1 node. The second level has 2 nodes. The third level has 4 nodes. The fourth level has 8 nodes. In general, level <m>h</m> has <m>2^h</m> nodes.</p>
+
+    <p>
+      If we sum up all the nodes from level 0 to level <m>h</m>, we can calculate the total number of nodes in a complete binary tree of height <m>h</m>. This sum is a geometric series:
+    </p>
+      <md>1 + 2 + 4 + \cdots + 2^h = \sum_{i=0}^h 2^i</md>
+
+      <p>
+        That sum can be calculated using the formula for the sum of a geometric series:
+        <md>\sum_{i=0}^h r^i = \frac{r^{h+1} - 1}{r - 1}</md>
+      </p>
+
+      <p>
+        Which means that for our series where <m>r = 2</m>, we have:
+        <md>\sum_{i=0}^h 2^i = \frac{2^{h+1} - 1}{2 - 1} = 2^{h+1} - 1</md>
+      </p>
+
+      <p>We can confirm this using a height 3 tree. A height 3 three would have levels of 1, 2, 4, and 8 nodes respectively, summing to 15 nodes in total. The formula gives us <m>2^{3+1} - 1 = 2^4 - 1 = 15</m>, a perfect match.</p>
+
+      <insight>
+      <p>
+        A complete binary tree of height <m>h</m> has <m>2^{h+1} - 1</m> nodes.
+      </p>
+      </insight>
+
+      <p>
+        The more useful formula for heaps is the inverse of this. Given <m>n</m> nodes, what is the height of the complete binary tree that contains them? We can solve the formula for <m>h</m>:
+      </p>
+
+      <md>
+        <mrow>n &amp; = 2^{h+1} - 1</mrow>
+        <mrow>n + 1 &amp; = 2^{h+1}</mrow>
+        <mrow>\log_2(n + 1) &amp; = \log_2(2^{h+1})</mrow>
+        <mrow>\log_2(n + 1) &amp;= h + 1</mrow>
+        <mrow>h &amp;= \log_2(n + 1) - 1</mrow>
+      </md>
+
+      <p>
+        Let's test this with our previous example of a height 3 tree with 15 nodes. Plugging in 15 for <m>n</m> gives us:
+        <md>h = \log_2(15 + 1) - 1 = \log_2(16) - 1 = 4 - 1 = 3</md>. What if a tree has 100 nodes? Plugging in 100 for <m>n</m> gives us:
+        <md>h = \log_2(100 + 1) - 1 = \log_2(101) - 1 \approx 6.658 - 1 \approx 5.658</md>. Since height must be an integer, we round up (ceil) to get a height of 6.
+      </p>
+
+      <insight>
+      <p>
+        A complete binary tree with <m>n</m> nodes has a height of <m>ceil(\log_2(n + 1) - 1)</m>.
+      </p>
+      </insight>
+
+      <p>
+        The precise formula for height is not as important as the fact that height grows logarithmically with the number of nodes. Given a number of nodes <m>n</m>, the height <m>h</m> is given by <m>h</m> and<m>h \approx \log_2(n)</m>. The height of a tree also tells us the maximum number of steps it takes to get from the root to any node. In the case of our binary heap, this means that any operation that involves traversing from the root to any node (or vice versa) will take at most <m>O(\log n)</m> steps.
+      </p>
+
+      <p>
+        We can see this fact intuitively if we focus on the number of nodes in the current row as we move from the bottom of the tree to the top of the tree. Imagine we start on a level with 32 nodes. When we move up to the next level, there will only be 16 nodes. The level above that will have 8 nodes. Then 4, then 2, then 1. Each time we move up a level, the number of nodes is halved. This pattern:
+      </p>
+
+      <pre>32, 16, 8, 4, 2, 1</pre>
+
+      <p>
+        Is a classic <m>log_2</m> pattern. The starting value we used is the number of nodes at the bottom level. That is different than the number of nodes in the entire tree, but the two are directly related. In a complete tree, the bottom level will always have about half the nodes in the entire tree. (Confirm it yourself by drawing a few complete binary trees and counting the nodes.)
+      </p>
+
+      <p>So, if we know there are 100 nodes in a tree, we can expect the bottom level to have about 50 of them. And, from there, it is approximately <m>log_2(50)</m> steps to the top. Those are approximations, but even so, they give an answer of ~5.64, which is essentially what we calculated with the precise formula.</p>
+      
+      <insight>
+        <p>The max number of levels in a heap is <m>O(\log n)</m>.</p>
+      </insight>
+
+</section>

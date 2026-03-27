@@ -1,0 +1,1 @@
+cp -rf external/images/* published/welcomeprogramming/external/images/

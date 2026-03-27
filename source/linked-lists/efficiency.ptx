@@ -1,0 +1,217 @@
+<section xml:id="linked-lists_efficiency"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Efficiency of Linked Lists</title>
+
+  <p>
+    As with array based lists, most operations in a linked list either take constant time, <m>O(1)</m>, or linear time, <m>O(n)</m>. A good rule of thumb is that operations that involve making a pointer and using it to walk through the list take linear time, while operations that just involve changing a few pointers and creating or deleting a single node take constant time.
+  </p>
+
+  <p>
+    For example, adding an element to the front of the list takes constant time, because we just need to create a new node and change a couple of pointers. But adding an element at a particular index takes linear time, because we have to walk through the list to find the right position first. In the worst case, we might have to walk through the entire list to find the right position (<m>O(n)</m>), and then we have to change a few pointers to insert the new node (<m>O(1)</m>). The overall time is dominated by the linear part, so the operation is <m>O(n)</m>.
+  </p>
+
+  <p>
+    If we already had a pointer in the correct location, then inserting a new node there would take constant time, <m>O(1)</m>, because we would just need to change a few pointers. But in general, we don't have such a pointer, so we have to walk through the list first.
+  </p>
+
+  <p>
+    Adding a tail pointer makes it easier to access the end of the list quickly. So, any list that has a tail pointer can add an element to the end of the list in constant time, <m>O(1)</m>. Without a tail pointer, adding an element to the end of the list takes linear time, <m>O(n)</m>, because we have to walk through the entire list to find the end.
+  </p>
+
+  <p>
+    Removing the last element efficiently requires both a tail pointer and a doubly linked list structure, so we can quickly access the node before the last one. If we have both of those, removing the last element takes constant time, <m>O(1)</m>.
+  </p>
+
+  <note>
+    <p>
+      In a doubly linked list with size and tail, we could get to items in the second half of the list faster by starting from the tail and moving backwards. However, since we still have to walk through up to half the list in the worst case (<m>n/2</m> items), the time complexity remains linear, <m>O(n)</m>.
+    </p>
+  </note>
+
+  <p>
+    Finding the size of the list, if we keep track of it with a variable, takes constant time, <m>O(1)</m>. If we don't keep track of it, we have to walk through the entire list to count the elements, which takes linear time, <m>O(n)</m>.
+  </p>
+
+  <p>
+    Finally, clearing or destroying the list takes linear time, <m>O(n)</m>, because we have to walk through the entire list to delete each node one by one. Each deletion takes constant time, <m>O(1)</m>, but since we have to do it for each of the n nodes, the overall time is <m>O(n)</m>.
+  </p>
+
+  <p>The table below summarizes the time complexity of common list operations in different kinds of lists.</p>
+
+  <table>
+    <title>Time Complexity of List Operations</title>
+    <tabular row-headers="yes" halign="center" bottom="minor">
+      <row header="yes">
+        <cell>Operation</cell>
+        <cell>Insert at Start</cell>
+        <cell>Remove at Start</cell>
+        <cell>Insert at End</cell>
+        <cell>Remove at End</cell>
+        <cell>Access at Index</cell>
+        <cell>Insert/Remove at Index</cell>
+        <cell>Find Size</cell>
+        <cell>Clear List</cell>
+      </row>
+      <row>
+        <cell>Array based List</cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(1)</m><fn>amortized time</fn></cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(1)</m></cell>
+      </row>
+      <row>
+        <cell>Simple Linked List</cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(n)</m></cell>
+      </row>
+      <row>
+        <cell>Singly Linked List with tail and size</cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(n)</m></cell>
+      </row>
+      <row>
+        <cell>Doubly Linked List with tail and size</cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(n)</m></cell>
+        <cell><m>O(1)</m></cell>
+        <cell><m>O(n)</m></cell>
+      </row>
+    </tabular>
+  </table>
+
+  <p>
+    Comparing linked lists to array based lists, we can see that each has its own strengths and weaknesses. If we need to frequently add or remove elements at both the start or end of the list, linked lists are more efficient. However, if we need to frequently access elements at specific indices, without trying to insert or remove them, array based lists are more efficient.
+  </p>
+
+  
+  <p>
+    Two related operations not covered in the table above are splitting a list into two halves or splicing two lists together into one longer list.</p>
+    
+  <p>Imagine we have two linked lists, and we want to combine them into a single list that contains all the elements of the first list followed by all the elements of the second list. We could detach all the nodes from the second list and attach them to the end of the first list. (We would also need to update the head, tail, and size variables of both lists accordingly.) This process takes constant time, <m>O(1)</m>, because we are just changing a few pointers and variables, regardless of how long the lists are. In contrast, doing the same operation with array based lists would take linear time, <m>O(n)</m>, because we would have to copy all the elements from the second list into the first list's array. There is no way to move a large block of elements from one array to another in constant time.
+  </p>
+
+  <p>
+    Similarly, splitting a linked list into two halves can be done in constant time, <m>O(1)</m>, by adjusting a few pointers to separate the two halves. In contrast, splitting an array based list would take linear time, <m>O(n)</m>, because we would have to copy half the elements into a new array.
+  </p>
+
+  <p>
+    In situations where kinds of both lists would require <m>O(n)</m> time, the array based list is often faster in practice due to better cache locality. Moving from one element to the next in an array is more likely to access memory that is already in the cache. Following a pointer often means jumping to a different part of memory, which is less likely to be in the cache. The difference in speed between accessing something in the cache, vs having to go to main memory, can be on the order of 100x. That kind of constant factor can make a big difference in practice, even if the overall time complexity is the same.
+  </p>
+
+  <p>
+    Linked lists can have some advantages for vary large pieces of data. If each element in the list is very large, then moving elements around in an array based list can be expensive, because it involves copying all that data. Imagine we have a list of 100 images, each several megabytes in size. If we want to remove an image from the middle of a list, the array based list would have to copy all the images after it one position earlier in the array. This is <m>O(n)</m> work, but the constant factor is very large because of the size of each image. In a linked list, we would the <m>O(n)</m> work would be to get to the right position. But doing so is not any harder with large data, because we are just following pointers. Once we are at the right position, removing the node is just a matter of changing a couple of pointers, which is <m>O(1)</m> work. We don't have to worry about moving all the remaining items around in memory.
+  </p>
+
+
+  <insight>
+    <p>Unless you have a good reason to choose a linked list, an array based list is often the better choice.</p>
+  </insight>
+  <exercise label="">
+    <statement>
+      <p>
+        
+      </p>
+    </statement>
+    <cardsort>
+      <match>
+        <premise></premise>
+        <response></response>
+      </match>
+    </cardsort>
+  </exercise>
+
+  <exercise label="linked-lists_efficiency-ex-1">
+    <statement>
+      <p>
+        Click and drag to match the following operations to their time complexity in a simple singly linked list (no size or tail pointer):
+      </p>
+    </statement>
+    <cardsort>
+      <match>
+        <premise>Insert start</premise>
+        <premise>Remove start</premise>
+        <response><m>O(1)</m></response>
+      </match>
+      <match>
+        <response><m>O(\log n)</m></response>
+      </match>
+      <match>
+        <premise>Insert end</premise>
+        <premise>Access index i</premise>
+        <premise>Remove end</premise>
+        <premise>Get length</premise>
+        <response><m>O(n)</m></response>
+      </match>
+    </cardsort>
+  </exercise>
+
+  <exercise label="linked-lists_efficiency-ex-2">
+    <statement>
+      <p>
+        Click and drag to match the following operations to their time complexity in a singly linked list with a tail pointer and size variable:
+      </p>
+    </statement>
+    <cardsort>
+      <match>
+        <premise>Insert start</premise>
+        <premise>Insert end</premise>
+        <premise>Remove start</premise>
+        <response><m>O(1)</m></response>
+      </match>
+      <match>
+        <response><m>O(\log n)</m></response>
+      </match>
+      <match>
+        <premise>Access index i</premise>
+        <premise>Remove end</premise>
+        <response><m>O(n)</m></response>
+      </match>
+    </cardsort>
+  </exercise>
+
+  <exercise label="linked-lists_efficiency-ex-3">
+    <statement>
+      <p>
+        Click and drag to match the following operations to their time complexity in a doubly linked list with a tail pointer and size variable:
+      </p>
+    </statement>
+    <cardsort>
+      <match>
+        <premise>Insert start</premise>
+        <premise>Insert end</premise>
+        <premise>Remove start</premise>
+        <premise>Remove end</premise>
+        <response><m>O(1)</m></response>
+      </match>
+      <match>
+        <response><m>O(\log n)</m></response>
+      </match>
+      <match>
+        <premise>Access index i</premise>
+        <response><m>O(n)</m></response>
+      </match>
+    </cardsort>
+  </exercise>
+
+</section>

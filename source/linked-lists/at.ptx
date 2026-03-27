@@ -1,0 +1,165 @@
+<section xml:id="linked-lists_simple-linked-list-at"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Indexing and Accessing Elements</title>
+  
+  <p>Vectors can access a particular element via its index efficiently because they store their elements in a contiguous block of memory. This allows them to do some simple arithmetic to calculate the address of any element based on its index.</p>
+
+  <p>In a linked list however, the elements are scattered throughout memory, so there is no easy way to calculate the address of a particular element based on its position in the list. Thus, in a linked list, accessing an element by index requires traversing the list from the beginning and following next pointers until we reach the desired index.</p>
+
+  <activity>
+    <title>Linked List At</title>
+    <p>
+      The animation is set to auto step. Click <c>Make current pointer</c> and let it finish running. You will be pointing at index 0. Then click <c>Advance current</c> and let it run. Then click <c>Advance current</c> again and let it run. You should have a current pointer pointing at index 2 (the 8 node).
+    </p>
+    <interactive platform="javascript" 
+                design-width="1600"
+                 aspect="4:2.5">
+    <script type="module">
+      import { LinkedListSimple } from "./external/interactives/data-structures/entry.js";
+
+      let anim = new LinkedListSimple({ initialData: [12, 8, 15, 3] , speed: "Medium" });
+    </script>
+    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+  </interactive>
+  </activity>
+
+  <p>
+    To automate this in an <pf>at</pf> function for our linked list, we can use a for loop that advances a <pf>current</pf> as many times as the desired index. After the loop finishes, our pointer will be pointing at the desired node, and we can return its data.
+  </p>
+
+  <listing>
+    <title>SimpleLinkedList at Implementation (No bounds checking)</title>
+  <program>
+    <![CDATA[
+template <class T>
+T LinkedList<T>::at(int index) const {
+    ListNode<T>* current = head;
+    for(int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    return current->data;
+}
+    ]]>
+  </program>
+  </listing>
+
+  <note>
+    <p>To make this function behave like the <pf>at</pf> function in <pf>std::vector</pf>, we would need to return a reference to the data instead of a copy, allowing for modification of the element directly.</p>
+    <p>But that would require the function to not be marked as <code>const</code>, since it would be modifying the list. Then, to support using <pf>.at()</pf> in both const and non-const contexts, we would need to provide two versions of the function: one const and one non-const.</p>
+    <p>We will avoid that complexity. If we wanted to provide a way to change data in a node we could provide a separate function specifically for that purpose (something like <pf>.setAt(int index, constT&amp; value)</pf>).</p>
+  </note>
+
+  <p>
+    As long as the function is given a valid index, that logic will be correct. But what if the index is negative? That is clearly invalid. Or, what if the function is given an index that is larger than the number of elements in the list? In that case, the for loop will eventually try to do <pf>current = current->next;</pf> when <pf>current</pf> is <pf>nullptr</pf>, which will cause an error.
+  </p>
+
+  <p>
+    To handle those cases, we can add some checks. First, we can check if the index is negative at the start of the function and throw an exception if it is. Then, inside the for loop, after moving <pf>current</pf> to the next node, we can check if <pf>current</pf> is <pf>nullptr</pf>. If it is, that means the index is out of range, and we can throw an exception in that case as well.
+  </p>
+
+  <listing>
+    <title>SimpleLinkedList at Implementation (With bounds checking)</title>
+  <program line-numbers="yes">
+    <![CDATA[
+template <class T>
+T LinkedList<T>::at(int index) const {
+    if (index < 0) {
+        throw std::out_of_range("Index out of range");
+    }
+    ListNode<T>* current = head;
+    for(int i = 0; i < index; i++) {
+        current = current->next;
+        if (current == nullptr) {
+            throw std::out_of_range("Index out of range");
+        }
+    }
+    return current->data;
+}
+    ]]>
+  </program>
+  </listing>
+
+  <p>
+    Having to keep checking <q>did we go too far</q> (line 9) is a bit clunky. If we knew in advance how many elements were in the list, we could just check the index against that at the start of the function and avoid having to check inside the loop. (We will examine that possibility in a later section.)
+  </p>
+
+  <p>Examining this function, we can see that in a list of <m>n</m> elements, this operation has a worst-case time complexity of <m>O(n)</m>. If we call <pf>.at(n - 1)</pf>, the loop will repeat <m>n - 1</m> times. This is much slower than doing the same operation on a <pf>std::vector</pf>, which has a time complexity of <m>O(1)</m>.</p>
+  
+  <p>For this reason, although we generally like reusing existing logic to implement new functions, we will not want to use <pf>.at()</pf> as a helper for other linked list functions. Imagine we implement a print function like this:
+  </p>
+
+  <program>
+    <![CDATA[
+// Inefficient print function using at()
+template <class T>
+void LinkedList<T>::print() const {
+    int listSize = this->size(); // assume we have a size() function
+    for (int i = 0; i < listSize; i++) {
+        cout << this->at(i) << " "; 
+    }
+    cout << endl;
+}
+]]>
+  </program>
+
+  <p>
+    A call to <pf>.print()</pf> will result in an <m>O(n^2)</m> operation because we have a loop that runs <m>n</m> times, and each time through the loop we call <pf>.at(i)</pf>, which is an <m>O(n)</m> operation. Instead, we want to implement any functions that need to visit each element in the list by traversing the nodes directly, without using <pf>.at()</pf>.
+  </p>
+
+  <warning>
+    <p>Remember: we never want to use <pf>.at()</pf> as a helper in linked list logic.</p>
+  </warning>
+
+
+  <exercise label="linked-lists_simple-linked-list-at_ex-1"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  <statement>
+  <p>Design the logic to print a range of elements [a, b] in a linked list. You may assume <pf>a</pf> and <pf>b</pf> are valid indices and a is less than or equal to b.</p>
+  </statement>
+  <blocks>
+    <block order="15" name="b" depends="">
+        <cline><![CDATA[void LinkedList<T>::printRange(int a, int b) const {]]></cline>
+    </block>
+    <block order="12" name="c" depends="b">
+        <cline><![CDATA[    ListNode<T>* current = head;]]></cline>
+    </block>
+    <block order="7" name="d" depends="b">
+        <cline><![CDATA[    int i = 0;]]></cline>
+    </block>
+    <block order="9" name="e" depends="c d">
+        <cline><![CDATA[    while (i < a) {]]></cline>
+    </block>
+    <block order="14" name="f" depends="e">
+        <cline><![CDATA[        current = current->next; // advance in a loop]]></cline>
+        <cline><![CDATA[        i++;]]></cline>
+    </block>
+    <block order="8" name="g" depends="e">
+        <cline><![CDATA[    } // end of a loop]]></cline>
+    </block>
+    <block order="13" name="i" depends="g">
+        <cline><![CDATA[    while (i <= b) {]]></cline>
+    </block>
+    <block order="1" name="j" depends="i">
+        <cline><![CDATA[        cout << current->data << " ";]]></cline>
+    </block>
+    <block order="2" name="k" depends="j">
+        <cline><![CDATA[        current = current->next; // advance in b loop]]></cline>
+        <cline><![CDATA[        i++;]]></cline>
+    </block>
+    <block order="10" name="l" depends="i">
+        <cline><![CDATA[    } // end of b loop]]></cline>
+    </block>
+    <block order="6" name="n" depends="l">
+        <cline><![CDATA[    cout << endl;]]></cline>
+    </block>
+    <block order="3" name="o" depends="n">
+        <cline><![CDATA[}]]></cline>
+    </block>
+  </blocks>
+</exercise>
+
+
+</section>

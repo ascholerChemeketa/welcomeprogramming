@@ -1,0 +1,97 @@
+<section xml:id="heaps_why"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Priority Queues</title>
+
+  <p> In <xref ref="practical-programming_queue"/>, we learned about queues. Their key feature of
+    course is that they are first in, first out. This makes them useful for representing real-world
+    queues (line ups), such as lines at a supermarket or storing things like a collection of
+    incoming print jobs.</p>
+
+  <p>However, given a collection of <q>things to process</q>, we often want to be able to specify
+    that some things are more important than others. For example, in a hospital emergency room,
+    patients with life-threatening injuries should be treated before patients with minor injuries,
+    even if the minor injury patients arrived first. In an operating system, responding to user
+    input is generally more important than background tasks like file indexing.</p>
+
+
+  <p>The term for a queue that lets us specify the importance of items and process them in that
+    order is a <term>priority queue</term>.<idx>priority queue</idx></p>
+
+
+  <p> A priority queue acts like a queue in that we can add items to it and remove items from it.
+    However, instead of removing items in the order they were added, we remove them in order of
+    their priority. The item with the highest priority is removed first, then the item with the next
+    highest priority, and so on. If two items have the same priority, they are removed in the order
+    they were added (first in, first out).</p>
+
+  <p> We can imagine implementing a priority queue by using a sorted vector, where items are always
+    kept in order of their priority. Given jobs of priorities <c>{4, 7, 11, 15, 19}</c>, they would be stored in the
+    list in that order. In this implementation, finding and removing the highest priority item is
+    efficient because it is always at the end of the vector. We can just remove the last item in the
+    vector in <m>O(1)</m> time. However, adding new items is less efficient. To add a new item, we
+    have to find the correct position to insert it to maintain the sorted order. The worst case
+    would be when we insert an item with very low priority, which would require shifting all the
+    other items over to make room for the new item. This takes <m>O(n)</m> time. </p>
+
+  <p> Alternatively, we could implement a priority queue using an unsorted vector. Our list of items
+    might look like <c>{19, 7, 4, 15, 11}</c> In this case, adding new items is efficient because we can just add them
+    to the end of the vector in <m>O(1)</m> time. However, removing the highest priority item is
+    less efficient because we have to search through the entire vector to find it. This takes <m>
+    O(n)</m> time. </p>
+
+  <p> Neither of these implementations is ideal because one of the two main operations (adding or
+    removing items) is inefficient. Instead, there is a way to store the data using a structure
+    known as a <term>heap</term> and achieve both operations in <m>O(\log n)</m> time. </p>
+
+  <table>
+    <title>Comparison of Priority Queue Implementations</title>
+    <tabular halign="center">
+      <row header="yes">
+        <cell>Implementation</cell>
+        <cell>Add Item</cell>
+        <cell>Remove Highest Priority Item</cell>
+      </row>
+      <row>
+        <cell>Sorted Vector</cell>
+        <cell>
+          <m>O(n)</m>
+        </cell>
+        <cell>
+          <m>O(1)</m>
+        </cell>
+      </row>
+      <row>
+        <cell>Unsorted Vector</cell>
+        <cell>
+          <m>O(1)</m>
+        </cell>
+        <cell>
+          <m>O(n)</m>
+        </cell>
+      </row>
+      <row>
+        <cell>Heap</cell>
+        <cell>
+          <m>O(\log n)</m>
+        </cell>
+        <cell>
+          <m>O(\log n)</m>
+        </cell>
+      </row>
+    </tabular>
+  </table>
+
+  <p>How big a win is this? Is it really worth devising a new representation to get <m>O(\log n)</m>
+    time for both operations instead of <m>O(n)</m> for one task and <m>O(1)</m> for the other?
+    (Does having an <m>O(1)</m> task cancel out the expense of a more expensive <m>O(n)</m> task?)</p>
+
+  <p> We can analyze this in the abstract using Big-O. Would we rather do <m>O(1) + O(n)</m> or <m>O(\log
+    n) + O(\log n)</m>? In the first expression, the <m>O(n)</m> term dominates as n gets large, so
+    we can simplify it to just <m>O(n)</m>. In the second expression, the two <m>O(\log n)</m> terms
+    combine to give us <m>O(2 \cdot \log n)</m>, which simplifies to just <m>O(\log n)</m>. </p>
+
+  <p> In concrete numbers, imagine a priority queue with 1,000,000 items. To add and then remove
+    something, would we rather do 1 unit of work, than 1,000,000 units of work? Or do ~20 units of
+    work (<m>\log_{2}{1,000,000}</m> is approximately 20) twice? </p>
+</section>

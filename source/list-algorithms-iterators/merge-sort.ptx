@@ -1,0 +1,93 @@
+<section xml:id="list-algorithms-iterators_merge-sort"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Merge Sort for Linked Lists</title>
+
+  <p>
+    While quicksort is challenging to implement efficiently on linked lists one of the other common <m>O(n \cdot \log n)</m> sorting algorithms, merge sort, is ideally suited to linked lists.
+  </p>
+
+  <p>
+    The core of the merge sort algorithm is repeated below:
+  </p>
+
+  <pre>
+    MergeSort(list):
+      if length of list &lt;= 1:
+        return list  // size 0/1 already sorted
+      else:
+        Split list into leftHalf and rightHalf
+        MergeSort(leftHalf)
+        MergeSort(rightHalf)
+        return Merge(leftHalf, rightHalf)
+  </pre>
+
+  <p>
+    In quicksort, we need to worry about being able to partition (and possibly reassemble) the list in <m>O(n)</m> time, and we also need to worry about our partition algorithm producing reasonably balanced partitions to ensure <m>O(\log n)</m> recursive steps.</p>
+    
+  <p>For merge sort, we always split the list into equal halves. So, we should always have <m>O(\log n)</m> recursive steps before we get down to size 0/1 lists. So the main concern is whether we can do the splitting and merging steps in <m>O(n)</m> time.</p>
+
+  <p>
+    If we know the size of a list, splitting it in half is straightforward. We can just walk down the list to the midpoint, break the link there, and return two new lists. This takes <m>O(n)</m> time. Even if we don't know the size of the list, we can still find the midpoint in <m>O(n)</m> time. Either we can first walk the list to count its size, then walk it again to the midpoint, or we can use the "tortoise and hare" approach where we have two pointers walking the list at different speeds. When the fast pointer reaches the end, the slow pointer will be at the midpoint.
+  </p>
+
+
+  <p>
+    When it comes to merging after the recursive calls, we can avoid one of the drawbacks of merge sort on arrays: the need for extra space. When merging two sorted arrays, we typically need to create a new array to hold the merged result. This requires <m>O(n)</m> extra memory. However, when merging two sorted linked lists, we can efficiently remove values from one list and insert them into a new list without needing more than a few pointers worth of extra memory.
+  </p>
+  
+  <p>
+    A simple implementation of merge might rely on calling <pf>removeFront</pf> on the list that we are merging from to remove the first element and then <pf>insertEnd</pf> on the merged list to add that element to the end (either using the tail pointer of the list or a temporary tail pointer). Both of those operations are <m>O(1)</m>, so that would be efficient in an asymptotic sense.
+  </p>
+
+  <p>
+    However, deleting one node from memory, then making a new node to hold the same value is inefficient. So a slightly more complex, but more efficient approach, is to simply adjust the pointers to move nodes from the original lists to the merged list without deleting and reallocating them. This way, we can build the merged list by reusing the existing nodes, which is much more efficient.
+  </p>
+
+  <insight>
+    <p>A node in one list can be easily detached and moved to another list by adjusting a few pointers, without needing to delete and reallocate the node.</p>
+  </insight>
+
+  <p>
+    For these reasons, merge sort is often the preferred sorting algorithm for linked lists. The <pf>std::list</pf> class in the C++ Standard Library provides a <pf>sort</pf> member function that implements merge sort specifically optimized for linked lists. Because it can sort by reordering nodes by changing pointers, but without changing where in memory the nodes are located, it is efficient even when the elements being sorted are large or complex objects. It even preserves iterator validity, meaning that any iterators pointing to elements in the list before sorting will still point to the same elements after sorting. No array based sort can provide that guarantee.
+  </p>
+
+  <exercise label="list-algorithms-iterators_merge-sort-ex-1">
+    <statement>
+      <p>Which of the following are reasons merge sort is an even better choice for linked lists than for arrays?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>A linked list can be merged without requiring extra space.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>A linked list can be split into two halves in <m>O(1)</m> time.</p>
+        </statement>
+        <feedback>
+          <p>
+            Making the split itself is <m>O(1)</m>, but finding the midpoint to know where to split takes <m>O(n)</m>.
+          </p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Two sorted linked lists can be merged in <m>O(1)</m> time.</p>
+        </statement>
+        <feedback>
+          <p>
+            We can connect two lists together in <m>O(1)</m> time, but merging two sorted lists requires walking through both lists to put items in the correct order, which takes <m>O(n)</m>.
+          </p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Iterators to elements can be preserved during sorting.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+</section>
