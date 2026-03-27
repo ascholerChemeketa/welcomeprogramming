@@ -68,39 +68,31 @@ section.exercises #scprogresscontainer{
   }
 }
 
+
+
+
 /* TEMPORARY CENTERING FOR INTERACTIVES  */
 @container ptx-main (width > 821px) {
     :is(.timedAssessment,.theorem-like,.definition-like,.example-like,.exercise-like,.project-like,.remark-like,.openproblem-like,.openproblems-like,.computation-like,.knowl__content):has([data-design-width]) {
-        max-width: min((100cqw - 2 * 48px), 10000px);
+        --max-width: min((100cqw - 2 * 48px), 10000px);
         min-width: 100%;
         clear: right;
+        width: var(--max-width);
+        max-width: var(--max-width);
         margin-left: calc(-.5 * (100cqw - 821px));
     }
 }
 
 
-/* TEMPORARY CENTERING FOR IFRAME STANDALONES */
-@media screen and (width > 800px) {
-  .standalone-page header.ptx-masthead,
-  .standalone-page .ptx-navbar {
-    max-width: 1600px;
-  }
-}
-
-.standalone-page .instructions {
-  max-width: var(--base-content-width);
-  margin: 10px auto;
-}
-
 /* TEMPORARY SPACING FIXES FOR RUNESTONE ELEMENTS */
-@layer spacing {
+/* @layer spacing {
   .runestone :is(.exercise-statement, .exercise-content) > *:not(:first-child) {
     margin-top: 1em;
   }
   .ptx-runestone-container + .solutions {
     margin-top: 0.5em;
   }
-}
+} */
 
 /* TEMPORARY FIX FOR CODEBOX */
 .code-box {
