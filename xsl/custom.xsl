@@ -29,42 +29,4 @@ Used for custom overrides and temporary patches
   <!-- <xsl:import href="../../../pretext/xsl/pretext-html.xsl"/> -->
   <xsl:import href="./core/pretext-html.xsl"/>
 
-<xsl:template match="interactive[@platform = 'javascript']/script[@type]">
-    <script>
-        <xsl:if test="@type">
-          <xsl:attribute name="type">
-            <xsl:value-of select="@type"/>
-          </xsl:attribute>
-        </xsl:if>
-        <xsl:value-of select="."/>
-    </script>
-</xsl:template>
-
-  <!-- wide interactives -->
-  <xsl:template match="interactive[@iframe]" mode="iframe-interactive">
-      <!-- Distinguish netowk location versus (external) file -->
-      <xsl:variable name="b-network-location" select="(substring(@iframe, 1, 7) = 'http://') or
-                                                      (substring(@iframe, 1, 8) = 'https://')"/>
-
-      <xsl:variable name="location">
-          <!-- prefix with directory information if not obviously a network location -->
-          <xsl:if test="not($b-network-location)">
-              <!-- empty when not using managed directories -->
-              <xsl:value-of select="$external-directory"/>
-          </xsl:if>
-          <xsl:value-of select="@iframe"/>
-      </xsl:variable>
-      <xsl:variable name="width-percent">
-          <xsl:apply-templates select="." mode="get-width-percentage" />
-      </xsl:variable>
-      <xsl:variable name="width-value" select="substring($width-percent, 1, string-length($width-percent) - 1)"/>
-      <iframe src="{$location}">
-          <xsl:apply-templates select="." mode="html-id-attribute"/>
-          <xsl:apply-templates select="." mode="size-pixels-attributes"/>
-          <xsl:apply-templates select="." mode="iframe-dark-mode-attribute" />
-          <xsl:if test="number($width-value) &gt; 100">
-              <xsl:attribute name="class">wide-iframe</xsl:attribute>
-          </xsl:if>
-      </iframe>
-  </xsl:template>
 </xsl:stylesheet>
