@@ -25,7 +25,10 @@
 
   <p> This function has the recurrence relation: <md> T(n) = \begin{cases} O(1) &amp; \text{if } n
     \leq 1 \\ T(n / 2) + O(1) &amp; \text{if } n > 1 \end{cases} </md> We will not go through the
-    full solution here, but this recurrence relation solves to <m>O(\log n)</m>. </p>
+    full solution here, but this recurrence relation solves to <m>O(\log n)</m>.</p>
+
+  <p><m>\log n</m> makes sense here because the input is halved at each recursive call, leading to
+    a logarithmic number of calls. And in each call, we only do constant time work.</p>
 
   <p> A final common recurrence relation is one where a function a linear (<m>O(n)</m>) amount of
     work and then makes two recursive calls on half of the current input. Here is an example of such

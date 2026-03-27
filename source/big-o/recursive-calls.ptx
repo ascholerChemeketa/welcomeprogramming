@@ -44,41 +44,40 @@ T(n - 1) + O(1) &amp; \text{if } n > 1
   <p>
     Full coverage of solving recurrence relations is beyond the scope of this book, but we will give a brief overview of how to solve this one.
     Key to this process is recognizing that because <m>T(n) = T(n - 1) + O(1)</m>, anywhere we see <m>T(a)</m> for some value <m>a</m>, we can replace it with
-    <m>T((a) - 1) + O(1)</m>.
+    <m>T((a) - 1) + O(1)</m>. In other words, we can subtract one from the value inside <m>T( )</m> and add an <m>O(1)</m> term.
   </p>
   <p>
-    First, we will take <m>T(n - 1)</m> and expand it by replacing it with <m>T((n - 1) - 1) + O(1)</m>:
+    In <m>T(n - 1)</m>, <m>a</m> is <m>n - 1</m>. Thus we can rewrite <m>T(n - 1)</m> as <m>T(n - 2) + O(1)</m> (Subtracting 1 from <m>n - 1</m> gives <m>n - 2</m>). Given this, we can rewrite the original recurrence relation:
     <md>
 T(n) = T(n - 1) + O(1)
 </md>
-    becomes
+    as
     <md>
-      <mrow>
-(T((n - 1) - 1) \amp + O(1)) + O(1)
-</mrow>
-      <mrow>
-T(n - 2) \amp + 2 \cdot O(1)
-</mrow>
+T(n) = T(n - 2) + 2 \cdot O(1)
     </md>
   </p>
   <p>
-    Next, we can take <m>T(n - 2)</m> and expand it by replacing it with <m>T(n - 3) + O(1)</m>:
+    Next, we can do the same thing with <m>T(n - 2)</m>. If <m>a = n - 2</m>, then <m>T((a) - 1) + O(1)</m> is <m>T((n - 2) - 1) + O(1)</m> or just <m>T(n - 3) + O(1)</m>. So:
+    <md>
+T(n) = T(n - 2) + 2 \cdot O(1)
+    </md>
+    becomes
     <md>
       <mrow>
-(T(n - 3) + O(1)) + 2 \cdot O(1)
+T(n) = (T(n - 3) + O(1)) + 2 \cdot O(1)
 </mrow>
       <mrow>
-T(n - 3) + 3 \cdot O(1)
+T(n) = T(n - 3) + 3 \cdot O(1)
 </mrow>
     </md>
   </p>
 <p>
     Which could become:
-    <md>T(n - 4) + 4 \cdot O(1)</md>
+    <md>T(n) = T(n - 4) + 4 \cdot O(1)</md>
     Then:
     <md>
       <mrow>
-      T(n - 5) + 5 \cdot O(1)
+      T(n) = T(n - 5) + 5 \cdot O(1)
       </mrow>
       <mrow>
 \vdots
@@ -135,19 +134,40 @@ T(n - 3) + 3 \cdot O(1)
   <exercise label="big-o_recursive-calls-ex-1">
     <statement>
       <p>If we call <pf>factorial(n)</pf>, what is the expected number of recursive calls?</p>
+      <program>
+        int factorial(int n) {
+            if (n &lt;= 1) {
+                return 1;
+            } else {
+                return n * factorial(n - 1);
+            }
+        }
+    </program>
     </statement>
     <choices>
       <choice>
         <statement><m>O(1)</m></statement>
+        <feedback>
+          <p>The number of recursive calls is not constant. It grows as <m>n</m> grows.</p>
+        </feedback>
       </choice>
       <choice>
         <statement><m>O(\log n)</m></statement>
+        <feedback>
+          <p>Consider the pattern n will make in the recursive calls.</p>
+        </feedback>
       </choice>
       <choice correct="yes">
         <statement><m>O(n)</m></statement>
+        <feedback>
+          <p>We subtract 1 at each step. That will result in <m>O(n)</m> recursive calls.</p>
+        </feedback>
       </choice>
       <choice>
         <statement><m>O(n^2)</m></statement>
+        <feedback>
+          <p>Consider the pattern n will make in the recursive calls.</p>
+        </feedback>
       </choice>
     </choices>
   </exercise>
@@ -168,15 +188,27 @@ T(n - 3) + 3 \cdot O(1)
     <choices>
       <choice>
         <statement><m>O(1)</m></statement>
+        <feedback>
+          <p>The number of recursive calls is not constant. It grows as <m>n</m> grows.</p>
+        </feedback>
       </choice>
       <choice correct="yes">
         <statement><m>O(\log n)</m></statement>
+        <feedback>
+          <p>n is divided by 2 at each step. That will result in <m>O(\log n)</m> recursive calls.</p>
+        </feedback>
       </choice>
       <choice>
         <statement><m>O(n)</m></statement>
+        <feedback>
+          <p>Consider the pattern n will make in the recursive calls.</p>
+        </feedback>
       </choice>
       <choice>
         <statement><m>O(n^2)</m></statement>
+        <feedback>
+          <p>Consider the pattern n will make in the recursive calls.</p>
+        </feedback>
       </choice>
     </choices>
     <hint>Imagine we called with n=100. What would the first recursive call look like? The one after that? What is the pattern of the argument to the recursive call?</hint>
