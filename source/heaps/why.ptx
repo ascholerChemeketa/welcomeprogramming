@@ -41,7 +41,7 @@
     O(n)</m> time. </p>
 
   <p> Neither of these implementations is ideal because one of the two main operations (adding or
-    removing items) is inefficient. Instead, there is a way to store the data using a structure
+    removing items) is inefficient. However, there is a way to store the data using a structure
     known as a <term>heap</term> and achieve both operations in <m>O(\log n)</m> time. </p>
 
   <table>
@@ -92,6 +92,6 @@
     combine to give us <m>O(2 \cdot \log n)</m>, which simplifies to just <m>O(\log n)</m>. </p>
 
   <p> In concrete numbers, imagine a priority queue with 1,000,000 items. To add and then remove
-    something, would we rather do 1 unit of work, than 1,000,000 units of work? Or do ~20 units of
+    something, would we rather do 1 unit of work and then 1,000,000 units of work? Or do ~20 units of
     work (<m>\log_{2}{1,000,000}</m> is approximately 20) twice? </p>
 </section>

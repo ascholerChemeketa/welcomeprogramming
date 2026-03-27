@@ -17,7 +17,7 @@
             heapifyDown(array, 0, i)
   </program>
 
-  <p>The for loop runs <m>n - 1</m> times, where <m>n</m> is the size of the array. Each iteration involves a swap (<m>O(1)</m>) and a call to <pf>heapifyDown</pf>. As discussed in <xref ref="heaps_removing" />, <pf>heapifyDown</pf> runs in <m>O(\log n)</m> time. Therefore, the overall time complexity of the for loop is <m>O(n \cdot (\log n + 1)) = O(n \log n)</m>.</p>
+  <p>The for loop runs <m>n - 2</m> times, where <m>n</m> is the size of the array, or <m>O(n)</m> times. Each iteration involves a swap (<m>O(1)</m>) and a call to <pf>heapifyDown</pf>. As discussed in <xref ref="heaps_removing" />, <pf>heapifyDown</pf> runs in <m>O(\log n)</m> time. Therefore, the overall time complexity of the for loop is <m>O(n \cdot (\log n + 1)) = O(n \log n)</m>.</p>
 
   <p>What about the <pf>buildHeap()</pf> function? It looks something like:</p>
 
@@ -91,4 +91,23 @@
       <p>If the sequence converges towards 2, then the entire expression converges towards <m>n \cdot 2 = O(n)</m>.</p>
     </subsection>
 
+    <exercise label="heaps_heap-sort-efficiency-ex1">
+      <statement>
+        <p>We want to remove the largest 10 values from a vector that is currently unsorted. Match the work required with the approach.</p>
+      </statement>
+      <cardsort>
+        <match>
+          <premise><m>O(n \log n) + 10 \cdot O(1)</m></premise>
+          <response>Sort the vector from smallest to largest, then remove the largest 10 values one by one.</response>
+        </match>
+        <match>
+          <premise><m>O(n) + 10 \cdot O(\log n)</m></premise>
+          <response>Build a max heap in the vector and remove the maximum 10 times.</response>
+        </match>
+        <match>
+          <premise><m>10 \cdot O(n)</m></premise>
+          <response>10 times, find the maximum value and remove it from the vector.</response>
+        </match>
+      </cardsort>
+    </exercise>
 </section>

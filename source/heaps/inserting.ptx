@@ -6,11 +6,11 @@
   <subsection>
     <title>Array-Based Storage</title>
 
-    <p> To implement a heap using an array, we need to decide how to manange that storage. We could
-      choose to use a fixed-size array, but that would limit the number of elements the heap could
-      store. If we wanted a more flexible solution, we could use a dynamic array much like we would
-      in an array based list. We would start with a small array and then resize it as needed when
-      more space is required. We would need to keep track of the current number of elements in the
+    <p> To implement a heap using an array, we need to decide how to manage that storage. One choice
+      would be to use a fixed-size array. However, that would limit the number of elements the heap could
+      store. To allow an arbitrary number of elements, we could instead choose to use a dynamic array
+      (much like we do in an array based list). We would start with a small array and then resize it as needed when
+      more space is required. In addition to the array itself, we would need to keep track of the current number of elements in the
       heap (the logical size) separately from the size of the array (the physical size). </p>
 
     <program>
@@ -93,11 +93,11 @@
       <p>Finally, insert the value 2.</p>
       <interactive platform="javascript"
                    design-width="1600"
-                   aspect="4:2.5">
+                   aspect="4:1.5">
         <script type="module">
       import { HeapMax } from "./external/interactives/data-structures/entry.js";
 
-      let anim = new HeapMax({ initialData: [20,8,12,3,4,6] , height: 500 });
+      let anim = new HeapMax({ initialData: [20,8,12,3,4,6] , height: 500, zoom: "1.5x"  });
       anim.doInsert(15);
           <!-- anim.doBuildHeap();
       anim.animationManager.skipForward(); -->
@@ -131,5 +131,96 @@
       <p>Insert in a heap is <m>O(\log n)</m></p>
     </insight>
   </subsection>
+
+  
+
+  <exercise label="heaps_heap-array-representation-ex1">
+    <statement>
+      <p>
+        Given the heap shown below:
+      </p>
+      <image source="images/heaps/heap-standard-ex-start.svg"
+             width="60%">
+        <shortdescription>
+          <p>A heap with the values 20, 8, 12, 3, 4, 6.</p>
+        </shortdescription>
+      </image>
+      <p>What index would each of the following values end up at if you inserted it? (For each answer, assume you have not inserted any other values)</p>
+      <p>50: <fillin mode="number" answer="0"/></p>
+      <p>11: <fillin mode="number" answer="6"/></p>
+      <p>2: <fillin mode="number" answer="6"/></p>
+      <p>15: <fillin mode="number" answer="2"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+    <hint>
+      <p>Draw the heap and trace the insertion process. Label each node with the index it would have in the array representation.</p>
+    </hint>
+  </exercise>
+
+  <exercise label="heaps_heap-array-representation-ex2">
+    <statement>
+      <p>
+        Given the heap shown below:
+      </p>
+      <image source="images/heaps/heap-standard-ex-start.svg"
+             width="60%">
+        <shortdescription>
+          <p>A heap with the values 20, 8, 12, 3, 4, 6.</p>
+        </shortdescription>
+      </image>
+      <p>What index would each of the following values end up at if you inserted it? (For each answer, assume you have not inserted any other values)</p>
+      <p>50: <fillin mode="number" answer="0"/></p>
+      <p>11: <fillin mode="number" answer="6"/></p>
+      <p>2: <fillin mode="number" answer="6"/></p>
+      <p>15: <fillin mode="number" answer="2"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+    <hint>
+      <p>Draw the heap and trace the insertion process. Label each node with the index it would have in the array representation.</p>
+    </hint>
+  </exercise>
+
 
 </section>

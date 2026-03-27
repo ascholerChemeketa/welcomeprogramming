@@ -39,11 +39,11 @@
     <p>Then try removing more values.</p>
     <interactive platform="javascript"
                  design-width="1600"
-                 aspect="4:2.5">
+                 aspect="4:1.5">
       <script type="module">
       import { HeapMax } from "./external/interactives/data-structures/entry.js";
 
-      let anim = new HeapMax({ initialData: [20,8,12,3,4,6,2,1,15] , height: 500 });
+      let anim = new HeapMax({ initialData: [20,8,12,3,4,6,2,1,15] , height: 500, zoom: "1.5x" });
       anim.doRemove();
         <!-- anim.doBuildHeap();
       anim.animationManager.skipForward(); -->
@@ -95,5 +95,59 @@
     <insight>
       <p>Remove max in a heap is <m>O(\log n)</m></p>
     </insight>
+
+  <exercise label="heaps_removing-ex1">
+    <statement>
+      <p>
+        Given the heap shown below:
+      </p>
+      <image source="images/heaps/heap-alt-ex-start.svg"
+             width="60%">
+        <shortdescription>
+          <p>A heap with the values 43, 13, 40, 10, 4, 30, 6.</p>
+        </shortdescription>
+      </image>
+      <p>Arrange the blocks to match the array based order the values would have after removing the max value. You will not use all of the blocks.</p>
+      </statement>
+     <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>40</c></block>
+      <block><c>13</c></block>
+      <block><c>30</c></block>
+      <block><c>10</c></block>
+      <block><c>4</c></block>
+      <block><c>6</c></block>
+      <block correct="no"><c>43</c></block>
+    </blocks>
+    <hint>Do the removal in the tree and then translate that into array order.</hint>
+  </exercise>
+
+  
+
+  <exercise label="heaps_removing-ex2">
+    <statement>
+      <p>
+        Given the heap shown below:
+      </p>
+      <image source="images/heaps/heap-standard-ex-start.svg"
+             width="60%">
+        <shortdescription>
+          <p>A heap with the values 20, 8, 12, 3, 4, 6.</p>
+        </shortdescription>
+      </image>
+      <p>Arrange the blocks to match the array based order the values would have after removing the max value 2 times.  You will not use all of the blocks.</p>
+      </statement>
+     <blocks layout="horizontal"
+            randomize="yes">
+      <block><c>8</c></block>
+      <block><c>4</c></block>
+      <block><c>6</c></block>
+      <block><c>3</c></block>
+      <block correct="no"><c>20</c></block>
+      <block correct="no"><c>12</c></block>
+    </blocks>
+    <hint>Do the removals one at a time in the tree structure. Then translate that into array order.</hint>
+  </exercise>
+
 
 </section>

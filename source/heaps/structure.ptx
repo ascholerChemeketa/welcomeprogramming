@@ -59,7 +59,7 @@
     means that the largest value in the heap is always at the root node. A <term>min heap</term> is similar, but every node must have a smaller value than its children, meaning that the smallest value is at the top.</p>
 
     <note>
-      <p>For simplicity, we will focus on max heaps. A min heap uses the same logic, but will simply reverse comparison operators (<pf>&lt;</pf> vs <pf>&gt;</pf>) when comparing parents to their children.</p>
+      <p>We will focus on max heaps. A min heap uses the same logic, only reverses the comparisons when comparing parents to their children.</p>
     </note>
 
     <p>The heap shown on the left is <term>complete</term> because every node has two children except for the nodes at the last level which have none. The right heap is incomplete, as there are some available positions at the last level that are not filled. However, those locations are all to the right of the filled nodes, maintaining the shape property.</p>
@@ -90,5 +90,115 @@
     </figure>
 
 
+    <exercise label="heaps_heap-structure_ex-1">
+      <statement>
+        <p>
+          A heap has 18 values. How many values will be in each row?
+        </p>
+        <p>Row 1: <fillin mode="number" answer="1"/></p>
+        <p>Row 2: <fillin mode="number" answer="2"/></p>
+        <p>Row 3: <fillin mode="number" answer="4"/></p>
+        <p>Row 4: <fillin mode="number" answer="8"/></p>
+        <p>Row 5: <fillin mode="number" answer="3"/></p>
+      </statement>
+      <evaluation>
+        <evaluate>
+          <test correct="yes">
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              <p>The first row always has one node.</p>
+            </feedback>
+          </test>
+        </evaluate>
+        <evaluate>
+          <test correct="yes">
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              <p>Each row has twice as many nodes as the previous row.</p>
+            </feedback>
+          </test>
+        </evaluate>
+        <evaluate>
+          <test correct="yes">
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              <p>Each row has twice as many nodes as the previous row.</p>
+            </feedback>
+          </test>
+        </evaluate>
+        <evaluate>
+          <test correct="yes">
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              <p>Each row has twice as many nodes as the previous row.</p>
+            </feedback>
+          </test>
+        </evaluate>
+        <evaluate>
+          <test correct="yes">
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              <p>The last row will not be completely full.</p>
+            </feedback>
+          </test>
+        </evaluate>
+      </evaluation>
+      <hint>
+        <p>
+          Draw out a heap. You do not need to put values in the nodes, just draw the structure. Each row has twice as many nodes as the previous row, until you get to the last row which may not be complete.
+        </p>
+      </hint>
+    </exercise>
+
+    <exercise label="heaps_heap-structure_ex-2">
+      <statement>
+        <p>Which best describes the <term>heap property</term> in a <term>max-heap</term>?</p>
+      </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>
+            <p>
+              For any given node, its value is greater than or equal to the values of its children.
+            </p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>
+              For any given node, its value is less than or equal to the values of its children.
+            </p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>
+              For any given node, its left child has a smaller value and its right child has a larger value.
+            </p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>
+              For any given node, there will always be two children.
+            </p>
+          </statement>
+        </choice>
+      </choices>
+    </exercise>
 
 </section>
