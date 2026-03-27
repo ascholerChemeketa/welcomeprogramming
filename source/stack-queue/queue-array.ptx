@@ -153,5 +153,55 @@ public:
       </image>
     </figure>
 
+    <exercise label="stack-queue_queue-array-grow-ex1">
+      <statement>
+        <p>We have a queue implemented with a circular buffer. The storage array has a capacity of 8 and contains <pf>5, 10, 15, 20, 25, 30, 35, 40</pf> (not all of those values are <q>in</q> the queue).</p>
+        <p><pf>start</pf> is currently 4 and <pf>end</pf> is currently 1.</p>
+        <p>
+          The first value in the queue is: <fillin mode="number" answer="25"/>.
+        </p>
+        <p>
+          The last value in the queue is: <fillin mode="number" answer="5"/>.
+        </p>
+        <p>
+          There currently are <fillin mode="number" answer="5"/> elements in the queue.
+        </p>
+      </statement>
+      <evaluation>
+        <evaluate>
+          <test correct="yes">
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              <p><pf>start</pf> is the index of the first element in the queue</p>
+            </feedback>
+          </test>
+        </evaluate>
+        <evaluate>
+          <test correct="yes">
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              <p><pf>end</pf> is the index one past the last element in the queue</p>
+            </feedback>
+          </test>
+        </evaluate>
+        <evaluate>
+          <test correct="yes">
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              <p>The queue currently <q>wraps around</q> in the circular buffer. How many elements are there from start to the size of the array? How many are there from 0 to end?</p>
+            </feedback>
+          </test>
+        </evaluate>
+      </evaluation>
+    </exercise>
 
 </section>

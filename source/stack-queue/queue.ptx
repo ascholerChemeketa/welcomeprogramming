@@ -72,4 +72,27 @@ public:
     As when we examined implementing a stack using a list (or a vector), using an existing list implementation means the queue class is not responsible for managing the memory of the underlying data structure. It is just responsible for providing the queue interface.
   </p>
 
+  <exercise label="stack-queue_queue-linked-list-ex1">
+    <statement>
+      <p>What would be an issue with using a vector to implement a queue and treating the beginning of the vector (index 0) as the front of the queue?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p><pf>dequeue</pf> would be <m>O(n)</m></p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf>enqueue</pf> would be <m>O(n)</m></p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p><pf>enqueue</pf> and <pf>dequeue</pf> would be <m>O(n)</m></p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
 </section>
