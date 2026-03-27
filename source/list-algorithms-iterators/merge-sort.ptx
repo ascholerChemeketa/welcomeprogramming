@@ -52,4 +52,42 @@
     For these reasons, merge sort is often the preferred sorting algorithm for linked lists. The <pf>std::list</pf> class in the C++ Standard Library provides a <pf>sort</pf> member function that implements merge sort specifically optimized for linked lists. Because it can sort by reordering nodes by changing pointers, but without changing where in memory the nodes are located, it is efficient even when the elements being sorted are large or complex objects. It even preserves iterator validity, meaning that any iterators pointing to elements in the list before sorting will still point to the same elements after sorting. No array based sort can provide that guarantee.
   </p>
 
+  <exercise label="list-algorithms-iterators_merge-sort-ex-1">
+    <statement>
+      <p>Which of the following are reasons merge sort is an even better choice for linked lists than for arrays?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>A linked list can be merged without requiring extra space.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>A linked list can be split into two halves in <m>O(1)</m> time.</p>
+        </statement>
+        <feedback>
+          <p>
+            Making the split itself is <m>O(1)</m>, but finding the midpoint to know where to split takes <m>O(n)</m>.
+          </p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>Two sorted linked lists can be merged in <m>O(1)</m> time.</p>
+        </statement>
+        <feedback>
+          <p>
+            We can connect two lists together in <m>O(1)</m> time, but merging two sorted lists requires walking through both lists to put items in the correct order, which takes <m>O(n)</m>.
+          </p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>Iterators to elements can be preserved during sorting.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
 </section>

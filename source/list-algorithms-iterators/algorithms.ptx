@@ -42,13 +42,22 @@
     </p>
 
   <p>
-    The natural adaptation of quicksort for a linked list would be to implement the <pf>Partition</pf> function using iterators to keep track of our position in the list. In a doubly linked list, we could have an iterator starting at the beginning of the list and another at the end, moving them towards each other as we partition the list. In a singly linked list, we would have to get even more creative since we can't have a pointer moving backwards. But it is still possible to implement partitioning in a way that only requires a single pass through the list.
+    The natural adaptation of quicksort for a linked list would be to implement the <pf>Partition</pf> function using iterators (or pointers) to keep track of our position in the list like <pf>i</pf> and <pf>j</pf> do in the array-based implementation. In a doubly linked list, we could have an iterator starting at the beginning of the list and another at the end, moving them towards each other as we partition the list. When the two iterators meet, we have completed the partitioning and can swap the pivot element to its final location. After the partitioning is done, we would need to return an iterator pointing to the pivot element so that the recursive calls can be made on the two halves of the list.
+  </p>
+
+  <p>In a singly linked list, we would have to get even more creative since we can't have a pointer moving backwards. But it is still possible to implement partitioning in a way that only requires a single pass through the list.
   </p>
 
   <p>
-    In a singly linked list, we can maintain two sublists as we traverse the original list: one for elements less than the pivot and one for elements greater than or equal to the pivot. 
-    One by one, we would remove the first element from the original list (<m>O(1)</m>) and append it to the appropriate sublist (<m>O(1)</m>). Thus, the entire partitioning process would take <m>O(n)</m> time, just like in the array-based implementation. Once we have partitioned the list into two sublists, we can recursively sort each sublist and then concatenate them together with the pivot in between.
-    Concatenating lists together is a strength of linked lists. Given pointers to the heads and tails of two lists, we can connect them in <m>O(1)</m> time by updating a few pointers.
+    To do so, we would reimplement the partitioning logic to produce two sublists
+    <ul>
+      <li>A sublist of elements less than the pivot</li>
+      <li>A sublist of elements greater than or equal to the pivot</li>
+    </ul>
+    One by one for the <m>n</m> elements, we would remove the first element from the original list (<m>O(1)</m>) and append it to the appropriate sublist (<m>O(1)</m> if we have a tail pointer or maintain a temporary pointer to the tail of the lists while we build them). Thus, the entire partitioning process could take <m>O(n)</m> time, just like in the array-based implementation.</p>
+
+  <p>
+    Once we have partitioned the list into two sublists, we can recursively sort each sublist and then concatenate them together with the pivot in between. Concatenating lists together can be done in <m>O(1)</m> time if we have tail pointers. If we don't have tail pointers, we would need to traverse the first sublist to find its end before we can concatenate, which would take <m>O(n)</m> time. Or we could simply move items one at a time from the sublists to a new combined list, which would also take <m>O(n)</m> time.
   </p>
   
   <p>
@@ -60,13 +69,15 @@
       if list.size() &lt;= 1:
         return list  // size 0/1 already sorted
       else:
+        List firstHalf = List()      // empty list to hold elements &lt; pivot
         List secondHalf = List()     // empty list to hold elements &gt;= pivot
-        ListNode pivot =  first node of list
-        Partition(list, secondHalf)  // list left with elements &lt; pivot
-                                     // secondHalf has elements &gt;= pivot       
-        QuickSort(list)              // Sort the first half
+        ListNode pivot =  remove first value from list
+        // split list into two sublists based on pivot value. List will be empty after this.
+        Partition(list, pivot, firstHalf, secondHalf)   
+        QuickSort(firstHalf)         // Sort the first half
         QuickSort(secondHalf)        // Sort the second half
-        return Concatenate(list, pivot, secondHalf)
+        list = Concatenate(firstHalf, pivot, secondHalf)
+        return list
     </pre>
 
     <p>
@@ -75,7 +86,7 @@
     <ul>
       <li>Partitioning the list: <m>O(n)</m></li>
       <li>Recursively sorting the two sublists: <m>2T(n/2)</m></li>
-      <li>Concatenating the lists together: <m>O(1)</m> if done with pointers to the heads and tails of the lists. <m>O(n)</m> if we assembled a new list by removing one element at a time from the sublists and using them to build up a new combined list.</li>
+      <li>Concatenating the lists together: <m>O(1)</m> if done with pointers. <m>O(n)</m> if we have to traverse the first list or build a new combined list element by element.</li>
     </ul>
 
     Whether we do the concatenation in <m>O(1)</m> or <m>O(n)</m>, the overall recurrence relation remains <m>T(n) = 2T(n/2) + O(n)</m>, which solves to <m>O(n \cdot \log n)</m>.
@@ -86,11 +97,43 @@
   </p>
 
   <p>
-    We also are relying on using the first element as our pivot value. Recall that this can lead to poor performance on already sorted lists. In array-based implementations, rather than using the first element of the range as the pivot, it is common to look at the first, middle, and last elements of the range and choose the median of those three as the pivot (swapping it with the first element before starting the partition). This helps avoid poor performance on already sorted lists. However, in a linked list, there is no efficient way to access the middle element of the list. There is no way to efficiently implement this median-of-three pivot selection strategy. We could walk through the list to find the middle element, but that would add an extra <m>O(n)</m> pass through at the start of the partitioning process, further increasing the constant factor.
+    We also are relying on using the first element as our pivot value. Recall that this can lead to poor performance on already sorted lists. In array-based implementations, rather than using the first element of the range as the pivot, it is common to look at the first, middle, and last elements of the range and choose the median of those three as the pivot (swapping it with the first element before starting the partition). This helps avoid poor performance on already sorted lists. However, in a linked list, there is no efficient way to access the middle element of the list and thus no way to efficiently implement this median-of-three pivot selection strategy. We could walk through the list to find the middle element, but that would add an extra <m>O(n)</m> pass through at the start of the partitioning process, further increasing the constant factor.
   </p>
 
   <p>
     Thus, while it is possible to implement quicksort for a linked list in <m>O(n \cdot \log n)</m> time, we are probably better off using a different sorting algorithm that is more naturally suited to linked lists.
   </p>
+
+  <exercise label="list-algorithms-iterators_algorithms-ex-1"
+    numbered="yes"
+    adaptive="yes"
+    indentation="hide">
+    <statement>
+    <p>Design the pseudocode for the Partition function:</p>
+    </statement>
+    <blocks>
+      <block order="2">
+          <cline>Partition(list, value, firstHalf, secondHalf):</cline>
+      </block>
+      <block order="4">
+          <cline>  while list is not empty:</cline>
+      </block>
+      <block order="1">
+          <cline>    element = remove first element from list</cline>
+      </block>
+      <block order="3">
+          <cline>    if element &lt; value:</cline>
+      </block>
+      <block order="5">
+          <cline>      append element to firstHalf</cline>
+      </block>
+      <block order="6">
+          <cline>    else:</cline>
+      </block>
+      <block order="7">
+          <cline>      append element to secondHalf</cline>
+      </block>
+    </blocks>
+  </exercise>
 
 </section>

@@ -52,4 +52,75 @@
     ]]>
   </program>
 
+
+  <exercise label="list-algorithms-iterators_getting-iterators-ex-1">
+    <statement>
+      <p>
+        Imagine we are implementing an iterator for an <pf>ArrayList&lt;T></pf>. Imagine our ArrayList is defined like this:
+      </p>
+
+      <program>
+        <![CDATA[
+template <typename T>
+class ArrayList {
+private:
+    T* data;        // pointer to the array
+    int size;       // logical size
+    int capacity;   // array size
+public:
+    ArrayListIterator<T> begin();
+    ArrayListIterator<T> end();
+    ...
+};
+        ]]>
+      </program>
+      <p>What should the <pf>end()</pf> function return?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <program>
+              ArrayListIterator&lt;T>(data, size);
+          </program>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <program>
+              ArrayListIterator&lt;T>(data, capacity);
+          </program>
+        </statement>
+        <feedback>
+          <p>
+            The end should be right after the last valid element. Capacity does not necessarily reflect where the last element is.
+          </p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <program>
+              ArrayListIterator&lt;T>(data, capacity + 1);
+          </program>
+        </statement>
+        <feedback>
+          <p>
+            The end should be right after the last valid element. Capacity does not necessarily reflect where the last element is.
+          </p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <program>
+              ArrayListIterator&lt;T>(data, size + 1);
+          </program>
+        </statement>
+        <feedback>
+          <p>
+            If the size is 5, the valid indices are 0 through 4. End should be at index 5.
+            </p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
 </section>

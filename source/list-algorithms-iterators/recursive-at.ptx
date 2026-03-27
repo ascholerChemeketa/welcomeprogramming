@@ -71,4 +71,98 @@ int recursiveRetrieveAt(ListNode* current, int stepsLeft) {
   </program>
   </listing>
 
+  <exercise label="list-algorithms-iterators_recursive-range-ex2">
+    <statement>
+      <p>If we call the <pf>printRange</pf> function below with a list containing <pf>5, 10, 15, 20, 25</pf> and parameters (head, 1, 3), organize the series of function calls that will be made. You will not use all the blocks.</p>
+      <program>
+<![CDATA[
+void printRange(ListNode* current, int stepsToStart, int stepsToEnd) {
+    if(current == nullptr || stepsToEnd < 0) {
+        return;
+    }
+    if(stepsToStart < 1) {
+        cout << current->data << endl;
+    }
+    printRange(current->next, stepsToStart - 1, stepsToEnd - 1);
+}
+    ]]>
+      </program>
+    </statement>
+  <blocks>
+    <block order="4">
+        <cline>printRange({5 node's address}, 1, 3)</cline>
+    </block>
+    <block order="9">
+        <cline>printRange({10 node's address}, 0, 2)</cline>
+    </block>
+    <block order="5">
+        <cline>printRange({15 node's address}, -1, 1)</cline>
+    </block>
+    <block order="7">
+        <cline>printRange({20 node's address}, -2, 0)</cline>
+    </block>
+    <block order="3">
+        <cline>printRange({25 node's address}, -3, -1)</cline>
+    </block>
+    <block order="6" correct="no">
+        <cline>printRange({nullptr}, -4, -2)</cline>
+    </block>
+    <block order="10" correct="no">
+        <cline>printRange({15 node's address}, 0, 1)</cline>
+    </block>
+    <block order="11" correct="no">
+        <cline>printRange({10 node's address}, 1, 3)</cline>
+    </block>
+    <block order="2" correct="no">
+        <cline>printRange({20 node's address}, 0, 0)</cline>
+    </block>
+    <block order="1" correct="no">
+        <cline>printRange({25 node's address}, 0, -1)</cline>
+    </block>
+    <block order="8" correct="no">
+        <cline>printRange({nullptr}, 0, -2)</cline>
+    </block>
+  </blocks>
+  <hint>
+    <p>The base case will be a call, so it should be in the list (and the last block).</p>
+  </hint>
+
+  </exercise>
+
+<exercise label="list-algorithms-iterators_recursive-range-ex2">
+  <statement>
+    <p>In the <pf>printRange</pf> function, what will the <pf>current == nullptr</pf> part of the base case do?</p>
+    <program>
+    <![CDATA[
+void printRange(ListNode* current, int stepsToStart, int stepsToEnd) {
+    if(current == nullptr || stepsToEnd < 0) {
+        return;
+    }
+    if(stepsToStart < 1) {
+        cout << current->data << endl;
+    }
+    printRange(current->next, stepsToStart - 1, stepsToEnd - 1);
+}
+    ]]>
+    </program>
+  </statement>
+  <choices randomize="yes">
+    <choice correct="yes">
+      <statement>
+        <p>It will stop recursion if the indexes are too large.</p>
+      </statement>
+    </choice> 
+    <choice>
+      <statement>
+        <p>It will stop recursion when we are done with the items to be printed.</p>
+      </statement>
+    </choice>
+    <choice>
+      <statement>
+        <p>It will handle the case where the start index is after the end index.</p>
+      </statement>
+    </choice>
+  </choices>
+</exercise>
+
 </section>

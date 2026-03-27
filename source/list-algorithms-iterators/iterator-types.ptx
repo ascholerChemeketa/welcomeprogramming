@@ -67,4 +67,22 @@
                          const T&amp; value );
   </program>
 
+  <exercise label="list-algorithms-iterators_iterator-types-ex-1">
+    <statement>
+      <p>
+        Match each iterator type to the operations it supports. Each operation may be supported by more than one iterator type, and some operations may not be supported by any of the iterator types.
+      </p>
+    </statement>
+    <matching>
+      <premise ref="op-eq op-incr">forward iterator</premise>
+      <premise ref="op-eq op-incr op-decr">bidirectional iterator</premise>
+      <premise ref="op-eq op-incr op-decr op-add op-index">random access iterator</premise>
+      <response xml:id="op-eq">==</response>
+      <response xml:id="op-incr">++</response>
+      <response xml:id="op-decr">--</response>
+      <response xml:id="op-add">+ x</response>
+      <response xml:id="op-index">[x]</response>
+    </matching>
+  </exercise>
+
 </section>

@@ -45,12 +45,33 @@
   </p>
 
   <p>
-    There is a downside to looking ahead two nodes like this. If the list has only one node, then <pf>current->next</pf> will be <pf>nullptr</pf>, and trying to access <pf>current->next->next</pf> will cause a runtime error. We could add a check in our member function to see if the list has only one node and handle that case separately. (In addition to the special case we will need for if the list is empty.)Fortunately, there is a way to avoid this extra check.
+    There is a downside to looking ahead two nodes like this. If the list has only one node, then <pf>current->next</pf> will be <pf>nullptr</pf>, and trying to access <pf>current->next->next</pf> will cause a runtime error. We could add a check in our member function to see if the list has only one node and handle that case separately. (In addition to the special case we will need for if the list is empty.) Fortunately, there is a way to avoid this extra check.
   </p>
 
   <p>
-    To avoid the extra case, we need to return to <pf>current->next == nullptr</pf> as our base case. However, we need a way to update the previous node's <pf>next</pf> pointer. We can do that by having our recursive function function return a pointer to the caller. This pointer will be the updated pointer that the caller should use.
+    To avoid the extra case, we need to use <pf>current->next == nullptr</pf> as our base case. But we still need a way to update the previous node's <pf>next</pf> pointer. We can do that by having our recursive function function return a pointer to the caller. This pointer will be the updated pointer that the caller should use.
   </p>
+  
+
+  <listing>
+  <program line-numbers="yes" highlight-lines="4,7,8">
+ListNode* recursiveRemoveLast(ListNode* current) {
+    if(current->next == nullptr) {
+        delete current;
+        return nullptr;  // I was deleted!
+    }
+    else {
+        current->next = recursiveRemoveLast(current->next);
+        return current;  // I'm still here!
+    }
+}
+
+void SimpleLinkedList::removeLast() {
+    if(head != nullptr)
+        head = recursiveRemoveLast(head);
+}
+  </program>
+</listing>
 
   <p>
     When a node is deleted, we will return <pf>nullptr</pf> to the caller. If a node is not deleted, we will return the original <pf>current</pf> pointer back to the caller. This way, each call can update its <pf>next</pf> pointer based on what the callee returns. In our list of {6, 10, 3}, we would produce the following series of calls:
@@ -120,4 +141,66 @@ void SimpleLinkedList::removeLast() {
 <xi:include href="../../programs/list-algorithms-iterators/recursive-delete-1.cpp" parse="text"/>
   </program>
   </listing>
+
+
+  <exercise label="list-algorithms-iterators_recursive-remove-last-ex1"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  <statement>
+    <p>Implement a recursive <pf>insertLast</pf> function. It should add a new node with the given value to the end of the list using the strategy of returning the address of the updated list.</p>
+  </statement>
+  <blocks>
+    <block order="4">
+        <cline><![CDATA[ListNode* insertLast(ListNode* current, int value) {]]></cline>
+    </block>
+    <block order="1">
+        <choice correct="yes">
+          <cline><![CDATA[    if(current == nullptr) {]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[    if(current->next == nullptr) {]]></cline>
+        </choice>
+    </block>
+    <block order="8">
+        <cline><![CDATA[        ListNode* temp = new ListNode(value);]]></cline>
+    </block>
+    <block order="10">
+        <choice correct="yes">
+          <cline><![CDATA[        return temp;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        return nullptr;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        return current;]]></cline>
+        </choice>
+    </block>
+    <block order="3">
+        <cline><![CDATA[    }]]></cline>
+        <cline><![CDATA[    else {]]></cline>
+    </block>
+    <block order="6">
+        <choice correct="yes">
+          <cline><![CDATA[        current->next = insertLast(current->next, value);]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        insertLast(current->next, value);]]></cline>
+        </choice>
+    </block>
+    <block order="9">
+        <choice correct="yes">
+          <cline><![CDATA[        return current;]]></cline>
+        </choice>
+        <choice>
+          <cline><![CDATA[        return nullptr;]]></cline>
+        </choice>
+    </block>
+    <block order="7">
+        <cline><![CDATA[    }]]></cline>
+        <cline><![CDATA[}]]></cline>
+    </block>
+  </blocks>
+</exercise>
+
 </section>

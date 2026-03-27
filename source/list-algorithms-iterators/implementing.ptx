@@ -93,4 +93,140 @@ public:
     Our <pf>ListIterator</pf> meets the criteria for being a forward iterator, because it supports moving forward through the collection using the preincrement operator (<pf>++it</pf>) and dereferencing to access the element at the current position (<pf>*it</pf>). If we were implementing an iterator for a doubly linked list, we might also implement the predecrement operator (<pf>--it</pf>) to allow moving backwards through the list, making it a bidirectional iterator. If we were implementing an iterator for a vector, we could implement addition and subtraction operators, as well as the subscript operator (<pf>[]</pf>) to jump to specific positions, making it a random access iterator.
   </p>
 
+
+  <exercise label="list-algorithms-iterators_implementing-ex-1">
+    <statement>
+      <p>
+        Imagine we are implementing an iterator for an <pf>ArrayList&lt;T></pf>. We might implement it by storing the address of the array and an index to the current position as shown below:
+      </p>
+
+      <program>
+        <![CDATA[
+template <typename T>
+class ArrayListIterator {
+private:
+    T* arrayPtr; // Pointer to the array
+    size_t index; // Current index in the array
+public:
+    ArrayListIterator(T* arr, size_t startIndex);
+    ArrayListIterator& operator++();
+    T& operator*();
+    bool operator==(const ArrayListIterator& other) const;
+    bool operator!=(const ArrayListIterator& other) const;
+};
+        ]]>
+      </program>
+      <p>Which definition would be correct for the preincrement operator (<pf>++it</pf>)?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <program>
+            ArrayListIterator&amp; ArrayListIterator::operator++() { 
+              ++index;
+              return *this; 
+            }</program>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <program>
+            ArrayListIterator&amp; ArrayListIterator::operator++() { 
+              arrayPtr += index;
+              return *this; 
+            }</program>
+        </statement>
+        <feedback>
+          <p>
+            We are trying to move forward one position.
+          </p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <program>
+            ArrayListIterator&amp; ArrayListIterator::operator++() { 
+              index += arrayPtr;
+              return *this;
+            }</program>
+        </statement>
+        <feedback>
+          <p>
+            We are trying to move forward one position.
+          </p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <program>
+            ArrayListIterator&amp; ArrayListIterator::operator++() { 
+              ++arrayPtr;
+              return *this;
+            }</program>
+        </statement>
+        <feedback>
+          <p>
+            We want to change where we are in the array. This changes where we think the start of the array is.
+          </p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+
+  <exercise label="list-algorithms-iterators_implementing-ex-2">
+    <statement>
+      <p>
+        Imagine we are implementing an iterator for an <pf>ArrayList&lt;T></pf>. We might implement it by storing the address of the array and an index to the current position as shown below:
+      </p>
+
+      <program>
+        <![CDATA[
+template <typename T>
+class ArrayListIterator {
+private:
+    T* arrayPtr; // Pointer to the array
+    size_t index; // Current index in the array
+public:
+    ArrayListIterator(T* arr, size_t startIndex);
+    ArrayListIterator& operator++();
+    T& operator*();
+    bool operator==(const ArrayListIterator& other) const;
+    bool operator!=(const ArrayListIterator& other) const;
+};
+        ]]>
+      </program>
+      <p>
+        What one line of code could be used to implement the body of the dereference operator (<pf>*it</pf>)?
+      </p>
+      <p>
+        <fillin mode="string" answer="return arrayPtr[index];"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>return arrayPtr\s*\[\s*index\s*\];</strcmp>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>
+            <p></p>
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+    <hint>
+      <p>
+        The dereference operator should return the element at the current index in the array.
+      </p>
+    </hint>
+    <hint>
+      <p>
+        Use <pf>[ ]</pf> to access the element at the current index in the array.
+      </p>
+    </hint>
+  </exercise>
+
+
 </section>

@@ -91,5 +91,28 @@
     </p>
   </insight>
 
+  <exercise label="list-algorithms-iterators_algorithms-ex-1">
+    <statement>
+      <p>Why is <pf>current == nullptr</pf> a better base case than <pf>current->next == nullptr</pf>?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>It handles the empty list case gracefully without requiring special logic.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It stops one step earlier, reducing the number of recursive calls.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It makes sure we reach the end of the list before stopping.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
 
 </section>
