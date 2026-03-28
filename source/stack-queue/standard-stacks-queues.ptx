@@ -1,15 +1,29 @@
-<section xml:id="linked-lists_standard-stacks-queues"
+<section xml:id="stack-queue_standard-stacks-queues"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
   <title>Standard Stacks, Queues and Deques</title>
 
   <p>
-    We already encountered the <pf>std::queue</pf> in <xref ref="practical-programming_queue"/>. And we used <pf>std::stack</pf> (without discussing it much) in <xref ref="stack-queue_lifo"/>. Both of these classes
-    are defined as <term>container adapters</term>. They <q>adapt</q> an underlying container (like <pf>std::list</pf>) to provide the stack or queue interface.
+    The standard library provides implementations of stacks and queues in the <pf>std::stack</pf> and <pf>std::queue</pf> classes. Both are templated classes that are declared much like a vector or a list, by specifying the type of item they will hold. For example, to declare queues of <pf>int</pf> and <pf>Person</pf>, you would write:
+  </p>
+
+  <program>
+    queue&lt;int&gt; intQueue;
+    queue&lt;Person&gt; registrationLine;
+  </program>
+
+  <p>
+    The <pf>std::queue&lt;T></pf> provides <pf>.push(T)</pf> to add an item to the back of the queue, and <pf>.pop()</pf> to remove an item from the front of the queue. It also provides <pf>.front()</pf> to look at the item at the front of the queue without removing it, and <pf>.back()</pf> to look at the item at the back of the queue without removing it. All of these operations are <m>O(1)</m>.
   </p>
 
   <p>
-    The full prototype for <pf>std::stack</pf> is:
+    We used <pf>std::stack</pf> (without discussing it much) in <xref ref="stack-queue_lifo"/>. It provides <pf>.push(T)</pf> to add an item to the top of the stack, <pf>.pop()</pf> to remove an item from the top of the stack, and <pf>.top()</pf> to look at the item at the top of the stack without removing it. These operations are all <m>O(1)</m>.
+  </p>
+    
+  <p>
+    Both of these classes
+    are defined as <term>container adapters</term>. They provide a wrapper around an underlying container (like <pf>std::list</pf>) to provide the stack or queue interface. (They <q>adapt</q> the container to provide a specific interface. 
+    We can see this in the full prototype for <pf>std::stack</pf>:
   </p>
 
   <program>
@@ -41,7 +55,7 @@ queue<int, list<int>> intQueue;
     The container adapter classes require that the underlying container support certain operations. For both stacks and queues, the underlying container must support adding and removing items from the back of the container. For queues, the underlying container must also support accessing the front item.
   </p>
 
-  <p>That means some combinations of container adapter and underlying container won't work.
+  <p>This means some combinations of container adapter and underlying container won't work.
     <ul>
       <li>You can't use a <pf>std::vector</pf> as the underlying container for a <pf>std::queue</pf> because <pf>std::vector</pf> does not support adding/removing the front item efficiently.</li>
       <li>You can't use a <pf>std::forward_list</pf> as the underlying container for either a <pf>std::stack</pf> or a <pf>std::queue</pf> because <pf>std::forward_list</pf> does not support adding/removing items from the back of the container.</li>
@@ -91,5 +105,35 @@ queue<int, list<int>> intQueue;
       <li><url href="https://en.cppreference.com/w/cpp/container/deque">std::deque documentation</url></li>
     </ul>
   </p>
+  
+  <exercise label="stack-queue_standard-stacks-queues-exercise-1">
+    <statement>
+      <p>Given a a queue named <pf>jobList</pf>, what would you write to do the following?</p>
+      <p>Add a job named <pf>jobA</pf> to the queue? <fillin mode="string" answer="jobList.push(jobA);"/></p>
+      <p>Look at the next job that should be processed (but not remove it)? <fillin mode="string" answer="jobList.front();"/></p>
+      <p>Remove the next job? <fillin mode="string" answer="jobList.pop();"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>jobList\.push\(jobA\);?</strcmp>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>.*jobList\.front\(\);?</strcmp>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>jobList\.pop\(\);?</strcmp>
+        </test>
+      </evaluate>
+    </evaluation>
+    <hint>
+      <p>Each answer must start with the name of the queue variable.</p>
+    </hint>
+  </exercise>
+
 
 </section>

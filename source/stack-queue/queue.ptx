@@ -4,10 +4,10 @@
   <title>Queue ADT</title>
 
   <p>
-    We have already encountered the <term>queue</term> abstract data type in <xref ref="practical-programming_queue"/>. (If you chose to skip that section, you should go read it now.)
+    Whereas a stack provides a last in, first out (LIFO) collection, a <term>queue</term> provides a <term>first in, first out</term> (FIFO) collection. In a queue, the first item added to the collection is the first one that will be removed. The second item added will be the second one removed, and so on. Think of a line of people waiting for something. The first person to get in line is the first person to be served and leave the line.
   </p>
 
-  <p>The <term>first in, first out</term> property of a queue lends itself to more straight forward uses than stacks. We pretty much just want a queue if we need to be able to add things to a collection and then remove them in the same order.</p>
+  <p>The <term>first in, first out</term> property of a queue lends itself to more straight forward uses than stacks. We pretty much only need a queue if we want to add things to a collection and then remove them in the same order that they were added.</p>
 
   <p>
     Like a stack, a queue does not imply any particular implementation. The only real requirement is that we can efficiently add items to one end of the collection (the back of the queue) and remove items from the other end (the front of the queue).</p>
@@ -30,7 +30,7 @@
     </p>
     <interactive platform="javascript" 
                 design-width="1600"
-                 aspect="4:2">
+                 aspect="4:1.5">
     <script type="module">
       import { QueueLL } from "./external/interactives/data-structures/entry.js";
 
