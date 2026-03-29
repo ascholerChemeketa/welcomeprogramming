@@ -5,16 +5,16 @@
 
   <p>Now that we have a way to add nodes to the end of the list efficiently, making a copy of another list becomes much easier. We can simply iterate through the nodes of the source list and use our existing <pf>insertEnd</pf> method to add each node's data to the new list.</p>
 
-  <p>We will likely want to use this logic in multiple places, so it makes sense to put it in a helper function. <pf>copyFrom</pf> will take another list as its parameter and add all of the nodes from that list to the current list.</p>
+  <p>We will likely want to use this logic in multiple places, so it makes sense to put it in a helper function. <pf>copyFrom</pf> will take another list as its parameter and add all of the nodes from that list to the current list. Here is what the logic looks like:</p>
 
 <program>
   <![CDATA[ 
-template <class T>
-void SinglyLinkedList<T>::copyFrom(const SinglyLinkedList<T>& other) {
-    ListNode* current = other.head;
-    while (current != nullptr) {
-        insertEnd(current->data);
-        current = current->next;
+void LinkedList<T>::copyFrom(const LinkedList<T>& other) {
+    ListNode* currentInOther = other.head;
+    while (currentInOther != nullptr) {
+        get current value from currentInOther
+        insert current value at the end of this list
+        advance currentInOther pointer
     }
 }
   ]]>
@@ -28,8 +28,8 @@ void SinglyLinkedList<T>::copyFrom(const SinglyLinkedList<T>& other) {
   <listing>
   <program>
   <![CDATA[
-template <class T>
-SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& other) {
+template <typename T>
+LinkedList<T>::LinkedList(const LinkedList<T>& other) {
     head = nullptr;
     tail = nullptr;
     size = 0;
@@ -46,8 +46,8 @@ SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T>& other) {
   <listing>
   <program>
   <![CDATA[
-template <class T>
-SinglyLinkedList<T>& SinglyLinkedList<T>::operator=(const SinglyLinkedList<T>& other) {
+template <typename T>
+LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& other) {
     if (this == &other) {
         return *this; // Handle self-assignment
     }

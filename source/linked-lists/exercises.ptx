@@ -1,0 +1,446 @@
+<exercises xml:id="linked-list_exercises"
+           xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Exercises</title>
+
+  <exercise label="linked-list_exercise_connect-nodes">
+    <statement>
+      <p>Allocate 4 list nodes on the heap containing the values 1, 2, 3, 4. Connect them in a linked list (in numerical order). Make a pointer to the first node called <pf>start</pf>.</p>
+    </statement>
+    <program interactive="activecode"
+           extra-compiler-args="-fsanitize=address -g">
+        <preamble><![CDATA[#include <iostream>
+using namespace std;
+
+struct ListNode {
+    int data = 0;
+    ListNode* next = nullptr;
+
+    ListNode(int value) {
+        data = value;
+    }
+};
+
+int main() {
+]]>
+        </preamble>
+        <code>
+    // Write your code here.
+</code>
+<postamble><![CDATA[
+
+    // Test and cleanup
+    ListNode* current = start;
+    while(current != nullptr) {
+        cout << current->data << " ";
+        current = current->next;
+    }
+    current = start;
+    while(current != nullptr) {
+        ListNode* toDelete = current;
+        current = current->next;
+        delete toDelete;
+    }
+}
+]]></postamble>
+    <tests>
+      <iotest>
+        <input></input>
+        <output>1 2 3 4</output>
+      </iotest>
+    </tests>
+    </program>
+  </exercise>
+
+  <exercise label="linked-list_exercise_simple-remove-first">
+    <statement>
+      <p>Write the <pf>removeFirst</pf> function for the <xref ref="SimpleLinkedList-cxx-listing" text="custom">Simple Linked List</xref>. Make sure to delete the node from memory.</p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="SimpleLinkedList-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import SimpleLinkedList;
+
+#include <iostream>
+using namespace std;]]>
+        </preamble>
+        <code>
+          <![CDATA[
+template<typename T>
+void SimpleLinkedList<T>::removeFirst() {
+    // Write your code here.
+}
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+
+// Add test data to list.
+// Built to take existing list to avoid using copy ctor or assignment
+void buildTestIntList(SimpleLinkedList<int>& list) {
+  list.insertStart(3);
+  list.insertStart(2);
+  list.insertStart(1);
+}
+
+TEST_CASE("LL/RemoveFirst") {
+  SimpleLinkedList<int> test_list;
+  buildTestIntList(test_list); // 1, 2, 3
+
+  int startNodeCount = ListNode<int>::nodeCount;
+
+  test_list.removeFirst();
+  REQUIRE(startNodeCount - ListNode<int>::nodeCount == 1);
+
+  test_list.removeFirst();
+  REQUIRE(test_list.retrieveAt(0) == 3);
+  REQUIRE(startNodeCount - ListNode<int>::nodeCount == 2);
+
+  test_list.removeFirst();
+  REQUIRE(test_list.head == nullptr);
+  REQUIRE(startNodeCount - ListNode<int>::nodeCount == 3);
+}
+]]>
+    </tests>
+    </program>
+  </exercise>
+
+  <exercise label="linked-list_exercise_simple-size">
+    <statement>
+      <p>Write the <pf>listSize</pf> function for the <xref ref="SimpleLinkedList-cxx-listing" text="custom">Simple Linked List</xref>. You should walk through the nodes and count them, then return the count.</p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="SimpleLinkedList-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import SimpleLinkedList;
+
+#include <iostream>
+using namespace std;]]>
+        </preamble>
+        <code>
+          <![CDATA[
+template<typename T>
+int SimpleLinkedList<T>::listSize() const {
+    // Write your code here.
+}
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+
+TEST_CASE("LL/ListSize") {
+    SimpleLinkedList<int> test_list;
+    REQUIRE(test_list.listSize() == 0);
+
+    test_list.insertStart(5);
+    REQUIRE(test_list.listSize() == 1);
+
+    test_list.insertStart(10);
+    REQUIRE(test_list.listSize() == 2);
+
+    test_list.insertStart(15);
+    REQUIRE(test_list.listSize() == 3);
+}
+]]>
+    </tests>
+    </program>
+  </exercise>
+
+  <exercise label="linked-list_exercise_simple-insertAt">
+    <statement>
+      <p>Finish the <pf>insertAt</pf> function for the <xref ref="SimpleLinkedList-cxx-listing" text="custom">Simple Linked List</xref>. It should insert a new node at the specified index. You do not have to worry about bad indexes.</p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="SimpleLinkedList-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import SimpleLinkedList;
+
+#include <iostream>
+using namespace std;]]>
+        </preamble>
+        <code>
+          <![CDATA[
+template<typename T>
+void SimpleLinkedList<T>::insertAt(int index, const T& value) {
+    if (index == 0) {  //special case
+        insertStart(value);
+        return;
+    }
+    // Write your code here
+}
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+
+void buildTestIntList(SimpleLinkedList<int>& list) {
+    list.insertStart(3);
+    list.insertStart(2);
+    list.insertStart(1);
+}
+
+TEST_CASE("LL/InsertAt") {
+    SimpleLinkedList<int> test_list;
+    buildTestIntList(test_list); // 1, 2, 3
+
+    test_list.insertAt(2, 10);
+    REQUIRE(test_list.retrieveAt(2) == 10);
+    REQUIRE(test_list.retrieveAt(3) == 3);
+
+    test_list.insertAt(1, 20);
+    REQUIRE(test_list.retrieveAt(1) == 20);
+    REQUIRE(test_list.retrieveAt(2) == 2);
+    REQUIRE(test_list.retrieveAt(3) == 10);
+}
+]]>
+    </tests>
+    </program>
+    <hint>
+      <p>To insert at index <pf>i</pf>, you need to traverse the list to position <pf>i-1</pf> so you can update the next pointer of the node before location <pf>i</pf>.</p>
+    </hint>
+    <hint>
+      <p>You will have to update two <pf>next</pf> pointers when inserting a new node.</p>
+    </hint>
+  </exercise>
+
+
+  <exercise label="linked-list_exercise_linkedlist-removefirst" xml:id="linked-list_exercise_linkedlist-removefirst">
+    <statement>
+      <p>
+        Finish the <pf>removeFirst</pf> function for the <xref ref="LinkedList-cxx-listing" text="custom">Linked List</xref> (with size and tail). Make sure to consider the case where there is just a single node.
+      </p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="LinkedList-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import LinkedList;
+
+#include <iostream>
+using namespace std;]]>
+        </preamble>
+        <code>
+          <![CDATA[
+template<typename T>
+void LinkedList<T>::removeFirst() {
+  if (head == nullptr)
+    throw out_of_range("Can't remove from empty list");
+
+  // TODO - Remove first item in list
+
+}
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+template<typename T>
+void LinkedList<T>::clear() {
+  // placeholder implementation
+}
+
+void buildTestIntList(LinkedList<int>& list) {
+  list.insertStart(3);
+  list.insertStart(2);
+  list.insertStart(1);
+}
+
+TEST_CASE("LL/RemoveFirst") {
+  LinkedList<int> test_list;
+  buildTestIntList(test_list); // 1, 2, 3
+
+  int startNodeCount = ListNode<int>::nodeCount;
+
+  test_list.removeFirst();
+  REQUIRE(test_list.size == 2);
+  REQUIRE(startNodeCount - ListNode<int>::nodeCount == 1);
+
+  test_list.removeFirst();
+  REQUIRE(test_list.size == 1);
+  REQUIRE(test_list.retrieveAt(0) == 3);
+  REQUIRE(startNodeCount - ListNode<int>::nodeCount == 2);
+
+  test_list.removeFirst();
+  REQUIRE(test_list.size == 0);
+  REQUIRE(test_list.head == nullptr);
+  REQUIRE(test_list.tail == nullptr);
+  REQUIRE(startNodeCount - ListNode<int>::nodeCount == 3);
+}
+]]>
+    </tests>
+    </program>
+  </exercise>
+
+  <exercise label="linked-list_exercise_linkedlist-clear">
+    <statement>
+      <p>
+        Write the <pf>clear</pf> function for the <xref ref="LinkedList-cxx-listing" text="custom">Linked List</xref> (with size and tail).
+      </p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="LinkedList-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import LinkedList;
+
+#include <iostream>
+using namespace std;]]>
+        </preamble>
+        <code>
+          <![CDATA[
+template<typename T>
+void LinkedList<T>::clear() {
+  // Your code here
+}
+
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+void buildTestIntList(LinkedList<int>& list) {
+  list.insertStart(3);
+  list.insertStart(2);
+  list.insertStart(1);
+}
+
+TEST_CASE("LL/Clear") {
+  LinkedList<int> test_list;
+  buildTestIntList(test_list); // 1, 2, 3
+
+  int startNodeCount = ListNode<int>::nodeCount;
+
+  test_list.clear();
+
+  REQUIRE(test_list.head == nullptr);
+  REQUIRE(test_list.tail == nullptr);
+  REQUIRE(test_list.size == 0);
+  // Were they actually deleted???
+  REQUIRE(startNodeCount - ListNode<int>::nodeCount == 3);
+}
+]]>
+    </tests>
+    </program>
+  </exercise>
+
+  <exercise label="linked-list_exercise_dll-construct" xml:id="linked-list_exercise_dll-construct">
+    <statement>
+      <p>
+        Write the <pf>constructor</pf> for the <xref ref="DoublyLinkedList-cxx-listing" text="custom">Doubly Linked List</xref>. You need to create an empty list with dummy nodes for head and tail that are connected together.
+      </p>
+      <p>
+        To make a new node with a dummy (default) value, you can use <pf>ListNode&lt;T>(T{})</pf>
+      </p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="DoublyLinkedList-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import DoublyLinkedList;
+
+#include <iostream>
+using namespace std;]]>
+        </preamble>
+        <code>
+          <![CDATA[
+template<typename T>
+DoublyLinkedList<T>::DoublyLinkedList() {
+  // Your code here
+}
+
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+TEST_CASE("DLL/Constructor") {
+  int startNodeCount = ListNode<int>::nodeCount;
+
+  DoublyLinkedList<int> test_list;
+
+  REQUIRE(test_list.size == 0);
+  REQUIRE(test_list.tail != nullptr);
+  REQUIRE(test_list.head != nullptr);
+  REQUIRE(test_list.tail->prev == test_list.head);
+  REQUIRE(test_list.head->next == test_list.tail);
+  REQUIRE(ListNode<int>::nodeCount - startNodeCount == 2); // dummies
+}
+]]>
+    </tests>
+    </program>
+  </exercise>
+
+  
+
+  <exercise label="linked-list_exercise_dll-remove-end">
+    <statement>
+      <p>
+        Write the <pf>removeEnd</pf> function for the <xref ref="DoublyLinkedList-cxx-listing" text="custom">Doubly Linked List</xref>. It should remove the node before the dummy tail node. You will have to add your constructor from <xref ref="linked-list_exercise_dll-construct"/>.
+      </p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="DoublyLinkedList-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import DoublyLinkedList;
+
+#include <iostream>
+using namespace std;]]>
+        </preamble>
+        <code>
+          <![CDATA[
+
+// Your constructor here
+
+template<typename T>
+void DoublyLinkedList<T>::removeEnd() {
+  if (size == 0)
+    throw out_of_range("Can't remove from empty list");
+
+  // Your code here
+}
+
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+TEST_CASE("DLL/removeEnd") {
+  DoublyLinkedList<int> test_list;
+  test_list.insertStart(40);
+  test_list.insertStart(30);
+  test_list.insertStart(20);
+  test_list.insertStart(10);
+
+  int startNodeCount = ListNode<int>::nodeCount;
+
+  test_list.removeEnd();
+
+  REQUIRE(test_list.size == 3);
+  REQUIRE(test_list.retrieveAt(0) == 10);
+  REQUIRE(test_list.retrieveAt(2) == 30);
+  REQUIRE(startNodeCount - ListNode<int>::nodeCount == 1);
+
+  test_list.removeEnd();
+  test_list.removeEnd();
+
+  REQUIRE(test_list.size == 1);
+  REQUIRE(test_list.retrieveAt(0) == 10);
+  REQUIRE(startNodeCount - ListNode<int>::nodeCount == 3);
+
+  test_list.removeEnd();
+
+  REQUIRE(test_list.size == 0);
+  REQUIRE(startNodeCount - ListNode<int>::nodeCount == 4);
+}
+]]>
+    </tests>
+    </program>
+  </exercise>
+
+</exercises>

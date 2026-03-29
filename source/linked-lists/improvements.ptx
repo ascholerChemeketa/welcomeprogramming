@@ -36,7 +36,7 @@
     </p>
     <interactive platform="javascript" 
                 design-width="1600"
-                 aspect="4:2.5">
+                 aspect="4:1.5">
     <script type="module">
       import { LinkedListTail } from "./external/interactives/data-structures/entry.js";
 
@@ -56,7 +56,7 @@
   <program>
     <![CDATA[
   template <typename T>
-  void SinglyLinkedList<T>::insertEnd(T value) {
+  void LinkedList<T>::insertEnd(T value) {
       // allocate new node on the heap. Store the address in "newNode"
       ListNode<T>* newNode = new ListNode<T>(value);
       if (size == 0) {
@@ -84,7 +84,7 @@
     <ul>
       <li>When inserting into an empty list <pf>insertStart</pf> needs to set both the head and tail pointers to point to the new node.</li>
       <li>If <pf>removeAt</pf> is called on the index of the last node, we need to make sure to update the tail pointer.</li>
-      <li>When removing the last node from the list (if size is 0 after removing), we need to make sure the tail pointer is set to <pf>nullptr</pf>. <pf>removeFront</pf> and <pf>removeAt</pf> both need to worry about this case.</li>
+      <li>When removing the last node from the list (if size is 0 after removing), we need to make sure the tail pointer is set to <pf>nullptr</pf>. <pf>removeFirst</pf> and <pf>removeAt</pf> both need to worry about this case.</li>
     </ul>
   </p>
 

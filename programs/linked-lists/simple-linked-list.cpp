@@ -1,7 +1,7 @@
 import ListNode;
 
 template<typename T>
-class SimpleLinkedList {
+export class SimpleLinkedList {
 private:
     ListNode<T>* head = nullptr; // Pointer to the first node in the list
 public:

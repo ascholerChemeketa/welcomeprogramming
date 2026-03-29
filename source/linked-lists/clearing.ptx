@@ -15,7 +15,7 @@
 
 <program>
   <![CDATA[ 
-template <class T>
+template <typename T>
 LinkedList<T>::~LinkedList() {
     clear();
 }
@@ -34,7 +34,7 @@ LinkedList<T>::~LinkedList() {
   <program language="text">
   <![CDATA[
 clear():
-  while head is not nullptr:
+  while(head != nullptr):
     removeFirst()
   ]]>
   </program>
@@ -110,10 +110,11 @@ clear():
     <p>Our algorithm might look something like:</p>
 
     <program language="text">
-      while sourceCur->next is not nullptr:
-          sourceCur = sourceCur->next               // advance to the next node in the source
-          copyCur->next = new Node(sourceCur->data)
+      while (sourceCur->next != nullptr) {
+          sourceCur = sourceCur->next;              // advance to the next node in the source
+          copyCur->next = new Node(sourceCur->data);
           copyCur = copyCur->next;                  // advance copyCur to the new last node
+      }
     </program>
 
     <p>
@@ -122,7 +123,7 @@ clear():
 
     <program>
       <![CDATA[
-template <class T>
+template <typename T>
 class SimpleLinkedList {
     //...
     public:
