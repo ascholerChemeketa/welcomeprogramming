@@ -1,0 +1,308 @@
+<exercises xml:id="stack-queue_exercises"
+           xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Exercises</title>
+  
+  <exercise label="stack-queue_exercises-queue-insert">
+    <statement>
+      <p>Write the <pf>enqueue</pf> function for the <xref ref="ArrayBasedQueue-cxx-listing" text="custom">Array Based Queue</xref>.</p>
+      <p>You do not need to worry about the queue being full, but you should correctly handle wrapping.</p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="ArrayBasedQueue-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import ArrayBasedQueue;
+
+#include <iostream>
+using namespace std;
+
+]]>
+        </preamble>
+        <code>
+          <![CDATA[
+template<typename T>
+void Queue<T>::enqueue(const T& value) {
+    // Write your code here
+}
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+
+TEST_CASE("Enqueue3") {
+  Queue<char> q;
+
+  q.enqueue('A');
+  q.enqueue('B');
+  q.enqueue('C');
+
+  INFO(q.toString());
+  REQUIRE(q.start == 0);
+  REQUIRE(q.end == 3);
+  REQUIRE(q.list[q.start] == 'A');
+  REQUIRE(q.list[q.end - 1] == 'C');
+}
+
+TEST_CASE("WrapEnd") {
+  Queue<char> q;
+
+  // Cheat a little...
+  q.start = 3;
+  q.end = 3;
+  q.enqueue('C');
+  q.enqueue('D');
+  q.enqueue('E');
+
+  q.enqueue('G');
+  q.enqueue('H');
+  INFO(q.toString());
+  REQUIRE(q.end == 0);
+  q.enqueue('I');
+  REQUIRE(q.end == 1);
+
+  INFO(q.toString());
+  REQUIRE(q.list[0] == 'I');
+}
+
+]]>
+    </tests>
+    </program>
+  </exercise>
+
+  
+  <exercise label="stack-queue_exercises-queue-remove">
+    <statement>
+      <p>Write the <pf>dequeue</pf> function for the <xref ref="ArrayBasedQueue-cxx-listing" text="custom">Array Based Queue</xref>.</p>
+      <p>You do not need to worry about the queue being full, but you should correctly handle wrapping.</p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="ArrayBasedQueue-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import ArrayBasedQueue;
+
+#include <iostream>
+using namespace std;
+
+]]>
+        </preamble>
+        <code>
+          <![CDATA[
+template<typename T>
+T Queue<T>::dequeue() {
+    // Write your code here
+    T value = list[start];
+    start = (start + 1) % arraySize;
+    return value;
+}
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+
+TEST_CASE("Dequeue1") {
+  Queue<char> q;
+
+  // cheat a little
+  q.list[0] = 'A';
+  q.list[1] = 'B';
+  q.list[2] = 'C';
+  q.end = 3;
+
+  char x = q.dequeue();
+
+  INFO(q.toString());
+  REQUIRE(q.start == 1);
+  REQUIRE(q.end == 3);
+  REQUIRE(x == 'A');
+}
+
+TEST_CASE("DequeueMultiple") {
+  Queue<char> q;
+
+  // cheat a little
+  q.list[0] = 'A';
+  q.list[1] = 'B';
+  q.list[2] = 'C';
+  q.end = 3;
+
+  char x = q.dequeue();
+  char y = q.dequeue();
+  char z = q.dequeue();
+
+  INFO(q.toString());
+  REQUIRE(x == 'A');
+  REQUIRE(y == 'B');
+  REQUIRE(z == 'C');
+}
+
+TEST_CASE("WrapStart") {
+  Queue<char> q;
+  
+  // cheat a little
+  q.list[6] = 'A';
+  q.list[7] = 'B';
+  q.list[0] = 'C';
+  q.list[1] = 'D';
+  q.start = 6;
+  q.end = 2;
+
+  q.dequeue();
+  q.dequeue();
+  q.dequeue();
+  INFO(q.toString());
+  REQUIRE(q.start == 1);
+  REQUIRE(q.end == 2);
+
+  q.dequeue();
+  INFO(q.toString());
+  REQUIRE(q.start == 2);
+  REQUIRE(q.end == 2);
+}
+
+]]>
+    </tests>
+    </program>
+  </exercise>
+
+  <exercise label="stack-queue_exercises-queue-full">
+    <statement>
+      <p>Write the <pf>full</pf> function for the <xref ref="ArrayBasedQueue-cxx-listing" text="custom">Array Based Queue</xref>.</p>
+      <p>You will need your <pf>enqueue</pf> and <pf>dequeue</pf> functions.</p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="ArrayBasedQueue-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import ArrayBasedQueue;
+
+#include <iostream>
+using namespace std;
+
+]]>
+        </preamble>
+        <code>
+          <![CDATA[
+// Paste your enqueue and dequeue implementations here
+
+template<typename T>
+bool Queue<T>::full() const {
+    // Write your code here
+}
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+
+void addTestData(Queue<char>& q) {
+  for (int i = 0; i < 6; i++)
+    q.enqueue(static_cast<char>('A' + i));
+}
+
+
+TEST_CASE("Full") {
+  Queue<char> q;
+  addTestData(q); // A B C D E F
+
+  INFO(q.toString());
+
+  REQUIRE(q.full() == false);
+
+  q.enqueue('G');
+  REQUIRE(q.full() == true);
+
+  q.dequeue();
+  REQUIRE(q.full() == false);
+
+  q.enqueue('H');
+  REQUIRE(q.full() == true);
+}
+]]>
+    </tests>
+    </program>
+  </exercise>
+
+  <exercise label="stack-queue_exercises-queue-grow">
+    <statement>
+      <p>Write the <pf>grow</pf> function for the <xref ref="ArrayBasedQueue-cxx-listing" text="custom">Array Based Queue</xref>.</p>
+      <p>It should double the size of the underlying array and copy the existing elements to the new array in the correct order.</p>
+      <p>You will need your <pf>enqueue</pf> and <pf>dequeue</pf> functions.</p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="ArrayBasedQueue-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import ArrayBasedQueue;
+
+#include <iostream>
+using namespace std;
+
+]]>
+        </preamble>
+        <code>
+          <![CDATA[
+// Paste your enqueue and dequeue implementations here
+
+template<typename T>
+void Queue<T>::grow() {
+    // Write your code here
+}
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+
+void addTestData(Queue<char>& q) {
+  for (int i = 0; i < 6; i++)
+    q.enqueue(static_cast<char>('A' + i));
+}
+
+TEST_CASE("Grow") {
+  Queue<char> q;
+  addTestData(q); // A B C D E F
+  q.grow();
+
+  INFO(q.toString());
+  REQUIRE(q.dequeue() == 'A');
+  REQUIRE(q.dequeue() == 'B');
+  REQUIRE(q.dequeue() == 'C');
+  REQUIRE(q.dequeue() == 'D');
+  REQUIRE(q.dequeue() == 'E');
+  REQUIRE(q.dequeue() == 'F');
+}
+
+TEST_CASE("GrowAfterWrap") {
+  Queue<char> q;
+  addTestData(q); // A B C D E F
+  for (int i = 0; i < 6; i++)
+    q.dequeue();
+  q.enqueue('G');
+  q.enqueue('H');
+  q.enqueue('I');
+  q.enqueue('J');
+
+  q.grow();
+
+  INFO("After grow:" << q.toString());
+  REQUIRE(q.dequeue() == 'G');
+  REQUIRE(q.dequeue() == 'H');
+  REQUIRE(q.dequeue() == 'I');
+  REQUIRE(q.dequeue() == 'J');
+}
+
+]]>
+    </tests>
+    </program>
+    <hint>
+      <p>You will need to loop from start to end and may need to wrap around while looping.</p>
+    </hint>
+    <hint>
+      <p>You will likely need/want a different counter for the location in the new array. The logic is easiest if you place the elements in the new array starting from 0. They will never need to wrap in the new array.</p>
+    </hint>
+  </exercise>
+
+</exercises>
