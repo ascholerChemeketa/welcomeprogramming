@@ -1,0 +1,295 @@
+<exercises xml:id="list-algorithms-iterators_exercises"
+           xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Exercises</title>
+  
+  <exercise label="list-algorithms-iterators_splice">
+    <statement>
+      <p>
+        Write the <pf>splice</pf> function for a <xref ref="LinkedList-cxx-listing" text="custom">Linked List</xref> (with size and tail). The other list should end up completely empty.
+      </p>
+      <p>
+        You may assume both lists have at least one node.
+      </p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="LinkedList-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import LinkedList;
+
+#include <iostream>
+using namespace std;]]>
+        </preamble>
+        <code>
+          <![CDATA[
+template<typename T>
+void LinkedList<T>::splice(LinkedList& other) {
+  // Write your code here
+}
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+template<typename T>
+void LinkedList<T>::clear() {
+  // placeholder implementation
+}
+
+TEST_CASE("LL/splice") {
+  LinkedList<int> test_list;
+  test_list.insertStart(4);
+  test_list.insertStart(3);
+
+  LinkedList<int> test_list2;
+  test_list2.insertStart(2);
+  test_list2.insertStart(1);
+
+  test_list2.splice(test_list);
+
+  REQUIRE(test_list2.head->data == 1);
+  REQUIRE(test_list2.tail->data == 4);
+  REQUIRE(test_list2.head->next->next->data == 3);
+
+  REQUIRE(test_list.head == nullptr);
+  REQUIRE(test_list.tail == nullptr);
+
+  REQUIRE(test_list.size == 0);
+  REQUIRE(test_list2.size == 4);
+}
+]]>
+    </tests>
+    </program>
+  </exercise>
+
+  <exercise label="list-algorithms-iterators_split">
+    <statement>
+      <p>
+        Write the <pf>splitInHalf</pf> function for a <xref ref="LinkedList-cxx-listing" text="custom">Linked List</xref> (with size and tail). It should split the list into two halves. The first half should remain in this list, and the second half should be returned as a new list. If there are an odd number of nodes, the extra node should go in the second half.
+      </p>
+      <p>
+        You may assume the list has at least two nodes.
+      </p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="LinkedList-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import LinkedList;
+
+#include <iostream>
+using namespace std;]]>
+        </preamble>
+        <code>
+          <![CDATA[
+template<typename T>
+LinkedList<T> LinkedList<T>::sliceInHalf() {
+  // Write your code here
+}
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+template<typename T>
+void LinkedList<T>::clear() {
+  // placeholder implementation
+}
+
+
+void buildTestIntList(LinkedList<int>& list) {
+  list.insertEnd(5);
+  list.insertEnd(6);
+  list.insertEnd(2);
+  list.insertEnd(4);
+}
+
+TEST_CASE("LL/Split") {
+  LinkedList<int> test_list;
+  buildTestIntList(test_list); // 5, 6, 2, 4
+
+  int startNodeCount = ListNode<int>::nodeCount;
+
+  LinkedList<int> second_half = test_list.sliceInHalf();
+
+  REQUIRE(test_list.size == 2);
+  REQUIRE(second_half.size == 2);
+
+  REQUIRE(test_list.tail->data == 6);
+  REQUIRE(test_list.tail->next == nullptr);
+
+  REQUIRE(second_half.head->data == 2);
+  REQUIRE(second_half.tail->data == 4);
+
+  REQUIRE(startNodeCount - ListNode<int>::nodeCount == 0);
+}
+
+TEST_CASE("LL/SplitLonger") {
+  LinkedList<int> test_list;
+  buildTestIntList(test_list);
+  test_list.insertEnd(50);
+  test_list.insertEnd(50); // 5, 6, 2, 4, 50, 50
+
+  LinkedList<int> second_half = test_list.sliceInHalf();
+
+  REQUIRE(test_list.size == 3);
+  REQUIRE(second_half.size == 3);
+
+  REQUIRE(test_list.tail->data == 2);
+  REQUIRE(test_list.tail->next == nullptr);
+
+  REQUIRE(second_half.head->data == 4);
+  REQUIRE(second_half.tail->data == 50);
+}
+
+TEST_CASE("LL/SplitOddSize") {
+  LinkedList<int> test_list;
+  buildTestIntList(test_list);
+  test_list.insertEnd(50); // 5, 6, 2, 4, 50
+
+  LinkedList<int> second_half = test_list.sliceInHalf();
+
+  REQUIRE(test_list.size == 2);
+  REQUIRE(second_half.size == 3);
+
+  REQUIRE(test_list.tail->data == 6);
+  REQUIRE(test_list.tail->next == nullptr);
+
+  REQUIRE(second_half.head->data == 2);
+  REQUIRE(second_half.tail->data == 50);
+}
+]]>
+    </tests>
+    </program>
+    <hint>
+      <p>
+        You will need to walk a pointer to just before the midpoint of the list. That should be (size / 2) - 1 steps from the start of the list.
+      </p>
+    </hint>
+    <hint>
+      <p>
+        Both lists won't necessarily end up with size = (size / 2). That is how long the first list should end up. Use the length of it to calculate the length of the second list.
+      </p>
+      <p>For example, after splitting a list of 5 things, the original list should have (5 / 2) = 2 things and the new second list should have 3 things.</p>
+    </hint>
+  </exercise>
+
+  <exercise label="list-algorithms-iterators_reverse-to-string">
+    <statement>
+      <p>Write the recursive <pf>reverseToString</pf> function for the <xref ref="RecursiveSimpleLinkedList-cxx-listing" text="custom">Simple Linked List</xref> used in this chapter.</p>
+      <p>For a list containing nodes with values 10, 20, and 30, the function should return the string "30 20 10".</p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="RecursiveSimpleLinkedList-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import SimpleLinkedList;
+
+#include <iostream>
+using namespace std;
+
+#define for "NoForLoops"
+#define while "NoWhileLoops"
+#define goto "NoGoto"]]>
+        </preamble>
+        <code>
+          <![CDATA[
+string reverseToStringHelper(ListNode* node) {
+    // Write your code here
+}
+string SimpleLinkedList::reverseToString() {
+    // Call non-member recursive function and return the result
+    string result = reverseToStringHelper(head);
+    return result;
+}
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+
+#undef for
+#undef while
+#undef goto
+
+void buildTestIntList(SimpleLinkedList& list) {
+  list.insertStart(30);
+  list.insertStart(20);
+  list.insertStart(10);
+}
+
+TEST_CASE("LL/recursiveReverseToString") {
+  SimpleLinkedList test_list;
+  buildTestIntList(test_list); // 10, 20, 30
+
+  string result = test_list.reverseToString();
+  INFO("Expected: |30 20 10|");
+  INFO("Actual: |" << result << "|");
+  REQUIRE(result == "30 20 10");
+
+  test_list.insertStart(5); // 5, 10, 20, 30
+  result = test_list.reverseToString();
+  INFO("Expected: |30 20 10 5|");
+  INFO("Actual: |" << result << "|");
+  REQUIRE(result == "30 20 10 5");
+}
+]]>
+    </tests>
+    </program>
+  </exercise>
+
+  <exercise label="list-algorithms-iterators_recursive-max">
+    <statement>
+      <p>Write the recursive <pf>getMaxValue</pf> function for the <xref ref="RecursiveSimpleLinkedList-cxx-listing" text="custom">Simple Linked List</xref> used in this chapter.</p>
+      <p>You do not need to worry about what to do if the list is empty.</p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="RecursiveSimpleLinkedList-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import SimpleLinkedList;
+
+#include <iostream>
+using namespace std;
+
+#define for "NoForLoops"
+#define while "NoWhileLoops"
+#define goto "NoGoto"]]>
+        </preamble>
+        <code>
+          <![CDATA[
+int getMax(ListNode* node) {
+    // Write your code here
+}
+int SimpleLinkedList::getMaxValue() {
+    // Call non-member recursive function and return the result
+    int result = getMax(head);
+    return result;
+}
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+
+#undef for
+#undef while
+#undef goto
+
+TEST_CASE("LL/recursiveMax") {
+  SimpleLinkedList test_list;
+  test_list.insertStart(30);
+  test_list.insertStart(40);
+  test_list.insertStart(10);
+
+  REQUIRE(test_list.getMaxValue() == 40);
+
+  test_list.insertStart(50);
+  REQUIRE(test_list.getMaxValue() == 50);
+}
+]]>
+    </tests>
+    </program>
+  </exercise>
+
+</exercises>

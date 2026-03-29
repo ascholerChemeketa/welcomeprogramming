@@ -7,14 +7,14 @@
     An iterator only makes sense in the context of a specific collection. We can't just make a <pf>ListIterator</pf> out of thin air - we need to get it from a list. The list class will construct the iterator for us, initializing it with the right pointer, and then give it to us.</p>
 
     <p>
-    Say we wanted to add an iterator to our <pf>SinglyLinkedList</pf> class. We would could add two functions like this:
+    Say we wanted to add an iterator to our <pf>LinkedList</pf> class. We would could add two functions like this:
   </p>
   
   <listing>
     <program>
       <![CDATA[ 
     template<typename T>
-    class SinglyLinkedList {
+    class LinkedList {
     ...
     public:
       ListIterator<T> begin() {
@@ -56,7 +56,7 @@
   <exercise label="list-algorithms-iterators_getting-iterators-ex-1">
     <statement>
       <p>
-        Imagine we are implementing an iterator for an <pf>ArrayList&lt;T></pf>. Imagine our ArrayList is defined like this:
+        Imagine we are implementing an iterator for an <pf>ArrayList&lt;T></pf> that is defined like this:
       </p>
 
       <program>

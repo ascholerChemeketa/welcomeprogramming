@@ -1,0 +1,119 @@
+<section xml:id="list-algorithms-iterators_slice-splice"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+
+  <title>Slicing and Splicing Lists</title>
+
+  <p> In <xref ref="templates-array-list_array-list-split-at"/>, we saw how to split an array-based
+    list into two parts. It involved creating a new array and then copying data over piece by piece.
+    In a linked list, we can split a list into two parts by just changing a few links. For example,
+    if we have a pointer to the node at which we want to split the list, we can just break the link
+    from that node to the next one and return two new lists: one starting at the head of the
+    original list and ending at that node, and one starting at the next node and ending at the tail
+    of the original list.</p>
+
+  <investigation  label="list-algorithms-iterators_slice-splice-investigation-1">
+    <title>Splitting a Linked List</title>
+    <task>
+      <p>We start with a linked list and a pointer to the node right before the midpoint:</p>
+      <image source="images/list-algorithms-iterators/slice-start.svg"
+              width="100%">
+        <shortdescription>
+          <p>This list has 4 nodes. The pointer "mid" points to the second node.</p>
+        </shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>We then make the following changes:
+      </p>
+      <image source="images/list-algorithms-iterators/slice-end.svg"
+              width="100%">
+        <shortdescription>
+          <p>This list's tail is now the node mid points to. Other list starts at the node after mid and its tail is the original list's tail. Both lists have two nodes.</p>
+        </shortdescription>
+      </image>
+      <p>The changes are highlighted. They include:
+      <ul>
+        <li><pf>other.head</pf> is set to the node after <pf>mid</pf></li>
+        <li><pf>other.tail</pf> is set to this list's tail</li>
+        <li><pf>mid->next</pf> is set to <pf>nullptr</pf> to break off the two lists</li>
+        <li><pf>this.tail</pf> is set to <pf>mid</pf></li>
+        <li>The size of each list is updated.</li>
+      </ul>
+      </p>
+    </task>
+  </investigation>
+
+  <p>
+    Notice that splitting the list just involves changing a few pointers and updating the size. There would not be any more work to do if our list was 10,000 items long instead of just 4. Assuming we have the midpoint pointer, the split process is <m>O(1)</m>.
+  </p>
+
+  <p>
+    Of course, if we do not have the midpoint pointer, we will have to create one and move it step by step to the midpoint of the list. This would take <m>O(n)</m> time. However, especially if the items are large, the constant factor for moving a pointer <m>O(n)</m> times may be smaller than the constant factor for the <m>O(n)</m> part of slicing an array-based list, where <m>n</m> items have to be copied over to a new array.
+  </p>
+
+
+  <investigation label="list-algorithms-iterators_slice-splice-investigation-2">
+    <title>Splicing Linked Lists</title>
+    <task>
+      <p>We start with two linked lists and want to combine them:</p>
+      <image source="images/list-algorithms-iterators/splice-start.svg"
+              width="100%">
+        <shortdescription>
+          <p>This list has 4 nodes. The pointer "mid" points to the second node.</p>
+        </shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>We then make the following changes:
+      </p>
+      <image source="images/list-algorithms-iterators/splice-end.svg"
+              width="100%">
+        <shortdescription>
+          <p>This list's tail is now the node mid points to. Other list starts at the node after mid and its tail is the original list's tail. Both lists have two nodes.</p>
+        </shortdescription>
+      </image>
+      <p>After, the list titled <q>this</q> owns all the nodes from both lists.</p>
+    </task>
+  </investigation>
+
+  <p>
+    As with slicing, splicing just involves changing a few pointers and updating the size. Assuming we have tail pointers in the lists, we can do the entire operation in constant time (<m>O(1)</m>). There is no corresponding easy way to splice together two array-based lists. To merge those, we would need to copy all the items from the second to the first array (and possibly reallocate the array), which would require <m>O(n)</m> time.
+  </p>
+
+  <exercise label="list-algorithms-iterators_slice-splice-exercise-1">
+    numbered="yes"
+    adaptive="yes"
+    indentation="hide">
+    <statement>
+    <p>Build the logic to merge the contents of <pf>other</pf> into <pf>this</pf>. You will not use all the blocks</p>
+    </statement>
+    <blocks>
+      <block name="a" depends="">
+          <cline><![CDATA[this->tail->next = other.head]]></cline>
+      </block>
+      <block name="b" depends="a">
+          <cline><![CDATA[this->tail = other.tail]]></cline>
+      </block>
+      <block name="c" depends="">
+          <cline><![CDATA[this->length += other.length]]></cline>
+      </block>
+      <block name="d" depends="c">
+          <cline><![CDATA[other.length = 0]]></cline>
+      </block>
+      <block name="e" depends="a">
+          <cline><![CDATA[other.head = nullptr]]></cline>
+      </block>
+      <block name="f" depends="b">
+          <cline><![CDATA[other.tail = nullptr]]></cline>
+      </block>
+      <block name="g" depends="" correct="no">
+          <cline><![CDATA[this->head = other.head]]></cline>
+      </block>
+      <block name="h" depends="" correct="no">
+          <cline><![CDATA[this->tail = other.head]]></cline>
+      </block>
+    </blocks>
+  </exercise>
+
+
+</section>

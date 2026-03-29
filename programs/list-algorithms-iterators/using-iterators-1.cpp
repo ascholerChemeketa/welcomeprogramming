@@ -11,11 +11,11 @@ bool isOdd(int x) {
 }
 
 int main() {
-    SinglyLinkedList<int> myList;
-    myList.insertBack(10);
-    myList.insertBack(20);
-    myList.insertBack(15);
-    myList.insertBack(6);
+    LinkedList<int> myList;
+    myList.insertFront(10);
+    myList.insertFront(20);
+    myList.insertFront(15);
+    myList.insertFront(6);
 
     // A range based loop will implicitly use our iterator
     for (int x : myList) {

@@ -206,12 +206,12 @@ public:
     <evaluation>
       <evaluate>
         <test correct="yes">
-          <strcmp>return arrayPtr\s*\[\s*index\s*\];</strcmp>
+          <strcmp>return\s+arrayPtr\s*\[\s*index\s*\];?</strcmp>
         </test>
         <test>
           <strcmp>.*</strcmp>
           <feedback>
-            <p></p>
+            <p>You should return the element at the current index in the array.</p>
           </feedback>
         </test>
       </evaluate>

@@ -1,33 +1,40 @@
 <section xml:id="list-algorithms-iterators_algorithms"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <title>Algorithms for Linked Lists</title>
+  <title>Adapting Algorithms for Linked Lists</title>
 
   <p>
-    Although implementing an iterator allows many standard algorithms to work with our linked list, not all algorithms can be used. And other algorithms may need to be implemented differently to work efficiently with a linked list.
+    In <xref ref="search-sort"/>, we examined a number of algorithms for working with data in a list. At the time, we were focused on their implementation in array-based lists. Most of those algorithms can be adapted to work with linked lists, but doing so sometimes requires a different approach and may have different performance characteristics.
   </p>
 
   <p>
-    A good example of an algorithm that cannot be used with a linked list is binary search. Binary search relies on being able to quickly jump to the middle of a collection to check if the target value is there. In an array based implementation, jumping to any index we want is <m>O(1)</m>. But in a linked list, there is no efficient way to jump to the middle. We would need to traverse the list from the beginning to get to the middle.
+    An important feature array-based lists support is efficient random access to their elements. We can jump to any index in the list in constant time (<m>O(1)</m>). Linked lists lack this ability. Thus any algorithm that relies on jumping to arbitrary indexes in a list (instead of advancing one index at a time) will not be efficient when implemented with a linked list.
   </p>
 
   <p>
-    Imagine a linked list of 100 elements. First, we would need to traverse 50 elements to get to the middle. If the target value is not there, we would then need to traverse another 25 elements to get to the middle of the remaining half, and so on. We would end up traversing a total of 50 + 25 + 12 + 6 + 3 + 1 + 1 = 98 elements in the worst case. For a list of <m>n</m> elements, we would need to traverse approximately <m>n/2 + n/4 + n/8 + ... + 1</m> elements in the worst case. This series sums to <m>O(n)</m>, which is no better than a simple linear search.
+    A good example of such an algorithm is binary search. Binary search calculates a middle index and then jumps to to that location to compare the value there with the key being searched for. In an array based implementation, we can jump to any index in constant time. We do <m>O(\log n)</m> of these constant time checks for an overall Big O of <m>O(\log n)</m>.
   </p>
 
   <p>
-    Thus, although we could implement binary search for a linked list, there is no performance benefit to doing so. It is better to just use a linear search algorithm, which is simpler and has the same Big-O performance.
+    In a linked list, we can't instantly jump to the middle. Instead we have to traverse the nodes one by one to get there. So each time we try to "check the middle value", we would need to walk through half of the remaining elements.</p>
+  
+  <p>Imagine doing a binary serach on a linked list of 100 elements. First, we would need to traverse 50 elements to get to the middle. If the target value is not there, we would then need to traverse another 25 elements to get to the middle of the remaining half. Then 12 steps to get to the middle of that half. And so on. We would end up traversing a total of 50 + 25 + 12 + 6 + 3 + 1 + 1 = 98 elements in the worst case. That is almost the entire list!
   </p>
+  
+  <p>More generally, for a list of <m>n</m> elements, we would need to traverse approximately <m>n/2 + n/4 + n/8 + ... + 1</m> elements in the worst case. This series sums to <m>O(n)</m>, which is no better than a simple linear search. Thus, although we could implement binary search for a linked list, there is no performance benefit to doing so. It is better to just use a linear search algorithm, which is simpler and has the same Big-O performance.
+  </p>
+
+  <insight>
+    <p>
+      Binary search requires <m>O(n)</m> time on a linked list due to the lack of random access!
+    </p>
+  </insight>
 
   <p>
-    Any algorithm that relies on random (indexed) access to elements will be inherently inefficient on a linked list. And, for some algorithms like binary search, there is no way to modify the algorithm to work efficiently with a linked list.
+    Other algorithms that might rely on random access in an array-based list can be modified to do their work differently in a linked list. For example, consider the sorting algorithm quicksort. Recall that the core function for quicksort looks like this:
   </p>
 
-  <p>
-    However, other algorithms that might be implemented with random access can be adapted to work efficiently with linked lists. For example, consider the sorting algorithm quicksort. Recall that the core function for quicksort looks like this:
-  </p>
-
-    <pre>
+    <program language="text">
     QuickSort(list, start, end):
       if start >= end:
         return list  // size 0/1 already sorted
@@ -35,7 +42,7 @@
         pivotLocation = Partition(list)
         QuickSort(0 to pivotLocation - 1)  // Sort the first half
         QuickSort(pivotLocation to end)    // Sort the second half
-    </pre>
+    </program>
 
     <p>
       All of the hard work has to happen in the <pf>Partition</pf> function, which rearranges the elements in the list so that all elements less than a chosen pivot are before it and all elements greater than the pivot are after it. In our array-based implementation of quicksort, this partitioning used indexed access to keep track of our location in the front and back of the array and to swap elements as needed. When it was done, it returned the final index of the pivot element.
@@ -56,6 +63,57 @@
     </ul>
     One by one for the <m>n</m> elements, we would remove the first element from the original list (<m>O(1)</m>) and append it to the appropriate sublist (<m>O(1)</m> if we have a tail pointer or maintain a temporary pointer to the tail of the lists while we build them). Thus, the entire partitioning process could take <m>O(n)</m> time, just like in the array-based implementation.</p>
 
+
+  <investigation label="list-algorithms-iterators_quicksort-sll">
+    <title>Partitioning a Linked List</title>
+    <task>
+      <p>We start with a linked list:</p>
+      <image source="images/list-algorithms-iterators/quick-1.svg"
+              width="100%">
+        <shortdescription>
+          <p>This list has 5 nodes.</p>
+        </shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>We break off the first value to be the pivot.</p>
+      <image source="images/list-algorithms-iterators/quick-2.svg"
+              width="100%">
+        <shortdescription>
+          <p>The first value, 6 is removed from the list and pointed to by pivot. The original list now has 4 nodes.</p>
+        </shortdescription>
+      </image>
+      <p>Stealing the first node to be the pivot only requires updating three pointers, no matter how long the list is.</p>
+    </task>
+    <task>
+      <p>We compare the first remaining item (2) to the pivot. It is smaller, so it goes into the <pf>firstHalf</pf>.</p>
+      <image source="images/list-algorithms-iterators/quick-3.svg"
+              width="100%">
+        <shortdescription>
+          <p>A new list firstHalf now points to the node with value 2. The original list is down to 3 nodes.</p>
+        </shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>We compare the first remaining item (8) to the pivot. It is larger, so it goes into the <pf>secondHalf</pf>.</p>
+      <image source="images/list-algorithms-iterators/quick-4.svg"
+              width="100%">
+        <shortdescription>
+          <p>A new list secondHalf now points to the node with value 8. The original list is down to 2 nodes.</p>
+        </shortdescription>
+      </image>
+    </task>
+    <task>
+      <p>We work our way through the remaining items in the original list, moving each one to either <pf>firstHalf</pf> or <pf>secondHalf</pf>.</p>
+      <image source="images/list-algorithms-iterators/quick-5.svg"
+              width="100%">
+        <shortdescription>
+          <p>We end up with an empty original list; pivot pointing at a node with 6; firstHalf that is a linked list with all the smaller values; and secondHalf that is the larger values.</p>
+        </shortdescription>
+      </image>
+    </task>
+  </investigation>
+
   <p>
     Once we have partitioned the list into two sublists, we can recursively sort each sublist and then concatenate them together with the pivot in between. Concatenating lists together can be done in <m>O(1)</m> time if we have tail pointers. If we don't have tail pointers, we would need to traverse the first sublist to find its end before we can concatenate, which would take <m>O(n)</m> time. Or we could simply move items one at a time from the sublists to a new combined list, which would also take <m>O(n)</m> time.
   </p>
@@ -64,21 +122,23 @@
     Assuming we have a size function, the top level function might be adjusted to look like this:
   </p>
 
-    <pre>
+    <program language="text">
     QuickSort(list):
       if list.size() &lt;= 1:
         return list  // size 0/1 already sorted
       else:
-        List firstHalf = List()      // empty list to hold elements &lt; pivot
-        List secondHalf = List()     // empty list to hold elements &gt;= pivot
+        List firstHalf()      // empty list to hold elements &lt; pivot
+        List secondHalf()     // empty list to hold elements &gt;= pivot
         ListNode pivot =  remove first value from list
         // split list into two sublists based on pivot value. List will be empty after this.
         Partition(list, pivot, firstHalf, secondHalf)   
         QuickSort(firstHalf)         // Sort the first half
         QuickSort(secondHalf)        // Sort the second half
+        // merge the lists back together with the pivot in between.
+        // first and second half will be empty after this.
         list = Concatenate(firstHalf, pivot, secondHalf)
         return list
-    </pre>
+    </program>
 
     <p>
       In terms of Big-O, we would expect the following work:
@@ -93,14 +153,13 @@
   </p>
 
   <p>
-    But an efficient implementation of quicksort on a linked list is more complex than this high-level description. To efficiently partition we need to move existing nodes from one list to another without creating new nodes (<pf>new</pf> and <pf>delete</pf> have large constant factors). This requires very low level manipulation of the data structure.
-  </p>
-
+    Although we have a proposed implementation in <m>O(n \cdot \log n)</m> time, we are relying on using the first element as our pivot value. Recall that this can lead to poor performance on already sorted lists. In that case, the pivot does not separate the list into two halves, but instead produces one empty sublist and one sublist with all the remaining elements. This leads to a recurrence relation of <m>T(n) = T(n-1) + O(n)</m>, which solves to <m>O(n^2)</m>.
+    </p>
+    
+  <p>In array-based implementations, rather than using the first element of the range as the pivot, it is common to look at the first, middle, and last elements of the range and choose the median of those three as the pivot (swapping it with the first element before starting the partition). This helps avoid ending up with <m>O(n^2)</m> performance on already sorted lists.</p>
+    
   <p>
-    We also are relying on using the first element as our pivot value. Recall that this can lead to poor performance on already sorted lists. In array-based implementations, rather than using the first element of the range as the pivot, it is common to look at the first, middle, and last elements of the range and choose the median of those three as the pivot (swapping it with the first element before starting the partition). This helps avoid poor performance on already sorted lists. However, in a linked list, there is no efficient way to access the middle element of the list and thus no way to efficiently implement this median-of-three pivot selection strategy. We could walk through the list to find the middle element, but that would add an extra <m>O(n)</m> pass through at the start of the partitioning process, further increasing the constant factor.
-  </p>
-
-  <p>
+    However, in a linked list, there is no efficient way to access the middle element of the list and thus no way to efficiently implement this median-of-three pivot selection strategy. We could walk through the list to find the middle element, but that would add an extra <m>O(n)</m> pass through at the start of the partitioning process, increasing the constant factors.
     Thus, while it is possible to implement quicksort for a linked list in <m>O(n \cdot \log n)</m> time, we are probably better off using a different sorting algorithm that is more naturally suited to linked lists.
   </p>
 
