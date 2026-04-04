@@ -1,0 +1,715 @@
+<section xml:id="trees_exercises"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Exercises</title>
+
+  <p>The exercises in this section use the same logic as our basic binary search tree
+    implementation. Do your best to recreate the functionality without looking at the previous code.</p>
+
+  <p> The class declaration looks like this: </p>
+
+  <listing xml:id="trees_charbst_class">
+    <title>CharBST Class Declaration</title>
+    <program>
+      <![CDATA[ 
+  class CharBST {
+  private:
+    BSTNode* root;
+  public:
+  ... functions not shown ...
+  };
+      ]]>
+    </program>
+  </listing>
+
+  <p>Where BSTNode is defined as:</p>
+
+  <listing xml:id="trees_bstnode">
+    <title>BSTNode Declaration</title>
+    <program>
+      <![CDATA[ 
+  struct BSTNode {
+    // Store a value and two child pointers
+    char value;
+    BSTNode* left;
+    BSTNode* right;
+  };
+      ]]>
+    </program>
+  </listing>
+
+  <exercise label="trees_exercises-ex-1">
+    <statement>
+      <p>Implement <pf>containsIterative</pf> for the <xref ref="trees_charbst_class"
+              text="custom">CharBST</xref>
+        class.</p>
+    </statement>
+    <program interactive="activecode"
+           extra-compiler-args="-fsanitize=address -g">
+        <preamble visible="no">
+<xi:include href="../../programs/trees/charbst-ex-contains.cpp" parse="text"/>
+<xi:include href="../../programs/trees/charbst-ex-copySubStub.cpp" parse="text"/>
+        </preamble>
+        <code>
+bool CharBST::containsIterative(char valToFind) const {
+    // Your code here
+}
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+/* Adds test data to produce this tree:
+ *         _G_
+ *        /   \
+ *       C     P
+ *        \   / \
+ *         F J   Y
+ */
+
+void insertTestData(CharBST& c) {
+  c.root = nullptr; // remove (and leak!!!) any existing nodes
+
+  c.root = new BSTNode('G');
+  c.root->left = new BSTNode('C');
+  c.root->left->right = new BSTNode('F');
+  c.root->right = new BSTNode('P');
+  c.root->right->right = new BSTNode('Y');
+  c.root->right->left = new BSTNode('J');
+}
+
+TEST_CASE("ContainsIterative") {
+  CharBST bst;
+  insertTestData (bst);
+
+  REQUIRE(bst.containsIterative('G'));
+  REQUIRE(bst.containsIterative('C'));
+  REQUIRE(bst.containsIterative('F'));
+  REQUIRE(bst.containsIterative('P'));
+  REQUIRE(bst.containsIterative('Y'));
+  REQUIRE(bst.containsIterative('J'));
+  REQUIRE_FALSE(bst.containsIterative('A'));
+  REQUIRE_FALSE(bst.containsIterative('Q'));
+}
+]]>
+        </tests>
+    </program>
+  </exercise>
+
+  <exercise label="trees_exercises-ex-2">
+    <statement>
+      <p>Implement the recursive helper function for <pf>containsRecursive</pf> for the <xref ref="trees_charbst_class"
+              text="custom">
+        CharBST</xref> class.</p>
+    </statement>
+    <program interactive="activecode"
+           extra-compiler-args="-fsanitize=address -g">
+        <preamble visible="no">
+<xi:include href="../../programs/trees/charbst-ex-contains.cpp" parse="text"/>
+<xi:include href="../../programs/trees/charbst-ex-copySubStub.cpp" parse="text"/>
+        </preamble>
+        <code>
+bool containsHelper(BSTNode* curNode, char valToFind) {
+  // TODO - fixme
+  return false;
+}
+
+/// recursive version
+bool CharBST::containsRecursive(char valToFind) const {
+  return containsHelper(root, valToFind);
+}
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+/* Adds test data to produce this tree:
+ *         _G_
+ *        /   \
+ *       C     P
+ *        \   / \
+ *         F J   Y
+ */
+
+void insertTestData(CharBST& c) {
+  c.root = nullptr; // remove (and leak!!!) any existing nodes
+
+  c.root = new BSTNode('G');
+  c.root->left = new BSTNode('C');
+  c.root->left->right = new BSTNode('F');
+  c.root->right = new BSTNode('P');
+  c.root->right->right = new BSTNode('Y');
+  c.root->right->left = new BSTNode('J');
+}
+
+TEST_CASE("ContainsRecursive") {
+  CharBST bst;
+  insertTestData(bst);
+
+  REQUIRE(bst.containsRecursive('G'));
+  REQUIRE(bst.containsRecursive('C'));
+  REQUIRE(bst.containsRecursive('F'));
+  REQUIRE(bst.containsRecursive('P'));
+  REQUIRE(bst.containsRecursive('Y'));
+  REQUIRE(bst.containsRecursive('J'));
+  REQUIRE_FALSE(bst.containsRecursive('A'));
+  REQUIRE_FALSE(bst.containsRecursive('Q'));
+}
+]]>
+        </tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="trees_exercises-ex-3">
+    <statement>
+      <p>Implement the <pf>insertIterative</pf> for the <xref ref="trees_charbst_class"
+              text="custom">CharBST</xref>
+        class.</p>
+    </statement>
+    <program interactive="activecode"
+           extra-compiler-args="-fsanitize=address -g">
+        <preamble visible="no">
+<xi:include href="../../programs/trees/charbst-ex-contains.cpp" parse="text"/>
+<xi:include href="../../programs/trees/charbst-ex-copySubStub.cpp" parse="text"/>
+        </preamble>
+        <code>
+void CharBST::insertIterative(char insertVal) {
+  // TODO - fixme
+}
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+/* Adds test data to produce this tree:
+ *         _G_
+ *        /   \
+ *       C     P
+ *        \   / \
+ *         F J   Y
+ */
+
+void insertTestData(CharBST& c) {
+  c.root = nullptr; // remove (and leak!!!) any existing nodes
+
+  c.root = new BSTNode('G');
+  c.root->left = new BSTNode('C');
+  c.root->left->right = new BSTNode('F');
+  c.root->right = new BSTNode('P');
+  c.root->right->right = new BSTNode('Y');
+  c.root->right->left = new BSTNode('J');
+}
+
+TEST_CASE("InsertIterative") {
+  CharBST bst;
+  insertTestData(bst);
+
+  bst.insertIterative('A');
+  REQUIRE(bst.root->left->left != nullptr);
+  REQUIRE(bst.root->left->left->value == 'A');
+
+  bst.insertIterative('D');
+  REQUIRE(bst.root->left->right->left != nullptr);
+  REQUIRE(bst.root->left->right->left->value == 'D');
+
+  bst.insertIterative('K');
+  REQUIRE(bst.root->right->left->right != nullptr);
+  REQUIRE(bst.root->right->left->right->value == 'K');
+}
+
+TEST_CASE("InsertIterativeRoot") {
+  CharBST bst;
+
+  bst.insertIterative('A');
+  REQUIRE(bst.root != nullptr);
+  REQUIRE(bst.root->value == 'A');
+}
+]]>
+        </tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="trees_exercises-ex-4">
+    <statement>
+      <p>Implement the recursive helper function for <pf>insertRecursive</pf> for the <xref ref="trees_charbst_class"
+              text="custom">
+        CharBST</xref> class.</p>
+    </statement>
+    <program interactive="activecode"
+           extra-compiler-args="-fsanitize=address -g">
+        <preamble visible="no">
+<xi:include href="../../programs/trees/charbst-ex-contains.cpp" parse="text"/>
+<xi:include href="../../programs/trees/charbst-ex-copySubStub.cpp" parse="text"/>
+        </preamble>
+        <code>
+BSTNode* insertHelper(BSTNode* curNode, char insertVal) {
+  // TODO - fixme
+  return nullptr;
+}
+
+void CharBST::insertRecursive(char insertVal) {
+  root = insertHelper(root, insertVal);
+}
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+/* Adds test data to produce this tree:
+ *         _G_
+ *        /   \
+ *       C     P
+ *        \   / \
+ *         F J   Y
+ */
+
+void insertTestData(CharBST& c) {
+  c.root = nullptr; // remove (and leak!!!) any existing nodes
+
+  c.root = new BSTNode('G');
+  c.root->left = new BSTNode('C');
+  c.root->left->right = new BSTNode('F');
+  c.root->right = new BSTNode('P');
+  c.root->right->right = new BSTNode('Y');
+  c.root->right->left = new BSTNode('J');
+}
+
+TEST_CASE("InsertRecursive") {
+  CharBST bst;
+  insertTestData(bst);
+
+  bst.insertRecursive('A');
+  REQUIRE(bst.root->left->left != nullptr);
+  REQUIRE(bst.root->left->left->value == 'A');
+
+  bst.insertRecursive('D');
+  REQUIRE(bst.root->left->right->left != nullptr);
+  REQUIRE(bst.root->left->right->left->value == 'D');
+
+  bst.insertRecursive('K');
+  REQUIRE(bst.root->right->left->right != nullptr);
+  REQUIRE(bst.root->right->left->right->value == 'K');
+}
+
+TEST_CASE("InsertRecursiveRoot") {
+  CharBST bst;
+
+  bst.insertRecursive('A');
+  REQUIRE(bst.root != nullptr);
+  REQUIRE(bst.root->value == 'A');
+}
+]]>
+        </tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="trees_exercises-ex-5">
+    <statement>
+      <p>Implement <pf>copySubTree</pf> for the <xref ref="trees_charbst_class"
+              text="custom"> CharBST</xref>
+        class. It should create a deep copy of a subtree rooted at the given node and return a
+        pointer to the root of the new subtree.</p>
+    </statement>
+    <program interactive="activecode"
+           extra-compiler-args="-fsanitize=address -g">
+        <preamble visible="no">
+<xi:include href="../../programs/trees/charbst-ex-contains.cpp" parse="text"/>
+        </preamble>
+        <code>
+BSTNode* copySubTree(BSTNode* currentNode) {
+  // TODO - FIXME
+  return nullptr;
+}
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+/* Adds test data to produce this tree:
+ *         _G_
+ *        /   \
+ *       C     P
+ *      / \   / \
+ *     B   F J   Y
+ *            \
+ *             M
+ */
+
+void insertTestData2(CharBST& c) {
+  c.root = nullptr; // remove (and leak!!!) any existing nodes
+
+  c.root = new BSTNode('G');
+
+  c.root->left = new BSTNode('C');
+  c.root->left->left = new BSTNode('B');
+  c.root->left->right = new BSTNode('F');
+
+  c.root->right = new BSTNode('P');
+  c.root->right->right = new BSTNode('Y');
+  c.root->right->left = new BSTNode('J');
+  c.root->right->left->right = new BSTNode('M');
+}
+
+TEST_CASE("CopySubTreeNull") {
+  CharBST bst;
+  insertTestData2(bst); // 8 nodes
+
+  // Make sure null is handled
+  BSTNode* copyOfNull = copySubTree(nullptr);
+  REQUIRE(copyOfNull == nullptr);
+}
+
+TEST_CASE("CopySubTreeSingle") {
+  CharBST bst;
+  insertTestData2(bst); // 8 nodes
+
+  // Copy one node
+  BSTNode* copyOfB = copySubTree(bst.root->left->left);
+  // Should new node with same value, but NOT be the same node
+  REQUIRE(copyOfB->value == 'B');
+  REQUIRE(copyOfB != bst.root->left->left);
+  deleteSubTree(copyOfB);
+}
+
+TEST_CASE("CopySubTree") {
+  CharBST bst;
+  insertTestData2(bst); // 8 nodes
+
+  // Copy three nodes
+  int startNodeCount = BSTNode::nodeCount;
+  BSTNode* copyOfC = copySubTree(bst.root->left);
+  REQUIRE(copyOfC->value == 'C');
+  REQUIRE(copyOfC->left->value == 'B');
+  REQUIRE(copyOfC->right->value == 'F');
+  int newNodeCount = BSTNode::nodeCount;
+  REQUIRE(newNodeCount - startNodeCount == 3);
+  deleteSubTree(copyOfC);
+}
+
+]]>
+        </tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="trees_exercises-ex-6" xml:id="trees_exercises-ex-6">
+    <statement>
+      <p>Implement <pf>smallestValueFrom</pf> for the <xref ref="trees_charbst_class"
+              text="custom"> CharBST</xref>
+        class. It should find the smallest value in a subtree rooted at the given node and return it.</p>
+    </statement>
+    <program interactive="activecode"
+           extra-compiler-args="-fsanitize=address -g">
+        <preamble visible="no">
+<xi:include href="../../programs/trees/charbst-ex-contains.cpp" parse="text"/>
+<xi:include href="../../programs/trees/charbst-ex-copySubStub.cpp" parse="text"/>
+        </preamble>
+        <code>
+char smallestValueFrom(BSTNode* curNode) {
+  // TODO - fixme
+  return '?';
+}
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+/* Adds test data to produce this tree:
+ *         _G_
+ *        /   \
+ *       C     P
+ *      / \   / \
+ *     B   F J   Y
+ *            \
+ *             M
+ */
+
+void insertTestData2(CharBST& c) {
+  c.root = nullptr; // remove (and leak!!!) any existing nodes
+
+  c.root = new BSTNode('G');
+
+  c.root->left = new BSTNode('C');
+  c.root->left->left = new BSTNode('B');
+  c.root->left->right = new BSTNode('F');
+
+  c.root->right = new BSTNode('P');
+  c.root->right->right = new BSTNode('Y');
+  c.root->right->left = new BSTNode('J');
+  c.root->right->left->right = new BSTNode('M');
+}
+
+TEST_CASE("FindSmallest") {
+  CharBST bst;
+  insertTestData2(bst); // 8 nodes
+
+  char fromB = smallestValueFrom(bst.root);
+  REQUIRE(fromB == 'B');
+
+  char fromP = smallestValueFrom(bst.root->right);
+  REQUIRE(fromP == 'J');
+
+  char fromY = smallestValueFrom(bst.root->right->right);
+  REQUIRE(fromY == 'Y');
+}
+]]>
+        </tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="trees_exercises-ex-7">
+    <statement>
+      <p>Implement recursive helper function <pf>removeSmallestHelper</pf> for the <xref ref="trees_charbst_class"
+              text="custom"> CharBST</xref>
+        class. It should find and remove the smallest value in a subtree rooted at the given node and return a pointer to the root of the modified subtree.</p>
+    </statement>
+    <program interactive="activecode"
+           extra-compiler-args="-fsanitize=address -g">
+        <preamble visible="no">
+<xi:include href="../../programs/trees/charbst-ex-contains.cpp" parse="text"/>
+<xi:include href="../../programs/trees/charbst-ex-copySubStub.cpp" parse="text"/>
+        </preamble>
+        <code>
+BSTNode* removeSmallestHelper(BSTNode* curNode) {
+  // TODO - fixme
+  return nullptr;
+}
+
+void CharBST::removeSmallest() {
+  if (root != nullptr)
+    root = removeSmallestHelper(root);
+}
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+/* Adds test data to produce this tree:
+ *         _G_
+ *        /   \
+ *       C     P
+ *      / \   / \
+ *     B   F J   Y
+ *            \
+ *             M
+ */
+
+void insertTestData2(CharBST& c) {
+  c.root = nullptr; // remove (and leak!!!) any existing nodes
+
+  c.root = new BSTNode('G');
+
+  c.root->left = new BSTNode('C');
+  c.root->left->left = new BSTNode('B');
+  c.root->left->right = new BSTNode('F');
+
+  c.root->right = new BSTNode('P');
+  c.root->right->right = new BSTNode('Y');
+  c.root->right->left = new BSTNode('J');
+  c.root->right->left->right = new BSTNode('M');
+}
+
+
+TEST_CASE("RemoveSmallest") {
+  CharBST bst;
+  insertTestData2(bst); // 8 nodes
+
+  // Remove B
+  int startNodeCount = BSTNode::nodeCount;
+  bst.removeSmallest();
+  REQUIRE(bst.root->left->left == nullptr);
+  int newNodeCount = BSTNode::nodeCount;
+  REQUIRE(newNodeCount - startNodeCount == -1);
+
+  // Then remove C
+  startNodeCount = BSTNode::nodeCount;
+  bst.removeSmallest();
+  REQUIRE(bst.root->left->value == 'F');
+  newNodeCount = BSTNode::nodeCount;
+  REQUIRE(newNodeCount - startNodeCount == -1);
+
+  // Then remove F
+  startNodeCount = BSTNode::nodeCount;
+  bst.removeSmallest();
+  REQUIRE(bst.root->left == nullptr);
+  newNodeCount = BSTNode::nodeCount;
+  REQUIRE(newNodeCount - startNodeCount == -1);
+
+  // Then remove G - the root
+  startNodeCount = BSTNode::nodeCount;
+  bst.removeSmallest();
+  REQUIRE(bst.root->value == 'P');
+  newNodeCount = BSTNode::nodeCount;
+  REQUIRE(newNodeCount - startNodeCount == -1);
+}
+
+]]>
+        </tests>
+    </program>
+  </exercise>
+
+
+  <exercise label="trees_exercises-ex-8">
+    <statement>
+      <p>Finish the implementation of the recursive helper function <pf>removeHelper</pf> for the <xref ref="trees_charbst_class"
+              text="custom"> CharBST</xref>
+        class. It should find and remove the specified value in a subtree rooted at the given node and return a pointer to the root of the modified subtree.</p>
+        <p>You will likely want your code for <pf>smallestValueFrom</pf> from <xref ref="trees_exercises-ex-6"/>.</p>
+    </statement>
+    <program interactive="activecode"
+           extra-compiler-args="-fsanitize=address -g">
+        <preamble visible="no">
+<xi:include href="../../programs/trees/charbst-ex-contains.cpp" parse="text"/>
+<xi:include href="../../programs/trees/charbst-ex-copySubStub.cpp" parse="text"/>
+        </preamble>
+        <code>
+<![CDATA[
+BSTNode* removeHelper(BSTNode* curNode, char valToRemove) {
+  if (curNode == nullptr) {
+    return nullptr; // Value not in tree
+  } else if (valToRemove < curNode->value) {
+    curNode->left = removeHelper(curNode->left, valToRemove);
+  } else if (curNode->value < valToRemove) {
+    // TODO - make recursive call on right subtree and update right child
+  } else { // Found the value to remove
+    // TODO
+    // Case 0: No children (subcase of 1)
+    //           Delete & return nullptr
+
+    // Case 1: No right child
+    //           Delete current and return left child
+
+    // Case 2: No left child
+    //           Delete current and return right child
+
+    // Case 3: Two children
+    //           Replace current's value with smallest value in right subtree
+    //           Then set right child to result of removing that value from
+    //           right subtree
+  }
+
+  return curNode; // This node still exists. Return it back to caller.
+}
+
+void CharBST::remove(char value) {
+  // new root is root that results from doing removeHelper
+  root = removeHelper(root, value);
+}
+]]>
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+/* Adds test data to produce this tree:
+ *         _G_
+ *        /   \
+ *       C     P
+ *      / \   / \
+ *     B   F J   Y
+ *            \
+ *             M
+ */
+
+void insertTestData2(CharBST& c) {
+  c.root = nullptr; // remove (and leak!!!) any existing nodes
+
+  c.root = new BSTNode('G');
+
+  c.root->left = new BSTNode('C');
+  c.root->left->left = new BSTNode('B');
+  c.root->left->right = new BSTNode('F');
+
+  c.root->right = new BSTNode('P');
+  c.root->right->right = new BSTNode('Y');
+  c.root->right->left = new BSTNode('J');
+  c.root->right->left->right = new BSTNode('M');
+}
+
+
+TEST_CASE("RemoveNoChildren") {
+  CharBST bst;
+  insertTestData2(bst); // 8 nodes
+
+  // Remove B
+  int startNodeCount = BSTNode::nodeCount;
+  bst.remove('B');
+  REQUIRE(bst.root->left->left == nullptr);
+  int newNodeCount = BSTNode::nodeCount;
+  REQUIRE(newNodeCount - startNodeCount == -1);
+}
+
+TEST_CASE("RemoveNoLeftChild") {
+  CharBST bst;
+  insertTestData2(bst); // 8 nodes
+
+  // Remove J
+  int startNodeCount = BSTNode::nodeCount;
+  bst.remove('J');
+  REQUIRE(bst.root->right->left != nullptr);
+  REQUIRE(bst.root->right->left->value == 'M');
+  int newNodeCount = BSTNode::nodeCount;
+  REQUIRE(newNodeCount - startNodeCount == -1);
+}
+
+TEST_CASE("RemoveNoRightChild") {
+  CharBST bst;
+  insertTestData2(bst); // 8 nodes
+
+  // Add left child to 'F'
+  bst.root->left->right->left = new BSTNode('E');
+
+  // Remove F
+  int startNodeCount = BSTNode::nodeCount;
+  bst.remove('F');
+  REQUIRE(bst.root->left->right != nullptr);
+  REQUIRE(bst.root->left->right->value == 'E');
+  int newNodeCount = BSTNode::nodeCount;
+  REQUIRE(newNodeCount - startNodeCount == -1);
+}
+
+TEST_CASE("RemoveTwoChildrenOne") {
+  CharBST bst;
+  insertTestData2(bst); // 8 nodes
+
+  // Remove P
+  int startNodeCount = BSTNode::nodeCount;
+  bst.remove('P');
+  REQUIRE(bst.root->right->value == 'Y');
+  REQUIRE(bst.root->right->right == nullptr);
+  int newNodeCount = BSTNode::nodeCount;
+  REQUIRE(newNodeCount - startNodeCount == -1);
+}
+
+TEST_CASE("RemoveTwoChildrenTwo") {
+  CharBST bst;
+  insertTestData2(bst); // 8 nodes
+
+  // Remove G
+  int startNodeCount = BSTNode::nodeCount;
+  bst.remove('G');
+  REQUIRE(bst.root->value == 'J');
+  REQUIRE(bst.root->right->left != nullptr);
+  REQUIRE(bst.root->right->left->value == 'M');
+  int newNodeCount = BSTNode::nodeCount;
+  REQUIRE(newNodeCount - startNodeCount == -1);
+}
+
+]]>
+        </tests>
+    </program>
+  </exercise>
+
+
+</section>

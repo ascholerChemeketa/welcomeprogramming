@@ -5,10 +5,14 @@
 
   <subsection>
     <title>Overview of Removal</title>
-  <p>
-    Removal of a value from a BST is a bit more complicated than insertion or finding a value. Like insertion, we start by recursively searching for the node with that value. As we recurse, we will update the pointer on the side of the recursion that leads to the node we are removing (lines 7, 10 below). Each recursive call is responsible for returning the node that will be in that position after removal.</p>
-    
-  <program line-numbers="yes" highlight-lines="7,10,12">
+    <p> Removal of a value from a BST is a bit more complicated than insertion or finding a value.
+      Like insertion, we start by recursively searching for the node with that value. As we recurse,
+      we will update the pointer on the side of the recursion that leads to the node we are removing
+      (lines 7, 10 below). Each recursive call is responsible for returning the node that will be in
+      that position after removal.</p>
+
+    <program line-numbers="yes"
+             highlight-lines="7,10,12">
 <![CDATA[
 Node* removeRecursive(Node* node, int value) {
     if (node == nullptr) {
@@ -28,27 +32,28 @@ Node* removeRecursive(Node* node, int value) {
 ]]>
   </program>
 
-    <p>That logic is missing the key part at line 12: what to do once we find the node to be removed. That logic not only needs to delete the node, it needs to figure out what to do with any children that are hanging off that node. There are a few cases to consider:
-    <ul>
-      <li>The node to be removed is a leaf (has no children).</li>
-      <li>The node to be removed has one child.</li>
-      <li>The node to be removed has two children.</li>
-    </ul>
-  </p>
+    <p>That logic is missing the key part at line 12: what to do once we find the node to be
+      removed. That logic not only needs to delete the node, it needs to figure out what to do with
+      any children that are hanging off that node. There are a few cases to consider: <ul>
+        <li>The node to be removed is a leaf (has no children).</li>
+        <li>The node to be removed has one child.</li>
+        <li>The node to be removed has two children.</li>
+      </ul>
+    </p>
 
-  <p>The rest of the logic we will consider in this section will go in the else block at line 12.</p>
-</subsection>
+    <p>The rest of the logic we will consider in this section will go in the else block at line 12.</p>
+  </subsection>
 
 
   <subsection>
     <title>No Children (Leaf Node)</title>
 
-    <p>
-      The easiest case to handle is when the node to be removed is a leaf node, meaning it has no children. In this case, we can simply delete the node and return nullptr to indicate that this position in the tree is now empty.
-    </p>
+    <p> The easiest case to handle is when the node to be removed is a leaf node, meaning it has no
+      children. In this case, we can simply delete the node and return nullptr to indicate that this
+      position in the tree is now empty. </p>
 
     <listing>
-    <program>
+      <program>
       <![CDATA[
 ...
 if (node->left == nullptr && node->right == nullptr) {
@@ -59,46 +64,44 @@ if (node->left == nullptr && node->right == nullptr) {
 ...
       ]]>
       </program>
-      </listing>
+    </listing>
 
-    <p>
-      The removes the leaf node and returns a null pointer to the caller, which will update its child pointer accordingly.
-    </p>
+    <p> The removes the leaf node and returns a null pointer to the caller, which will update its
+      child pointer accordingly. </p>
   </subsection>
 
   <subsection>
     <title>One Child</title>
 
-    <p>
-      If the node to be removed has only one child, we can remove the node and connect its parent directly to its child. This effectively bypasses the node being removed. Whether the child is on the left or right, that node will be a valid replacement for the removed node.
-    </p>
+    <p> If the node to be removed has only one child, we can remove the node and connect its parent
+      directly to its child. This effectively bypasses the node being removed. Whether the child is
+      on the left or right, that node will be a valid replacement for the removed node. </p>
 
-  <activity>
-    <title>One Child Removal</title>
-    <p>
-      The animation is set to remove 15. Use the <c>></c> button to step through the removal process.
-    </p>
-    <p>Once it is done, try removing 54 (click on the 54 node then press <c>Remove</c>).</p>
-    <interactive platform="javascript" 
-                design-width="1600"
-                 aspect="4:2">
-    <script type="module">
+    <activity>
+      <title>One Child Removal</title>
+      <p> The animation is set to remove 15. Use the <c>></c> button to step through the removal
+        process. </p>
+      <p>Once it is done, try removing 54 (click on the 54 node then press <c>Remove</c>).</p>
+      <interactive platform="javascript"
+                   design-width="1600"
+                   aspect="4:2">
+        <script type="module">
       import { BST } from "./external/interactives/data-structures/entry.js";
 
       let anim = new BST({initialData: [39,22,54,15,24,40,18,48, 20, 23, 45,50] });
       anim.doDelete(15);
 
     </script>
-    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
-  </interactive>
-  </activity>
+        <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+      </interactive>
+    </activity>
 
-    <p>
-      Below is the code to handle the one-child case. We need to use a temporary pointer to hold onto the child node before we delete the node being removed. Then we can return the child pointer to the caller, which will update its child pointer to bypass the removed node.
-    </p>
+    <p> Below is the code to handle the one-child case. We need to use a temporary pointer to hold
+      onto the child node before we delete the node being removed. Then we can return the child
+      pointer to the caller, which will update its child pointer to bypass the removed node. </p>
 
     <listing>
-    <program>
+      <program>
       <![CDATA[
 ...
 else if (node->left == nullptr || node->right == nullptr) {
@@ -115,52 +118,54 @@ else if (node->left == nullptr || node->right == nullptr) {
 ...
       ]]>
       </program>
-      </listing>
+    </listing>
 
   </subsection>
 
   <subsection>
     <title>Two Children</title>
 
-    <p>
-      The most complex case is when the node to be removed has two children. In this case, we can't just have the parent adopt the children of the removed node, as it only has one pointer to connect to a child.
-    </p>
+    <p> The most complex case is when the node to be removed has two children. In this case, we
+      can't just have the parent adopt the children of the removed node, as it only has one pointer
+      to connect to a child. </p>
 
-    <p>
-      Instead, in this case, we will find a replacement value to put in the node of the value being removed. The node itself will remain in place, we will just swap out its value. Then, we will go remove the node that originally held the replacement value (which will now be a duplicate).
-    </p>
+    <p> Instead, in this case, we will find a replacement value to put in the node of the value
+      being removed. The node itself will remain in place, we will just swap out its value. Then, we
+      will go remove the node that originally held the replacement value (which will now be a
+      duplicate). </p>
 
-    <p>
-      That replacement value will be the next largest value in the tree, which is the smallest value in the right subtree of the node being removed. It is guaranteed that this value will have at most one child (it can't have a left child, or it wouldn't be the smallest value). So when we remove that node, we will be in either the no-children or one-child case.
-    </p>
-    
+    <p> That replacement value will be the next largest value in the tree, which is the smallest
+      value in the right subtree of the node being removed. It is guaranteed that this value will
+      have at most one child (it can't have a left child, or it wouldn't be the smallest value). So
+      when we remove that node, we will be in either the no-children or one-child case. </p>
 
-  <activity>
-    <title>Two Children Removal</title>
-    <p>
-      The animation is set to remove 54. Use the <c>></c> button to step through the removal process.
-    </p>
-    <p>Once it is done, try removing other nodes with two children (click on the node then press <c>Remove</c>).</p>
-    <interactive platform="javascript" 
-                design-width="1600"
-                 aspect="4:2">
-    <script type="module">
+
+    <activity>
+      <title>Two Children Removal</title>
+      <p> The animation is set to remove 54. Use the <c>></c> button to step through the removal
+        process. </p>
+      <p>Once it is done, try removing other nodes with two children (click on the node then press <c>Remove</c>
+        ).</p>
+      <interactive platform="javascript"
+                   design-width="1600"
+                   aspect="4:2">
+        <script type="module">
       import { BST } from "./external/interactives/data-structures/entry.js";
 
       let anim = new BST({initialData: [39,22,54,15,24,40,18,48, 20, 23, 45,50, 65, 58, 60, 70] });
       anim.doDelete(54);
 
     </script>
-    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
-  </interactive>
-  </activity>
+        <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+      </interactive>
+    </activity>
 
-    <p>
-      Here is the code to handle the two-children case. We first find the minimum value in the right subtree, replace the value in the current node with that minimum value, and then recursively call <pf>removeRecursive</pf> on the right child to remove the duplicate value.
-    </p>
-    
+    <p> Here is the code to handle the two-children case. We first find the minimum value in the
+      right subtree, replace the value in the current node with that minimum value, and then
+      recursively call <pf>removeRecursive</pf> on the right child to remove the duplicate value. </p>
+
     <listing>
-    <program>
+      <program>
       <![CDATA[
 ...
 else {
@@ -174,18 +179,196 @@ else {
 ...
       ]]>
       </program>
-      </listing>
+    </listing>
 
-    <p>Note that in this case, we do not have a <pf>delete</pf>. We are just changing the current node. We rely on the recursive call to find and remove a node and thus end up with one fewer node in the tree.</p>
+    <p>Note that in this case, we do not have a <pf>delete</pf>. We are just changing the current node. We
+      rely on the recursive call to find and remove a node and thus end up with one fewer node in
+      the tree.</p>
 
-    <p>
-      Even when we continue the removal process note that we end up following a single path down the tree, just like we do when inserting or finding a value. Thus it should take <m>O(\log n)</m> time.
-    </p>
+    <p> Even when we continue the removal process note that we end up following a single path down
+      the tree, just like we do when inserting or finding a value. Thus it should take <m>O(\log n)</m>
+      time. </p>
 
-    <p>
-      If we end up in the two child case, we may make two recursive trips down the tree: one to find the value to replace the current node's value with and the other to remove the duplicate minimum value. However, two trips that are each <m>O(\log n)</m> add up to just <m>O(\log n)</m>. We could develop a more complex algorithm that finds and removes the minimum value in a single pass, but it would not improve the overall time complexity.
-    </p>
-
+    <p> If we end up in the two child case, we may make two recursive trips down the tree: one to
+      find the value to replace the current node's value with and the other to remove the duplicate
+      minimum value. However, two trips that are each <m>O(\log n)</m> add up to just <m>O(\log n)</m>.
+      We could develop a more complex algorithm that finds and removes the minimum value in a single
+      pass, but it would not improve the overall time complexity. </p>
   </subsection>
+
+  <exercise label="trees_bst-remove-val-ex-1">
+    <statement>
+      <p> Given this BST: </p>
+      <image source="images/trees/bst-ex-2.svg"
+             width="50%">
+        <shortdescription>
+          <p>10 is the root. It has a left child 5 and a right child 20. 5 has a left child 3 and a
+            right child 7. 7 has a left child 6 and a right child 8. 20 has a left child 12 and a
+            right child 24. 12 has a left child 11 and a right child 15. 15 has a right child 18. 18
+            has a left child 17. 24 has a left child 22 and a right child 28.</p>
+        </shortdescription>
+      </image>
+      <p>What value will replace 12 when it is removed? <fillin mode="number"
+                answer="17"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>
+            <p></p>
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  <exercise label="trees_bst-remove_ex-1"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>We have found the node we want to remove and it has no children. What do we need to do? You
+        will not use all blocks.</p>
+    </statement>
+    <blocks>
+      <block name="a"
+             depends="">
+        <cline><![CDATA[delete the current node]]></cline>
+    </block>
+      <block name="b"
+             depends="a">
+        <cline><![CDATA[return nullptr]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[set left child to nullptr]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[get value (X) that is]]></cline>
+        <cline><![CDATA[the smallest value in the right subtree]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[set right child to result of]]></cline>
+        <cline><![CDATA[removing X from right subtree]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[set current node's value to X]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[set right child to nullptr]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[return the right child's address]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[return the current node's address]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[return the left child's address]]></cline>
+    </block>
+    </blocks>
+  </exercise>
+
+  <exercise label="trees_bst-remove_ex-2"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>We have found the node we want to remove and it just has a left child. What do we need to
+        do? You will not use all blocks</p>
+    </statement>
+    <blocks>
+      <block name="a"
+             depends="">
+        <cline><![CDATA[delete the current node]]></cline>
+    </block>
+      <block name="b"
+             depends="a">
+        <cline><![CDATA[return the left child's address]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[set left child to nullptr]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[get value (X) that is]]></cline>
+        <cline><![CDATA[the smallest value in the right subtree]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[delete the smallest value in the right subtree]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[set right child to result of]]></cline>
+        <cline><![CDATA[removing X from right subtree]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[set current node's value to X]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[set right child to nullptr]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[return nullptr]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[return the current node's address]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[return the right child's address]]></cline>
+    </block>
+    </blocks>
+  </exercise>
+
+  <exercise label="trees_bst-remove_ex-3"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>We have found the node we want to remove and it has two children. What do we need to do?
+        You will not use all blocks</p>
+    </statement>
+    <blocks>
+      <block name="a"
+             depends="">
+        <cline><![CDATA[get value (X) that is]]></cline>
+        <cline><![CDATA[the smallest value in the right subtree]]></cline>
+    </block>
+      <block name="b"
+             depends="a">
+        <cline><![CDATA[set current node's value to X]]></cline>
+    </block>
+      <block name="c"
+             depends="a">
+        <cline><![CDATA[set right child to result of]]></cline>
+        <cline><![CDATA[removing X from right subtree]]></cline>
+    </block>
+      <block name="d"
+             depends="b c">
+        <cline><![CDATA[return the current node's address]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[set left child to nullptr]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[set right child to nullptr]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[return nullptr]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[return the left child's address]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[return the right child's address]]></cline>
+    </block>
+      <block correct="no">
+        <cline><![CDATA[delete the current node]]></cline>
+    </block>
+    </blocks>
+  </exercise>
+
 
 </section>

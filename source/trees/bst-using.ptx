@@ -3,28 +3,36 @@
 
   <title>Sets and Maps</title>
 
-  <p>
-    Our basic BST can easily be adapted to implement a set. All we would need to do is ensure that duplicate values are not inserted. We can do this by modifying the insert function to check for equality and simply do nothing if the value is already present.
-  </p>
+  <p> Our basic BST can easily be adapted to implement a set. All we would need to do is ensure that
+    duplicate values are not inserted. We can do this by modifying the insert function to check for
+    equality and simply do nothing if the value is already present. </p>
 
-  <p>
-    We can also use a BST to implement a map, This would take a little more work, since we would need to store key-value pairs in each node instead of just a single value. This would require modifying any logic that compares values to instead compare keys. But the overall structure of the tree and the algorithms for insertion, searching, and deletion would remain largely the same.
-  </p>
+  <p> We can also use a BST to implement a map, This would take a little more work, since we would
+    need to store key-value pairs in each node instead of just a single value. This would require
+    modifying any logic that compares values to instead compare keys. But the overall structure of
+    the tree and the algorithms for insertion, searching, and deletion would remain largely the
+    same. </p>
 
-  <p>
-    The C++ standard library specification for <pf>std::set</pf> and <pf>std::map</pf> guarantee logarithmic time complexity for insertion, deletion, and lookup operations by using balanced binary search trees as the underlying data structure.
-    <ul>
-      <li><url href="https://en.cppreference.com/w/cpp/container/set">std::set</url></li>
-      <li><url href="https://en.cppreference.com/w/cpp/container/map">std::map</url></li>
+  <p> The C++ standard library specification for <pf>std::set</pf> and <pf>std::map</pf> guarantee logarithmic time
+    complexity for insertion, deletion, and lookup operations by using balanced binary search trees
+    as the underlying data structure. <ul>
+      <li>
+        <url href="https://en.cppreference.com/w/cpp/container/set">std::set</url>
+      </li>
+      <li>
+        <url href="https://en.cppreference.com/w/cpp/container/map">std::map</url>
+      </li>
     </ul>
   </p>
 
-  <p>
-    Our simple implementation of a BST should offer <m>O(\log n)</m> time complexity for insertion, deletion, and lookup operations on a randomly ordered set of data. However, we can't provide any guarantees about performance because our tree can become unbalanced with certain patterns of insertions and deletions.
-  </p>
+  <p> Our simple implementation of a BST should offer <m>O(\log n)</m> time complexity for
+    insertion, deletion, and lookup operations on a randomly ordered set of data. However, we can't
+    provide any guarantees about performance because our tree can become unbalanced with certain
+    patterns of insertions and deletions. </p>
 
-  <p>
-    To give a strong guarantee of <m>O(\log n)</m> performance no matter what sequence of operations are performed, library implementations of these structures rely on specialized versions of binary search trees called self-balancing binary search trees that maintain balance automatically during insertions and deletions. We will explore these in the next chapter.
-  </p>
+  <p> To give a strong guarantee of <m>O(\log n)</m> performance no matter what sequence of
+    operations are performed, library implementations of these structures rely on specialized
+    versions of binary search trees called self-balancing binary search trees that maintain balance
+    automatically during insertions and deletions. We will explore these in the next chapter. </p>
 
 </section>

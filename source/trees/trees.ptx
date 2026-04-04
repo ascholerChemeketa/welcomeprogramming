@@ -66,6 +66,59 @@
     </image>
   </figure>
 
-  <p>This structure could be useful to help us run a simulation of the tournament and determine the odds for the eventual champion.</p>
+  <p>This would be useful in creating a simulation of the tournament.</p>
+
+
+  <exercise label="trees_trees-ex-1">
+    <statement>
+      <p>Which statements are true about trees?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>
+            Every node in a tree is the root of a subtree.
+          </p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>
+            Some nodes might have multiple children.
+          </p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>
+            The root of a tree has no parent.
+          </p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Some nodes might have multiple parents.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="trees_trees-ex-2">
+    <statement>
+      <p>
+        A node with no children is known as a <fillin mode="string" answer="leaf"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp case="insensitive">(leaf)|(leaves?)</strcmp>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
 
 </section>

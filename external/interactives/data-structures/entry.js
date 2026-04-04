@@ -2604,7 +2604,7 @@ function makeSVG(centered, viewWidth = 800, viewHeight = 400) {
       </marker>
       <style>
       // :root {
-      //   --svgColor: var(rgb(0,0,0);
+      //   --svgColor: rgb(0,0,0);
       //   --svgColor--red: rgb(231, 36, 36);
       //   --svgColor--redback: rgb(255, 233, 233);
       //   --svgColor--black: rgb(0, 0 ,0);
@@ -9152,7 +9152,7 @@ BST.prototype.treeDelete = function(tree, valueToDelete) {
         this.cmd("Delete", this.highlightID);
         this.cmd(
           "SetMessage",
-          "Now remove the original node we copied from (in the right subtree)."
+          "Now remove the value we copied. Call remove with that value on the right subtree."
         );
         this.cmd("Step");
         this.treeDelete(tree.right, tree.data);

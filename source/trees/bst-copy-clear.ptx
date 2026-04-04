@@ -4,26 +4,28 @@
   <title>Destroying and Copying</title>
 
   <introduction>
-  <p>
-    Because our <pf>IntBST</pf> manages dynamic memory, it needs to implement a destructor, copy constructor, and assignment operator to ensure that memory is properly managed when a tree goes out of scope or is copied.
-  </p>
+    <p> Because our <pf>IntBST</pf> manages dynamic memory, it needs to implement a destructor, copy
+      constructor, and assignment operator to ensure that memory is properly managed when a tree
+      goes out of scope or is copied. </p>
   </introduction>
 
   <subsection>
     <title>Destructor</title>
 
-    <p>
-      The binary search tree is responsible for the all of the memory used by its nodes. Therefore, when the tree is destroyed, it needs to free all of that memory. This is most easily accomplished with a recursive helper function that deletes all nodes in a subtree rooted at a given node. The destructor can then call this helper on the root of the tree.
-    </p>
+    <p> The binary search tree is responsible for the all of the memory used by its nodes.
+      Therefore, when the tree is destroyed, it needs to free all of that memory. This is most
+      easily accomplished with a recursive helper function that deletes all nodes in a subtree
+      rooted at a given node. The destructor can then call this helper on the root of the tree. </p>
 
-    <p>
-      We need to visit every node in the tree, which means one of our standard tree traversals will be required. As to which traversal to use, a post-order traversal is the most natural fit. When we reach a node, we will first delete its left and right subtrees so that we don't lose track of them. Then, we can delete the current node itself.
-    </p>
+    <p> We need to visit every node in the tree, which means one of our standard tree traversals
+      will be required. As to which traversal to use, a post-order traversal is the most natural
+      fit. When we reach a node, we will first delete its left and right subtrees so that we don't
+      lose track of them. Then, we can delete the current node itself. </p>
 
     <p>First our recursive helper function:</p>
 
     <listing>
-    <program>
+      <program>
       <![CDATA[
 void clearRecursive(Node* node) {
     if (node == nullptr) {
@@ -37,14 +39,19 @@ void clearRecursive(Node* node) {
 }
       ]]>
       </program>
-      </listing>
+    </listing>
 
-    <p>And now we can worry about the member function that calls this helper. We might want to call this function in multiple places, so we will make it a public member function of the <pf>IntBST</pf> class.</p>
+    <p>Then we need a member function that calls this helper. We will use it internally for things
+      like the destructor, but it also is a reasonable operation to make available to consumers of
+      the <pf>IntBST</pf> class. So we will make it a public member function.</p>
 
-    <p>One place we will definitely need to use the clear function is in the destructor. And in that case, the entire tree will be going away, so it would be OK to not bother resetting the root. But we might want to call <pf>clear()</pf> directly or in other situations where we want to reuse the tree object. So it should make sure the root is set to <pf>nullptr</pf>.</p>
+    <p>When clear is used from the destructor, the entire tree is going away. So it would be OK to
+      not bother resetting the root. However, when <pf>clear()</pf> is called in other situations, we may
+      intend to continue using the BST. So clear should make sure the root is set to <pf>nullptr</pf> so we
+      aren't pointing at deleted memory.</p>
 
-  <listing>
-  <program>
+    <listing>
+      <program>
     <![CDATA[
 class IntBST {
 private:
@@ -72,16 +79,20 @@ IntBST::~IntBST() {
   <subsection>
     <title>Copy Constructor and Assignment Operator</title>
 
-    <p>
-      To implement a copy constructor and assignment operator for the binary search tree, we need a way to copy all of the nodes from one tree to another. We want to do a deep copy, meaning that we create an entirely new set of nodes with the same values and structure as the source tree.
-    </p>
+    <p> To implement a copy constructor and assignment operator for the binary search tree, we need
+      a way to copy all of the nodes from one tree to another. We want to do a deep copy, meaning
+      that we create an entirely new set of nodes with the same values and structure as the source
+      tree. </p>
 
-    <p>
-      Our parameter will be the node in the source tree that we want to copy. Our job will be to make a new node with the same value, recursively copy its left and right subtrees, and then return the address of the new node we created. This time, a pre-order traversal makes the most sense. We need to create the current node first, and then we can recursively create its children and attach them.
-    </p>
+    <p> Our parameter will be the node in the source tree that we want to copy. Our job will be to
+      make a new node with the same value, recursively copy its left and right subtrees, and then
+      return the address of the new node we created. This time, a pre-order traversal makes the most
+      sense. We need to create the current node first, and then we can recursively create its
+      children and attach them. </p>
 
     <listing>
-    <program highlight-lines="8-9" line-numbers="yes">
+      <program highlight-lines="8-9"
+               line-numbers="yes">
       <![CDATA[
 Node* copyRecursive(Node* sourceNode) {
     if (sourceNode == nullptr) {
@@ -98,33 +109,35 @@ Node* copyRecursive(Node* sourceNode) {
     </program>
     </listing>
 
-    <p>Note how we make each recursive call, which will return a pointer, and then store that as the address of the new node's appropriate child.</p>
-    
-  <activity>
-    <title>Binary Search Trees</title>
-    <p>
-      This animation is prepared to copy the tree on the left into a new tree on the right. Press the <c>></c> button to step through the insertion process.
-      </p>
-    <interactive platform="javascript" 
-                design-width="1600"
-                 aspect="4:1.5">
-    <script type="module">
+    <p>Note how we make each recursive call, which will return a pointer, and then store that as the
+      address of the new node's appropriate child.</p>
+
+    <activity>
+      <title>Binary Search Trees</title>
+      <p> This animation is prepared to copy the tree on the left into a new tree on the right.
+        Press the <c>></c> button to step through the insertion process. </p>
+      <interactive platform="javascript"
+                   design-width="1600"
+                   aspect="4:1.5">
+        <script type="module">
       import { BSTCopy } from "./external/interactives/data-structures/entry.js";
 
       let anim = new BSTCopy({initialData: [4,2,6,1,3,5] });
       anim.doCopy();
 
     </script>
-    <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
-  </interactive>
-  </activity>
+        <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
+      </interactive>
+    </activity>
 
-    <p>
-      Now we can implement the copy constructor and assignment operator using this helper function. The copy constructor will call the helper on the source tree's root and set its own root to the result. The assignment operator will first clear its own tree to avoid memory leaks, then call the helper on the source tree's root, and finally set its own root to the result. (It will also need to do the usual self-assignment check and return <pf>*this</pf>.)
-    </p>
+    <p> Now we can implement the copy constructor and assignment operator using this helper
+      function. The copy constructor will call the helper on the source tree's root and set its own
+      root to the result. The assignment operator will first clear its own tree to avoid memory
+      leaks, then call the helper on the source tree's root, and finally set its own root to the
+      result. (It will also need to do the usual self-assignment check and return <pf>*this</pf>.) </p>
 
     <listing>
-    <program>
+      <program>
 <![CDATA[
 class IntBST {
 private:
@@ -149,8 +162,84 @@ IntBST& IntBST::operator=(const IntBST& other) {
 }
 ]]>
 </program>
-</listing>
+    </listing>
 
   </subsection>
+
+  <exercise label="trees_bst-copy-clear_ex-1">
+    <statement>
+      <p>What is the Big O for <pf>clear()</pf> in our BST?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>
+            <m>O(n)</m>
+          </p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            <m>O(log n)</m>
+          </p>
+        </statement>
+        <feedback>
+          <p>
+            <m>O( \log n)</m> is only when we walk one path from root to a leaf. </p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            <m>O(1)</m>
+          </p>
+        </statement>
+        <feedback>
+          <p> That would only be true if we were just resetting the root and not actually deleting
+            any nodes. However, that would cause a memory leak since the nodes would still be in
+            memory but we would have no way to access them to delete them later. </p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            <m>O(n \log n)</m>
+          </p>
+        </statement>
+        <feedback>
+          <p>No, try again.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="trees_bst-copy-clear_ex-2">
+    <statement>
+      <p>In the copy constructor, what does <pf>root = copyRecursive(other.root);</pf> set <pf>root</pf> to?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>The memory address of a new node that is a copy of the other tree's root node.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The memory address of the other tree's root node.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The other tree's root node.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The new node that is a copy of the other tree's root node.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

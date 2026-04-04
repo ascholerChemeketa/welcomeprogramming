@@ -6,11 +6,14 @@
   <subsection>
     <title>Size and Depth</title>
 
-    <p>
-      The <term>size</term> of a binary search tree is the number of values (nodes) it contains. As with a linked list, we can either maintain a size variable that gets updated on insertions and deletions, or we can compute the size on demand by traversing the tree and counting nodes. For now we will not maintain a size variable, (there are not many algorithms that need to know the size of a BST), so we will compute it on demand.
-    </p>
+    <p> The <term>size</term> of a binary search tree is the number of values (nodes) it contains.
+      As with a linked list, we can either maintain a size variable that gets updated on insertions
+      and deletions, or we can compute the size on demand by traversing the tree and counting nodes.
+      For now we will not maintain a size variable, (there are not many algorithms that need to know
+      the size of a BST), so we will compute it on demand. </p>
 
-    <p>The size of any binary tree is naturally recursive. It is 0 if the tree is empty, and otherwise it is 1 plus the size of the left subtree plus the size of the right subtree:</p>
+    <p>The size of any binary tree is naturally recursive. It is 0 if the tree is empty, and
+      otherwise it is 1 plus the size of the left subtree plus the size of the right subtree:</p>
 
     <listing>
       <program>
@@ -32,34 +35,39 @@ int IntBST::size() {
       </program>
     </listing>
 
-    <p>
-      The <term>depth</term> or <term>height</term> of a binary search tree is the length of the longest path from the root to a leaf. A tree with only a single node has depth 0.
-    </p>
+    <p> The <term>depth</term> or <term>height</term> of a binary search tree is the length of the
+      longest path from the root to a leaf. A tree with only a single node has depth 0. </p>
 
-    <p>
-      We can also talk about the <term>depth</term> or <term>height</term> of individual nodes. The height of a node is the length of the longest path from that node to a leaf. A leaf node has height 0. The depth of a node is the length of the path from the root to that node. The root has depth 0.
-    </p>
+    <p> We can also talk about the <term>depth</term> or <term>height</term> of individual nodes.
+      The height of a node is the length of the longest path from that node to a leaf. A leaf node
+      has height 0. The depth of a node is the length of the path from the root to that node. The
+      root has depth 0. </p>
 
-    
-  <figure>
-    <caption>The depth and height of nodes in a binary search tree</caption>
-    <image source="images/trees/bst-depth-height.svg" width="60%">
-      <shortdescription>
-        <p>
-          A binary search tree with root node 10 (depth 0, height 3). The left child is 5 (depth 1, height 1) with children 3 (depth 2, height 0) and 7 (depth 2, height 0). The right child of the root is 15 (depth 1, height 2) with right child 20 (depth 2, height 1). 20 has a right child 22 (depth 3, height 0).
-        </p>
-      </shortdescription>
-    </image>
-  </figure>
+
+    <figure>
+      <caption>The depth and height of nodes in a binary search tree</caption>
+      <image source="images/trees/bst-depth-height.svg"
+             width="60%">
+        <shortdescription>
+          <p> A binary search tree with root node 10 (depth 0, height 3). The left child is 5 (depth
+            1, height 1) with children 3 (depth 2, height 0) and 7 (depth 2, height 0). The right
+            child of the root is 15 (depth 1, height 2) with right child 20 (depth 2, height 1). 20
+            has a right child 22 (depth 3, height 0). </p>
+        </shortdescription>
+      </image>
+    </figure>
 
     <note>
-      <p>
-        Like size, depth can be computed recursively. The depth of an empty tree is considered to be -1, and otherwise it is 1 plus the maximum of the depths of the left and right subtrees.
-      </p>
+      <p> Like size, depth can be computed recursively. The depth of an empty tree is considered to
+        be -1, and otherwise it is 1 plus the maximum of the depths of the left and right subtrees. </p>
     </note>
 
-    <p>
-      The size and depth are related. We can't possibly have a depth greater than the size. But, a binary search tree with a given set of values can have many different shapes, each with a different depth. (As we saw in the previous section). The worst case depth for a tree with size <m>n</m> is <m>n-1</m> (a degenerate tree that is really just a linked list). The best case depth for a perfectly balanced binary tree is <m>O(log n)</m> (as established in <xref ref="heaps_heap-math"/>).
+    <p> The size and depth are related. We can't possibly have a depth greater than the size. But, a
+      binary search tree with a given set of values can have many different shapes, each with a
+      different depth. (As we saw in the previous section). The worst case depth for a tree with
+      size <m>n</m> is <m>n-1</m> (a degenerate tree that is really just a linked list). The best
+      case depth for a perfectly balanced binary tree is <m>O(log n)</m> (as established in <xref ref="heaps_heap-math"/>
+      ).
     </p>
 
     <insight>
@@ -70,13 +78,12 @@ int IntBST::size() {
   <subsection>
     <title>Efficiency</title>
 
-    <p>
-      Some of our algorithms on a binary search tree, like <pf>size</pf>, need to visit every node in the tree. Intuitively, we can see that this will take time proportional to the number of nodes in the tree, or <m>O(n)</m> time. (Visiting <m>n</m> things can't take less than <m>O(n)</m> time.)
-    </p>
+    <p> Some of our algorithms on a binary search tree, like <pf>size</pf>, need to visit every node in
+      the tree. Intuitively, we can see that this will take time proportional to the number of nodes
+      in the tree, or <m>O(n)</m> time. (Visiting <m>n</m> things can't take less than <m>O(n)</m>
+      time.) </p>
 
-    <p>
-      More formally, if we examine the an algorithm like size, we will find a structure like this:
-    </p>
+    <p> More formally, if we examine the an algorithm like size, we will find a structure like this: </p>
 
     <program language="text">
 doThing(node):
@@ -87,14 +94,16 @@ doThing(node):
     return
     </program>
 
-    <p>We make two recursive calls on the children of the current node and otherwise just do some constant work. If we assume that the left and right subtrees are roughly the same size, then the time complexity of this algorithm can be expressed as: <md>T(n) = 2T(n/2) + O(1)</md></p>
+    <p>We make two recursive calls on the children of the current node and otherwise just do some
+      constant work. If we assume that the left and right subtrees are roughly the same size, then
+      the time complexity of this algorithm can be expressed as: <md>T(n) = 2T(n/2) + O(1)</md></p>
 
-    <p>
-      This is the pattern that solves to <m>O(n)</m> So, any algorithm that needs to visit every node in the tree will take <m>O(n)</m> time.
-    </p>
+    <p> This is the pattern that solves to <m>O(n)</m> So, any algorithm that needs to visit every
+      node in the tree will take <m>O(n)</m> time. </p>
 
-    <p>For algorithms like find, we do not need to visit every node. From each node we will only go left or right, never both.</p>
-    
+    <p>For algorithms like find, we do not need to visit every node. From each node we will only go
+      left or right, never both.</p>
+
     <program language="text">
 find(node):
     if node is null:
@@ -107,29 +116,128 @@ find(node):
         return find(right child)
     </program>
 
-    <p>
-      If we assume that the tree is balanced, then each time we make a recursive call, we are halving the size of the remaining tree to search. Each recursive call does constant work and then makes a recursive call on half of the remaining tree. This means that the time to find a value can be expressed as: <md>T(n) = T(n/2) + O(1)</md>
+    <p> If we assume that the tree is balanced, then each time we make a recursive call, we are
+      halving the size of the remaining tree to search. Each recursive call does constant work and
+      then makes a recursive call on half of the remaining tree. This means that the time to find a
+      value can be expressed as: <md>T(n) = T(n/2) + O(1)</md>
     </p>
 
-    <p>
-      This is the pattern that solves to <m>O(log n)</m> So, in a balanced binary search tree, algorithms like find can run in logarithmic time.
-    </p>
+    <p> This is the pattern that solves to <m>O(log n)</m> So, in a balanced binary search tree,
+      algorithms like find can run in logarithmic time. </p>
 
-    <p>
-      Note that this time is the same as the expression to get the depth of the tree. This is not a coincidence: depth is what determines how many times we need to recurse before we are guaranteed to reach a base case (either finding the value or reaching a null pointer).
-    </p>
+    <p> Note that this time is the same as the expression to get the depth of the tree. This is not
+      a coincidence: depth is what determines how many times we need to recurse before we are
+      guaranteed to reach a base case (either finding the value or reaching a null pointer). </p>
 
-    <p>
-      While we hope that the depth of a binary search tree is <m>O(log n)</m>, in the worst case it can be <m>O(n)</m>. In that case, algorithms like find will also take <m>O(n)</m> time.</p>
-      
-    <p>For now, we will try to insert data in random order and assume that our binary search trees are relatively balanced. But it is worth remembering that if we insert a set of values in order we will end up with a very unbalanced tree. Later we will discuss techniques for keeping a binary search tree balanced to ensure that we get <m>O(\log n)</m> time.
-    </p>
+    <p> While we hope that the depth of a binary search tree is <m>O(log n)</m>, in the worst case
+      it can be <m>O(n)</m>. In that case, algorithms like find will also take <m>O(n)</m> time.</p>
+
+    <p>For now, we will try to insert data in random order and assume that our binary search trees
+      are relatively balanced. But it is worth remembering that inserting data in sorted order will
+      produce a very unbalanced tree. Later we will discuss techniques for keeping a binary search
+      tree balanced to ensure that we get <m>O(\log n)</m> time. </p>
 
     <insight>
-      <p>An algorithm that visits every node in a binary search tree will take <m>O(n)</m> time, where <m>n</m> is the number of nodes in the tree.</p>
-      <p>An algorithm that only visits one path from the root to a leaf in a balanced binary search tree will take <m>O(log n)</m> time, where <m>n</m> is the number of nodes in the tree. (As long as the tree is relatively balanced. It could take up to <m>O(n)</m> time in the worst case.)</p>
+      <p>An algorithm that visits every node in a binary search tree will take <m>O(n)</m> time,
+        where <m>n</m> is the number of nodes in the tree.</p>
+      <p>An algorithm that only visits one path from the root to a leaf in a binary search tree will
+        take <m>O(log n)</m> time, where <m>n</m> is the number of nodes in the tree. (As long as
+        the tree is relatively balanced. It could take up to <m>O(n)</m> time in the worst case.)</p>
     </insight>
 
   </subsection>
+
+  <exercise label="trees_bst-size-efficiency_ex-1"
+            numbered="yes"
+            adaptive="yes"
+            indentation="hide">
+    <statement>
+      <p>Build a recursive depth function for a binary tree.</p>
+    </statement>
+    <blocks>
+      <block order="1"
+             name="a"
+             depends="">
+        <cline><![CDATA[int depthRecursive(Node* node) {]]></cline>
+    </block>
+      <block order="4"
+             name="b"
+             depends="a">
+        <cline><![CDATA[    if (node == nullptr)]]></cline>
+    </block>
+      <block order="3"
+             name="c"
+             depends="b">
+        <cline><![CDATA[        return 0;]]></cline>
+    </block>
+      <block order="2"
+             name="d"
+             depends="c">
+        <cline><![CDATA[    int leftDepth = depthRecursive(node->left);]]></cline>
+    </block>
+      <block order="10"
+             name="e"
+             depends="c">
+        <cline><![CDATA[    int rightDepth = depthRecursive(node->right);]]></cline>
+    </block>
+      <block order="8"
+             name="f"
+             depends="d e">
+        <cline><![CDATA[    if (leftDepth > rightDepth) {]]></cline>
+    </block>
+      <block order="7"
+             name="g"
+             depends="f">
+        <cline><![CDATA[        return 1 + leftDepth;]]></cline>
+    </block>
+      <block order="9"
+             name="h"
+             depends="g">
+        <cline><![CDATA[    } else {]]></cline>
+    </block>
+      <block order="6"
+             name="i"
+             depends="h">
+        <cline><![CDATA[        return 1 + rightDepth;]]></cline>
+    </block>
+      <block order="5"
+             name="j"
+             depends="i">
+        <cline><![CDATA[    }]]></cline>
+        <cline><![CDATA[}]]></cline>
+    </block>
+    </blocks>
+  </exercise>
+
+  <exercise label="trees_bst-size-efficiency_ex-2">
+    <statement>
+      <p>What things must be true for an operation to run in <m>O(\log n)</m> time in a binary
+        search tree?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p> The operation only needs to visit one path from the root to a leaf. </p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p> Going down either the right or left path from any node will approximately halve the
+            number of nodes remaining to visit. </p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p> The operation needs to visit every node in the tree. </p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p> Going down either the left or right path from any node will approximately double the
+            number of nodes remaining to visit. </p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

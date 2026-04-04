@@ -3,23 +3,46 @@
 
   <title>The Complete BST Implementation</title>
 
-  <p>
-    At this point we have all the pieces we need to implement a complete binary search tree class. Below is the full implementation of the <pf>IntBST</pf> class with all the member functions we have discussed so far. It also includes a <pf>printInOrder</pf> function to display the tree contents. Don't worry about reading the code, we have seen almost all of it before. Just skim through it to see how all the pieces fit together.
-  </p>
+  <subsection>
+    <title>The Code</title>
+    <p> At this point we have all the pieces we need to implement a complete binary search tree
+      class. Below is the full implementation of the <pf>IntBST</pf> class with all the member functions
+      we have discussed so far. It also includes a <pf>printInOrder</pf> function to display the tree contents.
+      Don't worry about reading the code, we have seen almost all of it before. Just skim through it
+      to see how all the pieces fit together. Then move on to the sample program below. </p>
 
-  <listing>
-  <program filename="IntBST.cxx" label="intbst-full-cxx" xml:id="intbst-full-cxx">
+    <listing>
+      <program filename="IntBST.cxx"
+               label="intbst-full-cxx"
+               xml:id="intbst-full-cxx">
 <xi:include href="../../programs/trees/intbst.cxx" parse="text"/>
   </program>
-  </listing>
+    </listing>
+  </subsection>
 
-  <p>With that in place, we can now use our <pf>IntBST</pf> class in a program to create and manipulate binary search trees.</p>
+  <subsection>
+    <title>Using the BST</title>
 
-  <listing>
-  <program label="trees_bst-full-1"
-  interactive="activecode" compile-also="intbst-full-cxx">
-<xi:include href="../../programs/trees/usebst.cpp" parse="text"/>
-  </program>
-  </listing>
+    <p>With that in place, we can now use our <pf>IntBST</pf> class in a program to create and manipulate
+      binary search trees. This sample program doesn't do anything particularly useful, but it
+      demonstrates how to create an instance of the class and call its methods.</p>
+
+    <listing>
+      <program label="trees_bst-full-1"
+               interactive="activecode"
+               compile-also="intbst-full-cxx">
+  <xi:include href="../../programs/trees/usebst.cpp" parse="text"/>
+    </program>
+    </listing>
+  </subsection>
+
+  <subsection>
+    <title>Improvements</title>
+    <p> Much like in a linked list, it can be useful to store an explicit size variable in the class
+      to keep track of how many nodes are in the tree. This would allow <pf>size()</pf> to run inconstant
+      time instead of linear time. Doing this would add a small amount of complexity to the code.
+      Anywhere we create a new node, or delete a node, we would need to update the size variable
+      accordingly. </p>
+  </subsection>
 
 </section>
