@@ -48,7 +48,7 @@ string Queue<T>::toString() {
       << endl;
 
     int length = end - start;
-    bool wrapped = false; // does queue wrap wround back of array?
+    bool wrapped = false; // does queue wrap around back of array?
     if (length < 0)
         wrapped = true;
 
