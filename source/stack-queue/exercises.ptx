@@ -74,7 +74,6 @@ TEST_CASE("WrapEnd") {
   <exercise label="stack-queue_exercises-queue-remove">
     <statement>
       <p>Write the <pf>dequeue</pf> function for the <xref ref="ArrayBasedQueue-cxx-listing" text="custom">Array Based Queue</xref>.</p>
-      <p>You do not need to worry about the queue being full, but you should correctly handle wrapping.</p>
     </statement>
     <program interactive="activecode"
            compile-also="ArrayBasedQueue-cxx">
@@ -93,10 +92,10 @@ using namespace std;
           <![CDATA[
 template<typename T>
 T Queue<T>::dequeue() {
+    if (empty()) {
+        throw out_of_range("Dequeue on empty queue");
+    }
     // Write your code here
-    T value = list[start];
-    start = (start + 1) % arraySize;
-    return value;
 }
 ]]>
 </code>
