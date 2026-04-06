@@ -38,7 +38,7 @@
       "<exercise label=\"${0}\">",
       "  <statement>",
       "    <p>",
-      "      <fillin mode=\"string\" answer=\"floating point\"/>",
+      "      <fillin mode=\"string\" answer=\"???\"/>",
       "    </p>",
       "  </statement>",
       "  <evaluation>",
@@ -57,6 +57,34 @@
       "</exercise>"
 		],
 		"description": "fillin string"
+	},
+  
+	"PTX: Fillin Number": {
+		"scope": "xml",
+		"prefix": "ptx",
+		"body": [
+      "<exercise label=\"${0}\">",
+      "  <statement>",
+      "    <p>",
+      "      <fillin mode=\"number\" answer=\"0\"/>",
+      "    </p>",
+      "  </statement>",
+      "  <evaluation>",
+      "    <evaluate>",
+      "      <test correct=\"yes\">",
+      "        <numcmp use-answer=\"yes\"/>",
+      "      </test>",
+      "      <test>",
+      "        <strcmp>.*</strcmp>",
+      "        <feedback>",
+      "          <p></p>",
+      "        </feedback>",
+      "      </test>",
+      "    </evaluate>",
+      "  </evaluation>",
+      "</exercise>"
+		],
+		"description": "fillin number"
 	},
 
   "PTX: Matching": {
