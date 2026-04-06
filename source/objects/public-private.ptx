@@ -56,7 +56,7 @@ int main() {
   <p>To understand why, we need to remember what object-oriented programming was designed to accomplish. It was designed to help make it easier to write and use code in large programs. Part of how it supports this is by giving us tools to manage the complexity of code.
   </p>
 
-  <p>One form of complexity is the <term>coupling</term> of code. We say that code is <term>tightly coupled</term> when one part depends on all of the details of other parts of the code. <term>Loosely coupled</term> coupled code is the opposite. It is when any given part of the code depends on as few details of other parts as possible.</p>
+  <p>One form of complexity is the <term>coupling</term> of code. We say that code is <term>tightly coupled</term> when one part depends on all of the details of other parts of the code. <term>Loosely coupled</term> code is the opposite. It is when any given part of the code depends on as few details of other parts as possible.</p>
 
   <p>
     Say we are working with a <pf>Point</pf> class. If code outside of the Point class is directly accessing the member variables <pf>m_x</pf> and <pf>m_y</pf>, then that code is tightly coupled to the implementation details of the Point class. It depends on knowing that Point stores its data as two double values named <pf>m_x</pf> and <pf>m_y</pf>.

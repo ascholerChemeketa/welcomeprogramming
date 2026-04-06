@@ -2,7 +2,7 @@
          xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Getters and Setters</title>
 
-    <p>In the previous section, we saw how to provide access to private member variables through a public member functions. That is a common pattern: for any variable we want to provide access to, we provide <term>getter</term> function. A <term>getter</term> or <term>accessor</term> is a function that just returns the value of a member variable. </p>
+    <p>In the previous section, we saw how to provide access to private member variables through public member functions. That is a common pattern: for any variable we want to provide access to, we provide a <term>getter</term> function. A <term>getter</term> or <term>accessor</term> is a function that just returns the value of a member variable. </p>
 
     <p>If we want to provide the ability for outside code to modify a member variable, we can add a <term>
       setter</term> function. These are functions that take a value and use that to set a member
@@ -42,8 +42,7 @@
 
       <p>The person programming <pf>Person</pf> is the expert who knows all the important ins and outs of
         the Person class. They know that a negative value is going to cause problems later. The
-        person programming main does not realize that issue even exists. If they could set `p1.m_age
-        = -5;` directly, they could end up causing the program to do something horrible later on.</p>
+        person programming main does not realize that issue even exists. If they could set <pf>p1.m_age = -5;</pf> directly, they could end up causing the program to do something horrible later on.</p>
 
       <p>By forcing others to use the public interface and then preventing unwanted modifications in
         that interface, the programmer of the Point class is able to limit the potential for such

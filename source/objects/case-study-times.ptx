@@ -21,8 +21,8 @@
       represent a time: <ul>
         <li>As the number of minutes since midnight. We could calculate the hour as needed (96
       minutes is just another way of saying 1 hour and 36 minutes).</li>
-        <li>As an hours and minutes in 24 hour time.</li>
-        <li>As an hours and minutes in 12 hour time plus whether it is AM or PM.</li>
+        <li>As a hours and minutes in 24 hour time.</li>
+        <li>As a hours and minutes in 12 hour time plus whether it is AM or PM.</li>
       </ul>
     </p>
     <p>Believe it or not, the first approach is a common approach for representing time in
@@ -81,7 +81,7 @@ TEST_CASE("Time constructor") {
       problem and require the caller to deal with the issue. This stricter approach can help catch
       errors earlier.</p>
 
-    <p>To do so, we might might start our constructor with some checks:</p>
+    <p>To do so, we might start our constructor with some checks:</p>
 
     <listing>
     <program>
@@ -235,7 +235,7 @@ Time::Time(int hours, int minutes) {
     <p>Next we need to decide how and if to support changing the time. One approach would be to make
       Time objects <term>immutable</term>, or unchangeable. If we do not provide setters, or any
       other methods to change the member variables of a Time, it will be impossible for other code
-      to modify a Time. Instead, anytime we want to change a time, we would need to make a a new
+      to modify a Time. Instead, anytime we want to change a time, we would need to make a new
       Time object. Making Time objects immutable can make it safer to work with <pf>Time</pf>s. If they
       can't be changed, we can pass around <pf>Time</pf> objects by reference without having to worry
       about them being changed.</p>
