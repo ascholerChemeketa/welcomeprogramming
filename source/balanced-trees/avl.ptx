@@ -33,7 +33,7 @@
     <script type="module">
       import { AVL } from "./external/interactives/data-structures/entry.js";
 
-      let anim = new AVL({ initialData: [211, 40, 509, 225, 787, 31, 209, 652, 886]});
+      let anim = new AVL({ initialData: [211, 40, 509, 225, 787, 31, 209, 652, 886], zoom: "1.5x" });
       anim.doInsert(93);
 
     </script>
@@ -70,7 +70,7 @@
     <script type="module">
       import { AVL } from "./external/interactives/data-structures/entry.js";
 
-      let anim = new AVL({ initialData: [211, 40, 509, 225, 787, 31, 209, 652, 886, 93]});
+      let anim = new AVL({ initialData: [211, 40, 509, 225, 787, 31, 209, 652, 886, 93], zoom: "1.5x" });
 
     </script>
     <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
@@ -102,11 +102,224 @@
     <script type="module">
       import { AVL } from "./external/interactives/data-structures/entry.js";
 
-      let anim = new AVL({ initialData: [211, 40, 509, 225, 787, 31, 209, 652, 886, 93, 300, 800]});
+      let anim = new AVL({ initialData: [211, 40, 509, 225, 787, 31, 209, 652, 886, 93, 300, 800], zoom: "1.5x" });
 
     </script>
     <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
   </interactive>
   </activity>
+
+  
+  <exercise label="balanced-trees_avl-ex-1">
+    <statement>
+      <p>Given this tree:</p>
+      <image source="images/balanced-trees/char-tree-2.svg"
+             width="70%">
+        <shortdescription>
+          <p>H is the root node. It has left child D and right child N. D has a left child C and a right child G. C has a left child B. B has a left child A. G has a left child E. E has a right child F. N has a left child J and a right child Q. J has a left child I.</p>
+        </shortdescription>
+      </image>
+      <p>Give the <em>height</em> of the following nodes:</p>
+      <p>A: <fillin mode="number" answer="0"/></p>
+      <p>G: <fillin mode="number" answer="2"/></p>
+      <p>J: <fillin mode="number" answer="1"/></p>
+      <p>H: <fillin mode="number" answer="4"/></p>
+      <p>B: <fillin mode="number" answer="1"/></p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+
+  
+  <exercise label="balanced-trees_avl-ex-2">
+    <statement>
+      <p>Given this tree:</p>
+      <image source="images/balanced-trees/char-tree-2.svg"
+             width="70%">
+        <shortdescription>
+          <p>H is the root node. It has left child D and right child N. D has a left child C and a right child G. C has a left child B. B has a left child A. G has a left child E. E has a right child F. N has a left child J and a right child Q. J has a left child I.</p>
+        </shortdescription>
+      </image>
+      <p>Give the <em>balance factor</em> of the following nodes:</p>
+      <p>A: <fillin mode="number" answer="0"/></p>
+      <p>G: <fillin mode="number" answer="2"/></p>
+      <p>D: <fillin mode="number" answer="0"/></p>
+      <p>H: <fillin mode="number" answer="1"/></p>
+      <p>N: <fillin mode="number" answer="1"/></p>
+      <p>(Sign will not be considered in your answers, just the magnitude.)</p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>0</strcmp>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>-?2</strcmp>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>0</strcmp>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>-?1</strcmp>
+        </test>
+      </evaluate>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>-?1</strcmp>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
+  
+  <exercise label="balanced-trees_avl-ex-3">
+    <statement>
+      <p>Assume A was just inserted. How would we fix the imbalance using AVL tree logic?</p>
+      <image source="images/balanced-trees/char-tree-2-no-f.svg"
+             width="70%">
+        <shortdescription>
+          <p>H is the root node. It has left child D and right child N. D has a left child C and a right child G. C has a left child B. B has a left child A. G has a left child E. N has a left child J and a right child Q. J has a left child I.</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Rotate C right</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate B right</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate D right</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate H right</p>
+        </statement>
+      </choice>
+    </choices>
+    <hint>
+      <p>Where is the lowest level where the balance is off by 2?</p>
+    </hint>
+  </exercise>
+  
+  
+  <exercise label="balanced-trees_avl-ex-4">
+    <statement>
+      <p>Assume F was just inserted. How would we fix the imbalance using AVL tree logic?</p>
+      <image source="images/balanced-trees/char-tree-2-no-ab.svg"
+             width="70%">
+        <shortdescription>
+          <p>H is the root node. It has left child D and right child N. D has a left child C and a right child G. G has a left child E. E has a right child F. N has a left child J and a right child Q. J has a left child I.</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Rotate E left, then G right</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate G right, then D left</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate G right</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate D left</p>
+        </statement>
+      </choice>
+    </choices>
+    <hint>
+      <p>Where is the lowest level where the balance is off by 2? What is the path from that node to the inserted node look like?</p>
+    </hint>
+  </exercise>
+  
+  
+  <exercise label="balanced-trees_avl-ex-5">
+    <statement>
+      <p>Assume I was just inserted. How would we fix the imbalance using AVL tree logic?</p>
+      <image source="images/balanced-trees/char-tree-2-no-ab-i.svg"
+             width="70%">
+        <shortdescription>
+          <p>H is the root node. It has left child D and right child N. D has a left child C and a right child G. G has a left child E. E has a right child F. N has a left child K and a right child Q. K has a left child J and a right child L. J has a left child I.</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Rotate N right</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate K left, then N right</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate K right</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate J right</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate N right, then H left</p>
+        </statement>
+      </choice>
+    </choices>
+    <hint>
+      <p>Where is the lowest level where the balance is off by 2? What is the path from that node to the inserted node look like?</p>
+    </hint>
+  </exercise>
 
 </section>

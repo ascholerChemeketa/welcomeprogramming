@@ -5,35 +5,75 @@
 
   <p>
     We will not attempt a full performance analysis of B-trees here, but we can make some general observations.
-    A B-tree can never have empty nodes and the height of every leaf is always the same. This means that the absolute worst case for a B-Tree, where each node only has the minimum number of keys, we are still guaranteed a height of <m>O(\log n)</m>.
-    Also important is that the base of the log depends on the degree of the B-tree. A B-tree of degree <m>d</m> optimally has a height of <m>\log_{d}</m> and at most <m>\log_{d/2} n</m>. This means that as we increase the degree of the B-tree, we decrease its height.
   </p>
 
   <p>
-    This means that a B-tree of say degree 10 will be shorter than a binary search tree with the same number of values. Given 100 values, the minimum height of the binary search tree (<m>\log_2 100 \approx 6.64</m>) is greater than the minimum height of the B-tree (<m>\log_{10} 100 \approx 2</m>).
-    Normally we don't care about the base of logarithms when analyzing time complexity because they only differ by a constant factor. You can convert <m>\log_2</m> to <m>\log_{10}</m> by multiplying by <m>~0.301</m>, which is a constant.
+    The rules of a B-tree ensure that it never has empty nodes and the height of every leaf is always the same distance from the root (the tree grows up, not down). Each node has some minimum number of children. Let us call that minimum number of children <m>k</m>. At each level of the tree, the number of nodes is at least <m>k</m> times the number of nodes in the previous level. This means that the number of nodes at level <m>h</m> is at least <m>k^h</m>. If we have <m>n</m> total nodes in the tree, then we know that <m>n \geq k^h</m>, which means that <m>h \leq \log_k n</m>. The height of the tree is bounded by a logarithm of the number of nodes, so we can say that the height is <m>O(\log n)</m>.
+  </p>
+
+  <p>
+    That minimum number of children is determined by the degree of the tree. (Recall that the minimum number of children is half the degree of the B-tree.) As we increase the degree of the B-tree, we decrease its height. A B-tree of say degree 20 (and thus a minimum of 10 children per node) will be shorter than a binary search tree with the same number of values. Given 100 values, the B-Tree would have a height at most <m>log_{10} 100 \approx 2</m>. A balanced binary search tree with that many values would have a height at most <m>\log_2 100 \approx 7</m>.
   </p>
 
   
   <insight>
-    <p>The height of a B-tree is <m>O(\log{N})</m>, and the base of the logarithm depends on the degree of the tree.</p>
+    <p>The height of a B-tree is <m>O(\log_k{N})</m>, where <m>k</m> depends on the degree of the tree.</p>
   </insight>
 
-
   <p>
-    However, if the constant factors associated with each node visit are significant, then the difference in height can have a noticeable effect on performance. This can easily be the case for large data structures where each node visit may involve reading from a disk. A traditional spinning hard drive has a seek time of around 10 milliseconds. That is approximately 100,000 times slower than accessing data in RAM, which typically takes around 100 nanoseconds. (See <url href="https://gist.github.com/jboner/2841832" role="external">Latency Numbers Every Programmer Should Know</url> for more details on typical access times for various storage technologies.)
+    Normally we don't care about the base of logarithms when analyzing time complexity because they only differ by a constant factor. (You can convert <m>\log_2</m> to <m>\log_{10}</m> by multiplying by <m>~0.301</m>, which is a constant.) Thus, normally we would not distinguish between <m>O(\log_2{N})</m> and <m>O(\log_{10}{N})</m>.
   </p>
 
   <p>
-    If every step from one node to the next involves a constant factor of 100,000, then minimizing the number of node visits becomes very important. In this case, a B-tree with a higher degree can provide better performance than a binary search tree because it reduces the height of the tree and therefore the number of node visits required for operations like search, insertion, and deletion.
+    However, if the constant factors associated with each node visit are significant, then the difference in height can have a noticeable effect on performance. One example of where this would be the case is for a data structure where each node visit may involve reading from a disk. A traditional spinning hard drive has a seek time of around 10 milliseconds. That is approximately 100,000 times slower than accessing data in RAM, which typically takes around 100 nanoseconds. (See <url href="https://gist.github.com/jboner/2841832" role="external">Latency Numbers Every Programmer Should Know</url> for more details on typical access times for various storage technologies.)
   </p>
 
   <p>
-    Thus, B-trees are often used in database systems and file systems where data is stored on disk. The higher degree of B-trees allows them to minimize disk accesses, which are the most time-consuming operations in these systems. By keeping the tree height low, B-trees help ensure that operations can be performed efficiently even when dealing with large amounts of data.
+    If every step from one node to the next involves a constant factor of 100,000 to go retrieve data from disk and bring it to main memory, then minimizing the number of node visits becomes very important. In this case, the height reduction provided by a B-tree can significantly reduce the clock time required for operations like search, insertion, and deletion.
   </p>
 
   <p>
-    When working in memory, the extra complexity of managing the multi-value nodes of a B-tree is often not worth the effort compared to a simpler balanced binary search tree like an AVL tree or a Red-Black tree.
+    Of course, there is a tradeoff. If a B-tree node has a list of values, then when trying to search for a given key, we will need to do more work to determine which child pointer to follow. In a binary search tree, we only need to compare the key we are looking for with the one value in the current node (do we go left or right?). In a B-Tree, we need to compare the search key with multiple values (is it before the first value?, the first and second values?, etc...).
   </p>
+    
+  <p>
+    This adds some constant overhead to each node visit (there is a fixed, constant number of values in each node). However, that extra work is done on the node that has already been read into memory, so it is comparatively cheap. Although we spend more time in each node, the constant factor for that search within a node is much smaller than the constant factor for reading a node from disk.
+  </p>
+
+  <p>
+    Thus, B-trees are often used in database systems and file systems where data is stored on disk. By keeping the tree height low, B-trees help ensure that operations can be performed efficiently even when dealing with large datasets that do not fit entirely in main memory.
+  </p>
+
+  <p>
+    When working fully in main memory, the extra complexity of managing the multi-value nodes of a B-tree is often not worth the effort compared to a simpler balanced binary search tree like an AVL tree or a Red-Black tree.
+  </p>
+
+  <exercise label="balanced-trees_btree-performance-ex-1">
+    <statement>
+      <p>Which statements are true about B-trees?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>They are <q>shorter</q> and <q>wider</q> than a binary search tree.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>They are most useful when data might be stored in locations that are slower to access.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>They provide guaranteed <m>O(\log N)</m> performance for search, insertion, and deletion operations.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>They have a lower branching factor than a binary search tree with the same number of values.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

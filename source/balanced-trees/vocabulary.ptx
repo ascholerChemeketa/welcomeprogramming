@@ -1,0 +1,223 @@
+<section xml:id="balanced-trees_vocabulary"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Vocabulary and Comparison</title>
+
+  <subsection>
+    <title>Comparison of Self-Balancing Trees</title>
+      <p>Here is a summary of the self-balancing tree data structures we have discussed. Given big-O values are for insertion, deletion, and search operations:</p>
+    <table>
+      <title>Self-Balancing Trees</title>
+      <tabular row-headers="yes" bottom="minor"
+               halign="center">
+        <col header="yes"/>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <row header="yes" bottom="major">
+          <cell>Algorithm</cell>
+          <cell>Best Case</cell>
+          <cell>Worst Case</cell>
+          <cell>Kind of Guarantee</cell>
+          <cell>Notes</cell>
+        </row>
+        <row>
+          <cell>Binary Search Tree</cell>
+          <cell>
+            <m>O(\log n)</m>
+          </cell>
+          <cell>
+            <m>O(n)</m>
+          </cell>
+          <cell>
+            None
+          </cell>
+          <cell>
+            <p>Data inserted in random order likely results in logarithmic performance, but there are no guarantees. Data inserted in sorted order will result in linear performance.</p>
+          </cell>
+        </row>
+        <row>
+          <cell>AVL Tree</cell>
+          <cell>
+            <m>O(\log n)</m>
+          </cell>
+          <cell>
+            <m>O(\log n)</m>
+          </cell>
+          <cell>
+            Strong
+          </cell>
+          <cell>
+            <p>Maintains a balance requirement at each node.</p>
+          </cell>
+        </row>
+        <row>
+          <cell>B-Tree</cell>
+          <cell>
+            <m>O(\log n)</m>
+          </cell>
+          <cell>
+            <m>O(\log n)</m>
+          </cell>
+          <cell>
+            Strong
+          </cell>
+          <cell>
+            <p>Base of the logarithm depends on the degree of the tree.</p>
+            <p>Used in situations where minimizing height is important (e.g., databases, file systems).</p>
+          </cell>
+        </row>
+        <row>
+          <cell>Red Black Tree</cell>
+          <cell>
+            <m>O(\log n)</m>
+          </cell>
+          <cell>
+            <m>O(\log n)</m>
+          </cell>
+          <cell>
+            Strong
+          </cell>
+          <cell>
+            <p>Corresponds to a B tree of degree 4 (2, 3, or 4 children per node).</p>
+            <p>Less <q>strictly</q> balanced than AVL trees.</p>
+          </cell>
+        </row>
+        <row>
+          <cell>Splay Tree</cell>
+          <cell>
+            <m>O(\log n)</m>
+          </cell>
+          <cell>
+            <m>O(n)</m>
+          </cell>
+          <cell>
+            Amortized
+          </cell>
+          <cell>
+            <p>In a sequence of operations, the average time complexity is O(log n). Any one operation may take longer.</p>
+            <p>Recently accessed nodes are near the root, so access patterns with locality of reference can be very efficient.</p>
+          </cell>
+        </row>
+        <row>
+          <cell>Treap</cell>
+          <cell>
+            <m>O(\log n)</m>
+          </cell>
+          <cell>
+            <m>O(n)</m>
+          </cell>
+          <cell>
+            Probabilistic
+          </cell>
+          <cell>
+            <p>Each node is assigned a random priority that helps determine the tree's structure.</p>
+            <p>Very likely to have a balanced structure, but no worst-case guarantee.</p>
+          </cell>
+        </row>
+        <row>
+          <cell>Skip List</cell>
+          <cell>
+            <m>O(\log n)</m>
+          </cell>
+          <cell>
+            <m>O(n)</m>
+          </cell>
+          <cell>
+            Probabilistic
+          </cell>
+          <cell>
+            <p>Random numbers used to determine the number of levels of each node.</p>
+            <p>Very likely to have logarithmic performance, but no worst-case guarantee.</p>
+            <p>Easier than some other strategies to implement concurrency in.</p>
+          </cell>
+        </row>
+      </tabular>
+    </table>
+  </subsection>
+  <subsection>
+    <title>Vocabulary</title>
+    <p>
+      <dl>
+        <li>
+          <title>AVL Tree</title>
+          <p>
+            <idx>
+              <h>AVL Tree</h>
+            </idx> A self-balancing binary search tree that keeps left and right subtree heights close at every node.</p>
+        </li>
+        <li>
+          <title>B-tree</title>
+          <p>
+            <idx>
+              <h>B-tree</h>
+            </idx> A balanced search tree where each node can contain multiple keys and children.</p>
+        </li>
+        <li>
+          <title>degree</title>
+          <p>
+            <idx>
+              <h>degree</h>
+            </idx> The maximum number of children a node can have in a tree.</p>
+        </li>
+        <li>
+          <title>double rotation</title>
+          <p>
+            <idx>
+              <h>double rotation</h>
+            </idx> A two-step rebalancing operation that performs one rotation on a child and one on its parent.</p>
+        </li>
+        <li>
+          <title>left rotation</title>
+          <p>
+            <idx>
+              <h>left rotation</h>
+            </idx> A local tree transformation that promotes a node's right child and moves the node down to the left.</p>
+        </li>
+        <li>
+          <title>pivot</title>
+          <p>
+            <idx>
+              <h>pivot</h>
+            </idx> The node around which a rotation is performed.</p>
+        </li>
+        <li>
+          <title>Red-Black Tree</title>
+          <p>
+            <idx>
+              <h>Red-Black Tree</h>
+            </idx> A self-balancing binary search tree that uses node colors and structural rules to keep height logarithmic.</p>
+        </li>
+        <li>
+          <title>right rotation</title>
+          <p>
+            <idx>
+              <h>right rotation</h>
+            </idx> A local tree transformation that promotes a node's left child and moves the node down to the right.</p>
+        </li>
+        <li>
+          <title>Skip List</title>
+          <p>
+            <idx>
+              <h>Skip List</h>
+            </idx> A layered linked-list structure that supports fast search, insertion, and deletion.</p>
+        </li>
+        <li>
+          <title>splay</title>
+          <p>
+            <idx>
+              <h>splay</h>
+            </idx> The operation of moving a node toward the root through rotations after access.</p>
+        </li>
+        <li>
+          <title>splay tree</title>
+          <p>
+            <idx>
+              <h>splay tree</h>
+            </idx> A self-adjusting binary search tree that splays recently accessed nodes toward the root.</p>
+        </li>
+      </dl>
+    </p>
+  </subsection>
+</section>

@@ -60,4 +60,37 @@
 
   <p>Low level optimizations in both AVL and Red-Black trees can avoid storing extra information (color or balance factor) by using techniques such as bit-packing or pointer tagging.</p>
 
+<exercise label="balanced-trees_red-black-performance-ex-1">
+  <statement>
+    <p>Which are the accurate statements about the performance of Red-Black trees vs AVL trees?</p>
+  </statement>
+  <choices randomize="yes">
+    <choice correct="yes">
+      <statement>
+        <p>AVL trees have a more strict balance, leading to faster lookups on average.</p>
+      </statement>
+    </choice>
+    <choice correct="yes">
+      <statement>
+        <p>Both provide a guarantee of O(log n) time complexity for search, insertion, and deletion operations.</p>
+      </statement>
+    </choice>
+    <choice correct="yes">
+      <statement>
+        <p>An AVL will more frequently need to do rotations after insertions and deletions.</p>
+      </statement>
+    </choice>
+    <choice>
+      <statement>
+        <p>Red-Black trees have a more strict balance, leading to faster lookups on average.</p>
+      </statement>
+    </choice>
+    <choice>
+      <statement>
+        <p>Given the same number of values, an AVL tree is potentially taller than a Red-Black tree.</p>
+      </statement>
+    </choice>
+  </choices>
+</exercise>
+
 </section>

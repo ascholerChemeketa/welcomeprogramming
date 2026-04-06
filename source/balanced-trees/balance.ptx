@@ -7,25 +7,29 @@
     Before we can implement self-balancing trees, we need to understand what it means for a tree to be balanced. When we say <q>balance</q>, are we referring to the relative size of the left and right subtrees? Or are we talking about their heights?
   </p>
 
+  <p>Consider the two figures below. In which situation is the 10 node more balanced?</p>
+
   <sidebyside widths="35% 35%">
     <figure>
-      <image source="images/balanced-trees/balance-sample-1.svg" alt="A balanced binary tree">
-        <shortdescription>The root is 10. It has a left child that is 5, which has a left child 3, which has a left child 1. The root also has a right child 15, which has a right child 20, which has a right child 25.</shortdescription>
+      <image source="images/balanced-trees/balance-sample-1b.svg" alt="A balanced binary tree">
+        <shortdescription>The root is 10. On the left side, there are 7 nodes in a long chain with a length of 7. On the right side, there are 7 nodes arranged so the longest possible path to any leaf is 3.</shortdescription>
       </image>
-      <caption>The 10 node has 3 nodes on both sides</caption>
+      <caption>The 10 node has 7 nodes on both sides.</caption>
     </figure>
 
     <figure>
-      <image source="images/balanced-trees/balance-sample-2.svg" alt="An unbalanced binary tree">
-        <shortdescription>The root is 10. It has a left child that is 5, which has a left child 3 and a right child 7. The root also has a right child 15, which has a right child 20</shortdescription>
+      <image source="images/balanced-trees/balance-sample-2b.svg" alt="An unbalanced binary tree">
+        <shortdescription>The root is 10. On the left side, there are 3 nodes in a long chain with a length of 3. On the right side, there are 7 nodes arranged so the longest possible path to any leaf is 3.</shortdescription>
       </image>
-      <caption>The 10 node has a height of 2 on both sides</caption>
+      <caption>The 10 node has a height of 3 on both sides</caption>
     </figure>
   </sidebyside>
 
   <p>
     The reason we want to keep a tree balanced is to ensure that we can perform operations like insertion, deletion, and lookup in logarithmic time. The time it takes to perform these operations is proportional to the height of the tree. Therefore, what we really care about is keeping the height of the tree as small as possible. Balance is just a tool to help us achieve that goal.
   </p>
+
+  <p>From the perspective of tree height, the second figure shows a more balanced tree. In it, from the 10 node, the longest path in either direction is 3. It is also instructive to consider how balanced the subtrees themselves are. In the first figure, while there are 7 nodes on each side, if we descend one step to the left, we reach a node that has 6 nodes to the left and none to the right. Because a tree is a recursive structure, we want the balance to be maintained at all levels, not just at the root.</p>
 
   <p>
     Given this, our definition of balance will focus on the heights of the left and right subtrees. For any node in the tree, we will say that it is balanced if the heights of its left and right subtrees are equal to each other. Because it is often impossible to maintain perfect balance during insertions and deletions, we will have to allow for some leeway. Different self-balancing tree algorithms use different definitions of balance, but they all revolve around the idea of keeping the heights of the left and right subtrees within some acceptable range.
@@ -34,5 +38,38 @@
   <insight>
     <p>Balance is the difference in height between the left and right subtrees of a node.</p>
   </insight>
+
+  <exercise label="balanced-trees_balance-ex-1">
+    <statement>
+      <p>
+        An ideally balanced tree contains 100 nodes. What height would we expect it to be?
+      </p>
+      <p>
+        <fillin mode="number" answer="6"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <numcmp value="7"/>
+          <feedback>
+            <p>There would be seven levels in the visual representation. But height is counted in terms of edges from the root to the deepest node.</p>
+          </feedback>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>
+            <p></p>
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+    <hint>
+      <p>You can review the math for a perfect binary tree in <xref ref="heaps_heap-math"/>.</p>
+    </hint>
+  </exercise>
 
 </section>

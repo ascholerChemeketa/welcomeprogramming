@@ -58,7 +58,7 @@
     <script type="module">
       import { BST } from "./external/interactives/data-structures/entry.js";
 
-      let anim = new BST({initialData: [18, 10, 14, 15, 13, 20] });
+      let anim = new BST({initialData: [18, 10, 14, 15, 13, 20], zoom: "2x" });
 
     </script>
     <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
@@ -81,12 +81,142 @@
     <script type="module">
       import { BST } from "./external/interactives/data-structures/entry.js";
 
-      let anim = new BST({initialData: [30, 20, 25, 10, 15, 40, 35, 45, 12, 38] });
+      let anim = new BST({initialData: [30, 20, 25, 10, 15, 40, 35, 45, 12, 38], zoom: "2x" });
 
     </script>
     <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
   </interactive>
+  <hint>
+    <p>You should end up with 12 at the root of the subtree where 10 was.</p>
+  </hint>
+  <hint>
+    <p>This is a zig-zag pattern. You need to start by straightening out the chain containing 10, 12, 15.</p>
+  </hint>
   </activity>
+
+  <exercise label="balanced-trees_double-rotations-ex-1">
+    <statement>
+      <p>How could we balance the subtree rooted at A?</p>
+      <image source="images/balanced-trees/char-tree-3.svg"
+             width="70%">
+        <shortdescription>
+          <p>H is the root node. It has left child D and right child N. D has a left child A and a right child G. A has a right child C. C has a left child B. G has a left child E. E has a right child F. N has a left child J and a right child Q. J has a left child I.</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Rotate C right, then A left</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate A right</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate C left, then A right</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate A left</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate A right, then C left</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate A left, then C right</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  
+  <exercise label="balanced-trees_double-rotations-ex-2">
+    <statement>
+      <p>How could we balance the subtree rooted at G?</p>
+      <image source="images/balanced-trees/char-tree-3.svg"
+             width="70%">
+        <shortdescription>
+          <p>H is the root node. It has left child D and right child N. D has a left child A and a right child G. A has a right child C. C has a left child B. G has a left child E. E has a right child F. N has a left child J and a right child Q. J has a left child I.</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Rotate E left, then G right</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate G right</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate E right, then G left</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate G left</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate G right, then E left</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate G left, then E right</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="balanced-trees_double-rotations-ex-3">
+    <statement>
+      <p>How could we move J to the root of the tree? (This would not make it more balanced.)</p>
+      <image source="images/balanced-trees/char-tree-3.svg"
+             width="70%">
+        <shortdescription>
+          <p>H is the root node. It has left child D and right child N. D has a left child A and a right child G. A has a right child C. C has a left child B. G has a left child E. E has a right child F. N has a left child J and a right child Q. J has a left child I.</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>Rotate N right, then H left</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate J left</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate J left, then N right</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>Rotate N left, then H left</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+  
 
 
 </section>

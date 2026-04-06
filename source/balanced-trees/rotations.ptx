@@ -94,7 +94,7 @@
     <script type="module">
       import { BST } from "./external/interactives/data-structures/entry.js";
 
-      let anim = new BST({initialData: [5,3,6,1,4] });
+      let anim = new BST({initialData: [5,3,6,1,4], zoom: "2x" });
       anim.doRotateRight(5);
 
     </script>
@@ -129,5 +129,88 @@ Node* rotateRight(Node* pivot) {
     ...
     ]]>
   </program>
+
+  <exercise label="balanced-trees_rotations-ex-1">
+    <statement>
+      <p>In this tree, if we rotate K to the left, what changes will be made?</p>
+      <image source="images/balanced-trees/char-tree.svg"
+             width="70%">
+        <shortdescription>
+          <p>H is the root node. It has left child E and right child K. E has a left child C and a right child G. C has a left child B and a right child D. B has a left child A. G has a right child F. K has a left child J and a right child L. J has a left child I.</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>H's right child will become L</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>L's left child will become K</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>K's right child will become null</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>L's left child will become J</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>L's right child will become K</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>H's right child will become J</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="balanced-trees_rotations-ex-2">
+    <statement>
+      <p>In this tree, if we rotate E to the right, what changes will be made?</p>
+      <image source="images/balanced-trees/char-tree.svg"
+             width="70%">
+        <shortdescription>
+          <p>H is the root node. It has left child E and right child K. E has a left child C and a right child G. C has a left child B and a right child D. B has a left child A. G has a right child F. K has a left child J and a right child L. J has a left child I.</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>H's left child will become C</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>E's left child will become D</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>C's right child will become E</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>D's right child will become E</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>H's left child will become G</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

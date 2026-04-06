@@ -3801,7 +3801,7 @@ function addGeneralControls(objectManager2, targetElement, title, opts = null) {
   {
     let parsed = parseFloat(zoom);
     if (!Number.isFinite(parsed) || parsed <= 0) {
-      parsed = 2;
+      parsed = 4;
     }
     const allowedZoomValues = [16, 8, 6, 4, 2.6666666667, 2, 1.3333333333];
     const isAllowed = allowedZoomValues.some((v) => Math.abs(v - parsed) < 1e-9);
@@ -5402,7 +5402,13 @@ AVL.prototype.insertElement = function(insertedValue) {
     treeNodeID = this.nextIndex++;
     labelID = this.nextIndex++;
     this.highlightID = this.nextIndex++;
-    this.cmd("CreateCircle", treeNodeID, insertedValue, 30, AVL.STARTING_Y);
+    this.cmd(
+      "CreateCircle",
+      treeNodeID,
+      insertedValue,
+      this.startingX - 200,
+      AVL.STARTING_Y
+    );
     this.cmd("SetForegroundColor", treeNodeID, AVL.FOREGROUND_COLOR);
     this.cmd("SetBackgroundColor", treeNodeID, AVL.BACKGROUND_COLOR);
     this.cmd("CreateLabel", labelID, "", 100 - 20, 100 - 20);

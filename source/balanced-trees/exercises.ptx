@@ -1,0 +1,240 @@
+<section xml:id="balanced-trees_exercises"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Exercises</title>
+
+  <p>These exercises use the same BSTNode structure as our basic binary search tree implementation. Here is the BSTNode definition:</p>
+
+  <listing xml:id="balanced-trees_bstnode">
+    <title>BSTNode Declaration</title>
+    <program>
+      <![CDATA[ 
+  struct BSTNode {
+    // Store a value and two child pointers
+    char value;
+    BSTNode* left;
+    BSTNode* right;
+  };
+      ]]>
+    </program>
+  </listing>
+
+  <exercise label="balanced-trees_exercises-ex-1">
+    <statement>
+      <p>Implement <pf>getHeight</pf> to return the height of the subtree rooted at the given node.</p>
+    </statement>
+    <program interactive="activecode"
+           extra-compiler-args="-fsanitize=address -g">
+        <preamble visible="no">
+<xi:include href="../../programs/trees/charbst-ex-contains.cpp" parse="text"/>
+<xi:include href="../../programs/trees/charbst-ex-copySubStub.cpp" parse="text"/>
+        </preamble>
+        <code>
+int getHeight(BSTNode* node) {
+    //TODO - fixme!
+    return 0;
+}
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+/* Adds test data to produce this tree:
+ *         _G_
+ *        /   \
+ *       C     P
+ *      / \   / \
+ *     B   F J   Y
+ *            \
+ *             M
+ */
+
+void insertTestData(CharBST& c) {
+  c.root = nullptr; // remove (and leak!!!) any existing nodes
+
+  c.root = new BSTNode('G');
+
+  c.root->left = new BSTNode('C');
+  c.root->left->left = new BSTNode('B');
+  c.root->left->right = new BSTNode('F');
+
+  c.root->right = new BSTNode('P');
+  c.root->right->right = new BSTNode('Y');
+  c.root->right->left = new BSTNode('J');
+  c.root->right->left->right = new BSTNode('M');
+}
+
+TEST_CASE("Height") {
+  CharBST bst;
+  insertTestData(bst);
+
+  int FHeight = getHeight(bst.root->left->right);
+  REQUIRE(FHeight == 0);
+
+  int JHeight = getHeight(bst.root->right->left);
+  REQUIRE(JHeight == 1);
+
+  int fullHeight = getHeight(bst.root);
+  REQUIRE(fullHeight == 3);
+}
+]]>
+        </tests>
+    </program>
+  </exercise>
+
+  
+  <exercise label="balanced-trees_exercises-ex-2">
+    <statement>
+      <p>Implement <pf>rotateRight</pf> to perform a right rotation on the subtree rooted at the given node. It should return the new root of the rotated subtree.</p>
+    </statement>
+    <program interactive="activecode"
+           extra-compiler-args="-fsanitize=address -g">
+        <preamble visible="no">
+<xi:include href="../../programs/trees/charbst-ex-contains.cpp" parse="text"/>
+<xi:include href="../../programs/trees/charbst-ex-copySubStub.cpp" parse="text"/>
+        </preamble>
+        <code>
+BSTNode* rotateRight(BSTNode* parent) {
+  /// TODO - fixme
+  return nullptr;
+}
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+/* Adds test data to produce this tree:
+ *         _G_
+ *        /   \
+ *       C     P
+ *      / \   / \
+ *     B   F J   Y
+ *            \
+ *             M
+ */
+
+void insertTestData(CharBST& c) {
+  c.root = nullptr; // remove (and leak!!!) any existing nodes
+
+  c.root = new BSTNode('G');
+
+  c.root->left = new BSTNode('C');
+  c.root->left->left = new BSTNode('B');
+  c.root->left->right = new BSTNode('F');
+
+  c.root->right = new BSTNode('P');
+  c.root->right->right = new BSTNode('Y');
+  c.root->right->left = new BSTNode('J');
+  c.root->right->left->right = new BSTNode('M');
+}
+
+TEST_CASE("RotateRightAtC") {
+  CharBST bst;
+  insertTestData(bst);
+
+  BSTNode* target = bst.root->left;
+
+  BSTNode* newParent = rotateRight(target);
+
+  REQUIRE(newParent->value == 'B');
+  REQUIRE(newParent->right->value == 'C');
+  REQUIRE(newParent->right->left == nullptr);
+}
+
+TEST_CASE("RotateRightAtG") {
+  CharBST bst;
+  insertTestData(bst);
+
+  BSTNode* target = bst.root;
+
+  BSTNode* newParent = rotateRight(target);
+
+  REQUIRE(newParent->value == 'C');
+  REQUIRE(newParent->right->value == 'G');
+  REQUIRE(newParent->right->left->value == 'F');
+}
+
+]]>
+        </tests>
+    </program>
+  </exercise>
+
+  <exercise label="balanced-trees_exercises-ex-3">
+    <statement>
+      <p>Implement <pf>rotateLeft</pf> to perform a left rotation on the subtree rooted at the given node. It should return the new root of the rotated subtree.</p>
+    </statement>
+    <program interactive="activecode"
+           extra-compiler-args="-fsanitize=address -g">
+        <preamble visible="no">
+<xi:include href="../../programs/trees/charbst-ex-contains.cpp" parse="text"/>
+<xi:include href="../../programs/trees/charbst-ex-copySubStub.cpp" parse="text"/>
+        </preamble>
+        <code>
+BSTNode* rotateLeft(BSTNode* parent) {
+  /// TODO - fixme
+  return nullptr;
+}
+        </code>
+        <tests visible="yes">
+<![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+/* Adds test data to produce this tree:
+ *         _G_
+ *        /   \
+ *       C     P
+ *      / \   / \
+ *     B   F J   Y
+ *            \
+ *             M
+ */
+
+void insertTestData(CharBST& c) {
+  c.root = nullptr; // remove (and leak!!!) any existing nodes
+
+  c.root = new BSTNode('G');
+
+  c.root->left = new BSTNode('C');
+  c.root->left->left = new BSTNode('B');
+  c.root->left->right = new BSTNode('F');
+
+  c.root->right = new BSTNode('P');
+  c.root->right->right = new BSTNode('Y');
+  c.root->right->left = new BSTNode('J');
+  c.root->right->left->right = new BSTNode('M');
+}
+
+TEST_CASE("RotateLeftAtC") {
+  CharBST bst;
+  insertTestData(bst);
+
+  BSTNode* target = bst.root->left;
+
+  BSTNode* newParent = rotateLeft(target);
+
+  REQUIRE(newParent->value == 'F');
+  REQUIRE(newParent->left->value == 'C');
+  REQUIRE(newParent->left->right == nullptr);
+}
+
+TEST_CASE("RotateLeftAtG") {
+  CharBST bst;
+  insertTestData(bst);
+
+  BSTNode* target = bst.root;
+
+  BSTNode* newParent = rotateLeft(target);
+
+  REQUIRE(newParent->value == 'P');
+  REQUIRE(newParent->left->value == 'G');
+  REQUIRE(newParent->left->right->value == 'J');
+}
+
+]]>
+        </tests>
+    </program>
+  </exercise>
+
+</section>

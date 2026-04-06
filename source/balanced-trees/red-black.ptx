@@ -39,12 +39,12 @@
   <activity>
     <title>Red-Black Trees</title>
     <p>
-      Try using the <c>Insert Random Values</c> button a few times to build up a red-black tree.</p>
+      Try using the <c>Insert Random Values</c> button a few times to build up a red-black tree. Click and drag to move the diagram around and examine the overall structure.</p>
+      <p>Then reset it and try generating another. Notice that although the trees are not perfectly balanced, it is never very far unbalanced.</p>
       <p>If you want to see the null leaves, you can check the <c>Show Null Leaves</c> checkbox.</p>
-      <p>Then reset it and try generating another. Notice that although the tree is not perfectly balanced, it is never very far unbalanced.</p>
     <interactive platform="javascript" 
                 design-width="1600"
-                 aspect="4:2.5">
+                 aspect="4:2">
     <script type="module">
       import { RedBlack } from "./external/interactives/data-structures/entry.js";
 
@@ -123,11 +123,11 @@
 
     <interactive platform="javascript" 
                 design-width="1600"
-                 aspect="4:2.5">
+                 aspect="4:2">
     <script type="module">
       import { RedBlack } from "./external/interactives/data-structures/entry.js";
 
-      let anim = new RedBlack({ initialData: [812, 134, 238, 472, 726, 943, 8, 500, 209, 800, 50, 100, 120,6, 42]});
+      let anim = new RedBlack({ initialData: [812, 134, 238, 472, 726, 943, 8, 500, 209, 800, 50, 100, 120,6, 42], zoom: "1.5x" });
 
     </script>
     <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
@@ -139,7 +139,226 @@
   </p>
 
   <p>
-    Exhaustive treatment of the rules for a Red-Black tree are available in many online resources. But our key takeaway is that careful application of rules can ensure that our tree follows the Red-Black properties as it is built and modified.
+    Exhaustive treatment of the rules for a Red-Black tree are available in many online resources. Our key takeaway is that careful application of these rules can ensure that our tree follows the Red-Black properties as it is built and modified.
   </p>
+
+  
+  <exercise label="balanced-trees_red-black-ex-1">
+     <statement>
+      <p>Select all the listings that represent a logical <q>group</q> that corresponds to a B-tree node:</p>
+      <image source="images/balanced-trees/red-black-ex-1.svg"
+             width="70%">
+        <shortdescription>
+          <p>837 is root and is black. It has left child 676 (red) and right child 886 (black). 676 has a left child 268 (black) and a right child 737 (black). 268 has a left child 115 (red) and a right child 602 (red). 737 has a right child 765 (red). 886 has a left child 853 (red).</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="no">
+      <choice correct="yes">
+        <statement>
+          <p>[115, 268, 602]</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>[268, 676, 737]</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>[676, 837]</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>[676, 837, 886]</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>[737, 765]</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>[853]</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="balanced-trees_red-black-ex-2">
+     <statement>
+      <p>In the Red-Black tree shown below, what would happen if we inserted 700?</p>
+      <image source="images/balanced-trees/red-black-ex-1.svg"
+             width="70%">
+        <shortdescription>
+          <p>837 is root and is black. It has left child 676 (red) and right child 886 (black). 676 has a left child 268 (black) and a right child 737 (black). 268 has a left child 115 (red) and a right child 602 (red). 737 has a right child 765 (red). 886 has a left child 853 (red).</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="no" multiple-correct="yes">
+      <choice correct="yes">
+        <statement>
+          <p>It would be inserted as a red node as the left child of 737.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It would be inserted as a black node as the left child of 737.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>737 would get recolored red.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>737 would rotate right.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>765 would get recolored black.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="balanced-trees_red-black-ex-3">
+     <statement>
+      <p>In the Red-Black tree shown below, what would happen if we inserted 800?</p>
+      <image source="images/balanced-trees/red-black-ex-1.svg"
+             width="70%">
+        <shortdescription>
+          <p>837 is root and is black. It has left child 676 (red) and right child 886 (black). 676 has a left child 268 (black) and a right child 737 (black). 268 has a left child 115 (red) and a right child 602 (red). 737 has a right child 765 (red). 886 has a left child 853 (red).</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="no" multiple-correct="yes">
+      <choice correct="yes">
+        <statement>
+          <p>It would be inserted as a red node as the right child of 765.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>It would be inserted as a black node as the left child of 765.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>737 would get recolored red.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>737 would rotate left.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>765 would get recolored black.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="balanced-trees_red-black-ex-4">
+     <statement>
+      <p>In the Red-Black tree shown below, which insertions would result in a zig-zag double rotation to fix an issue caused?</p>
+      <image source="images/balanced-trees/red-black-ex-1.svg"
+             width="70%">
+        <shortdescription>
+          <p>837 is root and is black. It has left child 676 (red) and right child 886 (black). 676 has a left child 268 (black) and a right child 737 (black). 268 has a left child 115 (red) and a right child 602 (red). 737 has a right child 765 (red). 886 has a left child 853 (red).</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="no" multiple-correct="yes">
+      <choice>
+        <statement>
+          <p>100</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>750</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>780</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>860</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>840</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="balanced-trees_red-black-ex-5">
+     <statement>
+      <p>In the Red-Black tree shown below, if we insert 650, what things will happen?</p>
+      <image source="images/balanced-trees/red-black-ex-1.svg"
+             width="70%">
+        <shortdescription>
+          <p>837 is root and is black. It has left child 676 (red) and right child 886 (black). 676 has a left child 268 (black) and a right child 737 (black). 268 has a left child 115 (red) and a right child 602 (red). 737 has a right child 765 (red). 886 has a left child 853 (red).</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="no" multiple-correct="yes">
+      <choice correct="yes">
+        <statement>
+          <p>650 is inserted as a red node as the right child of 602.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>650 is inserted as a black node as the right child of 602.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>115 would become black.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>268 would become red.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>268 would rotate left.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>602 would become black.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>676 would become black.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>837 would rotate right and become red.</p>
+        </statement>
+      </choice>
+    </choices>
+    <hint>
+      <p>Fixing the initial problem creates a new violation of the Red-Black tree properties.</p>
+    </hint>
+  </exercise>
 
 </section>

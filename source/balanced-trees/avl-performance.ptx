@@ -9,7 +9,7 @@
     First, we should convince ourselves that a rotation is sufficient to restore balance when we find a node with a balance factor of 2 or -2.</p>
 
   <p>
-    The rotation will update the height of the nodes involved in the rotation, but not subtrees below the nodes being rotated (pivot and its longer child). When we start the process, one subtree is taller than the other by 2. That taller subtree is the one that will rotate up. As we do so, it will lose one height (because it is losing the node that was at the top). Meanwhile, the other subtree (the shorter one) will gain one height because the pivot node is being rotated down into it. The net effect is that the heights of the two subtrees will now be equal, restoring balance.
+    The rotation will update the height of the nodes involved in the rotation, but not subtrees below the nodes being rotated (pivot and its longer child). When we start the process, one subtree is taller than the other by 2. That taller subtree is the one that will rotate up. As we do so, it's height will decrease by one (because the root of that subtree is moving up). Meanwhile, the other subtree (the shorter one) will gain one height because the pivot node is being rotated down into it. The net effect is that the heights of the two subtrees will now be equal, restoring balance.
   </p>
   
   </subsection>
@@ -72,7 +72,7 @@
   </tabular>
   </table>
 
-  <p>If you look carefully at the trees, you can see that each tree is constructed by making a root node and then attaching the worst-case tree of height h-1 as the left child and the worst-case tree of height h-2 as the right child. (i.e. The height 3 tree has a height 2 tree on its left and a height 1 tree on its right.)</p>
+  <p>If you look carefully at the trees, you can see that each tree is constructed by making a root node and then attaching the worst-case tree of height h-1 as the left child and the worst-case tree of height h-2 as the right child. (i.e. The height 3 tree has a height 2 tree on its left and a height 1 tree on its right. The height 4 tree has a height 3 tree on its left and a height 2 tree on its right.)</p>
 
   <p>
     This means that the number of nodes in a worst-case AVL tree of height <m>h</m> (<m>N_h</m>) can be expressed using the recurrence:
@@ -90,7 +90,7 @@
 
     <p>
       The number of nodes in a worst-case AVL tree of height <m>h</m> can be expressed using the recurrence <me>N_h = 1 + N_{h-1} + N_{h-2}</me>
-      as established in the previous section. Because <m>N_{h - 1}</m> is larger than <m>N_{h - 2}</m>, we can say that <me>N_h &gt; 2N_{h-2} + 1</me>. The number of nodes in a worst-case AVL tree of height <m>h</m> is always greater than twice the number of nodes in a worst-case AVL tree of height <m>h-2</m> plus one.
+      as established in the previous section. Because <m>N_{h - 1}</m> is larger than <m>N_{h - 2}</m>, we can say that <me>N_h &gt; 2N_{h-2} + 1</me>. This says that the number of nodes in a worst-case AVL tree of height <m>h</m> is always greater than twice the number of nodes in a worst-case AVL tree of height <m>h-2</m> plus one.
     </p>
 
     <p>
@@ -139,8 +139,32 @@
     get the following derivation: <me>\begin{split} \log_2{(N_h + 1)} &amp;= (h+3)\log_2{\Phi} -
     \frac{1}{2} \log_2{5} \\ h &amp;= \frac{\log_2{(N_h + 1)} - 3 \log_2{\Phi} + \frac{1}{2}
     \log_2{5}}{\log_2{\Phi}} \\ h &amp;\approx 1.44 \log_2{(N_h + 1) - 2.57} \end{split} </me>.</p>
-  <p>This derivation shows us that at any time the height of our AVL tree is equal to a
-    constant(1.44) times the log of the number of nodes in the tree. This is great news for
-    searching our AVL tree because it limits the search to <m>O(\log{N})</m>.</p>
+  <p>This derivation shows us that at any time the max height of our AVL tree is approximately equal to a
+    constant (1.44) times the log of the number of nodes in the tree.</p>
+    <p>We already knew that the height of an AVL tree is <m>O(\log{N})</m>, but this formal analysis gives us a more precise understanding of the key constant factor that is hidden in the big-O notation.</p>
     </subsection>
+
+    <exercise label="balanced-trees_avl-performance-ex-1">
+      <statement>
+        <p>Which is the best estimate for the maximum height of an AVL tree with <m>N</m> nodes?</p>
+      </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>
+            <p><m>1.44 \log_2{N}</m></p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p><m>2 \log_2{N}</m></p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p><m>\log_2{N}</m></p>
+          </statement>
+        </choice>
+      </choices>
+    </exercise>
+
 </section>

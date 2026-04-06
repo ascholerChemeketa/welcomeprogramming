@@ -4,7 +4,11 @@
   <title>B-Trees</title>
 
   <p>
-    The next structure we will explore is the <term>B-tree</term>, which is a generalization of the binary search tree that allows each node to have more than two children. Each node can have a variable numbers of keys within some pre-defined range. It will always have one more child pointer than it has keys. 
+    The next structure we will explore is the <term>B-tree</term>. A B-tree is a generalization of the binary search tree that allows each node to have more than two children. Instead of containing just one value, each node can have a variable numbers of values stored in sorted order.
+  </p>
+  
+  <p>
+    Each node will always have one more child pointer than it has values. Conceptually, the pointers are interleaved with the values. There is one pointer to the left of the first value, one pointer between each pair of values, and one pointer to the right of the last value. They point to child subtrees that contain values in the appropriate ranges. The first pointer points to a subtree with values less than the first value, the second pointer points to a subtree with values between the first and second values, and so on. The last pointer points to a subtree with values greater than the last value.
   </p>
 
   <p>
@@ -13,7 +17,7 @@
 
   <figure>
     <caption>A B-tree node with 5 values and 6 children.</caption>
-    <image source="images/balanced-trees/btree-d7-crop.svg" width="80%">
+    <image source="images/balanced-trees/btree-d7-crop.svg" >
       <shortdescription>
         <p>
           A B-tree node with 5 values: 53, 93, 214, 352, and 457. It has 6 children pointers, one to the left of 53, one between each pair of values, and one to the right of 457.
@@ -24,11 +28,15 @@
 
   <p>
     The <term>degree</term> of a B-tree is the maximum number of children (pointers) that any node can have. 
-    (Which is one more than the maximum number of keys it can have.) In the tree above, which is only partially shown, the degree is 7. That means that each node can have at most 6 keys and 7 children. The lsat node shown in the figure (97, 98, 121, 156, 175, 176) has 6 values, so it is full. The highlighted node we were just discussing has 5 values, so it is not full.
+    (Which is one more than the maximum number of values it can have.) In the tree above, which is only partially shown, the degree is 7. That means that each node can have at most 6 values and 7 child pointers. The last node shown in the figure (97, 98, 121, 156, 175, 176) has 6 values, so it is full. The highlighted node we were just discussing has 5 values, so it is not full.
   </p>
 
   <p>
-    To keep things manageable, we will focus on B-trees of degree 3. This means that each node can have at most 2 keys and 3 children. Each node (except the root) must have at least one key (and therefore at least 2 children). The root must have at least one key unless the tree is empty.
+    In addition to an upper bound on the number of values and children, there is also a lower bound. Typically, each node (except the root) must have at least half the maximum number of children. So, if the degree is 7, each node must have at least 4 child pointers (and therefore at least 3 values). The root node is an exception to this rule. It can have as few as one value (and therefore two child pointers) unless the tree is empty.
+  </p>
+
+  <p>
+    To keep things manageable, we will focus on B-trees of degree 3. This means that each node can have at most 2 values and 3 child pointers. The minimum number of children for a non-root node is 2 (<m>ceil(3/2)</m> = 2) and thus the minimum number of values is 1.
   </p>
 
   <activity>
@@ -53,7 +61,7 @@
   </activity>
 
   <p>
-    The way we maintain balance in a B-tree is by ensuring that all leaf nodes are at the same depth. When we insert a new value, we always add it to a leaf node. If that leaf node is full (has the maximum number of keys), we split it into two nodes and promote the middle key to the parent node. This process may continue up the tree if the parent node also becomes full. If the root node becomes full, we create a new root node and increase the height of the tree by one.
+    The way we maintain balance in a B-tree is by ensuring that all leaf nodes are at the same depth. When we insert a new value, we always add it to a leaf node. If that leaf node is full (has the maximum number of values), we split it into two nodes and promote the middle value to the parent node. This process may continue up the tree if the parent node also becomes full. If the root node becomes full, we create a new root node and increase the height of the tree by one.
   </p>
 
   <activity>
@@ -88,8 +96,8 @@
       <li>If the leaf node is not full, insert the new value in sorted order.</li>
       <li><p>If the leaf node is full, split it into two nodes:
         <ol>
-          <li>Find the middle key and promote it to the parent node.</li>
-          <li>Create a new node for the keys greater than the middle key.</li>
+          <li>Find the middle value and promote it to the parent node.</li>
+          <li>Create a new node for the values greater than the middle value.</li>
           <li>If the parent node is also full, repeat the split process up the tree.</li>
         </ol>
         </p>
@@ -103,7 +111,7 @@
   </p>
 
   <p>
-    Then, if the leaf node has fewer than the minimum number of keys after the removal, we will need to perform some rebalancing operations. This can involve borrowing a key from a sibling node or merging with a sibling node if it also has the minimum number of keys. The rebalancing may propagate up the tree if the parent node also falls below the minimum number of keys.
+    Then, if the leaf node has fewer than the minimum number of values after the removal, we will need to perform some rebalancing operations. This can involve borrowing a value from a sibling node or merging with a sibling node if it also has the minimum number of values. The rebalancing may propagate up the tree if the parent node also falls below the minimum number of values.
   </p>
   
   <activity>
@@ -138,16 +146,159 @@
     <ol>
       <li>Start at the root and find the appropriate leaf node where the value to be removed resides.</li>
       <li>Remove the value from the leaf node.</li>
-      <li><p>If the leaf node has fewer than the minimum number of keys after removal, perform rebalancing:
+      <li><p>If the leaf node has fewer than the minimum number of values after removal, perform rebalancing:
         <ol>
-          <li>If a sibling node has more than the minimum number of keys, borrow a key from that sibling. (Do a rotation through the parent.)</li>
-          <li>If both sibling nodes have the minimum number of keys, merge with one sibling and move a key down from the parent.</li>
-          <li>If the parent node has fewer than the minimum number of keys after moving a key down, repeat the rebalancing process up the tree.</li>
+          <li>If a sibling node has more than the minimum number of values, borrow a value from that sibling. (Do a rotation through the parent.)</li>
+          <li>If both sibling nodes have the minimum number of values, merge with one sibling and move a value down from the parent.</li>
+          <li>If the parent node has fewer than the minimum number of values after moving a value down, repeat the rebalancing process up the tree.</li>
         </ol>
         </p>
       </li>
-      <li>If the root node has no keys after removal, make its only child the new root and decrease the height of the tree by one.</li>
+      <li>If the root node has no values after removal, make its only child the new root and decrease the height of the tree by one.</li>
       </ol>
   </p>
+
+
+  <exercise label="balanced-trees_btree-ex-1">
+    <statement>
+      <p>If we insert 500 into the B-tree shown below, which statements are true?</p>
+      <image source="images/balanced-trees/btree-ex-1.svg"
+             width="70%">
+        <shortdescription>
+          <p>Root has 1 value: 444. The left child of root has 1 value: 208. The right child of root has 2 values: [576, 746]. The left child of 208 has 1 value: 18. The right child of 208 has 2 values: 322 and 393. The left child of [576, 746] has 1 value: 526. The middle child of [576, 746] has 1 value: 578. The right child of [576, 746] has 2 values: [780, 800].</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>The value will be inserted in [526].</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The node where it is inserted will split.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The value will be inserted at root.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The value will be inserted at [576, 746].</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="balanced-trees_btree-ex-2">
+    <statement>
+      <p>If we insert 350 into the B-tree shown below, which statements are true?</p>
+      <image source="images/balanced-trees/btree-ex-1.svg"
+             width="70%">
+        <shortdescription>
+          <p>Root has 1 value: 444. The left child of root has 1 value: 208. The right child of root has 2 values: [576, 746]. The left child of 208 has 1 value: 18. The right child of 208 has 2 values: 322 and 393. The left child of [576, 746] has 1 value: 526. The middle child of [576, 746] has 1 value: 578. The right child of [576, 746] has 2 values: [780, 800].</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>The value will be initially inserted in [322, 393].</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>The node where it is inserted will split.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>350 will move up a level to make [208, 350].</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>350 will move up a level to make [350, 444].</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>322 will move up a level to make [208, 322].</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The value will initially be inserted at root.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The value will initially be inserted at [208].</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="balanced-trees_btree-ex-3">
+    <statement>
+      <p>If we insert 820 into the B-tree shown below, which statements are true?</p>
+      <image source="images/balanced-trees/btree-ex-1.svg"
+             width="70%">
+        <shortdescription>
+          <p>Root has 1 value: 444. The left child of root has 1 value: 208. The right child of root has 2 values: [576, 746]. The left child of 208 has 1 value: 18. The right child of 208 has 2 values: 322 and 393. The left child of [576, 746] has 1 value: 526. The middle child of [576, 746] has 1 value: 578. The right child of [576, 746] has 2 values: [780, 800].</p>
+        </shortdescription>
+      </image>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>The value will be initially inserted in [780, 800].</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>The node where it is inserted will split.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>There will be a second split.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>800 will move up a level.</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>746 will move up a level.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>820 will move up a level.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>820 will move up a second level.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>800 will move up a second level.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>The value will initially be inserted at root.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>
