@@ -5,7 +5,7 @@
 
   <p>When writing functions with multidimensional vectors, we should follow the same guideline as writing functions for normal vectors. Primarily, we should use pass by reference to avoid making needless copies of our data. If we don't intend on modifying the data, we should use pass by const reference.</p>
 
-  <p>If we are writing multiple functions that all work with the same multidimensional data type, a <pf>typedef</pf> make make our code easier to read. For example, say we are working with two dimensional vectors of integers and want to write a function <pf>doubleAll</pf> that takes a table of data as a parameter, and returns a new table where all the values are doubled. We can either use the prototype on line 1, or we can do the typedef on line 3 and then write the prototype shown on line 4.</p>
+  <p>If we are writing multiple functions that all work with the same multidimensional data type, a <pf>typedef</pf> can make our code easier to read. For example, say we are working with two dimensional vectors of integers and want to write a function <pf>doubleAll</pf> that takes a table of data as a parameter, and returns a new table where all the values are doubled. We can either use the prototype on line 1, or we can do the typedef on line 3 and then write the prototype shown on line 4.</p>
 
   <program line-numbers="yes" highlight-lines="1,4"><![CDATA[
   vector<vector<int>> doubleAll(const vector<vector<int>>& table);

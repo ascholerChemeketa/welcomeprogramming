@@ -49,7 +49,7 @@
   </p>
 
   <p>
-    To avoid the extra case, we need to use <pf>current->next == nullptr</pf> as our base case. But we still need a way to update the previous node's <pf>next</pf> pointer. We can do that by having our recursive function function return a pointer to the caller. This pointer will be the updated pointer that the caller should use.
+    To avoid the extra case, we need to use <pf>current->next == nullptr</pf> as our base case. But we still need a way to update the previous node's <pf>next</pf> pointer. We can do that by having our recursive function return a pointer to the caller. This pointer will be the updated pointer that the caller should use.
   </p>
   
 

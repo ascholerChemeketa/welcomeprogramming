@@ -32,7 +32,7 @@
     exactly what we want. But in more complex objects, we might not want to make a simple copy. Any
     object that manages memory or external resources will likely need more complex behavior to
     ensure the proper thing happens when we make a copy. For those objects, we will need to manually
-    define a <pf>operator=</pf>. Doing that will prevent the simple default one from being used.</p>
+    define an <pf>operator=</pf>. Doing that will prevent the simple default one from being used.</p>
 
   <p>This codelens has a very simple version of the Rational class and a custom implementation of
     the assignment operator. It uses the custom operator to mark when an object is a copy of

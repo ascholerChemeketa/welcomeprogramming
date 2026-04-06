@@ -26,7 +26,7 @@ int main() {
   </program>
   </listing>
   
-  <p>That example is kind of silly. We should just rewrite the test of the <pf>for</pf> loop to be <pf>i != 3</pf> or <pf>i &lt; 3</pf>. It is more useful when you have complex logic in the loop body that that might either find a result or error that means there is no point in continuing the rest of the loop.
+  <p>That example is kind of silly. We should just rewrite the test of the <pf>for</pf> loop to be <pf>i != 3</pf> or <pf>i &lt; 3</pf>. It is more useful when you have complex logic in the loop body that might either find a result or error that means there is no point in continuing the rest of the loop.
   </p>
 
   <p>For example consider <term>parsing</term> a file of code. <term>parsing</term> is the process of breaking up structured text or data and forming a representation of what it contains. Compilers parse code files when they read the .cpp files we write and turn it into machine code that can run. If on a given line of code there is a bad error, the parser may decide it makes more sense to give up than to try to continue reading more. We could express this with something like:</p>

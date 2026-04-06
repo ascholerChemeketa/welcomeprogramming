@@ -30,7 +30,7 @@
       <idx>
         <h>search</h>
       </idx> Our first common pattern is a <term>search</term>, which involves
-      traversing an vector while <q>searching</q> for a particular element.</p>
+      traversing a vector while <q>searching</q> for a particular element.</p>
 
       <p>Our strategy will be to assume the value is not present. We will do that by setting a variable <pf>location</pf> to be
       the size of the vector. That location can't possibly be valid as there never is an index <pf>size()</pf> in a vector. Then we will use a loop to look for the item. If we find it, we will change the location. After that is done, we can check the location to see if it is still the invalid value.</p>
@@ -49,8 +49,8 @@
       <idx>
         <h>reduce</h>
       </idx> Another common traversal is a <term>reduce</term> operation, which <q>
-      reduces</q> an vector of values down to a single value. Examples include the sum or product of
-      the elements, the minimum, and the maximum. The following function takes an vector and returns
+      reduces</q> a vector of values down to a single value. Examples include the sum or product of
+      the elements, the minimum, and the maximum. The following function takes a vector and returns
       the sum of its elements. A reduction always needs an <term>accumulator</term> variable where
       we store the answer. As we visit each element, we update that variable as appropriate.</p>
 

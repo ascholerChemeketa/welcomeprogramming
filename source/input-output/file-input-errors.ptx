@@ -61,7 +61,7 @@
 
   <p>Having the program recovering from errors parsing a file can be quite challenging - it is not always clear what should be done. Should you skip that token and try to read the rest? Is a whole line or section of the file now invalid? Do we need to discard other data we have read? What if we were trying to read an int and the next chunk of the file was <pf>x12</pf>? Do we read the 12? Skip it? There are almost an infinite number of things that could worry about. So most of the time, we won't try to <q>fix</q> errors.</p>
 
-  <note><p>If you do want to experiment with fixing errors while parsing, you will need to use the the <pf>.clear()</pf> method to reset any error flags on the stream and</p></note>
+  <note><p>If you do want to experiment with fixing errors while parsing, you will need to use the <pf>.clear()</pf> method to reset any error flags on the stream and</p></note>
 
   <exercise label="input-output_file-input-errors-ex-2">
     <statement><p>We are reading a file with the data <pf>abc 123</pf>. We try to read in an integer. What do we get?</p></statement>

@@ -52,7 +52,7 @@
     This pattern has a length of <m>n</m> instead of <m>\log n</m>. Thus the recursion depth becomes <m>n</m> instead of <m>\log n</m>. This now means that we have <m>n</m> levels of recursion, each needing <m>O(n)</m> work to partition the list and we end up with a total time complexity of <m>O(n^2)</m> instead of <m>O(n \cdot \log n)</m>. (The recurrence relation would be <m>T(n) = T(n - 1) + c_1*n + c_2</m> which solves to <m>O(n^2)</m>.)</p>
 
 
-  <p>Even worse, this worst-case case scenario happens if the array is already sorted or mostly sorted! Usually we would hope a sorting algorithm would perform better on such inputs.</p>
+  <p>Even worse, this worst-case scenario happens if the array is already sorted or mostly sorted! Usually we would hope a sorting algorithm would perform better on such inputs.</p>
 
   <p>However, there are various strategies that can be used to mitigate this issue and ensure that sorting sorted data does not degrade to worst-case performance. All of the strategies involve changing how the pivot is selected. Some common strategies include:
     <ul>
