@@ -35,13 +35,13 @@
   </p>
 
     <program language="text">
-    QuickSort(list, start, end):
-      if start >= end:
+    QuickSort(list, startIndex, endIndex):
+      if startIndex >= endIndex:
         return list  // size 0/1 already sorted
       else:
         pivotLocation = Partition(list)
-        QuickSort(0 to pivotLocation - 1)  // Sort the first half
-        QuickSort(pivotLocation to end)    // Sort the second half
+        QuickSort(list, startIndex, pivotLocation - 1)  // Sort the first half
+        QuickSort(list, pivotLocation + 1, endIndex)    // Sort the second half
     </program>
 
     <p>
