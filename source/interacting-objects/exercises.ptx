@@ -171,7 +171,8 @@ public:
         for(const string& bookTitle : m_history) {
             history += bookTitle + " ";
         }
-        history.pop_back(); // remove trailing space
+        if (!history.empty())
+            history.pop_back(); // remove trailing space
         return history;
     }
 
@@ -179,6 +180,7 @@ public:
     void readBook(const Book& book);
 };
 ]]>
+    </preamble>
         <code>
 
 // Your code to define readBook here
