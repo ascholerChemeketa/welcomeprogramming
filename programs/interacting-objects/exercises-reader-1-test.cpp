@@ -9,9 +9,9 @@ TEST_CASE("Test Reader::readBook") {
     r.readBook(b1);
 
     string expected = "Book 1";
-    CHECK(r.getCurrentBookTitle() == expected);
+    CHECK(r.getHistory() == expected);
 
     r.readBook(b2);
     expected = "Book 2";
-    CHECK(r.getCurrentBookTitle() == expected);
+    CHECK(r.getHistory() == expected);
 }
