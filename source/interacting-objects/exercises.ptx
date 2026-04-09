@@ -71,7 +71,6 @@ int main() {
     </program>
   </exercise>
 
-
   <exercise label="interacting-objects_exercises-ex-2">
     <statement>
       <p>The code below has a class representing people in a family who all share a last name. It implements the last name as a static class variable (an idea that almost certainly wouldn't make sense to use in a real program.)</p>
@@ -131,12 +130,69 @@ Jones, Sophie</output>
 <xi:include href="../../programs/interacting-objects/exercises-book-1.cpp" parse="text"/>
         </preamble>
         <code>
+
 // Your code to define isLonger here
+
         </code>
         <tests visible="yes">
 <xi:include href="../../programs/interacting-objects/exercises-book-1-test.cpp" parse="text"/>
         </tests>
     </program>
+    <hint>
+      <p>
+      You have access to the other book's member variables. Public/private are enforced at the class level, not the object level.
+      </p>
+    </hint>
+  </exercise>
+
+  
+  <exercise label="interacting-objects_exercises-ex-use-different-type">
+    <statement>
+      <p>The code below defines a class Book. It also defines a class Reader. Implement the member function <pf>readBook</pf> in the Reader class that adds the title of the book to the reader's history.</p>
+    </statement>
+    <program interactive="activecode">
+        <preamble>
+<![CDATA[
+#include <vector>
+]]>
+<xi:include href="../../programs/interacting-objects/exercises-book-1.cpp" parse="text"/>
+<![CDATA[
+class Reader {
+private:
+    string m_name;
+    vector<string> m_history;
+public:
+    Reader(string name) {
+        m_name = name;
+    }
+        
+    string getHistory() const {
+        string history = "";
+        for(const string& bookTitle : m_history) {
+            history += bookTitle + " ";
+        }
+        history.pop_back(); // remove trailing space
+        return history;
+    }
+
+    // Declare to implement later
+    void readBook(const Book& book);
+};
+]]>
+        <code>
+
+// Your code to define readBook here
+
+        </code>
+        <tests visible="yes">
+<xi:include href="../../programs/interacting-objects/exercises-reader-1-test.cpp" parse="text"/>
+        </tests>
+    </program>
+    <hint>
+      <p>
+      You do not have access to the private member variables of the Book class.
+      </p>
+    </hint>
   </exercise>
 
   <exercise label="interacting-objects_exercises-ex-4">

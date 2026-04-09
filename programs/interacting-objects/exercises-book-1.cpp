@@ -8,6 +8,11 @@ public:
         m_pages = pages;
     }
 
+    string getTitle() const {
+        return m_title;
+    }
+
+    // Declare to build later
     bool isLonger(const Book& other) const;
 
 private:
