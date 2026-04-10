@@ -110,6 +110,13 @@ clear():
     <p>Our algorithm might look something like:</p>
 
     <program language="text">
+      if (other.head == nullptr) {
+          head = nullptr // If the original list is empty, the new list should also be empty
+          return
+      }
+      ListNode* sourceCur = other.head      // Pointer to traverse original list
+      head = new Node(other.head->data);    // Create the first node of new list
+      ListNode* copyCur = head;             // Pointer to track last node in new list
       while (sourceCur->next != nullptr) {
           sourceCur = sourceCur->next;              // advance to the next node in the source
           copyCur->next = new Node(sourceCur->data);
@@ -118,7 +125,11 @@ clear():
     </program>
 
     <p>
-      However, we will soon improve our linked list to allow inserting at the end of the list more easily. That will allow us to simplify this logic significantly. For now, we might just disable copying by deleting the copy constructor and assignment operator. That way we won't accidentally create shallow copies of our list and cause memory management issues. To do so, we simply set each of them to <pf>delete</pf> in the class definition:
+      However, we will soon improve our linked list to simplify inserting at the end of a list.
+      That will allow us to simplify this logic significantly.
+      In this simple linked list, we will just disable copying by deleting the copy constructor and assignment operator.
+      That way we won't accidentally create shallow copies of our list and cause memory management issues.
+      To do so, we simply set each of them to <pf>delete</pf> in the class definition:
     </p>
 
     <program>
