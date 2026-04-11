@@ -76,7 +76,7 @@ public:
      * @brief Remove first item from list
      * @throw out_of_range if empty
      */
-    void removeFirst();
+    void removeStart();
 
     /**
      * @brief Removes all values from list
@@ -128,7 +128,7 @@ SimpleLinkedList<T>::~SimpleLinkedList() {
 template<typename T>
 void SimpleLinkedList<T>::clear() {
     while (head != nullptr) {
-        // or removeFirst if it is implemented
+        // or removeStart if it is implemented
         ListNode<T>* temp = head;
         head = head->next;
         delete temp;
@@ -157,8 +157,9 @@ void SimpleLinkedList<T>::print() const {
 
 template<typename T>
 T SimpleLinkedList<T>::retrieveAt(int index) const {
-    if (index < 0)
+    if (index < 0 || head == nullptr) {
         throw out_of_range("Index out of range");
+    }
 
     ListNode<T>* current = head;
     for (int i = 0; i < index; i++) {
@@ -174,9 +175,9 @@ template<typename T>
 void SimpleLinkedList<T>::removeAt(int index) {
     // No bounds checking!
 
-    // First item is special case... use removeFirst for it
+    // First item is special case... use removeStart for it
     if (index == 0) {
-        removeFirst();
+        removeStart();
         return;
     }
     ListNode<T>* current = head;

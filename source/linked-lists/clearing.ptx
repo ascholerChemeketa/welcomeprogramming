@@ -35,15 +35,15 @@ LinkedList<T>::~LinkedList() {
   <![CDATA[
 clear():
   while(head != nullptr):
-    removeFirst()
+    removeStart()
   ]]>
   </program>
 
-  <p>This loop will keep calling <pf>removeFirst()</pf> until the head pointer is <pf>nullptr</pf>, indicating the list is empty. Each call to <pf>removeFirst()</pf> will delete the first node in the list, so by the time the loop finishes, all nodes will have been deleted.</p>
+  <p>This loop will keep calling <pf>removeStart()</pf> until the head pointer is <pf>nullptr</pf>, indicating the list is empty. Each call to <pf>removeStart()</pf> will delete the first node in the list, so by the time the loop finishes, all nodes will have been deleted.</p>
 
   <note>
     <p>
-      It is worth stopping to think about the efficiency of this approach. In particular, we should make sure that <pf>removeFirst()</pf> doesn't represent a costly operation that would make this approach inefficient. Although we have not analyzed the efficiency of <pf>removeFirst()</pf> yet, it is not hard to see that it runs in constant time<mdash/>it has no loops or recursive calls. So calling it is no more expensive than doing the equivalent work directly in clear.
+      It is worth stopping to think about the efficiency of this approach. In particular, we should make sure that <pf>removeStart()</pf> doesn't represent a costly operation that would make this approach inefficient. Although we have not analyzed the efficiency of <pf>removeStart()</pf> yet, it is not hard to see that it runs in constant time<mdash/>it has no loops or recursive calls. So calling it is no more expensive than doing the equivalent work directly in clear.
     </p>
   </note>
 

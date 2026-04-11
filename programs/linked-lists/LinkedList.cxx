@@ -85,7 +85,7 @@ public:
      * @brief Remove first item from list
      * @throw out_of_range if list is empty
      */
-    void removeFirst();
+    void removeStart();
 
     /**
      * @brief Removes all values from list
@@ -208,8 +208,8 @@ void LinkedList<T>::removeAt(int index) {
         throw out_of_range("Bad index in removeAt");
 
     if (index == 0) {
-        // First item is special case... use removeFirst for it
-        removeFirst();
+        // First item is special case... use removeStart for it
+        removeStart();
         return;
     }
 
@@ -230,23 +230,6 @@ void LinkedList<T>::removeAt(int index) {
         tail = current;
 
     size--;
-}
-
-template<typename T>
-void LinkedList<T>::insertEnd(const T& value) {
-    // allocate new node on the heap. Store the address in "newNode"
-    ListNode<T>* newNode = new ListNode<T>(value);
-    if (size == 0) {
-        // if the list is empty, new node is both head and tail
-        head = newNode;
-        tail = newNode;
-    } else {
-        // set old tail's next pointer to point to the new node
-        tail->next = newNode;
-        // make newNode the new tail
-        tail = newNode;
-    }
-    size++;
 }
 
 template<typename T>

@@ -4,7 +4,10 @@
   <title>Inserting Values</title>
 
   <p>
-    To add a new item to our list means adding a new node. If the item is being inserted at the start of the list, that means that the list's head pointer should point at this new node. If we knew the list was empty, that would be easy: we would just create the new node and set the head pointer to point to it:
+    Adding a value to our list means constructing a new node and inserting it into the existing chain of nodes. The natural place to insert a new node is at the start of the list, as that is the easiest place to access.
+  </p>
+    
+  <p>If we knew the list was empty, this would be easy: we would just create the new node and set the head pointer to point to it:
   </p>
 
   <listing>
@@ -22,21 +25,7 @@
   </listing>
 
   <p>
-    At the end of insertStart, the memory looks like this:
-  </p>
-
-  <figure>
-    <caption>The memory at the end of insertStart</caption>
-    <image source="images/linked-list/simple-linked-list-insert-1.svg"
-           width="80%">
-      <shortdescription>
-        <p>Both head and newNode point to the new node containing the inserted value.</p>
-      </shortdescription>
-    </image>
-  </figure>
-
-  <p>
-    When we leave <pf>insertStart</pf>, the <pf>newNode</pf> variable goes out of scope and is destroyed. But the node it was pointing to is still allocated on the heap, and the list's head pointer is still pointing to it. So the list still has access to the new node.
+    When we leave <pf>insertStart</pf>, the <pf>newNode</pf> variable goes out of scope. But the node it was pointing to is still allocated on the heap, and the list's head pointer is still pointing to it. So the list still has access to the new node.
   </p>
   
   <figure>

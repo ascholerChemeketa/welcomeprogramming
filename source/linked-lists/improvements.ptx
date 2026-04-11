@@ -3,24 +3,65 @@
 
   <title>Improvements for SimpleLinkedList</title>
 
-  <p>
-    We have already identified some improvements that could be made to our SimpleLinkedList class. One simple addition we mentioned would be to add a <pf>size</pf> variable that keeps track of how many elements are in the list. 
-  </p>
+  <subsection>
+    <title>Tracking the size</title>
+    <p>
+      We have already identified some improvements that could be made to our SimpleLinkedList class. One simple addition we mentioned would be to add a <pf>size</pf> variable that keeps track of how many elements are in the list. 
+    </p>
 
-  <p>
-    Adding a <pf>size</pf> variable would provide a few benefits.
-    Currently, to find the size of the list, we would need to loop through all the nodes and count them. (This would take <m>O(n)</m> time.) If we kept a <pf>size</pf> variable updated as we add and remove elements, we could return the size in constant time, <m>O(1)</m>. We could also use the <pf>size</pf> variable to help with bounds checking when asked to access a particular index.
-  </p>
+    <p>
+      Adding a <pf>size</pf> variable would provide a few benefits.
+      Currently, to find the size of the list, we would need to loop through all the nodes and count them. (This would take <m>O(n)</m> time.) If we kept a <pf>size</pf> variable updated as we add and remove elements, we could return the size in constant time, <m>O(1)</m>.</p>
+      
+    <p>
+      Once getting the size is cheap, we can use it to simplify the implementation of other methods by using it to do bounds checking before we start traversing the list. All of our traversal functions currently have to keep checking if they have hit a <pf>nullptr</pf> as they walk through the list. Instead, we can check the index against the size at the start of the function and throw an exception if it is out of bounds.
+    </p>
 
-  <p>
-    Adding a <pf>size</pf> variable will add a slight amount of complexity to our code. We will need to remember to update the <pf>size</pf> variable whenever we add or remove an element. But the performance benefits, and the ability to easily check bounds, make it worth the extra complexity.
-  </p>
+    <program highlight-lines="3-4,9" line-numbers="yes">
+      <![CDATA[
+template<typename T>
+T LinkedList<T>::retrieveAt(int index) const {
+  if (index < 0 || index >= size)
+    throw out_of_range("Bad index in retrieveAt");
 
-  <insight>
-    <p>Usually we want to avoid storing the same data more than once. We already implicitly are storing the size of the list by the number of nodes it contains, so adding a <pf>size</pf> variable is a form of data duplication.</p>
-    <p>But, there are cases where the benefits of having that data readily available outweigh the cost of duplication. Unless we don't care about providing a <pf>size()</pf> function, or using indexes in our list, adding a <pf>size</pf> variable is a reasonable trade-off.</p>
-  </insight>
+  ListNode<T>* current = head;
+  for (int i = 0; i < index; i++) {
+    current = current->next;
+    // No need to check for nullptr here
+  }
 
+  return current->data;
+}
+      ]]>
+    </program>
+
+    <p>
+      This does not come for free. Maintaining the <pf>size</pf> variable will add a slight amount of complexity to our code. We will need to remember to update the <pf>size</pf> variable whenever we add or remove an element.
+    </p>
+
+    <program>
+      <![CDATA[
+void LinkedList<T>::insertStart(const T& value) {
+  // Do work to insert new node at start of list...
+  size++;  //update size variable
+}
+
+void LinkedList<T>::removeAt(int index) {
+  //Do work to remove node at index...
+  size--;  //update size variable
+}
+      ]]>
+    </program>
+
+    <insight>
+      <p>Usually we want to avoid storing the same data more than once. We already implicitly are storing the size of the list by the number of nodes it contains, so adding a <pf>size</pf> variable is a form of data duplication.</p>
+      <p>But, the small amount of extra record keeping involved with the <pf>size</pf> variable seems like a reasonable trade-off for the performance benefits it provides for a critical operation like getting the size of the list.</p>
+    </insight>
+  
+  </subsection>
+
+  <subsection>
+    <title>Tracking the tail</title>
   <p>
     Another issue we have not addressed yet is working at the end of the list. Currently, if we want to add an element to the end of the list, we have to start at the head and walk through all the nodes until we reach the end. This takes <m>O(n)</m> time. If we kept a pointer to the tail node of the list, we could add elements to the end in constant time, <m>O(1)</m>.
   </p>
@@ -48,69 +89,67 @@
   </activity>
 
   <p>
-    Now, adding an element to the end of the list only takes a few steps, regardless of how long the list is. We do have to worry about one special case - inserting into an empty list. In that case, we need to make sure to set both the head and tail pointers to point to the new node. Here is what an implementation of <pf>insertEnd</pf> might look like:  
+    Now, adding an element to the end of the list only takes a few steps, regardless of how long the list is.
+    We do have to worry about one special case - inserting into an empty list. In that case, the new node is both the head and the tail of the list.
   </p>
   
   <listing>
     <title>insertEnd Implementation</title>
-  <program>
-    <![CDATA[
-  template <typename T>
-  void LinkedList<T>::insertEnd(T value) {
-      // allocate new node on the heap. Store the address in "newNode"
-      ListNode<T>* newNode = new ListNode<T>(value);
-      if (size == 0) {
-          // if the list is empty, new node is both head and tail
-          head = newNode;
-          tail = newNode;
-      } else {
-          // set old tail's next pointer to point to the new node
-          tail->next = newNode;
-          // make newNode the new tail
-          tail = newNode;
-      }
-      size++;
-  }
-    ]]>
-  </program>
+    <program>
+      <![CDATA[
+    void LinkedList<T>::insertEnd(T value) {
+        if (size == 0) {
+            // add a node and set both head and tail to point to it
+        } else {
+            // make the new node
+            // update the next pointer of the current tail to point to the new node
+            // update the list's tail pointer to point to the new node
+        }
+        size++;
+    }
+      ]]>
+    </program>
   </listing>
 
   <p>
-    Although this allows us to efficiently insert at the end of the list, we still can't efficiently remove an element from the end of the list. To remove the last element, we need to set the tail pointer to the second-to-last node and set the next pointer of that node to <pf>nullptr</pf>. But we have no way to reach the second-to-last node without starting at the head and walking through the list.
-  </p>
-
-  <p>In addition to this limitation, our new capability comes with a cost. 
-    Existing functions will need to worry about maintaining the tail pointer. Here are some new special cases we will need to handle:
+    As with <pf>size</pf>, maintaining a tail pointer will result in some extra complexity in our code. We will need to make sure to update the tail pointer whenever we add or remove elements from the end of the list. Here are some new special cases we will need to handle:
     <ul>
       <li>When inserting into an empty list <pf>insertStart</pf> needs to set both the head and tail pointers to point to the new node.</li>
       <li>If <pf>removeAt</pf> is called on the index of the last node, we need to make sure to update the tail pointer.</li>
-      <li>When removing the last node from the list (if size is 0 after removing), we need to make sure the tail pointer is set to <pf>nullptr</pf>. <pf>removeFirst</pf> and <pf>removeAt</pf> both need to worry about this case.</li>
+      <li>if <pf>removeStart</pf> is called when the list has only one node, we need to make sure the tail pointer is set to <pf>nullptr</pf>.</li>
     </ul>
   </p>
 
-  <p>As an example, the logic for <pf>removeAt</pf> will now need to look like:</p>
-  
-  <program language="text" line-numbers="yes" highlight-lines="12-15">
+  <p>
+    Below are some snippets showing the new logic we will need. For the full code, see <xref ref="linked-lists_appendix-ll"/>.
+  </p>
+
+  <program line-numbers="yes" highlight-lines="3-5, 12-14">
     <![CDATA[
-    // index 0 is a special case
-    if (index == 0) {
-        removeFirst()
-        return
-    }
-    ListNode* previousNode = head
-    for(int i = 0; i < index - 1; i++) {
-        previousNode = previousNode->next
-    }
-    ListNode* toDelete = previousNode->next
-    previousNode->next = toDelete->next
-    // if we are deleting the last node, update the tail pointer
-    if (toDelete == tail) {
-        tail = previousNode
-    }
-    delete toDelete
-    size--
+void LinkedList<T>::insertStart(const T& value) {
+    // ... do the insertion ...
+    // if list was empty, new node is also tail
+    if (size == 0)
+        tail = head;
+    size++;
+}
+...
+void LinkedList<T>::removeAt(int index) {
+    // ... Make current point to the node before the one we are deleting ...
+    // ... do the removal ...
+    // Is there nothing left after current node? Then it is the new tail
+    if (current->next == nullptr)
+        tail = current;
+    size--;
+}
     ]]>
-  </program>
+    </program> 
+
+  <p>
+    Although this allows us to efficiently insert at the end of the list, we still can't efficiently remove an element from the end of the list. To remove the last element, we need to set the <pf>tail</pf> pointer to the second-to-last node and set the next pointer of that node to <pf>nullptr</pf>. But we have no way to reach the second-to-last node without starting at the head and walking through the list.
+  </p>
+
+  </subsection>
 
   <exercise label="linked-lists_simple-linked-list-improvements_ex-1">
     <statement>

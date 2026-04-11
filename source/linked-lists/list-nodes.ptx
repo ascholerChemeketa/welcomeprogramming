@@ -44,6 +44,8 @@
   <p>Note that each node (implemented as a struct to avoid public/private access control) has a
     constructor that initializes its value. The next pointer is initialized to <pf>nullptr</pf> by default.
     Which means the node is not connected to anything.</p>
+  
+  <note><p>Structs in C++ can have constructors and member functions just like classes. The primary difference is that structs have public access by default.</p></note>
 
   <p> To make a list node, we can use the constructor to create a new node with a given value. When
     we do so, we will always allocate the node on the heap using <pf>new</pf>, which means we need to

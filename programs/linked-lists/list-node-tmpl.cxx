@@ -1,10 +1,9 @@
-module;
-export module ListNode;
-
 template<typename T>
-export struct Node {
+struct Node {
     T element;
     Node* next = nullptr;
 
-    Node(T value) { element = value; }
+    Node(T value) { 
+      element = value; 
+    }
 };

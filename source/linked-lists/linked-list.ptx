@@ -41,11 +41,9 @@
     class template. We will also need to change our <pf>ListNode</pf> to be a template so that it can store any type of value. First, here is how we could define a templated <pf>ListNode</pf>:
   </p>
 
-  <listing label="linked-lists_list-node-tmpl-cxx"
-            xml:id="linked-lists_list-node-tmpl-cxx"
-           filename="list-node-tmpl.cxx"
-           language="cpp">
-           <title>Templated ListNode <pf>ListNode.cxx</pf></title>
+  <listing 
+            xml:id="linked-lists_list-node-tmpl-cxx">
+           <title>Templated ListNode</title>
     <program>
 <xi:include href="../../programs/linked-lists/list-node-tmpl.cxx" parse="text"/>
     </program>
@@ -55,17 +53,15 @@
     An absolutely minimal implementation of a <pf>SimpleLinkedList</pf> will just have one member variable: a pointer to keep track of the first node in the list. We typically call this node the <term>head</term> of the list. We will also need a few behaviors to manage and test the list:
     <ul>
       <li>A constructor to initialize an empty list</li>
-      <li>An <pf>insertStart</pf> function to add a new item to the start of the list</li>
-      <li>A <pf>removeFirst</pf> function to remove the first item from the list</li>
       <li>A destructor to delete all the nodes in the list when the list is destroyed</li>
+      <li>An <pf>insertStart</pf> function to add a new item to the start of the list</li>
       <li>A <pf>print</pf> function to print all the items in the list</li>
     </ul>
   </p>
 
   <listing>
   <program
-           line-numbers="yes"
-           compile-also="linked-lists_list-node-tmpl-cxx">
+           line-numbers="yes">
 <xi:include href="../../programs/linked-lists/simple-linked-list.cpp" parse="text"/>
   </program>
   </listing>
@@ -77,6 +73,8 @@
        // head is already initialized to nullptr
      }
   </program>
+
+  <p>We will tackle the rest of the implementation in the following sections.</p>
 
   <exercise label="linked-lists_simple-linked-list-ex-1">
     <statement>

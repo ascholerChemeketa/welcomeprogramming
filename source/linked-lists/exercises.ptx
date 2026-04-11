@@ -53,7 +53,7 @@ int main() {
 
   <exercise label="linked-list_exercise_simple-remove-first">
     <statement>
-      <p>Write the <pf>removeFirst</pf> function for the <xref ref="SimpleLinkedList-cxx-listing" text="custom">Simple Linked List</xref>. Make sure to delete the node from memory.</p>
+      <p>Write the <pf>removeStart</pf> function for the <xref ref="SimpleLinkedList-cxx-listing" text="custom">Simple Linked List</xref>. Make sure to delete the node from memory.</p>
     </statement>
     <program interactive="activecode"
            compile-also="SimpleLinkedList-cxx">
@@ -69,7 +69,7 @@ using namespace std;]]>
         <code>
           <![CDATA[
 template<typename T>
-void SimpleLinkedList<T>::removeFirst() {
+void SimpleLinkedList<T>::removeStart() {
     // Write your code here.
 }
 ]]>
@@ -84,20 +84,20 @@ void buildTestIntList(SimpleLinkedList<int>& list) {
   list.insertStart(1);
 }
 
-TEST_CASE("LL/RemoveFirst") {
+TEST_CASE("LL/removeStart") {
   SimpleLinkedList<int> test_list;
   buildTestIntList(test_list); // 1, 2, 3
 
   int startNodeCount = ListNode<int>::nodeCount;
 
-  test_list.removeFirst();
+  test_list.removeStart();
   REQUIRE(startNodeCount - ListNode<int>::nodeCount == 1);
 
-  test_list.removeFirst();
+  test_list.removeStart();
   REQUIRE(test_list.retrieveAt(0) == 3);
   REQUIRE(startNodeCount - ListNode<int>::nodeCount == 2);
 
-  test_list.removeFirst();
+  test_list.removeStart();
   REQUIRE(test_list.head == nullptr);
   REQUIRE(startNodeCount - ListNode<int>::nodeCount == 3);
 }
@@ -212,7 +212,7 @@ TEST_CASE("LL/InsertAt") {
   <exercise label="linked-list_exercise_linkedlist-removefirst" xml:id="linked-list_exercise_linkedlist-removefirst">
     <statement>
       <p>
-        Finish the <pf>removeFirst</pf> function for the <xref ref="LinkedList-cxx-listing" text="custom">Linked List</xref> (with size and tail). Make sure to consider the case where there is just a single node.
+        Finish the <pf>removeStart</pf> function for the <xref ref="LinkedList-cxx-listing" text="custom">Linked List</xref> (with size and tail). Make sure to consider the case where there is just a single node.
       </p>
     </statement>
     <program interactive="activecode"
@@ -229,7 +229,7 @@ using namespace std;]]>
         <code>
           <![CDATA[
 template<typename T>
-void LinkedList<T>::removeFirst() {
+void LinkedList<T>::removeStart() {
   if (head == nullptr)
     throw out_of_range("Can't remove from empty list");
 
@@ -250,22 +250,22 @@ void buildTestIntList(LinkedList<int>& list) {
   list.insertStart(1);
 }
 
-TEST_CASE("LL/RemoveFirst") {
+TEST_CASE("LL/removeStart") {
   LinkedList<int> test_list;
   buildTestIntList(test_list); // 1, 2, 3
 
   int startNodeCount = ListNode<int>::nodeCount;
 
-  test_list.removeFirst();
+  test_list.removeStart();
   REQUIRE(test_list.size == 2);
   REQUIRE(startNodeCount - ListNode<int>::nodeCount == 1);
 
-  test_list.removeFirst();
+  test_list.removeStart();
   REQUIRE(test_list.size == 1);
   REQUIRE(test_list.retrieveAt(0) == 3);
   REQUIRE(startNodeCount - ListNode<int>::nodeCount == 2);
 
-  test_list.removeFirst();
+  test_list.removeStart();
   REQUIRE(test_list.size == 0);
   REQUIRE(test_list.head == nullptr);
   REQUIRE(test_list.tail == nullptr);
@@ -276,10 +276,90 @@ TEST_CASE("LL/RemoveFirst") {
     </program>
   </exercise>
 
+
+  <exercise label="linked-list_exercise_linkedlist-insertEnd" xml:id="linked-list_exercise_linkedlist-insertEnd">
+    <statement>
+      <p>
+        Finish the <pf>insertEnd</pf> function for the <xref ref="LinkedList-cxx-listing" text="custom">Linked List</xref> (with size and tail).
+      </p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="LinkedList-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import LinkedList;
+
+#include <iostream>
+using namespace std;]]>
+        </preamble>
+        <code>
+          <![CDATA[
+template<typename T>
+void LinkedList<T>::insertEnd(const T& value) {
+    ListNode<T>* newNode = new ListNode<T>(value);
+    if (size == 0) {
+      // node is both head and tail
+    } else {
+      // attach to end of list and update tail
+    }
+    size++;
+}
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+template<typename T>
+void LinkedList<T>::clear() {
+  // placeholder implementation
+}
+
+void buildTestIntList(LinkedList<int>& list) {
+  list.insertStart(3);
+  list.insertStart(2);
+  list.insertStart(1);
+}
+
+TEST_CASE("LL/InsertEnd") {
+  LinkedList<int> test_list;
+  buildTestIntList(test_list); // 1, 2, 3
+
+  test_list.insertEnd(10);
+  REQUIRE(test_list.size == 4);
+  REQUIRE(test_list.retrieveAt(3) == 10);
+  REQUIRE(test_list.tail->data == 10);      // check tail pointer
+  REQUIRE(test_list.tail->next == nullptr); // check after tail
+
+  test_list.insertEnd(20);
+  REQUIRE(test_list.size == 5);
+  REQUIRE(test_list.retrieveAt(4) == 20);
+  REQUIRE(test_list.tail->data == 20);      // check tail pointer
+  REQUIRE(test_list.tail->next == nullptr); // check after tail
+}
+
+TEST_CASE("LL/InsertEndEmptyList") {
+  LinkedList<int> test_list;
+
+  test_list.insertEnd(10);
+  REQUIRE(test_list.head != nullptr); // check head pointer
+  REQUIRE(test_list.size == 1);
+  REQUIRE(test_list.retrieveAt(0) == 10);
+  REQUIRE(test_list.head->data == 10);      // check head pointer
+  REQUIRE(test_list.tail->data == 10);      // check tail pointer
+  REQUIRE(test_list.tail->next == nullptr); // check after tail
+}
+]]>
+    </tests>
+    </program>
+  </exercise>
+
   <exercise label="linked-list_exercise_linkedlist-clear">
     <statement>
       <p>
         Write the <pf>clear</pf> function for the <xref ref="LinkedList-cxx-listing" text="custom">Linked List</xref> (with size and tail).
+      </p>
+      <p>
+        You can copy/paste in your <pf>removeStart</pf> from <xref ref="linked-list_exercise_linkedlist-removefirst"/> to help with this implementation.
       </p>
     </statement>
     <program interactive="activecode"
@@ -322,6 +402,84 @@ TEST_CASE("LL/Clear") {
   REQUIRE(test_list.size == 0);
   // Were they actually deleted???
   REQUIRE(startNodeCount - ListNode<int>::nodeCount == 3);
+}
+]]>
+    </tests>
+    </program>
+  </exercise>
+
+  
+  <exercise label="linked-list_exercise_linkedlist-copy">
+    <statement>
+      <p>
+        Write the <pf>copyFrom</pf> function for the <xref ref="LinkedList-cxx-listing" text="custom">Linked List</xref> (with size and tail).
+      </p>
+      <p>
+        You should use your <pf>insertEnd</pf> from <xref ref="linked-list_exercise_linkedlist-insertEnd"/> to simplify your implementation. You may assume the list starts out as a valid empty list.
+      </p>
+    </statement>
+    <program interactive="activecode"
+           compile-also="LinkedList-cxx">
+        <preamble><![CDATA[
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "doctest.h"
+
+import LinkedList;
+
+#include <iostream>
+using namespace std;]]>
+        </preamble>
+        <code>
+          <![CDATA[
+template<typename T>
+void LinkedList<T>::copyFrom(const LinkedList<T>& other) {
+  // Your code here
+}
+
+]]>
+</code>
+    <tests visible="yes"><![CDATA[
+template<typename T>
+void LinkedList<T>::clear() {
+  // placeholder implementation
+}
+
+template<typename T>
+LinkedList<T>::LinkedList(const LinkedList<T>& other) {
+  //copy constructor that uses your copyFrom
+  head = nullptr;
+  tail = nullptr;
+  size = 0;
+  copyFrom(other);
+}
+
+
+void buildTestIntList(LinkedList<int>& list) {
+  list.insertStart(3);
+  list.insertStart(2);
+  list.insertStart(1);
+}
+
+TEST_CASE("LL/CopyConstructor") {
+  LinkedList<int> test_list;
+  buildTestIntList(test_list); // 1, 2, 3
+
+  int startNodeCount = ListNode<int>::nodeCount;
+
+  LinkedList<int> copy(test_list);
+
+  REQUIRE(copy.retrieveAt(0) == 1);
+  REQUIRE(copy.retrieveAt(1) == 2);
+  REQUIRE(copy.retrieveAt(2) == 3);
+  REQUIRE(copy.size == 3);
+  REQUIRE(ListNode<int>::nodeCount - startNodeCount == 3);
+
+  // Make sure changing one does not change the other
+  test_list.insertStart(0);
+  REQUIRE(copy.retrieveAt(0) == 1);
+  REQUIRE(copy.retrieveAt(1) == 2);
+  REQUIRE(copy.retrieveAt(2) == 3);
+  REQUIRE(copy.size == 3);
 }
 ]]>
     </tests>
@@ -375,7 +533,7 @@ TEST_CASE("DLL/Constructor") {
     </program>
   </exercise>
 
-  
+
 
   <exercise label="linked-list_exercise_dll-remove-end">
     <statement>

@@ -90,7 +90,7 @@
   
   <p>Our logic assumes we will be modifying the node before the one we want to remove, but there is no node before the first node! The first node is a special case<mdash/>it is tracked by the head pointer instead of the next pointer of a previous node.</p>
 
-  <p>Fortunately, we already have a function <pf>removeFirst</pf> that handles removing the first node. So, if the index is 0, we can just call <pf>removeFirst</pf>.</p>
+  <p>Fortunately, we already have a function <pf>removeStart</pf> that handles removing the first node. So, if the index is 0, we can just call <pf>removeStart</pf>.</p>
 
   
   <listing>
@@ -99,7 +99,7 @@
     <![CDATA[
   void SimpleLinkedList<T>::removeAt(int index) {
       if(index == 0) {
-          removeFirst();
+          removeStart();
           return;
       }
       ListNode<T>* current = head;
@@ -128,7 +128,7 @@
     </block>
     <block order="5" name="b" depends="a">
         <cline><![CDATA[    if(index == 0) {]]></cline>
-        <cline><![CDATA[        removeFirst();]]></cline>
+        <cline><![CDATA[        removeStart();]]></cline>
         <cline><![CDATA[        return;]]></cline>
         <cline><![CDATA[    }]]></cline>
     </block>

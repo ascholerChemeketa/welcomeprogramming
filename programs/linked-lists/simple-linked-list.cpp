@@ -1,7 +1,4 @@
-import ListNode;
-
-template<typename T>
-export class SimpleLinkedList {
+class SimpleLinkedList {
 private:
     ListNode<T>* head = nullptr; // Pointer to the first node in the list
 public:
@@ -12,7 +9,7 @@ public:
     ~SimpleLinkedList();
 
     // Add a new element to the front of the list
-    void insertFront(T value);
+    void insertStart(T value);
 
     // Print all elements in the list
     void print() const;
