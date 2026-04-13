@@ -26,8 +26,8 @@ Used for custom overrides and temporary patches
     extension-element-prefixes="exsl date str"
 >
 
-  <xsl:import href="../../../pretext/xsl/pretext-html.xsl"/>
-  <!-- <xsl:import href="./core/pretext-html.xsl"/> -->
+  <!-- <xsl:import href="../../../pretext/xsl/pretext-html.xsl"/> -->
+  <xsl:import href="./core/pretext-html.xsl"/>
 
 
 
