@@ -52,14 +52,14 @@ public:
     It is a natural way to think about graphs, and it is how we often represent them visually. </p>
 
   <figure>
-    <caption>Driving distances : logical representation.</caption>
+    <caption>Course Prerequisites : logical representation.</caption>
     <image source="images/graphs/graphs-intro-1"
            width="35%">
-      <shortdescription>
-        <p> Nodes for Portland, Salem, Eugene, and Bend. Portland is connected to Salem (47 miles)
-          and Bend (163 miles). Salem is connected to Eugene (66 miles) and Bend (132 miles). Eugene
-          is connected to Bend (130 miles). </p>
-      </shortdescription>
+        <shortdescription>
+          <p> Math 111, CS 160, CS161, CS162, CS205 are all circles (nodes). Math 111 has an arrow
+            (edge) pointing to CS 160. CS 160 has an arrow pointing to CS 161, which has an arrow
+            pointing to CS 162, which has an arrow pointing to CS 205. </p>
+        </shortdescription>
     </image>
   </figure>
 
@@ -71,10 +71,10 @@ public:
     exhausted all possibilities. </p>
 
   <p> Many graph algorithms require us to be able to quickly check if a vertex exists, or to quickly
-    get the neighbors of a vertex. If we implemented our graph with vertices as objects and edges as
-    pointers, we would not be able to do those things efficiently. So we will generally represent
-    graphs in code with something that directly models the <term>logical representation</term> of a
-    graph. Instead, we will typically use a data structure that allows us to directly access
+    get the neighbors of a vertex. The <term>logical representation</term> would not be able to do
+    those things efficiently. So we generally do not use that representation for implementation.
+    Instead, we use a data structure that allows us to directly access
     vertices and their neighbors without having to follow pointers through the graph. </p>
+
 
 </section>

@@ -48,12 +48,37 @@ prereqGraph.addEdge("CS161", "MTH111");
     of the path, we can use either a breadth-first search or a depth-first search. We will use a
     recursive depth-first search. </p>
 
-  <listing>
+  <listing xml:id="graphs_search-example-listing">
     <program interactive="activecode"
              label="graphs_search-example"
              compile-also="graph-code_graph-cxx">
 <xi:include href="../../programs/graphs/search-example.cpp" parse="text"/>
   </program>
   </listing>
+
+
+  <exercise label="graphs_search-example-ex-1">
+    <statement>
+      <p>
+        What line of code could we add to <xref ref="graphs_search-example-listing"/> to make MTH112 a prerequisite for CS162?
+      </p>
+      <p>
+        <fillin width="40" mode="string" answer="graph.addEdge(&quot;MTH112&quot;, &quot;MTH111&quot;);"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <strcmp>graph.addEdge\(\s*"CS162",\s*"MTH112"\s*\);?</strcmp>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>
+            <p>Remember that our edges need to point from the course to its prerequisite.</p>
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
 
 </section>

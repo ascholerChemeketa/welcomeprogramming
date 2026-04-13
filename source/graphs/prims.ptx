@@ -76,15 +76,44 @@ Prims(graph, start):
 
     <interactive platform="javascript"
                  design-width="1600"
-                 aspect="4:2.75">
+                 aspect="4:2">
       <script type="module">
       import { DijkstraPrim } from "./external/interactives/data-structures/entry.js";
       let anim = new DijkstraPrim({
+        zoom: "1.0x",
         runningDijkstra: false,
       });
     </script>
       <xi:include href="../../fragments/ds-graph-instructions.xml"/>
     </interactive>
   </activity>
+  
+    <exercise label="graphs_prims-ex-1">
+      <statement>
+        <p>Which are true about Prim's algorithm?</p>
+      </statement>
+      <choices>
+        <choice>
+          <statement>
+            <p>It calculates the cost of a vertex B being considered from vertex A as the weight of the edge connecting them plus the cost from the starting vertex to vertex A</p>
+          </statement>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p>It finds a minimal spanning tree for the reachable vertices from the start vertex</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>It finds a shortest path from one vertex to all other reachable vertices</p>
+          </statement>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p>the cost of a vertex B being considered from vertex A as the weight of the edge connecting them</p>
+          </statement>
+        </choice>
+      </choices>
+    </exercise>
 
 </section>

@@ -80,7 +80,8 @@ int Graph<T>::getEdgeWeight(T source, T destination) {
 
 template<typename T>
 std::list<T> Graph<T>::getNeighbors(T vertex) {
-  // Return a list of the neighbors of the given vertex. If the vertex does not exist, return an empty list.
+  // Return a list of the neighbors of the given vertex.
+  // If the vertex does not exist, return an empty list.
   std::list<T> neighborsList;
   if(adjacencyMap.contains(vertex)) {
     for(const auto& [neighbor, weight] : adjacencyMap[vertex]) {

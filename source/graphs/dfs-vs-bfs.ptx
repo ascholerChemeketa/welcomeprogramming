@@ -116,6 +116,27 @@
     to use a technique called <term>iterative deepening</term>, where we perform a depth-first
     search with a depth limit, and if we don't find the target vertex, we increase the depth limit
     and repeat the search. This way, we can still benefit from the lower memory usage of depth-first
-    search while also ensuring that we don't miss solutions that are close to the starting vertex. </p>
+    search while also ensuring that we don't miss solutions that are close to the starting vertex.</p>
+
+  <exercise label="graphs_dfs-vs-bfs-ex-1">
+    <statement>
+      <p>
+        Match each of the following properties to the correct search algorithm.
+      </p>
+    </statement>
+    <cardsort>
+      <match>
+        <premise>Requires memory exponenially related to the depth of the search</premise>
+        <premise>Produces the shortest paths possible</premise>
+        <premise>Stores work in a queue</premise>
+        <response>Breadth First Search</response>
+      </match>
+      <match>
+        <premise>Requires memory directly proportional to the depth of the search</premise>
+        <premise>Stores work in a stack</premise>
+        <response>Depth First Search</response>
+      </match>
+    </cardsort>
+  </exercise>
 
 </section>

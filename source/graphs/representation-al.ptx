@@ -29,7 +29,7 @@
     <p> You can click on <c>Weighted Graph</c> to switch to a (new) weighted graph. </p>
     <interactive platform="javascript"
                  design-width="1600"
-                 aspect="4:2.75">
+                 aspect="4:2">
       <script type="module">
       import { GraphRepresentation } from "./external/interactives/data-structures/entry.js";
       let anim = new GraphRepresentation({
@@ -107,7 +107,7 @@ private:
       exists. </p>
   </insight>
 
-  <p>They also have the advantage that it is much easier to add or a vertex to the graph. To add a
+  <p>They also have the advantage that it is much easier to add or remove a vertex from the graph. To add a
     vertex, we can simply add a new entry to the top level map with an empty list or map of
     neighbors. (In the adjacency matrix representation, we would need to create a new matrix with an
     additional row and column for the new vertex and copy over the existing data.) Removing a vertex
@@ -115,5 +115,53 @@ private:
     remove any edges to that vertex from the neighbor lists of other vertices. But it is still more
     efficient than the adjacency matrix representation, where we would need to create a new matrix
     with one fewer row and column and copy over the existing data. </p>
+
+    <exercise label="graphs_representation_al-ex-1">
+      <statement>
+        <p>
+          Match each representation of the graph to the correct estimation of the storage space required to represent a graph with <m>V</m> vertices and <m>E</m> edges.
+        </p>
+      </statement>
+      <cardsort>
+        <match>
+          <premise>Adjacency Matrix</premise>
+          <response>O(V^2)</response>
+        </match>
+        <match>
+          <premise>Adjacency List</premise>
+          <response>O(V + E)</response>
+        </match>
+        <match>
+          <response>O(E^2)</response>
+        </match>
+        <match>
+          <response>O(E^2 + V^2)</response>
+        </match>
+      </cardsort>
+    </exercise>
+
+
+    <exercise label="graphs_representation_al-ex-2">
+      <statement>
+        <p>What operations are more efficient when using an adjacency list representation? (As compared to the adjacency matrix representation)</p>
+      </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>
+            <p>Adding or removing a vertex</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>Adding or removing an edge</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>Checking if an edge exists between two vertices</p>
+          </statement>
+        </choice>
+      </choices>
+    </exercise>
 
 </section>

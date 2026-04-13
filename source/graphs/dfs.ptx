@@ -21,13 +21,12 @@ DFS(graph, start):
   visitedSet.insert(start)
   while not searchStack.isEmpty():
     vertex = searchStack.pop()
-    if visitedSet.contains(vertex):
-      continue
-    visitedSet.insert(vertex)
-    for each neighbor of vertex:
-      if not visitedSet.contains(neighbor):
-        parentMap[neighbor] = vertex
-        searchStack.push(neighbor)
+    if not visitedSet.contains(vertex):
+      visitedSet.insert(vertex)
+      for each neighbor of vertex:
+        if not visitedSet.contains(neighbor):
+          parentMap[neighbor] = vertex
+          searchStack.push(neighbor)
     </program>
 
   <p> Key differences between depth-first search and the breadth-first search algorithm we saw
@@ -238,11 +237,11 @@ DFS(graph, vertex, visitedSet, parentMap):
       before being able to create a new graph.</p>
     <interactive platform="javascript"
                  design-width="1600"
-                 aspect="4:2.75">
+                 aspect="4:2">
       <script type="module">
       import { DFS } from "./external/interactives/data-structures/entry.js";
       let anim = new DFS({
-        zoom: "0.75x",
+        zoom: "1.0x",
         directed: false,
         iterative: true
       });
@@ -251,5 +250,84 @@ DFS(graph, vertex, visitedSet, parentMap):
       <xi:include href="../../fragments/ds-graph-instructions.xml"/>
     </interactive>
   </activity>
+
+<exercise label="graphs_dfs-ex-1"
+  numbered="yes"
+  adaptive="yes"
+  indentation="hide">
+  <statement>
+  <p>Put the following steps in the correct order to implement depth-first search:</p>
+  </statement>
+  <blocks>
+    <block order="8" name="a" depends="">
+        <cline>Stack searchStack</cline>
+        <cline>searchStack.push(start)</cline>
+        <cline>Map parentMap</cline>
+        <cline>Set visitedSet</cline>
+        <cline>visitedSet.insert(start)</cline>
+    </block>
+    <block order="2" name="b" depends="a">
+        <cline>while not searchStack.isEmpty():</cline>
+    </block>
+    <block order="9" name="c" depends="b">
+        <cline>  vertex = searchStack.pop()</cline>
+    </block>
+    <block order="1" name="d" depends="c">
+        <cline>  if not visitedSet.contains(vertex):</cline>
+    </block>
+    <block order="5" name="e" depends="d">
+        <cline>    visitedSet.insert(vertex)</cline>
+    </block>
+    <block order="3" name="f" depends="e">
+        <cline>    for each neighbor of vertex:</cline>
+    </block>
+    <block order="4" name="g" depends="f">
+        <cline>      if not visitedSet.contains(neighbor):</cline>
+    </block>
+    <block order="7" name="h" depends="g">
+        <cline>        parentMap[neighbor] = vertex</cline>
+    </block>
+    <block order="6" name="i" depends="g">
+        <cline>        searchStack.push(neighbor)</cline>
+    </block>
+  </blocks>
+</exercise>
+
+<exercise label="graphs_dfs-ex-2">
+  <statement>
+    <p>Which are true statements about depth first search?</p>
+  </statement>
+  <choices randomize="yes">
+    <choice correct="yes">
+      <statement>
+        <p>
+          It is naturally recursive.
+        </p>
+      </statement>
+    </choice>
+    <choice correct="yes">
+      <statement>
+        <p>
+          It will change its mind about how to reach certain vertices multiple times during the search.
+        </p>
+      </statement>
+    </choice>
+    <choice>
+      <statement>
+        <p>
+          It produces the shortest paths possible on the search tree.
+        </p>
+      </statement>
+    </choice>
+    <choice>
+      <statement>
+        <p>
+          It produces a search tree that uses every edge in the original graph.
+        </p>
+      </statement>
+    </choice>
+  </choices>
+</exercise>
+
 
 </section>

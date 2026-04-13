@@ -11,7 +11,7 @@
     the verticies. If we are going to take one class at a time, what would be a valid order to take
     them in? </p>
 
-  <figure>
+  <figure xml:id="graphs_topological-sort-1">
     <caption>A prerequisite chart for a Computer Science major.</caption>
     <image source="images/graphs/graphs-intro-1"
            width="40%">
@@ -104,10 +104,11 @@ doTopoSort(graph, vertex, visitedSet, topoSortOrder):
       before being able to create a new graph.</p>
     <interactive platform="javascript"
                  design-width="1600"
-                 aspect="4:2.75">
+                 aspect="4:2">
       <script type="module">
       import { TopoSortDFS } from "./external/interactives/data-structures/entry.js";
       let anim = new TopoSortDFS({
+        zoom: "1.0x",
       });
       anim.doTopoSort();
     </script>
@@ -115,5 +116,32 @@ doTopoSort(graph, vertex, visitedSet, topoSortOrder):
     </interactive>
   </activity>
 
+  <exercise label="graphs_topological-sort-ex-1">
+    <statement>
+      <p>Which of the following is NOT a valid topological sort for <xref ref="graphs_topological-sort-1"/>?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p><c>CS160 -> MTH111 -> MTH112 -> CS161 -> CS162 -> CS205</c></p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p><c>MTH111 -> MTH112 -> CS160 -> CS161 -> CS162 -> CS205</c></p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p><c>MTH111 -> MTH112 -> CS160 -> CS161 -> CS205 -> CS162</c></p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p><c>MTH111 -> CS160 -> MTH112 -> CS161 -> CS162 -> CS205</c></p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

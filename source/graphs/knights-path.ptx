@@ -63,11 +63,30 @@
     generator. Finally, we perform a breadth-first search using a queue and a parent map to keep
     track of the path we are building. </p>
 
-  <listing>
+  <listing xml:id="graphs_knights-path-listing">
     <program interactive="activecode"
              label="graphs_knights-path-program">
 <xi:include href="../../programs/graphs/knight-path.cpp" parse="text"/>
   </program>
   </listing>
+
+  <exercise label="graphs_knights-path-ex-1">
+    <statement>
+      <p>
+        The furthest corners of the chessboard in <xref ref="graphs_knights-path-listing"/> are (0,0) and (7,7) (or (0,7) and (7,0)). 
+        Modify the code to find how many moves it takes for the knight to get from (0,0) to (7,7).
+      </p>
+      <p>
+          <fillin mode="number" answer="6"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
 
 </section>

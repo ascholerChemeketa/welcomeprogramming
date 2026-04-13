@@ -71,10 +71,11 @@ doDFSCycle(graph, vertex, visitedSet, onStack):
       random graph.</p>
     <interactive platform="javascript"
                  design-width="1600"
-                 aspect="4:2.75">
+                 aspect="4:2">
       <script type="module">
       import { DetectCycle } from "./external/interactives/data-structures/entry.js";
       let anim = new DetectCycle({
+        zoom: "1.0x",
         // values that are known to produce a cycle on search from 2
         randomSeed: 74919,
         edgePercentage: 0.35
@@ -85,5 +86,27 @@ doDFSCycle(graph, vertex, visitedSet, onStack):
     </interactive>
   </activity>
 
+  <exercise label="graphs_cycle-detection-ex-1">
+    <statement>
+      <p>What situation indicates a cycle has been found in the cycle detection algorithm?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>A vertex is encountered that is already on the current path being explored</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>A vertex is encountered that has no neighbors</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>A vertex is encountered that has already been explored in a previous depth-first search</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>

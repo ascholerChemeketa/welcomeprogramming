@@ -92,10 +92,11 @@ Dijkstra(graph, start):
 
     <interactive platform="javascript"
                  design-width="1600"
-                 aspect="4:2.75">
+                 aspect="4:2">
       <script type="module">
       import { DijkstraPrim } from "./external/interactives/data-structures/entry.js";
       let anim = new DijkstraPrim({
+        zoom: "1.0x",
         runningDijkstra: true,
       });
     </script>
@@ -110,5 +111,39 @@ Dijkstra(graph, start):
     vertex in logarithmic time instead of linear time. However, that would make increasing the cost
     of a vertex more complex, since we would have to update the priority queue to reflect the new
     cost.</p>
+
+
+    <exercise label="graphs_dijkstras-ex-1">
+      <statement>
+        <p>Which are true about Dijkstra's algorithm?</p>
+      </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>
+            <p>It works on weighted graphs</p>
+          </statement>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p>It calculates the cost of a vertex B being considered from vertex A as the weight of the edge connecting them plus the cost from the starting vertex to vertex A</p>
+          </statement>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p>It finds the shortest path from one vertex to all other reachable vertices</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>It finds the shortest path from one vertex to a single other vertices</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>the cost of a vertex B being considered from vertex A as the weight of the edge connecting them</p>
+          </statement>
+        </choice>
+      </choices>
+    </exercise>
 
 </section>

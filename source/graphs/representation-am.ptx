@@ -122,21 +122,6 @@
     </ul>
   </p>
 
-    <interactive platform="javascript"
-                 design-width="1600"
-                 aspect="4:2.75">
-      <script type="module">
-      import { GraphRepresentation } from "./external/interactives/data-structures/entry.js";
-      let anim = new GraphRepresentation({
-        title: "Graph Representation",
-        startingGraphRepresentation: "adjacency matrix",
-        zoom: "1x"
-      });
-      anim.shift(300, -20);
-    </script>
-      <xi:include href="../../fragments/ds-graph-instructions.xml"/>
-    </interactive>
-
   <activity>
     <title>Adjacency Matrix Representation</title>
     <p> The animation will load a random graph and display its adjacency matrix representation. </p>
@@ -144,8 +129,8 @@
       the graph. </p>
     <p> You can click on <c>Weighted Graph</c> to switch to a (new) weighted graph. </p>
     <interactive platform="javascript"
-                 design-width="1500"
-                 aspect="4:2.75">
+                 design-width="1600"
+                 aspect="4:2">
       <script type="module">
       import { GraphRepresentation } from "./external/interactives/data-structures/entry.js";
       let anim = new GraphRepresentation({
@@ -193,4 +178,124 @@
     or modifications and very few vertex modifications. However, to provide more balanced
     performance across a wider variety of graph algorithms, we will typically use a different
     representation. </p>
+
+
+    <exercise label="graphs_representation_am-ex-1">
+      <statement>
+        <p>Based on the adjacency matrix shown below, which of the following edges are present in the graph?</p>
+        
+  <figure>
+    <caption>An Adjacency Matrix for A, B, C, D</caption>
+    <tabular row-headers="yes"
+             halign="center"
+             valign="middle"
+             right="minor"
+             bottom="minor">
+      <col halign="left"
+           right="major"/>
+      <col/>
+      <col/>
+      <col/>
+      <col/>
+      <col/>
+      <col/>
+      <row header="vertical"
+           bottom="major"
+           halign="left">
+        <cell right="minor"
+              bottom="minor"></cell>
+        <cell>0 <em>(A)</em></cell>
+        <cell>1 <em>(B)</em></cell>
+        <cell>2 <em>(C)</em></cell>
+        <cell>3 <em>(D)</em></cell>
+      </row>
+      <row bottom="minor">
+        <cell>0 <em>(A)</em></cell>
+        <cell>0</cell>
+        <cell>1</cell>
+        <cell>0</cell>
+        <cell>1</cell>
+      </row>
+      <row>
+        <cell>1 <em>(B)</em></cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>1</cell>
+        <cell>0</cell>
+      </row>
+      <row>
+        <cell>2 <em>(C)</em></cell>
+        <cell>0</cell>
+        <cell>1</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+      </row>
+      <row>
+        <cell>3 <em>(D)</em></cell>
+        <cell>1</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+        <cell>0</cell>
+      </row>
+    </tabular>
+  </figure>
+
+      </statement>
+      <choices>
+        <choice correct="yes">
+          <statement>
+            <p>A to B</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>B to A</p>
+          </statement>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p>D to A</p>
+          </statement>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p>A to D</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>D to C</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>C to D</p>
+          </statement>
+        </choice>
+      </choices>
+    </exercise>
+
+    <exercise label="graphs_representation_am-ex-2">
+      <statement>
+        <p>What operations are relatively efficient when using an adjacency matrix representation?</p>
+      </statement>
+      <choices randomize="yes">
+        <choice correct="yes">
+          <statement>
+            <p>Checking if an edge exists between two vertices</p>
+          </statement>
+        </choice>
+        <choice correct="yes">
+          <statement>
+            <p>Adding or removing an edge</p>
+          </statement>
+        </choice>
+        <choice>
+          <statement>
+            <p>Adding or removing a vertex</p>
+          </statement>
+        </choice>
+      </choices>
+    </exercise>
+
 </section>

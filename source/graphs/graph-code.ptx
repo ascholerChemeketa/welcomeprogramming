@@ -6,8 +6,7 @@
   <p>Below is an implementation of a graph class in C++ based on an adjacency map. The adjacency map
     makes most operations have a time complexity of O(1). The notable exception is the <c>getNeighbors</c>
     method, which has a time complexity of O(n) where n is the number of neighbors of the vertex
-    since we must construct a list of neighbors. An optimized version might return an iterator over
-    the neighbors instead of a list to avoid this work.</p>
+    since we must construct a list of neighbors.</p>
 
   <listing>
     <program label="graph-code_graph-cxx"
@@ -16,6 +15,14 @@
 <xi:include href="../../programs/graphs/graph.cxx" parse="text"/>
     </program>
   </listing>
+
+  <p>
+    Because this approach uses an unordered map, whatever type is used for the vertex values must be hashable by <pf>std::hash</pf>, must support <pf>operator==</pf>, and must be copyable.
+  </p>
+
+  <p>
+    If we wanted to use come complex type that did not meet these requirements as vertices, we could simply maintain a separate mapping from the complex objects to some kind of unique identifier (e.g. an integer index, string identifier, etc...) and then use the unique identifiers as the keys in the adjacency map. To do graph operations on the complex objects, we would first look up their unique identifiers and then perform the graph operations using those identifiers.
+  </p>
 
   <p>And below is a sample of using the graph class.</p>
 
