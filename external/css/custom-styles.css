@@ -108,9 +108,17 @@ section.exercises #scprogresscontainer{
 /* MAKE INTO A PR */
 code[class*=language-].code-inline, pre[class*=language-].code-inline {
     margin-top: -.15em;
-}    
+}
 
 /* TEST CHANGE */
 .line-highlight {
     max-width: 100%;
+}
+
+
+
+/* TEMP FIX for .lines class from parsons affecting tables */
+/* see graphs_bfs.html */
+.ptx-content .tabular-box .tabular .lines {  
+    display: table-cell;
 }
