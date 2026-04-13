@@ -20,7 +20,9 @@
   </program>
 
   <p>
-    For custom data types, we need to write our own hash functions that use <pf>std::hash</pf> to compute hash values for basic members and then combine them using bit shifting and xor to produce a single hash value for the entire object. For example, if we have a <pf>Point</pf> struct with <pf>x</pf> and <pf>y</pf> coordinates, we can write a hash function for it like the one below. 
+    For custom data types, we need to write our own hash functions that use <pf>std::hash</pf> to compute hash values for basic members and then combine them using bit shifting and xor to produce a single hash value for the entire object.</p>
+    
+  <p>For example, if we have a <pf>Point</pf> struct with <pf>x</pf> and <pf>y</pf> coordinates, we can write a hash function for it like the one below. 
     It shifts the bits of the x coordinate's hash value to the left by 1, we ensure that (1.0, 2.0) will have a different hash value than a point with coordinates (2.0, 1.0).
   </p>
 
@@ -33,6 +35,8 @@ size_t myHash(const Point& p) {
 }
 ]]>
 </program>
+
+  <p>(Of course we could have issues related to floating point precision, but we will assume we aren't worried about 1.0 vs. 1.0000001).</p>
 
   <p>
     For more complex objects, we need to carefully consider which members to include in the hash. There are a couple of general guidelines to follow when deciding which members to include in the hash:
@@ -105,7 +109,7 @@ size_t myHash(const Student& s) {
   </program>
 
   <p>
-    Because of the bit shifting, we will produce a different hash for a student with the first name "John", last name "Smith", and date of birth "01/01/2000" than for a student with the first name "Smith", last name "John", and date of birth "01/01/2000". But, if we have two students with the same first name, last name, and date of birth, they will produce the same hash value, which is consistent with our equality operator. (It should be clear why having a unique student ID is a better idea than hoping we never have two students with the same first name, last name, and date of birth.)
+    Because of the bit shifting, we will produce a different hash for a student with the first name "John", last name "Smith", and date of birth "01/01/2000" than for a student with the first name "Smith", last name "John", and date of birth "01/01/2000". But, if we have two students with the same first name, last name, and date of birth, they will produce the same hash value, which is consistent with our equality operator. (It should be clear why having a unique student ID is a nice way to identify them.)
   </p>
   
   <insight>
@@ -124,5 +128,97 @@ size_t myHash(const Student& s) {
     </p>
   </warning>
 
+  <exercise label="hash-tables_hash-functions-std_exercise-1">
+    <statement>
+      <p>We are storing structs that contain information about stocks:</p>
 
+        <program>
+struct StockInfo {
+    string tickerSymbol;
+    string companyName;
+    int sharesOwned;
+    double currentPrice;
+};
+        </program>
+        <p>
+          The ticker symbol is the short code used to identify stocks in listings, while the company name is the full legal name of the company. Thus, we might have a value like this: <pf>{tickerSymbol: "GOOG", companyName: "Alphabet Inc.", sharesOwned: 100, currentPrice: 316.45}</pf>.
+        </p>
+        <p>
+
+        What members should we include in the hash function for this struct?
+      </p>
+    </statement>
+    <choices randomize="yes" multiple-correct="yes">
+      <choice correct="yes">
+        <statement>
+          <p>tickerSymbol</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>companyName</p>
+        </statement>
+        <feedback>
+          <p>This is a tough call. If we believe the ticker symbol is unique (which it is), then using just it would be sufficient. And not including the companyName means that we can let that name change without having to worry about rehashing.</p>
+          <p>If tickerSymbols were not unique, we might want to include the companyName to ensure a unique identifier.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>sharesOwned</p>
+        </statement>
+        <feedback>
+          <p>Shares owned is likely to change. And it does not contribute to uniquely identifying the stock.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>currentPrice</p>
+        </statement>
+        <feedback>
+          <p>Current price is likely to change and does not contribute to uniquely identifying the stock.</p>
+          <p>It is also a double which can introduce floating-point precision issues.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="hash-tables_hash-functions-std_exercise-2">
+    <statement>
+      <p>Which statements are correct about hash functions and equality?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>If two objects are equal, their hash values must be the same.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>If two objects have the same hash value, they must be equal.</p>
+        </statement>
+        <feedback>
+          <p>This is not necessarily true. Two objects can have the same hash value (a collision) without being equal. Though it is desirable for hash functions to minimize collisions, they cannot be completely eliminated.</p>
+        </feedback>
+      </choice>
+      <choice>
+        <statement>
+          <p>If two objects are equal, they should have different hash values.</p>
+        </statement>
+        <feedback>
+          <p>This is incorrect. Equal objects must have the same hash value.</p>
+        </feedback>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>If two objects have different hash values, they must not be equal.</p>
+        </statement>
+        <feedback>
+          <p>Equal objects must have the same hash value, so if two objects have different hash values, they cannot be equal.</p>
+        </feedback>
+      </choice>
+    </choices>
+  </exercise>
+
+  
 </section>  

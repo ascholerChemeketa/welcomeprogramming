@@ -71,5 +71,26 @@ int myHash(char value) {
     </p>
   </warning>
 
+  <exercise label="hash-tables_hash-functions-numbers_exercise-1">
+    <statement>
+      <p>
+        We have used a hash function on a value and gotten the the number 30. We want to insert it into a hash table of size 8. What index should we map 30 to?<fillin mode="number" answer="6"/>
+      </p>
+    </statement>
+    <evaluation>
+      <evaluate>
+        <test correct="yes">
+          <numcmp use-answer="yes"/>
+        </test>
+        <test>
+          <strcmp>.*</strcmp>
+          <feedback>
+            <p>Use mod to map the hash value to an index within the array bounds.</p>
+          </feedback>
+        </test>
+      </evaluate>
+    </evaluation>
+  </exercise>
+
 
 </section>

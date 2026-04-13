@@ -1,0 +1,113 @@
+<section xml:id="hash-tables_vocabulary"
+         xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Vocabulary</title>
+  <p>
+    <dl>
+      <li>
+        <title>closed hashing</title>
+        <p>
+          <idx>
+            <h>closed hashing</h>
+          </idx> A collision-resolution strategy where all items are stored directly in the hash table array by probing for another open cell.</p>
+      </li>
+      <li>
+        <title>cluster</title>
+        <p>
+          <idx>
+            <h>cluster</h>
+          </idx> A contiguous run of occupied cells in a hash table that can increase probe lengths and reduce performance.</p>
+      </li>
+      <li>
+        <title>collision</title>
+        <p>
+          <idx>
+            <h>collision</h>
+          </idx> The event where two different keys map to the same hash table location.</p>
+      </li>
+      <li>
+        <title>exclusive or</title>
+        <p>
+          <idx>
+            <h>exclusive or</h>
+          </idx> A bitwise operation that returns 1 when two bits differ and 0 when they are the same.</p>
+      </li>
+      <li>
+        <title>hash</title>
+        <p>
+          <idx>
+            <h>hash</h>
+          </idx> The fixed-size value produced by a hash function for a given input.</p>
+      </li>
+      <li>
+        <title>hash function</title>
+        <p>
+          <idx>
+            <h>hash function</h>
+          </idx> A function that transforms input data into an integer or fixed-size value used for indexing or lookup.</p>
+      </li>
+      <li>
+        <title>hash table</title>
+        <p>
+          <idx>
+            <h>hash table</h>
+          </idx> A data structure that stores items in an array using hash values to choose locations.</p>
+      </li>
+      <li>
+        <title>hashing</title>
+        <p>
+          <idx>
+            <h>hashing</h>
+          </idx> The process of applying a hash function to convert data into hash values.</p>
+      </li>
+      <li>
+        <title>linear probing</title>
+        <p>
+          <idx>
+            <h>linear probing</h>
+          </idx> A probing strategy that checks the next cell, then the next, in sequence to resolve collisions.</p>
+      </li>
+      <li>
+        <title>load factor</title>
+        <p>
+          <idx>
+            <h>load factor</h>
+          </idx> The ratio of stored items to available table cells, often used to judge when resizing is needed.</p>
+      </li>
+      <li>
+        <title>open addressing</title>
+        <p>
+          <idx>
+            <h>open addressing</h>
+          </idx> See closed hashing.</p>
+      </li>
+      <li>
+        <title>open hashing</title>
+        <p>
+          <idx>
+            <h>open hashing</h>
+          </idx> A collision-resolution strategy that stores collections of items at each table index rather than forcing one item per cell.</p>
+      </li>
+      <li>
+        <title>rolling hash</title>
+        <p>
+          <idx>
+            <h>rolling hash</h>
+          </idx> A hash technique that updates the hash value efficiently when a window of input moves by one position.</p>
+      </li>
+      <li>
+        <title>separate chaining</title>
+        <p>
+          <idx>
+            <h>separate chaining</h>
+          </idx> See open hashing.</p>
+      </li>
+      <li>
+        <title>xor</title>
+        <p>
+          <idx>
+            <h>xor</h>
+          </idx> Short name for exclusive or, commonly used to combine bit patterns in hash computations.</p>
+      </li>
+    </dl>
+  </p>
+</section>

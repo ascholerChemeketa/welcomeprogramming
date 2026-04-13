@@ -6,8 +6,21 @@
   <subsection>
     <title>Open Hashing</title>
   <p>
-    Up until now, we have been focusing on <term>closed hashing</term> or <term>open addressing</term>, where we are locked into storing items within the array itself. Instead of doing this, we can store items in a separate data structure and use the hash function to determine which data structure to store each item in. This approach is known as <term>open hashing</term> or <term>separate chaining</term>. 
+    Up until now, we have been focusing on <term>closed hashing</term> or <term>open addressing</term>, where we are locked into storing items within the array itself and every cell can only store one item.
   </p>
+
+  <p>
+    An alternative approach, known as <term>open hashing</term> or <term>separate chaining</term>, is to have not just one item per cell, but instead to store a data structure at each cell that can hold multiple items. The hash function will still determine which cell to use for each item, but then we will add the item to the data structure at that cell instead of just storing it directly in the cell.
+  </p>
+  
+  <insight>
+    <p>
+      The names are a bit confusing. Open and closed hashing refer to whether we are <q>open</q> or <q>closed</q> to storing items outside of the array. In closed hashing, we are closed off from storing items outside of the array, and in open hashing, we are open to storing items outside of the array.
+    </p>
+    <p>
+      Open addressing means we are <q>open</q> to looking in other addresses in the array if there is a collision.
+    </p>
+  </insight>
 
   <p>
     Although we can use other data structures, the simplest way to implement open hashing is to store a linked list of items in each cell of the array. Linked lists have the advantage of taking up minimal space while they are empty, and can grow to accommodate as many items as we need without needing to worry about resizing.
@@ -24,17 +37,8 @@
     </image>
   </figure>
 
-  <insight>
-    <p>
-      The names are a bit confusing. Open and closed hashing refer to whether we are <q>open</q> or <q>closed</q> to storing items outside of the array. In closed hashing, we are closed off from storing items outside of the array, and in open hashing, we are open to storing items outside of the array.
-    </p>
-    <p>
-      Open addressing means we are <q>open</q> to looking in other addresses in the array if there is a collision.
-    </p>
-  </insight>
-
   <p>
-    This approach means we no longer worry about probing between cells in the array. When we want to insert an item, we will compute its hash to determine which cell to store it in, and then we will add it to the linked list at that cell. To find an item, we again compute its hash and then search through the linked list at the corresponding cell.
+    This approach means we no longer worry about probing to resolve collisions. When we want to insert an item, we will compute its hash to determine which cell to store it in, and then we will add it to the linked list at that cell. To find an item, we again compute its hash and then search through the linked list at the corresponding cell.
   </p>
 
   <activity>
@@ -55,19 +59,20 @@
   </activity>
   
   <p>
-    When removing items from an open hash table, we can simply remove the item from the linked list at the corresponding cell. We do not have to worry about leaving behind tombstones. (You can try it out in the animation above.)
+    When removing items from an open hash table, we can simply remove the item from the linked list at the corresponding cell. Thus we do not have to worry about leaving behind tombstones. (You can try it out in the animation above.)
   </p>
 
   <p>
-    When using open hashing, we don't have to worry about keeping the load factor significantly below 1 because we can't build up clusters of occupied cells in the array. We can even have a load factor greater than 1, and still have efficient operations as long as the data is relatively randomly distributed across the cells. (The average number of items in each cell will be equal to the load factor, so if the load factor is 2, we will have an average of 2 items in each cell.)
+    When using open hashing, we don't have to worry about keeping the load factor significantly below 1 because we can't build up clusters of occupied cells in the array. We can even have a load factor greater than 1, and still have efficient operations as long as the data is relatively randomly distributed across the cells. If we have 50 cells, and 100 items evenly distributed, we would only have 2 items per cell to search through. 
   </p>
 
   <p>
-    The expected work to find an item in an open hash table is proportional to the load factor, <m>O(n/m)</m> where <m>n</m> is the number of items and <m>m</m> is the number of cells in the array. If <m>m</m> is fixed at a value like 100, then the expected work is <m>O(n / 100)</m> which is still <m>O(n)</m>. On the other hand, if <m>m</m> grows in proportion to <m>n</m>, then <m>n / m</m> will remain below some constant. For example, if we grow the table so that <m>n</m> is never more than <m>2m</m>, then the expected work will be <m>O(2m / m) = O(2)</m>, which is a constant.
+    The expected work to find an item in an open hash table is proportional to the load factor, <m>O(n/m)</m> where <m>n</m> is the number of items and <m>m</m> is the number of cells in the array. If <m>m</m> is fixed at a value like 100, then the expected work is <m>O(n / 100)</m> which is still <m>O(n)</m>. On the other hand, if <m>m</m> grows in proportion to <m>n</m>, then <m>n / m</m> will remain below some constant. For example, if we grow the table so that <m>n</m> is never more than <m>2m</m> (i.e. any time the load factor exceeds 2), then the expected work will be <m>O(2m / m) = O(2)</m>, which is a constant.
   </p>
 
   <p>
-    So, we will want to grow the table once the load factor hits some constant threshold. And when we grow the table, we will still need to rehash all of the items and reinsert them into the new table, just like we did with closed hashing.
+    So, while using this approach, we will still want to grow the table once the load factor hits some constant threshold. We can get away with a higher load factor than we could with closed hashing, but we still want to grow the table at some point to maintain efficient operations.
+    And when we grow the table, we will still need to rehash all of the items and reinsert them into the new table, just like we did with closed hashing.
   </p>
   </subsection>
 
@@ -81,21 +86,24 @@
     <p>
       In terms of space requirements, both will require storing an array of size <m>m</m>. In open hashing, that array will be pointers (or linked list objects) and we also will need to store <m>n</m> items in the linked lists, and each of those items will store a next pointer. The total space will be proportional to <m>m + n</m>. 
     </p>
-    <p>Imagine we are storing 8 byte integer values and that pointers are also 8 bytes in size. If we have a hash table with a table size of 100 and there are 10 values currently being stored, we would store an array of 100 pointers (800 bytes) and then store the 10 values (80 bytes) and 10 next pointers (80 more bytes) for a total of 960 bytes.</p>
-    <p>
-      Closed hashing does not require any extra space beyond the array of size <m>m</m> because all the values will be stored inside of it. So for our example of 10 ints stored in a table of size 100, we would just need 800 bytes. But if data items are large, it can be more expensive to store an array of records in the array than to store empty linked lists.</p>
 
-    <p>Imagine that we are storing records that are 1 KB in size. If we have a closed hashing table with 100 cells, we would need to allocate 100 KB of memory for the array, even if we only have 10 items in the table. On the other hand, if we use open hashing, we would only need to allocate memory for an array of 100 pointers (800 bytes) and then allocate memory for the 10 items plus their next pointers (10 * 1 KB + 10 * 8 bytes), for a total of about 10.08 KB.
-    </p>
+    <p>Imagine we are storing 8 byte integer values and that pointers are also 8 bytes in size. If we have a hash table with a table size of 100 and there are 10 values currently being stored, we would store an array of 100 pointers (800 bytes) and then store the 10 values (80 bytes) and 10 next pointers (80 more bytes) for a total of 960 bytes.</p>
+
     <p>
-      We can overcome that downside in closed hashing by using an array of pointers to records instead of an array of records. However, doing so would require us to dereference a pointer every time we want to access an item in the table, which will end up eliminating one of the key speed advantages of closed hashing.
+      Closed hashing might not require any extra space beyond the array of size <m>m</m> because all the values will be stored inside of it. So for our example of 10 ints stored in a table of size 100, we would just need 800 bytes. But, if we have a parallel array storing the status of cells, we will double that space.</p>
+
+    <p>If data items are large, it can be more expensive to store an array of records in the array than to store empty linked lists. Imagine that we are storing records that are 1 KB in size. If we have a closed hashing table with 100 cells, we would need to allocate 100 KB of memory for the array, even if we only have 10 items in the table. On the other hand, if we use open hashing, we would only need to allocate memory for an array of 100 pointers (800 bytes) and then allocate memory for the 10 items plus their next pointers (10 * 1 KB + 10 * 8 bytes), for a total of about 10.08 KB.
+    </p>
+
+    <p>
+      We can overcome that downside in closed hashing by using an array of pointers to records instead of an array of records. However, doing so would require us to dereference a pointer every time we want to access an item in the table, which will end up eliminating one of the key speed advantages (below) of closed hashing.
     </p>
 
     <p>
       In terms of speed, much will depend on the quality of the hash function, the distribution of data, and how we limit the load factor. However, if we assume that the data is randomly distributed across the cells, and the load factor is kept low enough that we rarely have to probe more than a few cells, then closed hashing will likely be substantially faster because it make better use of the cache.
     </p>
 
-    <p>As we have discussed previously, the difference between having to make a trip to main memory, versus accessing data that is already in the cache, can be on the order of 100x slower. For the purposes of our discussion we will assume a cache reference takes 4 units of time and a main memory reference takes 400 units of time.</p>
+    <p>The difference between having to make a trip to main memory, versus accessing data that is already in the cache, can be on the order of 100x slower. For the purposes of our discussion we will assume a cache reference takes 4 units of time and a main memory reference takes 400 units of time.</p>
     
     <p>We will model a hash table with strings and assume that <q>Doug Jones</q> and <q>Sandra Jackson</q> both hash to 3. We are searching for <q>Sandra Jackson</q>.</p>
 
@@ -114,7 +122,7 @@
 
     <aside><p>This is also an argument against quadratic probing. We may be better off with slightly larger clusters where we probe indexes in order than reducing cluster size by hoping in big jumps across the array.</p></aside>
 
-    <p>Now consider what happens with open hashing, illustrated in the figure below. Accessing index 3 in the array takes 400 units of time. That would bring other array elements into the cache, making them cheaper to access, but we don't need any of them. Instead, we follow a pointer to the first element in the linked list, which is likely not in the cache and requires another 400 units of time to access. (This would bring the memory around the <q>Doug Jones</q> record into the cache, but again, we don't make use of any of that memory.) Then we see that first record is not the one we want and follow another pointer to yet another new part of memory which costs another 400 units of time. This is a grand total of 3 main memory trips and 1200 units of time waiting on memory. That is almost 3x more memory time than the closed hashing approach.</p>
+    <p>Now consider what happens with open hashing, illustrated in the figure below. Accessing index 3 in the array takes 400 units of time. That would bring other array elements into the cache, making them cheaper to access, but we don't need any of them. Instead, we follow a pointer to the first element in the linked list, which is likely not in the cache and requires another 400 units of time to access. This would bring the memory around the <q>Doug Jones</q> record into the cache, but again, we don't make use of any of that memory. Then we see that record is not the one we want and follow another pointer to yet yet another new part of memory (the part that has the Sandra Jackson record), which costs another 400 units of time. This is a grand total of 3 main memory trips and 1200 units of time waiting on memory. That is almost 3x more memory time than the closed hashing approach.</p>
     
   <figure>
     <caption>Open hashing requires multiple main memory accesses.</caption>
@@ -129,11 +137,54 @@
 
   <insight>
     <p>
-      There is no clear <q>winner</q> between open and closed hashing. But properly implemented, both structures should guarantee <m>O(1)</m> expected time for insertions, lookups, and removals.
+      Properly implemented, both open and closed hashing should guarantee <m>O(1)</m> expected time for insertions, lookups, and removals. They also will both require <m>O(n)</m> space. There can however be significant differences in the constant factors for both time and space.
     </p>
   </insight>
 
   </subsection>
+
+  <exercise label="hash-tables_open-hashing-ex-1">
+    <statement>
+      <p>
+        Match the terms to their descriptions.
+      </p>
+    </statement>
+    <cardsort>
+      <match>
+        <premise>Open addressing</premise>
+        <premise>Closed hashing</premise>
+        <response>Each cell holds exactly one element.</response>
+      </match>
+      <match>
+        <premise>Open hashing</premise>
+        <premise>Separate chaining</premise>
+        <response>Each cell holds a data structure that can store multiple elements.</response>
+      </match>
+    </cardsort>
+  </exercise>
+
+  <exercise label="hash-tables_open-hashing-ex-2">
+    <statement>
+      <p>What can we say about a hash table using open hashing that has a load factor of 1.1?</p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>There must be at least one cell that contains multiple elements.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>That is impossible, as the load factor cannot be greater than 1 in a hash table using open hashing.</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>There is at most one cell that contains multiple elements.</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 
 </section>

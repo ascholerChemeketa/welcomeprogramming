@@ -4,7 +4,9 @@
   <title>Hash Tables Insertion and Collisions</title>
 
   <p>
-    Now that we have explored hashing, we can focus on using it to build a hash table. A hash table will store a dynamic array of where we can store values. Given a key, we will compute the hash value of the key and then modulo that hash value by the size of the array to determine where the item belongs. If we are inserting the value, we will store it in that cell. If we are looking for a value, we will look in that cell to see if the value is there.
+    Now that we have explored hashing, we can focus on using it to build a hash table.</p>
+    
+  <p>A hash table is a data structure built on top of an array. Given a key, we will compute the hash value of the key and then modulo that hash value by the size of the array to determine where the item belongs. If we are inserting the value, we will store it in that cell. If we are looking for a value, we will look in that cell to see if the value is there.
   </p>
 
   <activity>
@@ -28,11 +30,13 @@
   </p>
 
   <p>
-    There are two main strategies for handling collisions. The first is called <term>closed hashing</term> (also confusingly known as <term>open addressing</term>), where we will look for the next available cell in the array to store the value. The second is called <term>open hashing</term> (also known as <term>separate chaining</term>), where we will store a list of values in each cell of the array. When a collision occurs, we will add the new value to the list at that cell. Initially, we will focus on closed hashing.</p>
+    There are two main strategies for handling collisions<mdash/>closed and open hashing. The first general strategy we will examine is <term>closed hashing</term> (also confusingly known as <term>open addressing</term>).
+    In closed hashing, if we are inserting a value and there is a collision, we move to a different cell in the array to store the value. If that next location is also occupied, we will continue visiting different cells until we find an open cell.</p>
 
-  <p>
-    In closed hashing, when a collision occurs, we will look for the next available cell in the array to store the value. If that next location is also occupied, we will continue on to the next cell until we find an open cell. If we reach the end of the array, we will wrap around to the beginning and continue looking for an open cell. This process is called <term>linear probing</term>. (We are moving in a straight line through the array, probing for an opening.)
+  <p>The most straightforward way to implement this is to use <term>linear probing</term>. In linear probing, we simply add 1 to the index each time we need to move to another cell because the current one is full. If we reach the end of the array, we will wrap around to the beginning and continue looking for an open cell. (We are moving in a straight line through the array, probing for an opening.)
   </p>
+
+  <p>For example, imagine we are inserting the value <c>"Jessica Ng"</c> into a hash table of size 7. The hash function and mapping tell us that the record should go in cell 4. If we see that cell is already occupied, we will move to cell 5 and check if it is available. If not, we would move to cell 6, and so on.</p>
 
   <figure>
     <caption>The <pf>Jessica Ng</pf> record should have gone in cell 4. But cells 4 and 5 were occupied, so it ended up in cell 6.</caption>
@@ -62,9 +66,9 @@
   </activity>
 
   <p>
-    This also means that when we go to check if we have a value in the table, and find a different value in the location the hash function produced, we need to probe to see if the value was inserted in an alternate location. We need to continue probing until we reach an open location before deciding that the key is not present.</p>
+    This also means that when we go to check if we have a value in the table, and find a different value in the location the hash function produced, we need to probe to see if the value was inserted in an alternate location. A value that was supposed to be placed at index 6 may have had to probe through several cells before finding an open location. Thus, to find a value, we need to continue probing until we either find it, or we reach an open location before deciding that the key is not present.</p>
 
-  <p>Try using <c>Find</c> to search for 16 in the animation above (after the insertion is done). How far do we need to probe?</p>
+  <p>Try using <c>Find</c> to search for 16 in the animation above (after the insertion is done). The value is not present, but we can't be sure until we have probed through a few cells to reach an empty cell. </p>
 
   <p>
     You may also have noted that our hash table has built up a contiguous group of occupied cells. This is known as a <term>cluster</term>. Clusters are problematic because they can lead to long probe sequences. Even worse, any value that hashes to a cell in the cluster will end up being added to the end of the cluster, which makes that cluster even bigger.
@@ -100,5 +104,42 @@
       The size of the table can also have an impact on clustering. If the size of the table is a power of 2, then certain patterns in the keys can lead to more collisions and clustering. To mitigate this, it is often recommended to use a prime number for the size of the table. The animation used in this book uses a size of 8. In a real implementation we would likely want to make a small table using a size of 7 or 11.
     </p>
   </note>
+
+  <exercise label="hash-tables_insertion-ex-1"
+    numbered="yes"
+    adaptive="yes"
+    indentation="hide">
+    <statement>
+    <p>Build the pseudocode for inserting a value into a hash table using linear probing. You will not use all the blocks.</p>
+    </statement>
+    <blocks>
+      <block >
+          <cline><![CDATA[int hashValue = hash(key)]]></cline>
+      </block>
+      <block >
+          <cline><![CDATA[int index = hashValue % tableSize]]></cline>
+      </block>
+      <block >
+          <cline><![CDATA[while (table[index] is filled) {]]></cline>
+      </block>
+      <block correct="no">
+          <cline><![CDATA[while (table[index] is empty) {]]></cline>
+      </block>
+      <block >
+          <cline><![CDATA[    index = (index + 1) % tableSize]]></cline>
+      </block>
+      <block correct="no">
+          <cline><![CDATA[    index = (index + 1)]]></cline>
+      </block>
+      <block >
+          <cline><![CDATA[}]]></cline>
+      </block>
+      <block >
+          <cline><![CDATA[table[index] = value]]></cline>
+      </block>
+    </blocks>
+  </exercise>
+
+  
 
 </section>

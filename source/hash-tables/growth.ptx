@@ -33,45 +33,13 @@
   </p>
 
   <p>
-    In some respects, the growth process is similar to the growth process for an array list. When we grow the table, we will create a new array that is larger than the old one and copy items over from the old array to the new one. However, there is an important difference. When we grow an array list, we can simply copy items from the old array to the same index in the new array. When we grow a hash table, we cannot do that because the size of the array has changed, which means that the value of <m>key \mod size</m> has changed for every key. This means that we will need to rehash every item in the old array and insert it into the new array. This process is more expensive than simply copying items over, but it is necessary to maintain the integrity of the hash table.
+    In some respects, the growth process is similar to the growth process for an array list. When we grow the table, we will create a new array that is larger than the old one and copy items over from the old array to the new one. However, there is an important difference. When we grow an array list, we can simply copy items from the old array to the same index in the new array. When we grow a hash table, we cannot do that because the size of the array has changed, which means that the value of <m>key \mod size</m> has changed for every key. This means that we will need to rehash every item in the old array and insert it into the new array.
   </p>
-
-  <p>An algorithm for growing a hash table might look like this:</p>
-
-    <listing>
-      <program>
-        <![CDATA[
-// assumes member variables
-//   m_table (pointer to array)
-//   m_capacity (size of array)
-//   m_size (number of items in table)
-void IntHashTable::grow() {
-    int oldCapacity = m_capacity;            // Keep track of the old capacity
-    int* old = m_table;                      // Keep a reference to the old array
-    m_capacity *= 2;                         // Double the size of the array
-    m_table = new int[m_capacity];           // Create a new array with the new size
-    m_size = 0;                              // Reset size to 0 before re-inserting items
-    for (int i = 0; i < oldCapacity; i++) {  // Iterate over the old array
-        int item = old[i];                   // Get the item at index i
-        // If the cell is not empty or a tombstone, re-insert the item into the hash table
-        if (item != EMPTY && item != TOMBSTONE) {           
-            insert(item);
-        }
-    }
-    delete[] old;                             // Clean up the old array
-}
-        ]]>
-      </program>
-      </listing>
 
   <p>
     The basic strategy involves temporarily tracking the old array and then resetting the hash table itself to an empty state with a new, larger array. We then iterate over the old array as if it was a list of items we were inserting into the hash table for the first time.
-  </p>
-
-  <p>
     The animation below demonstrates the growth process.
   </p>
-
 
   <activity>
     <title>Hash Table Growth</title>
@@ -92,14 +60,113 @@ void IntHashTable::grow() {
     </interactive>
   </activity>
   
+
+  <p>An implementation of grow in a hash table might look like this:</p>
+
+    <listing>
+      <program>
+        <![CDATA[
+// assumes member variables
+// Type* m_table  - the array storing items
+// int m_size     - the number of items currently in the table
+// int m_capacity - the size of the array
+void grow() {
+    oldCapacity = m_capacity                  // Keep track of the old capacity
+    oldTable = m_table                        // Make a pointer to the old array
+    m_capacity *= 2                           // Double the capacity of the table
+    m_table = new Type[m_capacity]            // Create a new array with the new size
+    m_size = 0                                // Reset size to 0 before re-inserting items
+    for (i = 0 to oldCapacity - 1) {          // Iterate over the old array
+        curItem = old[i]                      // Get the item at index i
+        // If the cell is not empty or a tombstone, re-insert the item into the hash table
+        if (curItem != EMPTY && curItem != TOMBSTONE) {
+            insert(curItem);
+            // insert should handle placing item, incrementing size, and handling collisions
+        }
+    }
+    delete[] old;                             // Clean up the old array
+}
+        ]]>
+      </program>
+      </listing>
+
   <note>
     <p>
       As mentioned earlier, prime sizes for the array can help to reduce collisions. When growing, we can either
       do extra work (possibly by calculating a list of sizes to use ahead of time) to ensure that the new size is prime, or we can use a simple formula like <m>2 \cdot oldSize + 1</m> to ensure that the new size is at least odd.
     </p>
-    <p>
-      Given a high quality hash function, and a random assortment of data, the difference between using a prime size table and not doing so is not likely to be significant.
-    </p>
   </note>
+
+  <exercise label="hash-tables_growth-ex-1">
+    <statement>
+        <p>
+          A hash table has an array with size 20 and currently contains 8 items. What is the load factor?
+          <fillin mode="number" answer="0.40"/>
+        </p>
+      </statement>
+      <evaluation>
+        <evaluate>
+          <test correct="yes">
+            <numcmp use-answer="yes" threshold="0.01"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              <p>Make sure to answer as a decimal number, not a percentage.</p>
+            </feedback>
+          </test>
+        </evaluate>
+      </evaluation>
+    </exercise>
+
+  <exercise label="hash-tables_growth-ex-2">
+    <statement>
+      <p>What is a good load factor at which to trigger growth in a hash table?</p>
+    </statement>
+    <choices>
+      <choice>
+        <statement>
+          <p>0.50</p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>0.70</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>0.90</p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>1.00</p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+
+  <exercise label="hash-tables_growth-ex-3">
+    <statement>
+        <p>
+          In a hash table with size 8, the value 27 is at index 3 (27 % 8 == 3). After we grow the table to size 16, what index will 27 be at? (Assume no collisions.)
+          <fillin mode="number" answer="11"/>
+        </p>
+      </statement>
+      <evaluation>
+        <evaluate>
+          <test correct="yes">
+            <numcmp use-answer="yes"/>
+          </test>
+          <test>
+            <strcmp>.*</strcmp>
+            <feedback>
+              <p>Make sure to answer as a decimal number, not a percentage.</p>
+            </feedback>
+          </test>
+        </evaluate>
+      </evaluation>
+    </exercise>
 
 </section>

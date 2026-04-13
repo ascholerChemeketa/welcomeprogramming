@@ -21,7 +21,8 @@
   </figure>
 
   <p>
-    Currently, if we go to find <pf>Jessica Ng</pf>, we will hash her name to cell 4, see that it is occupied by "John Smith", and then probe to cell 5, see that it is occupied by "Doug Jones", and then probe to cell 6, where we will find "Jessica Ng". Now imagine we remove the record for "John Smith". If we simply mark cell 4 as empty, then when we try to find "Jessica Ng", we will hash her name to cell 4, see that it is empty, and conclude that "Jessica Ng" is not in the table, even though it is!
+    Currently, if we go to find <pf>Jessica Ng</pf>, we will hash her name to cell 4, see that it is occupied by "John Smith", and then probe to cell 5, see that it is occupied by "Doug Jones", and then probe to cell 6, where we will find "Jessica Ng".</p>
+    <p>Now imagine we remove the record for "John Smith". If we simply mark cell 4 as empty, then when we try to find "Jessica Ng", we will hash her name to cell 4, see that it is empty, and conclude that "Jessica Ng" is not in the table, even though it is!
   </p>
 
   <figure>
@@ -36,23 +37,15 @@
   </figure>
 
   <p>
-    Because we stopped at the empty location, we never got to cell 6 where "Jessica Ng" is. But we have to stop at empty locations. To not do so would mean we would probe the entire table every time we looked for something that was not in the table. Doing so would require <m>O(n)</m> time, which would defeat the purpose of using a hash table in the first place. So we need a way to mark a cell as having been occupied but now being empty.
+    Because we stopped at the empty location, we never got to cell 6 where "Jessica Ng" is. But we have to stop at empty locations. To not do so would mean we would probe the entire table every time we looked for something that was not in the table. That would require <m>O(n)</m> time, which would defeat the purpose of using a hash table in the first place. So we need a way to mark a cell as having been occupied but now being empty.
   </p>
 
   <p>
-    We need a way to mark a cell as having been occupied but now being empty. One approach is to use <q>tombstone</q> (a marker for a dead element). When we are looking for an item in the table, we will treat tombstone cells as occupied and continue probing. When we are inserting an item into the table, we can treat tombstone cells as empty and insert the new item there. This way, we can maintain the integrity of the probing sequence while still allowing us to reuse cells that have been removed.
+    One approach to mark cells as <q>deleted</q> is to use <q>tombstone</q>, a special value used to indicate that something used to be there. When we are looking for an item in the table, we will treat tombstone cells as occupied and continue probing. When we are inserting an item into the table, we can treat tombstone cells as empty and insert the new item there. This way, we can maintain the integrity of the probing sequence while still allowing us to reuse cells that have been removed.
   </p>
-
-  <insight>
-    <p>
-      A tombstone counts as occupied when we are looking for an item in the table, but counts as empty when we are inserting an item into the table.
-    </p>
-  </insight> 
-
-  <p>This animation demonstrates the process:</p>
   
   <figure>
-    <caption>A tombstone marking cell 4 tells us to continue searching if we encounter it.</caption>
+    <caption>A tombstone (#) marking cell 4 tells us to continue searching if we encounter it.</caption>
     <image source="images/hash-tables/removal-3.svg" width="60%">
       <shortdescription>
         <p>
@@ -62,8 +55,17 @@
     </image>
   </figure>
 
+  <insight>
+    <p>
+      A tombstone counts as occupied when we are looking for an item in the table, but counts as empty when we are inserting an item into the table.
+    </p>
+  </insight> 
+
+  <p>This animation demonstrates the role of tombstones in retrieval and insertion:</p>
+  
+
   <activity>
-    <title>Hash Table Removal</title>
+    <title>Hash Table Tombstones</title>
     <p>The hash table is set to Remove 9. Use <c>></c> to step through the removal process.</p>
     <p>Then try finding 33 which also belongs in cell 1.</p>
     <p>Finally, try inserting 17. It also belongs in cell 1 and can replace the tombstone.</p>
@@ -89,24 +91,55 @@
     </p>
       
     <p>
-      This can be tricky because we need to make sure that the value we choose cannot be confused with a valid item that we might want to store in the table. For example, if we are implementing a hash table for strings, we might choose a special string like <c>###deleted###</c> to represent the tombstone. But if we want to store the string <c>###deleted###</c> in the table, we would have a problem because it would be indistinguishable from a tombstone.
+      This can be tricky because we need to make sure that the value we choose cannot be confused with a valid item that we might want to store in the table. For example, if we are implementing a hash table for strings, we might choose a special string like <c>###deleted###</c> to represent the tombstone. But we then would not be able to store the string <c>###deleted###</c> in the table because it would be indistinguishable from a tombstone.
     </p>
     
     <p>
-      We have a similar problem for identifying empty cells. The animation we are using shows unused cells as empty. But if we are storing an array of integers, there is no such thing as an empty integer. We would likely not want 0 to mean <q>empty cell</q> because then we would not be able to store the value 0 in the table.
+      We have a similar problem for identifying empty cells. The animation we are using shows unused cells as empty. But if we are storing an array of integers, there is no such thing as an empty integer. So we also need to pick another special value to represent an empty cell. Whatever value we choose, it also can't be stored in the table as a valid item.</p>
+
+    <p>This, if our table is storing integers, we would likely not want 0 to mean <q>empty cell</q> because we then would not be able to store the value 0 in the table.
+      Instead, we might decide that <pf>INT_MAX</pf> (the largest possible <pf>int</pf>) will represent a tombstone, and <pf>INT_MIN</pf> (the smallest possible <pf>int</pf>) will represent an empty cell. This way, we can store any valid integer other than those two values in the table.
     </p>
 
     <p>
-      So we also need to pick a special value to represent an empty cell. If we were working with <pf>int</pf>s, we might decide that <pf>INT_MAX</pf> (the largest possible <pf>int</pf>) will represent a tombstone, and <pf>INT_MIN</pf> (the smallest possible <pf>int</pf>) will represent an empty cell. This way, we can store any valid integer other than those two values in the table.
-    </p>
-
-    <p>
-      Rather than deal with special values, we can instead use extra storage to keep track of whether a cell is empty, occupied, or a tombstone. A simple implementation might store a parallel array of enums that indicate the state of each cell. If a cell is marked as empty, or as a tombstone, we can ignore the value in the corresponding cell of the main array. A more complex implementation might use bit packing to store the empty state in a single bit for each cell, and the tombstone state in another bit for each cell.
-    </p>
-
-    <p>
-      This approach of using extra storage to track the state of each cell is easier to design and use as a general solution that can work for any type of data. The downside of course is some amount of extra space proportional to the size of the table.
+      Rather than deal with special values, we can instead use extra storage to keep track of whether a cell is empty, occupied, or a tombstone. One approach would be to store a parallel array of enums that indicate the state of each cell. (If our table is storing 100 cells, we would have an array of 100 enums indicating the status of each cell.) Before checking the value of a cell at a given index, we first check its state by checking that index in the state array. If the state is marked as empty, or as a tombstone, we would then ignore the corresponding value in the main array.
     </p>
     </subsection>
+
+<exercise label="hash-tables_removal-ex-1">
+  <statement>
+    <p>Which statements are true about tombstones in a hash table?</p>
+  </statement>
+  <choices randomize="yes">
+    <choice correct="yes">
+      <statement>
+        <p>Whatever value is used as the tombstone cannot be stored as a valid item in the table.</p>
+      </statement>
+    </choice>
+    <choice correct="yes">
+      <statement>
+        <p>When we see a tombstone while searching, we must continue as if it were an occupied cell.</p>
+      </statement>
+    </choice>
+    <choice>
+      <statement>
+        <p>When we see a tombstone while inserting, we must continue as if it were an occupied cell.</p>
+      </statement>
+      <feedback>
+        <p>When we see a tombstone while inserting, we can treat it as an empty cell and insert the new item there.</p>
+      </feedback>
+    </choice>
+    <choice correct="yes">
+      <statement>
+        <p>They mark cells that had values which were deleted.</p>
+      </statement>
+    </choice>
+    <choice>
+      <statement>
+        <p>They mark all cells that are empty.</p>
+      </statement>
+    </choice>
+  </choices>
+</exercise>
 
 </section>

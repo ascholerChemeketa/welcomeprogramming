@@ -18,7 +18,6 @@
     </image>
   </figure>
 
-  
   <p>
     We can use such a hash function to calculate indexes for items that we want to store in an array to implement what is known as a <term>hash table</term>. A hash function that took strings and produced an integer value between 0 and 6 could be used to store strings in the array shown below. Given a string like <pf>"Sandra Jackson"</pf>, we compute its hash to decide which cell to store it in (2 in the figure). If later on we need to know if that string is in the table, we can compute its hash again to know which cell to look in.
   </p>
@@ -55,5 +54,67 @@
   </p>
 
   <p>In the next section we will look at how to implement hash functions for building a hash table. Although some of the principles also apply to cryptographic hash functions, they would require additional considerations.</p>
+
+  <exercise label="hash-tables_hashing_exercise-1">
+    <statement>
+      <p>
+        Which of the following are properties we want in a hash function used for cryptographic purposes? Select all that apply.
+      </p>
+    </statement>
+    <choices randomize="yes">
+      <choice correct="yes">
+        <statement>
+          <p>
+            Hard to reverse from the hash value to the original input.
+          </p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>
+            Expensive to compute.
+          </p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>
+            Avoids collisions (different inputs producing the same hash value).
+          </p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
+  
+  <exercise label="hash-tables_hashing_exercise-2">
+    <statement>
+      <p>
+        Which of the following are properties we want in a hash function used for building a hash table? Select all that apply.
+      </p>
+    </statement>
+    <choices randomize="yes">
+      <choice>
+        <statement>
+          <p>
+            Hard to reverse from the hash value to the original input.
+          </p>
+        </statement>
+      </choice>
+      <choice>
+        <statement>
+          <p>
+            Expensive to compute.
+          </p>
+        </statement>
+      </choice>
+      <choice correct="yes">
+        <statement>
+          <p>
+            Avoids collisions (different inputs producing the same hash value).
+          </p>
+        </statement>
+      </choice>
+    </choices>
+  </exercise>
 
 </section>
