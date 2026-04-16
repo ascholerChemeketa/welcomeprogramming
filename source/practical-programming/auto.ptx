@@ -9,10 +9,10 @@
     <listing>
   <program line-numbers="yes">
   <![CDATA[ 
-    for(list<string>::iterator it = fruit.begin(); 
-        it != fruit.end(); 
+    for(list<string>::iterator it = fruit.begin(),
+        it != fruit.end(), 
         ++it
-        ) {
+    ) {
         string currentValue = *it;
         cout << currentValue << " ";
     }
