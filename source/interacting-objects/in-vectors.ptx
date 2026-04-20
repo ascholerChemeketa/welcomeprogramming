@@ -22,13 +22,13 @@
   </program>
   </listing>
 
-  <p>We immediate get an error:</p>
+  <p>We immediately get a wall of error messages. Somewhere towards the bottom, there is message that looks like:</p>
 
   <console>
     <output>error: no matching function for call to 'SimplePoint1::SimplePoint1()</output>
   </console>
 
-  <p>When the code tries to set up the memory for <pf>SimplePoint1</pf>, it tries to initialize each object in the vestor. There is no instruction how to do so, so it is assumed we want to use the no-arg constructor for each of the Points. But <pf>SimplePoint1</pf> does not have a no-arg constructor. To solve the problem, we have to either:
+  <p>So what is going on? When the code tries to set up the memory for <pf>SimplePoint1</pf>, it tries to initialize each object in the vestor. There is no instruction how to do so, so it is assumed we want to use the no-arg constructor for each of the Points. But <pf>SimplePoint1</pf> does not have a no-arg constructor. To solve the problem, we have to either:
     <ul>
       <li>Provide a no-argument constructor for <pf>SimplePoint1</pf>. (We may not be able to do this if we are using someone else's class.</li>
       <li>Specify how to construct the Points in the vector.</li>
