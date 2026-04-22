@@ -94,11 +94,11 @@ test.cpp:5:7: note: definition of ‘class Person’ is not complete until the c
     </feedback>
     <cardsort>
       <match>
-        <premise><pf>cout &lt;&lt; anna->m_spouse;</pf></premise>
+        <premise><pf>cout &lt;&lt; anna->m_spouse->m_spouse;</pf></premise>
         <response>0x...400</response>
       </match>
       <match>
-        <premise><pf>cout &lt;&lt; anna->m_spouse->m_spouse;</pf></premise>
+        <premise><pf>cout &lt;&lt; anna->m_spouse;</pf></premise>
         <response>0x...6f0</response>
       </match>
       <match>
