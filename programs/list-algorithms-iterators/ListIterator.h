@@ -70,7 +70,7 @@ ListIterator<T> LinkedList<T>::end() {
 }
 
 template <typename T>
-LinkedList<T>::LinkedList() : head(nullptr), tail(nullptr), size(0) {}
+LinkedList<T>::LinkedList() : head(nullptr), tail(nullptr) {}
 
 template <typename T>
 LinkedList<T>::~LinkedList() {
