@@ -142,40 +142,6 @@ Point&amp; Point::getReference() {
   </exercise>
 
 
-  <exercise label="pointers-aggregation_this-ex-2">
-    <statement>
-      <p>The program below is missing the single statement that should be its body. What code
-        belongs there to return the <pf>m_radius</pf> of the Circle, using <pf>this</pf> to specify the variable?</p>
-      <p>
-        <fillin answer="return this->m_radius;"/>
-      </p>
-      <program>
-        Circle::getRadius() const {
-            ???
-        }
-      </program>
-    </statement>
-    <evaluation>
-      <evaluate>
-        <test correct="yes">
-          <strcmp>return\s+this\s*->\s*m_radius;?</strcmp>
-        </test>
-        <test>
-          <strcmp>.*\*.*</strcmp>
-          <feedback>There should not be a <pf>*</pf>.</feedback>
-        </test>
-        <test>
-          <strcmp>.*&amp;.*</strcmp>
-          <feedback>There should not be a <pf>&amp;</pf>.</feedback>
-        </test>
-        <test>
-          <strcmp>.*\..*</strcmp>
-          <feedback>There should not be a <pf>.</pf>.</feedback>
-        </test>
-      </evaluate>
-    </evaluation>
-  </exercise>
-
   <exercise label="pointers-aggregation_this-ex-3"
             numbered="yes"
             adaptive="yes"
