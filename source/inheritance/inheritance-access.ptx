@@ -133,13 +133,14 @@ test.cpp:31:49: error: no matching function for call to ‘Person::Person()’
   <exercise label="inheritance_inheritance-access-ex-3"
             numbered="yes"
             adaptive="yes"
-            indentation="hide">
+            indentation="show">
     <statement>
       <p>We are writing a class <pf>Button</pf> that inherits from <pf>Input</pf>. The <pf>Input</pf> class has a
-        private member variable <pf>string m_id</pf> and a constructor <pf>Input(string id)</pf>. A <pf>Button</pf> will add a <pf>string m_text</pf> and a <pf>string m_color</pf>. Build the code for <pf>Button</pf>.</p>
+        private member variable <pf>string m_id</pf> and a constructor <pf>Input(string id)</pf>.
+        A <pf>Button</pf> will add a <pf>string m_text</pf> and a <pf>string m_color</pf>. Build the code for <pf>Button</pf>.</p>
     </statement>
     <blocks>
-      <block>
+      <block name="a" depends="">
         <choice correct="yes">
           <cline><![CDATA[class Button : public Input {]]></cline>
         </choice>
@@ -147,30 +148,17 @@ test.cpp:31:49: error: no matching function for call to ‘Person::Person()’
           <cline><![CDATA[class Input : public Button {]]></cline>
         </choice>
       </block>
-      <block>
-        <choice correct="yes">
-          <cline><![CDATA[private:]]></cline>
-        </choice>
-        <choice>
-          <cline><![CDATA[ cout << "Tigers &" << endl; ]]></cline>
-        </choice>
+      <block name="b" depends="a">
+        <cline><![CDATA[private:]]></cline>
       </block>
-      <block>
-        <choice correct="yes">
-          <cline><![CDATA[ cout << " Bears!" << endl;]]></cline>
-        </choice>
-        <choice>
-          <cline><![CDATA[ cout << "Bears!" << endl; ]]></cline>
-        </choice>
+      <block name="c" depends="b">
+        <cline><![CDATA[ string m_color;]]></cline>
       </block>
-      <block>
-        <cline> cout &lt;&lt; endl;</cline>
+      <block name="d" depends="b">
+        <cline><![CDATA[ string m_text;]]></cline>
       </block>
-      <block>
-        <cline> cout &lt;&lt; "Oh my!";</cline>
-      </block>
-      <block>
-        <cline>}</cline>
+      <block correct="no">
+        <cline><![CDATA[ string m_id;]]></cline>
       </block>
     </blocks>
   </exercise>
