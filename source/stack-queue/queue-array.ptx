@@ -81,20 +81,14 @@ public:
       <script type="module">
         import { QueueArray } from "./external/interactives/data-structures/entry.js";
         let anim = new QueueArray({ initialData: [10, 6, 12, 5, 8, 3, 1] }); 
-        <!-- anim.doDequeue(); 
+        anim.doDequeue(); 
+        anim.animationManager.skipForward(); 
+        anim.doDequeue(); 
         anim.animationManager.skipForward(); 
         anim.doDequeue(); 
         anim.animationManager.skipForward(); 
         anim.doDequeue(); 
-        anim.animationManager.skipForward();  -->
-        <!-- anim.doDequeue(); 
         anim.animationManager.skipForward(); 
-        anim.doDequeue(); 
-        anim.animationManager.skipForward(); 
-        anim.doEnqueue(7); 
-        anim.animationManager.skipForward(); 
-        anim.doEnqueue(4); 
-        anim.animationManager.skipForward();  -->
       </script>
       <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
     </interactive>

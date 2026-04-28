@@ -5,7 +5,7 @@
   <exercise label="stack-queue_exercises-queue-insert">
     <statement>
       <p>Write the <pf>enqueue</pf> function for the <xref ref="ArrayBasedQueue-cxx-listing" text="custom">Array Based Queue</xref>.</p>
-      <p>You do not need to worry about the queue being full, but you should correctly handle wrapping.</p>
+      <p>You do not need to worry about the queue being full, but you should correctly handle wrapping back around to 0 when the <pf>end</pf> index reaches the end of the array.</p>
     </statement>
     <program interactive="activecode"
            compile-also="ArrayBasedQueue-cxx">
@@ -74,6 +74,7 @@ TEST_CASE("WrapEnd") {
   <exercise label="stack-queue_exercises-queue-remove">
     <statement>
       <p>Write the <pf>dequeue</pf> function for the <xref ref="ArrayBasedQueue-cxx-listing" text="custom">Array Based Queue</xref>.</p>
+      <p>Make sure to correctly handle wrapping around to 0 when the <pf>start</pf> index reaches the end of the array.</p>
     </statement>
     <program interactive="activecode"
            compile-also="ArrayBasedQueue-cxx">
@@ -222,6 +223,9 @@ TEST_CASE("Full") {
 ]]>
     </tests>
     </program>
+    <hint>
+      <p>Remember that there are two cases for detecting when the queue is full. Normally, we just want to know if the <pf>end</pf> index is one position behind the <pf>start</pf> index. But, if the <pf>start</pf> index is at 0, the queue is full if <pf>end</pf> reaches the last position in the array.</p>
+    </hint>
   </exercise>
 
   <exercise label="stack-queue_exercises-queue-grow">
