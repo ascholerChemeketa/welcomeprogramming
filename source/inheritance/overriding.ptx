@@ -94,7 +94,7 @@
 
   <exercise label="inheritance_overriding-ex-1">
     <statement>
-      <p>Given the UML below and <pf>Teacher t</pf>, match each function call with the (one) version that
+      <p>Given the UML below and <pf>Teacher teach</pf>, match each function call with the (one) version that
         will be used.</p>
       <image >
         <shortdescription>Teacher inherits from Employee. Employee has toString and calculatePay. Teacher has toString and getSchedule.</shortdescription>
@@ -114,9 +114,9 @@
       </image>
     </statement>
     <matching>
-      <premise ref="override-matching-1-e"><pf>t.calculatePay()</pf></premise>
-      <premise ref="override-matching-1-t"><pf>t.toString()</pf></premise>
-      <premise ref="override-matching-1-t"><pf>t.getSchedule()</pf></premise>
+      <premise ref="override-matching-1-e"><pf>teach.calculatePay()</pf></premise>
+      <premise ref="override-matching-1-t"><pf>teach.toString()</pf></premise>
+      <premise ref="override-matching-1-t"><pf>teach.getSchedule()</pf></premise>
       <response xml:id="override-matching-1-t">Teacher's</response>
       <response xml:id="override-matching-1-e">Employee's</response>
       <response xml:id="override-matching-1-i">Illegal</response>
@@ -126,7 +126,7 @@
 
   <exercise label="inheritance_overriding-ex-2">
     <statement>
-      <p>Given the UML below and <pf>Employee e</pf>, match each function call with the (one) version that
+      <p>Given the UML below and <pf>Employee emp</pf>, match each function call with the (one) version that
         will be used.</p>
       <image >
         <shortdescription>Teacher inherits from Employee. Employee has toString and calculatePay. Teacher has toString and getSchedule.</shortdescription>
@@ -146,9 +146,9 @@
       </image>
     </statement>
     <matching>
-      <premise ref="override-matching-2-e"><pf>e.calculatePay()</pf></premise>
-      <premise ref="override-matching-2-e"><pf>e.toString()</pf></premise>
-      <premise ref="override-matching-2-i"><pf>e.getSchedule()</pf></premise>
+      <premise ref="override-matching-2-e"><pf>emp.calculatePay()</pf></premise>
+      <premise ref="override-matching-2-e"><pf>emp.toString()</pf></premise>
+      <premise ref="override-matching-2-i"><pf>emp.getSchedule()</pf></premise>
       <response xml:id="override-matching-2-t">Teacher's</response>
       <response xml:id="override-matching-2-e">Employee's</response>
       <response xml:id="override-matching-2-i">Illegal</response>
