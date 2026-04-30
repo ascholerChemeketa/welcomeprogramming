@@ -44,6 +44,8 @@ void buildTestHeap(MaxHeap<int>& h) {
   h.data = new int[32]{100, 50, 60, 30, 20, 10, 200};
 }
 
+// doctest.h already included
+
 TEST_CASE("largestChildIndex") {
   MaxHeap<int> h;
   buildTestHeap(h); // 100 50 60 30 20 10
@@ -111,6 +113,8 @@ void buildTestHeap(MaxHeap<int>& h) {
   // Array intentionally has extra 200... not considered part of heap
   h.data = new int[32]{100, 50, 60, 30, 20, 10, 200};
 }
+
+// doctest.h already included
 
 TEST_CASE("addTest1") {
   MaxHeap<int> h;
@@ -226,6 +230,8 @@ void buildTestHeap(MaxHeap<int>& h) {
   // Array intentionally has extra 200... not considered part of heap
   h.data = new int[32]{100, 50, 60, 30, 20, 10, 200};
 }
+
+// doctest.h already included
 
 TEST_CASE("remove1") {
   MaxHeap<int> h;

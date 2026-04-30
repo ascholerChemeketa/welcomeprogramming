@@ -33,6 +33,9 @@ bool StringHashTable::contains(const std::string& key) const {
 ]]>
 </code>
     <tests visible="yes"><![CDATA[
+
+// doctest.h already included
+
 TEST_CASE( "Contains" ) {
     StringHashTable t;
     t.m_buckets[t.getBucket("A")] = "A";
@@ -127,6 +130,8 @@ void StringHashTable::insert(const std::string& key) {
 void StringHashTable::grow() {
     // placeholder, not needed for tests
 }
+
+// doctest.h already included
 
 TEST_CASE( "Insert" ) {
     StringHashTable t;
@@ -257,6 +262,7 @@ void StringHashTable::grow() {
     // placeholder, not needed for tests
 }
 
+// doctest.h already included
 
 TEST_CASE("Remove") {
   StringHashTable t;
@@ -390,6 +396,9 @@ void StringHashTable::grow() {
 ]]>
 </code>
     <tests visible="yes"><![CDATA[
+
+// doctest.h already included
+
 TEST_CASE("Grow") {
   StringHashTable t;
   // Add a tombstone
