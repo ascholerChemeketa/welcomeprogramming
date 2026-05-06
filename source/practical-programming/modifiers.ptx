@@ -148,7 +148,7 @@
     <p>The <pf>remove</pf> and <pf>remove_if</pf> algorithms do not actually change the size of the collection. Instead, they rearrange the elements so that the elements to be kept are at the front of the collection, and return an iterator to the new logical end of the collection. The elements beyond that point are left in an unspecified state (there are no guarantees about their values).</p>
 
     <p>
-      This behavior feels odd in a vector, but it means that the algorithm can work with containers that do not support resizing, such as arrays. It also allows for more efficient implementations since resizing a container can be expensive. Better to do the rearrangement and let the caller decide if whey want to resize the container.
+      This behavior feels odd in a vector, but it means that the algorithm can work with containers that do not support resizing, such as arrays. It also allows for more efficient implementations since resizing a container can be expensive. Better to do the rearrangement and let the caller decide if they want to resize the container.
     </p>
 
     <p>
@@ -220,6 +220,7 @@
       <block><c>v.begin(),</c></block>
       <block><c>v.end(),</c></block>
       <block><c>[](int n) { return n &lt; 0; }</c></block>
+      <block><c>)</c></block>
       <block><c>);</c></block>
     </blocks>
   </exercise>

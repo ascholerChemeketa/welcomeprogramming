@@ -22,7 +22,7 @@
   </p>
 
   <p>
-    Must in the way that <pf>set</pf>s can rely on functors to specify how to order their elements, some algorithms also take functions (or functors) as parameters to customize their behavior. For example, the <pf>sort</pf> algorithm can take a comparison function to specify how to compare elements when sorting.
+    Much in the way that <pf>set</pf>s can rely on functors to specify how to order their elements, some algorithms also take functions (or functors) as parameters to customize their behavior. For example, the <pf>sort</pf> algorithm can take a comparison function to specify how to compare elements when sorting.
   </p>
 
   <p>The prototype for <pf>std::sort</pf> looks like something like this:</p>
@@ -87,14 +87,16 @@
 
   <exercise label="practical-programming_algorithm-intro-exercise-1">
     <statement>
-      <p>Arrange blocks to sort the first half of a vector <pf>v</pf> using default ordering. You will not need all the blocks.</p>
+      <p>Arrange blocks to sort the first half of a vector <pf>v</pf> using default ordering.</p>
+      
+      <p>You can reuse blocks and will not need them all.</p>
     </statement>
     <blocks layout="horizontal"
             randomize="yes">
       <block><c>sort(</c></block>
-      <block><c>v.begin()</c></block>
+      <block xml:id="practical-programming_algorithm-intro-exercise-1-block1"><c>v.begin()</c></block>
       <block><c>,</c></block>
-      <block><c>v.begin()</c></block>
+      <block ref="practical-programming_algorithm-intro-exercise-1-block1"/>
       <block><c>+</c></block>
       <block><c>v.size()</c></block>
       <block><c>/</c></block>
