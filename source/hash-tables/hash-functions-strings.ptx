@@ -3,17 +3,24 @@
 
   <title>Hash Functions for Strings</title>
 
-  <p>
-    To hash a string, or other complex data type, we need to find a way to combine the hash values of the individual characters (or other components) into a single hash value. One simple approach would be to combine all of the character codes together to produce a single integer.
-    While this is a valid hash function, it is not a very good one. It will produce the same hash value for any two strings that have the same characters in any order. Two string like <q>sheet</q> and <q>these</q> would produce the same hash value, even though they are different strings.
-  </p>
+  <p> To hash a string, or other complex data type, we need to find a way to combine the hash values
+    of the individual characters (or other components) into a single hash value. One simple approach
+    would be to combine all of the character codes together to produce a single integer. While this
+    is a valid hash function, it is not a very good one. It will produce the same hash value for any
+    two strings that have the same characters in any order. Two string like <q>sheet</q> and <q>
+    these</q> would produce the same hash value, even though they are different strings. </p>
 
-  <p>
-    Before looking at why this happens and what we can do about it, let's consider how we should <q>combine</q> the character codes together. We could just add them all together. Another common method is to use <term>exclusive or</term>, or <term>xor</term>, to combine the bits. <term>xor</term> is an operation that takes two bits and produces a 1 if exactly one of the bits is 1, and produces a 0 otherwise. (1 if they are different, 0 if they are the same.) In C++, the <pf>^</pf> operator is the <q>bitwise exclusive or</q> operator. It combines two values by performing the <q>xor</q> operation on each pair of corresponding bits.
-  </p>
-  
+  <p> Before looking at why this happens and what we can do about it, let's consider how we should <q>
+    combine</q> the character codes together. We could just add them all together. Another common
+    method is to use <term>exclusive or</term>, or <term>xor</term>, to combine the bits. <term>xor</term>
+    is an operation that takes two bits and produces a 1 if exactly one of the bits is 1, and
+    produces a 0 otherwise. (1 if they are different, 0 if they are the same.) In C++, the <pf>^</pf>
+    operator is the <q>bitwise exclusive or</q> operator. It combines two values by performing the <q>
+    xor</q> operation on each pair of corresponding bits. </p>
+
   <figure>
-    <caption><pf>'e' ^ 's'</pf>. Every column where the bits are different has a 1 in the result. Every column where the bits are the same has a 0.</caption>
+    <caption><pf>'e' ^ 's'</pf>. Every column where the bits are different has a 1 in the result. Every
+      column where the bits are the same has a 0.</caption>
     <pre>
       01100101  (bits of 'e')
       01110011  (bits of 's')
@@ -23,24 +30,35 @@
   </figure>
 
   <note>
-    <p>
-      XOR is often chosen because it is a simple operation that can be performed efficiently by just about any processor. Other logical operations like AND and OR tend to force values towards either 1 (for OR) or 0 (for AND), which can lead to more collisions. For any random pair of bits, XOR will produce a 1 half of the time and a 0 half of the time, which can help to spread out hash values more evenly.
-    </p>
-    <p>
-      XOR has its own issues as a hash operation. If you hash the same value with itself, you will get a hash value of 0. Both <pf>'e' ^ 'e'</pf> and <pf>'s' ^ 's'</pf> would produce 0. Ideally, the strings <pf>ee</pf> and <pf>ss</pf> would produce different hash values.</p>
-    <p>Robust hash functions often combine XOR with other operations like addition to avoid this problem.</p>
+    <p> XOR is often chosen because it is a simple operation that can be performed efficiently by
+      just about any processor. Other logical operations like AND and OR tend to force values
+      towards either 1 (for OR) or 0 (for AND), which can lead to more collisions. For any random
+      pair of bits, XOR will produce a 1 half of the time and a 0 half of the time, which can help
+      to spread out hash values more evenly. </p>
+    <p> XOR has its own issues as a hash operation. If you hash the same value with itself, you will
+      get a hash value of 0. Both <pf>'e' ^ 'e'</pf> and <pf>'s' ^ 's'</pf> would produce 0. Ideally, the strings <pf>ee</pf>
+      and <pf>ss</pf> would produce different hash values.</p>
+    <p>Robust hash functions often combine XOR with other operations like addition to avoid this
+      problem.</p>
   </note>
 
-  <p>
-    Whether we use addition or xor, we still have the problem that <q>sheet</q> and <q>these</q> produce the same hash value. In general, we can't guarantee that every object will produce a unique hash value. But we can try to design our hash function to minimize the number of collisions (cases where different objects produce the same hash value). To do this in a string, we need to make sure that the order of the characters matters. One way to do that is to shift the bits of different characters by different amounts before combining them.
-  </p>
+  <p> Whether we use addition or xor, we still have the problem that <q>sheet</q> and <q>these</q>
+    produce the same hash value because they combine the same characters. In general, we can't
+    guarantee that every object will produce a unique hash value. But we should try to minimize the
+    number of collisions (cases where different objects produce the same hash value).</p>
+
+  <p>To do this in a string, we need to make sure that the order of the characters affects the hash
+    value. One way to do that is to shift the bits of different characters by different amounts
+    before combining them. </p>
 
   <p>First, look at the results of <pf>'e' ^ 's'</pf> and <pf>'s' ^ 'e'</pf>.</p>
 
   <sidebyside>
 
     <figure>
-      <caption><pf>'e' ^ 's'</pf></caption>
+      <caption>
+        <pf>'e' ^ 's'</pf>
+      </caption>
       <pre>
         01100101  (bits of 'e')
         01110011  (bits of 's')
@@ -50,7 +68,9 @@
     </figure>
 
     <figure>
-      <caption><pf>'s' ^ 'e'</pf></caption>
+      <caption>
+        <pf>'s' ^ 'e'</pf>
+      </caption>
       <pre>
         01110011  (bits of 's')
         01100101  (bits of 'e')
@@ -61,7 +81,8 @@
 
   </sidebyside>
 
-  <p>Now, look at the results if we take the first character and shift its bits left by 4 before combining with the second character.</p>
+  <p>Now, look at the results if we take the first character and shift its bits left by 4 before
+    combining with the second character.</p>
 
   <sidebyside>
     <figure>
@@ -83,32 +104,40 @@
         011100110110  (xor)
       </pre>
     </figure>
-</sidebyside>
+  </sidebyside>
 
-<note>
-    <p>Anywhere there isn't a visible bit shown, it should be considered a 0. But, 0 XOR'd with anything produces that thing (like adding 0), so if there is only one visible bit in a column, you can use that bit as the result.</p>
-    </note>
+  <note>
+    <p>Anywhere there isn't a visible bit shown, it should be considered a 0. But, 0 XOR'd with
+      anything produces that thing (like adding 0), so if there is only one visible bit in a column,
+      you can use that bit as the result.</p>
+  </note>
 
-<p>When we shift the bits of the first character, the order of the characters affects the hash value, which will make sure <pf>se</pf> and <pf>es</pf> produce different hash values.</p>
+  <p>When we shift the bits of the first character, the order of the characters affects the hash
+    value, which will make sure <pf>se</pf> and <pf>es</pf> produce different hash values.</p>
 
-  <p>
-    To shift bits of an integer in C++, we use the <pf>&lt;&lt;</pf> operator. If <pf>x</pf> has the value 5, or <c>00000101</c> in binary, then <pf>x &lt;&lt; 2</pf> will shift the bits of <pf>x</pf> to the left by 2 positions, resulting in <c>00010100</c> (which would be 20). <pf>x &lt;&lt; 4</pf> would shift the pattern over four positions to make <c>01010000</c> in binary.</p>
-    
-    <warning>
-    <p>Confusingly, this use of <pf>&lt;&lt;</pf> is a completely different operation from when we use <pf>&lt;&lt;</pf> with an output stream despiteusing the same symbols. <pf>intVar &lt;&lt; intValue</pf> says to shift the bits of <pf>intVar</pf> to the left by <pf>intValue</pf> positions, while <pf>cout &lt;&lt; intValue</pf> says to output <pr>intValue</pr> to the console.
-  </p>
+  <p> To shift bits of an integer in C++, we use the <pf>&lt;&lt;</pf> operator. If <pf>x</pf> has the value
+    5, or <c>00000101</c> in binary, then <pf>x &lt;&lt; 2</pf> will shift the bits of <pf>x</pf> to the left by 2
+    positions, resulting in <c>00010100</c> (which would be 20). <pf>x &lt;&lt; 4</pf> would shift the pattern over four
+    positions to make <c>01010000</c> in binary.</p>
+
+  <warning>
+    <p>Confusingly, this use of <pf>&lt;&lt;</pf> is a completely different operation from when we use <pf>&lt;&lt;</pf>
+      with an output stream despite using the same symbols. <pf>intVar &lt;&lt; intValue</pf> says to shift the bits of <pf>intVar</pf>
+      to the left by <pf>intValue</pf> positions, while <pf>cout &lt;&lt; intValue</pf> says to output <pf>intValue</pf> to the console. </p>
   </warning>
 
-    <p>
-      As with doing arithmetic operations, the shift operator produces a new value, so if we wanted to change the value of <pf>x</pf>, we would need to assign the result of the shift operation back to <pf>x</pf>:</p>
+  <p> As with doing arithmetic operations, the shift operator produces a new value, so if we wanted
+    to change the value of <pf>x</pf>, we would need to assign the result of the shift operation back
+    to <pf>x</pf>:</p>
 
-    <program>
+  <program>
 <![CDATA[
 x = x << 4;  // Shift x left by 4 bits and assign the result back to x
     ]]>
     </program>
 
-<p>By repeatedly shifting the bits of the hash value, as we add in characters, we create what is known as a <term>rolling hash</term>. The animation below demonstrates the process.</p>
+  <p>By repeatedly shifting the bits of the hash value, as we add in characters, we create what is
+    known as a <term>rolling hash</term>. The animation below demonstrates the process.</p>
 
   <activity>
     <title>String Hashing</title>
@@ -116,20 +145,16 @@ x = x << 4;  // Shift x left by 4 bits and assign the result back to x
     <interactive platform="javascript"
                  design-width="1600"
                  aspect="4:2">
-      <script type="module">
-      import { StringHash } from "./external/interactives/data-structures/entry.js";
-
-      let anim = new StringHash({zoom: "1.5x"});
-      anim.doHash("these");
-    </script>
+      <script type="module"> import { StringHash } from
+        "./external/interactives/data-structures/entry.js"; let anim = new StringHash({zoom:
+        "1.5x"}); anim.doHash("these"); </script>
       <xi:include href="../../fragments/ds-linked-list-instructions.xml"/>
     </interactive>
   </activity>
 
-  <p>
-    A C++ implementation of this hash function for strings is shown below. We start with a hash value of 0, and for each character in the string, we shift the current hash value left by 4 bits and then xor it with the character code of the current character.</p>
-
-  <p>If <pf>x</pf> has the value 5, or <c>00000101</c> in binary, then <pf>x &lt;&lt; 2</pf> will .</p>
+  <p> A C++ implementation of this hash function for strings is shown below. We start with a hash
+    value of 0, and for each character in the string, we shift the current hash value left by 4 bits
+    and then xor it with the character code of the current character.</p>
 
   <program>
 <![CDATA[
@@ -142,20 +167,16 @@ int hashString(const std::string& str) {
 }
     ]]>
   </program>
-    
 
-  
-  <p>
-    This is a very simplistic hash function for strings, but it at least takes into account the order of the characters.
-  </p>
+
+  <p> This is a very simplistic hash function for strings, but it at least takes into account the
+    order of the characters. </p>
 
   <exercise label="hash-tables_hash-functions-strings-ex-1">
     <statement>
-      <p>
-        If <pf>x</pf> has the value 9 (<c>00001001</c> in binary) then what value does <pf>x &lt;&lt; 4</pf> produce?
-      </p>
-      <p>
-        Give your answer as an 8 bit value: <fillin mode="string" answer="10010000"/>
+      <p> If <pf>x</pf> has the value 9 (<c>00001001</c> in binary) then what value does <pf>x &lt;&lt; 4</pf> produce? </p>
+      <p> Give your answer as an 8 bit value: <fillin mode="string"
+                answer="10010000"/>
       </p>
     </statement>
     <evaluation>
@@ -185,19 +206,17 @@ int hashString(const std::string& str) {
     </evaluation>
   </exercise>
 
-  
+
   <exercise label="hash-tables_hash-functions-strings-ex-2">
     <statement>
-      <p>
-        What is the result of this XOR operation?
-      <pre>
+      <p> What is the result of this XOR operation? <pre>
           101101  
             101101
         ----------
       </pre>
       </p>
-      <p>
-        Give your answer as an 8 bit value: <fillin mode="string" answer="10011001"/>
+      <p> Give your answer as an 8 bit value: <fillin mode="string"
+                answer="10011001"/>
       </p>
     </statement>
     <evaluation>
@@ -225,14 +244,11 @@ int hashString(const std::string& str) {
         </test>
       </evaluate>
     </evaluation>
-      <hint>
-        <p>
-          Different values in the same column produce a 1. Same values in the same column produce a 0.
-          If there is no value in a column, treat it as a 0.
-        </p>
-      </hint>
+    <hint>
+      <p> Different values in the same column produce a 1. Same values in the same column produce a
+        0. If there is no value in a column, treat it as a 0. </p>
+    </hint>
   </exercise>
-
 
 
 </section>
