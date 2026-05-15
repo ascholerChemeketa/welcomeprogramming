@@ -94,7 +94,7 @@ TEST_CASE("Height") {
 <xi:include href="../../programs/trees/charbst-ex-copySubStub.cpp" parse="text"/>
         </preamble>
         <code>
-BSTNode* rotateRight(BSTNode* parent) {
+BSTNode* rotateRight(BSTNode* node) {
   /// TODO - fixme
   return nullptr;
 }
@@ -136,6 +136,7 @@ TEST_CASE("RotateRightAtC") {
   BSTNode* target = bst.root->left;
 
   BSTNode* newParent = rotateRight(target);
+  bst.root->left = newParent; // update the parent of the rotated subtree
 
   REQUIRE(newParent->value == 'B');
   REQUIRE(newParent->right->value == 'C');
@@ -149,6 +150,7 @@ TEST_CASE("RotateRightAtG") {
   BSTNode* target = bst.root;
 
   BSTNode* newParent = rotateRight(target);
+  bst.root = newParent; // update the root of the tree
 
   REQUIRE(newParent->value == 'C');
   REQUIRE(newParent->right->value == 'G');
@@ -213,6 +215,7 @@ TEST_CASE("RotateLeftAtC") {
   BSTNode* target = bst.root->left;
 
   BSTNode* newParent = rotateLeft(target);
+  bst.root->left = newParent; // update the parent of the rotated subtree
 
   REQUIRE(newParent->value == 'F');
   REQUIRE(newParent->left->value == 'C');
@@ -226,6 +229,7 @@ TEST_CASE("RotateLeftAtG") {
   BSTNode* target = bst.root;
 
   BSTNode* newParent = rotateLeft(target);
+  bst.root = newParent; // update the root of the tree
 
   REQUIRE(newParent->value == 'P');
   REQUIRE(newParent->left->value == 'G');
