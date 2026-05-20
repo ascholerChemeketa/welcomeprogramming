@@ -146,8 +146,8 @@ ArrayList<T> ArrayList<T>::splitAt(int index) {
      However, it is doing a lot of extra work. It keeps removing the item at the split point, which means that every time we remove an item, all the items after it have to shift down. Given our example list of <pf>{10, 20, 30, 40, 50}</pf>, the first time we remove at index 2, we take the have to shift 40 and 50 down so that <pf>{10, 20, 40, 50}</pf> are compact in memory. The second time we remove at index 2, we have to shift 50 down.
      It would be even worse if we were splitting an ArrayList with 1,000 items at index 2 (997 items would need to shift, then 996, then 995, etc...)</p>
 
-    <p>It seems like we are doing a lot of extra work shifting items around that we don't need to do if we just copy the items directly into the new array. (We will develop a language to quantify this extra work in <xref ref="big-o"/>.)
-    So, let's avoid using <pf>removeAt</pf>. We can just not remove during the loop and go back to changing the logical size after the loop is complete.</p>
+    <p>We can avoid this extra work if we just copy the items directly into the new array without removing them one by one. (We will develop a language to quantify this extra work in <xref ref="big-o"/>.)
+    So, let's avoid using <pf>removeAt</pf>. Instead, once the items have been copied, we can adjust the logical size of the original ArrayList to <q>remove</q> the items that were copied.</p>
 
     <p><pf>insertEnd</pf> is not as problematic. Because it always adds to the end of the ArrayList, we don't have to do any shifting of existing items. Yes, it might need to grow a few times, but unless we build a way to create the new ArrayList with the correct capacity from the start, we will need to do that work somewhere.
     </p>
@@ -174,7 +174,6 @@ ArrayList<T> ArrayList<T>::splitAt(int index) {
       <p>Great code is both efficient and easy to understand. But sometimes those two goals are at odds with each other. In that case, you have to strike a balance or decide which goal is more important for a given situation.</p>
     </insight>
 
-  
   <exercise label="templates-array-list_array-list-split-at-ex-1"
             adaptive="yes"
             indentation="hide">
