@@ -75,10 +75,9 @@ T getDefaultValue() {
     </statement>
     <evaluation>
       <evaluate>
-        <test>
+        <test correct="yes">
           <strcmp>T\\s+foo\\s*{\\s*}\\s*;?</strcmp>
         </test>
-
         <test>
           <strcmp>^[^{]*$</strcmp>
           <feedback>You need to use curly braces</feedback>
