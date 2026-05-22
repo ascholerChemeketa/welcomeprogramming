@@ -6,28 +6,34 @@ import Graph;
 using namespace std;
 
 int main() {
-    Graph<string> graph;
+  Graph<string> graph;
 
-    graph.addVertex("A");
-    graph.addVertex("B");
-    graph.addVertex("C");
+  graph.addVertex("A");
+  graph.addVertex("B");
+  graph.addVertex("C");
 
-    graph.addEdge("A", "B", 5);
-    graph.addEdge("B", "C", 10);
-    graph.addEdge("B", "A", 3);
+  graph.addEdge("A", "B", 5);
+  graph.addEdge("B", "C", 10);
+  graph.addEdge("B", "A", 3);
 
-    cout << "Graph has vertex A: " << graph.hasVertex("A") << endl;
-    cout << "Graph has vertex D: " << graph.hasVertex("D") << endl;
+  cout << "Graph has vertex A: " << graph.hasVertex("A") << endl;
+  cout << "Graph has vertex D: " << graph.hasVertex("D") << endl;
 
-    cout << "Graph has edge A -> B: " << graph.hasEdge("A", "B") << endl;
-    cout << "Graph has edge A -> C: " << graph.hasEdge("A", "C") << endl;
+  cout << "Graph has edge A -> B: " << graph.hasEdge("A", "B") << endl;
+  cout << "Graph has edge A -> C: " << graph.hasEdge("A", "C") << endl;
 
-    cout << "Weight of edge A -> B: " << graph.getEdgeWeight("A", "B") << endl;
+  cout << "Weight of edge A -> B: " << graph.getEdgeWeight("A", "B") << endl;
 
-    auto neighbors = graph.getNeighbors("B");
-    cout << "Neighbors of B: ";
-    for (const auto& neighbor : neighbors) {
-        cout << neighbor << " ";
-    }
-    cout << endl;
+  auto neighbors = graph.getNeighbors("B");
+  cout << "Neighbors of B: ";
+  for (const auto& neighbor : neighbors) {
+    cout << neighbor << " ";
+  }
+  cout << endl;
+
+  cout << "Adjacency List:" << endl;
+  graph.printAdjacencyList();
+
+  cout << "Adjacency Matrix:" << endl;
+  graph.printAdjacencyMatrix();
 }

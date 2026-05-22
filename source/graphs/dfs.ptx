@@ -27,6 +27,7 @@ DFS(graph, start):
         if not visitedSet.contains(neighbor):
           parentMap[neighbor] = vertex
           searchStack.push(neighbor)
+  return parentMap
     </program>
 
   <p> Key differences between depth-first search and the breadth-first search algorithm we saw
@@ -207,11 +208,12 @@ DFS(graph, start):
   <listing xml:id="graphs_dfs-dfs-pseudocode">
     <program language="text"
              line-numbers="yes"
-             highlight-lines="2, 6, 9-11, 14">
+             highlight-lines="4, 7">
 StartDFS(graph, start):
   Map parentMap
   Set visitedSet
   DFS(graph, start, visitedMap, parentMap)
+  return parentMap
 
 DFS(graph, vertex, visitedSet, parentMap):
   if visitedSet.contains(vertex):

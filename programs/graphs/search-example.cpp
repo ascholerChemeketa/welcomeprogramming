@@ -1,51 +1,70 @@
 #include <iostream>
+#include <queue>
 #include <string>
-#include <unordered_set>
 #include <unordered_map>
+#include <unordered_set>
 
 import Graph;
 
 using namespace std;
 
-void dfs(Graph<string>& graph, 
-         string vertex,
-         unordered_set<string>& visited,
-         unordered_map<string, string>& parentMap) {
-
-    if (visited.contains(vertex)) {
-        return; // Already visited this vertex
-    }
-    visited.insert(vertex); // Mark this vertex as visited
-
-    // Recurse for all neighbors of this vertex
-    for (const auto& neighbor : graph.getNeighbors(vertex)) {
-        parentMap[neighbor] = vertex;
-        dfs(graph, neighbor, visited, parentMap);
-    }
-}
+// Definition below main
+unordered_map<string, string> bfs(const Graph<string>& graph,
+                                  const string& vertex);
 
 int main() {
-    Graph<string> graph;
+  Graph<string> graph;
 
-    graph.addVertex("MTH111");
-    graph.addVertex("MTH112");
-    graph.addVertex("CS160");
-    graph.addVertex("CS161");
-    graph.addVertex("CS162");
-    graph.addVertex("CS205");
+  // edge between Anna and Ben with a weight of 1, undirected
+  // implicitly adds vertices Anna and Ben if they do not exist and
+  // adds an edge from Ben back to Anna
+  graph.addEdge("Anna", "Ben", 1, false);
+  graph.addEdge("Anna", "Diego", 1, false);
+  graph.addEdge("Ben", "Diego", 1, false);
+  graph.addEdge("Diego", "Erin", 1, false);
+  graph.addEdge("Erin", "Fred", 1, false);
+  graph.addEdge("Erin", "Charlie", 1, false);
 
-    graph.addEdge("CS161", "CS160");
-    graph.addEdge("CS161", "MTH111");
-    graph.addEdge("MTH112", "MTH111");
-    graph.addEdge("CS162", "CS161");
-    graph.addEdge("CS205", "CS161");
+  // Start a search from Anna and build up a search tree in parentMap
+  unordered_map<string, string> parentMap = bfs(graph, "Anna");
 
-    // Find prerequisites for CS205
-    unordered_set<string> visited;
-    unordered_map<string, string> parentMap;
-    dfs(graph, "CS205", visited, parentMap);
-    cout << "Prerequisites for CS205:" << endl;
-    for (const auto& prereq : parentMap) {
-        cout << prereq.first << " is a prerequisite for " << prereq.second << endl;
+  cout << "Path from Anna to Fred:" << endl;
+  string current = "Fred";
+  while (current != "Anna") {
+    cout << current << " <- ";
+    current = parentMap[current];
+  }
+  cout << "Anna" << endl;
+}
+
+/**
+ * @brief Performs a breadth-first search on the graph starting from the given
+ * vertex
+ * @param graph The graph to search
+ * @param vertex The starting vertex
+ * @return A map of each vertex to its parent in the search tree
+ */
+unordered_map<string, string> bfs(const Graph<string>& graph,
+                                  const string& vertex) {
+  queue<string> searchQueue;
+  searchQueue.push(vertex);
+
+  unordered_set<string> known;
+  known.insert(vertex);
+
+  unordered_map<string, string> parentMap;
+
+  while (!searchQueue.empty()) {
+    string current = searchQueue.front();
+    searchQueue.pop();
+
+    for (const auto& neighbor : graph.getNeighbors(current)) {
+      if (!known.contains(neighbor)) {
+        known.insert(neighbor);
+        parentMap[neighbor] = current;
+        searchQueue.push(neighbor);
+      }
     }
+  }
+  return parentMap;
 }

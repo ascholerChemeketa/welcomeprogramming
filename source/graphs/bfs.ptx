@@ -19,18 +19,21 @@
   <listing xml:id="graphs_bfs-bfs-pseudocode">
     <program language="text">
 BFS(graph, start):
-Queue searchQueue
-searchQueue.enqueue(start)
-Map parentMap
-Map knownMap
-knownMap[start] = true
+  # Initialize the search queue, parent map, and known set
+  Queue searchQueue
+  searchQueue.enqueue(start)
+  Map parentMap
+  Set knownSet
+  knownSet.add(start)
+
   while not searchQueue.isEmpty():
     vertex = searchQueue.dequeue()
     for each neighbor of vertex:
-      if not knownMap.contains(neighbor):
-        knownMap[neighbor] = true
+      if not knownSet.contains(neighbor):
+        knownSet.add(neighbor)
         parentMap[neighbor] = vertex
         searchQueue.enqueue(neighbor)
+  return parentMap
     </program>
   </listing>
 

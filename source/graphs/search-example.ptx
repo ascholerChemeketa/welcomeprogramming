@@ -1,75 +1,69 @@
 <section xml:id="graphs_search-example"
          xmlns:xi="http://www.w3.org/2001/XInclude">
 
-  <title>Search Example : Course Prerequisites</title>
+  <title>Search Example : Friend Finder</title>
 
-  <p> As a concrete example of using graph search, we will consider the problem of determining what
-    classes are prerequisites (directly or indirectly) for a given class. For example, given the
-    class prerequisite graph shown below, we would like to determine the prerequisites for CS205. </p>
+  <p> As a concrete example of using graph search, we will consider the problem of determining a way to get a message from one person to another. We will rely on the same friendship graph structure we saw earlier:</p>
 
   <figure>
-    <caption>A prerequisite chart for a Computer Science major.</caption>
-    <image source="images/graphs/graphs-intro-1"
-           width="40%">
-      <shortdescription>
-        <p> Math 111, CS 160, CS161, CS162, CS205 are all circles (nodes). Math 111 has an arrow
-          (edge) pointing to CS 160. CS 160 has an arrow pointing to CS 161, which has an arrow
-          pointing to CS 162, which has an arrow pointing to CS 205. </p>
-      </shortdescription>
+    <caption>Friendship connections between individuals.</caption>
+    <image source="images/graphs/graphs-intro-2"
+           width="20%">
+        <shortdescription>
+          <p> Nodes for Anna, Ben, Charlie, Diego, Erin and Fred. Erin is connected to Charlie,
+            Diego and Fred. Diego is also connected to Anna and Ben. Anna and Ben are connected. </p>
+        </shortdescription>
     </image>
   </figure>
 
-  <p>Visually,we can see that the direct prerequisite for CS205 is CS162, and the indirect
-    prerequisites are CS161, CS160, and MTH111. To determine this in a program, we can set up a
-    graph representation of the prerequisite relationships and then perform a search. We will start
-    by considering the structure of the graph we will need.</p>
+  <p>We want to figure out how Anna can get a message to Fred. Finding the shortest path would make sense, as it would minimize the number of intermediaries needed to deliver the message. So we will use breadth-first search.</p>
 
-  <p> We will represent vertices as strings (the course names). Edges will be directed and
-    unweighted. Starting from CS205, we want to work backwards to find all the courses that are
-    prerequisites for CS205. This means we will want our edges pointing in the opposite direction of
-    the arrows in the diagram. So we will have an edge from CS205 to CS162, an edge from CS162 to
-    CS161, an edge from CS161 to CS160, and an edge from CS160 to MTH111. </p>
+  <p>
+    First, we need to set up the graph. The <pf>addEdge</pf> function will add an edge between two vertices, and if the vertices do not already exist, it will add them to the graph as well. We do not want edge weights, but we do want the edges to be undirected, so we will set the weight to <pf>1</pf> and the directed flag to <pf>false</pf>. That will cause adding an edge from Anna to Ben to also add an edge from Ben to Anna.
+  </p>
 
   <program>
     <![CDATA[
-Graph<string> prereqGraph;
-prereqGraph.addVertex("MTH111");
-prereqGraph.addVertex("CS160");
-prereqGraph.addVertex("CS161");
-...
-prereqGraph.addEdge("CS161", "CS160");
-prereqGraph.addEdge("CS161", "MTH111");
-...
+  Graph<string> graph;
+
+  // edge between Anna and Ben with a weight of 1, undirected
+  graph.addEdge("Anna", "Ben", 1, false);
+  // add the rest of the edges in the graph
+  graph.addEdge("Anna", "Diego", 1, false);
+  ...
     ]]>
   </program>
 
-  <p> Once the graph is set up, we can perform a search to find all the reachable vertices from a
-    given vertex like CS205. Since we do not care about the path to each prerequisite or the length
-    of the path, we can use either a breadth-first search or a depth-first search. We will use a
-    recursive depth-first search. </p>
+  <p> We then need to implement the BFS algorithm. Translating our <xref ref="graphs_bfs-bfs-pseudocode" text="custom">BFS pseudocode</xref> into actual code looks like this:</p>
+
+  <program>
+<xi:include href="../../programs/graphs/search-example-bfs.cpp" parse="text"/>
+  </program>
+
+  <p>Finally, we can perform the search and print the path from Anna to Fred:</p>
 
   <listing xml:id="graphs_search-example-listing">
     <program interactive="activecode"
              label="graphs_search-example"
-             compile-also="graph-code_graph-cxx">
+             compile-also="graph-code_graph-cxx" 
+             highlight-lines="29-37">
 <xi:include href="../../programs/graphs/search-example.cpp" parse="text"/>
-  </program>
+    </program>
   </listing>
-
 
   <exercise label="graphs_search-example-ex-1">
     <statement>
       <p>
-        What line of code could we add to <xref ref="graphs_search-example-listing"/> to make MTH112 a prerequisite for CS162?
+        What is the path produced by <xref ref="graphs_search-example-listing"/>? (Exactly as it is output.)
       </p>
       <p>
-        <fillin width="40" mode="string" answer="graph.addEdge(&quot;MTH112&quot;, &quot;MTH111&quot;);"/>
+        <fillin width="40" mode="string" answer="Fred &lt;- Erin &lt;- Diego &lt;- Anna"/>
       </p>
     </statement>
     <evaluation>
       <evaluate>
         <test correct="yes">
-          <strcmp>graph.addEdge\(\s*"CS162",\s*"MTH112"\s*\);?</strcmp>
+          <strcmp>Fred &lt;- Erin &lt;- Diego &lt;- Anna</strcmp>
         </test>
         <test>
           <strcmp>.*</strcmp>
