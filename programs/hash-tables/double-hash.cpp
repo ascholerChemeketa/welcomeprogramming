@@ -3,7 +3,6 @@
 using namespace std;
 
 int myHash(double value) {
-  return bit_cast<uint64_t>(value);
     return static_cast<int>(value * 10000);
 }
 
