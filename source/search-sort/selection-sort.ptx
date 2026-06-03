@@ -113,7 +113,7 @@
   
   <exercise label="search-sort_selection-sort-ex-2">
   <statement>
-    <p>Suppose you have the following vector of numbers to sort: [11, 7, 12, 14, 19, 1, 6, 18, 8,
+    <p>Suppose you have the following vector of numbers to sort: [11, 7, 12, 14, 9, 1, 6, 18, 8,
       20] which vector represents the partially sorted vector after three steps of
       selection sort when using the swap smallest to front approach?</p>
   </statement>
@@ -122,7 +122,7 @@
     <choice>
       <statement>
         <p>
-          [11, 18, 12, 14, 19, 20, 8, 7, 6, 1]
+          [11, 18, 12, 14, 9, 20, 8, 7, 6, 1]
         </p>
       </statement>
       <feedback>
@@ -132,7 +132,7 @@
 
     <choice>
       <statement>
-        <p>[7, 11, 12, 14, 19, 1, 6, 18, 8, 20]</p>
+        <p>[7, 11, 12, 14, 9, 1, 6, 18, 8, 20]</p>
       </statement>
       <feedback>
         <p>This looks like an insertion sort.</p>
@@ -141,7 +141,7 @@
 
     <choice>
       <statement>
-        <p>[1, 6, 7, 11, 12, 14, 19, 18, 8, 20]</p>
+        <p>[1, 6, 7, 11, 12, 14, 9, 18, 8, 20]</p>
       </statement>
       <feedback>
         <p>This one looks similar to the correct answer, however, it is not how selection sort
@@ -152,8 +152,11 @@
 
     <choice correct="yes">
       <statement>
-        <p>[1, 6, 7, 8, 11, 12, 14, 18, 19, 20]</p>
+        <p>[1, 6, 7, 14, 9, 11, 12, 18, 8, 20]</p>
       </statement>
+      <feedback>
+        <p>Correct. First we swap 1 and 11, then 6 and 7, then 7 and 12.</p>
+      </feedback>
     </choice>
   </choices>
   </exercise>
