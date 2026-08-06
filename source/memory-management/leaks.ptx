@@ -43,6 +43,8 @@
     </idx></p>
 
   <program highlight-lines="17-18"
+           interactive="activecode"
+           label="memory-management_leaks-program-1"
            line-numbers="yes">
 <xi:include href="../../programs/memory-management/leaks-1.cpp" parse="text"/>
   </program>
@@ -51,8 +53,7 @@
     properly deallocates the memory we allocated with <pf>new</pf>, preventing any memory leaks. The
     memory diagram right before foo returns would look like:</p>
 
-  <image source="images/leaks-2.svg"
-         >
+  <image source="images/leaks-2.svg">
 
     <shortdescription>The memory allocated on the heap and pointed to by p1 and p2 was freed</shortdescription>
 
