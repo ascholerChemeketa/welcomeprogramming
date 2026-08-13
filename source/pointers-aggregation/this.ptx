@@ -147,13 +147,12 @@ Point&amp; Point::getReference() {
 
 
   <exercise label="pointers-aggregation_this-ex-3"
-            numbered="yes"
             adaptive="yes"
             indentation="hide">
     <statement>
       <p>Construct a <pf>Point</pf> function <pf>isSelf</pf> that takes a pointer to a <pf>Point</pf> as its parameter and returns true if that memory address is its own address.</p>
     </statement>
-    <blocks>
+    <blocks numbered="yes">
       <block>
         <choice correct="yes">
           <cline><![CDATA[bool Point::isSelf(Point* address) const {]]></cline>

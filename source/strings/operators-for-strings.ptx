@@ -205,14 +205,13 @@ name2 += " Turing";        // name2 is now "Alan Turing"
   <warning><p>The <pf>+</pf> operator is defined for a char and a C-string, but it does not do what you expect. Avoid trying to write something like <pf>"hell" + 'o'</pf>. Make sure when you are using <pf>+</pf> you are using a variable of type <pf>string</pf> and not a string literal.</p></warning>
 
   <exercise label="strings_operators-for-strings-ex-5"
-            numbered="yes"
             adaptive="yes"
             indentation="hide">
     <statement>
       <p>Put together the code below to create a function <pf>greeter</pf> that adds <q>Hello</q> before a message and <q>. goodbye.</q> after it behind and then prints the new message.
         Example: <pf>greeter("Bob")</pf> will print <q>Hello Bob. goodbye.</q></p>
     </statement>
-    <blocks>
+    <blocks numbered="yes">
       <block>
         <choice correct="yes">
           <cline>string beginning = "Hello ";</cline>

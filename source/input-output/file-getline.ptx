@@ -70,7 +70,6 @@ Ford Focus 2015
     <p>Try to stick to one method or the other when reading a file. Either read each line and then chop it up manually, or use <pf>>></pf> to get one token at a time.</p></warning>
 
   <exercise label="input-output_file-getline-ex-1"
-            numbered="yes"
             adaptive="yes"
             indentation="hide">
     <statement>
@@ -82,7 +81,7 @@ Ford Focus 2015
 
         <p>Note that <pf>upperToLower</pf> intentionally uses pass by value to work with a copy of <pf>upper</pf> that it can freely modify.</p>
     </statement>
-    <blocks>
+    <blocks numbered="yes">
       <block>
         <cline>string upperToLower(string upper) {</cline>
         <cline><![CDATA[   for (char& c : upper) {]]></cline>

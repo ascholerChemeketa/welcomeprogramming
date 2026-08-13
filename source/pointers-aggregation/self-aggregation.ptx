@@ -114,13 +114,12 @@ test.cpp:5:7: note: definition of ‘class Person’ is not complete until the c
   </exercise>
 
   <exercise label="pointers-aggregation_self-aggregation-ex-2"
-            numbered="yes"
             adaptive="yes"
             indentation="hide">
     <statement>
       <p>Construct a <pf>Person</pf> function <pf>getDivorce()</pf>. If the Person executing the function has a spouse, it should clear the spouse variable of both the spouse and current Person by setting them to <pf>nullptr</pf>. You will not need all of the blocks.</p>
     </statement>
-    <blocks>
+    <blocks numbered="yes">
       <block>
         <choice correct="yes">
           <cline><![CDATA[void Person::getDivorce() {]]></cline>

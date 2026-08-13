@@ -56,14 +56,13 @@
   <p>In the case of recursive functions with extra parameters, it is common to provide a function like this that <q>kick starts</q> the recursion. With that helper function in place, main can go back to simply call <pf>countZeros(numbers);</pf></p>
   
 <exercise label="recursive-functions_adding-params-ex-1"
-  numbered="yes"
   adaptive="yes"
   indentation="hide">
   <statement>
   <p>We could make the <pf>countZeros</pf> function count down from the last index of the vector to the beginning. Starting that process might look like <pf>countZeros(myVector, myVector.size() - 1)</pf>.</p>
   <p>Complete the code for this version:</p>
   </statement>
-  <blocks>
+  <blocks numbered="yes">
     <block order="4">
         <choice correct="yes">
           <cline><![CDATA[int countZeros(const vector<int>& numbers,]]></cline>

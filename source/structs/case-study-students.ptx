@@ -95,13 +95,12 @@ Active
     <p>First we will just worry about turning a string like <pf>Byron U. Stout</pf> into a <pf>Name</pf> struct. We could either find each space and use those to chop up the string. But since the tokens are separated by whitespaces, we could also use a <pf>stringstream</pf> to "read" the data from the string into the parts of a name. Complete the code to do this job using a stringstream:</p>
     
   <exercise label="structs_case-study-students-ex-1"
-            numbered="yes"
             adaptive="yes"
             indentation="hide">
     <statement>
       <p>Construct the algorithm to produce a name struct from a string.</p>
     </statement>
-<blocks>
+<blocks numbered="yes">
   <block name="createNumber" depends="">
     <cline><![CDATA[Name createName(const string& line) {]]></cline>
   </block>
@@ -194,13 +193,12 @@ add it to the vector
     </listing>
     
   <exercise label="structs_case-study-students-ex-3"
-            numbered="yes"
             adaptive="yes"
             indentation="hide">
     <statement>
       <p>Construct the algorithm to produce a vector of doubles from the line of scores. Note that the function takes <pf>line</pf> by value so we can safely modify the copy that results. If we took it by const reference, we would not be able to modify <pf>line</pf> by removing one part at a time.</p>
     </statement>
-<blocks>
+<blocks numbered="yes">
   <block name="a" depends="">
     <cline><![CDATA[vector<double> createScores(const string& line) {]]></cline>
   </block>

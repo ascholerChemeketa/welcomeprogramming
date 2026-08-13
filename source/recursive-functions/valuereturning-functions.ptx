@@ -81,14 +81,13 @@ Once we there are no more <pf>factorial</pf> calls, we can evaluate the expressi
 
 
 <exercise label="recursive-functions_valuereturning-functions-ex-1"
-  numbered="yes"
   adaptive="yes"
   indentation="hide">
   <statement>
   <p>Construct the function <pf>sumFrom(int start, int end)</pf>. It should return the sum of all integers from <pf>start</pf> to <pf>end</pf> (inclusive). If <pf>start</pf> is greater than <pf>end</pf>, it should return 0.</p>
   <p>Each call will be responsible for the current <pf>start</pf> value. Recursion will change the <pf>start</pf>.</p>
   </statement>
-  <blocks>
+  <blocks numbered="yes">
     <block order="2">
         <choice correct="yes">
           <cline><![CDATA[int sumFrom(int start, int end) {]]></cline>
@@ -155,7 +154,6 @@ Once we there are no more <pf>factorial</pf> calls, we can evaluate the expressi
 
 
 <exercise label="recursive-functions_valuereturning-functions-ex-2"
-  numbered="yes"
   adaptive="yes"
   indentation="hide">
   <statement>
@@ -163,7 +161,7 @@ Once we there are no more <pf>factorial</pf> calls, we can evaluate the expressi
   <p>This version will have two base cases. One for when <pf>start</pf> is equal to <pf>end</pf>, and another for when <pf>start</pf> is greater than <pf>end</pf>.</p>
   <p>Each call should be responsible for the current <pf>end</pf> value. Recursion will change the <pf>end</pf>.</p>
   </statement>
-  <blocks>
+  <blocks numbered="yes">
     <block order="2">
         <choice correct="yes">
           <cline><![CDATA[int sumFrom(int start, int end) {]]></cline>
