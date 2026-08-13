@@ -8,6 +8,7 @@
   <p>Consider line 8 in the sample below. It creates <pf>personRef2</pf>, which is a reference to a <pf>Person</pf>, but then assigns it to reference a <pf>Student</pf>:</p>
 
   <listing>
+    <title></title>
   <program label="inheritance_upcasting-program-1"
   interactive="activecode" highlight-lines="8">
     <preamble visible="no">
@@ -24,6 +25,7 @@
   <p>The opposite is not true. Although a Person may happen to be a Student, there is a distinction between the two. A Person does not necessarily have the properties or behaviors of a Student. This version of the code tries to make a <pf>Student&amp;</pf> that refers to a Person. But doing so is a compile error because it makes no sense::</p>
 
   <listing>
+    <title></title>
   <program label="inheritance_upcasting-program-2"
   interactive="activecode" highlight-lines="7" autorun="yes">
     <preamble visible="no">
@@ -38,6 +40,7 @@
   <p>This ability to <term>upcast</term> and treat a derived class object as if it were a base class object enables us to write a function that can work on any type of <pf>Person</pf>. In this sample, we call <pf>makeIntroduction</pf> twice. Once with a plain Person and then with a Person that happens to be a Student:</p>
 
   <listing>
+    <title></title>
   <program label="inheritance_upcasting-program-3"
   interactive="activecode" highlight-lines="3, 12-13">
     <preamble visible="no">

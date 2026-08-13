@@ -7,6 +7,7 @@
     something inside the loop to update that variable:</p>
 
 <listing>
+  <title></title>
 <program line-numbers="yes" highlight-lines="1,2,4"><![CDATA[
 int i = 0;              //initialize
 while (i < 5) {         //test
@@ -57,6 +58,7 @@ for (initializer; test; update) {
     <p>For example, we can rewrite the 1-5 loop this way: </p>
 
   <listing>
+    <title></title>
   <program label="loops_for-statement-program-1" interactive="codelens">
 <xi:include href="../../programs/loops/for-statement-0.cpp" parse="text"/>
 </program>
@@ -79,6 +81,7 @@ for (initializer; test; update) {
     in the initializer, it exists only <term>inside</term> the <pf>for</pf> loop. For example, this program has a syntax error - <pf>i</pf> no longer is in scope once we leave the loop:</p>
 
   <listing>
+    <title></title>
   <program label="loops_for-statement-program-2" interactive="activecode">
 <xi:include href="../../programs/loops/for-statement-2.cpp" parse="text"/>
 </program>
@@ -91,6 +94,7 @@ for (initializer; test; update) {
   <p>A final note about for loops: It is possible for the initialize or update to be empty:</p>
 
 <listing>
+  <title></title>
 <program>
 // empty initialize
 for ( ; i &lt; 5; ++i) { ...

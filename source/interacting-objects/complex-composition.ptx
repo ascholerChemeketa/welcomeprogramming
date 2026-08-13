@@ -28,6 +28,7 @@
   <p>This definition of Segment <q>owns</q> two Point objects, but does not control any other data directly. Every function in the class would need to rely on <pf>m_start</pf>, <pf>m_end</pf>, or both to do its work. Here are what some functions might look like:</p>
 
 <listing>
+  <title></title>
 <program>
 double Segment::getStartX() const {
     return m_start.getX();
@@ -114,6 +115,7 @@ double Segment::length() const {
   <p>This Cylinder could do some work directly. Other work it would have to hand off to the Circle. Which might in turn hand off the job to the Point object it contains:</p>
 
   <listing>
+    <title></title>
   <program>
 double Cylinder::getHeight() const {
     // height is the Cylinder's direct responsibility

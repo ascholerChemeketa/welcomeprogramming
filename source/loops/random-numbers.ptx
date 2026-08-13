@@ -17,6 +17,7 @@
   <p>In C++ unfortunately, generating high quality random numbers requires uses of some slightly complex code. To make this process easier, we will rely on a custom library called <pf>SimpleRandom</pf>. We will learn later on how to build libraries like it. But for now, just recognize that any code sample that has <pf>import SimpleRandom;</pf> in it makes use of this library. The library provides three functions:</p>
 
 <listing>
+  <title></title>
 <program>
 /**
  * @brief Seeds the random number generator. Calling this function with an integer
@@ -50,6 +51,7 @@ double randDouble();
   <p>Most of the time, we will just call something like <pf>randRange(1, 6)</pf> to get a random number from 1 to 6. Try running this program to generate 10 random dice rolls between 1 and 6. Every time you run it you should get a different sequence:</p>
 
   <listing>
+    <title></title>
   <program label="loops_random-numbers-program-1" interactive="activecode" compile-also="SimpleRandom-cxx" extra-compiler-args="-std=c++20 -fmodules-ts">
 <xi:include href="../../programs/loops/random-1.cpp" parse="text"/>
 </program>
@@ -60,6 +62,7 @@ double randDouble();
   <p>This version of the same program seeds the number generator. Every time you run it you should get the same <q>random</q> sequence. If you change the seed you will get a new sequence.</p>
 
   <listing>
+    <title></title>
   <program label="loops_random-numbers-program-2" interactive="activecode" compile-also="SimpleRandom-cxx" extra-compiler-args="-std=c++20 -fmodules-ts">
 <xi:include href="../../programs/loops/random-2.cpp" parse="text"/>
 </program>

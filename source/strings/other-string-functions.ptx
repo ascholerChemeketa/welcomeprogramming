@@ -24,6 +24,7 @@
       more. <pf>rfind()</pf> makes this much easier:</p>
 
     <listing>
+      <title></title>
     <program><![CDATA[ 
 string path = "http://example.com/home/user/files/file.txt";
 
@@ -45,6 +46,7 @@ while (nextSlash != string::npos) {
       letter by letter until it find something that when made lowercase matches a e i o or u.:</p>
 
     <listing>
+      <title></title>
     <program><![CDATA[
 // assume string s is defined
 size_t firstVowelLocation = string::npos;  // assume no vowel
@@ -83,6 +85,7 @@ size_t firstVowelLocation = s.find_first_of("aeiouAEIOU");
     <p>You need to tell it what index to start erasing from and optionally, how many characters to erase (everything from that location to end is the default. Here it is in action:</p>
 
     <listing>
+      <title></title>
     <program label="strings_other-string-functions-program-1" interactive="activecode">
 <xi:include href="../../programs/strings/other-string-functions-1.cpp" parse="text"/>
     </program>
@@ -99,6 +102,7 @@ size_t firstVowelLocation = s.find_first_of("aeiouAEIOU");
     <p><pf>replace</pf> looks similar to <pf>erase</pf>, but has an additional parameter <pf>str</pf> that is put where the erased text was. Here is what it would look like to erase the word <pf>World</pf> (5 charcters) that starts at index 6, with the string <pf>"you"</pf>:</p>
 
   <listing>
+    <title></title>
   <program label="strings_other-string-functions-program-2" interactive="activecode">
 <xi:include href="../../programs/strings/other-string-functions-3.cpp" parse="text"/>
   </program>

@@ -16,6 +16,7 @@
   <p>A poorly designed function might look like <pf>calculateTriangleArea</pf> in this sample:</p>
   
 <listing> 
+  <title></title>
   <program>
 <xi:include href="../../programs/program-design/area-calculation-bad.cpp" parse="text"/>
 </program>
@@ -51,6 +52,7 @@
     necessary math:</p>
 
   <listing>
+    <title></title>
   <program label="program-design_single-responsibility-program-1" interactive="activecode" linenumbers="yes" highlight-lines="7-11">
     <stdin>
 3
@@ -77,6 +79,7 @@ if (areaA > areaB) {
   <p>We can also write an automated unit test for <pf>calculateTriangleArea</pf> to ensure it behaves as expected:</p>
 
   <listing>
+    <title></title>
   <program>
 TEST_CASE("calculateTriangleArea") {
     CHECK(calculateTriangleArea(3, 4, 5) == doctest::Approx(6));

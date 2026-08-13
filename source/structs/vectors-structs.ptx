@@ -12,6 +12,7 @@
     <p>Now imagine we have a large number of students and we would like to be able to write code that loops through all of the students to perform various calculations. We want to think of our data as a list of students. To accommodate this, we would want to make a vector of type <pf>Student</pf>.</p>
 
     <listing>
+      <title></title>
     <program>
 // Make the students vector
 vector&lt;Student> students;
@@ -58,6 +59,7 @@ students.push_back(student2);
     <p>The key to remember is that assignment into a struct variable copies. Consider this failed attempt to set the first student's first exam score to 100:</p>
 
     <listing>
+      <title></title>
     <program>
 vector&lt;Student> students;
 // assume code here adds some students to the vector
@@ -86,6 +88,7 @@ s1.exams.at(0) = 100.0;
     <p>To avoid making a copy, we can use a reference. In this situation, we do not want a copy, we just want an <term>alias</term> (temporary nickname) for the existing struct. So we should declare <pf>s1</pf> to be a reference variable and use that to refer to the student:</p>
 
     <listing>
+      <title></title>
     <program>
 vector&lt;Student> students;
 // assume code here adds some students to the vector
@@ -110,6 +113,7 @@ s1.exams.at(0) = 100.0; // This modifies the student in the vector
     <p>A common place to run into this issue is while trying to loop through students using a range-based for loop. Say I want to clear all of the exams for each student. So I write the code below to loop through all the students and call clear on their exams vector:</p>
 
   <listing>
+    <title></title>
       <caption>Failed attempt to clear all the exams for each student</caption>
   <program line-numbers="yes" highlight-lines="1">
   for (Student s : students) {
@@ -122,6 +126,7 @@ s1.exams.at(0) = 100.0; // This modifies the student in the vector
     <p>In that attempt <pf>s</pf> is a copy of the <q>current student</q>. Changing it does not affect the original student in the vector. To avoid this, we should use a reference as the loop variable's type:</p>
 
     <listing>
+      <title></title>
       <caption>Correct way to clear all exams for each student</caption>
     <program line-numbers="yes" highlight-lines="1">
 for (Student&amp; s : students) {

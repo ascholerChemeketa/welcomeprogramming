@@ -10,6 +10,7 @@
   <p>Here is a program that keeps reading in numbers until it encounters 0. The program does not know, or care, how many numbers it is going to get. So it isn't really <q>counting</q>, it is just continuing until it hits the sentinel value 0.</p>
 
   <listing>
+    <title></title>
   <program label="loops_sentinel-loops-program-1" interactive="activecode">
 <code>
 <xi:include href="../../programs/loops/sentinel-loops-1.cpp" parse="text"/>
@@ -33,6 +34,7 @@ while ( !atEndOfFile() ) {
   <p>It is important to make sure that the loop eventually reaches the sentinel condition to avoid infinite loops. If our loop control variable might skip past the sentinel value, the loop may never terminate. The program below has this kind of bug. It keep multiplying the loop control variable by 2 and tries to stop when we reach 1000.</p>
 
   <listing>
+    <title></title>
   <program label="loops_sentinel-loops-program-2" interactive="activecode">
 <code>
 <xi:include href="../../programs/loops/sentinel-loops-2.cpp" parse="text"/>

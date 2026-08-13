@@ -5,6 +5,7 @@
   <p>It is important to note that each block has its own scope. That means a local variable declared in a branch is not available outside that branch. For example, here is a broken program to compute someone's pay, possibly including extra pay for overtime (over 40 hours). Try running it and then inspect the error message.</p>
 
   <listing>
+    <title></title>
   <program label="conditionals-logic_scope-program-1" interactive="activecode">
 <code>
 <xi:include href="../../programs/conditionals-logic/scope.cpp" parse="text"/>
@@ -20,6 +21,7 @@
   <p>To fix the program, we need to declare <pf>pay</pf> before the if/else structure:</p>
 
   <listing>
+    <title></title>
   <program label="conditionals-logic_scope-program-2" interactive="activecode">
 <code>
 <xi:include href="../../programs/conditionals-logic/scope-2.cpp" parse="text"/>
@@ -38,6 +40,7 @@
   <warning><p>It is possible to declare a variable with the same name in an inner block as in an outer block. This is called <term>shadowing</term>. The inner variable will hide the outer variable, but the outer variable is still there. This can be confusing, so it is best to avoid shadowing when possible.
   </p>
     <listing>
+      <title></title>
     <program>
     int x = 10;
     if(x &lt; 100) {

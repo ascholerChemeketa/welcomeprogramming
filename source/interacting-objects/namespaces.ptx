@@ -24,6 +24,7 @@
   </p>
 
   <listing>
+    <title></title>
   <program filename="Point.h" xml:id="interacting-objects_namespaces-Point_h">namespace graphics {
   struct Point {
     double x;
@@ -40,6 +41,7 @@
 <p>Here is a program with two <pf>Point</pf> structs, one in the <pf>graphics</pf> namespace and one in the <pf>math</pf> namespace:</p>
 
 <listing>
+  <title></title>
 <program label="interacting-objects_namespaces-1" interactive="activecode">
 <xi:include href="../../programs/interacting-objects/namespaces-1.cpp" parse="text"/>
 </program>
@@ -48,6 +50,7 @@
 <p>If we want, we can bring names from a namespace into the current scope with a <pf>using</pf> declaration. For example, we could write <pf>using graphics::Point;</pf> to bring the <pf>Point</pf> struct from the <pf>graphics</pf> namespace into the current scope, so we can just write <pf>Point</pf> instead of <pf>graphics::Point</pf>. We can still access other points by their full names, like <pf>math::Point</pf>.</p>
 
 <listing>
+  <title></title>
 <program label="interacting-objects_namespaces-2" interactive="activecode" highlight-lines="20,24" line-numbers="yes">
 <xi:include href="../../programs/interacting-objects/namespaces-2.cpp" parse="text"/>
 </program>
@@ -80,6 +83,7 @@ test.cpp:6:10: note:                 ‘struct graphics::Point’
 <p>In this sample, we add a struct <pf>Circle</pf> to the <pf>graphics</pf> namespace. We then bring in only the <pf>Point</pf> struct from the <pf>graphics</pf> namespace into the current scope:</p>
 
 <listing>
+  <title></title>
 <program label="interacting-objects_namespaces-3" interactive="activecode" highlight-lines="19,23,27" line-numbers="yes">
 <xi:include href="../../programs/interacting-objects/namespaces-3.cpp" parse="text"/>
 </program>

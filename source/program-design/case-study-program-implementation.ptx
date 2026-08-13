@@ -104,6 +104,7 @@
     <console><output>g++ -std=c++20 -fmodules-ts dateTests.cpp DateFunctions.cxx -o test-program.exe</output></console>
 
     <listing>
+      <title></title>
     <program xml:id="program-design_case-study-test-getMonth-2"
              label="program-design_case-study-test-getMonth-2"
              filename="dateTests.cpp"
@@ -134,6 +135,7 @@
     <p>Before going on to other functions, we should fix <pf>getMonth</pf>. It appears we will need to scan the <pf>monthNum</pf> string to make sure that each character is a digit.</p>
     <p>We can do this by using a loop to check each character in the string. Something like:</p>
     <listing>
+      <title></title>
     <program>
       for(char c: monthPart) {
           if(!isdigit(c)) {

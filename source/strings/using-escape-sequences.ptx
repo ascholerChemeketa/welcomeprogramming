@@ -68,6 +68,7 @@
     tell C++ where to put the line breaks: <idx><h>newline</h></idx></p>
 
   <listing>
+    <title></title>
     <program label="strings_using-escape-sequences-program-1"
              interactive="activecode">
 <xi:include href="../../programs/computer-programming/using-escape-sequences-1.cpp" parse="text"/>
@@ -89,6 +90,7 @@ cout &lt;&lt; "She said "Hello!" to me.";
   <p>To include the quotes in the string, we need to <term>escape</term> them using <pf>\</pf>:</p>
 
   <listing>
+    <title></title>
   <program label="strings_using-escape-sequences-program-2" interactive="activecode">
 <xi:include href="../../programs/computer-programming/using-escape-sequences-2.cpp" parse="text"/>
 </program>
@@ -97,6 +99,7 @@ cout &lt;&lt; "She said "Hello!" to me.";
   <p>The same trick is true of single quotes and of backslashes. Since <pf>\</pf> normally means <q>this is the start of an escape sequence</q>, we need an escape sequence to indicate that the value we want is really just a backslash. We need to use this trick to represent a Windows style file path that uses backslashes:</p>
 
   <listing>
+    <title></title>
   <program label="strings_using-escape-sequences-program-3" interactive="activecode" compiler-args="-std=c++20">
 <xi:include href="../../programs/computer-programming/using-escape-sequences-3.cpp" parse="text"/>
 </program>
@@ -114,6 +117,7 @@ cout &lt;&lt; "She said "Hello!" to me.";
     <p>To write a raw string literal, you start the string with <pf>R"(</pf>, then the string content, and then end the string with the same <pf>)"</pf>. Inside the raw string, you do not need to use escape sequences. (If you try to use one, it will be treated as literal characters.). You can also include line breaks directly in the string. For example:</p>
 
     <listing>
+      <title></title>
     <program label="strings_using-escape-sequences-program-4" interactive="activecode" compiler-args="-std=c++20">
 <xi:include href="../../programs/computer-programming/using-escape-sequences-4.cpp" parse="text"/>
     </program>

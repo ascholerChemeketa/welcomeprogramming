@@ -68,6 +68,7 @@
   <p>Range-based loops feel like a natural way to traverse a two-dimensional vector. The outer vector is essentially a list of rows. So we can say something like <q>for each row in the table</q> to process each row. Then, for that row, we can say <q>for each element in the row</q>. The sample below uses this approach to print out an entire table of numbers:</p>
 
   <listing>
+    <title></title>
   <program label="multidimensional-vectors_traversals-program-1" interactive="activecode" highlight-lines="15-20" line-numbers="yes">
 <xi:include href="../../programs/multidimensional-vectors/traversals-1.cpp" parse="text"/>
   </program>
@@ -100,6 +101,7 @@
   <p>Here is that approach implemented. In it, we assume all rows have the same number of columns.</p>
 
   <listing>
+    <title></title>
   <program label="multidimensional-vectors_traversals-program-2" interactive="activecode" highlight-lines="16, 18, 21-27" line-numbers="yes">
 <xi:include href="../../programs/multidimensional-vectors/traversals-2.cpp" parse="text"/>
   </program>
@@ -122,6 +124,7 @@ matrix.at(2).at(0)  (start of new row)
   <p>This version is more flexible than the range-based approach. By switching the order of the two loops, we can iterate in column major order. Doing so will print out each column on a separate line of output:</p>
 
   <listing>
+    <title></title>
   <program label="multidimensional-vectors_traversals-program-3" interactive="activecode" highlight-lines="21,23" line-numbers="yes">
 <xi:include href="../../programs/multidimensional-vectors/traversals-3.cpp" parse="text"/>
   </program>

@@ -19,6 +19,7 @@
   <p>Without operator overloading, we might build functions to add and compare <pf>Rational</pf> objects
     like this:</p>
   <listing>
+    <title></title>
   <program><![CDATA[
 Rational Rational::add(const Rational& other) const {
     int newNumerator = m_numerator * other.m_denominator 
@@ -55,6 +56,7 @@ Rational r3 = r1.add(r2);
     to <pf>operator+</pf> and <pf>operator==</pf>. This sample has those functions and a <pf>main</pf> to test them:</p>
 
   <listing>
+    <title></title>
   <program include="RationalStart"
            interactive="activecode"
            label="operators_basic-member-overloads-rational-1">

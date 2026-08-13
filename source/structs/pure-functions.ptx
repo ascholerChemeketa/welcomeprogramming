@@ -34,6 +34,7 @@
   <p>We could also write a pure function using pass by value. With pass by value, the parameter is already a copy of the argument that was passed in. So we don't need to explicitly make a copy of the parameter to modify:</p>
 
     <listing>
+      <title></title>
     <program label="structs_pure-functions-program-2" interactive="codelens">
 <xi:include href="../../programs/structs/pure-functions-2b.cpp" parse="text"/>
     </program>
@@ -42,6 +43,7 @@
   <p>Now lets consider a modifying version. It takes a <pf>Time</pf> by reference and modifies it. Because the parameter is a reference, changing in actually changes the argument that was passed to the function. In this case, that means the <pf>time</pf> variable in main. The function does not return anything - the whole point of it is the <q>side effect</q> of changing the parameter.</p>
 
     <listing>
+      <title></title>
     <program label="structs_pure-functions-program-3" interactive="codelens">
 <xi:include href="../../programs/structs/pure-functions-3.cpp" parse="text"/>
     </program>

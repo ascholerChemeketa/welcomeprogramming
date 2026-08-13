@@ -63,6 +63,7 @@
     <p>Written as unit tests in <pf>dateTests.cpp</pf>, this might look like the following:</p>
 
     <listing>
+      <title></title>
     <program>
 TEST_CASE("daysBeforeMonth") {
     CHECK(daysBeforeMonth(1) == 0);
@@ -117,6 +118,7 @@ TEST_CASE("daysBeforeMonth") {
     <p>The function is relatively straightforward. It is really just a big set of if/elses or a switch statement. For invalid months, we should either return some sentinel value like <pf>-1</pf> or throw an exception. Here is one possible implementation:</p>
 
     <listing>
+      <title></title>
     <program>
 int daysBeforeMonth(int month) {
     if (month == 1) {
@@ -175,6 +177,7 @@ int daysBeforeMonth(int month) {
     <p>The code itself should be very simple. Something like:</p>
 
     <listing>
+      <title></title>
     <program>
 int dateToDays(string date) {
     int month = getMonth(date);

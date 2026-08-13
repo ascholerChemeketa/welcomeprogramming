@@ -9,6 +9,7 @@
     that returns the first element of the pair, we would do it like this:</p>
 
   <listing>
+    <title></title>
     <program line-numbers="yes"
              highlight-lines="8-9"><![CDATA[
 template<typename T>
@@ -61,6 +62,7 @@ bool Pair<T>::operator==(const Pair& other) const {...} // Note: no <T> in param
   <p>Here is the complete version of a templated Pair class with member functions:</p>
 
   <listing>
+    <title></title>
     <program label="templates-array-list_member-functions-1" 
              xml:id="templates-array-list_member-functions-1"
              filename="Pair.hpp">
@@ -71,6 +73,7 @@ bool Pair<T>::operator==(const Pair& other) const {...} // Note: no <T> in param
   <p>Given that, we can now construct Pairs of any type. We can even make Pairs of Pairs! A pair of pairs of integers would look like <pf>Pair&lt;Pair&lt;int&gt;&gt;</pf> and it would be constructed with two <pf>Pair&lt;int&gt;</pf> objects.</p>
 
   <listing>
+    <title></title>
     <program label="templates-array-list_member-functions-2" 
              add-files="templates-array-list_member-functions-1"
              interactive="activecode">

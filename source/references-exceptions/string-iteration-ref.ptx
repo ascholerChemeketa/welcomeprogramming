@@ -6,6 +6,7 @@
   <p>Back in <xref ref="strings_string-iteration"/> we learned about the ranged-based for loop and saw how it could be used to loop through a string:</p>
 
   <listing>
+    <title></title>
   <program label="references-exceptions_string-iteration-ref-1"
               highlight-lines="8"
               line-numbers="yes"
@@ -17,6 +18,7 @@
   <p>In that example, we use a character variable, <pf>letter</pf>, to hold the current character. As we iterate through string, <pf>letter</pf> stores a <em>copy</em> of that character. That means, if we change <pf>letter</pf> inside the loop, it does not change the original string:</p>
 
   <listing>
+    <title></title>
   <program label="references-exceptions_string-iteration-ref-2"
               highlight-lines="7-8"
               line-numbers="yes"
@@ -28,6 +30,7 @@
   <p>However, we could instead declare <pf>letter</pf> to be a reference to a character (<pf>char&amp;</pf>). If we do so, letter is not storing a copy of the current character, it is an alias for the actual current character in the string. So changing it will modify the string:</p>
 
   <listing>
+    <title></title>
   <program label="references-exceptions_string-iteration-ref-3"
               highlight-lines="7-8"
               line-numbers="yes"

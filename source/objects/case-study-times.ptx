@@ -84,6 +84,7 @@ TEST_CASE("Time constructor") {
     <p>To do so, we might start our constructor with some checks:</p>
 
     <listing>
+      <title></title>
     <program>
 Time::Time(int hours, int minutes) {
     if(hours &lt; 0 || hours > 23) {
@@ -103,6 +104,7 @@ Time::Time(int hours, int minutes) {
       check the time we are trying to construct.</p>
 
     <listing>
+      <title></title>
     <program>
     void Time::validate(int hours, int minutes) {
         if(hours &lt; 0 || hours > 23) {
@@ -119,6 +121,7 @@ Time::Time(int hours, int minutes) {
       private section:</p>
 
     <listing>
+      <title></title>
     <program>
       ... public code ...
       private:
@@ -133,6 +136,7 @@ Time::Time(int hours, int minutes) {
     <p>We could then use that function in our constructor:</p>
 
     <listing>
+      <title></title>
     <program>
       Time::Time(int hours, int minutes) {
           // check the values, throw an exception if they are invalid
@@ -152,6 +156,7 @@ Time::Time(int hours, int minutes) {
       either a 12 hour or 24 hour format. Before we write the functions, we will set up some tests:</p>
 
     <listing>
+      <title></title>
     <program>
       TEST_CASE("Time toString12Hour") {
           Time t(1, 2);
@@ -176,6 +181,7 @@ Time::Time(int hours, int minutes) {
     <p>Then we are ready to implement the functions. Here is <pf>toString24Hour</pf>:</p>
 
     <listing>
+      <title></title>
     <program>
         string Time::toString24Hour() {
             // minutes should always be 2 digits, use 0 to pad
@@ -250,6 +256,7 @@ Time::Time(int hours, int minutes) {
       </p>
 
     <listing>
+      <title></title>
     <program line-numbers="yes">
       void Time::setHour(int hour) {
           validate(hour, 1);  // valid dummy value for minutes
