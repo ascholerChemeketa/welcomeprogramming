@@ -122,9 +122,9 @@
       <statement>Which test case fails?</statement>
       <choices randomize="yes">
         <choice correct="yes"><statement>The test for the invalid month 1a5</statement><feedback>Correct. It turns out that stoi will turn <pf>1a5</pf> into <pf>1</pf>, ignore the <pf>a5</pf>, and not throw an exception. To see what the function actually returns, we can add some print statements or use a debugger.</feedback></choice>
-        <choice><statement>The test for the valid month <pf>12</pf></statement></choice>
-        <choice><statement>The test for the invalid month <pf>13</pf></statement></choice>
-        <choice><statement>The test for the invalid month <pf>abc</pf></statement></choice>
+        <choice><statement><p>The test for the valid month <pf>12</pf></p></statement></choice>
+        <choice><statement><p>The test for the invalid month <pf>13</pf></p></statement></choice>
+        <choice><statement><p>The test for the invalid month <pf>abc</pf></p></statement></choice>
       </choices>
     </exercise>
     <p>It looks like we have a bug to fix.</p>

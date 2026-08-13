@@ -114,20 +114,20 @@ for (int i = 0; i < n; i++) {
     </statement>
     <choices>
       <choice>
-        <statement><m>O(1)</m></statement>
+        <statement><p><m>O(1)</m></p></statement>
       </choice>
       <choice>
-        <statement><m>O(n)</m></statement>
+        <statement><p><m>O(n)</m></p></statement>
       </choice>
       <choice correct="yes">
-        <statement><m>O(n^2)</m></statement>
+        <statement><p><m>O(n^2)</m></p></statement>
         <feedback>
           <p>Each iteration of the loop calls <pf>foo(n)</pf> which does <m>O(n)</m> work. The loop runs
             <m>n</m> times, so the overall work is <m>n \cdot O(n) = O(n^2)</m>.</p>
         </feedback>
       </choice>
       <choice>
-        <statement><m>O(n \log n)</m></statement>
+        <statement><p><m>O(n \log n)</m></p></statement>
       </choice>
     </choices>
   </exercise>
@@ -146,10 +146,10 @@ for (int i = 0; i < n; i++) {
     </statement>
     <choices>
       <choice>
-        <statement><m>O(1)</m></statement>
+        <statement><p><m>O(1)</m></p></statement>
       </choice>
       <choice correct="yes">
-        <statement><m>O(n)</m></statement>
+        <statement><p><m>O(n)</m></p></statement>
         <feedback>
           <p>Each iteration of the loop calls <pf>foo(5)</pf> which does <m>O(1)</m> work since it is
             called with a constant. The loop runs <m>n</m> times, so the overall work is <m>n \cdot
@@ -157,10 +157,10 @@ for (int i = 0; i < n; i++) {
         </feedback>
       </choice>
       <choice>
-        <statement><m>O(n^2)</m></statement>
+        <statement><p><m>O(n^2)</m></p></statement>
       </choice>
       <choice>
-        <statement><m>O(n \log n)</m></statement>
+        <statement><p><m>O(n \log n)</m></p></statement>
       </choice>
     </choices>
   </exercise>
@@ -180,10 +180,10 @@ foo(n);
     </statement>
     <choices>
       <choice>
-        <statement><m>O(1)</m></statement>
+        <statement><p><m>O(1)</m></p></statement>
       </choice>
       <choice correct="yes">
-        <statement><m>O(n)</m></statement>
+        <statement><p><m>O(n)</m></p></statement>
         <feedback>
           <p>The first call to <pf>foo(n/2)</pf> does <m>O(n/2)</m> work, which is just <m>O(n)</m>.
             The second call to <pf>foo(n)</pf> does <m>O(n)</m> work. So the overall work is <m>O(n) +
@@ -191,10 +191,10 @@ foo(n);
         </feedback>
       </choice>
       <choice>
-        <statement><m>O(n^2)</m></statement>
+        <statement><p><m>O(n^2)</m></p></statement>
       </choice>
       <choice>
-        <statement><m>O(n \log n)</m></statement>
+        <statement><p><m>O(n \log n)</m></p></statement>
       </choice>
     </choices>
   </exercise>
@@ -216,13 +216,13 @@ for (int i = 0; i < n; i++) {
     </statement>
     <choices>
       <choice>
-        <statement><m>O(1)</m></statement>
+        <statement><p><m>O(1)</m></p></statement>
       </choice>
       <choice>
-        <statement><m>O(n)</m></statement>
+        <statement><p><m>O(n)</m></p></statement>
       </choice>
       <choice correct="yes">
-        <statement><m>O(n^2)</m></statement>
+        <statement><p><m>O(n^2)</m></p></statement>
         <feedback>
           <p>The first call to <pf>foo(n)</pf> does <m>O(n)</m> work. The loop runs <m>n</m> times and
             each iteration does two calls to <pf>foo(n/2)</pf>, each of which does <m>O(n/2)</m>
@@ -231,10 +231,10 @@ for (int i = 0; i < n; i++) {
         </feedback>
       </choice>
       <choice>
-        <statement><m>O(n \log n)</m></statement>
+        <statement><p><m>O(n \log n)</m></p></statement>
       </choice>
       <choice>
-        <statement><m>O(n^3)</m></statement>
+        <statement><p><m>O(n^3)</m></p></statement>
       </choice>
     </choices>
   </exercise>

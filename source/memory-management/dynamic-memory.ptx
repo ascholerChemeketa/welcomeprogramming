@@ -117,24 +117,24 @@
 
     <choices randomize="yes">
       <choice correct="yes">
-        <statement>The memory allocated for variables <pf>y</pf>, <pf>p1</pf>, and <pf>p2</pf> will be
-          automatically cleaned up.</statement>
+        <statement><p>The memory allocated for variables <pf>y</pf>, <pf>p1</pf>, and <pf>p2</pf> will be
+          automatically cleaned up.</p></statement>
         <feedback>Correct! The memory allocated on the stack persists until it is explicitly freed.</feedback>
       </choice>
       <choice correct="yes">
-        <statement>The memory allocated for the values <pf>5</pf> and <pf>Hello, world</pf> will not be
-          automatically freed, leading to a memory leak.</statement>
+        <statement><p>The memory allocated for the values <pf>5</pf> and <pf>Hello, world</pf> will not be
+          automatically freed, leading to a memory leak.</p></statement>
         <feedback>Correct, the memory allocated on the heap persists until it is explicitly freed.</feedback>
       </choice>
       <choice>
-        <statement>The memory allocated for variables <pf>y</pf>, <pf>p1</pf>, and <pf>p2</pf> will not
-          be automatically freed, leading to a memory leak.</statement>
+        <statement><p>The memory allocated for variables <pf>y</pf>, <pf>p1</pf>, and <pf>p2</pf> will not
+          be automatically freed, leading to a memory leak.</p></statement>
         <feedback>Those are all a part of the stack frame for <pf>foo</pf> that will be removed
           automatically.</feedback>
       </choice>
       <choice>
-        <statement>The memory allocated for the values <pf>5</pf> and <pf>Hello, world</pf> will be automatically
-          cleaned up.</statement>
+        <statement><p>The memory allocated for the values <pf>5</pf> and <pf>Hello, world</pf> will be automatically
+          cleaned up.</p></statement>
         <feedback>The memory allocated on the heap must be explicitly freed.</feedback>
       </choice>
     </choices>
@@ -167,17 +167,17 @@
     </statement>
     <choices randomize="yes">
       <choice correct="yes">
-        <statement><![CDATA[ std::cout << *pData;]]></statement>
+        <statement><p><![CDATA[ std::cout << *pData;]]></p></statement>
         <feedback>Correct! We need to dereference the pointer to access the integer that is on the
           heap.</feedback>
       </choice>
       <choice>
-        <statement><![CDATA[ std::cout << &pData;]]></statement>
+        <statement><p><![CDATA[ std::cout << &pData;]]></p></statement>
         <feedback>That would print the address of the pointer variable itself (the address of where <pf>pData</pf>
           is stored on the stack).</feedback>
       </choice>
       <choice>
-        <statement><![CDATA[ std::cout << pData;]]></statement>
+        <statement><p><![CDATA[ std::cout << pData;]]></p></statement>
         <feedback>That prints what is stored in <pf>pData</pf>, which is the address of the integer that
           is on the heap.</feedback>
       </choice>
