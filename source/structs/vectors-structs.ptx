@@ -33,7 +33,7 @@ students.push_back(student2);
 
     <p>That code would result in memory that could be visualized as follows:</p>
 
-    <figure align="center">
+    <figure>
     <caption>The memory diagram for the <pf>students</pf> vector</caption>
       <image source="images/structs-vector-struct.svg"
              width="90%"
@@ -73,7 +73,7 @@ s1.exams.at(0) = 100.0;
 
 <p><pf>s1</pf> is a copy of the data from the vector. It is a duplicate of the <q>Beth Jones</q> Student struct:</p>
 
-    <figure align="center">
+    <figure>
     <caption>The memory diagram for the <pf>students</pf> vector and s1</caption>
       <image source="images/structs-vector-struct-copy.svg"
              width="90%"
@@ -99,7 +99,7 @@ s1.exams.at(0) = 100.0; // This modifies the student in the vector
     </program>
     </listing>
 
-    <figure align="center">
+    <figure>
     <caption>The memory diagram for the <pf>students</pf> vector and s1 as a reference</caption>
       <image source="images/structs-vector-struct-ref.svg"
              width="90%"
