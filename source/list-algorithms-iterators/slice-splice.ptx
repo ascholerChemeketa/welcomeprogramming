@@ -80,9 +80,7 @@
     As with slicing, splicing just involves changing a few pointers and updating the size. Assuming we have tail pointers in the lists, we can do the entire operation in constant time (<m>O(1)</m>). There is no corresponding easy way to splice together two array-based lists. To merge those, we would need to copy all the items from the second to the first array (and possibly reallocate the array), which would require <m>O(n)</m> time.
   </p>
 
-  <exercise label="list-algorithms-iterators_slice-splice-exercise-1">
-   
-    adaptive="yes"
+  <exercise label="list-algorithms-iterators_slice-splice-exercise-1" adaptive="yes"
     indentation="hide">
     <statement>
     <p>Build the logic to merge the contents of <pf>other</pf> into <pf>this</pf>. You will not use all the blocks</p>
