@@ -3,14 +3,14 @@
          xml:lang="en-US">
   <docinfo>
     <document-id edition="1">welcomeprogramming</document-id>
-    <numbering>
-      <figures level="2"/>
-      <exercises level="2"/>
-    </numbering>
-    <programs language="cpp" codelens="no"
-              compiler-args=" -Wall -Wshadow -Wuninitialized -Wextra -std=c++20 -fmodules-ts -Wno-unused-variable -Wno-unused-parameter -Wfloat-conversion"
-              timelimit="5000"/>
-    <!--TODO research if -Wconversion breaks programs. It would be good to use.-->
+
+    <defaults>
+      <programs language="cpp"
+                compiler-args=" -Wall -Wshadow -Wuninitialized -Wextra -std=c++20 -fmodules-ts -Wno-unused-variable -Wno-unused-parameter -Wfloat-conversion"
+                timeout="5000"/>
+    </defaults>
+    <!--TODO
+    research if -Wconversion breaks programs. It would be good to use.-->
     <rename element="colophon">License</rename>
     <rename element="frontmatter">About this book</rename>
     <rename element="investigation">Exploration</rename>
@@ -56,7 +56,7 @@
     <xi:include href="./hash-tables/index.ptx"/>
     <xi:include href="./graphs/index.ptx"/>
 
-<!-- 
+    <!-- 
     <chapter><title>Templates</title></chapter>
     <chapter><title>Maps and Iterators</title></chapter>
     <chapter><title>HOFs and Algorithms</title></chapter> -->
