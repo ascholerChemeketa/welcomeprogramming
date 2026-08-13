@@ -104,7 +104,6 @@
     <p>
       Rather than deal with special values, we can instead use extra storage to keep track of whether a cell is empty, occupied, or a tombstone. One approach would be to store a parallel array of enums that indicate the state of each cell. (If our table is storing 100 cells, we would have an array of 100 enums indicating the status of each cell.) Before checking the value of a cell at a given index, we first check its state by checking that index in the state array. If the state is marked as empty, or as a tombstone, we would then ignore the corresponding value in the main array.
     </p>
-    </subsection>
 
 <exercise label="hash-tables_removal-ex-1">
   <statement>
@@ -141,5 +140,6 @@
     </choice>
   </choices>
 </exercise>
+    </subsection>
 
 </section>

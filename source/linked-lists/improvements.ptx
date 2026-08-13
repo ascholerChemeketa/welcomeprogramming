@@ -149,7 +149,6 @@ void LinkedList<T>::removeAt(int index) {
     Although this allows us to efficiently insert at the end of the list, we still can't efficiently remove an element from the end of the list. To remove the last element, we need to set the <pf>tail</pf> pointer to the second-to-last node and set the next pointer of that node to <pf>nullptr</pf>. But we have no way to reach the second-to-last node without starting at the head and walking through the list.
   </p>
 
-  </subsection>
 
   <exercise label="linked-lists_simple-linked-list-improvements_ex-1">
     <statement>
@@ -183,5 +182,6 @@ void LinkedList<T>::removeAt(int index) {
       </choice>
     </choices>
   </exercise>
+  </subsection>
 
 </section>
