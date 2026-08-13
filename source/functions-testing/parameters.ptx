@@ -66,6 +66,7 @@ int main() {
       specify a type and multiple parameters must be separated by commas. <dl>
         <li>
           <title>Valid parameter lists:</title>
+          <p>
           <ul>
             <li>
               <pf>int foo() {</pf>
@@ -80,14 +81,17 @@ int main() {
               <pf>int foo(int x, int y, int z) {</pf>
             </li>
           </ul>
+          </p>
         </li>
         <li>
           <title>Invalid parameter lists:</title>
+          <p>
           <ul>
             <li><pf>int foo {</pf> (missing the parameter list)</li>
             <li><pf>int foo(int x, y) {</pf> (no type for y)</li>
             <li><pf>int foo(int x double y) {</pf> (no comma between x and y)</li>
           </ul>
+          </p>
         </li>
       </dl>
     </p>
@@ -105,7 +109,7 @@ int main() {
               <pf>totalcost (double cost, tax, discount)</pf>
             </p>
           </statement>
-          <feedback id="multiple_params_1_opt_a">
+          <feedback>
             <p><pf>totalcost</pf> needs a return type, and each parameter needs a data type.</p>
           </feedback>
         </choice>
@@ -115,7 +119,7 @@ int main() {
               <pf>totalCost (double cost, double tax) {</pf>
             </p>
           </statement>
-          <feedback id="multiple_params_1_opt_b">
+          <feedback>
             <p><pf>totalcost</pf> needs a return type.</p>
           </feedback>
         </choice>
@@ -125,7 +129,7 @@ int main() {
               <pf>void totalCost (double cost, double tax, double discount) {</pf>
             </p>
           </statement>
-          <feedback id="multiple_params_1_opt_c">
+          <feedback>
             <p>Correct!</p>
           </feedback>
         </choice>

@@ -48,27 +48,33 @@
       <p>A top-down design for our date program would start by identifying the high-level tasks: <ul>
           <li>
             <p>Get dates from the console.</p>
+            <p>
             <ul>
               <li><term>Precondition:</term> none. There is no data we need before we can do this
         job.</li>
               <li><term>Postcondition:</term> two strings representing the dates entered by the user
         like <pf>"3/4/2023"</pf>.</li>
             </ul>
+            </p>
           </li>
           <li>
             <p>Calculate the number of days between two dates.</p>
+            <p>
             <ul>
               <li><term>Precondition:</term> two strings like <pf>"3/4/2023"</pf> and <pf>"4/5/2024"</pf></li>
               <li><term>Postcondition:</term> an integer representing the number of days between the
         two dates.</li>
             </ul>
+            </p>
           </li>
           <li>
             <p>Print result</p>
+            <p>
             <ul>
               <li><term>Precondition:</term> number of days.</li>
               <li><term>Postcondition:</term> none.</li>
             </ul>
+            </p>
           </li>
         </ul>
       </p>
@@ -100,6 +106,7 @@
           </li>
           <li>
             <p>Calculate the number of days between two dates.</p>
+            <p>
             <ul>
               <li><term>Precondition:</term> two strings like <pf>"3/4/2023"</pf> and <pf>"4/5/2024"</pf></li>
               <li><term>Postcondition:</term> an integer representing the number of days between the
@@ -108,6 +115,7 @@
                 <p>★ How: <pf>int daysBetween(string date1, string date2)</pf></p>
               </li>
             </ul>
+            </p>
           </li>
           <li>
             <p>Print result...</p>
@@ -119,28 +127,34 @@
         <ul>
           <li>
             <p>★ Turn date1 into a number of days.</p>
+            <p>
             <ul>
               <li><term>Precondition:</term> date1 is a string like <pf>"3/4/2023"</pf>.</li>
               <li><term>Postcondition:</term> an integer representing the number of days since
         0/0/0.</li>
             </ul>
+            </p>
           </li>
           <li>
             <p>★ Turn date2 into a number of days.</p>
+            <p>
             <ul>
               <li><term>Precondition:</term> date2 is a string like <pf>"3/4/2023"</pf>.</li>
               <li><term>Postcondition:</term> an integer representing the number of days since
         0/0/0.</li>
             </ul>
+            </p>
           </li>
           <li>
             <p>★ Find the difference between the two numbers.</p>
+            <p>
             <ul>
               <li><term>Precondition:</term> two integers representing the number of days since
         0/0/0 for each date.</li>
               <li><term>Postcondition:</term> an integer representing the number of days between the
         two dates.</li>
             </ul>
+            </p>
           </li>
         </ul>
       </p>
@@ -174,6 +188,7 @@
         <ul>
           <li>
             <p>Turn date1 into a number of days.</p>
+            <p>
             <ul>
               <li><term>Precondition:</term> date1 is a string like <pf>"3/4/2023"</pf>.</li>
               <li><term>Postcondition:</term> an integer representing the number of days since
@@ -182,9 +197,11 @@
                 <p>★ How: <pf>int dateToDays(string date)</pf></p>
               </li>
             </ul>
+            </p>
           </li>
           <li>
             <p>Turn date2 into a number of days.</p>
+            <p>
             <ul>
               <li><term>Precondition:</term> date2 is a string like <pf>"3/4/2023"</pf>.</li>
               <li><term>Postcondition:</term> an integer representing the number of days since
@@ -193,6 +210,7 @@
                 <p>★ How: <pf>int dateToDays(string date)</pf></p>
               </li>
             </ul>
+            </p>
           </li>
           <li>
             <p>Find the difference between the two numbers...</p>
@@ -202,32 +220,40 @@
       <p>★ The new function: <pf>int dateToDays(string date)</pf>. It will:<ul>
           <li>
             <p>★ Get the month</p>
+            <p>
             <ul>
               <li><term>Precondition:</term> date is a string like <pf>"3/4/2023"</pf>.</li>
               <li><term>Postcondition:</term> an integer representing the month part.</li>
             </ul>
+            </p>
           </li>
           <li>
             <p>★ Get the day</p>
+            <p>
             <ul>
               <li><term>Precondition:</term> date is a string like <pf>"3/4/2023"</pf>.</li>
               <li><term>Postcondition:</term> an integer representing the day part.</li>
             </ul>
+            </p>
           </li>
           <li>
             <p>★ Get the year</p>
+            <p>
             <ul>
               <li><term>Precondition:</term> date is a string like <pf>"3/4/2023"</pf>.</li>
               <li><term>Postcondition:</term> an integer representing the year part.</li>
             </ul>
+            </p>
           </li>
           <li>
             <p>★ Calculate total days</p>
+            <p>
             <ul>
               <li><term>Precondition:</term> integers for month, day, and year.</li>
               <li><term>Postcondition:</term> an integer representing the total number of days since
         0/0/0.</li>
             </ul>
+            </p>
           </li>
         </ul>
       </p>
@@ -280,11 +306,13 @@
           </li>
           <li>
             <p>Calculate total days</p>
+            <p>
             <ul>
               <li><term>Precondition:</term> integers for month, day, and year.</li>
               <li><term>Postcondition:</term> an integer representing the total number of days since
         0/0/0.</li>
             </ul>
+            </p>
           </li>
         </ul>
       </p>
@@ -342,11 +370,13 @@
           </li>
           <li>
             <p>Calculate total days</p>
+            <p>
             <ul>
               <li>★ <term>Precondition:</term> integers for day, year, and number of days before the month.</li>
               <li><term>Postcondition:</term> an integer representing the total number of days since
         0/0/0.</li>
             </ul>
+            </p>
           </li>
         </ul>
       </p>
