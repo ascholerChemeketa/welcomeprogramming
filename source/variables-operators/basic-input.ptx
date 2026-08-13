@@ -113,7 +113,7 @@ cin &gt;&gt; x;
     <statement>
       <p><pf>x</pf> is an integer variable. We use <pf>cin >> x;</pf> to read input into it. For each input,
         list what value <pf>x</pf> would end up with. Use <c>?</c> if no value would be read in.</p>
-      <p>
+
         <tabular>
           <row header="yes">
             <cell>Input</cell>
@@ -148,7 +148,7 @@ cin &gt;&gt; x;
             </cell>
           </row>
         </tabular>
-      </p>
+        
       <p>Tip: you can use <xref ref="variables-operators_basic-input-listing-2"/> to test out
         inputs.</p>
     </statement>
@@ -157,34 +157,26 @@ cin &gt;&gt; x;
         <test correct="yes">
           <strcmp strip="no">^28$</strcmp>
         </test>
-        <test>
           <feedback>The <pf>>></pf> operator will stop reading at the space.</feedback>
-        </test>
       </evaluate>
       <evaluate>
         <test correct="yes">
           <strcmp strip="no">^14$</strcmp>
         </test>
-        <test>
           <feedback>The <pf>>></pf> operator will stop reading at the dot. It can't be part of an integer.</feedback>
-        </test>
       </evaluate>
       <evaluate>
         <test correct="yes">
           <strcmp strip="no">^28$</strcmp>
         </test>
-        <test>
           <feedback>The <pf>>></pf> operator will stop reading at the <c>e</c>.</feedback>
-        </test>
       </evaluate>
       <evaluate>
         <test correct="yes">
           <strcmp strip="no">^\?$</strcmp>
         </test>
-        <test>
           <feedback>The <pf>>></pf> operator will stop reading at the <c>h</c> in <c>hello</c>. There is no value
             before that to read in.</feedback>
-        </test>
       </evaluate>
     </evaluation>
   </exercise>
