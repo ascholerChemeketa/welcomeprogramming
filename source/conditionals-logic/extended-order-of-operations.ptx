@@ -14,14 +14,14 @@
 
     <p>With this in hand, we can see how something like <pf>bool beforeChristmas = month &lt; 12 || (month == 12 &amp;&amp; day &lt; 25);</pf> is evaluated. Assume <pf>month = 12</pf> and <pf>day=26</pf>:</p>
 
-    <ol>
+    <p><ol>
     <li><title>Start inside the parens</title> <pf>bool beforeChristmas = month &lt; 12 || (<em>month == 12 &amp;&amp; day &lt; 25</em>);</pf></li>
     <li><title>Do the comparisons in the parens</title> <pf>bool beforeChristmas = month &lt; 12 || (<em>true</em> &amp;&amp; <em>false</em>);</pf></li>
     <li><title>Do the logical operator in the paren</title> <pf>bool beforeChristmas = month &lt; 12 || (<em>false</em>);</pf></li>
     <li><title>Do the comparison not in the parens</title> <pf>bool beforeChristmas = <em>false</em> || (false);</pf></li>
     <li><title>Do the logical operator</title> <pf>bool beforeChristmas = <em>false</em>;</pf></li>
     <li><title>Do the assignment</title></li>
-    </ol>
+    </ol></p>
 
     <p>This also explains why trying to write <pf>!x == 10</pf> does not calculate <q>x does not equal 10</q>. The <pf>!</pf> is evaluated first and only is applied to <pf>x</pf>. So we get <pf>!x</pf>. If x is a number, this just turns any value but 0 to 0 and turns 0 to 1. Then we compare that value to 10! To write that correctly we need to write <pf>!(x == 10)</pf> or <pf>x != 10</pf>.</p>
 
