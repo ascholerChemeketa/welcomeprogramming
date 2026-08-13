@@ -26,11 +26,11 @@
   <p>The end of a vector is the <q>normal</q> location to add or remove elements due to the way the data is stored. All of the elements of a vector are stored in one contiguous block of memory. We are not allowed to have gaps in the middle. The way that the compiler figures out where a given element is in memory is by doing a calculation that looks like: </p>
   
   <p>
-  <me>\text{address of element} = \text{start address of data} + (\text{index of element} * \text{size of each element})</me>
+  <md>\text{address of element} = \text{start address of data} + (\text{index of element} * \text{size of each element})</md>
   </p>
 
   <p>For example, if the data starts at memory address <m>1000</m> and each element takes up 4 bytes, the address of the element at index 3 would be calculated as:
-  <me>1000 + (3 * 4) = 1012</me></p>
+  <md>1000 + (3 * 4) = 1012</md></p>
   
   <p>That math assumes that there are no gaps in the data. If there were, we could not just multiply the index by the size of each element to find the address.</p>
 

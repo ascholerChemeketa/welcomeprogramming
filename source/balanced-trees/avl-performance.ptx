@@ -76,7 +76,7 @@
 
   <p>
     This means that the number of nodes in a worst-case AVL tree of height <m>h</m> (<m>N_h</m>) can be expressed using the recurrence:
-    <me>N_h = 1 + N_{h-1} + N_{h-2}</me>.
+    <md>N_h = 1 + N_{h-1} + N_{h-2}</md>.
   </p>
 
   <p>
@@ -89,16 +89,16 @@
     <title>Height of an AVL Tree - Informal</title>
 
     <p>
-      The number of nodes in a worst-case AVL tree of height <m>h</m> can be expressed using the recurrence <me>N_h = 1 + N_{h-1} + N_{h-2}</me>
-      as established in the previous section. Because <m>N_{h - 1}</m> is larger than <m>N_{h - 2}</m>, we can say that <me>N_h &gt; 2N_{h-2} + 1</me>. This says that the number of nodes in a worst-case AVL tree of height <m>h</m> is always greater than twice the number of nodes in a worst-case AVL tree of height <m>h-2</m> plus one.
+      The number of nodes in a worst-case AVL tree of height <m>h</m> can be expressed using the recurrence <md>N_h = 1 + N_{h-1} + N_{h-2}</md>
+      as established in the previous section. Because <m>N_{h - 1}</m> is larger than <m>N_{h - 2}</m>, we can say that <md>N_h &gt; 2N_{h-2} + 1</md>. This says that the number of nodes in a worst-case AVL tree of height <m>h</m> is always greater than twice the number of nodes in a worst-case AVL tree of height <m>h-2</m> plus one.
     </p>
 
     <p>
-      The recurrence <me>T(n) = 2T(n-2) + 1</me> solves to <m>O(2^{\frac{n}{2}})</m>. By analogy, we can see that the number of nodes in a worst-case AVL tree of height <m>h</m> is greater than <m>2^{\frac{n}{2}}</m>. So, at this point we have <me>N_h &gt; 2^{\frac{n}{2}}</me>
+      The recurrence <md>T(n) = 2T(n-2) + 1</md> solves to <m>O(2^{\frac{n}{2}})</m>. By analogy, we can see that the number of nodes in a worst-case AVL tree of height <m>h</m> is greater than <m>2^{\frac{n}{2}}</m>. So, at this point we have <md>N_h &gt; 2^{\frac{n}{2}}</md>
     </p>
 
     <p>
-      What we really care about is the height of an AVL tree given the number of nodes in the tree. If we take the base 2 log of both sides of the inequality <me>N_h &gt; 2^{\frac{n}{2}}</me> we get <me>\log_2{N_h} &gt; \frac{h}{2}</me>. If we rearrange this to solve for <m>h</m> we get <me>h &lt; 2\log_2{N_h}</me>.
+      What we really care about is the height of an AVL tree given the number of nodes in the tree. If we take the base 2 log of both sides of the inequality <md>N_h &gt; 2^{\frac{n}{2}}</md> we get <md>\log_2{N_h} &gt; \frac{h}{2}</md>. If we rearrange this to solve for <m>h</m> we get <md>h &lt; 2\log_2{N_h}</md>.
     </p>
 
     <p>
@@ -113,32 +113,32 @@
 
   <subsection>
     <title>Height of an AVL Tree - Formal</title>
-    <p>A stricter analysis of the AVL relies on identifying that the pattern <me>N_h = 1 + N_{h-1} +
-    N_{h-2}</me> is very similar to the Fibonacci sequence. We can use this fact to derive a formula for the height of an AVL tree given the number of nodes
+    <p>A stricter analysis of the AVL relies on identifying that the pattern <md>N_h = 1 + N_{h-1} +
+    N_{h-2}</md> is very similar to the Fibonacci sequence. We can use this fact to derive a formula for the height of an AVL tree given the number of nodes
     in the tree.</p>
   <p>
      For the Fibonacci sequence the <m>i_{th}</m> Fibonacci number is given
-    by: <me>\begin{split} F_0 &amp;= 0 \\ F_1 &amp;= 1 \\ &amp;\vdots \\ F_i &amp;= F_{i-1} +
-    F_{i-2} \text{ for all } i \ge 2 \end{split} </me>.</p>
+    by: <md>\begin{split} F_0 &amp;= 0 \\ F_1 &amp;= 1 \\ &amp;\vdots \\ F_i &amp;= F_{i-1} +
+    F_{i-2} \text{ for all } i \ge 2 \end{split} </md>.</p>
   <p>We can express the value of the number of nodes in a tree of height <m>h</m> in terms of its
-    position in the Fibonacci sequence: <me>N_h = F_{h+3} - 1, h \ge 0</me>.</p>
+    position in the Fibonacci sequence: <md>N_h = F_{h+3} - 1, h \ge 0</md>.</p>
 
   <p>An important mathematical result is that the <m>i^{th}</m> Fibonacci number can be found using
-    Binet's formula: <me>F_i = \frac{\Phi^i - (1 - \Phi)^i}{\sqrt{5}}</me>.</p>
+    Binet's formula: <md>F_i = \frac{\Phi^i - (1 - \Phi)^i}{\sqrt{5}}</md>.</p>
 
   <p>You can consult a math text if you want to see a derivation of the previous formula. <m>\Phi</m>
-    is the golden ratio and as is defined as: <me>\Phi = \frac{1 + \sqrt{5}}{2} \approx 1.618</me>.</p>
+    is the golden ratio and as is defined as: <md>\Phi = \frac{1 + \sqrt{5}}{2} \approx 1.618</md>.</p>
 
   <p>In Binet's formula, as <m>i</m> grows large, the term <m>(1 - \Phi)^i</m> approaches zero, so
     we can use the following approximation to obtain a value close to the <m>i^{th}</m> Fibonacci
-    number: <me>F_i \approx \frac{\Phi^i}{\sqrt{5}}</me>.</p>
+    number: <md>F_i \approx \frac{\Phi^i}{\sqrt{5}}</md>.</p>
 
-  <p>By replacing the Fibonacci reference with its golden ratio approximation we get: <me>N_h =
-    \frac{\Phi^{h+3}}{\sqrt{5}} - 1</me>.</p>
+  <p>By replacing the Fibonacci reference with its golden ratio approximation we get: <md>N_h =
+    \frac{\Phi^{h+3}}{\sqrt{5}} - 1</md>.</p>
   <p>If we rearrange the terms, and take the base 2 log of both sides and then solve for <m>h</m> we
-    get the following derivation: <me>\begin{split} \log_2{(N_h + 1)} &amp;= (h+3)\log_2{\Phi} -
+    get the following derivation: <md>\begin{split} \log_2{(N_h + 1)} &amp;= (h+3)\log_2{\Phi} -
     \frac{1}{2} \log_2{5} \\ h &amp;= \frac{\log_2{(N_h + 1)} - 3 \log_2{\Phi} + \frac{1}{2}
-    \log_2{5}}{\log_2{\Phi}} \\ h &amp;\approx 1.44 \log_2{(N_h + 1) - 2.57} \end{split} </me>.</p>
+    \log_2{5}}{\log_2{\Phi}} \\ h &amp;\approx 1.44 \log_2{(N_h + 1) - 2.57} \end{split} </md>.</p>
   <p>This derivation shows us that at any time the max height of our AVL tree is approximately equal to a
     constant (1.44) times the log of the number of nodes in the tree.</p>
     <p>We already knew that the height of an AVL tree is <m>O(\log{N})</m>, but this formal analysis gives us a more precise understanding of the key constant factor that is hidden in the big-O notation.</p>
