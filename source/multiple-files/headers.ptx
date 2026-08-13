@@ -19,8 +19,7 @@
   <p>Here is a header file that might correspond to <pf>library.cpp</pf>:</p>
 
   <listing>
-    <title></title>
-    <caption><pf>library.h</pf></caption>
+    <title><pf>library.h</pf></title>
     <program label="multiple-files_headers-library-h"
              xml:id="multiple-files_headers-library-h"
              filename="library.h"
@@ -54,8 +53,7 @@
   <p>If the declarations in the file header depend on types defined in other files, those files must be included at the top of the header file. For example, to refer to a <pf>string</pf>, we need to <pf>#include &lt;string&gt;</pf> at the top of the header file. However, it is bad practice to use <pf>using namespace std;</pf> in a header file. The header file code may get included into multiple different .cpp files, and putting <pf>using namespace std;</pf> in the header means that it will be added to each of those files. Although that will likely work fine in a small project, it could lead to naming conflicts in larger ones. So instead, we should use the full formal name <pf>std::string</pf> instead of the <pf>using namespace</pf> shortcut:</p>
 
   <listing>
-    <title></title>
-    <caption><pf>otherLibrary.h</pf></caption>
+    <title><pf>otherLibrary.h</pf></title>
     <program label="multiple-files_headers-library-other-h"
              xml:id="multiple-files_headers-library-other-h"
              filename="otherLibrary.h"
