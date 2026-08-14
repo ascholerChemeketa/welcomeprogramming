@@ -52,13 +52,14 @@
       <blocks layout="horizontal"
             randomize="yes">
       <block xml:id="strings_character-functions-ex-2-c"><c>c</c></block>
-      <block><c> = </c></block>
-      <block><c>static_cast&lt;char&gt;(</c></block>
-      <block correct="no"><c>static_cast&lt;int&gt;(</c></block>
-      <block><c>toupper(</c></block>
-      <block ref="strings_character-functions-ex-2-c"/>
-      <block><c>)</c></block>
-      <block><c>);</c></block>
+      <block order="4" ref="strings_character-functions-ex-2-c"/>
+      <block order="1"><c> = </c></block>
+      <block order="7"><c>static_cast&lt;char&gt;(</c></block>
+      <block order="5" correct="no"><c>static_cast&lt;int&gt;(</c></block>
+      <block order="2"><c>toupper(</c></block>
+      <block order="8" ref="strings_character-functions-ex-2-c"/>
+      <block order="3"><c>)</c></block>
+      <block order="6"><c>);</c></block>
     </blocks>
   </exercise>
 

@@ -218,7 +218,7 @@ cout << s.at( s.size() - 5 ) << endl;
       <block  name="set_num_chars" depends="course num_chars">
         <choice correct="yes">
           <cline> num_chars = course.size();</cline></choice>
-        <choice  name="bad2">
+        <choice correct="no">
           <cline> num_chars = length(course); </cline></choice>
       </block>
       <block name="print_num_chars" depends="set_num_chars">
