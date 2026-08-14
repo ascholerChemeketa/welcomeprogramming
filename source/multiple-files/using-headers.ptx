@@ -22,7 +22,9 @@
   <figure>
     <caption>including library.h into main.cpp and library.cpp means that the code from it is added to both files as they are individually compiled.</caption>
     <image source="images/compilation-multiple-winclude.svg"
-           width="60%"/>
+           width="60%">
+      <shortdescription>Build diagram showing library.h included in both main.cpp and library.cpp.</shortdescription>
+    </image>
   </figure>
     
   <p>Doing this ensures that when the compiler hits the call to the <pf>doubleValue</pf> function on line 10,

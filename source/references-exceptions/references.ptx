@@ -26,7 +26,9 @@
     <figure>
     <caption>Memory diagram of <pf>a</pf> and <pf>b</pf> that each hold 5.</caption>
     <image width="25%"
-           source="images/references-1.svg"/>
+           source="images/references-1.svg">
+      <shortdescription>Memory diagram with separate variables a and b, each containing 5.</shortdescription>
+    </image>
   </figure>
 
   <p>Changing the value in the storage named by <pf>b</pf> does not change the value stored in <pf>a</pf>. This is how things usually work in C++.</p>
@@ -45,7 +47,9 @@
     <figure>
     <caption>Memory diagram of <pf>a</pf> that holds 5 and <pf>b</pf> that is a reference to <pf>a</pf>.</caption>
     <image width="25%"
-           source="images/references-2.svg"/>
+           source="images/references-2.svg">
+      <shortdescription>Memory diagram with a containing 5 and b referencing a.</shortdescription>
+    </image>
   </figure>
 
   <p><pf>b</pf> is an <term>alias</term> for <pf>a</pf> - it is another way to name the exact same storage that <pf>a</pf> names. If we change <pf>b</pf>, we change that value. Run this Codelens sample to see its animation of the situation:</p>

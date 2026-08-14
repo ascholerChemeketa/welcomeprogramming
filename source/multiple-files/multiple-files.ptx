@@ -35,7 +35,9 @@
   <figure>
     <caption>Building a single file compiles it and links it with library code</caption>
     <image source="images/compilation-single.svg"
-           width="40%"/>
+           width="40%">
+      <shortdescription>Build diagram showing main.cpp compiled and linked with library code into program.exe.</shortdescription>
+    </image>
   </figure>
 
   <p>We can tell the compiler to build multiple code files into a single program, as in this command:</p>
@@ -49,7 +51,9 @@
   <figure>
     <caption>Compiling multiple files compile each one, then links them and standard library code together</caption>
     <image source="images/compilation-multiple.svg"
-           width="60%"/>
+           width="60%">
+      <shortdescription>Build diagram showing main.cpp and library.cpp compiled separately, then linked with standard library code.</shortdescription>
+    </image>
   </figure>
 
   <p>The critical detail here is that although we have said <q>build  main.cpp and library.cpp into program.exe</q>, the two files

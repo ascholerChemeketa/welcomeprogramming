@@ -7,7 +7,9 @@
   <figure>
     <caption>A vector requires one index to locate any particular item. The index 4 locates the value 5.</caption>
     <image width="30%"
-           source="images/vectors-1d.svg"/>
+           source="images/vectors-1d.svg">
+      <shortdescription>Vector diagram with indices 0 through 4; index 4 contains 5.</shortdescription>
+    </image>
   </figure>
 
   <p>Multidimensional storage is storage that requires 2 or more indexes to specify an element.</p>
@@ -15,7 +17,9 @@
   <figure>
     <caption>Two dimensional storage requires 2 indexes to locate a value. The value at row index 1 and column index 5, is 8.</caption>
     <image width="40%"
-           source="images/vectors-2d.svg"/>
+           source="images/vectors-2d.svg">
+      <shortdescription>Two-dimensional grid; row 1, column 5 contains 8.</shortdescription>
+    </image>
   </figure>
 
   <p>In C++, we can create multidimensional storage by making a vector that contains vectors. By convention, we think of the main vector as holding the horizontal rows of data. So to store the data shown in the figure above, we need to make a vector that contains three rows:</p>
@@ -41,7 +45,9 @@
   <figure>
     <caption>A memory model for <pf>table</pf></caption>
     <image width="45%"
-           source="images/vectors-table-empty.svg"/>
+           source="images/vectors-table-empty.svg">
+      <shortdescription>Memory diagram of a vector of vectors named table.</shortdescription>
+    </image>
   </figure>
 
   <p>If we want to initialize the vector with particular values, we can do so using a list initializer that contains a list of lists:</p>

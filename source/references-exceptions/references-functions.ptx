@@ -18,7 +18,9 @@
   <figure>
   <caption>Memory diagram for <pf>add</pf> and <pf>main</pf></caption>
   <image width="40%"
-          source="images/references-functions-1.svg"/>
+          source="images/references-functions-1.svg">
+    <shortdescription>Memory diagram showing main x and add parameter number in separate stack frames, both holding 5.</shortdescription>
+  </image>
 </figure>
 
     <p><pf>x</pf> simply holds a copy of the <pf>number</pf> from <pf>main</pf>. No matter what we do to <pf>x</pf> inside <pf>add</pf>, we can't change what <pf>number</pf> holds. However, if we make <pf>x</pf> a reference, the memory diagram will look like:</p>
@@ -26,7 +28,9 @@
   <figure>
   <caption>Memory diagram for <pf>add</pf> and <pf>main</pf> where <pf>s</pf> is a reference.</caption>
   <image width="40%"
-          source="images/references-functions-2.svg"/>
+          source="images/references-functions-2.svg">
+    <shortdescription>Memory diagram showing main x and add parameter s as a reference to the same value 5.</shortdescription>
+  </image>
 </figure>
 
   <p>Now <pf>x</pf> is a reference to <pf>number</pf>. This is called <term>pass by reference</term>. It links back to the memory in the <pf>main</pf> stack frame. If we change <pf>x</pf>, we change <pf>number</pf>. Try it out in this sample. The only change we have made is to make chop take a reference to an int: <pf>add(int&amp; x)</pf>.<idx><h>pass by reference</h></idx></p>

@@ -30,7 +30,9 @@
   <figure>
     <caption>Compiling but not linking library.cpp</caption>
     <image source="images/compilation-single-library.svg"
-           width="20%"/>
+           width="20%">
+      <shortdescription>Build diagram showing library.cpp compiled into library.o without linking.</shortdescription>
+    </image>
   </figure>
 
   <p>This recipe will successfully build. But there is no program to run:</p>
@@ -109,7 +111,9 @@ collect2: error: ld returned 1 exit status
   <figure>
     <caption>Compiling and linking main.cpp without library.cpp</caption>
     <image source="images/compilation-multiple-broken.svg"
-           width="40%"/>
+           width="40%">
+      <shortdescription>Build diagram showing main.cpp compiled and linked without library.cpp.</shortdescription>
+    </image>
   </figure>
 
   <p>To successfully build the full program that, we need to tell the compiler to build both <pf>library.cpp</pf> and <pf>main.cpp</pf>. That way, the linker has all the necessary definitions to work with:</p>

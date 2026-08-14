@@ -19,7 +19,9 @@
   <figure>
     <caption>The function <pf>substr</pf> throws an exception that passes through <pf>mediumJob</pf> and <pf>bigJob</pf> before being caught in <pf>main</pf>.</caption>
     <image width="35%"
-            source="images/exceptions-multiple-level.svg"/>
+            source="images/exceptions-multiple-level.svg">
+      <shortdescription>Call hierarchy showing an exception from substr passing through calls to main, where it is caught.</shortdescription>
+    </image>
   </figure>
 
   <p>A <pf>try...catch</pf> in <pf>mediumJob()</pf> or <pf>bigJob()</pf> would have caught the exception and stopped it from passing up on to higher levels. But if they do not want to try to handle the exception, no extra code is needed in them to allow the exception to pass up.</p>

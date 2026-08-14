@@ -13,7 +13,9 @@
     <caption>The author of <pf>stringToBool</pf> has no idea what is happening at higher levels. The authors of
       higher level code do not fully understand what might cause issues for <pf>stringToBool</pf>.</caption>
     <image width="25%"
-           source="images/exceptions.svg"/>
+           source="images/exceptions.svg">
+      <shortdescription>Call hierarchy showing low-level stringToBool and higher-level calling functions.</shortdescription>
+    </image>
   </figure>
 
   <p>In this situation, <pf>stringToBool</pf> will be the place that the code recognizes <pf>stringToBool("cat")</pf> is a problem.
