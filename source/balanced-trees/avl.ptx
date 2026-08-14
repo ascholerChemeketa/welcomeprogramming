@@ -44,10 +44,10 @@
   <p>
     When we find a node that is unbalanced after an insertion or deletion, we need to determine which of the four rotation cases to apply to restore balance. The four cases are:
     <ul>
-      <li><strong>Left-Left (LL) Case:</strong> The left subtree of the left child is deeper. We perform a right rotation on the unbalanced node.</li>
-      <li><strong>Right-Right (RR) Case:</strong> The right subtree of the right child is deeper. We perform a left rotation on the unbalanced node.</li>
-      <li><strong>Left-Right (LR) Case:</strong> The right subtree of the left child is deeper. We perform a left rotation on the left child, followed by a right rotation on the unbalanced node.</li>
-      <li><strong>Right-Left (RL) Case:</strong> The left subtree of the right child is deeper. We perform a right rotation on the right child, followed by a left rotation on the unbalanced node.</li>
+      <li><term>Left-Left (LL) Case:</term> The left subtree of the left child is deeper. We perform a right rotation on the unbalanced node.</li>
+      <li><term>Right-Right (RR) Case:</term> The right subtree of the right child is deeper. We perform a left rotation on the unbalanced node.</li>
+      <li><term>Left-Right (LR) Case:</term> The right subtree of the left child is deeper. We perform a left rotation on the left child, followed by a right rotation on the unbalanced node.</li>
+      <li><term>Right-Left (RL) Case:</term> The left subtree of the right child is deeper. We perform a right rotation on the right child, followed by a left rotation on the unbalanced node.</li>
     </ul>
     Really, these are just two cases (LL and LR) and their mirror images (RR and RL). The key is to look at the direction we need to go to reach the deeper subtree. It will either be two steps in the same direction (LL or RR) or a zig-zag pattern (LR or RL).
   </p>

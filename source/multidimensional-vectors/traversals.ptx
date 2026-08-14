@@ -7,7 +7,7 @@
   <p>When traversing a two dimensional structure, we typically work in <term>row major order</term> or <term>column major order</term>. A row major approach reads each row one at a time, processing all the elements in that row before moving on to the next row. A column major approach reads each column one at a time, processing all the elements in that column before moving on to the next column. These approaches can both be implemented with nested loops:</p>
 
   <sidebyside widths="45% 45%">
-    <figure>
+    <listing>
       <caption>Row Major Order</caption>
   <program><![CDATA[
   for each row in table {
@@ -18,9 +18,9 @@
     end row
   }
   ]]></program>
-    </figure>
+    </listing>
 
-    <figure>
+    <listing>
       <caption>Column Major Order</caption>
   <program><![CDATA[
   for each column in table {
@@ -31,7 +31,7 @@
     end column
   }
   ]]></program>
-    </figure>
+    </listing>
   </sidebyside>
 
   <p>Sometimes it does not matter what strategy we use to traverse a two-dimensional vector. If we want to add up all the elements, either approach will work just fine.
