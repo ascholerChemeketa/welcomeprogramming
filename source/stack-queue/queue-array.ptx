@@ -105,7 +105,7 @@ public:
         <caption>The queue is full because end is one less than start.</caption>
         <image source="images/stack-queue/full-queue-1.png">
           <shortdescription>
-            <p>Start has a value of 2 and end has a value of 1.</p>
+            Start has a value of 2 and end has a value of 1.
           </shortdescription>
         </image>
       </figure>
@@ -113,7 +113,7 @@ public:
         <caption>The queue is full because end is at the last position in the array. If we increase it by 1, it would wrap to 0 and be the same as the start index.</caption>
         <image source="images/stack-queue/full-queue-2.png">
           <shortdescription>
-            <p>Start has a value of 0 and end has a value of 7.</p>
+            Start has a value of 0 and end has a value of 7.
           </shortdescription>
         </image>
       </figure>
@@ -127,8 +127,8 @@ public:
       <caption>A bad attempt at growing the array. In the new version, indexes 4 through 7 contain uninitialized data but count as part of the queue because they are between the start and end indices. We inadvertently added 4 elements.</caption>
       <image source="images/stack-queue/grow-bad.svg" width="80%">
         <shortdescription>
-          <p>In the original, the array size is 4. Start is 2 and end is 1. Thus indexes 2, 3, 0 are part of the queue.</p>
-          <p>After the grow, the array size is 8. Start is 2 and end is 1. Thus indexes 2, 3, 4, 5, 6, 7, 0 are part of the queue, but indexes 4 through 7 contain uninitialized data.</p>
+          In the original, the array size is 4. Start is 2 and end is 1. Thus indexes 2, 3, 0 are part of the queue.
+          After the grow, the array size is 8. Start is 2 and end is 1. Thus indexes 2, 3, 4, 5, 6, 7, 0 are part of the queue, but indexes 4 through 7 contain uninitialized data.
         </shortdescription>
       </image>
     </figure>
@@ -141,8 +141,8 @@ public:
       <caption>A good attempt at growing the array. In the new version, the three items between start and end have been copied to the start of the new array. Then start and end indices have been reset to reflect the new positions of the items.</caption>
       <image source="images/stack-queue/grow-good.svg" width="80%">
         <shortdescription>
-          <p>In the original, the array size is 4. Start is 2 and end is 1. Thus indexes 2, 3, 0 are part of the queue.</p>
-          <p>After the grow, the array size is 8. Start is 0 and end is 3. Thus indexes 0, 1, 2 are part of the queue. The values that used to be at indexes 2, 3, 0 have been moved to 0, 1, 2.</p>
+          In the original, the array size is 4. Start is 2 and end is 1. Thus indexes 2, 3, 0 are part of the queue.
+          After the grow, the array size is 8. Start is 0 and end is 3. Thus indexes 0, 1, 2 are part of the queue. The values that used to be at indexes 2, 3, 0 have been moved to 0, 1, 2.
         </shortdescription>
       </image>
     </figure>

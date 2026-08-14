@@ -35,15 +35,15 @@ ArrayList<T> ArrayList<T>::splitAt(int index);
   <figure>
     <caption>Memory at the start of <pf>splitAt(2)</pf>.</caption>
     <image source="images/array-list-split-at-1.svg">
-      <shortdescription><p>"this" object has a m_size of 5, m_capacity of 6, and a pointer to an array named m_arr. That array contains [10, 20, 30, 40, 50, ???]</p></shortdescription>
+      <shortdescription>"this" object has a m_size of 5, m_capacity of 6, and a pointer to an array named m_arr. That array contains [10, 20, 30, 40, 50, ???]</shortdescription>
     </image>
   </figure>
   
   <figure>
     <caption>Memory at the end of <pf>splitAt(2)</pf>. Changes are in blue.</caption>
     <image source="images/array-list-split-at-2.svg">
-      <shortdescription><p>"this" object has a m_size of 2, m_capacity of 6, and a pointer to an array named m_arr. That array contains [10, 20, ???, ???, ???, ???]</p>
-        <p>"rear" object has a m_size of 3, m_capacity of 3, and a pointer to an array named m_arr. That array contains [30, 40, 50, ???, ???, ???]</p>
+      <shortdescription>"this" object has a m_size of 2, m_capacity of 6, and a pointer to an array named m_arr. That array contains [10, 20, ???, ???, ???, ???]
+        "rear" object has a m_size of 3, m_capacity of 3, and a pointer to an array named m_arr. That array contains [30, 40, 50, ???, ???, ???]
       </shortdescription>
     </image>
   </figure>

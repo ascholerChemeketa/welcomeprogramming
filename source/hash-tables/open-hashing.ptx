@@ -30,9 +30,9 @@
     <caption>A hash table using open hashing stores a linked list at each cell.</caption>
     <image source="images/hash-tables/open-hashing.svg" width="100%">
       <shortdescription>
-        <p>
+        
           An array where some cells are null pointers and some cells contain a pointer to one or more items in a linked list.
-        </p>
+        
       </shortdescription>
     </image>
   </figure>
@@ -113,9 +113,9 @@
     <caption>Linear probing in closed hashing makes efficient use of cached blocks of memory.</caption>
     <image source="images/hash-tables/open-vs-closed.svg" width="60%">
       <shortdescription>
-        <p>
+        
           Accessing index 3 of the array causes a block of memory containing indexes 2-5 to be moved to the cache. Accessing index 4 is then fast because it is in the cache.
-        </p>
+        
       </shortdescription>
     </image>
   </figure>
@@ -128,9 +128,9 @@
     <caption>Open hashing requires multiple main memory accesses.</caption>
     <image source="images/hash-tables/open-vs-closed-2.svg" width="60%">
       <shortdescription>
-        <p>
+        
           Accessing index 3 of the array gives us a pointer. We have to follow that pointer to a new location to get the Doug Jones record, and then follow another pointer to get the Sandra Jackson record.
-        </p>
+        
       </shortdescription>
     </image>
   </figure>
