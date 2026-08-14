@@ -21,13 +21,13 @@
       </statement>
       <choices randomize="yes">
         <choice correct="yes">
-          <statement>Input: a vector of integers, Output: the number of 0's in the vector</statement>
+          <statement><p>Input: a vector of integers, Output: the number of 0's in the vector</p></statement>
         </choice>
         <choice>
-          <statement>Input: a vector of integers, Output: the sum of the integers in the vector</statement>
+          <statement><p>Input: a vector of integers, Output: the sum of the integers in the vector</p></statement>
         </choice>
         <choice>
-          <statement>Input: a vector of integers, Output: the maximum integer in the vector</statement>
+          <statement><p>Input: a vector of integers, Output: the maximum integer in the vector</p></statement>
         </choice>
       </choices>
     </task>
@@ -37,14 +37,14 @@
       </statement>
       <choices randomize="yes">
         <choice correct="yes">
-          <statement>If the vector is empty, return 0.</statement>
+          <statement><p>If the vector is empty, return 0.</p></statement>
         </choice>
         <choice>
-          <statement>If the vector has only one element, return 1 if it is 0, otherwise return 0</statement>
+          <statement><p>If the vector has only one element, return 1 if it is 0, otherwise return 0</p></statement>
           <feedback>This is simple in that it only involves checking a single element. But it is still more work than it could be.</feedback>
         </choice>
         <choice>
-          <statement>If none of the elements is 0, return 0.</statement>
+          <statement><p>If none of the elements is 0, return 0.</p></statement>
           <feedback>That is not an easy job. It still involves looking at the entire vector!</feedback>
         </choice>
       </choices>
@@ -56,14 +56,14 @@
       </statement>
       <choices randomize="yes">
         <choice correct="yes">
-          <statement>Remove the last element from the vector.</statement>
+          <statement><p>Remove the last element from the vector.</p></statement>
         </choice>
         <choice>
-          <statement>Change the last element to 0.</statement>
+          <statement><p>Change the last element to 0.</p></statement>
           <feedback>Our base case involves an empty vector. This does not get us closer.</feedback>
         </choice>
         <choice>
-          <statement>Check if there are 0's left to decide if we need to recurse again.</statement>
+          <statement><p>Check if there are 0's left to decide if we need to recurse again.</p></statement>
           <feedback>A recursive function case should have one simple job. In this case it should look at just one element. The reset are<q>someone else</q>'s problem.</feedback>
         </choice>
       </choices>
@@ -74,14 +74,14 @@
       </statement>
       <choices randomize="yes">
         <choice correct="yes">
-          <statement>Return the count from the recursive call and add 1 if the last element (that we removed) is 0.</statement>
+          <statement><p>Return the count from the recursive call and add 1 if the last element (that we removed) is 0.</p></statement>
         </choice>
         <choice>
-          <statement>Return the count from the recursive call.</statement>
+          <statement><p>Return the count from the recursive call.</p></statement>
           <feedback>That does not include our part of the task - dealing with the last element.</feedback>
         </choice>
         <choice>
-          <statement>Return the count from the recursive call and add 0 if the last element (that we removed) is 0.</statement>
+          <statement><p>Return the count from the recursive call and add 0 if the last element (that we removed) is 0.</p></statement>
           <feedback>Each we see should increase the total by 1.</feedback>
         </choice>
       </choices>

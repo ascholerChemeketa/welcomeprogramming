@@ -67,21 +67,21 @@
       </statement>
       <choices>
         <choice>
-          <statement>The program crashes with a segmentation fault.</statement>
+          <statement><p>The program crashes with a segmentation fault.</p></statement>
           <feedback>Incorrect. The memory address stored in <pf>badPointer</pf> is not currently valid, but it
             is in a valid memory segment.</feedback>
         </choice>
         <choice correct="yes">
-          <statement>The program prints a random looking value (that can change with each run).</statement>
+          <statement><p>The program prints a random looking value (that can change with each run).</p></statement>
           <feedback>Correct, the pointer to <pf>x</pf> is no longer valid in <pf>main</pf>, so accessing
             it results in undefined behavior.</feedback>
         </choice>
         <choice>
-          <statement>The program runs without any issues.</statement>
+          <statement><p>The program runs without any issues.</p></statement>
           <feedback>Incorrect.</feedback>
         </choice>
         <choice>
-          <statement>The program fails to build with a compiler error.</statement>
+          <statement><p>The program fails to build with a compiler error.</p></statement>
           <feedback>Incorrect.</feedback>
         </choice>
       </choices>
