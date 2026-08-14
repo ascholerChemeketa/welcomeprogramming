@@ -53,6 +53,7 @@ Node* removeRecursive(Node* node, int value) {
       position in the tree is now empty. </p>
 
     <listing>
+      <title></title>
       <program>
       <![CDATA[
 ...
@@ -101,6 +102,7 @@ if (node->left == nullptr && node->right == nullptr) {
       pointer to the caller, which will update its child pointer to bypass the removed node. </p>
 
     <listing>
+      <title></title>
       <program>
       <![CDATA[
 ...
@@ -165,6 +167,7 @@ else if (node->left == nullptr || node->right == nullptr) {
       recursively call <pf>removeRecursive</pf> on the right child to remove the duplicate value. </p>
 
     <listing>
+      <title></title>
       <program>
       <![CDATA[
 ...
