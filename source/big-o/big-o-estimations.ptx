@@ -100,9 +100,11 @@
   <p>Say that while estimating the time to do selection sort of 50,000 things from a measured time
     for 10,000 things, we know that our implementation of selection sort involved <m>5n^2</m> work.
     If we included the constant factor in our proportion, it would be:</p>
-  <md>
+  <p>
+<md>
     <mrow>\frac{ 5 \cdot 10000^2 }{ 5 \cdot 50000^2 } = \frac{0.243\textrm{ seconds}}{x}</mrow>
   </md>
+  </p>
 
   <p>The constant factors of 5 cancel out and do not affect the result.</p>
 
@@ -110,16 +112,20 @@
     sizes. If our algorithm's work is <m>n^2 + 3n</m>, the <m>3n</m> and we set up the proportion
     using the <m>3n</m>, we would have:</p>
 
-  <md>
+  <p>
+<md>
     <mrow>\frac{ 10000^2 + 3 \cdot 10000 }{ 50000^2 + 3 \cdot 50000 } = \frac{0.243\textrm{
       seconds}}{x}</mrow>
   </md>
+  </p>
 
   <p>This becomes:</p>
 
-  <md>
+  <p>
+<md>
     <mrow>\frac{100030000}{2500150000} = \frac{0.243\textrm{ seconds}}{x}</mrow>
   </md>
+  </p>
 
   <p>Which solves to approximately 6.074 seconds. This is almost identical to the result when we
     ignored the non-dominant terms.</p>

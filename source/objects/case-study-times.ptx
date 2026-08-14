@@ -73,7 +73,7 @@ TEST_CASE("Time constructor") {
     <p>What should we do if someone asks to make <pf>Time t1(11, 95)</pf>? Should we turn that into 12:35? Or
       should we treat that as an error and throw an exception? This is a design choice. Assuming
       that we should try to fix the issue can make the class a little more flexible<mdash/>it might
-      be nice to be able to specify <pr>Time(0, 190)</pr> and get 3:10. But it could also lead to
+      be nice to be able to specify <pf>Time(0, 190)</pf> and get 3:10. But it could also lead to
       confusion. A value of 190 for minutes could be the result of a bug elsewhere and <q>fixing</q>
       it automatically in <pf>Time,</pf> could hide the existence of that bug.</p>
 

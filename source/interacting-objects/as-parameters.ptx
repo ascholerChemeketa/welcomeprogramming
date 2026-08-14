@@ -1,5 +1,4 @@
-<section xml:id="interacting-objects_as-parameters"
-         xmlns:xi="http://www.w3.org/2001/XInclude">
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="interacting-objects_as-parameters">
 
   <title>Const Member Functions</title>
 
@@ -51,9 +50,8 @@
       (before the body or the semicolon):</p>
 
     <listing>
-      <title></title>
-      <program line-numbers="yes"
-               highlight-lines="3, 6, 10">
+      <title/>
+      <program line-numbers="yes" highlight-lines="3, 6, 10">
 class Point {
 public:
     double getX() const {
@@ -96,20 +94,15 @@ double Point::getY() const {
       We can't mark the setters, <pf>shift()</pf> or the constructor as <pf>const</pf> as they all
       modify (or create) the object:</p>
 
-    <program line-numbers="yes"
-             highlight-lines="15, 19, 39"
-             xml:id="const-member-functions"
-             label="const-member-functions">
+    <program line-numbers="yes" highlight-lines="15, 19, 39" xml:id="const-member-functions" label="const-member-functions">
 <xi:include href="../../programs/interacting-objects/const-member-functions.cpp" parse="text"/>
     </program>
 
     <p>Now we can successfully write a function that tries to use a const Point reference:</p>
 
     <listing>
-      <title></title>
-      <program label="interacting-objects_as-parameters-program-1"
-               interactive="activecode"
-               include="const-member-functions">
+      <title/>
+      <program label="interacting-objects_as-parameters-program-1" interactive="activecode" include="const-member-functions">
 <xi:include href="../../programs/interacting-objects/const-member-functions-user.cpp" parse="text"/>
     </program>
     </listing>
@@ -118,13 +111,12 @@ double Point::getY() const {
       to the <pf>distanceBetween</pf> code, it will produce an error. We promised to keep <pf>p1</pf> const. And the compiler has no guarantee that <pf>setX()</pf> is safe to call on a const object (for good reason.... it modifies the object!). We are only allowed to use the member functions that were marked <pf>const</pf></p>
 
 
-  <exercise label="interacting-objects_as-parameters-ex-1"
-            randomize="yes">
+  <exercise label="interacting-objects_as-parameters-ex-1">
     <statement>
       <p>Imagine a class Person. Which of the following functions sound like they should be <pf>
         const</pf>?</p>
     </statement>
-    <choices multiple-correct="yes">
+    <choices multiple-correct="yes" randomize="yes">
       <choice correct="yes">
         <statement>
           <p>
@@ -178,8 +170,7 @@ double Point::getY() const {
       <p>Write the prototype (no body) for a function called <pf>olderThan</pf> which takes an <pf>int
         age</pf> as its parameter, returns a <pf>bool</pf> and is <pf>const</pf>.</p>
       <p>
-        <fillin mode="string"
-                answer="bool olderThan(int age) const;"/>
+        <fillin mode="string" answer="bool olderThan(int age) const;"/>
       </p>
     </statement>
     <evaluation>
@@ -191,13 +182,12 @@ double Point::getY() const {
     </evaluation>
   </exercise>
 
-  <exercise label="interacting-objects_as-parameters-ex-4"
-            randomize="yes">
+  <exercise label="interacting-objects_as-parameters-ex-4">
     <statement>
       <p>The <pf>Person</pf> class has a private <pf>m_name</pf> variable. We make a <pf>Person p1</pf>.
         What describes where p1's <pf>m_name</pf> can be accessed?</p>
     </statement>
-    <choices>
+    <choices randomize="yes">
       <choice>
         <statement>
           <p>Only the object itself (p1) can access its m_name directly.</p>

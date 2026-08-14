@@ -3,13 +3,12 @@
 
   <title>Inheritance vs Composition</title>
 
-  <p>When designing C++ classes, we now have two tools for code reuse:
+  <p>When designing C++ classes, we now have two tools for code reuse:</p>
 <dl>
   <li><title>Inheritance</title><p><em>is-a</em> : A class is derived from a base class.</p></li>
   <li><title>Composition or Aggregation</title><p><em>has-a</em> : A class has other classes as members. (We will refer to both of these as just <q>Composition</q> in this section.)</p></li>
 </dl>
-<p></p>
-    Choosing the right tool for any particular context is important for writing clean, maintainable code. The language we use to describe the relationships should guide when you use each technique. Inheritance should only be used to model <q>is-a</q> relationships. In situations where <q>has-a</q> is the better description, composition should be preferred.</p>
+  <p>Choosing the right tool for any particular context is important for writing clean, maintainable code. The language we use to describe the relationships should guide when you use each technique. Inheritance should only be used to model <q>is-a</q> relationships. In situations where <q>has-a</q> is the better description, composition should be preferred.</p>
 
   <p>Say there is an existing class Person and we are making a BankAccount. The BankAccount belongs to a particular person, and we would like to represent this with an explicit relationship. Does it make sense to say a BankAccount is-a Person? Not in the least. This is clearly a spot where inheritance should not be used, even if it would accomplish the technical goal of letting us use existing Person code inside of BankAccount.</p>
 

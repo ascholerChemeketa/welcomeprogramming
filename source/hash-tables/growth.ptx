@@ -11,7 +11,7 @@
     To measure how full a hash table is, we use the concept of <term>load factor</term>, which is defined as the number of items in the table (not including tombstones) divided by the size of the array. A load factor of 0 means the table is empty, while a load factor of 1 means the table is full.
   </p>
 
-  <md>\text{load factor} = \frac{\text{number of items}}{\text{size of array}}</md>
+  <p><md>\text{load factor} = \frac{\text{number of items}}{\text{size of array}}</md></p>
 
   <p>
     We can estimate the number of probes required for insertions and lookups based on the load factor. For example, with linear probing, the average number of cells that will be checked while doing an insertion or unsuccessful lookup is approximately <m>\frac{1}{2} \cdot (1 + (\frac{1}{1 - \alpha})^2)</m>, where <m>\alpha</m> is the load factor. The graph of this function is shown below.
@@ -109,7 +109,7 @@ void grow() {
       <evaluation>
         <evaluate>
           <test correct="yes">
-            <numcmp use-answer="yes" threshold="0.01"/>
+            <numcmp use-answer="yes" tolerance="0.01"/>
           </test>
           <test>
             <strcmp>.*</strcmp>

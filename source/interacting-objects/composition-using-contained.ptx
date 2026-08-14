@@ -1,14 +1,12 @@
-<section xml:id="interacting-objects_composition-using-contained"
-         xmlns:xi="http://www.w3.org/2001/XInclude">
+<section xmlns:xi="http://www.w3.org/2001/XInclude" xml:id="interacting-objects_composition-using-contained">
 
   <title>Using the Contained Members</title>
 
   <p>Now let's add and use some getters to the Circle class:</p>
 
   <listing>
-    <title></title>
-  <program label="interacting-objects_composition-using-contained-program-1" interactive="activecode"
-             compile-also="point-final-cxx"  highlight-lines="19, 34">
+    <title/>
+  <program label="interacting-objects_composition-using-contained-program-1" interactive="activecode" compile-also="point-final-cxx" highlight-lines="19, 34">
 <xi:include href="../../programs/interacting-objects/circle-2.cpp" parse="text"/>
   </program>
   </listing>
@@ -22,10 +20,8 @@
   <p>Let's add another function that uses existing Point logic to help Circle do a job. We want to add a method that tells us if a Point is inside a Circle. We can do that by comparing the radius of the Circle and the distance from the Point to the center of the Circle. If that distance is less than the radius, then the Point is inside the Circle.</p>
 
   <listing>
-    <title></title>
-  <program label="interacting-objects_composition-using-contained-program-2" interactive="activecode"
-             compile-also="point-final-cxx" 
-              highlight-lines="13-20, 32">
+    <title/>
+  <program label="interacting-objects_composition-using-contained-program-2" interactive="activecode" compile-also="point-final-cxx" highlight-lines="13-20, 32">
 <xi:include href="../../programs/interacting-objects/circle-contains.cpp" parse="text"/>
   </program>
   </listing>
@@ -35,8 +31,7 @@
   <exercise label="interacting-objects_composition-using-contained-ex-1">
     <statement>
       <p>Assume the <pf>Address</pf> class has a <pf>getZip()</pf> function. How could we call that function on the composed <pf>Address</pf> within the <pf>Contact</pf> class defuned below? (You do not have to do anything with the zip, just make the function call).</p>
-        <p><fillin mode="string"
-          answer="m_address.getZip()"/></p>
+        <p><fillin mode="string" answer="m_address.getZip()"/></p>
         <program>
           class Contact {
             public:
@@ -64,30 +59,30 @@
 
   
   
-  <exercise label="interacting-objects_composition-using-contained-ex-2" randomize="yes">
+  <exercise label="interacting-objects_composition-using-contained-ex-2">
     <statement>
       <p>Imagine a Circle member function <pf>intersects(const Circle&amp; other)</pf>. What variables can be directly accessed inside the function.</p>
     </statement>
     <choices multiple-correct="yes" randomize="yes">
-      <choice  correct="yes">
+      <choice correct="yes">
         <statement>
           <p><pf>m_radius</pf> of the current object</p>
         </statement>
       </choice>
       
-      <choice  correct="yes">
+      <choice correct="yes">
         <statement>
           <p><pf>m_center</pf> of the current object</p>
         </statement>
       </choice>
 
-      <choice  correct="yes">
+      <choice correct="yes">
         <statement>
           <p><pf>other.m_radius</pf></p>
         </statement>
       </choice>
       
-      <choice  correct="yes">
+      <choice correct="yes">
         <statement>
           <p><pf>other.m_center</pf></p>
         </statement>
