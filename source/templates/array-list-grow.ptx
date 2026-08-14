@@ -50,8 +50,9 @@ void ArrayList<T>::grow() {
       <p>Our initial state. We are in the stack frame of the grow function. <pf>this</pf> is the current
         ArrayList instance that is growing. Its size currently matches its capacity.</p>
       <image source="images/array-list-grow-1.svg">
-        <shortdescription>The intList variable contains an m_size of 3 and m_capacity of 3. It also
-          has a pointer to an array named m_arr. That array contains [10, 20, 30]</shortdescription>
+        <shortdescription>The intList variable contains an m_size of 3 and m_capacity of 3.</shortdescription>
+        <description><p>The intList variable contains an m_size of 3 and m_capacity of 3. It also
+          has a pointer to an array named m_arr. That array contains [10, 20, 30]</p></description>
       </image>
     </task>
     <task>
@@ -79,9 +80,10 @@ void ArrayList<T>::grow() {
         }
       ]]></program>
       <image source="images/array-list-grow-4.svg">
-        <shortdescription>Now the newArr variable contains the three elements from the old array.
+        <shortdescription>Now the newArr variable contains the three elements from the old array.</shortdescription>
+        <description><p>Now the newArr variable contains the three elements from the old array.
           The last three elements are still uninitialized. It looks like [10, 20, 30, ???, ???,
-          ???].</shortdescription>
+          ???].</p></description>
       </image>
     </task>
     <task>
@@ -90,9 +92,10 @@ void ArrayList<T>::grow() {
         delete[] m_arr;
       ]]></program>
       <image source="images/array-list-grow-5.svg">
-        <shortdescription>Now the newArr variable contains the three elements from the old array.
+        <shortdescription>Now the newArr variable contains the three elements from the old array.</shortdescription>
+        <description><p>Now the newArr variable contains the three elements from the old array.
           The last three elements are still uninitialized. It looks like [10, 20, 30, ???, ???,
-          ???].</shortdescription>
+          ???].</p></description>
       </image>
     </task>
     <task>

@@ -29,9 +29,10 @@
     <caption>A recursive function will be passed a pointer that points to node (<pf>current</pf>) it is responsible for.</caption>
     <image source="images/list-algorithms-iterators/linked-list-recursion-context.svg"
            width="70%">
-      <shortdescription>
+      <shortdescription>A function has a pointer for current.</shortdescription>
+      <description><p>
         A function has a pointer for current. It points at a list node. We don't know what links to the node. We don't know anything about the next node or what may be beyond it.
-      </shortdescription>
+      </p></description>
     </image>
   </figure>
 
@@ -45,9 +46,10 @@
     <caption>A series of stack frames for a recursive function. The first call was passed a copy of the head pointer from <pf>myList</pf>. Each subsequent call was passed the <pf>next</pf> pointer from the previous call.</caption>
     <image source="images/list-algorithms-iterators/linked-list-recursion-full-stack.svg"
            width="100%">
-      <shortdescription>
+      <shortdescription>The main stack frame has a linked list with a head pointer.</shortdescription>
+      <description><p>
         The main stack frame has a linked list with a head pointer. It points at a list with nodes for 10, 20, and 30. Then there are successive stack frames for a recursive function. The first has a current pointer pointing at the 10 node. The next has a current pointer pointing at the 20 node. The next has a current pointer pointing at the 30 node. The final stack frame is holding a null pointer in its current.
-      </shortdescription>
+      </p></description>
     </image>
   </figure>
 

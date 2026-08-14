@@ -72,9 +72,10 @@ int recursiveGetTotal(ListNode* current) {
     <caption>The call stack for a call to <pf>getTotal()</pf></caption>
     <image source="images/list-algorithms-iterators/recursive-gettotal.svg"
            width="60%">
-      <shortdescription>
+      <shortdescription>The main stack frame has a linked list with a head pointer.</shortdescription>
+      <description><p>
         The main stack frame has a linked list with a head pointer. It points at a list with nodes for 6, 10, and 3. Then there are successive stack frames for a recursive function. The first has a current pointer pointing at the 6 node. The next has a current pointer pointing at the 10 node. The next has a current pointer pointing at the 3 node. The final stack frame is holding a null pointer in its current.
-      </shortdescription>
+      </p></description>
     </image>
   </figure>
 

@@ -75,17 +75,19 @@ clear():
       <figure>
         <caption>A shallow copy. The list <pf>other</pf> shares the same nodes as the original list.</caption>
         <image source="images/linked-list/linked-list-shallow-copy.svg">
-          <shortdescription>
+          <shortdescription>The stack shows two lists, myList and other.</shortdescription>
+          <description><p>
             The stack shows two lists, myList and other. Both lists have head pointers that point to the same node on the heap.
-          </shortdescription>
+          </p></description>
         </image>
       </figure>
       <figure>
         <caption>A deep copy. The list <pf>other</pf> has its own separate nodes.</caption>
         <image source="images/linked-list/linked-list-deep-copy.svg">
-          <shortdescription>
+          <shortdescription>The stack shows two lists, myList and other.</shortdescription>
+          <description><p>
             The stack shows two lists, myList and other. Both lists point to different chains of nodes that have the same values.
-          </shortdescription>
+          </p></description>
         </image>
       </figure>
     </sidebyside>
@@ -101,9 +103,10 @@ clear():
     <figure>
       <caption>Making a deep copy using current pointers in both the source and destination lists. When sourceCur advances to the next node, we will make a new node and copyCur will be updated to point.</caption>
       <image source="images/linked-list/linked-list-copy-painful.svg" width="60%">
-        <shortdescription>
+        <shortdescription>The stack shows two lists, myList and other.</shortdescription>
+        <description><p>
           The stack shows two lists, myList and other. Both lists point to different chains of nodes. The pointers <pf>sourceCur</pf> and <pf>copyCur</pf> indicate the current nodes being copied and the last node in the new list, respectively.
-        </shortdescription>
+        </p></description>
       </image>
     </figure>
 
