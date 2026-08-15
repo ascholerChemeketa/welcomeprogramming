@@ -46,7 +46,7 @@ T SimpleLinkedList<T>::retrieveAt(int index) const {
 
   <note>
     <p>To make this function behave like the <pf>at</pf> function in <pf>std::vector</pf>, we would need to return a reference to the data instead of a copy, allowing for modification of the element directly.</p>
-    <p>But that would require the function to not be marked as <code>const</code>, since it would be modifying the list. Then, to support using <pf>.at()</pf> in both const and non-const contexts, we would need to provide two versions of the function: one const and one non-const.</p>
+    <p>But that would require the function to not be marked as <pf>const</pf>, since it would be modifying the list. Then, to support using <pf>.at()</pf> in both const and non-const contexts, we would need to provide two versions of the function: one const and one non-const.</p>
     <p>We will avoid that complexity. If decide we there should be a way to change data in a node we could instead provide a separate function specifically for that purpose (something like <pf>.setAt(int index, constT&amp; value)</pf>).</p>
   </note>
 

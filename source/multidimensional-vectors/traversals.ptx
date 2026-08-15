@@ -8,8 +8,7 @@
 
   <sidebyside widths="45% 45%">
     <listing>
-      <title></title>
-      <caption>Row Major Order</caption>
+      <title>Row Major Order</title>
   <program><![CDATA[
   for each row in table {
     start row
@@ -22,8 +21,7 @@
     </listing>
 
     <listing>
-      <title></title>
-      <caption>Column Major Order</caption>
+      <title>Column Major Order</title>
   <program><![CDATA[
   for each column in table {
     start column
@@ -156,18 +154,8 @@ matrix.at(0).at(2)  (start of new col)
     <statement>
       <p>Construct nested loops to set each element of a two-dimensional vector of strings called <pf>grid</pf>to be <pf>"?"</pf>. Do the traversal in <term>row major order</term>.</p>
       <p>You will not need all of the blocks.</p>
+
     </statement>
-
-    <program>
-    size_t numRows = grid.size();
-    size_t numCols = grid.at(0).size();
-    for (size_t row = 0; row &lt; numRows; ++row) {
-        for (size_t col = 0; col &lt; numCols; ++col) {
-            grid.at(row).at(col) = "?";
-        }
-    }
-    </program>
-
     <blocks>
       <block name="a" depends="">
         <cline><![CDATA[size_t numRows = grid.size();]]></cline>

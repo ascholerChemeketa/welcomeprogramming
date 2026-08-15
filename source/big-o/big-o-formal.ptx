@@ -12,16 +12,17 @@
 
   <definition>
     <title>Big-O Notation Definition</title>
-    <p>Let <m>f(n)</m> and <m>g(n)</m> be functions that map positive integers to positive real
+
+    <statement><p>Let <m>f(n)</m> and <m>g(n)</m> be functions that map positive integers to positive real
       numbers. We say that <m>f(n)</m> is <term>Big-O of g(n)</term>, written <m>f(n) = O(g(n))</m>,
       if there exist positive constants <m>c</m> and <m>n_0</m> such that for all <m>n \geq n_0</m>,
-      the following inequality holds:</p>
-    <m>f(n) \leq c \cdot g(n)</m>
+      the following inequality holds:
+    <m>f(n) \leq c \cdot g(n)</m></p></statement>
   </definition>
 
   <p>Put another way, to show that <m>f(n) = O(g(n))</m>, we need to pick a constant <m>c</m> to
     multiply the <m>g(n)</m> by and identify a threshold (<m>n_0</m>) beyond which the inequality <m>f(n)
-    \leq c \cdot g(n)</m> holds.</p>
+    \leq c \cdot g(n)</m> is true.</p>
 
   <p>For example, we want to show that <m>f(n) = 3n + 6</m> is <m>O(n)</m>. That means <m>g(n) = n</m>
     (the value inside the <m>O( )</m>). Thus we need to pick a <m>c</m> so that <m>3n + 6 \leq c
