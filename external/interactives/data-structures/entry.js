@@ -119,6 +119,7 @@ AnimatedObject.prototype.init = function() {
   this.range = 5;
   this.highlightIndex = -1;
   this.highlightIndexDirty = true;
+  this.lineDash = "";
 };
 AnimatedObject.prototype.alwaysOnTop = false;
 AnimatedObject.prototype.setBackgroundColor = function(newColor) {
@@ -157,6 +158,12 @@ AnimatedObject.prototype.centerX = function() {
   return this.x;
 };
 AnimatedObject.prototype.setWidth = function(newWidth) {
+};
+AnimatedObject.prototype.setLineDash = function(lineDash) {
+  this.lineDash = lineDash || "";
+};
+AnimatedObject.prototype.getLineDash = function() {
+  return this.lineDash || "";
 };
 AnimatedObject.prototype.centerY = function() {
   return this.y;
@@ -260,6 +267,21 @@ AnimatedObject.prototype.getHighlightIndex = function() {
   return this.highlightIndex;
 };
 
+// AnimationLibrary/Message.js
+var MESSAGE_BOX_ID = "message";
+var MESSAGE_STATUS_ID = "messageStatus";
+function setAnimationMessage(message) {
+  const text = String(message ?? "");
+  const messageBox = document.getElementById(MESSAGE_BOX_ID);
+  const messageStatus = document.getElementById(MESSAGE_STATUS_ID);
+  if (messageBox) {
+    messageBox.value = text;
+  }
+  if (messageStatus) {
+    messageStatus.textContent = text;
+  }
+}
+
 // AnimationLibrary/UndoFunctions.js
 function UndoBlock() {
 }
@@ -322,6 +344,15 @@ UndoSetWidth.prototype = new UndoBlock();
 UndoSetWidth.prototype.constructor = UndoSetWidth;
 UndoSetWidth.prototype.undoInitialStep = function(world) {
   world.setWidth(this.objectID, this.width);
+};
+function UndoSetLineDash(id, val) {
+  this.objectID = id;
+  this.lineDash = val;
+}
+UndoSetLineDash.prototype = new UndoBlock();
+UndoSetLineDash.prototype.constructor = UndoSetLineDash;
+UndoSetLineDash.prototype.undoInitialStep = function(world) {
+  world.setLineDash(this.objectID, this.lineDash);
 };
 function UndoSetNumElements(obj, newNumElems) {
   this.objectID = obj.objectID;
@@ -413,7 +444,7 @@ function UndoSetMessage(str) {
 UndoSetMessage.prototype = new UndoBlock();
 UndoSetMessage.prototype.constructor = UndoSetMessage;
 UndoSetMessage.prototype.undoInitialStep = function(world) {
-  document.getElementById("message").value = this.message;
+  setAnimationMessage(this.message);
 };
 function UndoSetTextColor(id, color, index) {
   this.objectID = id;
@@ -853,7 +884,7 @@ AnimatedCircle.prototype.updateCircle = function() {
   }
   if (!this.svgCircle)
     return;
-  let bg = this.backgroundColor ? this.backgroundColor : "var(--svgColor--background)";
+  let bg = this.backgroundColor ? this.backgroundColor : "var(--svgFillColor)";
   let fg = this.highlighted ? "var(--svgColor--highlight)" : this.foregroundColor;
   let sw = this.highlighted ? 3 : 1;
   this.svgCircle.setAttributeNS(
@@ -1083,10 +1114,11 @@ AnimatedRectangle.prototype.updateRectangle = function() {
   const bg = this.backgroundColor;
   const fg = this.highlighted ? "var(--svgColor--highlight)" : this.foregroundColor;
   const sw = this.highlighted ? 3 : 1;
+  this.svgRect.setAttributeNS(null, "pointer-events", this.lineDash ? "none" : "visible");
   this.svgRect.setAttributeNS(
     null,
     "style",
-    `fill: ${bg}; stroke: ${fg}; stroke-width: ${sw}px;`
+    `fill: ${bg}; stroke: ${fg}; stroke-width: ${sw}px;${this.lineDash ? ` stroke-dasharray: ${this.lineDash};` : ""}`
   );
   this.svgRect.setAttributeNS(null, "opacity", this.alpha);
   if (this.svgText) {
@@ -1270,6 +1302,11 @@ AnimatedRectangle.prototype.draw = function(context) {
   }
   context.strokeStyle = this.foregroundColor;
   context.fillStyle = this.backgroundColor;
+  if (this.lineDash && typeof context.setLineDash === "function") {
+    context.setLineDash(
+      this.lineDash.split(/[ ,]+/).map((value) => Number(value)).filter((value) => Number.isFinite(value))
+    );
+  }
   context.beginPath();
   context.moveTo(startX, startY);
   context.lineTo(startX + this.w, startY);
@@ -1279,6 +1316,9 @@ AnimatedRectangle.prototype.draw = function(context) {
   context.closePath();
   context.stroke();
   context.fill();
+  if (typeof context.setLineDash === "function") {
+    context.setLineDash([]);
+  }
   if (this.nullPointer) {
     context.beginPath();
     context.moveTo(startX, startY);
@@ -1310,7 +1350,8 @@ AnimatedRectangle.prototype.createUndoDelete = function() {
     this.backgroundColor,
     this.foregroundColor,
     this.highlighted,
-    this.layer
+    this.layer,
+    this.lineDash
   );
 };
 AnimatedRectangle.prototype.setHighlight = function(value) {
@@ -1325,7 +1366,11 @@ AnimatedRectangle.prototype.setForegroundColor = function(newColor) {
   AnimatedObject.prototype.setForegroundColor.call(this, newColor);
   this.updateRectangle();
 };
-function UndoDeleteRectangle(id, lab, x, y, w2, h, xJust, yJust, bgColor, fgColor, highlight, lay) {
+AnimatedRectangle.prototype.setLineDash = function(lineDash) {
+  AnimatedObject.prototype.setLineDash.call(this, lineDash);
+  this.updateRectangle();
+};
+function UndoDeleteRectangle(id, lab, x, y, w2, h, xJust, yJust, bgColor, fgColor, highlight, lay, lineDash = "") {
   this.objectID = id;
   this.posX = x;
   this.posY = y;
@@ -1337,6 +1382,7 @@ function UndoDeleteRectangle(id, lab, x, y, w2, h, xJust, yJust, bgColor, fgColo
   this.foregroundColor = fgColor;
   this.nodeLabel = lab;
   this.layer = lay;
+  this.lineDash = lineDash;
   this.highlighted = highlight;
 }
 UndoDeleteRectangle.prototype = new UndoBlock();
@@ -1354,6 +1400,7 @@ UndoDeleteRectangle.prototype.undoInitialStep = function(world) {
   );
   world.setNodePosition(this.objectID, this.posX, this.posY);
   world.setLayer(this.objectID, this.layer);
+  world.setLineDash(this.objectID, this.lineDash);
   world.setHighlight(this.objectID, this.highlighted);
 };
 
@@ -2554,6 +2601,9 @@ var Dragable = class {
     return mousePos;
   }
   dragStart(e) {
+    if (typeof this.el.focus === "function") {
+      this.el.focus({ preventScroll: true });
+    }
     this.dragging = true;
     this.startDragCoords = this.getMousePosition(e);
     let curViewBox = this.el.getAttribute("viewBox").split(" ");
@@ -2588,11 +2638,236 @@ var Dragable = class {
     this.el.setAttribute("viewBox", curViewBox.join(" "));
   }
 };
-function makeSVG(centered, viewWidth = 800, viewHeight = 400) {
+function panSvgViewBox(svg, deltaX, deltaY) {
+  const viewBox = svg.getAttribute("viewBox").split(" ").map(parseFloat);
+  if (viewBox.length < 4 || viewBox.some((value) => !Number.isFinite(value))) {
+    return;
+  }
+  viewBox[0] += deltaX;
+  viewBox[1] += deltaY;
+  svg.setAttribute("viewBox", viewBox.join(" "));
+}
+function svgDownloadFilename(svg) {
+  const title = svg.querySelector("title")?.textContent || "visualization";
+  const safeTitle = title.trim().toLowerCase().replace(/[^a-z0-9_-]+/g, "-").replace(/^-+|-+$/g, "");
+  return `${safeTitle || "visualization"}.svg`;
+}
+function svgCssVariableNames() {
+  const names = /* @__PURE__ */ new Set();
+  function collectFromStyle(style) {
+    for (let i = 0; i < style.length; i++) {
+      const name = style.item(i);
+      if (name.startsWith("--svg")) {
+        names.add(name);
+      }
+    }
+  }
+  function collectFromRules(rules) {
+    for (const rule of rules) {
+      if (rule.style) {
+        collectFromStyle(rule.style);
+      }
+      if (rule.cssRules) {
+        collectFromRules(rule.cssRules);
+      }
+    }
+  }
+  for (const sheet of document.styleSheets) {
+    try {
+      collectFromRules(sheet.cssRules);
+    } catch (error) {
+    }
+  }
+  document.querySelectorAll("[style]").forEach((element) => {
+    collectFromStyle(element.style);
+  });
+  return names;
+}
+function applySvgCssVariables(sourceSvg, exportSvg) {
+  const computedStyle = getComputedStyle(sourceSvg);
+  const exportedVariables = {};
+  for (const name of svgCssVariableNames()) {
+    const value = computedStyle.getPropertyValue(name).trim();
+    if (value) {
+      exportSvg.style.setProperty(name, value);
+      exportedVariables[name] = value;
+    }
+  }
+  return exportedVariables;
+}
+function applySvgFontStyles(sourceSvg, exportSvg) {
+  const computedStyle = getComputedStyle(sourceSvg);
+  const fontProperties = [
+    "font-family",
+    "font-size",
+    "font-style",
+    "font-variant",
+    "font-weight",
+    "font-stretch",
+    "line-height"
+  ];
+  const exportedFontStyles = {};
+  for (const property of fontProperties) {
+    const value = computedStyle.getPropertyValue(property).trim();
+    if (value) {
+      exportSvg.style.setProperty(property, value);
+      exportedFontStyles[property] = value;
+    }
+  }
+  return exportedFontStyles;
+}
+function parseViewBox(svg) {
+  const viewBox = svg.getAttribute("viewBox")?.split(/\s+/).map(parseFloat) || [];
+  if (viewBox.length < 4 || viewBox.some((value) => !Number.isFinite(value))) {
+    return null;
+  }
+  return viewBox;
+}
+function preserveAspectRatioParts(svg) {
+  const value = svg.getAttribute("preserveAspectRatio") || "xMidYMid meet";
+  const [align = "xMidYMid", mode = "meet"] = value.trim().split(/\s+/);
+  return { align, mode };
+}
+function alignmentOffset(align, axis, available) {
+  if (axis === "x") {
+    if (align.includes("xMid"))
+      return available / 2;
+    if (align.includes("xMax"))
+      return available;
+    return 0;
+  }
+  if (align.includes("YMid"))
+    return available / 2;
+  if (align.includes("YMax"))
+    return available;
+  return 0;
+}
+function visibleSvgViewBox(svg) {
+  const viewBox = parseViewBox(svg);
+  if (!viewBox)
+    return null;
+  const [minX, minY, width, height] = viewBox;
+  const rect = svg.getBoundingClientRect();
+  if (rect.width <= 0 || rect.height <= 0 || width <= 0 || height <= 0) {
+    return viewBox;
+  }
+  const { align, mode } = preserveAspectRatioParts(svg);
+  const visibleLeft = Math.max(rect.left, 0);
+  const visibleTop = Math.max(rect.top, 0);
+  const visibleRight = Math.min(rect.right, window.innerWidth);
+  const visibleBottom = Math.min(rect.bottom, window.innerHeight);
+  const visibleWidthPx = visibleRight - visibleLeft;
+  const visibleHeightPx = visibleBottom - visibleTop;
+  if (visibleWidthPx <= 0 || visibleHeightPx <= 0) {
+    return viewBox;
+  }
+  if (align === "none") {
+    const scaleX = rect.width / width;
+    const scaleY = rect.height / height;
+    return [
+      minX + (visibleLeft - rect.left) / scaleX,
+      minY + (visibleTop - rect.top) / scaleY,
+      visibleWidthPx / scaleX,
+      visibleHeightPx / scaleY
+    ];
+  }
+  const scale = mode === "slice" ? Math.max(rect.width / width, rect.height / height) : Math.min(rect.width / width, rect.height / height);
+  const renderedWidth = width * scale;
+  const renderedHeight = height * scale;
+  const renderedX = rect.left + alignmentOffset(align, "x", rect.width - renderedWidth);
+  const renderedY = rect.top + alignmentOffset(align, "y", rect.height - renderedHeight);
+  const rawMinX = minX + (visibleLeft - renderedX) / scale;
+  const rawMinY = minY + (visibleTop - renderedY) / scale;
+  const rawMaxX = minX + (visibleRight - renderedX) / scale;
+  const rawMaxY = minY + (visibleBottom - renderedY) / scale;
+  const clippedMinX = Math.max(minX, rawMinX);
+  const clippedMinY = Math.max(minY, rawMinY);
+  const clippedMaxX = Math.min(minX + width, rawMaxX);
+  const clippedMaxY = Math.min(minY + height, rawMaxY);
+  return [
+    clippedMinX,
+    clippedMinY,
+    clippedMaxX - clippedMinX,
+    clippedMaxY - clippedMinY
+  ];
+}
+function svgForDownload(svg) {
+  const clone = svg.cloneNode(true);
+  const visibleViewBox = visibleSvgViewBox(svg);
+  if (visibleViewBox) {
+    clone.setAttribute("viewBox", visibleViewBox.join(" "));
+  }
+  const rect = svg.getBoundingClientRect();
+  if (rect.width > 0 && rect.height > 0) {
+    clone.setAttribute("width", String(Math.round(rect.width)));
+    clone.setAttribute("height", String(Math.round(rect.height)));
+  }
+  return {
+    svg: clone,
+    cssVariables: applySvgCssVariables(svg, clone),
+    fontStyles: applySvgFontStyles(svg, clone)
+  };
+}
+function downloadSvg(svg) {
+  const filename = svgDownloadFilename(svg);
+  const { svg: exportSvg, cssVariables, fontStyles } = svgForDownload(svg);
+  const source = new XMLSerializer().serializeToString(exportSvg);
+  svg.dataset.lastDownloadFilename = filename;
+  svg.dataset.lastDownloadViewBox = exportSvg.getAttribute("viewBox") || "";
+  svg.dataset.lastDownloadCssVariables = JSON.stringify(cssVariables);
+  svg.dataset.lastDownloadFontStyles = JSON.stringify(fontStyles);
+  const blob = new Blob([source], { type: "image/svg+xml;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.style.display = "none";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 0);
+}
+function installKeyboardPan(svg) {
+  svg.addEventListener("keydown", (e) => {
+    if (!e.defaultPrevented && e.ctrlKey && !e.metaKey && !e.altKey && String(e.key).toLowerCase() === "s") {
+      e.preventDefault();
+      e.stopPropagation();
+      downloadSvg(svg);
+      return;
+    }
+    if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) {
+      return;
+    }
+    const step = e.shiftKey ? 120 : 40;
+    let deltaX = 0;
+    let deltaY = 0;
+    if (e.key === "ArrowLeft") {
+      deltaX = -step;
+    } else if (e.key === "ArrowRight") {
+      deltaX = step;
+    } else if (e.key === "ArrowUp") {
+      deltaY = -step;
+    } else if (e.key === "ArrowDown") {
+      deltaY = step;
+    } else {
+      return;
+    }
+    panSvgViewBox(svg, deltaX, deltaY);
+    e.preventDefault();
+    e.stopPropagation();
+  });
+}
+var DEFAULT_SVG_TITLE = "Interactive visualization";
+var DEFAULT_SVG_DESCRIPTION = "Use the animation controls to step through the visualization. When this graphic has focus, use arrow keys to pan the view.";
+var DEFAULT_SVG_VIEW_WIDTH = 1200;
+var DEFAULT_SVG_VIEW_HEIGHT = 600;
+function makeSVG(centered, viewWidth = DEFAULT_SVG_VIEW_WIDTH, viewHeight = DEFAULT_SVG_VIEW_HEIGHT) {
   let sizeStyle = centered ? "xMidYMin" : "xMinYMin";
   const s = `
-  <svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 ${viewWidth} ${viewHeight}" 
+  <svg xmlns="http://www.w3.org/2000/svg" role="img" tabindex="0" aria-labelledby="visualizationTitle" aria-describedby="visualizationDescription" aria-keyshortcuts="ArrowUp ArrowDown ArrowLeft ArrowRight Control+S Control+D" width="${viewWidth}" height="${viewHeight}" viewBox="0 0 ${viewWidth} ${viewHeight}" 
      preserveAspectRatio="${sizeStyle} slice">
+    <title id="visualizationTitle">${DEFAULT_SVG_TITLE}</title>
+    <desc id="visualizationDescription">${DEFAULT_SVG_DESCRIPTION}</desc>
     <defs>
       <marker id="SVGTriangleMarker" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8"
         markerHeight="8" orient="auto-start-reverse">
@@ -2626,6 +2901,7 @@ function makeSVG(centered, viewWidth = 800, viewHeight = 400) {
   </svg>`;
   let svg = new DOMParser().parseFromString(s, "text/xml").documentElement;
   new Dragable(svg);
+  installKeyboardPan(svg);
   return svg;
 }
 function ObjectManager(canvas2, centered = false) {
@@ -2635,9 +2911,11 @@ function ObjectManager(canvas2, centered = false) {
   this.activeLayers = [];
   this.activeLayers[0] = true;
   this.ctx = canvas2.getContext("2d");
-  const baseViewWidth = Number.isFinite(canvas2?.width) && canvas2.width > 0 ? canvas2.width : 800;
-  const baseViewHeight = Number.isFinite(canvas2?.height) && canvas2.height > 0 ? canvas2.height : 400;
+  const baseViewWidth = DEFAULT_SVG_VIEW_WIDTH;
+  const baseViewHeight = DEFAULT_SVG_VIEW_HEIGHT;
   this.svg = makeSVG(centered, baseViewWidth, baseViewHeight);
+  this.svg.setAttribute("width", String(baseViewWidth));
+  this.svg.setAttribute("height", String(baseViewHeight));
   this.ctx.svg = this.svg;
   this.framenum = 0;
   this.width = 0;
@@ -2661,8 +2939,8 @@ function ObjectManager(canvas2, centered = false) {
     const focusProvided = Number.isFinite(focusClientX) && Number.isFinite(focusClientY);
     const zoomDelta = zoomLevel - this.svgZoom;
     this.svgZoom = zoomLevel;
-    const nextVbW = this.svgBaseViewWidth * this.svgZoom;
-    const nextVbH = this.svgBaseViewHeight * this.svgZoom;
+    const nextVbW = this.svgBaseViewWidth / this.svgZoom;
+    const nextVbH = this.svgBaseViewHeight / this.svgZoom;
     if (focusProvided && rect.width > 0 && rect.height > 0 && focusClientX >= rect.left && focusClientX <= rect.right && focusClientY >= rect.top && focusClientY <= rect.bottom) {
       const ctm = this.svg.getScreenCTM && this.svg.getScreenCTM();
       if (ctm && ctm.inverse) {
@@ -2685,6 +2963,16 @@ function ObjectManager(canvas2, centered = false) {
     vb[2] = nextVbW;
     vb[3] = nextVbH;
     this.svg.setAttribute("viewBox", vb.join(" "));
+  };
+  this.setAccessibleText = function(title, description) {
+    const titleEl = this.svg.querySelector("#visualizationTitle");
+    const descEl = this.svg.querySelector("#visualizationDescription");
+    if (titleEl) {
+      titleEl.textContent = typeof title === "string" && title.trim() !== "" ? title.trim() : DEFAULT_SVG_TITLE;
+    }
+    if (descEl) {
+      descEl.textContent = typeof description === "string" && description.trim() !== "" ? description.trim() : DEFAULT_SVG_DESCRIPTION;
+    }
   };
   this.shiftView = function(deltaX = 0, deltaY = 0) {
     const dx = Number(deltaX);
@@ -2889,7 +3177,12 @@ function ObjectManager(canvas2, centered = false) {
         }
       }
       if (svgElement) {
-        this.svg.getElementById(`layer_${layer}`).appendChild(svgElement);
+        const targetLayer = this.svg.getElementById(`layer_${layer}`);
+        if (this.Nodes[objectID].lineDash) {
+          targetLayer.prepend(svgElement);
+        } else {
+          targetLayer.appendChild(svgElement);
+        }
         if (secondaryTextElement) {
           svgElement.after(secondaryTextElement);
         }
@@ -2972,6 +3265,12 @@ function ObjectManager(canvas2, centered = false) {
     }
     this.Nodes[nodeID].setWidth(val);
   };
+  this.setLineDash = function(nodeID, val) {
+    if (this.Nodes[nodeID] == null || this.Nodes[nodeID] == void 0) {
+      return;
+    }
+    this.Nodes[nodeID].setLineDash(val);
+  };
   this.setHeight = function(nodeID, val) {
     if (this.Nodes[nodeID] == null || this.Nodes[nodeID] == void 0) {
       return;
@@ -2989,6 +3288,12 @@ function ObjectManager(canvas2, centered = false) {
       return -1;
     }
     return this.Nodes[nodeID].getWidth();
+  };
+  this.getLineDash = function(nodeID) {
+    if (this.Nodes[nodeID] == null || this.Nodes[nodeID] == void 0) {
+      return "";
+    }
+    return this.Nodes[nodeID].getLineDash();
   };
   this.backgroundColor = function(objectID) {
     if (this.Nodes[objectID] != null) {
@@ -3270,6 +3575,629 @@ function ObjectManager(canvas2, centered = false) {
   };
 }
 
+// AnimationLibrary/AnimationSchema.js
+var STEP_BREAK = Symbol("animation-step-break");
+function toInt(value, fallback = void 0) {
+  const parsed = Number.parseInt(value, 10);
+  return Number.isNaN(parsed) ? fallback : parsed;
+}
+function toFloat(value, fallback = void 0) {
+  const parsed = Number.parseFloat(value);
+  return Number.isNaN(parsed) ? fallback : parsed;
+}
+function toBool(value) {
+  if (typeof value === "boolean") {
+    return value;
+  }
+  const uppercase = String(value ?? "").trim().toUpperCase();
+  return !(uppercase === "FALSE" || uppercase === "F" || uppercase === "0" || uppercase === "");
+}
+function toColor(value, fallback = void 0) {
+  if (value == null || value === "") {
+    return fallback;
+  }
+  const str = String(value);
+  if (str.charAt(0) === "#") {
+    return str;
+  }
+  if (str.substring(0, 2).toLowerCase() === "0x") {
+    return `#${str.substring(2)}`;
+  }
+  return str;
+}
+function normalizeMeta(meta) {
+  if (!meta || typeof meta !== "object" || Array.isArray(meta)) {
+    return void 0;
+  }
+  const normalized = {};
+  if (meta.source != null)
+    normalized.source = String(meta.source);
+  if (meta.operation != null)
+    normalized.operation = String(meta.operation);
+  if (meta.focusNodeId != null)
+    normalized.focusNodeId = toInt(meta.focusNodeId);
+  if (Array.isArray(meta.tags)) {
+    normalized.tags = meta.tags.map((tag) => String(tag));
+  }
+  return Object.keys(normalized).length > 0 ? normalized : void 0;
+}
+function normalizeBlock(rawBlock) {
+  const steps = [];
+  const label = rawBlock && rawBlock.label != null && rawBlock.label !== "" ? String(rawBlock.label) : void 0;
+  const meta = normalizeMeta(rawBlock ? rawBlock.meta : void 0);
+  const rawSteps = Array.isArray(rawBlock && rawBlock.steps) ? rawBlock.steps : [];
+  for (const rawStep of rawSteps) {
+    const step = normalizeAnimationStep(rawStep);
+    if (step !== STEP_BREAK) {
+      steps.push(step);
+    }
+  }
+  return {
+    ...label ? { label } : {},
+    ...meta ? { meta } : {},
+    steps
+  };
+}
+function normalizeAnimation(animation) {
+  if (!Array.isArray(animation) || animation.length === 0) {
+    return [{ steps: [] }];
+  }
+  const blocks = [];
+  let currentBlock = { steps: [] };
+  for (const item of animation) {
+    if (isAnimationBlock(item)) {
+      if (currentBlock.steps.length > 0 || currentBlock.label || currentBlock.meta) {
+        blocks.push(currentBlock);
+      }
+      const normalizedBlock = normalizeBlock(item);
+      if (normalizedBlock.steps.length > 0 || normalizedBlock.label || normalizedBlock.meta) {
+        blocks.push(normalizedBlock);
+      }
+      currentBlock = { steps: [] };
+      continue;
+    }
+    const rawStep = item;
+    const step = normalizeAnimationStep(rawStep);
+    if (step === STEP_BREAK) {
+      if (currentBlock.steps.length > 0 || currentBlock.label || currentBlock.meta) {
+        blocks.push(currentBlock);
+      }
+      currentBlock = { steps: [] };
+      continue;
+    }
+    currentBlock.steps.push(step);
+  }
+  if (currentBlock.steps.length > 0 || currentBlock.label || currentBlock.meta) {
+    blocks.push(currentBlock);
+  }
+  return blocks.length > 0 ? blocks : [{ steps: [] }];
+}
+function isAnimationBlock(value) {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value) && Array.isArray(value.steps);
+}
+function normalizeAnimationStep(rawStep) {
+  if (typeof rawStep === "string") {
+    return parseLegacyCommand(rawStep);
+  }
+  if (!rawStep || typeof rawStep !== "object" || Array.isArray(rawStep)) {
+    throw new Error(`Unsupported animation step: ${String(rawStep)}`);
+  }
+  const type = String(rawStep.type ?? "").trim();
+  if (type === "") {
+    throw new Error("Animation step is missing a type");
+  }
+  if (type.toLowerCase() === "step") {
+    return STEP_BREAK;
+  }
+  switch (type.toLowerCase()) {
+    case "createcircle":
+      return {
+        type: "createCircle",
+        id: toInt(rawStep.id ?? rawStep.objectId),
+        label: String(rawStep.label ?? rawStep.text ?? ""),
+        ...rawStep.x != null ? { x: toFloat(rawStep.x) } : {},
+        ...rawStep.y != null ? { y: toFloat(rawStep.y) } : {}
+      };
+    case "connect":
+      return {
+        type: "connect",
+        from: toInt(rawStep.from),
+        to: toInt(rawStep.to),
+        color: toColor(rawStep.color, "#000000"),
+        curve: toFloat(rawStep.curve, 0),
+        directed: rawStep.directed == null ? true : toBool(rawStep.directed),
+        label: rawStep.label == null ? "" : String(rawStep.label),
+        connectionPoint: toInt(rawStep.connectionPoint, 0)
+      };
+    case "createrectangle":
+      return {
+        type: "createRectangle",
+        id: toInt(rawStep.id ?? rawStep.objectId),
+        label: String(rawStep.label ?? rawStep.text ?? ""),
+        width: toInt(rawStep.width),
+        height: toInt(rawStep.height),
+        ...rawStep.x != null ? { x: toFloat(rawStep.x) } : {},
+        ...rawStep.y != null ? { y: toFloat(rawStep.y) } : {},
+        xJustify: rawStep.xJustify == null ? "center" : String(rawStep.xJustify),
+        yJustify: rawStep.yJustify == null ? "center" : String(rawStep.yJustify)
+      };
+    case "move":
+      return {
+        type: "move",
+        objectId: toInt(rawStep.objectId ?? rawStep.id),
+        toX: toFloat(rawStep.toX ?? rawStep.x),
+        toY: toFloat(rawStep.toY ?? rawStep.y)
+      };
+    case "movetoalignright":
+      return {
+        type: "moveToAlignRight",
+        objectId: toInt(rawStep.objectId ?? rawStep.id),
+        otherId: toInt(rawStep.otherId)
+      };
+    case "setforegroundcolor":
+      return {
+        type: "setForegroundColor",
+        id: toInt(rawStep.id),
+        color: toColor(rawStep.color)
+      };
+    case "setbackgroundcolor":
+      return {
+        type: "setBackgroundColor",
+        id: toInt(rawStep.id),
+        color: toColor(rawStep.color)
+      };
+    case "sethighlight":
+      return {
+        type: "setHighlight",
+        id: toInt(rawStep.id),
+        value: toBool(rawStep.value)
+      };
+    case "disconnect":
+      return {
+        type: "disconnect",
+        from: toInt(rawStep.from),
+        to: toInt(rawStep.to)
+      };
+    case "setalpha":
+      return {
+        type: "setAlpha",
+        id: toInt(rawStep.id),
+        alpha: toFloat(rawStep.alpha)
+      };
+    case "setmessage":
+      return {
+        type: "setMessage",
+        message: String(rawStep.message ?? "")
+      };
+    case "settext":
+      return {
+        type: "setText",
+        id: toInt(rawStep.id),
+        text: String(rawStep.text ?? ""),
+        index: toInt(rawStep.index, 0)
+      };
+    case "delete":
+      return {
+        type: "delete",
+        id: toInt(rawStep.id)
+      };
+    case "createhighlightcircle":
+      return {
+        type: "createHighlightCircle",
+        id: toInt(rawStep.id),
+        color: toColor(rawStep.color),
+        ...rawStep.x != null ? { x: toFloat(rawStep.x) } : {},
+        ...rawStep.y != null ? { y: toFloat(rawStep.y) } : {},
+        radius: toFloat(rawStep.radius, 20)
+      };
+    case "createlabel":
+      return {
+        type: "createLabel",
+        id: toInt(rawStep.id),
+        text: String(rawStep.text ?? rawStep.label ?? ""),
+        ...rawStep.x != null ? { x: toFloat(rawStep.x) } : {},
+        ...rawStep.y != null ? { y: toFloat(rawStep.y) } : {},
+        centered: rawStep.centered == null ? true : toBool(rawStep.centered),
+        ...rawStep.fontSizePercent != null ? { fontSizePercent: toFloat(rawStep.fontSizePercent) } : {}
+      };
+    case "setedgecolor":
+      return {
+        type: "setEdgeColor",
+        from: toInt(rawStep.from),
+        to: toInt(rawStep.to),
+        color: toColor(rawStep.color)
+      };
+    case "setedgealpha":
+      return {
+        type: "setEdgeAlpha",
+        from: toInt(rawStep.from),
+        to: toInt(rawStep.to),
+        alpha: toFloat(rawStep.alpha)
+      };
+    case "setedgehighlight":
+      return {
+        type: "setEdgeHighlight",
+        from: toInt(rawStep.from),
+        to: toInt(rawStep.to),
+        value: toBool(rawStep.value)
+      };
+    case "setheight":
+      return {
+        type: "setHeight",
+        id: toInt(rawStep.id),
+        height: toInt(rawStep.height)
+      };
+    case "setlayer":
+      return {
+        type: "setLayer",
+        id: toInt(rawStep.id),
+        layer: toInt(rawStep.layer)
+      };
+    case "createlinkedlist":
+      return {
+        type: "createLinkedList",
+        id: toInt(rawStep.id),
+        label: String(rawStep.label ?? ""),
+        width: toInt(rawStep.width),
+        height: toInt(rawStep.height),
+        ...rawStep.x != null ? { x: toFloat(rawStep.x) } : {},
+        ...rawStep.y != null ? { y: toFloat(rawStep.y) } : {},
+        linkPercent: toFloat(rawStep.linkPercent, 0.25),
+        vertical: rawStep.vertical == null ? true : toBool(rawStep.vertical),
+        linkAtEnd: rawStep.linkAtEnd == null ? false : toBool(rawStep.linkAtEnd),
+        numLabels: toInt(rawStep.numLabels, 1),
+        numLinks: toInt(rawStep.numLinks, 1),
+        backgroundColor: toColor(rawStep.backgroundColor, "#FFFFFF"),
+        foregroundColor: toColor(rawStep.foregroundColor, "#000000")
+      };
+    case "setnull":
+      return {
+        type: "setNull",
+        id: toInt(rawStep.id),
+        value: toBool(rawStep.value),
+        index: toInt(rawStep.index, 0)
+      };
+    case "settextcolor":
+      return {
+        type: "setTextColor",
+        id: toInt(rawStep.id),
+        color: toColor(rawStep.color),
+        index: toInt(rawStep.index, 0)
+      };
+    case "createbtreenode":
+      return {
+        type: "createBTreeNode",
+        id: toInt(rawStep.id),
+        widthPerElement: toFloat(rawStep.widthPerElement),
+        height: toFloat(rawStep.height),
+        numElems: toInt(rawStep.numElems),
+        x: toFloat(rawStep.x),
+        y: toFloat(rawStep.y),
+        backgroundColor: toColor(rawStep.backgroundColor),
+        foregroundColor: toColor(rawStep.foregroundColor)
+      };
+    case "setwidth":
+      return {
+        type: "setWidth",
+        id: toInt(rawStep.id),
+        width: toInt(rawStep.width)
+      };
+    case "setlinedash":
+      return {
+        type: "setLineDash",
+        id: toInt(rawStep.id),
+        lineDash: String(rawStep.lineDash ?? rawStep.dash ?? "")
+      };
+    case "setnumelements":
+      return {
+        type: "setNumElements",
+        id: toInt(rawStep.id),
+        count: toInt(rawStep.count ?? rawStep.numElements)
+      };
+    case "setposition":
+      return {
+        type: "setPosition",
+        id: toInt(rawStep.id),
+        x: toFloat(rawStep.x),
+        y: toFloat(rawStep.y)
+      };
+    case "alignright":
+      return {
+        type: "alignRight",
+        id: toInt(rawStep.id),
+        otherId: toInt(rawStep.otherId)
+      };
+    case "alignleft":
+      return {
+        type: "alignLeft",
+        id: toInt(rawStep.id),
+        otherId: toInt(rawStep.otherId)
+      };
+    case "aligntop":
+      return {
+        type: "alignTop",
+        id: toInt(rawStep.id),
+        otherId: toInt(rawStep.otherId)
+      };
+    case "alignbottom":
+      return {
+        type: "alignBottom",
+        id: toInt(rawStep.id),
+        otherId: toInt(rawStep.otherId)
+      };
+    case "sethighlightindex":
+      return {
+        type: "setHighlightIndex",
+        id: toInt(rawStep.id),
+        index: toInt(rawStep.index)
+      };
+    default:
+      throw new Error(`Unknown animation step type: ${type}`);
+  }
+}
+function parseLegacyCommand(rawCommand) {
+  const parts = String(rawCommand).split("<;>");
+  const command = String(parts[0] ?? "").trim().toUpperCase();
+  switch (command) {
+    case "STEP":
+      return STEP_BREAK;
+    case "CREATECIRCLE":
+      return normalizeAnimationStep({
+        type: "createCircle",
+        id: parts[1],
+        label: parts[2],
+        x: parts[3],
+        y: parts[4]
+      });
+    case "CONNECT":
+      return normalizeAnimationStep({
+        type: "connect",
+        from: parts[1],
+        to: parts[2],
+        color: parts[3],
+        curve: parts[4],
+        directed: parts[5],
+        label: parts[6],
+        connectionPoint: parts[7]
+      });
+    case "CREATERECTANGLE":
+      return normalizeAnimationStep({
+        type: "createRectangle",
+        id: parts[1],
+        label: parts[2],
+        width: parts[3],
+        height: parts[4],
+        x: parts[5],
+        y: parts[6],
+        xJustify: parts[7],
+        yJustify: parts[8]
+      });
+    case "MOVE":
+      return normalizeAnimationStep({
+        type: "move",
+        objectId: parts[1],
+        toX: parts[2],
+        toY: parts[3]
+      });
+    case "MOVETOALIGNRIGHT":
+      return normalizeAnimationStep({
+        type: "moveToAlignRight",
+        objectId: parts[1],
+        otherId: parts[2]
+      });
+    case "SETFOREGROUNDCOLOR":
+      return normalizeAnimationStep({ type: "setForegroundColor", id: parts[1], color: parts[2] });
+    case "SETBACKGROUNDCOLOR":
+      return normalizeAnimationStep({ type: "setBackgroundColor", id: parts[1], color: parts[2] });
+    case "SETHIGHLIGHT":
+      return normalizeAnimationStep({ type: "setHighlight", id: parts[1], value: parts[2] });
+    case "DISCONNECT":
+      return normalizeAnimationStep({ type: "disconnect", from: parts[1], to: parts[2] });
+    case "SETALPHA":
+      return normalizeAnimationStep({ type: "setAlpha", id: parts[1], alpha: parts[2] });
+    case "SETMESSAGE":
+      return normalizeAnimationStep({ type: "setMessage", message: parts[1] });
+    case "SETTEXT":
+      return normalizeAnimationStep({ type: "setText", id: parts[1], text: parts[2], index: parts[3] });
+    case "DELETE":
+      return normalizeAnimationStep({ type: "delete", id: parts[1] });
+    case "CREATEHIGHLIGHTCIRCLE":
+      return normalizeAnimationStep({
+        type: "createHighlightCircle",
+        id: parts[1],
+        color: parts[2],
+        x: parts[3],
+        y: parts[4],
+        radius: parts[5]
+      });
+    case "CREATELABEL":
+      return normalizeAnimationStep({
+        type: "createLabel",
+        id: parts[1],
+        text: parts[2],
+        x: parts[3],
+        y: parts[4],
+        centered: parts[5],
+        fontSizePercent: parts[6]
+      });
+    case "SETEDGECOLOR":
+      return normalizeAnimationStep({ type: "setEdgeColor", from: parts[1], to: parts[2], color: parts[3] });
+    case "SETEDGEALPHA":
+      return normalizeAnimationStep({ type: "setEdgeAlpha", from: parts[1], to: parts[2], alpha: parts[3] });
+    case "SETEDGEHIGHLIGHT":
+      return normalizeAnimationStep({ type: "setEdgeHighlight", from: parts[1], to: parts[2], value: parts[3] });
+    case "SETHEIGHT":
+      return normalizeAnimationStep({ type: "setHeight", id: parts[1], height: parts[2] });
+    case "SETLAYER":
+      return normalizeAnimationStep({ type: "setLayer", id: parts[1], layer: parts[2] });
+    case "CREATELINKEDLIST":
+      return normalizeAnimationStep({
+        type: "createLinkedList",
+        id: parts[1],
+        label: parts[2],
+        width: parts[3],
+        height: parts[4],
+        x: parts[5],
+        y: parts[6],
+        linkPercent: parts[7],
+        vertical: parts[8],
+        linkAtEnd: parts[9],
+        numLabels: parts[10],
+        numLinks: parts[11]
+      });
+    case "SETNULL":
+      return normalizeAnimationStep({ type: "setNull", id: parts[1], value: parts[2], index: parts[3] });
+    case "SETTEXTCOLOR":
+      return normalizeAnimationStep({ type: "setTextColor", id: parts[1], color: parts[2], index: parts[3] });
+    case "CREATEBTREENODE":
+      return normalizeAnimationStep({
+        type: "createBTreeNode",
+        id: parts[1],
+        widthPerElement: parts[2],
+        height: parts[3],
+        numElems: parts[4],
+        x: parts[5],
+        y: parts[6],
+        backgroundColor: parts[7],
+        foregroundColor: parts[8]
+      });
+    case "SETWIDTH":
+      return normalizeAnimationStep({ type: "setWidth", id: parts[1], width: parts[2] });
+    case "SETNUMELEMENTS":
+      return normalizeAnimationStep({ type: "setNumElements", id: parts[1], count: parts[2] });
+    case "SETPOSITION":
+      return normalizeAnimationStep({ type: "setPosition", id: parts[1], x: parts[2], y: parts[3] });
+    case "ALIGNRIGHT":
+      return normalizeAnimationStep({ type: "alignRight", id: parts[1], otherId: parts[2] });
+    case "ALIGNLEFT":
+      return normalizeAnimationStep({ type: "alignLeft", id: parts[1], otherId: parts[2] });
+    case "ALIGNTOP":
+      return normalizeAnimationStep({ type: "alignTop", id: parts[1], otherId: parts[2] });
+    case "ALIGNBOTTOM":
+      return normalizeAnimationStep({ type: "alignBottom", id: parts[1], otherId: parts[2] });
+    case "SETHIGHLIGHTINDEX":
+      return normalizeAnimationStep({ type: "setHighlightIndex", id: parts[1], index: parts[2] });
+    default:
+      throw new Error(`Unknown legacy animation command: ${command}`);
+  }
+}
+
+// AnimationLibrary/AnimationState.js
+function edgeKey(from, to) {
+  return `${from}->${to}`;
+}
+function createEmptyAnimationState() {
+  return {
+    objects: /* @__PURE__ */ new Map(),
+    edges: /* @__PURE__ */ new Map(),
+    message: "",
+    blocksApplied: 0,
+    history: []
+  };
+}
+function snapshotObjectManagerState(objectManager2) {
+  const state = createEmptyAnimationState();
+  if (!objectManager2) {
+    return state;
+  }
+  for (const node of objectManager2.Nodes) {
+    if (!node || node.addedToScene === false) {
+      continue;
+    }
+    const snapshot = {
+      id: node.objectID,
+      x: node.x,
+      y: node.y,
+      foregroundColor: node.foregroundColor,
+      backgroundColor: node.backgroundColor,
+      highlighted: !!node.highlighted,
+      alpha: node.alpha,
+      layer: node.layer
+    };
+    if (node.lineDash) {
+      snapshot.lineDash = node.lineDash;
+    }
+    if (typeof node.highlightIndex === "number" && node.highlightIndex !== -1) {
+      snapshot.highlightIndex = node.highlightIndex;
+    }
+    if (node instanceof AnimatedCircle) {
+      snapshot.kind = "circle";
+      snapshot.text = node.getText(0);
+    } else if (node instanceof AnimatedRectangle) {
+      snapshot.kind = "rectangle";
+      snapshot.text = node.getText(0);
+      snapshot.width = node.getWidth();
+      snapshot.height = node.getHeight();
+      snapshot.nullFlags = { 0: node.getNull(0) };
+    } else if (node instanceof AnimatedLabel) {
+      snapshot.kind = "label";
+      snapshot.text = node.getText(0);
+      snapshot.centered = node.centering;
+      snapshot.fontSizePercent = node.fontSizePercent;
+    } else if (node instanceof AnimatedLinkedList) {
+      snapshot.kind = "linkedList";
+      snapshot.width = node.getWidth();
+      snapshot.height = node.getHeight();
+      snapshot.linkPercent = node.linkPercent;
+      snapshot.vertical = node.vertical;
+      snapshot.linkAtEnd = node.linkPositionEnd;
+      snapshot.numLabels = node.numLabels;
+      snapshot.numLinks = node.numLinks;
+      snapshot.text = {};
+      snapshot.nullFlags = {};
+      for (let i = 0; i < node.numLabels; i++) {
+        snapshot.text[i] = node.getText(i);
+      }
+      for (let i = 0; i < node.numLinks; i++) {
+        snapshot.nullFlags[i] = node.getNull(i);
+      }
+    } else if (node instanceof AnimatedBTreeNode) {
+      snapshot.kind = "btreeNode";
+      snapshot.widthPerElement = node.widthPerElement;
+      snapshot.height = node.getHeight();
+      snapshot.numElements = node.getNumElements();
+      snapshot.text = {};
+      for (let i = 0; i < node.getNumElements(); i++) {
+        snapshot.text[i] = node.getText(i);
+      }
+    } else if (node instanceof HighlightCircle) {
+      snapshot.kind = "highlightCircle";
+      snapshot.color = node.foregroundColor;
+      snapshot.radius = node.radius;
+    } else {
+      snapshot.kind = "unknown";
+      snapshot.text = typeof node.getText === "function" ? node.getText(0) : "";
+    }
+    state.objects.set(snapshot.id, snapshot);
+  }
+  for (const [from, targets] of objectManager2.Edges) {
+    for (const [to, edge] of targets) {
+      if (!edge || edge.addedToScene === false) {
+        continue;
+      }
+      state.edges.set(edgeKey(from, to), {
+        from,
+        to,
+        color: typeof edge.color === "function" ? edge.color() : edge.edgeColor,
+        curve: edge.curve,
+        directed: edge.directed,
+        label: edge.edgeLabel,
+        connectionPoint: edge.anchorPoint,
+        type: "connect",
+        ...edge.alpha !== void 0 ? { alpha: edge.alpha } : {},
+        ...edge.highlighted ? { highlighted: edge.highlighted } : {}
+      });
+    }
+  }
+  if (typeof document !== "undefined") {
+    const messageEl = document.getElementById("message");
+    if (messageEl) {
+      state.message = messageEl.value || "";
+    }
+  }
+  return state;
+}
+
 // AlgorithmLibrary/Algorithm.js
 function addLabelToAlgorithmBar(labelName, labelId, labelTarget) {
   var element = document.createElement("label");
@@ -3374,6 +4302,121 @@ function addSeparatorToAlgorithmBar() {
 }
 function Algorithm(am) {
 }
+function legacyCommandToStep(command, args) {
+  const name = String(command ?? "").trim();
+  switch (name.toUpperCase()) {
+    case "CREATECIRCLE":
+      return { type: "createCircle", id: args[0], label: args[1], x: args[2], y: args[3] };
+    case "CONNECT":
+      return {
+        type: "connect",
+        from: args[0],
+        to: args[1],
+        color: args[2],
+        curve: args[3],
+        directed: args[4],
+        label: args[5],
+        connectionPoint: args[6]
+      };
+    case "CREATERECTANGLE":
+      return {
+        type: "createRectangle",
+        id: args[0],
+        label: args[1],
+        width: args[2],
+        height: args[3],
+        x: args[4],
+        y: args[5],
+        xJustify: args[6],
+        yJustify: args[7]
+      };
+    case "MOVE":
+      return { type: "move", objectId: args[0], toX: args[1], toY: args[2] };
+    case "MOVETOALIGNRIGHT":
+      return { type: "moveToAlignRight", objectId: args[0], otherId: args[1] };
+    case "SETFOREGROUNDCOLOR":
+      return { type: "setForegroundColor", id: args[0], color: args[1] };
+    case "SETBACKGROUNDCOLOR":
+      return { type: "setBackgroundColor", id: args[0], color: args[1] };
+    case "SETHIGHLIGHT":
+      return { type: "setHighlight", id: args[0], value: args[1] };
+    case "DISCONNECT":
+      return { type: "disconnect", from: args[0], to: args[1] };
+    case "SETALPHA":
+      return { type: "setAlpha", id: args[0], alpha: args[1] };
+    case "SETMESSAGE":
+      return { type: "setMessage", message: args[0] };
+    case "SETTEXT":
+      return { type: "setText", id: args[0], text: args[1], index: args[2] };
+    case "DELETE":
+      return { type: "delete", id: args[0] };
+    case "CREATEHIGHLIGHTCIRCLE":
+      return { type: "createHighlightCircle", id: args[0], color: args[1], x: args[2], y: args[3], radius: args[4] };
+    case "CREATELABEL":
+      return { type: "createLabel", id: args[0], text: args[1], x: args[2], y: args[3], centered: args[4], fontSizePercent: args[5] };
+    case "SETEDGECOLOR":
+      return { type: "setEdgeColor", from: args[0], to: args[1], color: args[2] };
+    case "SETEDGEALPHA":
+      return { type: "setEdgeAlpha", from: args[0], to: args[1], alpha: args[2] };
+    case "SETEDGEHIGHLIGHT":
+      return { type: "setEdgeHighlight", from: args[0], to: args[1], value: args[2] };
+    case "SETHEIGHT":
+      return { type: "setHeight", id: args[0], height: args[1] };
+    case "SETLAYER":
+      return { type: "setLayer", id: args[0], layer: args[1] };
+    case "CREATELINKEDLIST":
+      return {
+        type: "createLinkedList",
+        id: args[0],
+        label: args[1],
+        width: args[2],
+        height: args[3],
+        x: args[4],
+        y: args[5],
+        linkPercent: args[6],
+        vertical: args[7],
+        linkAtEnd: args[8],
+        numLabels: args[9],
+        numLinks: args[10]
+      };
+    case "SETNULL":
+      return { type: "setNull", id: args[0], value: args[1], index: args[2] };
+    case "SETTEXTCOLOR":
+      return { type: "setTextColor", id: args[0], color: args[1], index: args[2] };
+    case "CREATEBTREENODE":
+      return {
+        type: "createBTreeNode",
+        id: args[0],
+        widthPerElement: args[1],
+        height: args[2],
+        numElems: args[3],
+        x: args[4],
+        y: args[5],
+        backgroundColor: args[6],
+        foregroundColor: args[7]
+      };
+    case "SETWIDTH":
+      return { type: "setWidth", id: args[0], width: args[1] };
+    case "SETLINEDASH":
+      return { type: "setLineDash", id: args[0], lineDash: args[1] };
+    case "SETNUMELEMENTS":
+      return { type: "setNumElements", id: args[0], count: args[1] };
+    case "SETPOSITION":
+      return { type: "setPosition", id: args[0], x: args[1], y: args[2] };
+    case "ALIGNRIGHT":
+      return { type: "alignRight", id: args[0], otherId: args[1] };
+    case "ALIGNLEFT":
+      return { type: "alignLeft", id: args[0], otherId: args[1] };
+    case "ALIGNTOP":
+      return { type: "alignTop", id: args[0], otherId: args[1] };
+    case "ALIGNBOTTOM":
+      return { type: "alignBottom", id: args[0], otherId: args[1] };
+    case "SETHIGHLIGHTINDEX":
+      return { type: "setHighlightIndex", id: args[0], index: args[1] };
+    default:
+      throw new Error("Unknown command: " + name);
+  }
+}
 Algorithm.prototype.setCodeAlpha = function(code, newAlpha) {
   var i, j;
   for (i = 0; i < code.length; i++)
@@ -3408,6 +4451,10 @@ Algorithm.prototype.addCodeToCanvasBase = function(code, start_x, start_y, line_
 };
 Algorithm.prototype.init = function(am, w2, h) {
   this.animationManager = am;
+  am.currentAlgorithm = this;
+  if (typeof am.refreshDescribeButton === "function") {
+    am.refreshDescribeButton();
+  }
   am.addListener("AnimationStarted", this, this.disableUI);
   am.addListener("AnimationEnded", this, this.enableUI);
   am.addListener("AnimationUndo", this, this.undo);
@@ -3416,6 +4463,7 @@ Algorithm.prototype.init = function(am, w2, h) {
   this.actionHistory = [];
   this.recordAnimation = true;
   this.commands = [];
+  this.pendingBlock = null;
 };
 Algorithm.prototype.sizeChanged = function(newWidth, newHeight) {
 };
@@ -3516,13 +4564,71 @@ Algorithm.prototype.undo = function(event) {
 Algorithm.prototype.clearHistory = function() {
   this.actionHistory = [];
 };
+Algorithm.prototype.beginAnimation = function() {
+  this.commands = [];
+  this.pendingBlock = null;
+};
+Algorithm.prototype.beginBlock = function(label, meta) {
+  if (this.pendingBlock && this.pendingBlock.steps.length > 0) {
+    this.commands.push(this.pendingBlock);
+  }
+  this.pendingBlock = {
+    ...label ? { label } : {},
+    ...meta ? { meta } : {},
+    steps: []
+  };
+};
+Algorithm.prototype.emit = function(step) {
+  if (!this.recordAnimation) {
+    return;
+  }
+  if (!this.pendingBlock) {
+    this.beginBlock();
+  }
+  this.pendingBlock.steps.push(step);
+};
+Algorithm.prototype.step = function(label, meta) {
+  if (!this.recordAnimation) {
+    return;
+  }
+  if (!this.pendingBlock) {
+    this.beginBlock(label, meta);
+    return;
+  }
+  if (this.pendingBlock.steps.length > 0) {
+    this.commands.push(this.pendingBlock);
+  }
+  this.pendingBlock = {
+    ...label ? { label } : {},
+    ...meta ? { meta } : {},
+    steps: []
+  };
+};
+Algorithm.prototype.finishAnimation = function() {
+  if (this.pendingBlock && this.pendingBlock.steps.length > 0) {
+    this.commands.push(this.pendingBlock);
+  }
+  this.pendingBlock = null;
+  return this.commands;
+};
 Algorithm.prototype.cmd = function() {
   if (this.recordAnimation) {
-    var command = arguments[0];
-    for (let i = 1; i < arguments.length; i++) {
-      command = command + "<;>" + String(arguments[i]);
+    const command = arguments[0];
+    if (String(command).toUpperCase() === "STEP") {
+      if (this.pendingBlock) {
+        this.step();
+      } else {
+        this.commands.push({ type: "step" });
+      }
+      return;
     }
-    this.commands.push(command);
+    const args = Array.prototype.slice.call(arguments, 1);
+    const step = legacyCommandToStep(command, args);
+    if (this.pendingBlock) {
+      this.pendingBlock.steps.push(step);
+    } else {
+      this.commands.push(step);
+    }
   }
 };
 
@@ -3557,6 +4663,9 @@ var stepBackButton;
 var stepForwardButton;
 var skipForwardButton;
 var scrubSlider;
+var describeStatusRegion;
+var pendingPlaybackFocus = null;
+var playbackFocusScheduled = false;
 var keyboardStepListenerInstalled = false;
 var ctrlWheelZoomListenerInstalled = false;
 var pinchZoomListenerInstalled = false;
@@ -3582,6 +4691,24 @@ function deriveZoomCookieName(title, opts = null) {
   const fallbackTitle = title && String(title).trim() !== "" ? String(title) : "animation";
   const scope = pageToken || fallbackTitle;
   return `${BASE_ZOOM_COOKIE_NAME}_${sanitizeCookieToken(scope)}`;
+}
+function normalizeZoomValue(rawZoom) {
+  let parsed = parseFloat(rawZoom);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return 1;
+  }
+  if (parsed > 3) {
+    parsed = 4 / parsed;
+  }
+  const allowedZoomValues = [0.25, 0.5, 0.75, 1, 1.5, 2, 3];
+  const isAllowed = allowedZoomValues.some((v) => Math.abs(v - parsed) < 1e-9);
+  if (isAllowed) {
+    return parsed;
+  }
+  return allowedZoomValues.reduce(
+    (best, v) => Math.abs(v - parsed) < Math.abs(best - parsed) ? v : best,
+    allowedZoomValues[0]
+  );
 }
 function installZoomHoverTracking(targetEl) {
   if (zoomHoverTrackingInstalled)
@@ -3631,14 +4758,20 @@ function animWaiting() {
   if (skipBackButton.disabled == false) {
     stepBackButton.disabled = false;
   }
+  schedulePlaybackFocus();
 }
 function animReady() {
   skipForwardButton.disabled = false;
   skipBackButton.disabled = true;
   stepForwardButton.disabled = false;
   stepBackButton.disabled = true;
+  schedulePlaybackFocus();
 }
 function animStarted() {
+  const algorithmControls = document.getElementById("AlgorithmSpecificControls");
+  if (isAnimationActionControl(document.activeElement, algorithmControls)) {
+    pendingPlaybackFocus = "stepForward";
+  }
   skipForwardButton.disabled = false;
   skipBackButton.disabled = false;
   stepForwardButton.disabled = true;
@@ -3650,18 +4783,95 @@ function animEnded() {
   if (skipBackButton.disabled == false && paused) {
     stepBackButton.disabled = false;
   }
+  schedulePlaybackFocus();
 }
 function animUndoUnavailable() {
   skipBackButton.disabled = true;
   stepBackButton.disabled = true;
+  schedulePlaybackFocus();
 }
 function animAdvanceUnavailable() {
   skipForwardButton.disabled = true;
   stepForwardButton.disabled = true;
+  schedulePlaybackFocus();
 }
 function timeoutFn() {
   timer = setTimeout(timeoutFn, 30);
   animationManager.update();
+}
+function getStructureDescription(manager) {
+  if (!manager || !manager.currentAlgorithm) {
+    return null;
+  }
+  const algorithm = manager.currentAlgorithm;
+  try {
+    if (typeof algorithm.describeFromState === "function" && typeof manager.getPlaybackAnimationState === "function") {
+      const state = manager.getPlaybackAnimationState();
+      return algorithm.describeFromState(state, manager);
+    }
+    if (typeof algorithm.describe === "function") {
+      return algorithm.describe();
+    }
+  } catch (e) {
+    console.warn("Unable to describe current animation state.", e);
+  }
+  return null;
+}
+function describeCurrentStructure() {
+  if (!animationManager || !animationManager.currentAlgorithm) {
+    console.warn("Current animation does not provide a describe() method.");
+    return;
+  }
+  const description = getStructureDescription(animationManager);
+  if (description == null) {
+    console.warn("Current animation does not provide a describe() method.");
+    return;
+  }
+  console.log("Current structure description:", description);
+  if (!describeStatusRegion)
+    return;
+  describeStatusRegion.textContent = "";
+  requestAnimationFrame(() => {
+    describeStatusRegion.textContent = description;
+  });
+}
+function isAnimationActionControl(element, container) {
+  if (!element || !container || !container.contains(element))
+    return false;
+  const tagName = String(element.tagName || "").toLowerCase();
+  const type = String(element.type || "").toLowerCase();
+  return tagName === "button" || tagName === "input" && (type === "button" || type === "submit");
+}
+function focusEnabledControl(element) {
+  if (!element || element.disabled || typeof element.focus !== "function") {
+    return false;
+  }
+  element.focus();
+  return true;
+}
+function focusFirstEnabledControl(elements) {
+  for (const element of elements) {
+    if (focusEnabledControl(element))
+      return true;
+  }
+  return false;
+}
+function playbackFocusOrder(intent) {
+  if (intent === "stepBack" || intent === "skipForward") {
+    return [stepBackButton, skipBackButton, stepForwardButton, skipForwardButton];
+  }
+  return [stepForwardButton, skipForwardButton, stepBackButton, skipBackButton];
+}
+function schedulePlaybackFocus() {
+  if (!pendingPlaybackFocus || playbackFocusScheduled)
+    return;
+  playbackFocusScheduled = true;
+  queueMicrotask(() => {
+    playbackFocusScheduled = false;
+    const intent = pendingPlaybackFocus;
+    pendingPlaybackFocus = null;
+    focusFirstEnabledControl(playbackFocusOrder(intent));
+  });
 }
 function makeInput(type, value, title, id) {
   var element = document.createElement("input");
@@ -3671,6 +4881,18 @@ function makeInput(type, value, title, id) {
     element.setAttribute("title", title);
   if (id != null && id !== "")
     element.id = id;
+  return element;
+}
+function makeNavigationButton(symbol, title, id, accessibleName) {
+  const element = document.createElement("button");
+  element.setAttribute("type", "button");
+  element.setAttribute("title", title);
+  element.setAttribute("aria-label", accessibleName);
+  element.id = id;
+  const visualSymbol = document.createElement("span");
+  visualSymbol.setAttribute("aria-hidden", "true");
+  visualSymbol.textContent = symbol;
+  element.appendChild(visualSymbol);
   return element;
 }
 function addControlTo(element, parent, label) {
@@ -3726,12 +4948,22 @@ function normalizeSpeedLabel(raw) {
   }
   return null;
 }
+function prefersReducedMotion(opts = null) {
+  if (opts && typeof opts.reducedMotion === "boolean") {
+    return opts.reducedMotion;
+  }
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return false;
+  }
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 function speedChange(speed) {
   const label = normalizeSpeedLabel(speed) ?? "Off";
   const mapped = SPEED_LABEL_TO_VALUE[label] ?? "step";
+  const reducedMotion = prefersReducedMotion(animationManager?.opts);
   if (mapped === "step") {
     animationManager.SetPaused(true);
-    animationManager.SetSpeed(1);
+    animationManager.SetSpeed(reducedMotion ? 0 : 1);
   } else {
     animationManager.SetPaused(false);
     animationManager.SetSpeed(mapped);
@@ -3750,6 +4982,18 @@ function addGeneralControls(objectManager2, targetElement, title, opts = null) {
     targetElement = document.body;
   }
   let animationDiv = makeDiv("animationSurround", "", targetElement);
+  animationDiv.setAttribute("aria-keyshortcuts", "Control+D");
+  animationDiv.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && !e.metaKey && !e.altKey && String(e.key).toLowerCase() === "d") {
+      e.preventDefault();
+      e.stopPropagation();
+      describeCurrentStructure();
+    }
+  });
+  describeStatusRegion = makeDiv("visualizationStatus", "visually-hidden", animationDiv);
+  describeStatusRegion.setAttribute("role", "status");
+  describeStatusRegion.setAttribute("aria-live", "polite");
+  describeStatusRegion.setAttribute("aria-atomic", "true");
   let algoControlSection = makeDiv("algoControlSection", "", animationDiv);
   var controlBar = makeDiv("generalAnimationControls", "", algoControlSection);
   makeDiv("AlgorithmSpecificControls", "", algoControlSection);
@@ -3759,10 +5003,42 @@ function addGeneralControls(objectManager2, targetElement, title, opts = null) {
   var stepButtons = document.createElement("div");
   stepButtons.classList.add("stepButtons");
   controlBar.appendChild(stepButtons);
-  skipBackButton = addControlTo(makeInput("Button", "<<", "Skip Back", "skipBackButton"), stepButtons);
-  stepBackButton = addControlTo(makeInput("Button", "<", "Step Back", "stepBackButton"), stepButtons);
-  stepForwardButton = addControlTo(makeInput("Button", ">", "Step Forward", "stepForwardButton"), stepButtons);
-  skipForwardButton = addControlTo(makeInput("Button", ">>", "Skip Forward", "skipForwardButton"), stepButtons);
+  skipBackButton = addControlTo(
+    makeNavigationButton(
+      "<<",
+      "Skip Back",
+      "skipBackButton",
+      "Skip to beginning of animation"
+    ),
+    stepButtons
+  );
+  stepBackButton = addControlTo(
+    makeNavigationButton(
+      "<",
+      "Step Back",
+      "stepBackButton",
+      "Previous animation step"
+    ),
+    stepButtons
+  );
+  stepForwardButton = addControlTo(
+    makeNavigationButton(
+      ">",
+      "Step Forward",
+      "stepForwardButton",
+      "Next animation step"
+    ),
+    stepButtons
+  );
+  skipForwardButton = addControlTo(
+    makeNavigationButton(
+      ">>",
+      "Skip Forward",
+      "skipForwardButton",
+      "Skip to end of animation"
+    ),
+    stepButtons
+  );
   scrubSlider = document.createElement("input");
   scrubSlider.type = "range";
   scrubSlider.id = "scrubSlider";
@@ -3775,6 +5051,7 @@ function addGeneralControls(objectManager2, targetElement, title, opts = null) {
   scrubSlider.style.marginTop = "6px";
   scrubSlider.style.height = "4px";
   scrubSlider.style.cursor = "pointer";
+  scrubSlider.ariaLabel = "Animation Scrubber";
   controlBar.appendChild(scrubSlider);
   var speedSelect = document.createElement("select");
   speedSelect.setAttribute("id", "animationSpeed");
@@ -3792,39 +5069,33 @@ function addGeneralControls(objectManager2, targetElement, title, opts = null) {
   speedSelect.addEventListener("change", (e) => {
     speedChange(e.target.value);
   });
+  if (typeof window !== "undefined" && typeof window.matchMedia === "function") {
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    reducedMotionQuery.addEventListener?.("change", () => {
+      if (speedSelect.value === "Off") {
+        speedChange(speedSelect.value);
+      }
+    });
+  }
   addControlTo(speedSelect, controlBar, "Auto Step Speed");
   zoomCookieName = deriveZoomCookieName(title, opts);
   var zoom = getCookie(zoomCookieName);
   if (zoom == void 0 || zoom === null || zoom === "") {
     zoom = getCookie(BASE_ZOOM_COOKIE_NAME);
   }
-  {
-    let parsed = parseFloat(zoom);
-    if (!Number.isFinite(parsed) || parsed <= 0) {
-      parsed = 4;
-    }
-    const allowedZoomValues = [16, 8, 6, 4, 2.6666666667, 2, 1.3333333333];
-    const isAllowed = allowedZoomValues.some((v) => Math.abs(v - parsed) < 1e-9);
-    if (!isAllowed) {
-      parsed = allowedZoomValues.reduce(
-        (best, v) => Math.abs(v - parsed) < Math.abs(best - parsed) ? v : best,
-        allowedZoomValues[0]
-      );
-    }
-    zoom = parsed;
-  }
+  zoom = normalizeZoomValue(zoom);
   objectManager2.setZoom(zoom);
   var zoomSelect = document.createElement("select");
   zoomSelect.setAttribute("id", "zoomLevel");
   zoomSelect.setAttribute("name", "zoomLevel");
   zoomSelect.innerHTML = `
-    <option value="16" ${zoom == 16 ? "selected" : ""}>0.25x</option>
-    <option value="8" ${zoom == 8 ? "selected" : ""}>0.5x</option>
-    <option value="6" ${zoom == 6 ? "selected" : ""}>0.75x</option>
-    <option value="4" ${zoom == 4 ? "selected" : ""}>1x</option>
-    <option value="2.6666666667" ${zoom == 2.6666666667 ? "selected" : ""}>1.5x</option>
+    <option value="0.25" ${zoom == 0.25 ? "selected" : ""}>0.25x</option>
+    <option value="0.5" ${zoom == 0.5 ? "selected" : ""}>0.5x</option>
+    <option value="0.75" ${zoom == 0.75 ? "selected" : ""}>0.75x</option>
+    <option value="1" ${zoom == 1 ? "selected" : ""}>1x</option>
+    <option value="1.5" ${zoom == 1.5 ? "selected" : ""}>1.5x</option>
     <option value="2" ${zoom == 2 ? "selected" : ""}>2x</option>
-    <option value="1.3333333333" ${zoom == 1.3333333333 ? "selected" : ""}>3x</option>`;
+    <option value="3" ${zoom == 3 ? "selected" : ""}>3x</option>`;
   zoomSelect.addEventListener("change", (e) => {
     setCookie(zoomCookieName, e.target.value);
     let focus = pendingZoomFocusClient;
@@ -3843,15 +5114,23 @@ function addGeneralControls(objectManager2, targetElement, title, opts = null) {
     }
   });
   addControlTo(zoomSelect, controlBar, "Zoom");
+  var resetButton = addControlTo(makeInput("Button", "Reset Animation", "Reset Animation", "resetButton"), controlBar);
+  resetButton.onclick = function() {
+    window.location.reload();
+  };
+  var msgBoxLabel = document.createElement("label");
+  msgBoxLabel.setAttribute("for", "message");
+  msgBoxLabel.textContent = "Message:";
+  controlBar.appendChild(msgBoxLabel);
   var msgBox = document.createElement("textarea");
   msgBox.setAttribute("readonly", "readonly");
   msgBox.setAttribute("id", "message");
   msgBox.setAttribute("rows", "4");
   controlBar.appendChild(msgBox);
-  var resetButton = addControlTo(makeInput("Button", "Reset", "Reset", "resetButton"), controlBar);
-  resetButton.onclick = function() {
-    window.location.reload();
-  };
+  var msgBoxStatus = makeDiv("messageStatus", "visually-hidden", controlBar);
+  msgBoxStatus.setAttribute("role", "status");
+  msgBoxStatus.setAttribute("aria-live", "polite");
+  msgBoxStatus.setAttribute("aria-atomic", "true");
 }
 function applyAutoZoomForMinVisibleWidth(minVisibleWorldWidth) {
   return;
@@ -4031,9 +5310,15 @@ function initCanvas2(canvas2, targetElement = null, title = "", centered = false
   canvas2.style.height = canvas2.height + "px";
   objectManager = new ObjectManager(canvas2, centered);
   animationManager = new AnimationManager(objectManager, canvas2);
+  animationManager.opts = opts || {};
+  animationManager.accessibleTitle = title || "Interactive visualization";
+  objectManager.setAccessibleText(animationManager.accessibleTitle);
   addGeneralControls(objectManager, targetElement, title, opts);
   var controlBar = document.getElementById("algoControlSection");
-  controlBar.after(objectManager.svg);
+  var svgWrapper = document.createElement("div");
+  svgWrapper.id = "animationViewport";
+  svgWrapper.appendChild(objectManager.svg);
+  controlBar.after(svgWrapper);
   requestAnimationFrame(() => applyAutoZoomForMinVisibleWidth(800));
   animationManager.addListener("AnimationReady", this, animReady);
   animationManager.addListener("AnimationStarted", this, animStarted);
@@ -4049,10 +5334,22 @@ function initCanvas2(canvas2, targetElement = null, title = "", centered = false
     this,
     animAdvanceUnavailable
   );
-  skipBackButton.onclick = animationManager.skipBack.bind(animationManager);
-  stepBackButton.onclick = animationManager.stepBack.bind(animationManager);
-  stepForwardButton.onclick = animationManager.step.bind(animationManager);
-  skipForwardButton.onclick = animationManager.skipForward.bind(animationManager);
+  skipBackButton.onclick = () => {
+    pendingPlaybackFocus = "skipBack";
+    animationManager.skipBack();
+  };
+  stepBackButton.onclick = () => {
+    pendingPlaybackFocus = "stepBack";
+    animationManager.stepBack();
+  };
+  stepForwardButton.onclick = () => {
+    pendingPlaybackFocus = "stepForward";
+    animationManager.step();
+  };
+  skipForwardButton.onclick = () => {
+    pendingPlaybackFocus = "skipForward";
+    animationManager.skipForward();
+  };
   animationManager.attachScrubSlider(scrubSlider);
   scrubSlider.addEventListener("input", (e) => {
     const target = parseInt(e.target.value);
@@ -4068,6 +5365,7 @@ function initCanvas2(canvas2, targetElement = null, title = "", centered = false
 function AnimationManager(objectManager2, canvas2) {
   this.animatedObjects = objectManager2;
   this.canvas = canvas2;
+  this.opts = null;
   this.animationPaused = false;
   this.awaitingStep = false;
   this.currentlyAnimating = false;
@@ -4113,21 +5411,259 @@ function AnimationManager(objectManager2, canvas2) {
       }
     }
   };
+  this.refreshDescribeButton = function() {
+    this.refreshAccessibleDescription();
+  };
+  this.refreshAccessibleDescription = function() {
+    if (!this.animatedObjects || typeof this.animatedObjects.setAccessibleText !== "function") {
+      return;
+    }
+    this.animatedObjects.setAccessibleText(
+      this.accessibleTitle,
+      getStructureDescription(this)
+    );
+  };
+  this.getPlaybackAnimationState = function() {
+    return snapshotObjectManagerState(this.animatedObjects);
+  };
   this.shift = function(deltaX = 0, deltaY = 0) {
     this.animatedObjects.shiftView(deltaX, deltaY);
   };
   this.parseBool = function(str) {
-    var uppercase = str.toUpperCase();
-    var returnVal = !(uppercase == "False" || uppercase == "f" || uppercase == " 0" || uppercase == "0" || uppercase == "");
-    return returnVal;
+    return toBool(str);
   };
   this.parseColor = function(clr) {
-    if (clr.charAt(0) == "#") {
-      return clr;
-    } else if (clr.substring(0, 2) == "0x") {
-      return "#" + clr.substring(2);
+    return toColor(clr);
+  };
+  this.executeAnimationStep = function(step, undoBlock) {
+    let animated = false;
+    if (step.type === "createCircle") {
+      this.animatedObjects.addCircleObject(step.id, step.label);
+      if (step.x != null && step.y != null) {
+        this.animatedObjects.setNodePosition(step.id, step.x, step.y);
+      }
+      undoBlock.push(new UndoCreate(step.id));
+    } else if (step.type === "connect") {
+      this.animatedObjects.connectEdge(
+        step.from,
+        step.to,
+        step.color,
+        step.curve,
+        step.directed,
+        step.label,
+        step.connectionPoint
+      );
+      undoBlock.push(new UndoConnect(step.from, step.to, false));
+    } else if (step.type === "createRectangle") {
+      this.animatedObjects.addRectangleObject(
+        step.id,
+        step.label,
+        step.width,
+        step.height,
+        step.xJustify,
+        step.yJustify,
+        "#ffffff",
+        "#000000"
+      );
+      if (step.x != null && step.y != null) {
+        this.animatedObjects.setNodePosition(step.id, step.x, step.y);
+      }
+      undoBlock.push(new UndoCreate(step.id));
+    } else if (step.type === "move") {
+      const nextAnim = new SingleAnimation(
+        step.objectId,
+        this.animatedObjects.getNodeX(step.objectId),
+        this.animatedObjects.getNodeY(step.objectId),
+        step.toX,
+        step.toY
+      );
+      this.currentBlock.push(nextAnim);
+      undoBlock.push(
+        new UndoMove(
+          nextAnim.objectID,
+          nextAnim.toX,
+          nextAnim.toY,
+          nextAnim.fromX,
+          nextAnim.fromY
+        )
+      );
+      animated = true;
+    } else if (step.type === "moveToAlignRight") {
+      const newXY = this.animatedObjects.getAlignRightPos(step.objectId, step.otherId);
+      const nextAnim = new SingleAnimation(
+        step.objectId,
+        this.animatedObjects.getNodeX(step.objectId),
+        this.animatedObjects.getNodeY(step.objectId),
+        newXY[0],
+        newXY[1]
+      );
+      this.currentBlock.push(nextAnim);
+      undoBlock.push(
+        new UndoMove(
+          nextAnim.objectID,
+          nextAnim.toX,
+          nextAnim.toY,
+          nextAnim.fromX,
+          nextAnim.fromY
+        )
+      );
+      animated = true;
+    } else if (step.type === "setForegroundColor") {
+      const oldColor = this.animatedObjects.foregroundColor(step.id);
+      this.animatedObjects.setForegroundColor(step.id, step.color);
+      undoBlock.push(new UndoSetForegroundColor(step.id, oldColor));
+    } else if (step.type === "setBackgroundColor") {
+      const oldColor = this.animatedObjects.backgroundColor(step.id);
+      this.animatedObjects.setBackgroundColor(step.id, step.color);
+      undoBlock.push(new UndoSetBackgroundColor(step.id, oldColor));
+    } else if (step.type === "setHighlight") {
+      const oldHighlight = this.animatedObjects.getHighlight(step.id);
+      this.animatedObjects.setHighlight(step.id, step.value);
+      undoBlock.push(new UndoHighlight(step.id, oldHighlight));
+    } else if (step.type === "disconnect") {
+      const undoConnect = this.animatedObjects.disconnect(step.from, step.to);
+      if (undoConnect != null) {
+        undoBlock.push(undoConnect);
+      }
+    } else if (step.type === "setAlpha") {
+      const oldAlpha = this.animatedObjects.getAlpha(step.id);
+      this.animatedObjects.setAlpha(step.id, step.alpha);
+      undoBlock.push(new UndoSetAlpha(step.id, oldAlpha));
+    } else if (step.type === "setMessage") {
+      const oldText = document.getElementById("message").value;
+      setAnimationMessage(step.message);
+      if (oldText != void 0) {
+        undoBlock.push(new UndoSetMessage(oldText));
+      }
+    } else if (step.type === "setText") {
+      const oldText = this.animatedObjects.getText(step.id, step.index);
+      this.animatedObjects.setText(step.id, step.text, step.index);
+      if (step.id === 0) {
+        setAnimationMessage(step.text);
+      }
+      if (oldText != void 0) {
+        undoBlock.push(new UndoSetText(step.id, oldText, step.index));
+      }
+    } else if (step.type === "delete") {
+      const removedEdges = this.animatedObjects.deleteIncident(step.id);
+      if (removedEdges.length > 0) {
+        undoBlock = undoBlock.concat(removedEdges);
+      }
+      const obj = this.animatedObjects.getObject(step.id);
+      if (obj != null) {
+        undoBlock.push(obj.createUndoDelete());
+        this.animatedObjects.removeObject(step.id);
+      }
+    } else if (step.type === "createHighlightCircle") {
+      this.animatedObjects.addHighlightCircleObject(step.id, step.color, step.radius);
+      if (step.x != null && step.y != null) {
+        this.animatedObjects.setNodePosition(step.id, step.x, step.y);
+      }
+      undoBlock.push(new UndoCreate(step.id));
+      this.animatedObjects.draw();
+    } else if (step.type === "createLabel") {
+      this.animatedObjects.addLabelObject(step.id, step.text, step.centered, step.fontSizePercent);
+      if (step.x != null && step.y != null) {
+        this.animatedObjects.setNodePosition(step.id, step.x, step.y);
+      }
+      undoBlock.push(new UndoCreate(step.id));
+    } else if (step.type === "setEdgeColor") {
+      const oldColor = this.animatedObjects.setEdgeColor(step.from, step.to, step.color);
+      undoBlock.push(new UndoSetEdgeColor(step.from, step.to, oldColor));
+    } else if (step.type === "setEdgeAlpha") {
+      const oldAlpha = this.animatedObjects.setEdgeAlpha(step.from, step.to, step.alpha);
+      undoBlock.push(new UndoSetEdgeAlpha(step.from, step.to, oldAlpha));
+    } else if (step.type === "setEdgeHighlight") {
+      const oldHighlight = this.animatedObjects.setEdgeHighlight(step.from, step.to, step.value);
+      undoBlock.push(new UndoHighlightEdge(step.from, step.to, oldHighlight));
+    } else if (step.type === "setHeight") {
+      const oldHeight = this.animatedObjects.getHeight(step.id);
+      this.animatedObjects.setHeight(step.id, step.height);
+      undoBlock.push(new UndoSetHeight(step.id, oldHeight));
+    } else if (step.type === "setLayer") {
+      this.animatedObjects.setLayer(step.id, step.layer);
+    } else if (step.type === "createLinkedList") {
+      this.animatedObjects.addLinkedListObject(
+        step.id,
+        step.label,
+        step.width,
+        step.height,
+        step.linkPercent,
+        step.vertical,
+        step.linkAtEnd,
+        step.numLabels,
+        step.numLinks,
+        step.backgroundColor,
+        step.foregroundColor
+      );
+      if (step.x != null && step.y != null) {
+        this.animatedObjects.setNodePosition(step.id, step.x, step.y);
+      }
+      undoBlock.push(new UndoCreate(step.id));
+    } else if (step.type === "setNull") {
+      const oldNull = this.animatedObjects.getNull(step.id, step.index);
+      this.animatedObjects.setNull(step.id, step.value, step.index);
+      undoBlock.push(new UndoSetNull(step.id, oldNull, step.index));
+    } else if (step.type === "setTextColor") {
+      const oldColor = this.animatedObjects.getTextColor(step.id, step.index);
+      this.animatedObjects.setTextColor(step.id, step.color, step.index);
+      undoBlock.push(new UndoSetTextColor(step.id, oldColor, step.index));
+    } else if (step.type === "createBTreeNode") {
+      this.animatedObjects.addBTreeNode(
+        step.id,
+        step.widthPerElement,
+        step.height,
+        step.numElems,
+        step.backgroundColor,
+        step.foregroundColor
+      );
+      this.animatedObjects.setNodePosition(step.id, step.x, step.y);
+      undoBlock.push(new UndoCreate(step.id));
+    } else if (step.type === "setWidth") {
+      const oldWidth = this.animatedObjects.getWidth(step.id);
+      this.animatedObjects.setWidth(step.id, step.width);
+      undoBlock.push(new UndoSetWidth(step.id, oldWidth));
+    } else if (step.type === "setLineDash") {
+      const oldLineDash = this.animatedObjects.getLineDash(step.id);
+      this.animatedObjects.setLineDash(step.id, step.lineDash);
+      undoBlock.push(new UndoSetLineDash(step.id, oldLineDash));
+    } else if (step.type === "setNumElements") {
+      const oldElem = this.animatedObjects.getObject(step.id);
+      undoBlock.push(new UndoSetNumElements(oldElem, step.count));
+      this.animatedObjects.setNumElements(step.id, step.count);
+    } else if (step.type === "setPosition") {
+      const oldX = this.animatedObjects.getNodeX(step.id);
+      const oldY = this.animatedObjects.getNodeY(step.id);
+      undoBlock.push(new UndoSetPosition(step.id, oldX, oldY));
+      this.animatedObjects.setNodePosition(step.id, step.x, step.y);
+    } else if (step.type === "alignRight") {
+      const oldX = this.animatedObjects.getNodeX(step.id);
+      const oldY = this.animatedObjects.getNodeY(step.id);
+      undoBlock.push(new UndoSetPosition(step.id, oldX, oldY));
+      this.animatedObjects.alignRight(step.id, step.otherId);
+    } else if (step.type === "alignLeft") {
+      const oldX = this.animatedObjects.getNodeX(step.id);
+      const oldY = this.animatedObjects.getNodeY(step.id);
+      undoBlock.push(new UndoSetPosition(step.id, oldX, oldY));
+      this.animatedObjects.alignLeft(step.id, step.otherId);
+    } else if (step.type === "alignTop") {
+      const oldX = this.animatedObjects.getNodeX(step.id);
+      const oldY = this.animatedObjects.getNodeY(step.id);
+      undoBlock.push(new UndoSetPosition(step.id, oldX, oldY));
+      this.animatedObjects.alignTop(step.id, step.otherId);
+    } else if (step.type === "alignBottom") {
+      const oldX = this.animatedObjects.getNodeX(step.id);
+      const oldY = this.animatedObjects.getNodeY(step.id);
+      undoBlock.push(new UndoSetPosition(step.id, oldX, oldY));
+      this.animatedObjects.alignBottom(step.id, step.otherId);
+    } else if (step.type === "setHighlightIndex") {
+      const oldIndex = this.animatedObjects.getHighlightIndex(step.id);
+      undoBlock.push(new UndoSetHighlightIndex(step.id, oldIndex));
+      this.animatedObjects.setHighlightIndex(step.id, step.index);
+    } else {
+      throw new Error(`Unknown animation step type: ${step.type}`);
     }
-    return clr;
+    return { undoBlock, animated };
   };
   this.changeSize = function() {
   };
@@ -4144,529 +5680,18 @@ function AnimationManager(objectManager2, canvas2) {
       this.animatedObjects.draw();
       this.currentBlockIndex = this.totalBlocks;
       this.updateScrubUI();
+      this.refreshAccessibleDescription();
       return;
     }
     this.undoAnimationStepIndices.push(this.currentAnimation);
-    var foundBreak = false;
     var anyAnimations = false;
-    while (this.currentAnimation < this.AnimationSteps.length && !foundBreak) {
-      var nextCommand = this.AnimationSteps[this.currentAnimation].split("<;>");
-      if (nextCommand[0].toUpperCase() == "CREATECIRCLE") {
-        this.animatedObjects.addCircleObject(
-          parseInt(nextCommand[1]),
-          nextCommand[2]
-        );
-        if (nextCommand.length > 4) {
-          this.animatedObjects.setNodePosition(
-            parseInt(nextCommand[1]),
-            parseInt(nextCommand[3]),
-            parseInt(nextCommand[4])
-          );
-        }
-        undoBlock.push(new UndoCreate(parseInt(nextCommand[1])));
-      } else if (nextCommand[0].toUpperCase() == "CONNECT") {
-        if (nextCommand.length > 7) {
-          this.animatedObjects.connectEdge(
-            parseInt(nextCommand[1]),
-            //from
-            parseInt(nextCommand[2]),
-            //to
-            this.parseColor(nextCommand[3]),
-            //color
-            parseFloat(nextCommand[4]),
-            //curve
-            this.parseBool(nextCommand[5]),
-            //directed
-            nextCommand[6],
-            //label
-            parseInt(nextCommand[7])
-            //connectionPoint
-          );
-        } else if (nextCommand.length > 6) {
-          this.animatedObjects.connectEdge(
-            parseInt(nextCommand[1]),
-            parseInt(nextCommand[2]),
-            this.parseColor(nextCommand[3]),
-            parseFloat(nextCommand[4]),
-            this.parseBool(nextCommand[5]),
-            nextCommand[6],
-            0
-          );
-        } else if (nextCommand.length > 5) {
-          this.animatedObjects.connectEdge(
-            parseInt(nextCommand[1]),
-            parseInt(nextCommand[2]),
-            this.parseColor(nextCommand[3]),
-            parseFloat(nextCommand[4]),
-            this.parseBool(nextCommand[5]),
-            "",
-            0
-          );
-        } else if (nextCommand.length > 4) {
-          this.animatedObjects.connectEdge(
-            parseInt(nextCommand[1]),
-            parseInt(nextCommand[2]),
-            this.parseColor(nextCommand[3]),
-            parseFloat(nextCommand[4]),
-            true,
-            "",
-            0
-          );
-        } else if (nextCommand.length > 3) {
-          this.animatedObjects.connectEdge(
-            parseInt(nextCommand[1]),
-            parseInt(nextCommand[2]),
-            this.parseColor(nextCommand[3]),
-            0,
-            true,
-            "",
-            0
-          );
-        } else {
-          this.animatedObjects.connectEdge(
-            parseInt(nextCommand[1]),
-            parseInt(nextCommand[2]),
-            "#000000",
-            0,
-            true,
-            "",
-            0
-          );
-        }
-        undoBlock.push(
-          new UndoConnect(
-            parseInt(nextCommand[1]),
-            parseInt(nextCommand[2]),
-            false
-          )
-        );
-      } else if (nextCommand[0].toUpperCase() == "CREATERECTANGLE") {
-        if (nextCommand.length == 9) {
-          this.animatedObjects.addRectangleObject(
-            parseInt(nextCommand[1]),
-            // ID
-            nextCommand[2],
-            // Label
-            parseInt(nextCommand[3]),
-            // w
-            parseInt(nextCommand[4]),
-            // h
-            nextCommand[7],
-            // xJustify
-            nextCommand[8],
-            // yJustify
-            "#ffffff",
-            // background color
-            "#000000"
-          );
-        } else {
-          this.animatedObjects.addRectangleObject(
-            parseInt(nextCommand[1]),
-            // ID
-            nextCommand[2],
-            // Label
-            parseInt(nextCommand[3]),
-            // w
-            parseInt(nextCommand[4]),
-            // h
-            "center",
-            // xJustify
-            "center",
-            // yJustify
-            "#ffffff",
-            // background color
-            "#000000"
-          );
-        }
-        if (nextCommand.length > 6) {
-          this.animatedObjects.setNodePosition(
-            parseInt(nextCommand[1]),
-            parseInt(nextCommand[5]),
-            parseInt(nextCommand[6])
-          );
-        }
-        undoBlock.push(new UndoCreate(parseInt(nextCommand[1])));
-      } else if (nextCommand[0].toUpperCase() == "MOVE") {
-        var objectID = parseInt(nextCommand[1]);
-        var nextAnim = new SingleAnimation(
-          objectID,
-          this.animatedObjects.getNodeX(objectID),
-          this.animatedObjects.getNodeY(objectID),
-          parseInt(nextCommand[2]),
-          parseInt(nextCommand[3])
-        );
-        this.currentBlock.push(nextAnim);
-        undoBlock.push(
-          new UndoMove(
-            nextAnim.objectID,
-            nextAnim.toX,
-            nextAnim.toY,
-            nextAnim.fromX,
-            nextAnim.fromY
-          )
-        );
-        anyAnimations = true;
-      } else if (nextCommand[0].toUpperCase() == "MOVETOALIGNRIGHT") {
-        var id = parseInt(nextCommand[1]);
-        var otherId = parseInt(nextCommand[2]);
-        var newXY = this.animatedObjects.getAlignRightPos(id, otherId);
-        var nextAnim = new SingleAnimation(
-          id,
-          this.animatedObjects.getNodeX(id),
-          this.animatedObjects.getNodeY(id),
-          newXY[0],
-          newXY[1]
-        );
-        this.currentBlock.push(nextAnim);
-        undoBlock.push(
-          new UndoMove(
-            nextAnim.objectID,
-            nextAnim.toX,
-            nextAnim.toY,
-            nextAnim.fromX,
-            nextAnim.fromY
-          )
-        );
-        anyAnimations = true;
-      } else if (nextCommand[0].toUpperCase() == "STEP") {
-        foundBreak = true;
-      } else if (nextCommand[0].toUpperCase() == "SETFOREGROUNDCOLOR") {
-        var id = parseInt(nextCommand[1]);
-        var oldColor = this.animatedObjects.foregroundColor(id);
-        this.animatedObjects.setForegroundColor(
-          id,
-          this.parseColor(nextCommand[2])
-        );
-        undoBlock.push(new UndoSetForegroundColor(id, oldColor));
-      } else if (nextCommand[0].toUpperCase() == "SETBACKGROUNDCOLOR") {
-        id = parseInt(nextCommand[1]);
-        oldColor = this.animatedObjects.backgroundColor(id);
-        this.animatedObjects.setBackgroundColor(
-          id,
-          this.parseColor(nextCommand[2])
-        );
-        undoBlock.push(new UndoSetBackgroundColor(id, oldColor));
-      } else if (nextCommand[0].toUpperCase() == "SETHIGHLIGHT") {
-        var newHighlight = this.parseBool(nextCommand[2]);
-        var oldHighlight = this.animatedObjects.getHighlight(
-          parseInt(nextCommand[1])
-        );
-        this.animatedObjects.setHighlight(
-          parseInt(nextCommand[1]),
-          newHighlight
-        );
-        undoBlock.push(
-          new UndoHighlight(parseInt(nextCommand[1]), oldHighlight)
-        );
-      } else if (nextCommand[0].toUpperCase() == "DISCONNECT") {
-        var undoConnect = this.animatedObjects.disconnect(
-          parseInt(nextCommand[1]),
-          parseInt(nextCommand[2])
-        );
-        if (undoConnect != null) {
-          undoBlock.push(undoConnect);
-        }
-      } else if (nextCommand[0].toUpperCase() == "SETALPHA") {
-        var oldAlpha = this.animatedObjects.getAlpha(parseInt(nextCommand[1]));
-        this.animatedObjects.setAlpha(
-          parseInt(nextCommand[1]),
-          parseFloat(nextCommand[2])
-        );
-        undoBlock.push(
-          new UndoSetAlpha(parseInt(nextCommand[1]), oldAlpha)
-        );
-      } else if (nextCommand[0].toUpperCase() == "SETMESSAGE") {
-        oldText = document.getElementById("message").value;
-        document.getElementById("message").value = nextCommand[1];
-        if (oldText != void 0) {
-          undoBlock.push(new UndoSetMessage(oldText));
-        }
-      } else if (nextCommand[0].toUpperCase() == "SETTEXT") {
-        if (nextCommand.length > 3) {
-          var oldText = this.animatedObjects.getText(
-            parseInt(nextCommand[1]),
-            parseInt(nextCommand[3])
-          );
-          this.animatedObjects.setText(
-            parseInt(nextCommand[1]),
-            nextCommand[2],
-            parseInt(nextCommand[3])
-          );
-          if (parseInt(nextCommand[1]) === 0)
-            document.getElementById("message").value = nextCommand[2];
-          if (oldText != void 0) {
-            undoBlock.push(
-              new UndoSetText(
-                parseInt(nextCommand[1]),
-                oldText,
-                parseInt(nextCommand[3])
-              )
-            );
-          }
-        } else {
-          oldText = this.animatedObjects.getText(parseInt(nextCommand[1]), 0);
-          this.animatedObjects.setText(
-            parseInt(nextCommand[1]),
-            nextCommand[2],
-            0
-          );
-          if (parseInt(nextCommand[1]) === 0)
-            document.getElementById("message").value = nextCommand[2];
-          if (oldText != void 0) {
-            undoBlock.push(
-              new UndoSetText(parseInt(nextCommand[1]), oldText, 0)
-            );
-          }
-        }
-      } else if (nextCommand[0].toUpperCase() == "DELETE") {
-        var objectID = parseInt(nextCommand[1]);
-        var i;
-        var removedEdges = this.animatedObjects.deleteIncident(objectID);
-        if (removedEdges.length > 0) {
-          undoBlock = undoBlock.concat(removedEdges);
-        }
-        var obj = this.animatedObjects.getObject(objectID);
-        if (obj != null) {
-          undoBlock.push(obj.createUndoDelete());
-          this.animatedObjects.removeObject(objectID);
-        }
-      } else if (nextCommand[0].toUpperCase() == "CREATEHIGHLIGHTCIRCLE") {
-        if (nextCommand.length > 5) {
-          this.animatedObjects.addHighlightCircleObject(
-            parseInt(nextCommand[1]),
-            this.parseColor(nextCommand[2]),
-            parseFloat(nextCommand[5])
-          );
-        } else {
-          this.animatedObjects.addHighlightCircleObject(
-            parseInt(nextCommand[1]),
-            this.parseColor(nextCommand[2]),
-            20
-          );
-        }
-        if (nextCommand.length > 4) {
-          this.animatedObjects.setNodePosition(
-            parseInt(nextCommand[1]),
-            parseInt(nextCommand[3]),
-            parseInt(nextCommand[4])
-          );
-        }
-        undoBlock.push(new UndoCreate(parseInt(nextCommand[1])));
-        this.animatedObjects.draw();
-      } else if (nextCommand[0].toUpperCase() == "CREATELABEL") {
-        const labelID = parseInt(nextCommand[1]);
-        const labelText = nextCommand[2];
-        const hasCentering = nextCommand.length >= 6;
-        const centering = hasCentering ? this.parseBool(nextCommand[5]) : true;
-        const hasFontSize = nextCommand.length >= 7;
-        const fontSizePercent = hasFontSize ? parseFloat(nextCommand[6]) : void 0;
-        this.animatedObjects.addLabelObject(
-          labelID,
-          labelText,
-          centering,
-          fontSizePercent
-        );
-        if (nextCommand.length >= 5) {
-          this.animatedObjects.setNodePosition(
-            labelID,
-            parseFloat(nextCommand[3]),
-            parseFloat(nextCommand[4])
-          );
-        }
-        undoBlock.push(new UndoCreate(labelID));
-      } else if (nextCommand[0].toUpperCase() == "SETEDGECOLOR") {
-        var from = parseInt(nextCommand[1]);
-        var to = parseInt(nextCommand[2]);
-        var newColor = this.parseColor(nextCommand[3]);
-        var oldColor = this.animatedObjects.setEdgeColor(from, to, newColor);
-        undoBlock.push(new UndoSetEdgeColor(from, to, oldColor));
-      } else if (nextCommand[0].toUpperCase() == "SETEDGEALPHA") {
-        var from = parseInt(nextCommand[1]);
-        var to = parseInt(nextCommand[2]);
-        var newAlpha = parseFloat(nextCommand[3]);
-        var oldAplpha = this.animatedObjects.setEdgeAlpha(from, to, newAlpha);
-        undoBlock.push(new UndoSetEdgeAlpha(from, to, oldAplpha));
-      } else if (nextCommand[0].toUpperCase() == "SETEDGEHIGHLIGHT") {
-        var newHighlight = this.parseBool(nextCommand[3]);
-        var from = parseInt(nextCommand[1]);
-        var to = parseInt(nextCommand[2]);
-        var oldHighlight = this.animatedObjects.setEdgeHighlight(
-          from,
-          to,
-          newHighlight
-        );
-        undoBlock.push(new UndoHighlightEdge(from, to, oldHighlight));
-      } else if (nextCommand[0].toUpperCase() == "SETHEIGHT") {
-        id = parseInt(nextCommand[1]);
-        var oldHeight = this.animatedObjects.getHeight(id);
-        this.animatedObjects.setHeight(id, parseInt(nextCommand[2]));
-        undoBlock.push(new UndoSetHeight(id, oldHeight));
-      } else if (nextCommand[0].toUpperCase() == "SETLAYER") {
-        this.animatedObjects.setLayer(
-          parseInt(nextCommand[1]),
-          parseInt(nextCommand[2])
-        );
-      } else if (nextCommand[0].toUpperCase() == "CREATELINKEDLIST") {
-        if (nextCommand.length >= 11) {
-          const hasNumLinks = nextCommand.length >= 12;
-          const numLinks = hasNumLinks ? parseInt(nextCommand[11]) : 1;
-          this.animatedObjects.addLinkedListObject(
-            parseInt(nextCommand[1]),
-            //id
-            nextCommand[2],
-            //node label
-            parseInt(nextCommand[3]),
-            //w
-            parseInt(nextCommand[4]),
-            //h
-            parseFloat(nextCommand[7]),
-            //link percent
-            this.parseBool(nextCommand[8]),
-            //vertical orientation
-            this.parseBool(nextCommand[9]),
-            //linkat end
-            parseInt(nextCommand[10]),
-            //num labels
-            numLinks,
-            "#FFFFFF",
-            "#000000"
-          );
-        } else {
-          this.animatedObjects.addLinkedListObject(
-            parseInt(nextCommand[1]),
-            nextCommand[2],
-            parseInt(nextCommand[3]),
-            parseInt(nextCommand[4]),
-            0.25,
-            true,
-            false,
-            1,
-            1,
-            "#FFFFFF",
-            "#000000"
-          );
-        }
-        if (nextCommand.length > 6) {
-          this.animatedObjects.setNodePosition(
-            parseInt(nextCommand[1]),
-            parseInt(nextCommand[5]),
-            parseInt(nextCommand[6])
-          );
-          undoBlock.push(new UndoCreate(parseInt(nextCommand[1])));
-        }
-      } else if (nextCommand[0].toUpperCase() == "SETNULL") {
-        const objectID2 = parseInt(nextCommand[1]);
-        const newNull = this.parseBool(nextCommand[2]);
-        const hasIndex = nextCommand.length > 3;
-        const linkIndex = hasIndex ? parseInt(nextCommand[3]) : void 0;
-        var oldNull = this.animatedObjects.getNull(objectID2, linkIndex);
-        this.animatedObjects.setNull(objectID2, newNull, linkIndex);
-        undoBlock.push(new UndoSetNull(objectID2, oldNull, linkIndex));
-      } else if (nextCommand[0].toUpperCase() == "SETTEXTCOLOR") {
-        if (nextCommand.length > 3) {
-          oldColor = this.animatedObjects.getTextColor(
-            parseInt(nextCommand[1]),
-            parseInt(nextCommand[3])
-          );
-          this.animatedObjects.setTextColor(
-            parseInt(nextCommand[1]),
-            this.parseColor(nextCommand[2]),
-            parseInt(nextCommand[3])
-          );
-          undoBlock.push(
-            new UndoSetTextColor(
-              parseInt(nextCommand[1]),
-              oldColor,
-              parseInt(nextCommand[3])
-            )
-          );
-        } else {
-          oldColor = this.animatedObjects.getTextColor(
-            parseInt(nextCommand[1]),
-            0
-          );
-          this.animatedObjects.setTextColor(
-            parseInt(nextCommand[1]),
-            this.parseColor(nextCommand[2]),
-            0
-          );
-          undoBlock.push(
-            new UndoSetTextColor(parseInt(nextCommand[1]), oldColor, 0)
-          );
-        }
-      } else if (nextCommand[0].toUpperCase() == "CREATEBTREENODE") {
-        this.animatedObjects.addBTreeNode(
-          parseInt(nextCommand[1]),
-          parseFloat(nextCommand[2]),
-          parseFloat(nextCommand[3]),
-          parseInt(nextCommand[4]),
-          this.parseColor(nextCommand[7]),
-          this.parseColor(nextCommand[8])
-        );
-        this.animatedObjects.setNodePosition(
-          parseInt(nextCommand[1]),
-          parseInt(nextCommand[5]),
-          parseInt(nextCommand[6])
-        );
-        undoBlock.push(new UndoCreate(parseInt(nextCommand[1])));
-      } else if (nextCommand[0].toUpperCase() == "SETWIDTH") {
-        var id = parseInt(nextCommand[1]);
-        this.animatedObjects.setWidth(id, parseInt(nextCommand[2]));
-        var oldWidth = this.animatedObjects.getWidth(id);
-        undoBlock.push(new UndoSetWidth(id, oldWidth));
-      } else if (nextCommand[0].toUpperCase() == "SETNUMELEMENTS") {
-        var oldElem = this.animatedObjects.getObject(parseInt(nextCommand[1]));
-        undoBlock.push(
-          new UndoSetNumElements(oldElem, parseInt(nextCommand[2]))
-        );
-        this.animatedObjects.setNumElements(
-          parseInt(nextCommand[1]),
-          parseInt(nextCommand[2])
-        );
-      } else if (nextCommand[0].toUpperCase() == "SETPOSITION") {
-        var id = parseInt(nextCommand[1]);
-        var oldX = this.animatedObjects.getNodeX(id);
-        var oldY = this.animatedObjects.getNodeY(id);
-        undoBlock.push(new UndoSetPosition(id, oldX, oldY));
-        this.animatedObjects.setNodePosition(
-          id,
-          parseInt(nextCommand[2]),
-          parseInt(nextCommand[3])
-        );
-      } else if (nextCommand[0].toUpperCase() == "ALIGNRIGHT") {
-        var id = parseInt(nextCommand[1]);
-        var oldX = this.animatedObjects.getNodeX(id);
-        var oldY = this.animatedObjects.getNodeY(id);
-        undoBlock.push(new UndoSetPosition(id, oldX.oldY));
-        this.animatedObjects.alignRight(id, parseInt(nextCommand[2]));
-      } else if (nextCommand[0].toUpperCase() == "ALIGNLEFT") {
-        var id = parseInt(nextCommand[1]);
-        var oldX = this.animatedObjects.getNodeX(id);
-        var oldY = this.animatedObjects.getNodeY(id);
-        undoBlock.push(new UndoSetPosition(id, oldX.oldY));
-        this.animatedObjects.alignLeft(id, parseInt(nextCommand[2]));
-      } else if (nextCommand[0].toUpperCase() == "ALIGNTOP") {
-        var id = parseInt(nextCommand[1]);
-        var oldX = this.animatedObjects.getNodeX(id);
-        var oldY = this.animatedObjects.getNodeY(id);
-        undoBlock.push(new UndoSetPosition(id, oldX.oldY));
-        this.animatedObjects.alignTop(id, parseInt(nextCommand[2]));
-      } else if (nextCommand[0].toUpperCase() == "ALIGNBOTTOM") {
-        var id = parseInt(nextCommand[1]);
-        var oldX = this.animatedObjects.getNodeX(id);
-        var oldY = this.animatedObjects.getNodeY(id);
-        undoBlock.push(new UndoSetPosition(id, oldX.oldY));
-        this.animatedObjects.alignBottom(id, parseInt(nextCommand[2]));
-      } else if (nextCommand[0].toUpperCase() == "SETHIGHLIGHTINDEX") {
-        var id = parseInt(nextCommand[1]);
-        var index = parseInt(nextCommand[2]);
-        var oldIndex = this.animatedObjects.getHighlightIndex(id);
-        undoBlock.push(new UndoSetHighlightIndex(id, oldIndex));
-        this.animatedObjects.setHighlightIndex(id, index);
-      } else {
-      }
-      this.currentAnimation = this.currentAnimation + 1;
+    const block = this.AnimationSteps[this.currentAnimation];
+    for (const step of block.steps) {
+      const result = this.executeAnimationStep(step, undoBlock);
+      undoBlock = result.undoBlock;
+      anyAnimations = anyAnimations || result.animated;
     }
+    this.currentAnimation = this.currentAnimation + 1;
     this.currFrame = 0;
     if (!anyAnimations && this.animationPaused || !anyAnimations && this.currentAnimation == this.AnimationSteps.length) {
       this.currFrame = this.animationBlockLength;
@@ -4677,6 +5702,7 @@ function AnimationManager(objectManager2, canvas2) {
     this.undoStack.push(undoBlock);
     this.currentBlockIndex = Math.min(this.currentBlockIndex + 1, this.totalBlocks);
     this.updateScrubUI();
+    this.refreshAccessibleDescription();
   };
   this.StartNewAnimation = function(commands) {
     clearTimeout(timer);
@@ -4684,11 +5710,7 @@ function AnimationManager(objectManager2, canvas2) {
       this.previousAnimationSteps.push(this.AnimationSteps);
       this.undoAnimationStepIndicesStack.push(this.undoAnimationStepIndices);
     }
-    if (commands == void 0 || commands.length == 0) {
-      this.AnimationSteps = ["Step"];
-    } else {
-      this.AnimationSteps = commands;
-    }
+    this.AnimationSteps = normalizeAnimation(commands);
     this.undoAnimationStepIndices = new Array();
     this.currentAnimation = 0;
     this.totalBlocks = this.computeTotalBlocks();
@@ -4736,7 +5758,8 @@ function AnimationManager(objectManager2, canvas2) {
     clearTimeout(timer);
     this.animatedObjects.update();
     this.animatedObjects.draw();
-    document.getElementById("message").value = "";
+    this.refreshAccessibleDescription();
+    setAnimationMessage("");
   };
   this.skipBack = function() {
     var keepUndoing = this.undoAnimationStepIndices != null && this.undoAnimationStepIndices.length != 0;
@@ -4776,6 +5799,7 @@ function AnimationManager(objectManager2, canvas2) {
       }
       this.currentBlockIndex = 0;
       this.updateScrubUI();
+      this.refreshAccessibleDescription();
     }
   };
   this.resetAll = function() {
@@ -4824,6 +5848,7 @@ function AnimationManager(objectManager2, canvas2) {
       this.animatedObjects.draw();
       this.currentBlockIndex = this.totalBlocks;
       this.updateScrubUI();
+      this.refreshAccessibleDescription();
     }
   };
   this.finishUndoBlock = function(undoBlock) {
@@ -4852,8 +5877,10 @@ function AnimationManager(objectManager2, canvas2) {
       this.animatedObjects.draw();
       this.currentBlockIndex = 0;
       this.updateScrubUI();
+      this.refreshAccessibleDescription();
       return false;
     }
+    this.refreshAccessibleDescription();
     return true;
   };
   this.undoLastBlock = function() {
@@ -4951,13 +5978,7 @@ function AnimationManager(objectManager2, canvas2) {
   this.computeTotalBlocks = function() {
     if (!this.AnimationSteps || !Array.isArray(this.AnimationSteps))
       return 0;
-    let blocks = 0;
-    for (const step of this.AnimationSteps) {
-      const cmd = String(step).split("<;>")[0].toUpperCase();
-      if (cmd === "STEP")
-        blocks++;
-    }
-    return blocks;
+    return this.AnimationSteps.length;
   };
   this.updateScrubUI = function() {
     if (!this.scrubSlider)
@@ -4999,6 +6020,7 @@ function AnimationManager(objectManager2, canvas2) {
     if (targetBlockIndex === this.currentBlockIndex) {
       this.awaitingStep = targetBlockIndex < this.totalBlocks;
       this.updateScrubUI();
+      this.refreshAccessibleDescription();
       this.fireEvent(this.awaitingStep ? "AnimationWaiting" : "AnimationEnded", "NoData");
       return;
     }
@@ -5027,6 +6049,7 @@ function AnimationManager(objectManager2, canvas2) {
       this.currentlyAnimating = false;
       this.doingUndo = false;
       this.awaitingStep = targetBlockIndex < this.totalBlocks;
+      this.refreshAccessibleDescription();
       this.fireEvent(this.awaitingStep ? "AnimationWaiting" : "AnimationEnded", "NoData");
       return;
     }
@@ -5038,6 +6061,7 @@ function AnimationManager(objectManager2, canvas2) {
     this.currentlyAnimating = false;
     this.doingUndo = false;
     this.awaitingStep = targetBlockIndex < this.totalBlocks;
+    this.refreshAccessibleDescription();
     this.fireEvent(this.awaitingStep ? "AnimationWaiting" : "AnimationEnded", "NoData");
   };
 }
@@ -5054,6 +6078,693 @@ function SingleAnimation(id, fromX, fromY, toX, toY) {
   this.fromY = fromY;
   this.toX = toX;
   this.toY = toY;
+}
+
+// AlgorithmLibrary/DescribeHelpers.js
+function formatList(items) {
+  if (items.length === 0) {
+    return "";
+  }
+  if (items.length === 1) {
+    return items[0];
+  }
+  if (items.length === 2) {
+    return `${items[0]} and ${items[1]}`;
+  }
+  return `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`;
+}
+function formatKeyList(keys) {
+  if (keys.length === 0) {
+    return "no keys";
+  }
+  if (keys.length === 1) {
+    return `key ${keys[0]}`;
+  }
+  return `keys ${formatList(keys.map(String))}`;
+}
+function formatNodeValue(value) {
+  return `${String(value)} node`;
+}
+function formatNullableNodeValue(value) {
+  return value == null ? "null" : formatNodeValue(value);
+}
+function getReplayObjectText(object, preferredIndex = 0) {
+  if (!object) {
+    return null;
+  }
+  if (typeof object.text === "string" || typeof object.text === "number") {
+    return String(object.text);
+  }
+  if (object.text && typeof object.text === "object") {
+    if (Object.prototype.hasOwnProperty.call(object.text, preferredIndex)) {
+      return String(object.text[preferredIndex]);
+    }
+    const keys = Object.keys(object.text).sort((a, b) => Number(a) - Number(b));
+    if (keys.length > 0) {
+      return String(object.text[keys[0]]);
+    }
+  }
+  return null;
+}
+function compareReplayObjectsByValue(a, b) {
+  const aText = getReplayObjectText(a?.object ?? a);
+  const bText = getReplayObjectText(b?.object ?? b);
+  const aNumber = Number(aText);
+  const bNumber = Number(bText);
+  if (Number.isFinite(aNumber) && Number.isFinite(bNumber)) {
+    return aNumber - bNumber;
+  }
+  return String(aText ?? "").localeCompare(String(bText ?? ""));
+}
+function classifySingleReplayChildByValue(parentObject, childObject) {
+  const parentText = getReplayObjectText(parentObject);
+  const childText = getReplayObjectText(childObject);
+  const parentNumber = Number(parentText);
+  const childNumber = Number(childText);
+  if (Number.isFinite(parentNumber) && Number.isFinite(childNumber)) {
+    return childNumber < parentNumber ? "left" : "right";
+  }
+  return String(childText ?? "").localeCompare(String(parentText ?? "")) < 0 ? "left" : "right";
+}
+function describeBinaryTree(root, options = {}) {
+  const {
+    emptyText = "Tree is empty.",
+    getValue = (node) => node.data,
+    getDetails = () => [],
+    getLeft = (node) => node.left,
+    getRight = (node) => node.right,
+    shouldInclude = (node) => node != null
+  } = options;
+  if (!root || !shouldInclude(root)) {
+    return emptyText;
+  }
+  const sentences = [];
+  const summarizeNode = (node) => {
+    const value = getValue(node);
+    const details = getDetails(node).filter(Boolean);
+    return details.length > 0 ? `${value} (${details.join(", ")})` : String(value);
+  };
+  const summarizeChild = (node) => String(getValue(node));
+  const visit = (node, isRoot = false) => {
+    if (!node || !shouldInclude(node)) {
+      return;
+    }
+    const left = getLeft(node);
+    const right = getRight(node);
+    const hasLeft = left != null && shouldInclude(left);
+    const hasRight = right != null && shouldInclude(right);
+    const subject = isRoot ? `Root is ${summarizeNode(node)}` : summarizeNode(node);
+    let relationship;
+    if (hasLeft && hasRight) {
+      relationship = `has a left child ${summarizeChild(left)} and right child ${summarizeChild(right)}.`;
+    } else if (hasLeft) {
+      relationship = `has a left child ${summarizeChild(left)}.`;
+    } else if (hasRight) {
+      relationship = `has a right child ${summarizeChild(right)}.`;
+    } else {
+      relationship = "has no children.";
+    }
+    sentences.push(`${subject} ${relationship}`);
+    visit(left);
+    visit(right);
+  };
+  visit(root, true);
+  return sentences.join(" ");
+}
+function buildBinaryTreeFromState(state, rootPointerId, options = {}) {
+  const {
+    childPredicate = (object) => object && object.kind === "circle",
+    shouldIncludeObject = () => true,
+    getValueFromObject = (object) => getReplayObjectText(object),
+    sortChildren = (a, b) => (a.object.x ?? 0) - (b.object.x ?? 0) || (a.object.y ?? 0) - (b.object.y ?? 0) || a.id - b.id,
+    classifySingleChild = null
+  } = options;
+  const childrenFor = (id) => {
+    const children = [];
+    for (const edge of state.edges.values()) {
+      if (edge.from !== id) {
+        continue;
+      }
+      const object = state.objects.get(edge.to);
+      if (!object || !childPredicate(object) || !shouldIncludeObject(object)) {
+        continue;
+      }
+      children.push({
+        id: edge.to,
+        object
+      });
+    }
+    children.sort(sortChildren);
+    return children.map((child) => child.id);
+  };
+  const findImplicitRootId = () => {
+    const incoming = /* @__PURE__ */ new Set();
+    const candidates = [];
+    for (const edge of state.edges.values()) {
+      const fromObject = state.objects.get(edge.from);
+      const toObject = state.objects.get(edge.to);
+      if (!fromObject || !toObject || !childPredicate(fromObject) || !childPredicate(toObject) || !shouldIncludeObject(fromObject) || !shouldIncludeObject(toObject)) {
+        continue;
+      }
+      incoming.add(edge.to);
+    }
+    for (const [id, object] of state.objects.entries()) {
+      if (!childPredicate(object) || !shouldIncludeObject(object)) {
+        continue;
+      }
+      if (!incoming.has(id)) {
+        candidates.push({ id, object });
+      }
+    }
+    candidates.sort(
+      (a, b) => (a.object.y ?? 0) - (b.object.y ?? 0) || (a.object.x ?? 0) - (b.object.x ?? 0) || a.id - b.id
+    );
+    return candidates[0]?.id ?? null;
+  };
+  const rootId = rootPointerId == null ? findImplicitRootId() : childrenFor(rootPointerId)[0] ?? findImplicitRootId();
+  if (rootId == null) {
+    return null;
+  }
+  const visited = /* @__PURE__ */ new Set();
+  const build = (id) => {
+    if (id == null || visited.has(id)) {
+      return null;
+    }
+    const object = state.objects.get(id);
+    if (!object || !childPredicate(object) || !shouldIncludeObject(object)) {
+      return null;
+    }
+    visited.add(id);
+    const childIds = childrenFor(id);
+    const leftId = childIds[0] ?? null;
+    const rightId = childIds[1] ?? null;
+    let resolvedLeftId = leftId;
+    let resolvedRightId = rightId;
+    if (childIds.length === 1 && typeof classifySingleChild === "function") {
+      const onlyChildObject = state.objects.get(childIds[0]);
+      const side = classifySingleChild(object, onlyChildObject, state);
+      if (side === "right") {
+        resolvedLeftId = null;
+        resolvedRightId = childIds[0];
+      }
+    }
+    return {
+      id,
+      data: getValueFromObject(object, id, state),
+      object,
+      left: build(resolvedLeftId),
+      right: build(resolvedRightId)
+    };
+  };
+  return build(rootId);
+}
+function describeBinaryTreeFromState(state, rootPointerId, options = {}) {
+  const root = buildBinaryTreeFromState(state, rootPointerId, options);
+  return describeBinaryTree(root, {
+    emptyText: options.emptyText,
+    getValue: (node) => node.data,
+    getDetails: options.getDetails || (() => []),
+    shouldInclude: options.shouldIncludeNode || ((node) => node != null)
+  });
+}
+function getReplayOutgoingObjects(state, fromId, predicate = () => true) {
+  const outgoing = [];
+  for (const edge of state.edges.values()) {
+    if (edge.from !== fromId) {
+      continue;
+    }
+    const object = state.objects.get(edge.to);
+    if (!object || !predicate(object, edge)) {
+      continue;
+    }
+    outgoing.push({ id: edge.to, object, edge });
+  }
+  return outgoing;
+}
+function chooseReplayForwardNode(currentObject, candidates) {
+  if (candidates.length === 0) {
+    return null;
+  }
+  const currentX = currentObject?.x ?? 0;
+  const currentY = currentObject?.y ?? 0;
+  const sorted = [...candidates].sort(
+    (a, b) => (a.object.y ?? 0) - (b.object.y ?? 0) || (a.object.x ?? 0) - (b.object.x ?? 0) || a.id - b.id
+  );
+  const forward = sorted.filter(
+    (candidate) => (candidate.object.y ?? 0) > currentY + 1 || Math.abs((candidate.object.y ?? 0) - currentY) <= 1 && (candidate.object.x ?? 0) > currentX + 1
+  );
+  return (forward[0] ?? sorted[0])?.id ?? null;
+}
+function readReplayLinearChainValues(state, pointerId, options = {}) {
+  const {
+    nodePredicate = (object) => object.kind === "linkedList",
+    skipNode = () => false
+  } = options;
+  const pointerTargets = getReplayOutgoingObjects(
+    state,
+    pointerId,
+    (object) => nodePredicate(object)
+  ).sort(
+    (a, b) => (a.object.y ?? 0) - (b.object.y ?? 0) || (a.object.x ?? 0) - (b.object.x ?? 0) || a.id - b.id
+  );
+  let currentId = pointerTargets[0]?.id ?? null;
+  const visited = /* @__PURE__ */ new Set();
+  const values = [];
+  while (currentId != null && !visited.has(currentId)) {
+    visited.add(currentId);
+    const currentObject = state.objects.get(currentId);
+    if (!currentObject || !nodePredicate(currentObject)) {
+      break;
+    }
+    if (!skipNode(currentObject, currentId, state)) {
+      values.push(getReplayObjectText(currentObject));
+    }
+    const nextCandidates = getReplayOutgoingObjects(
+      state,
+      currentId,
+      (object) => nodePredicate(object)
+    ).filter((candidate) => !visited.has(candidate.id));
+    currentId = chooseReplayForwardNode(currentObject, nextCandidates);
+  }
+  return values.filter((value) => value != null && value !== "");
+}
+function readReplayArrayValues(state, arrayIds) {
+  return arrayIds.map((id) => getReplayObjectText(state.objects.get(id)));
+}
+function parseReplayNumber(value, fallback = 0) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+function getReplayIndexedTexts(object, count = null) {
+  if (!object || object.text == null) {
+    return [];
+  }
+  if (typeof object.text === "string" || typeof object.text === "number") {
+    return [String(object.text)];
+  }
+  const indices = Object.keys(object.text).map((key) => Number(key)).filter((index) => Number.isFinite(index)).sort((a, b) => a - b);
+  const limit = count == null ? indices.length : Math.min(indices.length, count);
+  const values = [];
+  for (let i = 0; i < limit; i++) {
+    values.push(String(object.text[indices[i]]));
+  }
+  return values;
+}
+function findImplicitReplayRootId(state, predicate, edgeFilter = () => true) {
+  const incoming = /* @__PURE__ */ new Set();
+  const candidates = [];
+  for (const edge of state.edges.values()) {
+    const fromObject = state.objects.get(edge.from);
+    const toObject = state.objects.get(edge.to);
+    if (!fromObject || !toObject || !predicate(fromObject) || !predicate(toObject)) {
+      continue;
+    }
+    if (!edgeFilter(fromObject, toObject, edge)) {
+      continue;
+    }
+    incoming.add(edge.to);
+  }
+  for (const [id, object] of state.objects.entries()) {
+    if (!predicate(object) || incoming.has(id)) {
+      continue;
+    }
+    candidates.push({ id, object });
+  }
+  candidates.sort(
+    (a, b) => (a.object.y ?? 0) - (b.object.y ?? 0) || (a.object.x ?? 0) - (b.object.x ?? 0) || a.id - b.id
+  );
+  return candidates[0]?.id ?? null;
+}
+function describeSinglyLinkedChainFromState(state, pointerId, options = {}) {
+  const values = readReplayLinearChainValues(state, pointerId, options);
+  return describeSinglyLinkedChain(values, {
+    emptyText: options.emptyText,
+    headLabel: options.headLabel,
+    tailLabel: options.tailLabel
+  });
+}
+function describeDoublyLinkedChainFromState(state, pointerId, options = {}) {
+  const values = readReplayLinearChainValues(state, pointerId, {
+    nodePredicate: options.nodePredicate,
+    skipNode: options.skipNode
+  });
+  return describeDoublyLinkedChain(values, {
+    emptyText: options.emptyText,
+    headLabel: options.headLabel,
+    tailLabel: options.tailLabel
+  });
+}
+function describeIndexedArrayFromState(state, arrayIds, options = {}) {
+  const values = readReplayArrayValues(state, arrayIds).filter(
+    (value) => value != null && value !== ""
+  );
+  return describeIndexedArray(values, options);
+}
+function describeStackArrayFromState(state, arrayIds, topId) {
+  const values = readReplayArrayValues(state, arrayIds);
+  const top = parseReplayNumber(getReplayObjectText(state.objects.get(topId)), 0);
+  return describeStackArray(values, top);
+}
+function describeQueueArrayFromState(state, arrayIds, headId, tailId) {
+  const values = readReplayArrayValues(state, arrayIds);
+  const head = parseReplayNumber(getReplayObjectText(state.objects.get(headId)), 0);
+  const tail = parseReplayNumber(getReplayObjectText(state.objects.get(tailId)), 0);
+  return describeQueueArray(values, head, tail, arrayIds.length);
+}
+function describeMultiwayTree(root, options = {}) {
+  const {
+    emptyText = "Tree is empty.",
+    getKeys = (node) => node.keys.slice(0, node.numKeys),
+    getChildren = (node) => node.children.slice(0, node.numKeys + 1).filter(Boolean),
+    isLeaf = (node) => node.isLeaf,
+    nodeLabel = "node"
+  } = options;
+  if (!root) {
+    return emptyText;
+  }
+  const sentences = [];
+  const visit = (node, isRoot = false) => {
+    if (!node) {
+      return;
+    }
+    const keys = getKeys(node).map(String);
+    const children = getChildren(node);
+    const subject = isRoot ? "Root node" : `Node with ${formatKeyList(keys)}`;
+    if (isLeaf(node)) {
+      sentences.push(`${subject} has ${formatKeyList(keys)} and is a leaf.`);
+    } else if (children.length === 1) {
+      sentences.push(`${subject} has ${formatKeyList(keys)} and 1 child.`);
+    } else {
+      sentences.push(`${subject} has ${formatKeyList(keys)} and ${children.length} children.`);
+    }
+    for (const child of children) {
+      visit(child);
+    }
+  };
+  visit(root, true);
+  return sentences.join(" ");
+}
+function describeSinglyLinkedChain(values, options = {}) {
+  const {
+    emptyText = "List is empty.",
+    headLabel = "Head",
+    tailLabel = null
+  } = options;
+  if (values.length === 0) {
+    return emptyText;
+  }
+  const sentences = [];
+  if (headLabel) {
+    sentences.push(`${headLabel} points to ${formatNodeValue(values[0])}.`);
+  }
+  if (tailLabel) {
+    sentences.push(
+      `${tailLabel} points to ${formatNodeValue(values[values.length - 1])}.`
+    );
+  }
+  for (let i = 0; i < values.length; i++) {
+    const nextValue = i + 1 < values.length ? values[i + 1] : null;
+    sentences.push(
+      `${formatNodeValue(values[i])}'s next points to ${formatNullableNodeValue(nextValue)}.`
+    );
+  }
+  return sentences.join(" ");
+}
+function describeDoublyLinkedChain(values, options = {}) {
+  const {
+    emptyText = "List is empty.",
+    headLabel = "Head",
+    tailLabel = "Tail"
+  } = options;
+  if (values.length === 0) {
+    return emptyText;
+  }
+  const sentences = [];
+  if (headLabel) {
+    sentences.push(`${headLabel} points to ${formatNodeValue(values[0])}.`);
+  }
+  if (tailLabel) {
+    sentences.push(
+      `${tailLabel} points to ${formatNodeValue(values[values.length - 1])}.`
+    );
+  }
+  for (let i = 0; i < values.length; i++) {
+    const nextValue = i + 1 < values.length ? values[i + 1] : null;
+    const prevValue = i > 0 ? values[i - 1] : null;
+    sentences.push(
+      `${formatNodeValue(values[i])}'s next points at ${formatNullableNodeValue(nextValue)} and prev points at ${formatNullableNodeValue(prevValue)}.`
+    );
+  }
+  return sentences.join(" ");
+}
+function describeIndexedArray(values, options = {}) {
+  const {
+    emptyText = "Array is empty.",
+    label = "Array"
+  } = options;
+  if (values.length === 0) {
+    return emptyText;
+  }
+  const sentences = [`${label} has ${values.length} value${values.length === 1 ? "" : "s"}.`];
+  for (let i = 0; i < values.length; i++) {
+    sentences.push(`Index ${i} stores ${values[i]}.`);
+  }
+  return sentences.join(" ");
+}
+function describeStackArray(values, top) {
+  if (top === 0) {
+    return "Stack is empty. Top is 0.";
+  }
+  const sentences = [`Top is ${top}.`];
+  for (let i = 0; i < top; i++) {
+    sentences.push(`Index ${i} stores ${values[i]}.`);
+  }
+  return sentences.join(" ");
+}
+function describeQueueArray(values, head, tail, size) {
+  if (head === tail) {
+    return `Queue is empty. Start is ${head}. End is ${tail}.`;
+  }
+  const sentences = [`Start is ${head}. End is ${tail}.`];
+  let index = head;
+  while (index !== tail) {
+    sentences.push(`Index ${index} stores ${values[index]}.`);
+    index = (index + 1) % size;
+  }
+  return sentences.join(" ");
+}
+function describeBinaryHeap(values, size, options = {}) {
+  const {
+    emptyText = "Heap is empty.",
+    heapLabel = "Heap"
+  } = options;
+  if (size === 0) {
+    return emptyText;
+  }
+  const sentences = [`${heapLabel} has ${size} value${size === 1 ? "" : "s"}.`, `Root is ${values[0]}.`];
+  for (let i = 0; i < size; i++) {
+    const left = 2 * i + 1;
+    const right = 2 * i + 2;
+    const hasLeft = left < size;
+    const hasRight = right < size;
+    let relationship;
+    if (hasLeft && hasRight) {
+      relationship = `with left child ${values[left]} and right child ${values[right]}.`;
+    } else if (hasLeft) {
+      relationship = `with left child ${values[left]}.`;
+    } else if (hasRight) {
+      relationship = `with right child ${values[right]}.`;
+    } else {
+      relationship = "with no children.";
+    }
+    sentences.push(`Index ${i} stores ${values[i]} ${relationship}`);
+  }
+  return sentences.join(" ");
+}
+function describeBinaryHeapFromState(state, arrayIds, options = {}) {
+  const {
+    emptyText = "Heap is empty.",
+    heapLabel = "Heap",
+    size = null,
+    activeNodeIds = null
+  } = options;
+  const values = readReplayArrayValues(state, arrayIds);
+  let resolvedSize = size;
+  if (!Number.isFinite(resolvedSize)) {
+    if (Array.isArray(activeNodeIds)) {
+      resolvedSize = activeNodeIds.filter((id) => {
+        const object = state.objects.get(id);
+        const text = getReplayObjectText(object);
+        return object != null && text != null && text !== "";
+      }).length;
+    } else {
+      resolvedSize = 0;
+      while (resolvedSize < values.length && values[resolvedSize] != null && values[resolvedSize] !== "") {
+        resolvedSize += 1;
+      }
+    }
+  }
+  return describeBinaryHeap(values, resolvedSize, {
+    emptyText,
+    heapLabel
+  });
+}
+function describeClosedHashTable(slots, options = {}) {
+  const {
+    tableSize = slots.length,
+    collisionStrategy = "linear probing"
+  } = options;
+  const sentences = [
+    `Table size is ${tableSize}.`,
+    `Collision strategy is ${collisionStrategy}.`
+  ];
+  for (let i = 0; i < slots.length; i++) {
+    const slot = slots[i];
+    if (slot === null) {
+      sentences.push(`Index ${i} is empty.`);
+    } else if (slot === "<deleted>") {
+      sentences.push(`Index ${i} is deleted.`);
+    } else {
+      sentences.push(`Index ${i} stores ${slot}.`);
+    }
+  }
+  return sentences.join(" ");
+}
+function describeClosedHashTableFromState(state, slotIds, options = {}) {
+  const slots = slotIds.map((id) => {
+    const value = getReplayObjectText(state.objects.get(id));
+    if (value == null || value === "") {
+      return null;
+    }
+    if (value === "<deleted>") {
+      return "<deleted>";
+    }
+    return value;
+  });
+  return describeClosedHashTable(slots, options);
+}
+function describeOpenHashTable(buckets, options = {}) {
+  const {
+    tableSize = buckets.length
+  } = options;
+  const sentences = [`Table size is ${tableSize}.`];
+  for (let i = 0; i < buckets.length; i++) {
+    const bucket = buckets[i];
+    if (bucket.length === 0) {
+      sentences.push(`Bucket ${i} is empty.`);
+    } else if (bucket.length === 1) {
+      sentences.push(`Bucket ${i} contains ${bucket[0]}.`);
+    } else {
+      sentences.push(`Bucket ${i} contains ${bucket.join(", then ")}.`);
+    }
+  }
+  return sentences.join(" ");
+}
+function describeOpenHashTableFromState(state, bucketPointerIds, options = {}) {
+  const buckets = bucketPointerIds.map(
+    (pointerId) => readReplayLinearChainValues(state, pointerId, {
+      nodePredicate: (object) => object.kind === "linkedList"
+    })
+  );
+  return describeOpenHashTable(buckets, options);
+}
+function describePrefixTreeFromState(state, options = {}) {
+  const {
+    emptyText = "Tree is empty.",
+    nodePredicate = (object) => object.kind === "circle",
+    edgeFilter = () => true,
+    getStoredValue = (object) => getReplayObjectText(object) ?? "",
+    isWord = () => false
+  } = options;
+  const rootId = findImplicitReplayRootId(state, nodePredicate, edgeFilter);
+  if (rootId == null) {
+    return emptyText;
+  }
+  const sentences = [];
+  const visited = /* @__PURE__ */ new Set();
+  const visit = (id, isRoot = false) => {
+    if (id == null || visited.has(id)) {
+      return;
+    }
+    const object = state.objects.get(id);
+    if (!object || !nodePredicate(object)) {
+      return;
+    }
+    visited.add(id);
+    const storedValue = getStoredValue(object, id, state);
+    const children = getReplayOutgoingObjects(
+      state,
+      id,
+      (childObject, edge) => nodePredicate(childObject) && edgeFilter(object, childObject, edge)
+    ).sort(
+      (a, b) => String(getStoredValue(a.object, a.id, state)).localeCompare(
+        String(getStoredValue(b.object, b.id, state))
+      ) || (a.object.x ?? 0) - (b.object.x ?? 0) || a.id - b.id
+    );
+    const stored = storedValue === "" ? "an empty prefix" : `prefix ${storedValue}`;
+    const wordState = isWord(object, id, state) ? "marks a complete word" : "does not mark a complete word";
+    let childText;
+    if (children.length === 0) {
+      childText = "has no children.";
+    } else if (children.length === 1) {
+      childText = `has child ${getStoredValue(children[0].object, children[0].id, state)}.`;
+    } else {
+      const labels = children.map((child) => getStoredValue(child.object, child.id, state));
+      childText = `has children ${labels.slice(0, -1).join(", ")} and ${labels[labels.length - 1]}.`;
+    }
+    const subject = isRoot ? "Root node" : `Node ${storedValue || "<root>"}`;
+    sentences.push(`${subject} stores ${stored}, ${wordState}, and ${childText}`);
+    for (const child of children) {
+      visit(child.id, false);
+    }
+  };
+  visit(rootId, true);
+  return sentences.join(" ");
+}
+function describeMultiwayTreeFromState(state, options = {}) {
+  const {
+    emptyText = "Tree is empty.",
+    nodePredicate = (object) => object.kind === "btreeNode",
+    edgeFilter = (fromObject, toObject) => (toObject.y ?? 0) > (fromObject.y ?? 0),
+    getKeysFromObject = (object) => getReplayIndexedTexts(object, object.numElements ?? null)
+  } = options;
+  const rootId = findImplicitReplayRootId(state, nodePredicate, edgeFilter);
+  if (rootId == null) {
+    return emptyText;
+  }
+  const sentences = [];
+  const visited = /* @__PURE__ */ new Set();
+  const visit = (id, isRoot = false) => {
+    if (id == null || visited.has(id)) {
+      return;
+    }
+    const object = state.objects.get(id);
+    if (!object || !nodePredicate(object)) {
+      return;
+    }
+    visited.add(id);
+    const keys = getKeysFromObject(object, id, state).map(String);
+    const children = getReplayOutgoingObjects(
+      state,
+      id,
+      (childObject, edge) => nodePredicate(childObject) && edgeFilter(object, childObject, edge)
+    ).sort(
+      (a, b) => (a.object.x ?? 0) - (b.object.x ?? 0) || (a.object.y ?? 0) - (b.object.y ?? 0) || a.id - b.id
+    );
+    const subject = isRoot ? "Root node" : `Node with ${formatKeyList(keys)}`;
+    if (children.length === 0) {
+      sentences.push(`${subject} has ${formatKeyList(keys)} and is a leaf.`);
+    } else if (children.length === 1) {
+      sentences.push(`${subject} has ${formatKeyList(keys)} and 1 child.`);
+    } else {
+      sentences.push(`${subject} has ${formatKeyList(keys)} and ${children.length} children.`);
+    }
+    for (const child of children) {
+      visit(child.id, false);
+    }
+  };
+  visit(rootId, true);
+  return sentences.join(" ");
 }
 
 // AlgorithmLibrary/AVL.js
@@ -5092,14 +6803,15 @@ AVL.prototype.init = function(am, w2, h) {
   var sc = AVL.superclass;
   var fn = sc.init;
   fn.call(this, am, w2, h);
-  this.startingX = 150;
+  this.startingX = 250;
   this.nextIndex = 0;
-  this.commands = [];
+  this.beginAnimation();
   this.rootIndex = 0;
+  this.beginBlock("initialize tree", { source: "AVL", operation: "init", tags: ["init"] });
   this.cmd("CreateRectangle", this.nextIndex++, "", 50, 25, this.startingX - 100, AVL.STARTING_Y - 10);
   this.cmd("SetNull", this.rootIndex, 1);
   this.cmd("CreateLabel", this.nextIndex++, "root", this.startingX - 150, AVL.STARTING_Y - 10);
-  this.animationManager.StartNewAnimation(this.commands);
+  this.animationManager.StartNewAnimation(this.finishAnimation());
   this.animationManager.skipForward();
   this.animationManager.clearHistory();
   this.doInsert = function(val) {
@@ -5124,6 +6836,21 @@ AVL.prototype.init = function(am, w2, h) {
     this.animationManager.animatedObjects.draw();
   };
 };
+AVL.prototype.beginAVLAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "AVL", operation, ...meta });
+};
+AVL.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = { source: "AVL", operation: this.currentAnimationOperation, ...meta };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+AVL.prototype.finishAVLAnimation = function() {
+  return this.finishAnimation();
+};
 AVL.prototype.addControls = function() {
   addSeparatorToAlgorithmBar();
   this.inputField = addControlToAlgorithmBar("Text", "", "inputField", "Value");
@@ -5140,7 +6867,7 @@ AVL.prototype.addControls = function() {
   this.findButton.onclick = this.findCallback.bind(this);
   this.clearButton = addControlToAlgorithmBar("Button", "Clear");
   this.clearButton.onclick = this.clearCallback.bind(this);
-  this.insertRandomButton = addControlToAlgorithmBar("Button", "Insert Random Values");
+  this.insertRandomButton = addControlToAlgorithmBar("Button", "Add Random Values");
   this.insertRandomButton.onclick = this.insertRandomCallback.bind(this);
   addSeparatorToAlgorithmBar();
   this.printButton = addControlToAlgorithmBar("Button", "Print");
@@ -5183,7 +6910,7 @@ AVL.prototype.clearCallback = function(event) {
 AVL.prototype.clearData = function() {
   if (this.treeRoot == null)
     return;
-  this.commands = new Array();
+  this.beginAVLAnimation("clear", "clear tree", { tags: ["clear"] });
   function clearTree(tree, handler) {
     if (tree != null) {
       if (tree.left != null) {
@@ -5200,7 +6927,7 @@ AVL.prototype.clearData = function() {
   this.treeRoot = null;
   this.cmd("SetNull", this.rootIndex, 1);
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishAVLAnimation();
 };
 AVL.prototype.insertRandomCallback = function(event) {
   var numToInsert = 10;
@@ -5255,17 +6982,22 @@ AVL.prototype.sizeChanged = function(newWidth, newHeight) {
   this.startingX = newWidth / 2;
 };
 AVL.prototype.printTree = function(order) {
-  this.commands = [];
+  this.beginAVLAnimation("print", `print ${order} order`, {
+    tags: ["print", String(order).toLowerCase()]
+  });
   this.printOutput = "";
   if (this.treeRoot != null) {
     this.cmd("SetMessage", "Starting from root");
     this.cmd("SetHighlight", this.treeRoot.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep("visit root", {
+      focusNodeId: this.treeRoot.graphicID,
+      tags: ["print", "visit"]
+    });
     this.cmd("SetHighlight", this.treeRoot.graphicID, 0);
     this.printTreeRec(this.treeRoot, order);
     this.cmd("SetMessage", "Final output: " + this.printOutput);
   }
-  return this.commands;
+  return this.finishAVLAnimation();
 };
 AVL.prototype.printTreeRec = function(tree, order) {
   this.cmd("SetHighlight", tree.graphicID, 1);
@@ -5287,19 +7019,22 @@ AVL.prototype.printTreeRec = function(tree, order) {
   this.cmd("Step");
 };
 AVL.prototype.findElement = function(findValue) {
-  this.commands = [];
+  this.beginAVLAnimation("find", `find ${findValue}`, {
+    tags: ["search", "find"]
+  });
   this.highlightID = this.nextIndex++;
+  this.cmd("SetMessage", "Searching for " + findValue + ". Starting from root.");
+  this.cmd("Step");
   this.findHelp(this.treeRoot, findValue);
-  return this.commands;
+  return this.finishAVLAnimation();
 };
 AVL.prototype.findHelp = function(tree, value) {
-  this.cmd("SetMessage", "Searchiing for " + value);
   if (tree != null) {
     this.cmd("SetHighlight", tree.graphicID, 1);
     if (tree.data == value) {
       this.cmd(
         "SetMessage",
-        "Searching for " + value + " : " + value + " = " + value + " (Element found!)"
+        "At " + value + ". Element found!"
       );
       this.cmd("Step");
       this.cmd("SetMessage", "Found:" + value);
@@ -5308,7 +7043,7 @@ AVL.prototype.findHelp = function(tree, value) {
       if (tree.data > value) {
         this.cmd(
           "SetMessage",
-          "Searching for " + value + " : " + value + " < " + tree.data + " (look to left subtree)"
+          `At ${tree.data}: ${value} < ${tree.data}.  Looking at left subtree`
         );
         this.cmd("Step");
         this.cmd("SetHighlight", tree.graphicID, 0);
@@ -5328,7 +7063,7 @@ AVL.prototype.findHelp = function(tree, value) {
       } else {
         this.cmd(
           "SetMessage",
-          " Searching for " + value + " : " + value + " > " + tree.data + " (look to right subtree)"
+          `At ${tree.data}: ${value} > ${tree.data}.  Looking at right subtree`
         );
         this.cmd("Step");
         this.cmd("SetHighlight", tree.graphicID, 0);
@@ -5350,17 +7085,19 @@ AVL.prototype.findHelp = function(tree, value) {
   } else {
     this.cmd(
       "SetMessage",
-      " Searching for " + value + " : < Empty Tree > (Element not found)"
+      `Searching for ${value} : < Empty Tree > (Element not found)`
     );
     this.cmd("Step");
     this.cmd(
       "SetMessage",
-      " Searching for " + value + " :  (Element not found)"
+      `Searching for ${value} : (Element not found)`
     );
   }
 };
 AVL.prototype.insertElement = function(insertedValue) {
-  this.commands = [];
+  this.beginAVLAnimation("insert", `insert ${insertedValue}`, {
+    tags: ["insert"]
+  });
   this.cmd("SetMessage", " Inserting " + insertedValue);
   if (this.treeRoot == null) {
     var treeNodeID = this.nextIndex++;
@@ -5378,7 +7115,10 @@ AVL.prototype.insertElement = function(insertedValue) {
       "SetMessage",
       `Root is null. Inserting ${insertedValue} as the root`
     );
-    this.cmd("Step");
+    this.markAnimationStep("create root", {
+      focusNodeId: treeNodeID,
+      tags: ["insert", "root"]
+    });
     this.cmd(
       "CreateLabel",
       labelID,
@@ -5387,7 +7127,10 @@ AVL.prototype.insertElement = function(insertedValue) {
       AVL.STARTING_Y - 20
     );
     this.cmd("SetForegroundColor", labelID, AVL.HEIGHT_LABEL_COLOR);
-    this.cmd("Step");
+    this.markAnimationStep("create height label", {
+      focusNodeId: treeNodeID,
+      tags: ["insert", "height"]
+    });
     this.cmd("SetNull", this.rootIndex, 0);
     this.cmd("Connect", 0, treeNodeID, AVL.LINK_COLOR);
     this.treeRoot = new AVLNode(
@@ -5413,14 +7156,17 @@ AVL.prototype.insertElement = function(insertedValue) {
     this.cmd("SetBackgroundColor", treeNodeID, AVL.BACKGROUND_COLOR);
     this.cmd("CreateLabel", labelID, "", 100 - 20, 100 - 20);
     this.cmd("SetForegroundColor", labelID, AVL.HEIGHT_LABEL_COLOR);
-    this.cmd("Step");
+    this.markAnimationStep(`create node ${insertedValue}`, {
+      focusNodeId: treeNodeID,
+      tags: ["insert", "create"]
+    });
     var insertElem = new AVLNode(insertedValue, treeNodeID, labelID, 100, 100);
     this.cmd("SetHighlight", insertElem.graphicID, 1);
     insertElem.height = 0;
     this.insert(insertElem, this.treeRoot);
   }
   this.cmd("SetMessage", " ");
-  return this.commands;
+  return this.finishAVLAnimation();
 };
 AVL.prototype.singleRotateRight = function(tree) {
   var B = tree;
@@ -5431,7 +7177,10 @@ AVL.prototype.singleRotateRight = function(tree) {
   this.cmd("SetMessage", `Rotate right around pivot ${B.data}`);
   this.cmd("SetEdgeHighlight", B.graphicID, A.graphicID, 1);
   this.setHighlights([A.graphicID, B.graphicID], 1);
-  this.cmd("Step");
+  this.markAnimationStep(`rotate right around ${B.data}`, {
+    focusNodeId: B.graphicID,
+    tags: ["rotate", "right"]
+  });
   this.setHighlights([A.graphicID, B.graphicID], 0);
   if (t2 != null) {
     this.cmd("Disconnect", A.graphicID, t2.graphicID);
@@ -5470,7 +7219,10 @@ AVL.prototype.singleRotateLeft = function(tree) {
   this.cmd("SetMessage", `Rotate left around pivot ${A.data}`);
   this.cmd("SetEdgeHighlight", A.graphicID, B.graphicID, 1);
   this.setHighlights([A.graphicID, B.graphicID], 1);
-  this.cmd("Step");
+  this.markAnimationStep(`rotate left around ${A.data}`, {
+    focusNodeId: A.graphicID,
+    tags: ["rotate", "left"]
+  });
   this.setHighlights([A.graphicID, B.graphicID], 0);
   if (t2 != null) {
     this.cmd("Disconnect", B.graphicID, t2.graphicID);
@@ -5511,6 +7263,48 @@ AVL.prototype.getBalance = function(tree) {
     return 0;
   return this.getHeight(tree.left) - this.getHeight(tree.right);
 };
+AVL.prototype.describe = function() {
+  if (this.treeRoot == null) {
+    return "Tree is empty.";
+  }
+  const sentences = [];
+  const describeNode = (node, isRoot = false) => {
+    if (node == null) {
+      return;
+    }
+    const subject = isRoot ? `Root is ${node.data} (height ${node.height})` : `${node.data} (height ${node.height})`;
+    let relationship;
+    if (node.left != null && node.right != null) {
+      relationship = `has a left child ${node.left.data} and right child ${node.right.data}.`;
+    } else if (node.left != null) {
+      relationship = `has a left child ${node.left.data}.`;
+    } else if (node.right != null) {
+      relationship = `has a right child ${node.right.data}.`;
+    } else {
+      relationship = "has no children.";
+    }
+    sentences.push(`${subject} ${relationship}`);
+    describeNode(node.left);
+    describeNode(node.right);
+  };
+  describeNode(this.treeRoot, true);
+  return sentences.join(" ");
+};
+AVL.prototype.describeFromState = function(state) {
+  const computeHeight = (node) => {
+    if (node == null) {
+      return -1;
+    }
+    return 1 + Math.max(computeHeight(node.left), computeHeight(node.right));
+  };
+  return describeBinaryTreeFromState(state, this.rootIndex, {
+    classifySingleChild: classifySingleReplayChildByValue,
+    getDetails(node) {
+      return [`height ${computeHeight(node)}`];
+    },
+    sortChildren: compareReplayObjectsByValue
+  });
+};
 AVL.prototype.resetHeight = function(tree) {
   if (tree != null) {
     var newHeight = Math.max(this.getHeight(tree.left), this.getHeight(tree.right)) + 1;
@@ -5532,13 +7326,19 @@ AVL.prototype.doubleRotateRight = function(tree) {
   this.setHighlights([A.graphicID, B.graphicID, C.graphicID], 1);
   this.cmd("SetEdgeHighlight", C.graphicID, A.graphicID, 1);
   this.cmd("SetEdgeHighlight", A.graphicID, B.graphicID, 1);
-  this.cmd("Step");
+  this.markAnimationStep(`double rotate right around ${C.data}`, {
+    focusNodeId: C.graphicID,
+    tags: ["rotate", "double", "right"]
+  });
   this.setHighlights([A.graphicID, B.graphicID, C.graphicID], 0);
   this.cmd("SetEdgeHighlight", C.graphicID, A.graphicID, 0);
   this.cmd("SetEdgeHighlight", A.graphicID, B.graphicID, 0);
   this.singleRotateLeft(A);
   this.cmd("SetMessage", `Left rotation around pivot ${A.data} complete. Now rotate right around pivot ${C.data}.`);
-  this.cmd("Step");
+  this.markAnimationStep(`finish left half of double right rotation`, {
+    focusNodeId: A.graphicID,
+    tags: ["rotate", "double", "right"]
+  });
   this.singleRotateRight(C);
 };
 AVL.prototype.setHighlights = function(elementList, value = 1) {
@@ -5558,13 +7358,19 @@ AVL.prototype.doubleRotateLeft = function(tree) {
   this.setHighlights([A.graphicID, B.graphicID, C.graphicID], 1);
   this.cmd("SetEdgeHighlight", A.graphicID, C.graphicID, 1);
   this.cmd("SetEdgeHighlight", C.graphicID, B.graphicID, 1);
-  this.cmd("Step");
+  this.markAnimationStep(`double rotate left around ${A.data}`, {
+    focusNodeId: A.graphicID,
+    tags: ["rotate", "double", "left"]
+  });
   this.setHighlights([A.graphicID, B.graphicID, C.graphicID], 0);
   this.cmd("SetEdgeHighlight", A.graphicID, C.graphicID, 0);
   this.cmd("SetEdgeHighlight", C.graphicID, B.graphicID, 0);
   this.singleRotateRight(C);
   this.cmd("SetMessage", `Right rotation around pivot ${C.data} complete. Now rotate left around pivot ${A.data}.`);
-  this.cmd("Step");
+  this.markAnimationStep(`finish right half of double left rotation`, {
+    focusNodeId: C.graphicID,
+    tags: ["rotate", "double", "left"]
+  });
   this.singleRotateLeft(A);
 };
 AVL.prototype.insert = function(elem, tree) {
@@ -5601,13 +7407,10 @@ AVL.prototype.insert = function(elem, tree) {
         tree.left.y
       );
       this.cmd("Move", this.highlightID, tree.x, tree.y);
-      this.cmd("SetMessage", `Adjusting height in ${tree.data}`);
-      this.cmd("Step");
-      this.cmd("Delete", this.highlightID);
       if (tree.height < tree.left.height + 1) {
+        this.cmd("SetMessage", `Adjusting height in ${tree.data}. Was ${tree.height}, now ${tree.left.height + 1}`);
         tree.height = tree.left.height + 1;
         this.cmd("SetText", tree.heightLabelID, tree.height);
-        this.cmd("SetMessage", `Adjusting height after recursive call to ${tree.height}`);
         this.cmd(
           "SetForegroundColor",
           tree.heightLabelID,
@@ -5619,10 +7422,14 @@ AVL.prototype.insert = function(elem, tree) {
           tree.heightLabelID,
           AVL.HEIGHT_LABEL_COLOR
         );
+      } else {
+        this.cmd("SetMessage", `Adjusting height in ${tree.data}. No change in height.`);
       }
+      this.cmd("Step");
+      this.cmd("Delete", this.highlightID);
       var msgHighlight = this.nextIndex++;
       this.cmd("CreateHighlightCircle", msgHighlight, AVL.HIGHLIGHT_COLOR, tree.x, tree.y);
-      this.cmd("SetMessage", `Check balance. 
+      this.cmd("SetMessage", `Check balance at ${tree.data}. 
 left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.right)}; balance: ${this.getHeight(tree.left) - this.getHeight(tree.right)}`);
       this.cmd("Step");
       this.cmd("Delete", msgHighlight);
@@ -5657,13 +7464,10 @@ left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.r
         tree.left.y
       );
       this.cmd("Move", this.highlightID, tree.x, tree.y);
-      this.cmd("SetMessage", `Adjusting height in ${tree.data}`);
-      this.cmd("Step");
-      this.cmd("Delete", this.highlightID);
       if (tree.height < tree.left.height + 1) {
+        this.cmd("SetMessage", `Adjusting height in ${tree.data}. Was ${tree.height}, now ${tree.left.height + 1}`);
         tree.height = tree.left.height + 1;
         this.cmd("SetText", tree.heightLabelID, tree.height);
-        this.cmd("SetMessage", `Adjusting height after recursive call to ${tree.height}`);
         this.cmd(
           "SetForegroundColor",
           tree.heightLabelID,
@@ -5675,10 +7479,14 @@ left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.r
           tree.heightLabelID,
           AVL.HEIGHT_LABEL_COLOR
         );
+      } else {
+        this.cmd("SetMessage", `Adjusting height in ${tree.data}. No change in height.`);
       }
+      this.cmd("Step");
+      this.cmd("Delete", this.highlightID);
       var msgHighlight = this.nextIndex++;
       this.cmd("CreateHighlightCircle", msgHighlight, AVL.HIGHLIGHT_COLOR, tree.x, tree.y);
-      this.cmd("SetMessage", `Check balance. 
+      this.cmd("SetMessage", `Check balance at ${tree.data}. 
 left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.right)}; balance: ${this.getHeight(tree.left) - this.getHeight(tree.right)}`);
       this.cmd("Step");
       this.cmd("Delete", msgHighlight);
@@ -5725,13 +7533,10 @@ left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.r
         tree.right.y
       );
       this.cmd("Move", this.highlightID, tree.x, tree.y);
-      this.cmd("SetMessage", `Adjusting height in ${tree.data}`);
-      this.cmd("Step");
-      this.cmd("Delete", this.highlightID);
       if (tree.height < tree.right.height + 1) {
+        this.cmd("SetMessage", `Adjusting height in ${tree.data}. Was ${tree.height}, now ${tree.right.height + 1}`);
         tree.height = tree.right.height + 1;
         this.cmd("SetText", tree.heightLabelID, tree.height);
-        this.cmd("SetMessage", `Adjusting height after recursive call to ${tree.height}`);
         this.cmd(
           "SetForegroundColor",
           tree.heightLabelID,
@@ -5743,10 +7548,14 @@ left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.r
           tree.heightLabelID,
           AVL.HEIGHT_LABEL_COLOR
         );
+      } else {
+        this.cmd("SetMessage", `Adjusting height in ${tree.data}. No change in height.`);
       }
+      this.cmd("Step");
+      this.cmd("Delete", this.highlightID);
       var msgHighlight = this.nextIndex++;
       this.cmd("CreateHighlightCircle", msgHighlight, AVL.HIGHLIGHT_COLOR, tree.x, tree.y);
-      this.cmd("SetMessage", `Check balance. 
+      this.cmd("SetMessage", `Check balance at ${tree.data}. 
 left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.right)}; balance: ${this.getHeight(tree.left) - this.getHeight(tree.right)}`);
       this.cmd("Step");
       this.cmd("Delete", msgHighlight);
@@ -5770,12 +7579,10 @@ left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.r
         tree.right.y
       );
       this.cmd("Move", this.highlightID, tree.x, tree.y);
-      this.cmd("SetMessage", `Adjusting height in ${tree.data}`);
-      this.cmd("Step");
       if (tree.height < tree.right.height + 1) {
+        this.cmd("SetMessage", `Adjusting height in ${tree.data}. Was ${tree.height}, now ${tree.right.height + 1}`);
         tree.height = tree.right.height + 1;
         this.cmd("SetText", tree.heightLabelID, tree.height);
-        this.cmd("SetMessage", `Adjusting height after recursive call to ${tree.height}`);
         this.cmd(
           "SetForegroundColor",
           tree.heightLabelID,
@@ -5787,13 +7594,16 @@ left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.r
           tree.heightLabelID,
           AVL.HEIGHT_LABEL_COLOR
         );
+      } else {
+        this.cmd("SetMessage", `Adjusting height in ${tree.data}. No change in height.`);
       }
-      var msgHighlight = this.nextIndex++;
-      this.cmd("CreateHighlightCircle", msgHighlight, AVL.HIGHLIGHT_COLOR, tree.x, tree.y);
-      this.cmd("SetMessage", `Check balance. 
-left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.right)}; balance: ${this.getHeight(tree.left) - this.getHeight(tree.right)}`);
       this.cmd("Step");
       this.cmd("Delete", this.highlightID);
+      var msgHighlight = this.nextIndex++;
+      this.cmd("CreateHighlightCircle", msgHighlight, AVL.HIGHLIGHT_COLOR, tree.x, tree.y);
+      this.cmd("SetMessage", `Check balance at ${tree.data}. 
+left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.right)}; balance: ${this.getHeight(tree.left) - this.getHeight(tree.right)}`);
+      this.cmd("Step");
       this.cmd("Delete", msgHighlight);
       if (this.getBalance(tree) < -1) {
         if (elem.data >= tree.right.data) {
@@ -5810,14 +7620,16 @@ left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.r
   }
 };
 AVL.prototype.deleteElement = function(deletedValue) {
-  this.commands = [];
-  this.cmd("SetMessage", "Deleting " + deletedValue);
-  this.cmd("Step");
+  this.beginAVLAnimation("delete", `delete ${deletedValue}`, {
+    tags: ["delete"]
+  });
+  this.cmd("SetMessage", "Deleting " + deletedValue + ". Search for node to delete starting at root.");
+  this.markAnimationStep("start delete", { tags: ["delete", "start"] });
   this.cmd("SetMessage", " ");
   this.highlightID = this.nextIndex++;
   this.treeDelete(this.treeRoot, deletedValue);
   this.cmd("SetMessage", " ");
-  return this.commands;
+  return this.finishAVLAnimation();
 };
 AVL.prototype.treeDelete = function(tree, valueToDelete) {
   if (tree != null) {
@@ -5828,17 +7640,17 @@ AVL.prototype.treeDelete = function(tree, valueToDelete) {
     if (valueToDelete < tree.data) {
       this.cmd(
         "SetMessage",
-        valueToDelete + " < " + tree.data + ".  Looking at left subtree"
+        `At ${tree.data}: ${valueToDelete} < ${tree.data}.  Looking at left subtree`
       );
     } else if (valueToDelete > tree.data) {
       this.cmd(
         "SetMessage",
-        valueToDelete + " > " + tree.data + ".  Looking at right subtree"
+        `At ${tree.data}: ${valueToDelete} > ${tree.data}.  Looking at right subtree`
       );
     } else {
       this.cmd(
         "SetMessage",
-        valueToDelete + " == " + tree.data + ".  Found node to delete"
+        `At ${tree.data}: ${valueToDelete} == ${tree.data}.  Found node to delete`
       );
     }
     this.cmd("Step");
@@ -5920,7 +7732,8 @@ AVL.prototype.treeDelete = function(tree, valueToDelete) {
       } else {
         this.cmd(
           "SetMessage",
-          "Node to delete has two childern.  \nFind smallest node in right subtree."
+          `Node to delete has two children.  
+Find smallest node in right subtree.`
         );
         this.highlightID = this.nextIndex;
         this.nextIndex += 1;
@@ -6007,7 +7820,7 @@ AVL.prototype.treeDelete = function(tree, valueToDelete) {
           var tmpPar = tmp.parent;
           var msgHighlight = this.nextIndex++;
           this.cmd("CreateHighlightCircle", msgHighlight, AVL.HIGHLIGHT_COLOR, tmp.x, tmp.y);
-          this.cmd("SetMessage", `Check balance. 
+          this.cmd("SetMessage", `Check balance at ${tmp.data}. 
 left height: ${this.getHeight(tmp.left)}, right height: ${this.getHeight(tmp.right)}; balance: ${this.getHeight(tmp.left) - this.getHeight(tmp.right)}`);
           this.cmd("Step");
           this.cmd("Delete", msgHighlight);
@@ -6041,17 +7854,11 @@ left height: ${this.getHeight(tmp.left)}, right height: ${this.getHeight(tmp.rig
               );
             }
             this.cmd("Move", this.highlightID, tmpPar.x, tmpPar.y);
-            this.cmd("SetMessage", `Adjusting height in ${tmpPar.data}`);
-            if (this.getHeight(tmpPar) != Math.max(
-              this.getHeight(tmpPar.left),
-              this.getHeight(tmpPar.right)
-            ) + 1) {
-              tmpPar.height = Math.max(
-                this.getHeight(tmpPar.left),
-                this.getHeight(tmpPar.right)
-              ) + 1;
-              this.cmd("SetText", tmpPar.heightLabelID, tree.height);
-              this.cmd("SetMessage", `Adjusting height after recursive call to ${tmpPar.height}`);
+            let newHeight = Math.max(this.getHeight(tmpPar.left), this.getHeight(tmpPar.right)) + 1;
+            if (tmpPar.height != newHeight) {
+              tmpPar.height = newHeight;
+              this.cmd("SetText", tmpPar.heightLabelID, tmpPar.height);
+              this.cmd("SetMessage", `Adjusting height in ${tmpPar.height}. Was ${tmpPar.height}, now ${newHeight}`);
               this.cmd(
                 "SetForegroundColor",
                 tmpPar.heightLabelID,
@@ -6063,6 +7870,8 @@ left height: ${this.getHeight(tmp.left)}, right height: ${this.getHeight(tmp.rig
                 tmpPar.heightLabelID,
                 AVL.HEIGHT_LABEL_COLOR
               );
+            } else {
+              this.cmd("SetMessage", `Adjusting height in ${tmpPar.data}. No change in height.`);
             }
             this.cmd("Step");
             this.cmd("Delete", this.highlightID);
@@ -6071,7 +7880,7 @@ left height: ${this.getHeight(tmp.left)}, right height: ${this.getHeight(tmp.rig
         }
         var msgHighlight = this.nextIndex++;
         this.cmd("CreateHighlightCircle", msgHighlight, AVL.HIGHLIGHT_COLOR, tree.x, tree.y);
-        this.cmd("SetMessage", `Check balance. 
+        this.cmd("SetMessage", `Check balance at ${tree.data}. 
 left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.right)}; balance: ${this.getHeight(tree.left) - this.getHeight(tree.right)}`);
         this.cmd("Step");
         this.cmd("Delete", msgHighlight);
@@ -6102,7 +7911,6 @@ left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.r
       }
       this.treeDelete(tree.left, valueToDelete);
       if (tree.left != null) {
-        this.cmd("SetMessage", "Unwinding recursion.");
         this.cmd(
           "CreateHighlightCircle",
           this.highlightID,
@@ -6111,13 +7919,13 @@ left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.r
           tree.left.y
         );
         this.cmd("Move", this.highlightID, tree.x, tree.y);
-        this.cmd("SetMessage", `Adjusting height in ${tree.data}`);
-        this.cmd("Step");
+        this.cmd("SetMessage", `Return to ${tree.data}`);
         this.cmd("Delete", this.highlightID);
+        this.cmd("Step");
       }
       var msgHighlight = this.nextIndex++;
       this.cmd("CreateHighlightCircle", msgHighlight, AVL.HIGHLIGHT_COLOR, tree.x, tree.y);
-      this.cmd("SetMessage", `Check balance. 
+      this.cmd("SetMessage", `Check balance at ${tree.data}. 
 left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.right)}; balance: ${this.getHeight(tree.left) - this.getHeight(tree.right)}`);
       this.cmd("Step");
       this.cmd("Delete", msgHighlight);
@@ -6129,9 +7937,14 @@ left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.r
         }
       }
       if (this.getHeight(tree) != Math.max(this.getHeight(tree.left), this.getHeight(tree.right)) + 1) {
+        let oldHeight = tree.height;
         tree.height = Math.max(this.getHeight(tree.left), this.getHeight(tree.right)) + 1;
         this.cmd("SetText", tree.heightLabelID, tree.height);
-        this.cmd("SetMessage", `Adjusting height after recursive call to ${tree.height}`);
+        if (oldHeight == tree.height) {
+          this.cmd("SetMessage", `Adjusting height in ${tree.data}. No change in height.`);
+        } else {
+          this.cmd("SetMessage", `Adjusting height in ${tree.data}. Was ${oldHeight}, now ${tree.height}`);
+        }
         this.cmd(
           "SetForegroundColor",
           tree.heightLabelID,
@@ -6159,7 +7972,6 @@ left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.r
       }
       this.treeDelete(tree.right, valueToDelete);
       if (tree.right != null) {
-        this.cmd("SetMessage", `Adjusting height in ${tree.data}`);
         this.cmd(
           "CreateHighlightCircle",
           this.highlightID,
@@ -6168,12 +7980,13 @@ left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.r
           tree.right.y
         );
         this.cmd("Move", this.highlightID, tree.x, tree.y);
+        this.cmd("SetMessage", `Return to ${tree.data}`);
         this.cmd("Step");
         this.cmd("Delete", this.highlightID);
       }
       var msgHighlight = this.nextIndex++;
       this.cmd("CreateHighlightCircle", msgHighlight, AVL.HIGHLIGHT_COLOR, tree.x, tree.y);
-      this.cmd("SetMessage", `Check balance. 
+      this.cmd("SetMessage", `Check balance at ${tree.data}. 
 left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.right)}; balance: ${this.getHeight(tree.left) - this.getHeight(tree.right)}`);
       this.cmd("Step");
       this.cmd("Delete", msgHighlight);
@@ -6189,9 +8002,14 @@ left height: ${this.getHeight(tree.left)}, right height: ${this.getHeight(tree.r
         }
       }
       if (this.getHeight(tree) != Math.max(this.getHeight(tree.left), this.getHeight(tree.right)) + 1) {
+        let oldHeight = tree.height;
         tree.height = Math.max(this.getHeight(tree.left), this.getHeight(tree.right)) + 1;
         this.cmd("SetText", tree.heightLabelID, tree.height);
-        this.cmd("SetMessage", `Adjusting height after recursive call to ${tree.height}`);
+        if (oldHeight == tree.height) {
+          this.cmd("SetMessage", `Adjusting height in ${tree.data}. No change in height.`);
+        } else {
+          this.cmd("SetMessage", `Adjusting height in ${tree.data}. Was ${oldHeight}, now ${tree.height}`);
+        }
         this.cmd(
           "SetForegroundColor",
           tree.heightLabelID,
@@ -6226,7 +8044,7 @@ AVL.prototype.resizeTree = function() {
     }
     this.setNewPositions(this.treeRoot, startingPoint, AVL.STARTING_Y, 0);
     this.animateNewPositions(this.treeRoot);
-    this.cmd("Step");
+    this.markAnimationStep("resize tree", { tags: ["layout", "resize"] });
   }
 };
 AVL.prototype.setNewPositions = function(tree, xPosition, yPosition, side) {
@@ -8121,6 +9939,25 @@ BFS.prototype.init = function(am, w2, h, graphOpts) {
   this.showEdgeCosts = false;
   BFS.superclass.init.call(this, am, w2, h, true, false, graphOpts);
 };
+BFS.prototype.beginBFSAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "BFS", operation, ...meta });
+};
+BFS.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "BFS",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+BFS.prototype.finishBFSAnimation = function() {
+  return this.finishAnimation();
+};
 BFS.prototype.setup = function() {
   BFS.superclass.setup.call(this);
   this.messageID = new Array();
@@ -8252,7 +10089,9 @@ BFS.prototype.clearAdjacencyRepEdgeHighlight = function(i, j) {
 BFS.prototype.doBFS = function(startVetex) {
   this.visited = new Array(this.size);
   this.parent = new Array(this.size);
-  this.commands = new Array();
+  this.beginBFSAnimation("search", `bfs from ${startVetex}`, {
+    tags: ["search", "bfs"]
+  });
   this.queue = new Array(this.size);
   var head = 0;
   var tail = 0;
@@ -8320,7 +10159,10 @@ BFS.prototype.doBFS = function(startVetex) {
     this.cmd("SetLayer", this.highlightCircleAM, 3);
     this.cmd("SetTextColor", queueID[head], BFS_QUEUE_HEAD_COLOR);
     this.cmd("SetMessage", `Explore node at front of queue (${vertex}).`);
-    this.cmd("Step");
+    this.markAnimationStep(`explore ${vertex}`, {
+      focusNodeId: this.circleID[vertex],
+      tags: ["search", "queue", "explore"]
+    });
     for (var neighbor = 0; neighbor < this.size; neighbor++) {
       if (this.adj_matrix[vertex][neighbor] > 0) {
         const savedEdgeColor = this.edgeColorState[vertex][neighbor];
@@ -8328,7 +10170,10 @@ BFS.prototype.doBFS = function(startVetex) {
         this.applyEdgeVisualState(vertex, neighbor, EDGE_CHECK_COLOR, false);
         this.cmd("SetHighlight", this.visitedID[neighbor], 1);
         this.cmd("SetMessage", `Explore edge ${vertex} -> ${neighbor} (check whether ${neighbor} is known).`);
-        this.cmd("Step");
+        this.markAnimationStep(`check edge ${vertex} -> ${neighbor}`, {
+          focusNodeId: this.circleID[neighbor],
+          tags: ["search", "edge", "check"]
+        });
         if (!this.visited[neighbor]) {
           this.visited[neighbor] = true;
           this.parent[neighbor] = vertex;
@@ -8351,6 +10196,10 @@ BFS.prototype.doBFS = function(startVetex) {
             `Discovered ${neighbor}; set parent to ${vertex}, add to BFS tree, and enqueue ${neighbor}.`
           );
           this.applyEdgeVisualState(vertex, neighbor, savedEdgeColor, true);
+          this.markAnimationStep(`discover ${neighbor} from ${vertex}`, {
+            focusNodeId: this.circleID[neighbor],
+            tags: ["search", "discover", "enqueue"]
+          });
         } else {
           this.cmd("SetMessage", `Neighbor ${neighbor} was already visited; ignore this edge.`);
           this.applyEdgeVisualState(
@@ -8359,11 +10208,17 @@ BFS.prototype.doBFS = function(startVetex) {
             savedEdgeColor,
             savedEdgeHighlight
           );
+          this.markAnimationStep(`skip visited ${neighbor}`, {
+            focusNodeId: this.circleID[neighbor],
+            tags: ["search", "skip", "visited"]
+          });
         }
-        this.cmd("Step");
         this.clearAdjacencyRepEdgeHighlight(vertex, neighbor);
         this.cmd("SetHighlight", this.visitedID[neighbor], 0);
-        this.cmd("Step");
+        this.markAnimationStep(`finish edge ${vertex} -> ${neighbor}`, {
+          focusNodeId: this.circleID[neighbor],
+          tags: ["search", "edge", "finish"]
+        });
       }
     }
     this.cmd("SetTextColor", queueID[head], "#000000");
@@ -8384,16 +10239,23 @@ BFS.prototype.doBFS = function(startVetex) {
     this.cmd("Delete", this.highlightCircleAM);
     this.cmd("Delete", this.highlightCircleAL);
     this.cmd("SetMessage", `Done exploring ${vertex}.`);
-    this.cmd("Step");
+    this.markAnimationStep(`finish ${vertex}`, {
+      focusNodeId: this.circleID[vertex],
+      tags: ["search", "queue", "finish"]
+    });
   }
+  this.beginBlock("complete bfs", {
+    source: "BFS",
+    operation: this.currentAnimationOperation,
+    tags: ["search", "complete"]
+  });
   this.cmd("SetMessage", "Queue is empty. BFS complete. Search tree highlighted.");
   for (i = 0; i < this.size; i++) {
     if (this.parent[i] >= 0) {
       this.applyEdgeVisualState(this.parent[i], i, SEARCH_TREE_FINAL_COLOR, true);
     }
   }
-  this.cmd("Step");
-  return this.commands;
+  return this.finishBFSAnimation();
 };
 BFS.prototype.reset = function() {
 };
@@ -8448,13 +10310,14 @@ BST.prototype.init = function(am, w2, h) {
   var fn = sc.init;
   fn.call(this, am);
   this.nextIndex = 0;
-  this.commands = [];
+  this.beginAnimation();
   this.rootIndex = 0;
   this.valuesList = [];
+  this.beginBlock("initialize tree", { source: "BST", operation: "init" });
   this.cmd("CreateRectangle", this.nextIndex++, "", 50, 25, this.startingX - 70, BST.STARTING_Y - 10);
   this.cmd("SetNull", this.rootIndex, 1);
   this.cmd("CreateLabel", this.nextIndex++, "root", this.startingX - 120, BST.STARTING_Y - 10);
-  this.animationManager.StartNewAnimation(this.commands);
+  this.animationManager.StartNewAnimation(this.finishAnimation());
   this.animationManager.skipForward();
   this.animationManager.clearHistory();
   this.doInsert = function(val) {
@@ -8497,6 +10360,21 @@ BST.prototype.init = function(am, w2, h) {
     this.animationManager.animatedObjects.draw();
   };
 };
+BST.prototype.beginBSTAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "BST", operation, ...meta });
+};
+BST.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = { source: "BST", operation: this.currentAnimationOperation, ...meta };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+BST.prototype.finishBSTAnimation = function() {
+  return this.finishAnimation();
+};
 BST.prototype.addControls = function() {
   addSeparatorToAlgorithmBar();
   this.inputField = addControlToAlgorithmBar("Text", "", "inputField", "Value");
@@ -8517,7 +10395,7 @@ BST.prototype.addControls = function() {
   this.rotateRightButton.onclick = this.rotateRightCallback.bind(this);
   this.clearButton = addControlToAlgorithmBar("Button", "Clear");
   this.clearButton.onclick = this.clearCallback.bind(this);
-  this.insertRandomButton = addControlToAlgorithmBar("Button", "Insert Random Values");
+  this.insertRandomButton = addControlToAlgorithmBar("Button", "Add Random Values");
   this.insertRandomButton.onclick = this.insertRandomCallback.bind(this);
   addSeparatorToAlgorithmBar();
   this.printpreButton = addControlToAlgorithmBar("Button", "Print PreOrder");
@@ -8555,49 +10433,56 @@ BST.prototype.findNode = function(tree, value) {
   return null;
 };
 BST.prototype.rotateLeftAtValue = function(value) {
-  this.commands = [];
+  this.beginBSTAnimation("rotateLeft", `rotate left at ${value}`, {
+    tags: ["rotate", "left"]
+  });
   if (this.treeRoot == null) {
     this.cmd("SetMessage", "Tree is empty");
-    this.cmd("Step");
+    this.markAnimationStep("tree empty", { tags: ["empty"] });
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishBSTAnimation();
   }
   var x = this.findNode(this.treeRoot, value);
   if (x == null) {
     this.cmd("SetMessage", "Cannot rotate: " + value + " not found");
-    this.cmd("Step");
+    this.markAnimationStep("value not found", { tags: ["not-found"] });
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishBSTAnimation();
   }
   this.singleRotateLeft(x);
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishBSTAnimation();
 };
 BST.prototype.rotateRightAtValue = function(value) {
-  this.commands = [];
+  this.beginBSTAnimation("rotateRight", `rotate right at ${value}`, {
+    tags: ["rotate", "right"]
+  });
   if (this.treeRoot == null) {
     this.cmd("SetMessage", "Tree is empty");
-    this.cmd("Step");
+    this.markAnimationStep("tree empty", { tags: ["empty"] });
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishBSTAnimation();
   }
   var x = this.findNode(this.treeRoot, value);
   if (x == null) {
     this.cmd("SetMessage", "Cannot rotate: " + value + " not found");
-    this.cmd("Step");
+    this.markAnimationStep("value not found", { tags: ["not-found"] });
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishBSTAnimation();
   }
   this.singleRotateRight(x);
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishBSTAnimation();
 };
 BST.prototype.singleRotateLeft = function(x) {
   var y = x.right;
   if (y == null) {
     this.cmd("SetMessage", "Cannot rotate left at " + x.data + ": no right child");
     this.cmd("SetHighlight", x.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`cannot rotate left at ${x.data}`, {
+      focusNodeId: x.graphicID,
+      tags: ["rotate", "left", "invalid"]
+    });
     this.cmd("SetHighlight", x.graphicID, 0);
     return;
   }
@@ -8607,7 +10492,10 @@ BST.prototype.singleRotateLeft = function(x) {
   this.cmd("SetMessage", "Rotate left at " + x.data + ": pull up " + y.data);
   this.cmd("SetHighlight", x.graphicID, 1);
   this.cmd("SetHighlight", y.graphicID, 1);
-  this.cmd("Step");
+  this.markAnimationStep(`highlight ${x.data} and ${y.data}`, {
+    focusNodeId: x.graphicID,
+    tags: ["rotate", "left", "highlight"]
+  });
   if (B != null) {
     this.cmd(
       "SetMessage",
@@ -8615,7 +10503,10 @@ BST.prototype.singleRotateLeft = function(x) {
     );
     this.cmd("SetHighlight", B.graphicID, 1);
     this.cmd("SetEdgeHighlight", y.graphicID, B.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`move subtree ${B.data}`, {
+      focusNodeId: B.graphicID,
+      tags: ["rotate", "left", "subtree"]
+    });
     this.cmd("SetEdgeHighlight", y.graphicID, B.graphicID, 0);
     this.cmd("SetHighlight", B.graphicID, 0);
   }
@@ -8655,7 +10546,10 @@ BST.prototype.singleRotateRight = function(x) {
   if (y == null) {
     this.cmd("SetMessage", "Cannot rotate right at " + x.data + ": no left child");
     this.cmd("SetHighlight", x.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`cannot rotate right at ${x.data}`, {
+      focusNodeId: x.graphicID,
+      tags: ["rotate", "right", "invalid"]
+    });
     this.cmd("SetHighlight", x.graphicID, 0);
     return;
   }
@@ -8665,7 +10559,10 @@ BST.prototype.singleRotateRight = function(x) {
   this.cmd("SetMessage", "Rotate right at " + x.data + ": pull up " + y.data);
   this.cmd("SetHighlight", x.graphicID, 1);
   this.cmd("SetHighlight", y.graphicID, 1);
-  this.cmd("Step");
+  this.markAnimationStep(`highlight ${x.data} and ${y.data}`, {
+    focusNodeId: x.graphicID,
+    tags: ["rotate", "right", "highlight"]
+  });
   if (B != null) {
     this.cmd(
       "SetMessage",
@@ -8673,7 +10570,10 @@ BST.prototype.singleRotateRight = function(x) {
     );
     this.cmd("SetHighlight", B.graphicID, 1);
     this.cmd("SetEdgeHighlight", y.graphicID, B.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`move subtree ${B.data}`, {
+      focusNodeId: B.graphicID,
+      tags: ["rotate", "right", "subtree"]
+    });
     this.cmd("SetEdgeHighlight", y.graphicID, B.graphicID, 0);
     this.cmd("SetHighlight", B.graphicID, 0);
   }
@@ -8742,7 +10642,7 @@ BST.prototype.clearCallback = function(event) {
 BST.prototype.clearData = function() {
   if (this.treeRoot == null)
     return;
-  this.commands = new Array();
+  this.beginBSTAnimation("clear", "clear tree", { tags: ["clear"] });
   function clearTree(tree, handler) {
     if (tree != null) {
       if (tree.left != null) {
@@ -8758,7 +10658,7 @@ BST.prototype.clearData = function() {
   this.treeRoot = null;
   this.cmd("SetNull", this.rootIndex, 1);
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishBSTAnimation();
 };
 BST.prototype.insertRandomCallback = function(event) {
   var numToInsert = 10;
@@ -8771,44 +10671,61 @@ BST.prototype.insertRandomCallback = function(event) {
   this.animationManager.animatedObjects.draw();
 };
 BST.prototype.printTree = function(order) {
-  this.commands = [];
+  this.beginBSTAnimation("print", `print ${order} order`, {
+    tags: ["print", String(order).toLowerCase()]
+  });
   this.printOutput = "";
   if (this.treeRoot != null) {
     this.cmd("SetMessage", "Starting from root");
     this.cmd("SetHighlight", this.treeRoot.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep("visit root", {
+      focusNodeId: this.treeRoot.graphicID,
+      tags: ["print", "visit"]
+    });
     this.cmd("SetHighlight", this.treeRoot.graphicID, 0);
     this.printTreeRec(this.treeRoot, order);
     this.cmd("SetMessage", "Final output: " + this.printOutput);
   }
-  return this.commands;
+  return this.finishBSTAnimation();
 };
 BST.prototype.printLeft = function(tree, order) {
   if (tree.left != null) {
     this.cmd("SetMessage", tree.data + " has left child, visit it...");
     this.cmd("SetEdgeHighlight", tree.graphicID, tree.left.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`${tree.data}: go left`, {
+      focusNodeId: tree.graphicID,
+      tags: ["print", "traverse", "left"]
+    });
     this.cmd("SetHighlight", tree.graphicID, 0);
     this.cmd("SetEdgeHighlight", tree.graphicID, tree.left.graphicID, 0);
     this.printTreeRec(tree.left, order);
     this.cmd("SetHighlight", tree.graphicID, 1);
   } else {
     this.cmd("SetMessage", tree.data + " has no left child");
-    this.cmd("Step");
+    this.markAnimationStep(`${tree.data}: no left child`, {
+      focusNodeId: tree.graphicID,
+      tags: ["print", "leaf-check", "left"]
+    });
   }
 };
 BST.prototype.printRight = function(tree, order) {
   if (tree.right != null) {
     this.cmd("SetMessage", tree.data + " has right child, visit it...");
     this.cmd("SetEdgeHighlight", tree.graphicID, tree.right.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`${tree.data}: go right`, {
+      focusNodeId: tree.graphicID,
+      tags: ["print", "traverse", "right"]
+    });
     this.cmd("SetHighlight", tree.graphicID, 0);
     this.cmd("SetEdgeHighlight", tree.graphicID, tree.right.graphicID, 0);
     this.printTreeRec(tree.right, order);
     this.cmd("SetHighlight", tree.graphicID, 1);
   } else {
     this.cmd("SetMessage", tree.data + " has no right child");
-    this.cmd("Step");
+    this.markAnimationStep(`${tree.data}: no right child`, {
+      focusNodeId: tree.graphicID,
+      tags: ["print", "leaf-check", "right"]
+    });
   }
 };
 BST.prototype.printSelf = function(tree) {
@@ -8820,7 +10737,10 @@ BST.prototype.printSelf = function(tree) {
     "SetMessage",
     "Print " + tree.data + "\nCurrent output: " + this.printOutput
   );
-  this.cmd("Step");
+  this.markAnimationStep(`print ${tree.data}`, {
+    focusNodeId: tree.graphicID,
+    tags: ["print", "output"]
+  });
 };
 BST.prototype.printTreeRec = function(tree, order) {
   this.cmd("SetHighlight", tree.graphicID, 1);
@@ -8839,7 +10759,10 @@ BST.prototype.printTreeRec = function(tree, order) {
   }
   this.cmd("SetHighlight", tree.graphicID, 1);
   this.cmd("SetMessage", "Done with " + tree.data + " return to parent");
-  this.cmd("Step");
+  this.markAnimationStep(`finish ${tree.data}`, {
+    focusNodeId: tree.graphicID,
+    tags: ["print", "return"]
+  });
   this.cmd("SetHighlight", tree.graphicID, 0);
 };
 BST.prototype.findCallback = function(event) {
@@ -8849,12 +10772,14 @@ BST.prototype.findCallback = function(event) {
   this.implementAction(this.findElement.bind(this), findValue);
 };
 BST.prototype.findElement = function(findValue) {
-  this.commands = [];
+  this.beginBSTAnimation("find", `find ${findValue}`, {
+    tags: ["search", "find"]
+  });
   this.highlightID = this.nextIndex++;
   this.cmd("SetMessage", "Searching for " + findValue + "\nstarting from root");
-  this.cmd("Step");
+  this.markAnimationStep("start search", { tags: ["search", "start"] });
   this.findImpl(this.treeRoot, findValue);
-  return this.commands;
+  return this.finishBSTAnimation();
 };
 BST.prototype.findImpl = function(tree, value) {
   if (tree != null) {
@@ -8864,7 +10789,10 @@ BST.prototype.findImpl = function(tree, value) {
         "SetMessage",
         "Searching for " + value + " \n" + value + " = " + value + "\n(Element found!)"
       );
-      this.cmd("Step");
+      this.markAnimationStep(`found ${value}`, {
+        focusNodeId: tree.graphicID,
+        tags: ["search", "found"]
+      });
       this.cmd("SetMessage", "Found:" + value);
       this.cmd("SetHighlight", tree.graphicID, 0);
     } else {
@@ -8875,7 +10803,10 @@ BST.prototype.findImpl = function(tree, value) {
         );
         if (tree.left != null)
           this.cmd("SetEdgeHighlight", tree.graphicID, tree.left.graphicID, 1);
-        this.cmd("Step");
+        this.markAnimationStep(`${tree.data}: search left`, {
+          focusNodeId: tree.graphicID,
+          tags: ["search", "compare", "left"]
+        });
         if (tree.left != null)
           this.cmd("SetEdgeHighlight", tree.graphicID, tree.left.graphicID, 0);
         this.cmd("SetHighlight", tree.graphicID, 0);
@@ -8887,7 +10818,10 @@ BST.prototype.findImpl = function(tree, value) {
         );
         if (tree.right != null)
           this.cmd("SetEdgeHighlight", tree.graphicID, tree.right.graphicID, 1);
-        this.cmd("Step");
+        this.markAnimationStep(`${tree.data}: search right`, {
+          focusNodeId: tree.graphicID,
+          tags: ["search", "compare", "right"]
+        });
         if (tree.right != null)
           this.cmd("SetEdgeHighlight", tree.graphicID, tree.right.graphicID, 0);
         this.cmd("SetHighlight", tree.graphicID, 0);
@@ -8902,7 +10836,9 @@ BST.prototype.findImpl = function(tree, value) {
   }
 };
 BST.prototype.insertElement = function(insertedValue) {
-  this.commands = new Array();
+  this.beginBSTAnimation("insert", `insert ${insertedValue}`, {
+    tags: ["insert"]
+  });
   this.cmd("SetMessage", "Inserting " + insertedValue);
   if (this.treeRoot == null) {
     this.cmd(
@@ -8918,7 +10854,10 @@ BST.prototype.insertElement = function(insertedValue) {
       "SetMessage",
       `Root is null. Inserting ${insertedValue} as the root`
     );
-    this.cmd("Step");
+    this.markAnimationStep("create root", {
+      focusNodeId: this.nextIndex,
+      tags: ["insert", "root"]
+    });
     this.cmd("SetNull", this.rootIndex, 0);
     this.cmd("Connect", 0, this.nextIndex, BST.LINK_COLOR);
     this.treeRoot = new BSTNode(
@@ -8938,7 +10877,10 @@ BST.prototype.insertElement = function(insertedValue) {
     );
     this.cmd("SetForegroundColor", this.nextIndex, BST.FOREGROUND_COLOR);
     this.cmd("SetBackgroundColor", this.nextIndex, BST.BACKGROUND_COLOR);
-    this.cmd("Step");
+    this.markAnimationStep(`create node ${insertedValue}`, {
+      focusNodeId: this.nextIndex,
+      tags: ["insert", "create"]
+    });
     var insertElem = new BSTNode(insertedValue, this.nextIndex, 50, 100);
     this.nextIndex += 1;
     this.cmd("SetHighlight", insertElem.graphicID, 1);
@@ -8946,7 +10888,7 @@ BST.prototype.insertElement = function(insertedValue) {
     this.resizeTree();
   }
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishBSTAnimation();
 };
 BST.prototype.insert = function(elem, tree) {
   this.cmd("SetHighlight", tree.graphicID, 1);
@@ -8966,7 +10908,10 @@ BST.prototype.insert = function(elem, tree) {
     if (tree.right != null)
       this.cmd("SetEdgeHighlight", tree.graphicID, tree.right.graphicID, 1);
   }
-  this.cmd("Step");
+  this.markAnimationStep(`compare ${elem.data} with ${tree.data}`, {
+    focusNodeId: tree.graphicID,
+    tags: ["insert", "compare"]
+  });
   this.cmd("SetHighlight", tree.graphicID, 0);
   this.cmd("SetHighlight", elem.graphicID, 0);
   if (elem.data < tree.data) {
@@ -8999,13 +10944,15 @@ BST.prototype.insert = function(elem, tree) {
   }
 };
 BST.prototype.deleteElement = function(deletedValue) {
-  this.commands = [];
+  this.beginBSTAnimation("delete", `delete ${deletedValue}`, {
+    tags: ["delete"]
+  });
   this.cmd("SetMessage", "Deleting " + deletedValue);
-  this.cmd("Step");
+  this.markAnimationStep("start delete", { tags: ["delete", "start"] });
   this.cmd("SetMessage", "");
   this.treeDelete(this.treeRoot, deletedValue);
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishBSTAnimation();
 };
 BST.prototype.treeDelete = function(tree, valueToDelete) {
   var leftchild = false;
@@ -9034,7 +10981,10 @@ BST.prototype.treeDelete = function(tree, valueToDelete) {
         valueToDelete + " == " + tree.data + ".  Found node to delete"
       );
     }
-    this.cmd("Step");
+    this.markAnimationStep(`inspect ${tree.data}`, {
+      focusNodeId: tree.graphicID,
+      tags: ["delete", "inspect"]
+    });
     if (valueToDelete == tree.data) {
       if (tree.left == null && tree.right == null) {
         this.cmd("SetMessage", "Node to delete is a leaf.  Delete it.");
@@ -9049,7 +10999,10 @@ BST.prototype.treeDelete = function(tree, valueToDelete) {
           this.cmd("Disconnect", 0, tree.graphicID);
         }
         this.resizeTree();
-        this.cmd("Step");
+        this.markAnimationStep(`delete leaf ${tree.data}`, {
+          focusNodeId: tree.graphicID,
+          tags: ["delete", "leaf"]
+        });
       } else if (tree.left == null) {
         this.cmd(
           "SetMessage",
@@ -9063,7 +11016,10 @@ BST.prototype.treeDelete = function(tree, valueToDelete) {
             BST.LINK_COLOR
           );
           this.cmd("Disconnect", tree.parent.graphicID, tree.graphicID);
-          this.cmd("Step");
+          this.markAnimationStep(`replace ${tree.data} with right child`, {
+            focusNodeId: tree.graphicID,
+            tags: ["delete", "replace", "right-child"]
+          });
           this.cmd("Delete", tree.graphicID);
           if (leftchild) {
             tree.parent.left = tree.right;
@@ -9090,7 +11046,10 @@ BST.prototype.treeDelete = function(tree, valueToDelete) {
             BST.LINK_COLOR
           );
           this.cmd("Disconnect", tree.parent.graphicID, tree.graphicID);
-          this.cmd("Step");
+          this.markAnimationStep(`replace ${tree.data} with left child`, {
+            focusNodeId: tree.graphicID,
+            tags: ["delete", "replace", "left-child"]
+          });
           this.cmd("Delete", tree.graphicID);
           if (leftchild) {
             tree.parent.left = tree.left;
@@ -9109,7 +11068,10 @@ BST.prototype.treeDelete = function(tree, valueToDelete) {
           "SetMessage",
           "Node to delete has two childern.  \nFind smallest node in right subtree."
         );
-        this.cmd("Step");
+        this.markAnimationStep(`find successor for ${tree.data}`, {
+          focusNodeId: tree.graphicID,
+          tags: ["delete", "successor"]
+        });
         this.highlightID = this.nextIndex;
         this.nextIndex += 1;
         this.cmd(
@@ -9126,7 +11088,10 @@ BST.prototype.treeDelete = function(tree, valueToDelete) {
           "SetMessage",
           "Go to right subtree."
         );
-        this.cmd("Step");
+        this.markAnimationStep("move to right subtree", {
+          focusNodeId: tmp.graphicID,
+          tags: ["delete", "successor", "right"]
+        });
         while (tmp.left != null) {
           tmp = tmp.left;
           this.cmd(
@@ -9134,13 +11099,19 @@ BST.prototype.treeDelete = function(tree, valueToDelete) {
             "Move left to find smallest value."
           );
           this.cmd("Move", this.highlightID, tmp.x, tmp.y);
-          this.cmd("Step");
+          this.markAnimationStep("walk to leftmost node", {
+            focusNodeId: tmp.graphicID,
+            tags: ["delete", "successor", "left-walk"]
+          });
         }
         this.cmd(
           "SetMessage",
           "No left child found.  Smallest value is " + tmp.data + "."
         );
-        this.cmd("Step");
+        this.markAnimationStep(`found successor ${tmp.data}`, {
+          focusNodeId: tmp.graphicID,
+          tags: ["delete", "successor", "found"]
+        });
         this.cmd("SetText", tree.graphicID, " ");
         var labelID = this.nextIndex;
         this.nextIndex += 1;
@@ -9151,7 +11122,10 @@ BST.prototype.treeDelete = function(tree, valueToDelete) {
           "SetMessage",
           "Copy smallest value of right subtree over value being removed."
         );
-        this.cmd("Step");
+        this.markAnimationStep(`copy successor ${tmp.data}`, {
+          focusNodeId: tree.graphicID,
+          tags: ["delete", "successor", "copy"]
+        });
         this.cmd("SetHighlight", tree.graphicID, 0);
         this.cmd("Delete", labelID);
         this.cmd("SetText", tree.graphicID, tree.data);
@@ -9160,7 +11134,10 @@ BST.prototype.treeDelete = function(tree, valueToDelete) {
           "SetMessage",
           "Now remove the value we copied. Call remove with that value on the right subtree."
         );
-        this.cmd("Step");
+        this.markAnimationStep(`remove successor ${tmp.data}`, {
+          focusNodeId: tmp.graphicID,
+          tags: ["delete", "successor", "remove"]
+        });
         this.treeDelete(tree.right, tree.data);
       }
     } else if (valueToDelete < tree.data) {
@@ -9179,15 +11156,25 @@ BST.prototype.treeDelete = function(tree, valueToDelete) {
       "SetMessage",
       "Elemet " + valueToDelete + " not found, could not delete"
     );
+    this.markAnimationStep("value not found", { tags: ["delete", "not-found"] });
   }
+};
+BST.prototype.describe = function() {
+  return describeBinaryTree(this.treeRoot);
+};
+BST.prototype.describeFromState = function(state) {
+  return describeBinaryTreeFromState(state, this.rootIndex, {
+    classifySingleChild: classifySingleReplayChildByValue,
+    sortChildren: compareReplayObjectsByValue
+  });
 };
 BST.prototype.resizeTree = function() {
   var startingPoint = this.startingX;
   this.resizeWidths(this.treeRoot);
   if (this.treeRoot != null) {
     this.setNewPositions(this.treeRoot, startingPoint, BST.STARTING_Y, 0);
+    this.markAnimationStep("resize tree", { tags: ["layout", "resize"] });
     this.animateNewPositions(this.treeRoot);
-    this.cmd("Step");
   }
 };
 BST.prototype.setNewPositions = function(tree, xPosition, yPosition, side) {
@@ -9340,6 +11327,34 @@ BSTCopy.prototype.init = function(am, w2, h) {
   this.animationManager.skipForward();
   this.animationManager.clearHistory();
 };
+BSTCopy.prototype.beginBSTCopyAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "BSTCopy", operation, ...meta });
+};
+BSTCopy.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "BSTCopy",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+BSTCopy.prototype.finishBSTCopyAnimation = function() {
+  return this.finishAnimation();
+};
+BSTCopy.prototype.describe = function() {
+  return describeBinaryTree(this.treeRoot);
+};
+BSTCopy.prototype.describeFromState = function(state) {
+  return describeBinaryTreeFromState(state, this.rootIndex, {
+    classifySingleChild: classifySingleReplayChildByValue,
+    sortChildren: compareReplayObjectsByValue
+  });
+};
 BSTCopy.prototype.addControls = function() {
   addSeparatorToAlgorithmBar();
   this.copyButton = addControlToAlgorithmBar("Button", "Copy");
@@ -9349,25 +11364,35 @@ BSTCopy.prototype.copyCallback = function() {
   this.implementAction(this.copyTree.bind(this), "");
 };
 BSTCopy.prototype.copyTree = function() {
-  this.commands = [];
+  this.beginBSTCopyAnimation("copy", "copy tree", {
+    tags: ["copy"]
+  });
   if (this.treeRoot == null) {
     this.cmd("SetMessage", "Source tree is empty; nothing to copy.");
-    this.cmd("Step");
+    this.markAnimationStep("source tree empty", {
+      tags: ["copy", "empty"]
+    });
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishBSTCopyAnimation();
   }
   if (this.rootCopy != null) {
     this.clearCopyOnly();
   }
   this.sourceToCopyID = /* @__PURE__ */ new Map();
   this.cmd("SetMessage", "Preorder traversal: copy each visited node into the new tree.");
-  this.cmd("Step");
+  this.markAnimationStep("start preorder copy", {
+    focusNodeId: this.treeRoot.graphicID,
+    tags: ["copy", "preorder"]
+  });
   this.rootCopy = null;
   const builtRoot = this.copyTreeRec(this.treeRoot, null, false);
   this.rootCopy = builtRoot;
   if (this.rootCopy != null) {
     this.cmd("SetNull", this.rootCopyIndex, 0);
-    this.cmd("Step");
+    this.markAnimationStep("prepare rootCopy pointer", {
+      focusNodeId: this.rootCopy.graphicID,
+      tags: ["copy", "root"]
+    });
     this.cmd(
       "Connect",
       this.rootCopyIndex,
@@ -9375,14 +11400,17 @@ BSTCopy.prototype.copyTree = function() {
       BSTCopy.LINK_COLOR
     );
     this.cmd("SetMessage", "Set rootCopy pointer.");
-    this.cmd("Step");
+    this.markAnimationStep("set rootCopy pointer", {
+      focusNodeId: this.rootCopy.graphicID,
+      tags: ["copy", "root", "pointer"]
+    });
   }
   this.cmd("SetMessage", "Copy complete.");
   this.copyDone = true;
   if (this.copyButton) {
     this.copyButton.disabled = true;
   }
-  return this.commands;
+  return this.finishBSTCopyAnimation();
 };
 BSTCopy.prototype.setSourceAndCopyHighlight = function(sourceNode, highlight) {
   this.cmd("SetHighlight", sourceNode.graphicID, highlight);
@@ -9409,7 +11437,10 @@ BSTCopy.prototype.copyTreeRec = function(sourceNode, parentCopyNode, isLeftChild
   copyNode.y = sourceNode.y;
   this.cmd("Move", copyNode.graphicID, copyNode.x, copyNode.y);
   this.cmd("SetHighlight", copyNode.graphicID, 1);
-  this.cmd("Step");
+  this.markAnimationStep(`copy node ${sourceNode.data}`, {
+    focusNodeId: sourceNode.graphicID,
+    tags: ["copy", "node"]
+  });
   this.setSourceAndCopyHighlight(sourceNode, 0);
   if (this.rootCopy == null) {
     this.rootCopy = copyNode;
@@ -9441,10 +11472,16 @@ BSTCopy.prototype.copyTreeRec = function(sourceNode, parentCopyNode, isLeftChild
       `Returned from copying left child of ${copyNode.data}. Set left pointer to returned node.`
     );
     this.cmd("SetHighlight", copyNode.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`attach left child of ${copyNode.data}`, {
+      focusNodeId: copyNode.graphicID,
+      tags: ["copy", "attach", "left"]
+    });
     this.cmd("SetHighlight", copyNode.graphicID, 0);
     this.cmd("SetEdgeAlpha", copyNode.graphicID, leftCopy.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`reveal left edge of ${copyNode.data}`, {
+      focusNodeId: copyNode.graphicID,
+      tags: ["copy", "edge", "left"]
+    });
   }
   const rightCopy = this.copyTreeRec(sourceNode.right, copyNode, false);
   if (rightCopy != null) {
@@ -9453,7 +11490,10 @@ BSTCopy.prototype.copyTreeRec = function(sourceNode, parentCopyNode, isLeftChild
       `Returned from copying right child of ${copyNode.data}. Set right pointer to returned node.`
     );
     this.cmd("SetHighlight", copyNode.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`attach right child of ${copyNode.data}`, {
+      focusNodeId: copyNode.graphicID,
+      tags: ["copy", "attach", "right"]
+    });
     this.cmd("SetHighlight", copyNode.graphicID, 0);
   }
   return copyNode;
@@ -9477,7 +11517,9 @@ BSTCopy.prototype.clearCopyOnly = function() {
   this.sourceToCopyID = /* @__PURE__ */ new Map();
 };
 BSTCopy.prototype.insertElement = function(insertedValue) {
-  this.commands = [];
+  this.beginBSTCopyAnimation("insert", `insert ${insertedValue}`, {
+    tags: ["insert"]
+  });
   if (this.treeRoot == null) {
     this.cmd("CreateCircle", this.nextIndex, insertedValue, this.startingX, BSTCopy.STARTING_Y);
     this.cmd("SetForegroundColor", this.nextIndex, BSTCopy.FOREGROUND_COLOR);
@@ -9486,18 +11528,25 @@ BSTCopy.prototype.insertElement = function(insertedValue) {
     this.cmd("Connect", this.rootIndex, this.nextIndex, BSTCopy.LINK_COLOR);
     this.treeRoot = new BSTCopyNode(insertedValue, this.nextIndex, this.startingX, BSTCopy.STARTING_Y);
     this.nextIndex += 1;
+    this.markAnimationStep("create source root", {
+      focusNodeId: this.treeRoot.graphicID,
+      tags: ["insert", "root"]
+    });
   } else {
     this.cmd("CreateCircle", this.nextIndex, insertedValue, this.startingX - 200, BSTCopy.STARTING_Y);
     this.cmd("SetForegroundColor", this.nextIndex, BSTCopy.FOREGROUND_COLOR);
     this.cmd("SetBackgroundColor", this.nextIndex, BSTCopy.BACKGROUND_COLOR);
-    this.cmd("Step");
+    this.markAnimationStep(`create source node ${insertedValue}`, {
+      focusNodeId: this.nextIndex,
+      tags: ["insert", "create"]
+    });
     const insertElem = new BSTCopyNode(insertedValue, this.nextIndex, this.startingX - 200, BSTCopy.STARTING_Y);
     this.nextIndex += 1;
     this.insert(insertElem, this.treeRoot);
     this.resizeTree();
   }
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishBSTCopyAnimation();
 };
 BSTCopy.prototype.insert = function(elem, tree) {
   if (elem.data < tree.data) {
@@ -9532,7 +11581,11 @@ BSTCopy.prototype.resizeTree = function() {
     }
     this.setNewPositions(this.treeRoot, startingPoint, BSTCopy.STARTING_Y, 0);
     this.animateNewPositions(this.treeRoot);
-    this.cmd("Step");
+    if (this.pendingBlock) {
+      this.markAnimationStep("resize source tree", {
+        tags: ["layout", "resize", "source"]
+      });
+    }
   }
 };
 BSTCopy.prototype.resizeCopyTree = function() {
@@ -9693,6 +11746,73 @@ BSTIterator.prototype.init = function(am, w2, h) {
   this.animationManager.skipForward();
   this.animationManager.clearHistory();
 };
+BSTIterator.prototype.beginBSTIteratorAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "BSTIterator", operation, ...meta });
+};
+BSTIterator.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "BSTIterator",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+BSTIterator.prototype.finishBSTIteratorAnimation = function() {
+  return this.finishAnimation();
+};
+BSTIterator.prototype.describe = function() {
+  const sections = [];
+  sections.push(describeBinaryTree(this.treeRoot));
+  if (this.iteratorStack.length === 0) {
+    sections.push("IteratorStack is empty.");
+  } else {
+    const stackValues = this.iteratorStack.map((item) => String(item.node.data));
+    sections.push(
+      `IteratorStack from bottom to top is ${stackValues.join(", ")}.`
+    );
+  }
+  if (this.iteratorStack.length > 0) {
+    const highlighted = this.iteratorStack[this.iteratorStack.length - 1].node.data;
+    sections.push(`Highlighted node is ${highlighted}.`);
+  } else {
+    sections.push("No node is highlighted.");
+  }
+  if (this.iteratorCurrentNode != null) {
+    sections.push(`Iterator current node is ${this.iteratorCurrentNode.data}.`);
+  }
+  return sections.join(" ");
+};
+BSTIterator.prototype.describeFromState = function(state) {
+  const sections = [];
+  sections.push(
+    describeBinaryTreeFromState(state, this.rootIndex, {
+      classifySingleChild: classifySingleReplayChildByValue,
+      sortChildren: compareReplayObjectsByValue
+    })
+  );
+  const stackLabels = [...state.objects.values()].filter(
+    (object) => object.kind === "label" && object.id !== this.stackTitleID && object.x === BSTIterator.STACK_X && (object.y ?? -1) >= BSTIterator.STACK_Y && object.alpha !== 0 && (getReplayObjectText(object) ?? "") !== ""
+  ).sort((a, b) => (a.y ?? 0) - (b.y ?? 0));
+  if (stackLabels.length === 0) {
+    sections.push("IteratorStack is empty.");
+  } else {
+    sections.push(
+      `IteratorStack from bottom to top is ${stackLabels.map((object) => getReplayObjectText(object)).join(", ")}.`
+    );
+  }
+  const highlighted = [...state.objects.values()].filter((object) => object.kind === "circle" && object.highlighted).sort((a, b) => (a.y ?? 0) - (b.y ?? 0) || (a.x ?? 0) - (b.x ?? 0))[0];
+  if (highlighted) {
+    sections.push(`Highlighted node is ${getReplayObjectText(highlighted)}.`);
+  } else {
+    sections.push("No node is highlighted.");
+  }
+  return sections.join(" ");
+};
 BSTIterator.prototype.addControls = function() {
   addSeparatorToAlgorithmBar();
   this.makeIteratorButton = addControlToAlgorithmBar("Button", "Make Iterator");
@@ -9767,7 +11887,10 @@ BSTIterator.prototype.pushIterator = function(node) {
     "SetMessage",
     `push ${node.data} onto iterator stack`
   );
-  this.cmd("Step");
+  this.markAnimationStep(`push ${node.data}`, {
+    focusNodeId: node.graphicID,
+    tags: ["iterator", "push"]
+  });
   this.cmd("SetHighlight", node.graphicID, 0);
 };
 BSTIterator.prototype.popIterator = function() {
@@ -9775,7 +11898,10 @@ BSTIterator.prototype.popIterator = function() {
   if (!item)
     return null;
   this.cmd("SetMessage", `Done at ${item.node.data}, pop from iterator stack`);
-  this.cmd("Step");
+  this.markAnimationStep(`pop ${item.node.data}`, {
+    focusNodeId: item.node.graphicID,
+    tags: ["iterator", "pop"]
+  });
   this.cmd("SetHighlight", item.node.graphicID, 0);
   this.cmd("SetText", item.labelID, "");
   this.cmd("SetAlpha", item.labelID, 0);
@@ -9783,18 +11909,25 @@ BSTIterator.prototype.popIterator = function() {
   return item.node;
 };
 BSTIterator.prototype.makeIterator = function() {
-  this.commands = [];
+  this.beginBSTIteratorAnimation("makeIterator", "make iterator", {
+    tags: ["iterator", "create"]
+  });
   if (this.treeRoot == null) {
     this.cmd("SetMessage", "Tree is empty; cannot create iterator.");
-    this.cmd("Step");
-    return this.commands;
+    this.markAnimationStep("tree empty", {
+      tags: ["iterator", "empty"]
+    });
+    return this.finishBSTIteratorAnimation();
   }
   this.clearIterator();
   this.cmd(
     "SetMessage",
     "Create iterator: push root onto stack, then walk left pushing each node."
   );
-  this.cmd("Step");
+  this.markAnimationStep("start iterator setup", {
+    focusNodeId: this.treeRoot.graphicID,
+    tags: ["iterator", "setup"]
+  });
   let current = this.treeRoot;
   this.pushIterator(current);
   while (current.left != null) {
@@ -9804,7 +11937,10 @@ BSTIterator.prototype.makeIterator = function() {
     );
     this.cmd("SetHighlight", current.graphicID, 1);
     this.cmd("SetEdgeHighlight", current.graphicID, current.left.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`walk left from ${current.data}`, {
+      focusNodeId: current.left.graphicID,
+      tags: ["iterator", "walk-left"]
+    });
     this.cmd("SetEdgeHighlight", current.graphicID, current.left.graphicID, 0);
     this.cmd("SetHighlight", current.graphicID, 0);
     current = current.left;
@@ -9812,36 +11948,54 @@ BSTIterator.prototype.makeIterator = function() {
   }
   this.iteratorReady = true;
   this.syncControlState();
+  this.beginBlock("iterator ready", {
+    source: "BSTIterator",
+    operation: this.currentAnimationOperation,
+    focusNodeId: current.graphicID,
+    tags: ["iterator", "ready"]
+  });
   this.cmd("SetHighlight", current.graphicID, 1);
   this.cmd("SetMessage", "No more left children; iterator ready.");
-  return this.commands;
+  return this.finishBSTIteratorAnimation();
 };
 BSTIterator.prototype.advanceIterator = function() {
-  this.commands = [];
+  this.beginBSTIteratorAnimation("advanceIterator", "advance iterator", {
+    tags: ["iterator", "advance"]
+  });
   if (!this.iteratorReady) {
     this.cmd("SetMessage", "Iterator not created yet. Click 'Make Iterator'.");
-    this.cmd("Step");
+    this.markAnimationStep("iterator not ready", {
+      tags: ["iterator", "invalid"]
+    });
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishBSTIteratorAnimation();
   }
   if (this.iteratorStack.length === 0) {
     this.cmd("SetMessage", "Iterator finished (stack is empty).");
     this.advanceIteratorButton.disabled = true;
-    this.cmd("Step");
+    this.markAnimationStep("iterator already finished", {
+      tags: ["iterator", "finished"]
+    });
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishBSTIteratorAnimation();
   }
   const current = this.popIterator();
   if (current == null) {
     this.cmd("SetMessage", "Iterator finished.");
     this.syncControlState();
-    return this.commands;
+    return this.finishBSTIteratorAnimation();
   }
   if (this.iteratorCurrentNode != null) {
     this.cmd("SetHighlight", this.iteratorCurrentNode.graphicID, 0);
   }
   this.iteratorCurrentNode = current;
-  this.cmd("Step");
+  this.beginBlock(`return ${current.data}`, {
+    source: "BSTIterator",
+    operation: this.currentAnimationOperation,
+    focusNodeId: current.graphicID,
+    tags: ["iterator", "return"]
+  });
+  this.cmd("SetMessage", `Return ${current.data} from iterator.`);
   if (current.right != null) {
     let walk = current.right;
     this.cmd(
@@ -9849,7 +12003,10 @@ BSTIterator.prototype.advanceIterator = function() {
       `Popped node has right child; set current = right (${current.data} -> ${walk.data})`
     );
     this.cmd("SetEdgeHighlight", current.graphicID, current.right.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`move to right child of ${current.data}`, {
+      focusNodeId: current.right.graphicID,
+      tags: ["iterator", "right-child"]
+    });
     this.cmd("SetEdgeHighlight", current.graphicID, current.right.graphicID, 0);
     this.pushIterator(walk);
     while (walk.left != null) {
@@ -9859,7 +12016,10 @@ BSTIterator.prototype.advanceIterator = function() {
       );
       this.cmd("SetHighlight", walk.graphicID, 1);
       this.cmd("SetEdgeHighlight", walk.graphicID, walk.left.graphicID, 1);
-      this.cmd("Step");
+      this.markAnimationStep(`walk left from ${walk.data}`, {
+        focusNodeId: walk.left.graphicID,
+        tags: ["iterator", "walk-left"]
+      });
       this.cmd("SetEdgeHighlight", walk.graphicID, walk.left.graphicID, 0);
       this.cmd("SetHighlight", walk.graphicID, 0);
       walk = walk.left;
@@ -9867,23 +12027,41 @@ BSTIterator.prototype.advanceIterator = function() {
     }
     this.cmd("SetEdgeHighlight", current.graphicID, current.right.graphicID, 0);
   } else {
+    this.beginBlock(`no right child for ${current.data}`, {
+      source: "BSTIterator",
+      operation: this.currentAnimationOperation,
+      focusNodeId: current.graphicID,
+      tags: ["iterator", "no-right-child"]
+    });
     this.cmd(
       "SetMessage",
       `Popped node has no right child. Nothing to do.`
     );
-    this.cmd("Step");
   }
   this.syncControlState();
   if (this.iteratorStack.length === 0) {
+    this.beginBlock("iterator finished", {
+      source: "BSTIterator",
+      operation: this.currentAnimationOperation,
+      tags: ["iterator", "finished"]
+    });
     this.cmd("SetMessage", "Iterator is now finished (stack is empty).");
   } else {
+    this.beginBlock("iterator advanced", {
+      source: "BSTIterator",
+      operation: this.currentAnimationOperation,
+      focusNodeId: this.iteratorStack[this.iteratorStack.length - 1].node.graphicID,
+      tags: ["iterator", "advanced"]
+    });
     this.cmd("SetHighlight", this.iteratorStack[this.iteratorStack.length - 1].node.graphicID, 1);
     this.cmd("SetMessage", "Iterator advanced.");
   }
-  return this.commands;
+  return this.finishBSTIteratorAnimation();
 };
 BSTIterator.prototype.insertElement = function(insertedValue) {
-  this.commands = [];
+  this.beginBSTIteratorAnimation("insert", `insert ${insertedValue}`, {
+    tags: ["insert"]
+  });
   const nodeID = this.nextIndex++;
   const newNode = new BSTIteratorNode(insertedValue, nodeID, 100, 100);
   this.cmd(
@@ -9899,12 +12077,15 @@ BSTIterator.prototype.insertElement = function(insertedValue) {
     this.treeRoot = newNode;
     this.cmd("SetNull", this.rootIndex, 0);
     this.cmd("Connect", this.rootIndex, newNode.graphicID, BSTIterator.LINK_COLOR);
+    this.markAnimationStep("create root", {
+      focusNodeId: newNode.graphicID,
+      tags: ["insert", "root"]
+    });
   } else {
     this.insert(newNode, this.treeRoot);
   }
   this.resizeTree();
-  this.cmd("Step");
-  return this.commands;
+  return this.finishBSTIteratorAnimation();
 };
 BSTIterator.prototype.insert = function(elem, tree) {
   this.cmd("SetHighlight", tree.graphicID, 1);
@@ -9953,7 +12134,11 @@ BSTIterator.prototype.resizeTree = function() {
   if (this.treeRoot != null) {
     this.setNewPositions(this.treeRoot, startingPoint, BSTIterator.STARTING_Y, 0);
     this.animateNewPositions(this.treeRoot);
-    this.cmd("Step");
+    if (this.pendingBlock) {
+      this.markAnimationStep("resize tree", {
+        tags: ["layout", "resize"]
+      });
+    }
   }
 };
 BSTIterator.prototype.setNewPositions = function(tree, xPosition, yPosition, side) {
@@ -10056,7 +12241,7 @@ BTree.superclass = Algorithm.prototype;
 BTree.prototype.init = function(am, w2, h) {
   BTree.superclass.init.call(this, am, w2, h);
   this.nextIndex = 0;
-  this.starting_x = 100;
+  this.starting_x = 300;
   this.addControls();
   this.min_keys = 1;
   this.split_index = 1;
@@ -10087,6 +12272,25 @@ BTree.prototype.init = function(am, w2, h) {
     this.animationManager.animatedObjects.draw();
   };
 };
+BTree.prototype.beginBTreeAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "BTree", operation, ...meta });
+};
+BTree.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "BTree",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+BTree.prototype.finishBTreeAnimation = function() {
+  return this.finishAnimation();
+};
 BTree.prototype.addControls = function() {
   addSeparatorToAlgorithmBar();
   this.controls = [];
@@ -10112,7 +12316,7 @@ BTree.prototype.addControls = function() {
   this.clearButton = addControlToAlgorithmBar("Button", "Clear");
   this.clearButton.onclick = this.clearCallback.bind(this);
   this.controls.push(this.clearButton);
-  this.insertRandomButton = addControlToAlgorithmBar("Button", "Insert Random Values");
+  this.insertRandomButton = addControlToAlgorithmBar("Button", "Add Random Values");
   this.insertRandomButton.onclick = this.insertRandomCallback.bind(this);
   this.controls.push(this.insertRandomButton);
   addSeparatorToAlgorithmBar();
@@ -10218,17 +12422,23 @@ BTree.prototype.printCallback = function(event) {
   this.implementAction(this.printTree.bind(this), "");
 };
 BTree.prototype.printTree = function(unused) {
-  this.commands = new Array();
+  this.beginBTreeAnimation("print", "print tree", {
+    tags: ["print"]
+  });
   this.cmd("SetMessage", "Printing tree");
   var firstLabel = this.nextIndex;
   this.xPosOfNextLabel = FIRST_PRINT_POS_X;
   this.yPosOfNextLabel = this.first_print_pos_y;
   this.printMessage = "";
   this.printTreeRec(this.treeRoot);
+  this.beginBlock("final print output", {
+    source: "BTree",
+    operation: this.currentAnimationOperation,
+    tags: ["print", "complete"]
+  });
   this.cmd("SetMessage", `At end of root node. Final output:
 ${this.printMessage}`);
-  this.cmd("Step");
-  return this.commands;
+  return this.finishBTreeAnimation();
 };
 BTree.prototype.printTreeRec = function(tree) {
   this.cmd("SetHighlight", tree.graphicID, 1);
@@ -10239,13 +12449,19 @@ BTree.prototype.printTreeRec = function(tree) {
     }
     this.cmd("SetMessage", `In leaf. Print all values. Output is:
 ${this.printMessage}`);
-    this.cmd("Step");
+    this.markAnimationStep(`print leaf ${tree.graphicID}`, {
+      focusNodeId: tree.graphicID,
+      tags: ["print", "leaf"]
+    });
     this.cmd("SetHighlight", tree.graphicID, 0);
     this.cmd("SetMessage", `Return to parent.`);
   } else {
     this.cmd("SetMessage", `Descend to leftmost child.`);
     this.cmd("SetEdgeHighlight", tree.graphicID, tree.children[0].graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`descend leftmost from ${tree.graphicID}`, {
+      focusNodeId: tree.children[0].graphicID,
+      tags: ["print", "descend"]
+    });
     this.cmd("SetHighlight", tree.graphicID, 0);
     this.cmd("SetEdgeHighlight", tree.graphicID, tree.children[0].graphicID, 0);
     this.printTreeRec(tree.children[0]);
@@ -10254,7 +12470,10 @@ ${this.printMessage}`);
       this.printMessage += tree.keys[i] + " ";
       this.cmd("SetMessage", `Print next value in node (${tree.keys[i]}). Output is:
 ${this.printMessage}`);
-      this.cmd("Step");
+      this.markAnimationStep(`print key ${tree.keys[i]}`, {
+        focusNodeId: tree.graphicID,
+        tags: ["print", "output"]
+      });
       this.cmd("SetMessage", `Descend to next child.`);
       this.cmd(
         "SetEdgeHighlight",
@@ -10262,7 +12481,10 @@ ${this.printMessage}`);
         tree.children[i + 1].graphicID,
         1
       );
-      this.cmd("Step");
+      this.markAnimationStep(`descend child ${i + 1} from ${tree.graphicID}`, {
+        focusNodeId: tree.children[i + 1].graphicID,
+        tags: ["print", "descend"]
+      });
       this.cmd("SetHighlight", tree.graphicID, 0);
       this.cmd(
         "SetEdgeHighlight",
@@ -10273,7 +12495,10 @@ ${this.printMessage}`);
       this.printTreeRec(tree.children[i + 1]);
     }
     this.cmd("SetHighlight", tree.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`finish node ${tree.graphicID}`, {
+      focusNodeId: tree.graphicID,
+      tags: ["print", "return"]
+    });
     this.cmd("SetHighlight", tree.graphicID, 0);
   }
 };
@@ -10322,15 +12547,22 @@ BTree.prototype.findCallback = function(event) {
   this.implementAction(this.findElement.bind(this), findValue);
 };
 BTree.prototype.findElement = function(findValue) {
-  this.commands = new Array();
+  this.beginBTreeAnimation("find", `find ${findValue}`, {
+    tags: ["search", "find"]
+  });
   this.cmd("SetMessage", "Finding " + findValue);
   this.findInTree(this.treeRoot, findValue);
-  return this.commands;
+  return this.finishBTreeAnimation();
 };
 BTree.prototype.findInTree = function(tree, val) {
   if (tree != null) {
+    this.beginBlock(`inspect node ${tree.graphicID}`, {
+      source: "BTree",
+      operation: this.currentAnimationOperation,
+      focusNodeId: tree.graphicID,
+      tags: ["search", "inspect"]
+    });
     this.cmd("SetHighlight", tree.graphicID, 1);
-    this.cmd("Step");
     var i;
     for (i = 0; i < tree.numKeys && tree.keys[i] < val; i++)
       ;
@@ -10343,7 +12575,10 @@ BTree.prototype.findInTree = function(tree, val) {
           tree.children[tree.numKeys].graphicID,
           1
         );
-        this.cmd("Step");
+        this.markAnimationStep(`descend right from ${tree.graphicID}`, {
+          focusNodeId: tree.children[tree.numKeys].graphicID,
+          tags: ["search", "descend", "right"]
+        });
         this.cmd("SetMessage", `Search for ${val} in rightmost child.`);
         this.cmd("SetHighlight", tree.graphicID, 0);
         this.cmd(
@@ -10354,6 +12589,12 @@ BTree.prototype.findInTree = function(tree, val) {
         );
         this.findInTree(tree.children[tree.numKeys], val);
       } else {
+        this.beginBlock(`value ${val} not found`, {
+          source: "BTree",
+          operation: this.currentAnimationOperation,
+          focusNodeId: tree.graphicID,
+          tags: ["search", "not-found"]
+        });
         this.cmd("SetHighlight", tree.graphicID, 0);
         this.cmd(
           "SetMessage",
@@ -10373,7 +12614,10 @@ BTree.prototype.findInTree = function(tree, val) {
           tree.children[i].graphicID,
           1
         );
-        this.cmd("Step");
+        this.markAnimationStep(`descend child ${i} from ${tree.graphicID}`, {
+          focusNodeId: tree.children[i].graphicID,
+          tags: ["search", "descend", "left"]
+        });
         if (i == 0)
           this.cmd("SetMessage", `Search leftmost child for ${val}`);
         else
@@ -10387,6 +12631,12 @@ BTree.prototype.findInTree = function(tree, val) {
         );
         this.findInTree(tree.children[i], val);
       } else {
+        this.beginBlock(`value ${val} not found`, {
+          source: "BTree",
+          operation: this.currentAnimationOperation,
+          focusNodeId: tree.graphicID,
+          tags: ["search", "not-found"]
+        });
         this.cmd("SetHighlight", tree.graphicID, 0);
         this.cmd(
           "SetMessage",
@@ -10394,14 +12644,23 @@ BTree.prototype.findInTree = function(tree, val) {
         );
       }
     } else {
+      this.beginBlock(`found ${val}`, {
+        source: "BTree",
+        operation: this.currentAnimationOperation,
+        focusNodeId: tree.graphicID,
+        tags: ["search", "found"]
+      });
       this.cmd("SetTextColor", tree.graphicID, Colors.HIGHLIGHT, i);
       this.cmd("SetMessage", "Element " + val + " found");
-      this.cmd("Step");
       this.cmd("SetTextColor", tree.graphicID, Colors.BASE, i);
       this.cmd("SetHighlight", tree.graphicID, 0);
-      this.cmd("Step");
     }
   } else {
+    this.beginBlock(`value ${val} not found`, {
+      source: "BTree",
+      operation: this.currentAnimationOperation,
+      tags: ["search", "not-found"]
+    });
     this.cmd(
       "SetMessage",
       "Element " + val + " is not in the tree"
@@ -10409,9 +12668,13 @@ BTree.prototype.findInTree = function(tree, val) {
   }
 };
 BTree.prototype.insertElement = function(insertedValue) {
-  this.commands = new Array();
+  this.beginBTreeAnimation("insert", `insert ${insertedValue}`, {
+    tags: ["insert"]
+  });
   this.cmd("SetMessage", "Inserting " + insertedValue + ". Start from root.");
-  this.cmd("Step");
+  this.markAnimationStep(`start insert ${insertedValue}`, {
+    tags: ["insert", "start"]
+  });
   if (this.treeRoot == null) {
     this.treeRoot = new BTreeNode(
       this.nextIndex++,
@@ -10432,7 +12695,10 @@ BTree.prototype.insertElement = function(insertedValue) {
     this.treeRoot.keys[0] = insertedValue;
     this.cmd("SetText", this.treeRoot.graphicID, insertedValue, 0);
     this.cmd("SetMessage", "Root is null, create node and add value.");
-    this.cmd("Step");
+    this.markAnimationStep("create root", {
+      focusNodeId: this.treeRoot.graphicID,
+      tags: ["insert", "root"]
+    });
   } else {
     if (this.preemptiveSplit) {
       if (this.treeRoot.numKeys == this.max_keys) {
@@ -10457,7 +12723,7 @@ BTree.prototype.insertElement = function(insertedValue) {
     }
   }
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishBTreeAnimation();
 };
 BTree.prototype.insertNotFull = function(tree, insertValue) {
   this.cmd("SetHighlight", tree.graphicID, 1);
@@ -11447,7 +13713,28 @@ BTree.prototype.repairAfterDelete = function(tree) {
 BTree.prototype.getLabelX = function(tree, index) {
   return tree.x - WIDTH_PER_ELEM * tree.numKeys / 2 + WIDTH_PER_ELEM / 2 + index * WIDTH_PER_ELEM;
 };
+BTree.prototype.describe = function() {
+  return describeMultiwayTree(this.treeRoot, {
+    getKeys(node) {
+      return node.keys.slice(0, node.numKeys);
+    },
+    getChildren(node) {
+      return node.children.slice(0, node.numKeys + 1).filter(Boolean);
+    },
+    isLeaf(node) {
+      return node.isLeaf;
+    }
+  });
+};
+BTree.prototype.describeFromState = function(state) {
+  return describeMultiwayTreeFromState(state);
+};
 BTree.prototype.resizeTree = function() {
+  if (this.pendingBlock) {
+    this.markAnimationStep("resize tree", {
+      tags: ["layout", "resize"]
+    });
+  }
   this.resizeWidths(this.treeRoot);
   this.setNewPositions(this.treeRoot, this.starting_x, STARTING_Y);
   this.animateNewPositions(this.treeRoot);
@@ -12095,6 +14382,59 @@ ClosedHash.prototype.init = function(am, w2, h) {
   this.hasGrown = false;
   this.setup();
 };
+ClosedHash.prototype.beginClosedHashAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "ClosedHash", operation, ...meta });
+};
+ClosedHash.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "ClosedHash",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+ClosedHash.prototype.finishClosedHashAnimation = function() {
+  return this.finishAnimation();
+};
+ClosedHash.prototype.describe = function() {
+  const strategyByName = {
+    linear: "linear probing",
+    quadratic: "quadratic probing",
+    double: "double hashing"
+  };
+  const strategyName = strategyByName[this.currentHashingTypeButtonState?.name] || "linear probing";
+  const slots = [];
+  for (let i = 0; i < this.table_size; i++) {
+    if (this.deleted[i]) {
+      slots.push("<deleted>");
+    } else if (this.empty[i]) {
+      slots.push(null);
+    } else {
+      slots.push(this.hashTableValues[i]);
+    }
+  }
+  return describeClosedHashTable(slots, {
+    tableSize: this.table_size,
+    collisionStrategy: strategyName
+  });
+};
+ClosedHash.prototype.describeFromState = function(state) {
+  const strategyByName = {
+    linear: "linear probing",
+    quadratic: "quadratic probing",
+    double: "double hashing"
+  };
+  const strategyName = strategyByName[this.currentHashingTypeButtonState?.name] || "linear probing";
+  return describeClosedHashTableFromState(state, this.hashTableVisual, {
+    tableSize: this.table_size,
+    collisionStrategy: strategyName
+  });
+};
 ClosedHash.prototype.addControls = function() {
   ClosedHash.superclass.addControls.call(this);
   var radioButtonList = addRadioButtonGroupToAlgorithmBar(
@@ -12135,9 +14475,11 @@ ClosedHash.prototype.doGrow = function(newSize) {
   return this.implementAction(this.growTable.bind(this), newSize);
 };
 ClosedHash.prototype.growTable = function(newSize) {
-  this.commands = [];
+  this.beginClosedHashAnimation("grow", `grow table to ${newSize || 16}`, {
+    tags: ["grow"]
+  });
   if (this.hasGrown) {
-    return this.commands;
+    return this.finishClosedHashAnimation();
   }
   const targetSize = newSize || 16;
   CLOSED_HASH_TABLE_SIZE = targetSize;
@@ -12158,7 +14500,9 @@ ClosedHash.prototype.growTable = function(newSize) {
     "SetMessage",
     `Grow table: expand to ${targetSize}`
   );
-  this.cmd("Step");
+  this.markAnimationStep("start grow", {
+    tags: ["grow", "start"]
+  });
   for (let i = 0; i < oldSize; i++) {
     const nextXPos = ARRAY_ELEM_START_X + i % this.elements_per_row * ARRAY_ELEM_WIDTH;
     const nextYPos = stagingStartY + Math.floor(i / this.elements_per_row) * ARRAY_VERTICAL_SEPARATION;
@@ -12246,7 +14590,9 @@ ClosedHash.prototype.growTable = function(newSize) {
     this.cmd("SetForegroundColor", nextIndexLabelID, INDEX_COLOR);
   }
   this.cmd("SetMessage", `Created new table of size ${targetSize}`);
-  this.cmd("Step");
+  this.markAnimationStep("create grown table", {
+    tags: ["grow", "create-table"]
+  });
   for (let k = 0; k < oldSize; k++) {
     const value = stagingData[k];
     const fromSlot = k;
@@ -12258,7 +14604,9 @@ ClosedHash.prototype.growTable = function(newSize) {
     } else {
       this.cmd("SetMessage", `Ignoring staging slot ${fromSlot}`);
     }
-    this.cmd("Step");
+    this.markAnimationStep(`stage slot ${fromSlot}`, {
+      tags: ["grow", "stage"]
+    });
     if (isValid) {
       this.cmd(
         "CreateLabel",
@@ -12268,7 +14616,9 @@ ClosedHash.prototype.growTable = function(newSize) {
         stagingYPos[fromSlot] - ARRAY_ELEM_HEIGHT
       );
       this.cmd("SetText", stagingRects[fromSlot], "");
-      this.cmd("Step");
+      this.markAnimationStep(`lift ${value} from staging`, {
+        tags: ["grow", "reinsert"]
+      });
       let index = this.doHash(value);
       index = this.getEmptyIndex(index, value);
       if (index !== -1) {
@@ -12279,7 +14629,9 @@ ClosedHash.prototype.growTable = function(newSize) {
           this.indexYPos[index] - ARRAY_ELEM_HEIGHT
         );
         this.cmd("SetMessage", `Reinsert ${value} at index ${index}`);
-        this.cmd("Step");
+        this.markAnimationStep(`reinsert ${value} at ${index}`, {
+          tags: ["grow", "reinsert"]
+        });
         this.cmd("Delete", labelID);
         this.cmd("SetText", this.hashTableVisual[index], value);
         this.hashTableValues[index] = value;
@@ -12287,14 +14639,18 @@ ClosedHash.prototype.growTable = function(newSize) {
         this.deleted[index] = false;
       } else {
         this.cmd("SetMessage", `Table full while reinserting ${value}`);
-        this.cmd("Step");
+        this.markAnimationStep(`reinsert ${value} failed`, {
+          tags: ["grow", "error"]
+        });
         this.cmd("Delete", labelID);
       }
     }
     this.cmd("SetHighlight", stagingRects[fromSlot], 0);
   }
   this.cmd("SetMessage", "Grow complete");
-  this.cmd("Step");
+  this.markAnimationStep("grow complete", {
+    tags: ["grow", "complete"]
+  });
   this.hasGrown = true;
   if (this.growButton) {
     this.growButton.disabled = true;
@@ -12303,7 +14659,7 @@ ClosedHash.prototype.growTable = function(newSize) {
     this.cmd("Delete", stagingRects[i]);
     this.cmd("Delete", stagingIndices[i]);
   }
-  return this.commands;
+  return this.finishClosedHashAnimation();
 };
 ClosedHash.prototype.changeProbeType = function(newProbingType) {
   if (newProbingType == this.linearProblingButton) {
@@ -12350,7 +14706,9 @@ ClosedHash.prototype.linearProbeCallback = function(event) {
   }
 };
 ClosedHash.prototype.insertElement = function(elem) {
-  this.commands = new Array();
+  this.beginClosedHashAnimation("insert", `insert ${elem}`, {
+    tags: ["insert"]
+  });
   this.cmd("SetMessage", "Inserting element: " + String(elem));
   var index = this.doHash(elem);
   index = this.getEmptyIndex(index, elem);
@@ -12365,14 +14723,16 @@ ClosedHash.prototype.insertElement = function(elem) {
       this.indexYPos[index] - ARRAY_ELEM_HEIGHT
     );
     this.cmd("SetMessage", `Insert at index ${index}`);
-    this.cmd("Step");
+    this.markAnimationStep(`insert at ${index}`, {
+      tags: ["insert", "place"]
+    });
     this.cmd("Delete", labID);
     this.cmd("SetText", this.hashTableVisual[index], elem);
     this.hashTableValues[index] = elem;
     this.empty[index] = false;
     this.deleted[index] = false;
   }
-  return this.commands;
+  return this.finishClosedHashAnimation();
 };
 ClosedHash.prototype.resetSkipDist = function(elem, labelID) {
   var skipVal = 7 - this.currHash % 7;
@@ -12389,6 +14749,11 @@ ClosedHash.prototype.resetSkipDist = function(elem, labelID) {
     "Calculate hash2(" + String(elem) + ") = 1 - " + String(this.currHash) + " % 7 = " + String(skipVal)
   );
   this.cmd("Step");
+  if (this.pendingBlock) {
+    this.markAnimationStep("compute secondary hash", {
+      tags: ["probe", "double-hash"]
+    });
+  }
   this.skipDist[0] = 0;
   for (var i = 1; i < this.table_size; i++) {
     this.skipDist[i] = this.skipDist[i - 1] + skipVal;
@@ -12410,7 +14775,9 @@ ClosedHash.prototype.getEmptyIndex = function(index, elem) {
         this.cmd("SetMessage", `Probe number ${i}. Advance ${moveDist} to ${candidateIndex} and probe for empty`);
       }
     }
-    this.cmd("Step");
+    this.markAnimationStep(`probe slot ${candidateIndex}`, {
+      tags: ["probe", "empty-check"]
+    });
     this.cmd("SetHighlight", this.hashTableVisual[candidateIndex], 0);
     if (this.empty[candidateIndex]) {
       foundIndex = candidateIndex;
@@ -12436,7 +14803,9 @@ ClosedHash.prototype.getElemIndex = function(index, elem) {
     var candidateIndex = (index + this.skipDist[i]) % this.table_size;
     this.cmd("SetHighlight", this.hashTableVisual[candidateIndex], 1);
     this.cmd("SetMessage", `Probe slot ${candidateIndex} for element ${elem}`);
-    this.cmd("Step");
+    this.markAnimationStep(`probe slot ${candidateIndex} for ${elem}`, {
+      tags: ["probe", "find-check"]
+    });
     this.cmd("SetHighlight", this.hashTableVisual[candidateIndex], 0);
     if (!this.empty[candidateIndex] && this.hashTableValues[candidateIndex] == elem) {
       foundIndex = candidateIndex;
@@ -12451,31 +14820,55 @@ ClosedHash.prototype.getElemIndex = function(index, elem) {
   return foundIndex;
 };
 ClosedHash.prototype.deleteElement = function(elem) {
-  this.commands = new Array();
+  this.beginClosedHashAnimation("delete", `delete ${elem}`, {
+    tags: ["delete"]
+  });
   this.cmd("SetMessage", "Deleting element: " + elem);
   var index = this.doHash(elem);
   index = this.getElemIndex(index, elem);
   if (index > 0) {
+    this.beginBlock(`delete ${elem} at ${index}`, {
+      source: "ClosedHash",
+      operation: this.currentAnimationOperation,
+      tags: ["delete", "tombstone"]
+    });
     this.cmd("SetMessage", "Deleting element: " + elem + "  Adding tombstone.");
     this.empty[index] = true;
     this.deleted[index] = true;
     this.cmd("SetText", this.hashTableVisual[index], "<deleted>");
   } else {
+    this.beginBlock(`delete ${elem} not found`, {
+      source: "ClosedHash",
+      operation: this.currentAnimationOperation,
+      tags: ["delete", "not-found"]
+    });
     this.cmd("SetMessage", "Deleting element: " + elem + "  Element not in table");
   }
-  return this.commands;
+  return this.finishClosedHashAnimation();
 };
 ClosedHash.prototype.findElement = function(elem) {
-  this.commands = new Array();
+  this.beginClosedHashAnimation("find", `find ${elem}`, {
+    tags: ["search", "find"]
+  });
   this.cmd("SetMessage", "Finding Element: " + elem);
   var index = this.doHash(elem);
   var found = this.getElemIndex(index, elem) != -1;
   if (found) {
+    this.beginBlock(`found ${elem}`, {
+      source: "ClosedHash",
+      operation: this.currentAnimationOperation,
+      tags: ["search", "found"]
+    });
     this.cmd("SetMessage", "Finding Element: " + elem + "  Found!");
   } else {
+    this.beginBlock(`value ${elem} not found`, {
+      source: "ClosedHash",
+      operation: this.currentAnimationOperation,
+      tags: ["search", "not-found"]
+    });
     this.cmd("SetMessage", "Finding Element: " + elem + "  Not Found!");
   }
-  return this.commands;
+  return this.finishClosedHashAnimation();
 };
 ClosedHash.prototype.setup = function() {
   this.table_size = CLOSED_HASH_TABLE_SIZE;
@@ -12681,6 +15074,25 @@ ConnectedComponent.prototype.init = function(am, w2, h, graphOpts) {
   this.showEdgeCosts = false;
   ConnectedComponent.superclass.init.call(this, am, w2, h, true, false, graphOpts);
 };
+ConnectedComponent.prototype.beginConnectedComponentAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "ConnectedComponent", operation, ...meta });
+};
+ConnectedComponent.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "ConnectedComponent",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+ConnectedComponent.prototype.finishConnectedComponentAnimation = function() {
+  return this.finishAnimation();
+};
 ConnectedComponent.prototype.setup = function() {
   ConnectedComponent.superclass.setup.call(this);
   this.animationManager.setAllLayers([0, this.currentLayer]);
@@ -12748,10 +15160,14 @@ ConnectedComponent.prototype.transpose = function() {
 };
 ConnectedComponent.prototype.doCC = function(ignored) {
   this.visited = new Array(this.size);
-  this.commands = new Array();
+  this.beginConnectedComponentAnimation("connectedComponents", "compute connected components", {
+    tags: ["search", "connected-components"]
+  });
   this.rebuildEdges();
   this.cmd("SetMessage", "Run first DFS to compute finishing times.");
-  this.cmd("Step");
+  this.markAnimationStep("start first dfs pass", {
+    tags: ["search", "pass1"]
+  });
   this.d_timesID_L = new Array(this.size);
   this.f_timesID_L = new Array(this.size);
   this.d_timesID_AL = new Array(this.size);
@@ -12770,7 +15186,10 @@ ConnectedComponent.prototype.doCC = function(ignored) {
   for (vertex = 0; vertex < this.size; vertex++) {
     if (!this.visited[vertex]) {
       this.cmd("SetMessage", "Start DFS from vertex " + vertex + ".");
-      this.cmd("Step");
+      this.markAnimationStep(`pass 1 root ${vertex}`, {
+        focusNodeId: this.circleID[vertex],
+        tags: ["search", "pass1", "root"]
+      });
       this.cmd(
         "CreateHighlightCircle",
         this.highlightCircleL,
@@ -12807,7 +15226,9 @@ ConnectedComponent.prototype.doCC = function(ignored) {
   this.clearEdges();
   this.removeAdjList();
   this.cmd("SetMessage", "Transpose graph and run DFS again to identify components.");
-  this.cmd("Step");
+  this.markAnimationStep("transpose graph", {
+    tags: ["search", "transpose"]
+  });
   this.transpose();
   this.buildEdges();
   this.buildAdjList();
@@ -12833,7 +15254,9 @@ ConnectedComponent.prototype.doCC = function(ignored) {
     sortedVertex[vertex] = vertex;
   }
   this.cmd("SetMessage", "Order vertices by decreasing finishing times.");
-  this.cmd("Step");
+  this.markAnimationStep("sort by finish time", {
+    tags: ["search", "sort"]
+  });
   for (let i = 1; i < this.size; i++) {
     var j = i;
     var tmpTime = this.f_times[i];
@@ -12865,10 +15288,16 @@ ConnectedComponent.prototype.doCC = function(ignored) {
       this.currentComponentColor = this.ccColors[(ccNum - 1) % this.ccColors.length];
       if (this.sortedLabelsIDs && this.sortedLabelsIDs[i] != null) {
         this.cmd("SetForegroundColor", this.sortedLabelsIDs[i], this.currentComponentColor);
-        this.cmd("Step");
+        this.markAnimationStep(`highlight component root ${vertex}`, {
+          focusNodeId: this.circleID[vertex],
+          tags: ["search", "pass2", "root"]
+        });
       }
       this.cmd("SetMessage", "Connected Component #" + String(ccNum++) + ": start DFS at vertex " + vertex + ".");
-      this.cmd("Step");
+      this.markAnimationStep(`start component at ${vertex}`, {
+        focusNodeId: this.circleID[vertex],
+        tags: ["search", "component", "start"]
+      });
       this.cmd(
         "CreateHighlightCircle",
         this.highlightCircleL,
@@ -12902,7 +15331,7 @@ ConnectedComponent.prototype.doCC = function(ignored) {
       this.cmd("Delete", this.highlightCircleAM, 12);
     }
   }
-  return this.commands;
+  return this.finishConnectedComponentAnimation();
 };
 ConnectedComponent.prototype.setup_large = function() {
   this.d_x_pos = D_X_POS_LARGE;
@@ -12936,10 +15365,16 @@ ConnectedComponent.prototype.dfsVisit = function(startVertex, messageX, printCCN
   this.stackRowCount++;
   if (printCCNum) {
     this.cmd("SetMessage", "Visit vertex " + String(startVertex) + ".");
-    this.cmd("Step");
+    this.markAnimationStep(`visit ${startVertex}`, {
+      focusNodeId: this.circleID[startVertex],
+      tags: ["search", "visit"]
+    });
   }
   this.cmd("SetMessage", "First visit to vertex " + String(startVertex) + ".");
-  this.cmd("Step");
+  this.markAnimationStep(`discover ${startVertex}`, {
+    focusNodeId: this.circleID[startVertex],
+    tags: ["search", "discover"]
+  });
   this.cmd("SetMessage", "DFS(" + String(startVertex) + ")");
   this.messageY = this.messageY + 20;
   if (!this.visited[startVertex]) {
@@ -12966,7 +15401,10 @@ ConnectedComponent.prototype.dfsVisit = function(startVertex, messageX, printCCN
         this.cmd("SetBackgroundColor", this.circleID[startVertex], c);
       }
     }
-    this.cmd("Step");
+    this.markAnimationStep(`stamp discover time for ${startVertex}`, {
+      focusNodeId: this.circleID[startVertex],
+      tags: ["search", "time", "discover"]
+    });
     for (var neighbor = 0; neighbor < this.size; neighbor++) {
       if (this.adj_matrix[startVertex][neighbor] > 0) {
         this.highlightEdge(startVertex, neighbor, 1);
@@ -12975,7 +15413,10 @@ ConnectedComponent.prototype.dfsVisit = function(startVertex, messageX, printCCN
         } else {
           this.cmd("SetMessage", "Visit unvisited neighbor " + String(neighbor) + " from " + String(startVertex) + "; recurse.");
         }
-        this.cmd("Step");
+        this.markAnimationStep(`consider edge ${startVertex} -> ${neighbor}`, {
+          focusNodeId: this.circleID[neighbor],
+          tags: ["search", "edge"]
+        });
         this.highlightEdge(startVertex, neighbor, 0);
         if (!this.visited[neighbor]) {
           this.cmd(
@@ -13011,7 +15452,10 @@ ConnectedComponent.prototype.dfsVisit = function(startVertex, messageX, printCCN
             this.adj_matrix_x_start - this.adj_matrix_width,
             this.adj_matrix_y_start + neighbor * this.adj_matrix_height
           );
-          this.cmd("Step");
+          this.markAnimationStep(`recurse to ${neighbor}`, {
+            focusNodeId: this.circleID[neighbor],
+            tags: ["search", "recurse"]
+          });
           this.dfsVisit(neighbor, messageX + 10, printCCNum);
           this.cmd("SetMessage", "Return from DFS(" + String(neighbor) + ")");
           this.cmd(
@@ -13032,9 +15476,15 @@ ConnectedComponent.prototype.dfsVisit = function(startVertex, messageX, printCCN
             this.adj_matrix_x_start - this.adj_matrix_width,
             this.adj_matrix_y_start + startVertex * this.adj_matrix_height
           );
-          this.cmd("Step");
+          this.markAnimationStep(`return to ${startVertex}`, {
+            focusNodeId: this.circleID[startVertex],
+            tags: ["search", "return"]
+          });
         }
-        this.cmd("Step");
+        this.markAnimationStep(`finish edge ${startVertex} -> ${neighbor}`, {
+          focusNodeId: this.circleID[startVertex],
+          tags: ["search", "edge", "finish"]
+        });
       }
     }
     this.f_times[startVertex] = this.currentTime++;
@@ -13049,7 +15499,10 @@ ConnectedComponent.prototype.dfsVisit = function(startVertex, messageX, printCCN
     this.cmd("SetLayer", this.f_timesID_L[startVertex], 1);
     this.cmd("SetLayer", this.f_timesID_AL[startVertex], 2);
     this.cmd("SetMessage", "Finish vertex " + String(startVertex) + ".");
-    this.cmd("Step");
+    this.markAnimationStep(`finish ${startVertex}`, {
+      focusNodeId: this.circleID[startVertex],
+      tags: ["search", "finish"]
+    });
   }
   this.callStackDepth--;
 };
@@ -13145,6 +15598,25 @@ DetectCycle.prototype.init = function(am, w2, h, graphOpts) {
   }
   DetectCycle.superclass.init.call(this, am, w2, h, true, false, opts);
 };
+DetectCycle.prototype.beginDetectCycleAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "DetectCycle", operation, ...meta });
+};
+DetectCycle.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "DetectCycle",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+DetectCycle.prototype.finishDetectCycleAnimation = function() {
+  return this.finishAnimation();
+};
 DetectCycle.prototype.setup = function() {
   DetectCycle.superclass.setup.call(this);
   this.commands = [];
@@ -13233,7 +15705,9 @@ DetectCycle.prototype.doDetectCycle = function() {
   return true;
 };
 DetectCycle.prototype.doDetectCycleAction = function() {
-  this.commands = [];
+  this.beginDetectCycleAnimation("detectCycle", "detect directed cycle", {
+    tags: ["search", "cycle"]
+  });
   if (this.messageID != null) {
     for (var i = 0; i < this.messageID.length; i++) {
       if (this.objectExists(this.messageID[i])) {
@@ -13309,7 +15783,10 @@ DetectCycle.prototype.doDetectCycleAction = function() {
         this.adj_matrix_x_start - this.adj_matrix_width,
         this.adj_matrix_y_start + start * this.adj_matrix_height
       );
-      this.cmd("Step");
+      this.markAnimationStep(`start dfs at ${start}`, {
+        focusNodeId: this.circleID[start],
+        tags: ["search", "start"]
+      });
       if (this.dfsDetect(start, STACK_START_X)) {
         this.lastCycleStartRoot = start;
       }
@@ -13319,12 +15796,21 @@ DetectCycle.prototype.doDetectCycleAction = function() {
   this.cmd("Delete", this.highlightCircleAL);
   this.cmd("Delete", this.highlightCircleAM);
   if (this.foundCycle) {
+    this.beginBlock("cycle detected", {
+      source: "DetectCycle",
+      operation: this.currentAnimationOperation,
+      tags: ["search", "cycle", "found"]
+    });
     this.cmd("SetMessage", "Cycle detected (found an edge to a node currently on the DFS stack).");
   } else {
+    this.beginBlock("no cycle found", {
+      source: "DetectCycle",
+      operation: this.currentAnimationOperation,
+      tags: ["search", "cycle", "not-found"]
+    });
     this.cmd("SetMessage", "No directed cycle found.");
   }
-  this.cmd("Step");
-  return this.commands;
+  return this.finishDetectCycleAnimation();
 };
 DetectCycle.prototype.objectExists = function(id) {
   return this.animationManager && this.animationManager.animatedObjects && this.animationManager.animatedObjects.Nodes && this.animationManager.animatedObjects.Nodes[id] != null;
@@ -13387,7 +15873,10 @@ DetectCycle.prototype.dfsDetect = function(vertex, messageX) {
   this.cmd("SetText", this.onStackID[vertex], "T");
   this.setCurrentCursor(vertex);
   this.cmd("SetMessage", `Visit ${vertex}; mark as on the stack.`);
-  this.cmd("Step");
+  this.markAnimationStep(`visit ${vertex}`, {
+    focusNodeId: this.circleID[vertex],
+    tags: ["search", "visit"]
+  });
   for (var neighbor = 0; neighbor < this.size; neighbor++) {
     if (this.adj_matrix[vertex][neighbor] > 0) {
       this.setEdgeColor(vertex, neighbor, EDGE_CONSIDER_COLOR);
@@ -13396,7 +15885,10 @@ DetectCycle.prototype.dfsDetect = function(vertex, messageX) {
         this.setEdgeColor(vertex, neighbor, CYCLE_EDGE_COLOR);
         this.highlightEdge(vertex, neighbor, 1);
         this.cmd("SetMessage", `Edge ${vertex} -> ${neighbor} reaches a node on the stack. Cycle found.`);
-        this.cmd("Step");
+        this.markAnimationStep(`back edge ${vertex} -> ${neighbor}`, {
+          focusNodeId: this.circleID[neighbor],
+          tags: ["search", "cycle", "back-edge"]
+        });
         this.foundCycle = true;
         return true;
       }
@@ -13404,7 +15896,10 @@ DetectCycle.prototype.dfsDetect = function(vertex, messageX) {
         this.setEdgeColor(vertex, neighbor, TREE_EDGE_COLOR);
         this.highlightEdge(vertex, neighbor, 1);
         this.cmd("SetMessage", `Recurse to ${neighbor}.`);
-        this.cmd("Step");
+        this.markAnimationStep(`recurse to ${neighbor}`, {
+          focusNodeId: this.circleID[neighbor],
+          tags: ["search", "recurse"]
+        });
         if (this.dfsDetect(neighbor, messageX + STACK_INDENT)) {
           return true;
         }
@@ -13412,12 +15907,18 @@ DetectCycle.prototype.dfsDetect = function(vertex, messageX) {
         this.highlightEdge(vertex, neighbor, 0);
         this.setCurrentCursor(vertex);
         this.cmd("SetMessage", `Return to ${vertex} from ${neighbor}.`);
-        this.cmd("Step");
+        this.markAnimationStep(`return to ${vertex}`, {
+          focusNodeId: this.circleID[vertex],
+          tags: ["search", "return"]
+        });
       } else {
         this.setEdgeColor(vertex, neighbor, "#000000");
         this.highlightEdge(vertex, neighbor, 0);
         this.cmd("SetMessage", `${neighbor} already fully processed; continue.`);
-        this.cmd("Step");
+        this.markAnimationStep(`skip processed ${neighbor}`, {
+          focusNodeId: this.circleID[neighbor],
+          tags: ["search", "skip"]
+        });
       }
     }
   }
@@ -13425,7 +15926,10 @@ DetectCycle.prototype.dfsDetect = function(vertex, messageX) {
   this.cmd("SetText", this.onStackID[vertex], "F");
   this.popStackVisual(vertex);
   this.cmd("SetMessage", `Done at ${vertex}. Mark as not on the stack.`);
-  this.cmd("Step");
+  this.markAnimationStep(`finish ${vertex}`, {
+    focusNodeId: this.circleID[vertex],
+    tags: ["search", "finish"]
+  });
   return false;
 };
 DetectCycle.prototype.reset = function() {
@@ -13520,6 +16024,25 @@ DFS.prototype.init = function(am, w2, h, graphOpts) {
   }
   this.showEdgeCosts = false;
   DFS.superclass.init.call(this, am, w2, h, true, false, graphOpts);
+};
+DFS.prototype.beginDFSAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "DFS", operation, ...meta });
+};
+DFS.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "DFS",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+DFS.prototype.finishDFSAnimation = function() {
+  return this.finishAnimation();
 };
 DFS.prototype.dfsModeChangedCallback = function(iterativeMode) {
   if (this.useIterative !== iterativeMode) {
@@ -13655,7 +16178,9 @@ DFS.prototype.doDFS = function(startVetex) {
 DFS.prototype.doDFSRecursive = function(startVetex) {
   this.visited = new Array(this.size);
   this.parent = new Array(this.size);
-  this.commands = new Array();
+  this.beginDFSAnimation("searchRecursive", `dfs recursive from ${startVetex}`, {
+    tags: ["search", "dfs", "recursive"]
+  });
   if (this.messageID != null) {
     for (var i = 0; i < this.messageID.length; i++) {
       this.cmd("Delete", this.messageID[i]);
@@ -13702,6 +16227,11 @@ DFS.prototype.doDFSRecursive = function(startVetex) {
   this.cmd("Delete", this.highlightCircleL);
   this.cmd("Delete", this.highlightCircleAL);
   this.cmd("Delete", this.highlightCircleAM);
+  this.beginBlock("dfs complete", {
+    source: "DFS",
+    operation: this.currentAnimationOperation,
+    tags: ["search", "complete"]
+  });
   this.cmd(
     "SetMessage",
     "DFS complete. Search tree highlighted."
@@ -13712,13 +16242,14 @@ DFS.prototype.doDFSRecursive = function(startVetex) {
       this.highlightEdge(this.parent[i], i, 1);
     }
   }
-  this.cmd("Step");
-  return this.commands;
+  return this.finishDFSAnimation();
 };
 DFS.prototype.doDFSIterative = function(startVetex) {
   this.visited = new Array(this.size);
   this.parent = new Array(this.size);
-  this.commands = new Array();
+  this.beginDFSAnimation("searchIterative", `dfs iterative from ${startVetex}`, {
+    tags: ["search", "dfs", "iterative"]
+  });
   if (this.messageID != null) {
     for (var i = 0; i < this.messageID.length; i++) {
       this.cmd("Delete", this.messageID[i]);
@@ -13796,17 +16327,26 @@ DFS.prototype.doDFSIterative = function(startVetex) {
   );
   this.cmd("SetLayer", this.highlightCircleAM, 3);
   this.cmd("SetMessage", `Initialize stack with ${vertex}.`);
-  this.cmd("Step");
+  this.markAnimationStep(`initialize stack with ${vertex}`, {
+    focusNodeId: this.circleID[vertex],
+    tags: ["search", "stack", "init"]
+  });
   while (stackSize > 0) {
     stackSize--;
     var currentVertex = stackVertex[stackSize];
     this.cmd("SetText", stackLabelID[stackSize], "");
     this.cmd("SetAlpha", stackLabelID[stackSize], 0);
     this.cmd("SetMessage", `Pop ${currentVertex} from stack.`);
-    this.cmd("Step");
+    this.markAnimationStep(`pop ${currentVertex}`, {
+      focusNodeId: this.circleID[currentVertex],
+      tags: ["search", "stack", "pop"]
+    });
     if (this.visited[currentVertex]) {
       this.cmd("SetMessage", `${currentVertex} is already visited; skip.`);
-      this.cmd("Step");
+      this.markAnimationStep(`skip visited ${currentVertex}`, {
+        focusNodeId: this.circleID[currentVertex],
+        tags: ["search", "skip"]
+      });
       continue;
     }
     this.visited[currentVertex] = true;
@@ -13838,7 +16378,10 @@ DFS.prototype.doDFSIterative = function(startVetex) {
       this.adj_matrix_y_start + currentVertex * this.adj_matrix_height
     );
     this.cmd("SetMessage", `Visit ${currentVertex}; scan neighbors.`);
-    this.cmd("Step");
+    this.markAnimationStep(`visit ${currentVertex}`, {
+      focusNodeId: this.circleID[currentVertex],
+      tags: ["search", "visit"]
+    });
     for (var neighbor = this.size - 1; neighbor >= 0; neighbor--) {
       if (this.adj_matrix[currentVertex][neighbor] > 0) {
         const savedEdgeColor = this.edgeColorState[currentVertex][neighbor];
@@ -13856,7 +16399,10 @@ DFS.prototype.doDFSIterative = function(startVetex) {
             `Explore edge ${currentVertex} -> ${neighbor}; neighbor unvisited (push).`
           );
         }
-        this.cmd("Step");
+        this.markAnimationStep(`consider edge ${currentVertex} -> ${neighbor}`, {
+          focusNodeId: this.circleID[neighbor],
+          tags: ["search", "edge"]
+        });
         if (!this.visited[neighbor]) {
           this.parent[neighbor] = currentVertex;
           this.cmd("SetText", this.parentID[neighbor], currentVertex);
@@ -13880,7 +16426,10 @@ DFS.prototype.doDFSIterative = function(startVetex) {
             "SetMessage",
             `Discover ${neighbor}; set parent to ${currentVertex} and push ${neighbor} onto stack (edge locks when ${neighbor} is visited).`
           );
-          this.cmd("Step");
+          this.markAnimationStep(`push ${neighbor}`, {
+            focusNodeId: this.circleID[neighbor],
+            tags: ["search", "stack", "push"]
+          });
         } else {
           this.applyEdgeVisualState(
             currentVertex,
@@ -13893,26 +16442,35 @@ DFS.prototype.doDFSIterative = function(startVetex) {
             `Neighbor ${neighbor} already visited; skip edge ${currentVertex} -> ${neighbor}.`
           );
         }
-        this.cmd("Step");
         this.clearAdjacencyRepEdgeHighlight(currentVertex, neighbor);
         this.cmd("SetHighlight", this.visitedID[neighbor], 0);
-        this.cmd("Step");
+        this.markAnimationStep(`finish edge ${currentVertex} -> ${neighbor}`, {
+          focusNodeId: this.circleID[currentVertex],
+          tags: ["search", "edge", "finish"]
+        });
       }
     }
     this.cmd("SetMessage", `Finished scanning neighbors of ${currentVertex}.`);
-    this.cmd("Step");
+    this.markAnimationStep(`finish ${currentVertex}`, {
+      focusNodeId: this.circleID[currentVertex],
+      tags: ["search", "finish"]
+    });
   }
   this.cmd("Delete", this.highlightCircleL);
   this.cmd("Delete", this.highlightCircleAL);
   this.cmd("Delete", this.highlightCircleAM);
+  this.beginBlock("dfs complete", {
+    source: "DFS",
+    operation: this.currentAnimationOperation,
+    tags: ["search", "complete"]
+  });
   this.cmd("SetMessage", "DFS complete. Search tree highlighted.");
   for (i = 0; i < this.size; i++) {
     if (this.parent[i] >= 0) {
       this.applyEdgeVisualState(this.parent[i], i, SEARCH_TREE_FINAL_COLOR2, true);
     }
   }
-  this.cmd("Step");
-  return this.commands;
+  return this.finishDFSAnimation();
 };
 DFS.prototype.dfsVisit = function(startVertex, messageX) {
   var nextMessage = this.nextIndex++;
@@ -13931,7 +16489,10 @@ DFS.prototype.dfsVisit = function(startVertex, messageX) {
     this.visited[startVertex] = true;
     this.cmd("SetText", this.visitedID[startVertex], "T");
     this.cmd("SetMessage", `Visit ${startVertex}; mark visited.`);
-    this.cmd("Step");
+    this.markAnimationStep(`visit ${startVertex}`, {
+      focusNodeId: this.circleID[startVertex],
+      tags: ["search", "visit"]
+    });
     for (var neighbor = 0; neighbor < this.size; neighbor++) {
       if (this.adj_matrix[startVertex][neighbor] > 0) {
         const savedEdgeColor = this.edgeColorState[startVertex][neighbor];
@@ -13949,7 +16510,10 @@ DFS.prototype.dfsVisit = function(startVertex, messageX) {
             `Explore edge ${startVertex} -> ${neighbor}; neighbor unvisited (recurse).`
           );
         }
-        this.cmd("Step");
+        this.markAnimationStep(`consider edge ${startVertex} -> ${neighbor}`, {
+          focusNodeId: this.circleID[neighbor],
+          tags: ["search", "edge"]
+        });
         if (!this.visited[neighbor]) {
           this.applyEdgeVisualState(startVertex, neighbor, savedEdgeColor, true);
           this.cmd(
@@ -13976,7 +16540,10 @@ DFS.prototype.dfsVisit = function(startVertex, messageX) {
             "SetMessage",
             `Discover ${neighbor}; set parent to ${startVertex} and recurse into DFS(${neighbor}).`
           );
-          this.cmd("Step");
+          this.markAnimationStep(`recurse to ${neighbor}`, {
+            focusNodeId: this.circleID[neighbor],
+            tags: ["search", "recurse"]
+          });
           this.dfsVisit(neighbor, messageX + 10);
           this.cmd(
             "Move",
@@ -14000,7 +16567,10 @@ DFS.prototype.dfsVisit = function(startVertex, messageX) {
             "SetMessage",
             `Returned to DFS(${startVertex}) from DFS(${neighbor}); continue scanning neighbors.`
           );
-          this.cmd("Step");
+          this.markAnimationStep(`return to ${startVertex}`, {
+            focusNodeId: this.circleID[startVertex],
+            tags: ["search", "return"]
+          });
         } else {
           this.applyEdgeVisualState(
             startVertex,
@@ -14009,15 +16579,16 @@ DFS.prototype.dfsVisit = function(startVertex, messageX) {
             savedEdgeHighlight
           );
         }
-        this.cmd("Step");
         this.clearAdjacencyRepEdgeHighlight(startVertex, neighbor);
         this.cmd("SetHighlight", this.visitedID[neighbor], 0);
-        this.cmd("Step");
         this.cmd(
           "SetMessage",
           `Finished processing edge ${startVertex} -> ${neighbor}.`
         );
-        this.cmd("Step");
+        this.markAnimationStep(`finish edge ${startVertex} -> ${neighbor}`, {
+          focusNodeId: this.circleID[startVertex],
+          tags: ["search", "edge", "finish"]
+        });
       }
     }
   }
@@ -14101,6 +16672,25 @@ DijkstraPrim.prototype.init = function(am, runningDijkstra, w2, h, graphOpts) {
   this.runningDijkstra = runningDijkstra;
   this.showEdgeCosts = true;
   DijkstraPrim.superclass.init.call(this, am, w2, h, false, false, graphOpts);
+};
+DijkstraPrim.prototype.beginDijkstraPrimAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "DijkstraPrim", operation, ...meta });
+};
+DijkstraPrim.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "DijkstraPrim",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+DijkstraPrim.prototype.finishDijkstraPrimAnimation = function() {
+  return this.finishAnimation();
 };
 DijkstraPrim.prototype.setup = function() {
   this.message1ID = this.nextIndex++;
@@ -14218,7 +16808,10 @@ DijkstraPrim.prototype.findCheapestUnknown = function() {
     "SetMessage",
     "Scan all unknown vertices and select the smallest tentative distance."
   );
-  this.cmd("Step");
+  this.markAnimationStep(`select cheapest unknown ${bestIndex}`, {
+    focusNodeId: this.circleID[bestIndex],
+    tags: ["search", "select"]
+  });
   for (var i = 0; i < this.size; i++) {
     if (!this.known[i]) {
       this.cmd("SetHighlight", this.distanceID[i], 0);
@@ -14227,7 +16820,11 @@ DijkstraPrim.prototype.findCheapestUnknown = function() {
   return bestIndex;
 };
 DijkstraPrim.prototype.doDijkstraPrim = function(startVertex) {
-  this.commands = new Array();
+  this.beginDijkstraPrimAnimation(
+    this.runningDijkstra ? "dijkstra" : "prim",
+    `${this.runningDijkstra ? "dijkstra" : "prim"} from ${startVertex}`,
+    { tags: [this.runningDijkstra ? "dijkstra" : "prim"] }
+  );
   if (!this.runningDijkstra) {
     this.recolorGraph();
   }
@@ -14258,7 +16855,10 @@ DijkstraPrim.prototype.doDijkstraPrim = function(startVertex) {
     this.cmd("SetHighlight", this.distanceID[current], 1);
     this.cmd("SetHighlight", this.circleID[current], 1);
     this.cmd("SetMessage", `Select vertex ${current} as next cheapest unknown.`);
-    this.cmd("Step");
+    this.markAnimationStep(`choose vertex ${current}`, {
+      focusNodeId: this.circleID[current],
+      tags: ["search", "choose"]
+    });
     this.cmd("SetHighlight", this.distanceID[current], 0);
     this.cmd("SetText", this.message1ID, "Setting known field to True");
     this.cmd("SetHighlight", this.knownID[current], 1);
@@ -14266,7 +16866,10 @@ DijkstraPrim.prototype.doDijkstraPrim = function(startVertex) {
     this.cmd("SetText", this.knownID[current], "T");
     this.cmd("SetTextColor", this.knownID[current], "#AAAAAA");
     this.cmd("SetMessage", `Mark vertex ${current} as known (finalize its value).`);
-    this.cmd("Step");
+    this.markAnimationStep(`mark ${current} known`, {
+      focusNodeId: this.circleID[current],
+      tags: ["search", "known"]
+    });
     this.cmd("SetHighlight", this.knownID[current], 0);
     this.cmd(
       "SetText",
@@ -14345,7 +16948,10 @@ DijkstraPrim.prototype.doDijkstraPrim = function(startVertex) {
             );
           }
         }
-        this.cmd("Step");
+        this.markAnimationStep(`consider edge ${current} -> ${neighbor}`, {
+          focusNodeId: this.circleID[neighbor],
+          tags: ["search", "edge"]
+        });
         this.cmd("Delete", this.comparisonMessageID);
         this.highlightEdge(current, neighbor, 0);
         if (this.known[neighbor]) {
@@ -14393,9 +16999,14 @@ DijkstraPrim.prototype.doDijkstraPrim = function(startVertex) {
       }
     }
   }
-  this.cmd("Step");
   this.cmd("SetText", this.message1ID, "");
-  return this.commands;
+  this.beginBlock("algorithm complete", {
+    source: "DijkstraPrim",
+    operation: this.currentAnimationOperation,
+    tags: ["search", "complete"]
+  });
+  this.cmd("SetMessage", "");
+  return this.finishDijkstraPrimAnimation();
 };
 DijkstraPrim.prototype.createPaths = function() {
   for (var vertex = 0; vertex < this.size; vertex++) {
@@ -14426,7 +17037,10 @@ DijkstraPrim.prototype.createPaths = function() {
           "SetMessage",
           `Trace predecessor for vertex ${vertex}: next = ${nextInPath}.`
         );
-        this.cmd("Step");
+        this.markAnimationStep(`trace path for ${vertex}`, {
+          focusNodeId: this.circleID[vertex],
+          tags: ["path", "trace"]
+        });
         if (this.path[nextInPath] != -1) {
           nextLabelID = this.nextIndex++;
           this.cmd(
@@ -14455,7 +17069,10 @@ DijkstraPrim.prototype.createPaths = function() {
             "SetMessage",
             `Extend path display for vertex ${vertex} by adding predecessor ${this.path[nextInPath]}.`
           );
-          this.cmd("Step");
+          this.markAnimationStep(`extend path for ${vertex}`, {
+            focusNodeId: this.circleID[vertex],
+            tags: ["path", "extend"]
+          });
           pathList.push(nextLabelID);
         }
         this.cmd("SetHighlight", this.pathID[nextInPath], 0);
@@ -14475,7 +17092,10 @@ DijkstraPrim.prototype.highlightTree = function() {
         "SetMessage",
         `Tree edge ${this.path[vertex]} - ${vertex} is selected in the MST.`
       );
-      this.cmd("Step");
+      this.markAnimationStep(`select tree edge ${this.path[vertex]}-${vertex}`, {
+        focusNodeId: this.circleID[vertex],
+        tags: ["tree", "edge"]
+      });
       this.cmd("SetHighlight", this.vertexID[vertex], 0);
       this.cmd("SetHighlight", this.pathID[vertex], 0);
       this.highlightEdge(vertex, this.path[vertex], 0);
@@ -14690,6 +17310,34 @@ Heap.prototype.addControls = function() {
   this.buildHeapButton = addControlToAlgorithmBar("Button", "BuildHeap");
   this.buildHeapButton.onclick = this.buildHeapCallback.bind(this);
 };
+Heap.prototype.beginHeapAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "Heap", operation, ...meta });
+};
+Heap.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = { source: "Heap", operation: this.currentAnimationOperation, ...meta };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+Heap.prototype.finishHeapAnimation = function() {
+  return this.finishAnimation();
+};
+Heap.prototype.describe = function() {
+  return describeBinaryHeap(this.arrayData, this.currentHeapSize, {
+    emptyText: "Heap is empty.",
+    heapLabel: "Heap"
+  });
+};
+Heap.prototype.describeFromState = function(state) {
+  return describeBinaryHeapFromState(state, this.arrayRects, {
+    emptyText: "Heap is empty.",
+    heapLabel: "Heap",
+    activeNodeIds: this.circleObjs
+  });
+};
 Heap.prototype.createArray = function() {
   this.arrayData = new Array(ARRAY_SIZE);
   this.arrayLabels = new Array(ARRAY_SIZE);
@@ -14752,12 +17400,16 @@ Heap.prototype.clearCallback = function(event) {
   this.implementAction(this.clear.bind(this), "");
 };
 Heap.prototype.clear = function() {
+  if (!this.pendingBlock) {
+    this.beginHeapAnimation("clear", "clear heap", { tags: ["clear"] });
+  }
   for (let i = 0; i < this.currentHeapSize; i++) {
     this.cmd("Delete", this.circleObjs[i]);
     this.cmd("SetText", this.arrayRects[i], "");
   }
   this.currentHeapSize = 0;
-  return this.commands;
+  this.markAnimationStep("heap cleared", { tags: ["clear", "complete"] });
+  return this.finishHeapAnimation();
 };
 Heap.prototype.reset = function() {
   this.currentHeapSize = 0;
@@ -14837,13 +17489,19 @@ Heap.prototype.pushDown = function(index, narrateComparisons) {
     if (narrateComparisons) {
       this.cmd("SetMessage", "Heapifying down at index " + index);
       this.setIndexHighlight(index, 1);
-      this.cmd("Step");
+      this.markAnimationStep(`push down from index ${index}`, {
+        focusNodeId: this.circleObjs[index],
+        tags: ["heapify", "push-down"]
+      });
     }
     this.setIndexHighlight(index, 0);
     if (left >= this.currentHeapSize) {
       if (narrateComparisons) {
         this.cmd("SetMessage", "No children: value is in its final location");
-        this.cmd("Step");
+        this.markAnimationStep(`index ${index} settled`, {
+          focusNodeId: this.circleObjs[index],
+          tags: ["heapify", "settled"]
+        });
       }
       return;
     }
@@ -14857,7 +17515,10 @@ Heap.prototype.pushDown = function(index, narrateComparisons) {
       }
       this.setIndexHighlight(left, 1);
       this.setIndexHighlight(right, 1);
-      this.cmd("Step");
+      this.markAnimationStep(`compare children of index ${index}`, {
+        focusNodeId: this.circleObjs[index],
+        tags: ["heapify", "compare", "children"]
+      });
       this.setIndexHighlight(left, 0);
       this.setIndexHighlight(right, 0);
       if (Number(this.arrayData[right]) < Number(this.arrayData[left])) {
@@ -14872,7 +17533,10 @@ Heap.prototype.pushDown = function(index, narrateComparisons) {
     }
     this.setIndexHighlight(index, 1);
     this.setIndexHighlight(smallestIndex, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`compare index ${index} with child ${smallestIndex}`, {
+      focusNodeId: this.circleObjs[index],
+      tags: ["heapify", "compare", "parent-child"]
+    });
     this.setIndexHighlight(index, 0);
     this.setIndexHighlight(smallestIndex, 0);
     if (Number(this.arrayData[smallestIndex]) < Number(this.arrayData[index])) {
@@ -14896,7 +17560,9 @@ Heap.prototype.pushDown = function(index, narrateComparisons) {
   }
 };
 Heap.prototype.removeSmallest = function(dummy) {
-  this.commands = new Array();
+  this.beginHeapAnimation("removeSmallest", "remove smallest", {
+    tags: ["remove", "min"]
+  });
   this.cmd("SetText", this.descriptLabel1, "");
   this.cmd("SetMessage", "Remove smallest (min): check if heap is empty");
   if (this.currentHeapSize == 0) {
@@ -14906,11 +17572,15 @@ Heap.prototype.removeSmallest = function(dummy) {
       "Heap is empty, cannot remove smallest element"
     );
     this.cmd("SetMessage", "Heap is empty; nothing to remove");
-    return this.commands;
+    this.markAnimationStep("heap empty", { tags: ["remove", "empty"] });
+    return this.finishHeapAnimation();
   }
   this.cmd("SetMessage", "Smallest element is at the root");
   this.cmd("SetText", this.descriptLabel1, "Removing element:" + this.arrayData[0]);
-  this.cmd("Step");
+  this.markAnimationStep(`remove root ${this.arrayData[0]}`, {
+    focusNodeId: this.circleObjs[0],
+    tags: ["remove", "root"]
+  });
   this.cmd(
     "SetText",
     this.descriptLabel1,
@@ -14927,7 +17597,9 @@ Heap.prototype.removeSmallest = function(dummy) {
     this.cmd("SetText", this.arrayRects[lastIndex], "");
     this.arrayData[lastIndex] = "";
     this.currentHeapSize--;
-    this.cmd("Step");
+    this.markAnimationStep(`move last value ${lastIndex} to root`, {
+      tags: ["remove", "swap-root"]
+    });
     this.cmd("SetMessage", "Push down to restore heap order");
     this.pushDown(0, true);
   } else {
@@ -14936,15 +17608,16 @@ Heap.prototype.removeSmallest = function(dummy) {
     this.cmd("Delete", this.circleObjs[0]);
     this.arrayData[0] = "";
     this.currentHeapSize--;
+    this.markAnimationStep("remove only element", { tags: ["remove", "single"] });
   }
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishHeapAnimation();
 };
 Heap.prototype.buildHeapCallback = function(event) {
   this.implementAction(this.buildHeap.bind(this), "");
 };
 Heap.prototype.buildHeap = function(ignored) {
-  this.commands = [];
+  this.beginHeapAnimation("buildHeap", "build heap", { tags: ["build", "heapify"] });
   this.clear();
   for (var i = 0; i < HEAP_CAPACITY; i++) {
     const randVal = Math.floor(Math.random() * 100) + 1;
@@ -14965,21 +17638,25 @@ Heap.prototype.buildHeap = function(ignored) {
       );
     }
   }
-  this.cmd("Step");
+  this.markAnimationStep("create heap array", { tags: ["build", "populate"] });
   this.currentHeapSize = HEAP_CAPACITY;
   var nextElem = this.currentHeapSize - 1;
   while (nextElem >= 0) {
     this.pushDown(nextElem);
     nextElem = nextElem - 1;
   }
-  return this.commands;
+  this.markAnimationStep("heap built", { tags: ["build", "complete"] });
+  return this.finishHeapAnimation();
 };
 Heap.prototype.insertElement = function(insertedValue) {
-  this.commands = new Array();
+  this.beginHeapAnimation("insert", `insert ${insertedValue}`, {
+    tags: ["insert"]
+  });
   if (this.currentHeapSize >= HEAP_CAPACITY) {
     this.cmd("SetText", this.descriptLabel1, "Heap Full!");
     this.cmd("SetMessage", "Heap is full; cannot insert");
-    return this.commands;
+    this.markAnimationStep("heap full", { tags: ["insert", "full"] });
+    return this.finishHeapAnimation();
   }
   this.cmd("SetMessage", "Insert: place new value at the next open spot");
   this.cmd(
@@ -14987,7 +17664,10 @@ Heap.prototype.insertElement = function(insertedValue) {
     this.descriptLabel1,
     "Inserting Element: " + insertedValue
   );
-  this.cmd("Step");
+  this.markAnimationStep(`create node ${insertedValue}`, {
+    focusNodeId: this.circleObjs[this.currentHeapSize],
+    tags: ["insert", "create"]
+  });
   this.cmd("SetText", this.descriptLabel1, "Inserting Element: ");
   const insertIndex = this.currentHeapSize;
   this.currentHeapSize++;
@@ -15014,7 +17694,10 @@ Heap.prototype.insertElement = function(insertedValue) {
     this.HeapXPositions[insertIndex],
     this.HeapYPositions[insertIndex]
   );
-  this.cmd("Step");
+  this.markAnimationStep(`place ${insertedValue} at index ${insertIndex}`, {
+    focusNodeId: this.circleObjs[insertIndex],
+    tags: ["insert", "place"]
+  });
   this.cmd("SetText", this.circleObjs[insertIndex], insertedValue);
   this.cmd("delete", this.descriptLabel2);
   this.cmd("SetText", this.arrayRects[insertIndex], insertedValue);
@@ -15024,7 +17707,10 @@ Heap.prototype.insertElement = function(insertedValue) {
     this.cmd("SetMessage", "Compare with parent");
     this.setIndexHighlight(currentIndex, 1);
     this.setIndexHighlight(parentIndex, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`compare ${insertedValue} with parent`, {
+      focusNodeId: this.circleObjs[currentIndex],
+      tags: ["insert", "compare"]
+    });
     this.setIndexHighlight(currentIndex, 0);
     this.setIndexHighlight(parentIndex, 0);
   }
@@ -15037,14 +17723,22 @@ Heap.prototype.insertElement = function(insertedValue) {
       this.cmd("SetMessage", "Compare with parent");
       this.setIndexHighlight(currentIndex, 1);
       this.setIndexHighlight(parentIndex, 1);
-      this.cmd("Step");
+      this.markAnimationStep(`compare ${this.arrayData[currentIndex]} with parent`, {
+        focusNodeId: this.circleObjs[currentIndex],
+        tags: ["insert", "compare"]
+      });
       this.setIndexHighlight(currentIndex, 0);
       this.setIndexHighlight(parentIndex, 0);
     }
   }
   this.cmd("SetText", this.descriptLabel1, "");
+  this.beginBlock("insertion complete", {
+    source: "Heap",
+    operation: this.currentAnimationOperation,
+    tags: ["insert", "complete"]
+  });
   this.cmd("SetMessage", "Insertion complete");
-  return this.commands;
+  return this.finishHeapAnimation();
 };
 Heap.prototype.disableUI = function(event) {
   this.insertField.disabled = true;
@@ -15158,6 +17852,38 @@ HeapMax.prototype.addControls = function() {
   this.buildHeapButton = addControlToAlgorithmBar("Button", "BuildHeap");
   this.buildHeapButton.onclick = this.buildHeapCallback.bind(this);
 };
+HeapMax.prototype.beginHeapMaxAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "HeapMax", operation, ...meta });
+};
+HeapMax.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "HeapMax",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+HeapMax.prototype.finishHeapMaxAnimation = function() {
+  return this.finishAnimation();
+};
+HeapMax.prototype.describe = function() {
+  return describeBinaryHeap(this.arrayData, this.currentHeapSize, {
+    emptyText: "Heap is empty.",
+    heapLabel: "Heap"
+  });
+};
+HeapMax.prototype.describeFromState = function(state) {
+  return describeBinaryHeapFromState(state, this.arrayRects, {
+    emptyText: "Heap is empty.",
+    heapLabel: "Heap",
+    activeNodeIds: this.circleObjs
+  });
+};
 HeapMax.prototype.createArray = function() {
   this.arrayData = new Array(ARRAY_SIZE2);
   this.arrayLabels = new Array(ARRAY_SIZE2);
@@ -15220,12 +17946,16 @@ HeapMax.prototype.clearCallback = function(event) {
   this.implementAction(this.clear.bind(this), "");
 };
 HeapMax.prototype.clear = function() {
+  if (!this.pendingBlock) {
+    this.beginHeapMaxAnimation("clear", "clear heap", { tags: ["clear"] });
+  }
   for (let i = 0; i < this.currentHeapSize; i++) {
     this.cmd("Delete", this.circleObjs[i]);
     this.cmd("SetText", this.arrayRects[i], "");
   }
   this.currentHeapSize = 0;
-  return this.commands;
+  this.markAnimationStep("heap cleared", { tags: ["clear", "complete"] });
+  return this.finishHeapMaxAnimation();
 };
 HeapMax.prototype.reset = function() {
   this.currentHeapSize = 0;
@@ -15305,13 +18035,19 @@ HeapMax.prototype.pushDown = function(index, narrateComparisons) {
     if (narrateComparisons) {
       this.cmd("SetMessage", "Heapifying down at index " + index);
       this.setIndexHighlight(index, 1);
-      this.cmd("Step");
+      this.markAnimationStep(`push down from index ${index}`, {
+        focusNodeId: this.circleObjs[index],
+        tags: ["heapify", "push-down"]
+      });
     }
     this.setIndexHighlight(index, 0);
     if (left >= this.currentHeapSize) {
       if (narrateComparisons) {
         this.cmd("SetMessage", "No children: value is in its final location");
-        this.cmd("Step");
+        this.markAnimationStep(`index ${index} settled`, {
+          focusNodeId: this.circleObjs[index],
+          tags: ["heapify", "settled"]
+        });
       }
       return;
     }
@@ -15325,7 +18061,10 @@ HeapMax.prototype.pushDown = function(index, narrateComparisons) {
       }
       this.setIndexHighlight(left, 1);
       this.setIndexHighlight(right, 1);
-      this.cmd("Step");
+      this.markAnimationStep(`compare children of index ${index}`, {
+        focusNodeId: this.circleObjs[index],
+        tags: ["heapify", "compare", "children"]
+      });
       this.setIndexHighlight(left, 0);
       this.setIndexHighlight(right, 0);
       if (Number(this.arrayData[right]) > Number(this.arrayData[left])) {
@@ -15340,7 +18079,10 @@ HeapMax.prototype.pushDown = function(index, narrateComparisons) {
     }
     this.setIndexHighlight(index, 1);
     this.setIndexHighlight(largestIndex, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`compare index ${index} with child ${largestIndex}`, {
+      focusNodeId: this.circleObjs[index],
+      tags: ["heapify", "compare", "parent-child"]
+    });
     this.setIndexHighlight(index, 0);
     this.setIndexHighlight(largestIndex, 0);
     if (Number(this.arrayData[largestIndex]) > Number(this.arrayData[index])) {
@@ -15364,7 +18106,9 @@ HeapMax.prototype.pushDown = function(index, narrateComparisons) {
   }
 };
 HeapMax.prototype.removeLargest = function(dummy) {
-  this.commands = new Array();
+  this.beginHeapMaxAnimation("removeLargest", "remove largest", {
+    tags: ["remove", "max"]
+  });
   this.cmd("SetText", this.descriptLabel1, "");
   this.cmd("SetMessage", "Remove largest (max): check if heap is empty");
   if (this.currentHeapSize == 0) {
@@ -15374,7 +18118,8 @@ HeapMax.prototype.removeLargest = function(dummy) {
       "Heap is empty, cannot remove largest element"
     );
     this.cmd("SetMessage", "Heap is empty; nothing to remove");
-    return this.commands;
+    this.markAnimationStep("heap empty", { tags: ["remove", "empty"] });
+    return this.finishHeapMaxAnimation();
   }
   this.cmd("SetMessage", "Largest element is at the root");
   this.cmd(
@@ -15382,7 +18127,10 @@ HeapMax.prototype.removeLargest = function(dummy) {
     this.descriptLabel1,
     "Removing element:" + this.arrayData[0]
   );
-  this.cmd("Step");
+  this.markAnimationStep(`remove root ${this.arrayData[0]}`, {
+    focusNodeId: this.circleObjs[0],
+    tags: ["remove", "root"]
+  });
   this.cmd(
     "SetText",
     this.descriptLabel1,
@@ -15399,7 +18147,9 @@ HeapMax.prototype.removeLargest = function(dummy) {
     this.cmd("SetText", this.arrayRects[lastIndex], "");
     this.arrayData[lastIndex] = "";
     this.currentHeapSize--;
-    this.cmd("Step");
+    this.markAnimationStep(`move last value ${lastIndex} to root`, {
+      tags: ["remove", "swap-root"]
+    });
     this.cmd("SetMessage", "Push down to restore heap order");
     this.pushDown(0, true);
   } else {
@@ -15408,15 +18158,18 @@ HeapMax.prototype.removeLargest = function(dummy) {
     this.cmd("Delete", this.circleObjs[0]);
     this.arrayData[0] = "";
     this.currentHeapSize--;
+    this.markAnimationStep("remove only element", { tags: ["remove", "single"] });
   }
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishHeapMaxAnimation();
 };
 HeapMax.prototype.buildHeapCallback = function(event) {
   this.implementAction(this.buildHeap.bind(this), "");
 };
 HeapMax.prototype.buildHeap = function(ignored) {
-  this.commands = [];
+  this.beginHeapMaxAnimation("buildHeap", "build heap", {
+    tags: ["build", "heapify"]
+  });
   this.clear();
   for (var i = 0; i < HEAP_CAPACITY2; i++) {
     const randVal = Math.floor(Math.random() * 100) + 1;
@@ -15437,21 +18190,25 @@ HeapMax.prototype.buildHeap = function(ignored) {
       );
     }
   }
-  this.cmd("Step");
+  this.markAnimationStep("create heap array", { tags: ["build", "populate"] });
   this.currentHeapSize = HEAP_CAPACITY2;
   var nextElem = this.currentHeapSize - 1;
   while (nextElem >= 0) {
     this.pushDown(nextElem);
     nextElem = nextElem - 1;
   }
-  return this.commands;
+  this.markAnimationStep("heap built", { tags: ["build", "complete"] });
+  return this.finishHeapMaxAnimation();
 };
 HeapMax.prototype.insertElement = function(insertedValue) {
-  this.commands = new Array();
+  this.beginHeapMaxAnimation("insert", `insert ${insertedValue}`, {
+    tags: ["insert"]
+  });
   if (this.currentHeapSize >= HEAP_CAPACITY2) {
     this.cmd("SetText", this.descriptLabel1, "Heap Full!");
     this.cmd("SetMessage", "Heap is full; cannot insert");
-    return this.commands;
+    this.markAnimationStep("heap full", { tags: ["insert", "full"] });
+    return this.finishHeapMaxAnimation();
   }
   this.cmd("SetMessage", "Insert: place new value at the next open spot");
   this.cmd(
@@ -15459,7 +18216,10 @@ HeapMax.prototype.insertElement = function(insertedValue) {
     this.descriptLabel1,
     "Inserting Element: " + insertedValue
   );
-  this.cmd("Step");
+  this.markAnimationStep(`create node ${insertedValue}`, {
+    focusNodeId: this.circleObjs[this.currentHeapSize],
+    tags: ["insert", "create"]
+  });
   this.cmd("SetText", this.descriptLabel1, "Inserting Element: ");
   const insertIndex = this.currentHeapSize;
   this.currentHeapSize++;
@@ -15486,7 +18246,10 @@ HeapMax.prototype.insertElement = function(insertedValue) {
     this.HeapXPositions[insertIndex],
     this.HeapYPositions[insertIndex]
   );
-  this.cmd("Step");
+  this.markAnimationStep(`place ${insertedValue} at index ${insertIndex}`, {
+    focusNodeId: this.circleObjs[insertIndex],
+    tags: ["insert", "place"]
+  });
   this.cmd("SetText", this.circleObjs[insertIndex], insertedValue);
   this.cmd("delete", this.descriptLabel2);
   this.cmd("SetText", this.arrayRects[insertIndex], insertedValue);
@@ -15496,7 +18259,10 @@ HeapMax.prototype.insertElement = function(insertedValue) {
     this.cmd("SetMessage", "Compare with parent");
     this.setIndexHighlight(currentIndex, 1);
     this.setIndexHighlight(parentIndex, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`compare ${insertedValue} with parent`, {
+      focusNodeId: this.circleObjs[currentIndex],
+      tags: ["insert", "compare"]
+    });
     this.setIndexHighlight(currentIndex, 0);
     this.setIndexHighlight(parentIndex, 0);
   }
@@ -15509,14 +18275,22 @@ HeapMax.prototype.insertElement = function(insertedValue) {
       this.cmd("SetMessage", "Compare with parent");
       this.setIndexHighlight(currentIndex, 1);
       this.setIndexHighlight(parentIndex, 1);
-      this.cmd("Step");
+      this.markAnimationStep(`compare ${this.arrayData[currentIndex]} with parent`, {
+        focusNodeId: this.circleObjs[currentIndex],
+        tags: ["insert", "compare"]
+      });
       this.setIndexHighlight(currentIndex, 0);
       this.setIndexHighlight(parentIndex, 0);
     }
   }
   this.cmd("SetText", this.descriptLabel1, "");
+  this.beginBlock("insertion complete", {
+    source: "HeapMax",
+    operation: this.currentAnimationOperation,
+    tags: ["insert", "complete"]
+  });
   this.cmd("SetMessage", "Insertion complete");
-  return this.commands;
+  return this.finishHeapMaxAnimation();
 };
 HeapMax.prototype.disableUI = function(event) {
   this.insertField.disabled = true;
@@ -15617,6 +18391,67 @@ HeapSort.prototype.addControls = function() {
   this.heapsortButton = addControlToAlgorithmBar("Button", "Heap Sort");
   this.heapsortButton.onclick = this.heapsortCallback.bind(this);
 };
+HeapSort.prototype.beginHeapSortAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "HeapSort", operation, ...meta });
+};
+HeapSort.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "HeapSort",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+HeapSort.prototype.finishHeapSortAnimation = function() {
+  return this.finishAnimation();
+};
+HeapSort.prototype.describe = function() {
+  if (this.currentHeapSize > 0) {
+    const heapValues = this.arrayData.slice(0, this.currentHeapSize);
+    const description = describeBinaryHeap(heapValues, this.currentHeapSize, {
+      emptyText: "Array is empty.",
+      heapLabel: "Active heap"
+    });
+    if (this.currentHeapSize < this.arrayData.length) {
+      const suffix = this.arrayData.slice(this.currentHeapSize);
+      return `${description} Sorted suffix has ${suffix.length} value${suffix.length === 1 ? "" : "s"}. ${suffix.map((value, index) => `Index ${this.currentHeapSize + index} stores ${value}.`).join(" ")}`;
+    }
+    return description;
+  }
+  return describeIndexedArray(this.arrayData, {
+    emptyText: "Array is empty.",
+    label: "Array"
+  });
+};
+HeapSort.prototype.describeFromState = function(state) {
+  const activeHeapSize = this.circleObjs.filter((id) => {
+    const object = state.objects.get(id);
+    const text = getReplayObjectText(object);
+    return object != null && text != null && text !== "";
+  }).length;
+  if (activeHeapSize > 0) {
+    const description = describeBinaryHeapFromState(state, this.arrayRects, {
+      emptyText: "Array is empty.",
+      heapLabel: "Active heap",
+      size: activeHeapSize,
+      activeNodeIds: this.circleObjs
+    });
+    if (activeHeapSize < this.arrayRects.length) {
+      const suffix = this.arrayRects.slice(activeHeapSize).map((id) => getReplayObjectText(state.objects.get(id)));
+      return `${description} Sorted suffix has ${suffix.length} value${suffix.length === 1 ? "" : "s"}. ${suffix.map((value, index) => `Index ${activeHeapSize + index} stores ${value}.`).join(" ")}`;
+    }
+    return description;
+  }
+  return describeIndexedArrayFromState(state, this.arrayRects, {
+    emptyText: "Array is empty.",
+    label: "Array"
+  });
+};
 HeapSort.prototype.createArray = function() {
   this.arrayData = new Array(ARRAY_SIZE3);
   this.arrayLabels = new Array(ARRAY_SIZE3);
@@ -15674,7 +18509,9 @@ HeapSort.prototype.randomizeCallback = function(ignored) {
   this.implementAction(this.randomizeArray.bind(this), "");
 };
 HeapSort.prototype.randomizeArray = function() {
-  this.commands = new Array();
+  this.beginHeapSortAnimation("randomize", "randomize array", {
+    tags: ["randomize"]
+  });
   this.clearHeapDrawing();
   this.isHeapified = false;
   for (var i = 0; i < ARRAY_SIZE3; i++) {
@@ -15684,7 +18521,8 @@ HeapSort.prototype.randomizeArray = function() {
     this.cmd("SetBackgroundColor", this.arrayRects[i], DEFAULT_ARRAY_BACKGROUND);
     this.oldData[i] = this.arrayData[i];
   }
-  return this.commands;
+  this.markAnimationStep("randomization complete", { tags: ["randomize", "complete"] });
+  return this.finishHeapSortAnimation();
 };
 HeapSort.prototype.reset = function() {
   for (var i = 0; i < ARRAY_SIZE3; i++) {
@@ -15699,40 +18537,56 @@ HeapSort.prototype.reset = function() {
   this.commands = new Array();
 };
 HeapSort.prototype.heapsort = function(ignored) {
-  this.commands = new Array();
+  this.beginHeapSortAnimation("sort", "heap sort", {
+    tags: ["sort", "heap"]
+  });
   if (!this.isHeapified) {
     this.cmd(
       "SetMessage",
       "Heap Sort is disabled until the array is heapified."
     );
-    return this.commands;
+    this.markAnimationStep("heap not heapified", { tags: ["sort", "blocked"] });
+    return this.finishHeapSortAnimation();
   }
   for (var a = 0; a < ARRAY_SIZE3; a++) {
     this.cmd("SetAlpha", this.arrayRects[a], 1);
     this.cmd("SetBackgroundColor", this.arrayRects[a], DEFAULT_ARRAY_BACKGROUND);
   }
   this.cmd("SetMessage", "Starting heapsort...");
-  this.cmd("Step");
+  this.markAnimationStep("start heapsort", { tags: ["sort", "start"] });
   for (var i = ARRAY_SIZE3 - 1; i > 0; i--) {
     this.cmd("SetMessage", "Removing max value");
-    this.cmd("Step");
+    this.markAnimationStep(`swap root with index ${i}`, {
+      focusNodeId: this.circleObjs[0],
+      tags: ["sort", "extract"]
+    });
     this.swap(i, 0);
     this.cmd("SetMessage", "Reduce logical heap size by 1");
     this.cmd("SetBackgroundColor", this.arrayRects[i], SORTED_ARRAY_BACKGROUND);
     this.cmd("Delete", this.circleObjs[i]);
     this.currentHeapSize = i;
-    this.cmd("Step");
+    this.markAnimationStep(`lock index ${i} in sorted suffix`, {
+      tags: ["sort", "sorted-suffix"]
+    });
     this.pushDown(0);
   }
+  this.beginBlock("heapsort complete", {
+    source: "HeapSort",
+    operation: this.currentAnimationOperation,
+    tags: ["sort", "complete"]
+  });
   this.cmd("SetBackgroundColor", this.arrayRects[0], SORTED_ARRAY_BACKGROUND);
   this.cmd("Delete", this.circleObjs[0]);
   this.currentHeapSize = 0;
   this.heapDrawn = false;
   this.isHeapified = false;
-  return this.commands;
+  this.cmd("SetMessage", "Heapsort complete");
+  return this.finishHeapSortAnimation();
 };
 HeapSort.prototype.heapify = function(ignored) {
-  this.commands = new Array();
+  this.beginHeapSortAnimation("heapify", "heapify array", {
+    tags: ["heapify"]
+  });
   this.clearHeapDrawing();
   this.isHeapified = false;
   for (var i = 0; i < ARRAY_SIZE3; i++) {
@@ -15740,9 +18594,14 @@ HeapSort.prototype.heapify = function(ignored) {
     this.cmd("SetBackgroundColor", this.arrayRects[i], DEFAULT_ARRAY_BACKGROUND);
   }
   this.buildHeap("");
+  this.beginBlock("heapify complete", {
+    source: "HeapSort",
+    operation: this.currentAnimationOperation,
+    tags: ["heapify", "complete"]
+  });
   this.cmd("SetMessage", "Heapify complete: array now satisfies heap order");
   this.isHeapified = true;
-  return this.commands;
+  return this.finishHeapSortAnimation();
 };
 HeapSort.prototype.clearHeapDrawing = function() {
   if (!this.heapDrawn) {
@@ -15809,7 +18668,9 @@ HeapSort.prototype.swap = function(index1, index2) {
     "SetMessage",
     "Swap: values between indices " + index1 + " and " + index2
   );
-  this.cmd("Step");
+  this.markAnimationStep(`swap ${index1} and ${index2}`, {
+    tags: ["swap"]
+  });
   this.cmd("SetText", this.arrayRects[index1], this.arrayData[index1]);
   this.cmd("SetText", this.arrayRects[index2], this.arrayData[index2]);
   this.cmd("SetText", this.circleObjs[index1], this.arrayData[index1]);
@@ -15836,7 +18697,10 @@ HeapSort.prototype.pushDown = function(index) {
       "Heapify down at " + index
     );
     this.setIndexHighlight(index, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`push down from index ${index}`, {
+      focusNodeId: this.circleObjs[index],
+      tags: ["heapify", "push-down"]
+    });
     this.setIndexHighlight(index, 0);
     largestIndex = left;
     if (right < this.currentHeapSize) {
@@ -15846,7 +18710,10 @@ HeapSort.prototype.pushDown = function(index) {
       );
       this.setIndexHighlight(left, 1);
       this.setIndexHighlight(right, 1);
-      this.cmd("Step");
+      this.markAnimationStep(`compare children of index ${index}`, {
+        focusNodeId: this.circleObjs[index],
+        tags: ["heapify", "compare", "children"]
+      });
       this.setIndexHighlight(left, 0);
       this.setIndexHighlight(right, 0);
       if (this.arrayData[right] > this.arrayData[left]) {
@@ -15859,7 +18726,10 @@ HeapSort.prototype.pushDown = function(index) {
     );
     this.setIndexHighlight(index, 1);
     this.setIndexHighlight(largestIndex, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`compare index ${index} with child ${largestIndex}`, {
+      focusNodeId: this.circleObjs[index],
+      tags: ["heapify", "compare", "parent-child"]
+    });
     this.setIndexHighlight(index, 0);
     this.setIndexHighlight(largestIndex, 0);
     if (this.arrayData[largestIndex] > this.arrayData[index]) {
@@ -15894,7 +18764,7 @@ HeapSort.prototype.buildHeap = function(ignored) {
     "SetMessage",
     "Heapify: Calculate parent index of last element: " + nextElem
   );
-  this.cmd("Step");
+  this.markAnimationStep("build heap drawing", { tags: ["heapify", "build"] });
   this.heapDrawn = true;
   while (nextElem >= 0) {
     this.pushDown(nextElem);
@@ -15975,6 +18845,25 @@ Kruskal.prototype.init = function(am, w2, h, graphOpts) {
   this.showEdgeCosts = true;
   Kruskal.superclass.init.call(this, am, w2, h, false, false, graphOpts);
 };
+Kruskal.prototype.beginKruskalAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "Kruskal", operation, ...meta });
+};
+Kruskal.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "Kruskal",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+Kruskal.prototype.finishKruskalAnimation = function() {
+  return this.finishAnimation();
+};
 Kruskal.prototype.setup = function() {
   Kruskal.superclass.setup.call(this);
   this.messageID = new Array();
@@ -16022,7 +18911,10 @@ Kruskal.prototype.startCallback = function(event) {
 };
 Kruskal.prototype.disjointSetFind = function(valueToFind, highlightCircleID) {
   this.cmd("SetTextColor", this.setID[valueToFind], "#FF0000");
-  this.cmd("Step");
+  this.markAnimationStep(`find root of ${valueToFind}`, {
+    focusNodeId: this.circleID[valueToFind],
+    tags: ["find", "disjoint-set"]
+  });
   while (this.setData[valueToFind] >= 0) {
     this.cmd("SetTextColor", this.setID[valueToFind], "#000000");
     this.cmd(
@@ -16031,16 +18923,24 @@ Kruskal.prototype.disjointSetFind = function(valueToFind, highlightCircleID) {
       Kruskal.SET_ARRAY_START_X - Kruskal.SET_ARRAY_ELEM_WIDTH,
       Kruskal.SET_ARRAY_START_Y + this.setData[valueToFind] * Kruskal.SET_ARRAY_ELEM_HEIGHT
     );
-    this.cmd("Step");
+    this.markAnimationStep(`follow parent from ${valueToFind}`, {
+      focusNodeId: this.circleID[valueToFind],
+      tags: ["find", "disjoint-set", "follow"]
+    });
     valueToFind = this.setData[valueToFind];
     this.cmd("SetTextColor", this.setID[valueToFind], "#FF0000");
-    this.cmd("Step");
+    this.markAnimationStep(`inspect representative ${valueToFind}`, {
+      focusNodeId: this.circleID[valueToFind],
+      tags: ["find", "disjoint-set", "inspect"]
+    });
   }
   this.cmd("SetTextColor", this.setID[valueToFind], "#000000");
   return valueToFind;
 };
 Kruskal.prototype.doKruskal = function(ignored) {
-  this.commands = new Array();
+  this.beginKruskalAnimation("run", "run kruskal", {
+    tags: ["mst", "kruskal"]
+  });
   const mstEdges = [];
   this.edgesListLeftID = new Array();
   this.edgesListRightID = new Array();
@@ -16089,7 +18989,7 @@ Kruskal.prototype.doKruskal = function(ignored) {
     }
   }
   this.cmd("SetMessage", "Created edge list from graph");
-  this.cmd("Step");
+  this.markAnimationStep("create edge list", { tags: ["mst", "edges"] });
   var edgeCount = this.edgesListLeftID.length;
   var tmpLeftID;
   var tmpRightID;
@@ -16128,7 +19028,7 @@ Kruskal.prototype.doKruskal = function(ignored) {
     );
   }
   this.cmd("SetMessage", "Sorted edges by increasing weight");
-  this.cmd("Step");
+  this.markAnimationStep("sort edges by weight", { tags: ["mst", "sort"] });
   var findLabelLeft = this.nextIndex++;
   var findLabelRight = this.nextIndex++;
   var highlightCircle1 = this.nextIndex++;
@@ -16188,7 +19088,10 @@ Kruskal.prototype.doKruskal = function(ignored) {
       Kruskal.SET_ARRAY_START_Y + edgeU * Kruskal.SET_ARRAY_ELEM_HEIGHT
     );
     this.cmd("SetMessage", `Find representative for ${edgeU}`);
-    this.cmd("Step");
+    this.markAnimationStep(`consider edge ${edgeU}-${edgeV}`, {
+      focusNodeId: this.circleID[edgeU],
+      tags: ["mst", "consider"]
+    });
     var left = this.disjointSetFind(
       edgeU,
       highlightCircle1
@@ -16232,13 +19135,18 @@ Kruskal.prototype.doKruskal = function(ignored) {
       "SetMessage",
       `Compare representatives: ${left} vs ${right}`
     );
-    this.cmd("Step");
+    this.markAnimationStep(`compare components ${left} and ${right}`, {
+      tags: ["mst", "compare-components"]
+    });
     if (left != right) {
       this.cmd(
         "SetMessage",
         `Different components. Add edge and union(${left}, ${right})`
       );
-      this.cmd("Step");
+      this.markAnimationStep(`add edge ${edgeU}-${edgeV}`, {
+        focusNodeId: this.circleID[edgeU],
+        tags: ["mst", "add-edge"]
+      });
       mstEdges.push([edgeU, edgeV]);
       this.highlightEdge(edgeU, edgeV, 1);
       this.highlightEdge(edgeV, edgeU, 1);
@@ -16272,7 +19180,9 @@ Kruskal.prototype.doKruskal = function(ignored) {
           "SetMessage",
           `Union by size: attach root ${right} under root ${left}`
         );
-        this.cmd("Step");
+        this.markAnimationStep(`union ${right} into ${left}`, {
+          tags: ["mst", "union"]
+        });
         this.cmd("Delete", moveLabelID);
         this.setData[left] = this.setData[left] + this.setData[right];
         this.setData[right] = left;
@@ -16295,7 +19205,9 @@ Kruskal.prototype.doKruskal = function(ignored) {
           "SetMessage",
           `Union by size: attach root ${left} under root ${right}`
         );
-        this.cmd("Step");
+        this.markAnimationStep(`union ${left} into ${right}`, {
+          tags: ["mst", "union"]
+        });
         this.cmd("Delete", moveLabelID);
         this.setData[right] = this.setData[right] + this.setData[left];
         this.setData[left] = right;
@@ -16307,7 +19219,10 @@ Kruskal.prototype.doKruskal = function(ignored) {
         "SetMessage",
         "Vertices already in the same component. Skip edge to avoid cycle"
       );
-      this.cmd("Step");
+      this.markAnimationStep(`skip edge ${edgeU}-${edgeV}`, {
+        focusNodeId: this.circleID[edgeU],
+        tags: ["mst", "skip-cycle"]
+      });
     }
     this.highlightEdge(edgeU, edgeV, 0);
     this.highlightEdge(edgeV, edgeU, 0);
@@ -16322,14 +19237,18 @@ Kruskal.prototype.doKruskal = function(ignored) {
   this.cmd("Delete", findLabelLeft);
   this.cmd("Delete", findLabelRight);
   if (mstEdges.length > 0) {
+    this.beginBlock("highlight mst", {
+      source: "Kruskal",
+      operation: this.currentAnimationOperation,
+      tags: ["mst", "complete"]
+    });
     this.cmd("SetMessage", "Kruskal complete: highlighting MST edges");
     for (i = 0; i < mstEdges.length; i++) {
       this.highlightEdge(mstEdges[i][0], mstEdges[i][1], 1);
       this.highlightEdge(mstEdges[i][1], mstEdges[i][0], 1);
     }
-    this.cmd("Step");
   }
-  return this.commands;
+  return this.finishKruskalAnimation();
 };
 Kruskal.prototype.reset = function() {
   this.messageID = new Array();
@@ -16407,6 +19326,43 @@ LinkedList.prototype.init = function(am, w2, h) {
     this.implementAction(this.findElement.bind(this), val);
   };
   this.createdNodeCount = 0;
+};
+LinkedList.prototype.beginLinkedListAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "LinkedList", operation, ...meta });
+};
+LinkedList.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "LinkedList",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+LinkedList.prototype.finishLinkedListAnimation = function() {
+  return this.finishAnimation();
+};
+LinkedList.prototype.describe = function() {
+  const values = [];
+  for (let i = this.top - 1; i >= 0; i--) {
+    values.push(this.arrayData[i]);
+  }
+  return describeSinglyLinkedChain(values, {
+    emptyText: "List is empty.",
+    headLabel: "Head",
+    tailLabel: "Tail"
+  });
+};
+LinkedList.prototype.describeFromState = function(state) {
+  return describeSinglyLinkedChainFromState(state, this.headID, {
+    emptyText: "List is empty.",
+    headLabel: "Head",
+    tailLabel: "Tail"
+  });
 };
 LinkedList.prototype.addControls = function() {
   addSeparatorToAlgorithmBar();
@@ -16509,7 +19465,9 @@ LinkedList.prototype.clearCallback = function(event) {
   this.implementAction(this.clearData.bind(this), "");
 };
 LinkedList.prototype.insertBack = function(value) {
-  this.commands = [];
+  this.beginLinkedListAnimation("insertBack", `insert back ${value}`, {
+    tags: ["insert", "tail"]
+  });
   this.cmd("SetText", this.leftoverLabelID, "");
   this.createdNodeCount++;
   for (var i = this.top; i > 0; i--) {
@@ -16519,7 +19477,7 @@ LinkedList.prototype.insertBack = function(value) {
   this.arrayData[0] = value;
   this.linkedListElemID[0] = this.nextIndex++;
   this.cmd("SetMessage", "Insert at tail: " + value);
-  this.cmd("Step");
+  this.markAnimationStep(`allocate tail node ${value}`, { tags: ["insert", "allocate"] });
   this.cmd(
     "CreateLinkedList",
     this.linkedListElemID[0],
@@ -16548,7 +19506,10 @@ LinkedList.prototype.insertBack = function(value) {
   );
   this.cmd("SetNull", this.tempID, 0);
   this.cmd("connect", this.tempID, this.linkedListElemID[0], "#000000", 0.1);
-  this.cmd("Step");
+  this.markAnimationStep("track new tail node", {
+    focusNodeId: this.linkedListElemID[0],
+    tags: ["insert", "track"]
+  });
   if (this.top == 0) {
     this.cmd("SetNull", this.headID, 0);
     this.cmd("SetNull", this.tailID, 0);
@@ -16560,6 +19521,7 @@ LinkedList.prototype.insertBack = function(value) {
       0.1
     );
     this.cmd("SetMessage", "List was empty; head and tail point to this node.");
+    this.markAnimationStep("initialize head and tail", { tags: ["insert", "empty"] });
   } else {
     this.cmd("SetNull", this.linkedListElemID[1], 0);
     this.cmd(
@@ -16570,7 +19532,7 @@ LinkedList.prototype.insertBack = function(value) {
       0.1
     );
     this.cmd("SetMessage", "Set old tail->next to new node.");
-    this.cmd("Step");
+    this.markAnimationStep("link old tail to new tail", { tags: ["insert", "link"] });
     this.cmd("Disconnect", this.tailID, this.linkedListElemID[1]);
     this.cmd("SetMessage", "Update tail pointer to new node.");
   }
@@ -16587,19 +19549,25 @@ LinkedList.prototype.insertBack = function(value) {
   this.cmd("Disconnect", this.tempID, this.linkedListElemID[0]);
   this.cmd("Delete", this.tempID);
   this.cmd("Delete", this.tempLabelID);
-  this.cmd("Step");
+  this.markAnimationStep("update tail pointer", { tags: ["insert", "tail-pointer"] });
   this.top = this.top + 1;
+  this.beginBlock("insert complete", {
+    source: "LinkedList",
+    operation: this.currentAnimationOperation,
+    tags: ["insert", "complete"]
+  });
   this.cmd("SetMessage", "");
-  this.cmd("Step");
-  return this.commands;
+  return this.finishLinkedListAnimation();
 };
 LinkedList.prototype.deleteFront = function(ignored) {
-  this.commands = [];
+  this.beginLinkedListAnimation("deleteFront", "delete front", {
+    tags: ["delete", "head"]
+  });
   var labPopID = this.nextIndex++;
   var labPopValID = this.nextIndex++;
   this.cmd("SetText", this.leftoverLabelID, "");
   this.cmd("SetMessage", "Deleting front (head) node");
-  this.cmd("Step");
+  this.markAnimationStep("start delete front", { tags: ["delete", "start"] });
   this.cmd(
     "CreateLabel",
     labPopID,
@@ -16615,10 +19583,10 @@ LinkedList.prototype.deleteFront = function(ignored) {
     LINKED_LIST_START_Y
   );
   this.cmd("Move", labPopValID, ACTION_ELEMENT_X + 20, ACTION_ELEMENT_Y);
-  this.cmd("Step");
+  this.markAnimationStep("capture deleted value", { tags: ["delete", "capture"] });
   if (this.top == 1) {
     this.cmd("SetMessage", "head gets set to head->next which is null.");
-    this.cmd("Step");
+    this.markAnimationStep("clear head and tail", { tags: ["delete", "empty"] });
     this.cmd("SetNull", this.headID, 1);
     this.cmd("SetNull", this.tailID, 1);
     this.cmd("Disconnect", this.headID, this.linkedListElemID[this.top - 1]);
@@ -16633,50 +19601,68 @@ LinkedList.prototype.deleteFront = function(ignored) {
       "#000000",
       0.1
     );
+    this.markAnimationStep("advance head pointer", { tags: ["delete", "head-pointer"] });
   }
-  this.cmd("Step");
   this.cmd("SetMessage", "Delete old head node.");
   this.cmd("Delete", this.linkedListElemID[this.top - 1]);
   this.top = this.top - 1;
-  this.cmd("Step");
+  this.markAnimationStep("delete old head node", { tags: ["delete", "node"] });
   this.cmd("Delete", labPopValID);
   this.cmd("Delete", labPopID);
+  this.beginBlock("delete complete", {
+    source: "LinkedList",
+    operation: this.currentAnimationOperation,
+    tags: ["delete", "complete"]
+  });
   this.cmd("SetMessage", "Deleted Value: " + this.arrayData[this.top]);
-  this.cmd("Step");
-  return this.commands;
+  return this.finishLinkedListAnimation();
 };
 LinkedList.prototype.findElement = function(valueToFind) {
-  this.commands = [];
+  this.beginLinkedListAnimation("find", `find ${valueToFind}`, {
+    tags: ["search", "find"]
+  });
   if (this.top == 0) {
     this.cmd("SetMessage", "Searching for " + valueToFind + ": <empty list>");
-    this.cmd("Step");
-    return this.commands;
+    this.markAnimationStep("empty list", { tags: ["search", "empty"] });
+    return this.finishLinkedListAnimation();
   }
   this.cmd("SetMessage", "Searching for " + valueToFind + " from head...");
-  this.cmd("Step");
+  this.markAnimationStep("start search", { tags: ["search", "start"] });
   for (let i = this.top - 1; i >= 0; i--) {
     this.cmd("SetHighlight", this.linkedListElemID[i], 1);
-    this.cmd("Step");
+    this.markAnimationStep(`inspect ${this.arrayData[i]}`, {
+      focusNodeId: this.linkedListElemID[i],
+      tags: ["search", "inspect"]
+    });
     if (String(this.arrayData[i]) === String(valueToFind)) {
+      this.beginBlock(`found ${valueToFind}`, {
+        source: "LinkedList",
+        operation: this.currentAnimationOperation,
+        tags: ["search", "found"]
+      });
       this.cmd("SetMessage", "Found: " + valueToFind);
-      this.cmd("Step");
       this.cmd("SetHighlight", this.linkedListElemID[i], 0);
-      return this.commands;
+      return this.finishLinkedListAnimation();
     }
     this.cmd("SetHighlight", this.linkedListElemID[i], 0);
   }
+  this.beginBlock(`not found ${valueToFind}`, {
+    source: "LinkedList",
+    operation: this.currentAnimationOperation,
+    tags: ["search", "not-found"]
+  });
   this.cmd("SetMessage", "Not found: " + valueToFind);
-  this.cmd("Step");
-  return this.commands;
+  return this.finishLinkedListAnimation();
 };
 LinkedList.prototype.clearData = function() {
-  this.commands = [];
+  this.beginLinkedListAnimation("clear", "clear list", { tags: ["clear"] });
   if (this.top == 0) {
     this.cmd("SetMessage", "");
     this.cmd("SetNull", this.tempID, 1);
     this.cmd("SetAlpha", this.tempID, 0);
     this.cmd("SetAlpha", this.tempLabelID, 0);
-    return this.commands;
+    this.markAnimationStep("already empty", { tags: ["clear", "empty"] });
+    return this.finishLinkedListAnimation();
   }
   this.cmd("SetNull", this.tailID, 1);
   this.cmd("SetNull", this.headID, 1);
@@ -16686,13 +19672,19 @@ LinkedList.prototype.clearData = function() {
   this.cmd("Disconnect", this.headID, this.linkedListElemID[this.top - 1]);
   this.cmd("Disconnect", this.tailID, this.linkedListElemID[0]);
   this.cmd("Disconnect", this.tempID, this.linkedListElemID[0]);
+  this.markAnimationStep("disconnect pointers", { tags: ["clear", "disconnect"] });
   for (var i = 0; i < this.top; i++) {
     this.cmd("Delete", this.linkedListElemID[i]);
   }
+  this.beginBlock("clear nodes", {
+    source: "LinkedList",
+    operation: this.currentAnimationOperation,
+    tags: ["clear", "nodes"]
+  });
   this.cmd("SetMessage", "");
   this.createdNodeCount = 0;
   this.top = 0;
-  return this.commands;
+  return this.finishLinkedListAnimation();
 };
 
 // AlgorithmLibrary/LinkedListTail.js
@@ -16797,6 +19789,43 @@ LinkedListTail.prototype.init = function(am, w2, h) {
     this.implementAction(this.insertAfterCurrent.bind(this), val);
   };
   this.createdNodeCount = 0;
+};
+LinkedListTail.prototype.beginLinkedListTailAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "LinkedListTail", operation, ...meta });
+};
+LinkedListTail.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "LinkedListTail",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+LinkedListTail.prototype.finishLinkedListTailAnimation = function() {
+  return this.finishAnimation();
+};
+LinkedListTail.prototype.describe = function() {
+  const values = [];
+  for (let i = this.top - 1; i >= 0; i--) {
+    values.push(this.arrayData[i]);
+  }
+  return describeSinglyLinkedChain(values, {
+    emptyText: "List is empty.",
+    headLabel: "Head",
+    tailLabel: "Tail"
+  });
+};
+LinkedListTail.prototype.describeFromState = function(state) {
+  return describeSinglyLinkedChainFromState(state, this.headID, {
+    emptyText: "List is empty.",
+    headLabel: "Head",
+    tailLabel: "Tail"
+  });
 };
 LinkedListTail.prototype.recomputeLeftMostX = function() {
   if (this.top <= 0) {
@@ -16985,16 +20014,18 @@ LinkedListTail.prototype.removeCurrentPointerCallback = function(event) {
   this.implementAction(this.removeCurrentPointer.bind(this), "");
 };
 LinkedListTail.prototype.makeHeadPointer = function(ignored) {
-  this.commands = [];
+  this.beginLinkedListTailAnimation("makeCurrent", "make current pointer", {
+    tags: ["pointer", "current"]
+  });
   if (this.top <= 0) {
     this.cmd("SetMessage", "List is empty; no head to point at.");
-    this.cmd("Step");
+    this.markAnimationStep("empty list", { tags: ["pointer", "empty"] });
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishLinkedListTailAnimation();
   }
   const headNodeID = this.LinkedListTailElemID[this.top - 1];
   this.cmd("SetMessage", "Create current pointer at head");
-  this.cmd("Step");
+  this.markAnimationStep("create current pointer", { tags: ["pointer", "create"] });
   if (!this.hasCurrentPointer) {
     this.cmd(
       "CreateLabel",
@@ -17020,9 +20051,12 @@ LinkedListTail.prototype.makeHeadPointer = function(ignored) {
   }
   this.cmd("connect", this.currentID, headNodeID, "#000000", 0.1, true, "", 2);
   this.currentNodeID = headNodeID;
-  this.cmd("Step");
+  this.markAnimationStep("point current at head", {
+    focusNodeId: headNodeID,
+    tags: ["pointer", "head"]
+  });
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishLinkedListTailAnimation();
 };
 LinkedListTail.prototype.removeCurrentPointer = function(ignored) {
   this.commands = [];
@@ -17056,9 +20090,12 @@ LinkedListTail.prototype.insertAfterCurrentCallback = function(event) {
   this.implementAction(this.insertAfterCurrent.bind(this), value);
 };
 LinkedListTail.prototype.advanceCurrent = function(ignored) {
-  this.commands = [];
+  this.beginLinkedListTailAnimation("advanceCurrent", "advance current", {
+    tags: ["pointer", "advance"]
+  });
   if (!this.hasCurrentPointer || this.currentNodeID == null) {
-    return this.commands;
+    this.markAnimationStep("no current pointer", { tags: ["pointer", "missing"] });
+    return this.finishLinkedListTailAnimation();
   }
   let currentIndex = -1;
   for (let i = 0; i < this.top; i++) {
@@ -17072,20 +20109,20 @@ LinkedListTail.prototype.advanceCurrent = function(ignored) {
     this.currentNodeID = null;
     this.cmd("Delete", this.currentID);
     this.cmd("Delete", this.currentLabelID);
-    return this.commands;
+    this.markAnimationStep("stale current pointer", { tags: ["pointer", "stale"] });
+    return this.finishLinkedListTailAnimation();
   }
   if (currentIndex === 0) {
     this.cmd("SetMessage", "Current is at tail; advancing reaches null");
-    this.cmd("Step");
+    this.markAnimationStep("advance current to null", { tags: ["pointer", "null"] });
     this.cmd("Disconnect", this.currentID, this.currentNodeID);
     this.cmd("SetNull", this.currentID, 1);
-    this.cmd("Step");
     this.cmd("Delete", this.currentID);
     this.cmd("Delete", this.currentLabelID);
     this.hasCurrentPointer = false;
     this.currentNodeID = null;
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishLinkedListTailAnimation();
   }
   const nextNodeID = this.LinkedListTailElemID[currentIndex - 1];
   this.cmd("SetMessage", "Advance current to next node (current = current->next)");
@@ -17094,7 +20131,11 @@ LinkedListTail.prototype.advanceCurrent = function(ignored) {
   this.cmd("connect", this.currentID, nextNodeID, "#000000", 0.1, true, "", 2);
   this.currentNodeID = nextNodeID;
   this.cmd("SetMessage", "");
-  return this.commands;
+  this.markAnimationStep("advance to next node", {
+    focusNodeId: nextNodeID,
+    tags: ["pointer", "advance"]
+  });
+  return this.finishLinkedListTailAnimation();
 };
 LinkedListTail.prototype.deleteNext = function(ignored) {
   this.commands = [];
@@ -17377,7 +20418,9 @@ LinkedListTail.prototype.clearCallback = function(event) {
   this.implementAction(this.clearData.bind(this), "");
 };
 LinkedListTail.prototype.insertBack = function(value) {
-  this.commands = [];
+  this.beginLinkedListTailAnimation("insertBack", `insert back ${value}`, {
+    tags: ["insert", "tail"]
+  });
   this.cmd("SetText", this.leftoverLabelID, "");
   this.createdNodeCount++;
   for (var i = this.top; i > 0; i--) {
@@ -17387,7 +20430,7 @@ LinkedListTail.prototype.insertBack = function(value) {
   this.arrayData[0] = value;
   this.LinkedListTailElemID[0] = this.nextIndex++;
   this.cmd("SetMessage", "Insert at tail: " + value);
-  this.cmd("Step");
+  this.markAnimationStep(`allocate tail node ${value}`, { tags: ["insert", "allocate"] });
   let nodeX = LINKED_LIST_START_X2;
   let nodeY = LINKED_LIST_START_Y2;
   if (this.top > 0) {
@@ -17430,7 +20473,10 @@ LinkedListTail.prototype.insertBack = function(value) {
   this.cmd("SetMessage", "Make a node with value");
   this.cmd("SetNull", this.LinkedListTailElemID[0], 1);
   this.cmd("SetText", this.LinkedListTailElemID[0], value);
-  this.cmd("Step");
+  this.markAnimationStep(`create node ${value}`, {
+    focusNodeId: this.LinkedListTailElemID[0],
+    tags: ["insert", "create"]
+  });
   this.cmd("SetMessage", "Temporary newNode pointer gets address of new node");
   this.cmd("CreateLabel", this.tempLabelID, "newNode", TEMP_LABEL_X2, TEMP_LABEL_Y2);
   this.cmd(
@@ -17444,7 +20490,7 @@ LinkedListTail.prototype.insertBack = function(value) {
   );
   this.cmd("SetNull", this.tempID, 0);
   this.cmd("connect", this.tempID, this.LinkedListTailElemID[0], "#000000", 0.1);
-  this.cmd("Step");
+  this.markAnimationStep("track new tail node", { tags: ["insert", "track"] });
   if (this.top == 0) {
     this.cmd("SetNull", this.headID, 0);
     this.cmd("SetNull", this.tailID, 0);
@@ -17456,6 +20502,7 @@ LinkedListTail.prototype.insertBack = function(value) {
       0.1
     );
     this.cmd("SetMessage", "List was empty; head and tail point to this node.");
+    this.markAnimationStep("initialize head and tail", { tags: ["insert", "empty"] });
   } else {
     this.cmd("SetNull", this.LinkedListTailElemID[1], 0);
     this.cmd(
@@ -17466,7 +20513,7 @@ LinkedListTail.prototype.insertBack = function(value) {
       0.1
     );
     this.cmd("SetMessage", "Set old tail->next to new node.");
-    this.cmd("Step");
+    this.markAnimationStep("link old tail to new tail", { tags: ["insert", "link"] });
     this.cmd("Disconnect", this.tailID, this.LinkedListTailElemID[1]);
     this.cmd("SetMessage", "Update tail pointer to new node.");
   }
@@ -17480,27 +20527,36 @@ LinkedListTail.prototype.insertBack = function(value) {
     "",
     1
   );
-  this.cmd("Step");
   this.cmd("Disconnect", this.tempID, this.LinkedListTailElemID[0]);
   this.cmd("Delete", this.tempID);
   this.cmd("Delete", this.tempLabelID);
   this.top = this.top + 1;
+  this.markAnimationStep("update tail pointer", { tags: ["insert", "tail-pointer"] });
+  this.beginBlock("update size", {
+    source: "LinkedListTail",
+    operation: this.currentAnimationOperation,
+    tags: ["insert", "size"]
+  });
   this.cmd("SetMessage", "Update size to " + this.top);
-  this.cmd("Step");
   this.cmd("SetText", this.sizeID, String(this.top));
-  this.cmd("Step");
+  this.beginBlock("insert complete", {
+    source: "LinkedListTail",
+    operation: this.currentAnimationOperation,
+    tags: ["insert", "complete"]
+  });
   this.cmd("SetMessage", "");
-  this.cmd("Step");
-  return this.commands;
+  return this.finishLinkedListTailAnimation();
 };
 LinkedListTail.prototype.insertFront = function(value) {
-  this.commands = [];
+  this.beginLinkedListTailAnimation("insertFront", `insert front ${value}`, {
+    tags: ["insert", "head"]
+  });
   this.cmd("SetText", this.leftoverLabelID, "");
   this.createdNodeCount++;
   this.arrayData[this.top] = value;
   this.LinkedListTailElemID[this.top] = this.nextIndex++;
   this.cmd("SetMessage", "insertStart(" + value + ")");
-  this.cmd("Step");
+  this.markAnimationStep(`allocate head node ${value}`, { tags: ["insert", "allocate"] });
   const insertX = this.top === 0 ? LINKED_LIST_START_X2 : this.leftMostX - LINKED_LIST_ELEM_SPACING2;
   this.cmd(
     "CreateLinkedList",
@@ -17538,7 +20594,10 @@ LinkedListTail.prototype.insertFront = function(value) {
     "#000000",
     0.1
   );
-  this.cmd("Step");
+  this.markAnimationStep(`create node ${value}`, {
+    focusNodeId: this.LinkedListTailElemID[this.top],
+    tags: ["insert", "create"]
+  });
   if (this.top == 0) {
     this.cmd("SetNull", this.headID, 0);
     this.cmd("SetNull", this.tailID, 0);
@@ -17560,6 +20619,7 @@ LinkedListTail.prototype.insertFront = function(value) {
       1
     );
     this.cmd("SetMessage", "List was empty; head and tail point to this node.");
+    this.markAnimationStep("initialize head and tail", { tags: ["insert", "empty"] });
   } else {
     const oldHeadIndex = this.top - 1;
     this.cmd("SetMessage", "Set newNode->next to old head.");
@@ -17571,7 +20631,7 @@ LinkedListTail.prototype.insertFront = function(value) {
       "#000000",
       0.1
     );
-    this.cmd("Step");
+    this.markAnimationStep("link new head to old head", { tags: ["insert", "link"] });
     this.cmd("SetMessage", "Update head pointer to new node.");
     this.cmd("Disconnect", this.headID, this.LinkedListTailElemID[oldHeadIndex]);
     this.cmd(
@@ -17585,15 +20645,21 @@ LinkedListTail.prototype.insertFront = function(value) {
   this.cmd("Disconnect", this.tempID, this.LinkedListTailElemID[this.top]);
   this.cmd("Delete", this.tempID);
   this.cmd("Delete", this.tempLabelID);
-  this.cmd("Step");
   this.top = this.top + 1;
+  this.beginBlock("update size", {
+    source: "LinkedListTail",
+    operation: this.currentAnimationOperation,
+    tags: ["insert", "size"]
+  });
   this.cmd("SetMessage", "Update size to " + this.top);
-  this.cmd("Step");
   this.cmd("SetText", this.sizeID, String(this.top));
-  this.cmd("Step");
+  this.beginBlock("insert complete", {
+    source: "LinkedListTail",
+    operation: this.currentAnimationOperation,
+    tags: ["insert", "complete"]
+  });
   this.cmd("SetMessage", "");
-  this.cmd("Step");
-  return this.commands;
+  return this.finishLinkedListTailAnimation();
 };
 LinkedListTail.prototype.deleteFront = function(ignored, inClear) {
   if (!inClear) {
@@ -17868,7 +20934,7 @@ LinkedListTail.prototype.printList = function(ignored) {
   return this.commands;
 };
 LinkedListTail.prototype.clearData = function() {
-  this.commands = [];
+  this.beginLinkedListTailAnimation("clear", "clear list", { tags: ["clear"] });
   if (this.top == 0) {
     this.cmd("SetMessage", "");
     if (this.hasCurrentPointer) {
@@ -17882,20 +20948,18 @@ LinkedListTail.prototype.clearData = function() {
     this.cmd("SetAlpha", this.tempID, 0);
     this.cmd("SetAlpha", this.tempLabelID, 0);
     this.cmd("SetMessage", "Update size to 0");
-    this.cmd("Step");
     this.cmd("SetText", this.sizeID, "0");
-    this.cmd("Step");
-    return this.commands;
+    this.markAnimationStep("already empty", { tags: ["clear", "empty"] });
+    return this.finishLinkedListTailAnimation();
   }
   this.cmd("SetMessage", "Clearing list...");
-  this.cmd("Step");
+  this.markAnimationStep("start clear", { tags: ["clear", "start"] });
   while (this.top > 0) {
     this.deleteFront("", true);
   }
   this.cmd("SetMessage", "Update size to 0");
-  this.cmd("Step");
   this.cmd("SetText", this.sizeID, "0");
-  this.cmd("Step");
+  this.markAnimationStep("update size", { tags: ["clear", "size"] });
   this.cmd("SetNull", this.tempID, 1);
   this.cmd("SetAlpha", this.tempID, 0);
   this.cmd("SetAlpha", this.tempLabelID, 0);
@@ -17910,7 +20974,13 @@ LinkedListTail.prototype.clearData = function() {
     this.hasCurrentPointer = false;
     this.currentNodeID = null;
   }
-  return this.commands;
+  this.beginBlock("clear complete", {
+    source: "LinkedListTail",
+    operation: this.currentAnimationOperation,
+    tags: ["clear", "complete"]
+  });
+  this.cmd("SetMessage", "");
+  return this.finishLinkedListTailAnimation();
 };
 
 // AlgorithmLibrary/LinkedListSimple.js
@@ -18012,6 +21082,41 @@ LinkedListSimple.prototype.init = function(am, w2, h) {
     this.implementAction(this.insertAfterCurrent.bind(this), val);
   };
   this.createdNodeCount = 0;
+};
+LinkedListSimple.prototype.beginLinkedListSimpleAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "LinkedListSimple", operation, ...meta });
+};
+LinkedListSimple.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "LinkedListSimple",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+LinkedListSimple.prototype.finishLinkedListSimpleAnimation = function() {
+  return this.finishAnimation();
+};
+LinkedListSimple.prototype.describe = function() {
+  const values = [];
+  for (let i = this.top - 1; i >= 0; i--) {
+    values.push(this.arrayData[i]);
+  }
+  return describeSinglyLinkedChain(values, {
+    emptyText: "List is empty.",
+    headLabel: "Head"
+  });
+};
+LinkedListSimple.prototype.describeFromState = function(state) {
+  return describeSinglyLinkedChainFromState(state, this.headID, {
+    emptyText: "List is empty.",
+    headLabel: "Head"
+  });
 };
 LinkedListSimple.prototype.recomputeLeftMostX = function() {
   if (this.top <= 0) {
@@ -18167,16 +21272,18 @@ LinkedListSimple.prototype.removeCurrentPointerCallback = function(event) {
   this.implementAction(this.removeCurrentPointer.bind(this), "");
 };
 LinkedListSimple.prototype.makeHeadPointer = function(ignored) {
-  this.commands = [];
+  this.beginLinkedListSimpleAnimation("makeCurrent", "make current pointer", {
+    tags: ["pointer", "current"]
+  });
   if (this.top <= 0) {
     this.cmd("SetMessage", "List is empty; no head to point at.");
-    this.cmd("Step");
+    this.markAnimationStep("empty list", { tags: ["pointer", "empty"] });
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishLinkedListSimpleAnimation();
   }
   const headNodeID = this.linkedListElemID[this.top - 1];
   this.cmd("SetMessage", "Create current pointer at head");
-  this.cmd("Step");
+  this.markAnimationStep("create current pointer", { tags: ["pointer", "create"] });
   if (!this.hasCurrentPointer) {
     this.cmd(
       "CreateLabel",
@@ -18202,9 +21309,12 @@ LinkedListSimple.prototype.makeHeadPointer = function(ignored) {
   }
   this.cmd("connect", this.currentID, headNodeID, "#000000", 0.1, true, "", 2);
   this.currentNodeID = headNodeID;
-  this.cmd("Step");
+  this.markAnimationStep("point current at head", {
+    focusNodeId: headNodeID,
+    tags: ["pointer", "head"]
+  });
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishLinkedListSimpleAnimation();
 };
 LinkedListSimple.prototype.removeCurrentPointer = function(ignored) {
   this.commands = [];
@@ -18238,9 +21348,12 @@ LinkedListSimple.prototype.insertAfterCurrentCallback = function(event) {
   this.implementAction(this.insertAfterCurrent.bind(this), value);
 };
 LinkedListSimple.prototype.advanceCurrent = function(ignored) {
-  this.commands = [];
+  this.beginLinkedListSimpleAnimation("advanceCurrent", "advance current", {
+    tags: ["pointer", "advance"]
+  });
   if (!this.hasCurrentPointer || this.currentNodeID == null) {
-    return this.commands;
+    this.markAnimationStep("no current pointer", { tags: ["pointer", "missing"] });
+    return this.finishLinkedListSimpleAnimation();
   }
   let currentIndex = -1;
   for (let i = 0; i < this.top; i++) {
@@ -18254,20 +21367,20 @@ LinkedListSimple.prototype.advanceCurrent = function(ignored) {
     this.currentNodeID = null;
     this.cmd("Delete", this.currentID);
     this.cmd("Delete", this.currentLabelID);
-    return this.commands;
+    this.markAnimationStep("stale current pointer", { tags: ["pointer", "stale"] });
+    return this.finishLinkedListSimpleAnimation();
   }
   if (currentIndex === 0) {
     this.cmd("SetMessage", "Current is at tail; advancing reaches null");
-    this.cmd("Step");
+    this.markAnimationStep("advance current to null", { tags: ["pointer", "null"] });
     this.cmd("Disconnect", this.currentID, this.currentNodeID);
     this.cmd("SetNull", this.currentID, 1);
-    this.cmd("Step");
     this.cmd("Delete", this.currentID);
     this.cmd("Delete", this.currentLabelID);
     this.hasCurrentPointer = false;
     this.currentNodeID = null;
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishLinkedListSimpleAnimation();
   }
   const nextNodeID = this.linkedListElemID[currentIndex - 1];
   this.cmd("SetMessage", "Advance current to next node (current = current->next)");
@@ -18276,7 +21389,11 @@ LinkedListSimple.prototype.advanceCurrent = function(ignored) {
   this.cmd("connect", this.currentID, nextNodeID, "#000000", 0.1, true, "", 2);
   this.currentNodeID = nextNodeID;
   this.cmd("SetMessage", "");
-  return this.commands;
+  this.markAnimationStep("advance to next node", {
+    focusNodeId: nextNodeID,
+    tags: ["pointer", "advance"]
+  });
+  return this.finishLinkedListSimpleAnimation();
 };
 LinkedListSimple.prototype.deleteNext = function(ignored) {
   this.commands = [];
@@ -18529,13 +21646,15 @@ LinkedListSimple.prototype.clearCallback = function(event) {
   this.implementAction(this.clearData.bind(this), "");
 };
 LinkedListSimple.prototype.insertFront = function(value) {
-  this.commands = [];
+  this.beginLinkedListSimpleAnimation("insertFront", `insert front ${value}`, {
+    tags: ["insert", "head"]
+  });
   this.cmd("SetText", this.leftoverLabelID, "");
   this.createdNodeCount++;
   this.arrayData[this.top] = value;
   this.linkedListElemID[this.top] = this.nextIndex++;
   this.cmd("SetMessage", "insertStart(" + value + ")");
-  this.cmd("Step");
+  this.markAnimationStep(`allocate head node ${value}`, { tags: ["insert", "allocate"] });
   const insertX = this.top === 0 ? typeof this._initialFirstNodeX === "number" ? this._initialFirstNodeX : LINKED_LIST_START_X3 : this.leftMostX - LINKED_LIST_ELEM_SPACING3;
   if (this.top === 0) {
     this._initialFirstNodeX = void 0;
@@ -18558,7 +21677,10 @@ LinkedListSimple.prototype.insertFront = function(value) {
   this.cmd("SetMessage", "Make a node with value");
   this.cmd("SetNull", this.linkedListElemID[this.top], 1);
   this.cmd("SetText", this.linkedListElemID[this.top], value);
-  this.cmd("Step");
+  this.markAnimationStep(`create node ${value}`, {
+    focusNodeId: this.linkedListElemID[this.top],
+    tags: ["insert", "create"]
+  });
   this.cmd("SetMessage", "Temporary newNode pointer gets address of new node");
   this.cmd("CreateLabel", this.tempLabelID, "newNode", TEMP_LABEL_X3, TEMP_LABEL_Y3);
   this.cmd(
@@ -18578,7 +21700,7 @@ LinkedListSimple.prototype.insertFront = function(value) {
     "#000000",
     0.1
   );
-  this.cmd("Step");
+  this.markAnimationStep("track new head node", { tags: ["insert", "track"] });
   if (this.top == 0) {
     this.cmd("SetNull", this.headID, 0);
     this.cmd(
@@ -18589,6 +21711,7 @@ LinkedListSimple.prototype.insertFront = function(value) {
       0.1
     );
     this.cmd("SetMessage", "List was empty; head points to this node.");
+    this.markAnimationStep("initialize head pointer", { tags: ["insert", "empty"] });
   } else {
     const oldHeadIndex = this.top - 1;
     this.cmd("SetMessage", "Set newNode->next to old head.");
@@ -18600,7 +21723,7 @@ LinkedListSimple.prototype.insertFront = function(value) {
       "#000000",
       0.1
     );
-    this.cmd("Step");
+    this.markAnimationStep("link new head to old head", { tags: ["insert", "link"] });
     this.cmd("SetMessage", "Update head pointer to new node.");
     this.cmd("Disconnect", this.headID, this.linkedListElemID[oldHeadIndex]);
     this.cmd(
@@ -18611,14 +21734,17 @@ LinkedListSimple.prototype.insertFront = function(value) {
       0.1
     );
   }
-  this.cmd("Step");
   this.cmd("Disconnect", this.tempID, this.linkedListElemID[this.top]);
   this.cmd("Delete", this.tempID);
   this.cmd("Delete", this.tempLabelID);
   this.top = this.top + 1;
+  this.beginBlock("insert complete", {
+    source: "LinkedListSimple",
+    operation: this.currentAnimationOperation,
+    tags: ["insert", "complete"]
+  });
   this.cmd("SetMessage", "");
-  this.cmd("Step");
-  return this.commands;
+  return this.finishLinkedListSimpleAnimation();
 };
 LinkedListSimple.prototype.deleteFront = function(ignored, inClear) {
   if (!inClear) {
@@ -18891,7 +22017,7 @@ LinkedListSimple.prototype.printList = function(ignored) {
   return this.commands;
 };
 LinkedListSimple.prototype.clearData = function() {
-  this.commands = [];
+  this.beginLinkedListSimpleAnimation("clear", "clear list", { tags: ["clear"] });
   if (this.top == 0) {
     this.cmd("SetMessage", "");
     if (this.hasCurrentPointer) {
@@ -18904,10 +22030,11 @@ LinkedListSimple.prototype.clearData = function() {
     this.cmd("SetNull", this.tempID, 1);
     this.cmd("SetAlpha", this.tempID, 0);
     this.cmd("SetAlpha", this.tempLabelID, 0);
-    return this.commands;
+    this.markAnimationStep("already empty", { tags: ["clear", "empty"] });
+    return this.finishLinkedListSimpleAnimation();
   }
   this.cmd("SetMessage", "Clearing list...");
-  this.cmd("Step");
+  this.markAnimationStep("start clear", { tags: ["clear", "start"] });
   while (this.top > 0) {
     this.deleteFront("", true);
   }
@@ -18926,7 +22053,13 @@ LinkedListSimple.prototype.clearData = function() {
     this.hasCurrentPointer = false;
     this.currentNodeID = null;
   }
-  return this.commands;
+  this.beginBlock("clear complete", {
+    source: "LinkedListSimple",
+    operation: this.currentAnimationOperation,
+    tags: ["clear", "complete"]
+  });
+  this.cmd("SetMessage", "");
+  return this.finishLinkedListSimpleAnimation();
 };
 
 // AlgorithmLibrary/DoublyLinkedList.js
@@ -19021,6 +22154,46 @@ DoublyLinkedList.prototype.init = function(am, w2, h) {
   this.doInsertAfterCurrent = function(val) {
     this.implementAction(this.insertAfterCurrent.bind(this), val);
   };
+};
+DoublyLinkedList.prototype.beginDoublyLinkedListAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "DoublyLinkedList", operation, ...meta });
+};
+DoublyLinkedList.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "DoublyLinkedList",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+DoublyLinkedList.prototype.finishDoublyLinkedListAnimation = function() {
+  return this.finishAnimation();
+};
+DoublyLinkedList.prototype.describe = function() {
+  return describeDoublyLinkedChain(this.values.slice(), {
+    emptyText: "List is empty.",
+    headLabel: "Head",
+    tailLabel: "Tail"
+  });
+};
+DoublyLinkedList.prototype.describeFromState = function(state) {
+  return describeDoublyLinkedChainFromState(state, this.headID, {
+    emptyText: "List is empty.",
+    headLabel: "Head",
+    nodePredicate(object) {
+      return object && object.kind === "linkedList";
+    },
+    skipNode(object) {
+      const value = getReplayObjectText(object);
+      return value === "H" || value === "T";
+    },
+    tailLabel: "Tail"
+  });
 };
 DoublyLinkedList.prototype.addControls = function() {
   addSeparatorToAlgorithmBar();
@@ -19285,16 +22458,23 @@ DoublyLinkedList.prototype.insertAfterCurrentCallback = function() {
   this.implementAction(this.insertAfterCurrent.bind(this), value);
 };
 DoublyLinkedList.prototype.makeHeadPointer = function() {
-  this.commands = [];
+  this.beginDoublyLinkedListAnimation("makeCurrent", "make current pointer", {
+    tags: ["pointer", "current"]
+  });
   if (this.nodeIDs.length === 0) {
     this.cmd("SetMessage", "List is empty; no node to point at.");
-    this.cmd("Step");
+    this.markAnimationStep("list empty", {
+      tags: ["pointer", "empty"]
+    });
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishDoublyLinkedListAnimation();
   }
   const headNodeID = this.nodeIDs[0];
   this.cmd("SetMessage", "Create current pointer at head");
-  this.cmd("Step");
+  this.markAnimationStep("create current pointer", {
+    focusNodeId: headNodeID,
+    tags: ["pointer", "create"]
+  });
   if (!this.hasCurrentPointer) {
     this.cmd(
       "CreateLabel",
@@ -19320,9 +22500,12 @@ DoublyLinkedList.prototype.makeHeadPointer = function() {
   }
   this.cmd("Connect", this.currentID, headNodeID, "#000000", 0.1, true, "", 2);
   this.currentNodeID = headNodeID;
-  this.cmd("Step");
+  this.markAnimationStep("point current at head", {
+    focusNodeId: headNodeID,
+    tags: ["pointer", "head"]
+  });
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishDoublyLinkedListAnimation();
 };
 DoublyLinkedList.prototype.removeCurrentPointer = function() {
   this.commands = [];
@@ -19341,9 +22524,11 @@ DoublyLinkedList.prototype.removeCurrentPointer = function() {
   return this.commands;
 };
 DoublyLinkedList.prototype.advanceCurrent = function() {
-  this.commands = [];
+  this.beginDoublyLinkedListAnimation("advanceCurrent", "advance current", {
+    tags: ["pointer", "advance"]
+  });
   if (!this.hasCurrentPointer || this.currentNodeID == null) {
-    return this.commands;
+    return this.finishDoublyLinkedListAnimation();
   }
   const idx = this.nodeIDs.indexOf(this.currentNodeID);
   if (idx < 0) {
@@ -19351,29 +22536,36 @@ DoublyLinkedList.prototype.advanceCurrent = function() {
     this.currentNodeID = null;
     this.cmd("Delete", this.currentID);
     this.cmd("Delete", this.currentLabelID);
-    return this.commands;
+    return this.finishDoublyLinkedListAnimation();
   }
   const next = idx + 1 < this.nodeIDs.length ? this.nodeIDs[idx + 1] : this.dummyTailID;
   if (next === this.dummyTailID) {
     this.cmd("SetMessage", "Current is at last node; advancing reaches dummy tail");
-    this.cmd("Step");
+    this.markAnimationStep("advance reaches tail", {
+      tags: ["pointer", "tail"]
+    });
     this.cmd("Disconnect", this.currentID, this.currentNodeID);
     this.cmd("SetNull", this.currentID, 1);
-    this.cmd("Step");
+    this.markAnimationStep("remove current pointer", {
+      tags: ["pointer", "remove"]
+    });
     this.cmd("Delete", this.currentID);
     this.cmd("Delete", this.currentLabelID);
     this.hasCurrentPointer = false;
     this.currentNodeID = null;
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishDoublyLinkedListAnimation();
   }
   this.cmd("SetMessage", "Advance current to next node (current = current->next)");
-  this.cmd("Step");
+  this.markAnimationStep("advance to next node", {
+    focusNodeId: next,
+    tags: ["pointer", "advance"]
+  });
   this.cmd("Disconnect", this.currentID, this.currentNodeID);
   this.cmd("Connect", this.currentID, next, "#000000", 0.1, true, "", 2);
   this.currentNodeID = next;
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishDoublyLinkedListAnimation();
 };
 DoublyLinkedList.prototype.createTempPointer = function(label, x, y, targetID) {
   const ptrID = this.nextIndex++;
@@ -19385,7 +22577,9 @@ DoublyLinkedList.prototype.createTempPointer = function(label, x, y, targetID) {
   return { ptrID, ptrLabelID };
 };
 DoublyLinkedList.prototype.insertBack = function(value) {
-  this.commands = [];
+  this.beginDoublyLinkedListAnimation("insertBack", `insert back ${value}`, {
+    tags: ["insert", "back"]
+  });
   const newNodeID = this.nextIndex++;
   const oldLast = this.nodeIDs.length > 0 ? this.nodeIDs[this.nodeIDs.length - 1] : this.dummyHeadID;
   let tailX = LINKED_LIST_START_X4 + LINKED_LIST_ELEM_SPACING4 * (this.nodeIDs.length + 1);
@@ -19396,7 +22590,9 @@ DoublyLinkedList.prototype.insertBack = function(value) {
   } catch (e) {
   }
   this.cmd("SetMessage", "Insert at tail: " + value);
-  this.cmd("Step");
+  this.markAnimationStep("create new tail node", {
+    tags: ["insert", "create"]
+  });
   this.cmd(
     "CreateLinkedList",
     newNodeID,
@@ -19426,31 +22622,43 @@ DoublyLinkedList.prototype.insertBack = function(value) {
   );
   this.cmd("SetNull", this.tempID, 0);
   this.cmd("Connect", this.tempID, newNodeID, "#000000", 0.1);
-  this.cmd("Step");
+  this.markAnimationStep("track new node", {
+    focusNodeId: newNodeID,
+    tags: ["insert", "temp-pointer"]
+  });
   this.cmd("SetMessage", "Set newNode->prev and newNode->next");
   this.cmd("Connect", newNodeID, this.dummyTailID, "#000000", 0.1);
   this.cmd("Connect", newNodeID, oldLast, "#000000", 0.1, true, "", 1);
-  this.cmd("Step");
+  this.markAnimationStep("link new node", {
+    focusNodeId: newNodeID,
+    tags: ["insert", "link"]
+  });
   this.cmd("SetMessage", "Update oldLast.next and dummyTail.prev");
   this.cmd("Disconnect", oldLast, this.dummyTailID);
   this.cmd("Connect", oldLast, newNodeID, "#000000", 0.1);
   this.cmd("Disconnect", this.dummyTailID, oldLast);
   this.cmd("Connect", this.dummyTailID, newNodeID, "#000000", 0.1, true, "", 1);
-  this.cmd("Step");
+  this.markAnimationStep("update tail neighbors", {
+    focusNodeId: newNodeID,
+    tags: ["insert", "rewire"]
+  });
   this.cmd("Disconnect", this.tempID, newNodeID);
   this.cmd("Delete", this.tempID);
   this.cmd("Delete", this.tempLabelID);
   this.nodeIDs.push(newNodeID);
   this.values.push(value);
   this.cmd("SetMessage", "Update size display");
-  this.cmd("Step");
   this.cmd("SetText", this.sizeID, String(this.nodeIDs.length));
-  this.cmd("Step");
+  this.markAnimationStep("update size", {
+    tags: ["insert", "size"]
+  });
   this.cmd("SetMessage", "Position nodes. (Just for clarity, not part of algorithm)");
   this.resetPositions();
-  this.cmd("Step");
+  this.markAnimationStep("position nodes", {
+    tags: ["layout", "position"]
+  });
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishDoublyLinkedListAnimation();
 };
 DoublyLinkedList.prototype.insertFront = function(value) {
   this.commands = [];
@@ -19814,9 +23022,13 @@ DoublyLinkedList.prototype.findElement = function(valueToFind) {
   return this.commands;
 };
 DoublyLinkedList.prototype.clearData = function() {
-  this.commands = [];
+  this.beginDoublyLinkedListAnimation("clear", "clear list", {
+    tags: ["clear"]
+  });
   this.cmd("SetMessage", "Clear list");
-  this.cmd("Step");
+  this.markAnimationStep("start clear", {
+    tags: ["clear", "start"]
+  });
   if (this.hasCurrentPointer) {
     if (this.currentNodeID != null) {
       this.cmd("Disconnect", this.currentID, this.currentNodeID);
@@ -19832,9 +23044,10 @@ DoublyLinkedList.prototype.clearData = function() {
   this.nodeIDs = [];
   this.values = [];
   this.cmd("SetMessage", "Update size display");
-  this.cmd("Step");
   this.cmd("SetText", this.sizeID, "0");
-  this.cmd("Step");
+  this.markAnimationStep("clear nodes", {
+    tags: ["clear", "nodes"]
+  });
   this.cmd("Disconnect", this.dummyHeadID, this.dummyTailID);
   this.cmd("Disconnect", this.dummyTailID, this.dummyHeadID);
   this.cmd("Connect", this.dummyHeadID, this.dummyTailID, "#000000", 0.1);
@@ -19850,9 +23063,11 @@ DoublyLinkedList.prototype.clearData = function() {
   );
   this.cmd("SetMessage", "Position nodes");
   this.resetPositions();
-  this.cmd("Step");
+  this.markAnimationStep("restore empty layout", {
+    tags: ["clear", "layout"]
+  });
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishDoublyLinkedListAnimation();
 };
 
 // AlgorithmLibrary/OpenHash.js
@@ -19922,10 +23137,50 @@ OpenHash.prototype.init = function(am, w2, h) {
 OpenHash.prototype.addControls = function() {
   OpenHash.superclass.addControls.call(this);
 };
+OpenHash.prototype.beginOpenHashAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "OpenHash", operation, ...meta });
+};
+OpenHash.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "OpenHash",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+OpenHash.prototype.finishOpenHashAnimation = function() {
+  return this.finishAnimation();
+};
+OpenHash.prototype.describe = function() {
+  const buckets = [];
+  for (let i = 0; i < this.table_size; i++) {
+    const values = [];
+    let node = this.hashTableValues[i];
+    while (node != null) {
+      values.push(String(node.data));
+      node = node.next;
+    }
+    buckets.push(values);
+  }
+  return describeOpenHashTable(buckets, {
+    tableSize: this.table_size
+  });
+};
+OpenHash.prototype.describeFromState = function(state) {
+  return describeOpenHashTableFromState(state, this.hashTableVisual, {
+    tableSize: this.table_size
+  });
+};
 OpenHash.prototype.insertElement = function(elem) {
-  this.commands = new Array();
+  this.beginOpenHashAnimation("insert", `insert ${elem}`, { tags: ["insert"] });
   this.cmd("SetMessage", "Inserting element: " + String(elem));
   var index = this.doHash(elem);
+  this.markAnimationStep(`hash to bucket ${index}`, { tags: ["insert", "hash"] });
   var node = new LinkedListNode(elem, this.nextIndex++, 100, 75);
   this.cmd(
     "CreateLinkedList",
@@ -19950,9 +23205,14 @@ OpenHash.prototype.insertElement = function(elem) {
   this.cmd("connect", this.hashTableVisual[index], node.graphicID);
   node.next = this.hashTableValues[index];
   this.hashTableValues[index] = node;
+  this.beginBlock(`insert into bucket ${index}`, {
+    source: "OpenHash",
+    operation: this.currentAnimationOperation,
+    tags: ["insert", "bucket"]
+  });
   this.repositionList(index);
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishOpenHashAnimation();
 };
 OpenHash.prototype.repositionList = function(index) {
   var startX = POINTER_ARRAY_ELEM_START_X + index * POINTER_ARRAY_ELEM_WIDTH;
@@ -19967,15 +23227,21 @@ OpenHash.prototype.repositionList = function(index) {
   }
 };
 OpenHash.prototype.deleteElement = function(elem) {
-  this.commands = new Array();
+  this.beginOpenHashAnimation("delete", `delete ${elem}`, { tags: ["delete"] });
   this.cmd("SetMessage", "Deleting element: " + elem);
   var index = this.doHash(elem);
+  this.markAnimationStep(`hash to bucket ${index}`, { tags: ["delete", "hash"] });
   if (this.hashTableValues[index] == null) {
+    this.beginBlock(`bucket ${index} empty`, {
+      source: "OpenHash",
+      operation: this.currentAnimationOperation,
+      tags: ["delete", "empty"]
+    });
     this.cmd("SetMessage", "Deleting element: " + elem + "  Element not in table");
-    return this.commands;
+    return this.finishOpenHashAnimation();
   }
   this.cmd("SetHighlight", this.hashTableValues[index].graphicID, 1);
-  this.cmd("Step");
+  this.markAnimationStep(`inspect bucket ${index} head`, { tags: ["delete", "inspect"] });
   this.cmd("SetHighlight", this.hashTableValues[index].graphicID, 0);
   if (this.hashTableValues[index].data == elem) {
     if (this.hashTableValues[index].next != null) {
@@ -19989,15 +23255,23 @@ OpenHash.prototype.deleteElement = function(elem) {
     }
     this.cmd("Delete", this.hashTableValues[index].graphicID);
     this.hashTableValues[index] = this.hashTableValues[index].next;
+    this.beginBlock(`delete ${elem} from bucket ${index}`, {
+      source: "OpenHash",
+      operation: this.currentAnimationOperation,
+      tags: ["delete", "found"]
+    });
     this.repositionList(index);
-    return this.commands;
+    return this.finishOpenHashAnimation();
   }
   var tmpPrev = this.hashTableValues[index];
   var tmp = this.hashTableValues[index].next;
   var found = false;
   while (tmp != null && !found) {
     this.cmd("SetHighlight", tmp.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`inspect chained node ${tmp.data}`, {
+      focusNodeId: tmp.graphicID,
+      tags: ["delete", "inspect"]
+    });
     this.cmd("SetHighlight", tmp.graphicID, 0);
     if (tmp.data == elem) {
       found = true;
@@ -20009,6 +23283,11 @@ OpenHash.prototype.deleteElement = function(elem) {
       }
       tmpPrev.next = tmpPrev.next.next;
       this.cmd("Delete", tmp.graphicID);
+      this.beginBlock(`delete ${elem} from bucket ${index}`, {
+        source: "OpenHash",
+        operation: this.currentAnimationOperation,
+        tags: ["delete", "found"]
+      });
       this.repositionList(index);
     } else {
       tmpPrev = tmp;
@@ -20018,12 +23297,21 @@ OpenHash.prototype.deleteElement = function(elem) {
   if (!found) {
     this.cmd("SetMessage", "Deleting element: " + elem + "  Element not in table");
   }
-  return this.commands;
+  if (!found) {
+    this.beginBlock(`not found ${elem}`, {
+      source: "OpenHash",
+      operation: this.currentAnimationOperation,
+      tags: ["delete", "not-found"]
+    });
+    this.cmd("SetMessage", "Deleting element: " + elem + "  Element not in table");
+  }
+  return this.finishOpenHashAnimation();
 };
 OpenHash.prototype.findElement = function(elem) {
-  this.commands = new Array();
+  this.beginOpenHashAnimation("find", `find ${elem}`, { tags: ["search", "find"] });
   this.cmd("SetMessage", "Finding Element: " + elem);
   var index = this.doHash(elem);
+  this.markAnimationStep(`hash to bucket ${index}`, { tags: ["search", "hash"] });
   var compareIndex = this.nextIndex++;
   var found = false;
   var tmp = this.hashTableValues[index];
@@ -20036,18 +23324,31 @@ OpenHash.prototype.findElement = function(elem) {
     } else {
       this.cmd("SetText", compareIndex, tmp.data + "!=" + elem);
     }
-    this.cmd("Step");
+    this.markAnimationStep(`inspect ${tmp.data}`, {
+      focusNodeId: tmp.graphicID,
+      tags: ["search", "inspect"]
+    });
     this.cmd("SetHighlight", tmp.graphicID, 0);
     tmp = tmp.next;
   }
   if (found) {
+    this.beginBlock(`found ${elem}`, {
+      source: "OpenHash",
+      operation: this.currentAnimationOperation,
+      tags: ["search", "found"]
+    });
     this.cmd("SetMessage", "Finding Element: " + elem + "  Found!");
   } else {
+    this.beginBlock(`not found ${elem}`, {
+      source: "OpenHash",
+      operation: this.currentAnimationOperation,
+      tags: ["search", "not-found"]
+    });
     this.cmd("SetMessage", "Finding Element: " + elem + "  Not Found!");
   }
   this.cmd("Delete", compareIndex);
   this.nextIndex--;
-  return this.commands;
+  return this.finishOpenHashAnimation();
 };
 OpenHash.prototype.doInsert = function(value) {
   return this.implementAction(this.insertElement.bind(this), value);
@@ -20300,6 +23601,28 @@ QueueArray.prototype.reset = function() {
   this.top = 0;
   this.nextIndex = this.initialIndex;
 };
+QueueArray.prototype.beginQueueArrayAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "QueueArray", operation, ...meta });
+};
+QueueArray.prototype.markAnimationStep = function(label, meta = {}) {
+  this.step(label, {
+    source: "QueueArray",
+    operation: this.currentAnimationOperation,
+    ...meta
+  });
+};
+QueueArray.prototype.finishQueueArrayAnimation = function() {
+  this.currentAnimationOperation = null;
+  return this.finishAnimation();
+};
+QueueArray.prototype.describe = function() {
+  return describeQueueArray(this.arrayData, this.head, this.tail, SIZE5);
+};
+QueueArray.prototype.describeFromState = function(state) {
+  return describeQueueArrayFromState(state, this.arrayID, this.headID, this.tailID);
+};
 QueueArray.prototype.enqueueCallback = function(event) {
   if (this.inputField.value != "") {
     var pushVal = this.inputField.value;
@@ -20314,11 +23637,17 @@ QueueArray.prototype.clearCallback = function(event) {
   this.implementAction(this.clearAll.bind(this), "");
 };
 QueueArray.prototype.enqueue = function(elemToEnqueue) {
-  this.commands = new Array();
+  this.beginQueueArrayAnimation("enqueue", `enqueue ${elemToEnqueue}`, {
+    tags: ["queue", "enqueue"]
+  });
   if (this.tail == this.head - 1 || this.head == 0 && this.tail == SIZE5 - 1) {
+    this.beginBlock("queue full", {
+      source: "QueueArray",
+      operation: this.currentAnimationOperation,
+      tags: ["queue", "enqueue", "full"]
+    });
     this.cmd("SetMessage", "End is one less than start. Queue is full. Cannot enqueue.");
-    this.cmd("Step");
-    return this.commands;
+    return this.finishQueueArrayAnimation();
   }
   var labEnqueueValID = this.nextIndex++;
   this.arrayData[this.tail] = elemToEnqueue;
@@ -20331,7 +23660,10 @@ QueueArray.prototype.enqueue = function(elemToEnqueue) {
     QUEUE_ELEMENT_X,
     QUEUE_ELEMENT_Y
   );
-  this.cmd("Step");
+  this.markAnimationStep(`stage ${elemToEnqueue}`, {
+    tags: ["queue", "enqueue", "stage"],
+    focusNodeId: labEnqueueValID
+  });
   this.cmd("SetMessage", "End gives next available location.");
   this.cmd(
     "CreateHighlightCircle",
@@ -20340,34 +23672,48 @@ QueueArray.prototype.enqueue = function(elemToEnqueue) {
     TAIL_POS_X4,
     TAIL_POS_Y
   );
-  this.cmd("Step");
+  this.markAnimationStep(`identify slot ${this.tail}`, {
+    tags: ["queue", "enqueue", "slot"]
+  });
   var xpos = this.tail % ARRAY_ELEMS_PER_LINE * ARRAY_ELEM_WIDTH5 + ARRAY_START_X;
   var ypos = Math.floor(this.tail / ARRAY_ELEMS_PER_LINE) * ARRAY_LINE_SPACING + ARRAY_START_Y;
   this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT5);
-  this.cmd("Step");
+  this.markAnimationStep(`move to slot ${this.tail}`, {
+    tags: ["queue", "enqueue", "move"],
+    focusNodeId: this.arrayID[this.tail]
+  });
   this.cmd("Move", labEnqueueValID, xpos, ypos);
-  this.cmd("Step");
+  this.markAnimationStep(`place ${elemToEnqueue} at ${this.tail}`, {
+    tags: ["queue", "enqueue", "place"],
+    focusNodeId: this.arrayID[this.tail]
+  });
   this.cmd("Settext", this.arrayID[this.tail], elemToEnqueue);
   this.cmd("Delete", labEnqueueValID);
   this.cmd("Delete", this.highlight1ID);
   this.cmd("SetHighlight", this.tailID, 1);
   this.cmd("SetMessage", "Advance end to next location.");
-  this.cmd("Step");
+  this.markAnimationStep("advance end pointer", {
+    tags: ["queue", "enqueue", "tail-pointer"]
+  });
   this.tail = (this.tail + 1) % SIZE5;
   this.cmd("SetText", this.tailID, this.tail);
   if (this.tail == 0)
     this.cmd("SetMessage", "Advance end to next location. It wraps around to index 0.");
-  this.cmd("Step");
+  this.markAnimationStep("enqueue complete", {
+    tags: ["queue", "enqueue", "complete"]
+  });
   this.cmd("SetHighlight", this.tailID, 0);
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishQueueArrayAnimation();
 };
 QueueArray.prototype.dequeue = function(ignored) {
-  this.commands = new Array();
+  this.beginQueueArrayAnimation("dequeue", "dequeue", {
+    tags: ["queue", "dequeue"]
+  });
   if (this.tail == this.head) {
     this.cmd("SetMessage", "Start == End. Queue is empty.");
-    this.cmd("Step");
-    return this.commands;
+    this.markAnimationStep("queue empty", { tags: ["queue", "dequeue", "empty"] });
+    return this.finishQueueArrayAnimation();
   }
   var labDequeueValID = this.nextIndex++;
   this.cmd("SetText", this.leftoverLabelID, "");
@@ -20379,34 +23725,48 @@ QueueArray.prototype.dequeue = function(ignored) {
     HEAD_POS_Y
   );
   this.cmd("SetMessage", "Start gives location of first value.");
-  this.cmd("Step");
+  this.markAnimationStep(`identify head ${this.head}`, {
+    tags: ["queue", "dequeue", "head"]
+  });
   var xpos = this.head % ARRAY_ELEMS_PER_LINE * ARRAY_ELEM_WIDTH5 + ARRAY_START_X;
   var ypos = Math.floor(this.head / ARRAY_ELEMS_PER_LINE) * ARRAY_LINE_SPACING + ARRAY_START_Y;
   this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT5);
-  this.cmd("Step");
+  this.markAnimationStep(`move to head slot ${this.head}`, {
+    tags: ["queue", "dequeue", "move"],
+    focusNodeId: this.arrayID[this.head]
+  });
   this.cmd("Delete", this.highlight1ID);
   var dequeuedVal = this.arrayData[this.head];
   this.cmd("CreateLabel", labDequeueValID, dequeuedVal, xpos, ypos);
   this.cmd("Settext", this.arrayID[this.head], "");
   this.cmd("Move", labDequeueValID, QUEUE_ELEMENT_X, QUEUE_ELEMENT_Y);
   this.cmd("SetMessage", `Dequeue ${dequeuedVal}`);
-  this.cmd("Step");
+  this.markAnimationStep(`extract ${dequeuedVal}`, {
+    tags: ["queue", "dequeue", "extract"],
+    focusNodeId: this.arrayID[this.head]
+  });
   this.cmd("SetHighlight", this.headID, 1);
   this.cmd("SetMessage", "Increment start to next location.");
-  this.cmd("Step");
+  this.markAnimationStep("advance start pointer", {
+    tags: ["queue", "dequeue", "head-pointer"]
+  });
   this.head = (this.head + 1) % SIZE5;
   if (this.head == 0)
     this.cmd("SetMessage", "Advance start to next location. It wraps around to index 0.");
   this.cmd("SetText", this.headID, this.head);
-  this.cmd("Step");
+  this.markAnimationStep("dequeue complete", {
+    tags: ["queue", "dequeue", "complete"]
+  });
   this.cmd("SetHighlight", this.headID, 0);
   this.cmd("SetText", this.leftoverLabelID, "");
   this.cmd("SetMessage", "");
   this.cmd("Delete", labDequeueValID);
-  return this.commands;
+  return this.finishQueueArrayAnimation();
 };
 QueueArray.prototype.clearAll = function() {
-  this.commands = new Array();
+  this.beginQueueArrayAnimation("clear", "clear queue", {
+    tags: ["queue", "clear"]
+  });
   this.cmd("SetText", this.leftoverLabelID, "");
   for (var i = 0; i < SIZE5; i++) {
     this.cmd("SetText", this.arrayID[i], "");
@@ -20415,7 +23775,10 @@ QueueArray.prototype.clearAll = function() {
   this.tail = 0;
   this.cmd("SetText", this.headID, "0");
   this.cmd("SetText", this.tailID, "0");
-  return this.commands;
+  this.markAnimationStep("queue cleared", {
+    tags: ["queue", "clear", "complete"]
+  });
+  return this.finishQueueArrayAnimation();
 };
 
 // AlgorithmLibrary/QueueLL.js
@@ -20563,6 +23926,40 @@ QueueLL.prototype.reset = function() {
   this.top = 0;
   this.nextIndex = this.initialIndex;
 };
+QueueLL.prototype.beginQueueLLAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "QueueLL", operation, ...meta });
+};
+QueueLL.prototype.markAnimationStep = function(label, meta = {}) {
+  this.step(label, {
+    source: "QueueLL",
+    operation: this.currentAnimationOperation,
+    ...meta
+  });
+};
+QueueLL.prototype.finishQueueLLAnimation = function() {
+  this.currentAnimationOperation = null;
+  return this.finishAnimation();
+};
+QueueLL.prototype.describe = function() {
+  const values = [];
+  for (let i = this.top - 1; i >= 0; i--) {
+    values.push(this.arrayData[i]);
+  }
+  return describeSinglyLinkedChain(values, {
+    emptyText: "Queue is empty.",
+    headLabel: "Head",
+    tailLabel: "Tail"
+  });
+};
+QueueLL.prototype.describeFromState = function(state) {
+  return describeSinglyLinkedChainFromState(state, this.headID, {
+    emptyText: "Queue is empty.",
+    headLabel: "Head",
+    tailLabel: "Tail"
+  });
+};
 QueueLL.prototype.enqueueCallback = function(event) {
   if (this.top < SIZE6 && this.inputField.value != "") {
     var pushVal = this.inputField.value;
@@ -20579,7 +23976,9 @@ QueueLL.prototype.clearCallback = function(event) {
   this.implementAction(this.clearData.bind(this), "");
 };
 QueueLL.prototype.enqueue = function(elemToPush) {
-  this.commands = new Array();
+  this.beginQueueLLAnimation("enqueue", `enqueue ${elemToPush}`, {
+    tags: ["queue", "enqueue"]
+  });
   this.arrayData[this.top] = elemToPush;
   this.cmd("SetText", this.leftoverLabelID, "");
   this.createdNodeCount++;
@@ -20590,7 +23989,10 @@ QueueLL.prototype.enqueue = function(elemToPush) {
   this.arrayData[0] = elemToPush;
   this.linkedListElemID[0] = this.nextIndex++;
   this.cmd("SetMessage", "Enqueuing Value: " + elemToPush);
-  this.cmd("Step");
+  this.markAnimationStep(`allocate node ${elemToPush}`, {
+    tags: ["queue", "enqueue", "allocate"],
+    focusNodeId: this.linkedListElemID[0]
+  });
   this.cmd(
     "CreateLinkedList",
     this.linkedListElemID[0],
@@ -20609,34 +24011,53 @@ QueueLL.prototype.enqueue = function(elemToPush) {
   this.cmd("SetMessage", "Make a node with value");
   this.cmd("SetNull", this.linkedListElemID[0], 1);
   this.cmd("SetText", this.linkedListElemID[0], elemToPush);
-  this.cmd("Step");
+  this.markAnimationStep(`create node ${elemToPush}`, {
+    tags: ["queue", "enqueue", "create"],
+    focusNodeId: this.linkedListElemID[0]
+  });
   if (this.top == 0) {
     this.cmd("SetNull", this.headID, 0);
     this.cmd("SetNull", this.tailID, 0);
     this.cmd("connect", this.headID, this.linkedListElemID[this.top], "#000000", 0.1);
     this.cmd("SetMessage", "Queue is empty, head and tail point to this node.");
+    this.markAnimationStep("initialize head and tail", {
+      tags: ["queue", "enqueue", "empty"],
+      focusNodeId: this.linkedListElemID[this.top]
+    });
   } else {
     this.cmd("SetNull", this.linkedListElemID[1], 0);
     this.cmd("Connect", this.linkedListElemID[1], this.linkedListElemID[0], "#000000", 0.1);
     this.cmd("SetMessage", "Set tail->next to point to new node.");
-    this.cmd("Step");
+    this.markAnimationStep("link old tail to new tail", {
+      tags: ["queue", "enqueue", "link"],
+      focusNodeId: this.linkedListElemID[1]
+    });
     this.cmd("Disconnect", this.tailID, this.linkedListElemID[1]);
     this.cmd("SetMessage", "Update tail pointer to new node.");
   }
   this.cmd("connect", this.tailID, this.linkedListElemID[0], "#000000", -0.1, true, "", 1);
-  this.cmd("Step");
+  this.markAnimationStep("update tail pointer", {
+    tags: ["queue", "enqueue", "tail-pointer"],
+    focusNodeId: this.linkedListElemID[0]
+  });
   this.top = this.top + 1;
+  this.beginBlock("enqueue complete", {
+    source: "QueueLL",
+    operation: this.currentAnimationOperation,
+    tags: ["queue", "enqueue", "complete"]
+  });
   this.cmd("SetMessage", "");
-  this.cmd("Step");
-  return this.commands;
+  return this.finishQueueLLAnimation();
 };
 QueueLL.prototype.dequeue = function(ignored) {
-  this.commands = new Array();
+  this.beginQueueLLAnimation("dequeue", "dequeue", {
+    tags: ["queue", "dequeue"]
+  });
   var labPopID = this.nextIndex++;
   var labPopValID = this.nextIndex++;
   this.cmd("SetText", this.leftoverLabelID, "");
   this.cmd("SetMessage", "Dequeuing first value");
-  this.cmd("Step");
+  this.markAnimationStep("start dequeue", { tags: ["queue", "dequeue", "start"] });
   this.cmd(
     "CreateLabel",
     labPopID,
@@ -20652,7 +24073,10 @@ QueueLL.prototype.dequeue = function(ignored) {
     LINKED_LIST_START_Y5
   );
   this.cmd("Move", labPopValID, PUSH_ELEMENT_X + 20, PUSH_ELEMENT_Y);
-  this.cmd("Step");
+  this.markAnimationStep(`capture ${this.arrayData[this.top - 1]}`, {
+    tags: ["queue", "dequeue", "capture"],
+    focusNodeId: this.linkedListElemID[this.top - 1]
+  });
   if (this.top == 1) {
     this.cmd("SetMessage", "Head == tail, so that was last value.");
     this.cmd("Step");
@@ -20661,24 +24085,37 @@ QueueLL.prototype.dequeue = function(ignored) {
     this.cmd("SetNull", this.tailID, 1);
     this.cmd("Disconnect", this.headID, this.linkedListElemID[this.top - 1]);
     this.cmd("Disconnect", this.tailID, this.linkedListElemID[this.top - 1]);
+    this.markAnimationStep("clear head and tail", {
+      tags: ["queue", "dequeue", "empty"],
+      focusNodeId: this.linkedListElemID[this.top - 1]
+    });
   } else {
     this.cmd("SetMessage", "Advance head.");
     this.cmd("Disconnect", this.headID, this.linkedListElemID[this.top - 1]);
     this.cmd("Connect", this.headID, this.linkedListElemID[this.top - 2], "#000000", 0.1);
+    this.markAnimationStep("advance head", {
+      tags: ["queue", "dequeue", "head-pointer"],
+      focusNodeId: this.linkedListElemID[this.top - 2]
+    });
   }
-  this.cmd("Step");
   this.cmd("SetMessage", "Delete old head node.");
   this.cmd("Delete", this.linkedListElemID[this.top - 1]);
   this.top = this.top - 1;
-  this.cmd("Step");
+  this.markAnimationStep("delete old head node", {
+    tags: ["queue", "dequeue", "delete"]
+  });
   this.cmd("Delete", labPopValID);
   this.cmd("Delete", labPopID);
   this.cmd("SetMessage", "Dequeued Value: " + this.arrayData[this.top]);
-  this.cmd("Step");
-  return this.commands;
+  this.markAnimationStep("dequeue complete", {
+    tags: ["queue", "dequeue", "complete"]
+  });
+  return this.finishQueueLLAnimation();
 };
 QueueLL.prototype.clearData = function() {
-  this.commands = new Array();
+  this.beginQueueLLAnimation("clear", "clear queue", {
+    tags: ["queue", "clear"]
+  });
   this.cmd("SetNull", this.tailID, 1);
   this.cmd("SetNull", this.headID, 1);
   this.cmd("Disconnect", this.headID, this.linkedListElemID[this.top - 1]);
@@ -20689,7 +24126,10 @@ QueueLL.prototype.clearData = function() {
   this.cmd("SetMessage", "");
   this.createdNodeCount = 0;
   this.top = 0;
-  return this.commands;
+  this.markAnimationStep("queue cleared", {
+    tags: ["queue", "clear", "complete"]
+  });
+  return this.finishQueueLLAnimation();
 };
 
 // AlgorithmLibrary/RedBlack.js
@@ -20730,6 +24170,11 @@ var PRINT_COLOR = FOREGROUND_COLOR2;
 var widthDelta = 50;
 var heightDelta = 60;
 var startingY = 50;
+var GROUP_RED_X_DELTA = 36;
+var GROUP_RED_Y_DELTA = 36;
+var GROUP_HEIGHT_DELTA = 125;
+var GROUP_MIN_WIDTH = 125;
+var GROUP_CHILD_SPACING = 32;
 var EXPLANITORY_TEXT_Y = 10;
 RedBlack.prototype = new Algorithm();
 RedBlack.prototype.constructor = RedBlack;
@@ -20790,7 +24235,7 @@ RedBlack.prototype.addControls = function() {
   this.findButton.onclick = this.findCallback.bind(this);
   this.clearButton = addControlToAlgorithmBar("Button", "Clear");
   this.clearButton.onclick = this.clearCallback.bind(this);
-  this.insertRandomButton = addControlToAlgorithmBar("Button", "Insert Random Values");
+  this.insertRandomButton = addControlToAlgorithmBar("Button", "Add Random Values");
   this.insertRandomButton.onclick = this.insertRandomCallback.bind(this);
   addSeparatorToAlgorithmBar();
   this.printButton = addControlToAlgorithmBar("Button", "Print");
@@ -20799,10 +24244,29 @@ RedBlack.prototype.addControls = function() {
   this.showNullLeaves = addCheckboxToAlgorithmBar("Show Null Leaves", "NullLeavesCheck");
   this.showNullLeaves.onclick = this.showNullLeavesCallback.bind(this);
   this.showNullLeaves.checked = false;
+  this.show234Groups = addCheckboxToAlgorithmBar("Show 2-3-4 Groups", "Groups234Check");
+  this.show234Groups.onclick = this.show234GroupsCallback.bind(this);
+  this.show234Groups.checked = false;
 };
 RedBlack.prototype.reset = function() {
   this.nextIndex = 2;
   this.treeRoot = null;
+};
+RedBlack.prototype.beginRedBlackAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "RedBlack", operation, ...meta });
+};
+RedBlack.prototype.markAnimationStep = function(label, meta = {}) {
+  this.step(label, {
+    source: "RedBlack",
+    operation: this.currentAnimationOperation,
+    ...meta
+  });
+};
+RedBlack.prototype.finishRedBlackAnimation = function() {
+  this.currentAnimationOperation = null;
+  return this.finishAnimation();
 };
 RedBlack.prototype.insertCallback = function(event) {
   var insertedValue = this.inputField.value;
@@ -20835,9 +24299,11 @@ RedBlack.prototype.clearCallback = function(event) {
   this.implementAction(this.clearData.bind(this), "");
 };
 RedBlack.prototype.clearData = function() {
-  if (this.treeRoot == null)
-    return;
-  this.commands = [];
+  this.beginRedBlackAnimation("clear", "clear tree", { tags: ["clear"] });
+  if (this.treeRoot == null) {
+    this.markAnimationStep("tree already empty", { tags: ["clear", "empty"] });
+    return this.finishRedBlackAnimation();
+  }
   function clearTree(tree, handler) {
     if (tree == null)
       return;
@@ -20861,7 +24327,8 @@ RedBlack.prototype.clearData = function() {
   this.groupBoxes = {};
   this.cmd("SetNull", this.rootIndex, 1);
   this.cmd("SetMessage", "");
-  return this.commands;
+  this.markAnimationStep("tree cleared", { tags: ["clear", "complete"] });
+  return this.finishRedBlackAnimation();
 };
 RedBlack.prototype.insertRandomCallback = function(event) {
   var numToInsert = 10;
@@ -20874,7 +24341,51 @@ RedBlack.prototype.insertRandomCallback = function(event) {
   this.animationManager.clearHistory();
   this.animationManager.animatedObjects.draw();
 };
+RedBlack.prototype.show234GroupsEnabled = function() {
+  return this.show234Groups && this.show234Groups.checked;
+};
+RedBlack.prototype.isNodeVisible = function(node) {
+  let showNullLeaves = this.showNullLeaves && this.showNullLeaves.checked;
+  return node != null && (showNullLeaves || !node.phantomLeaf);
+};
+RedBlack.prototype.isRedNonNullNode = function(node) {
+  return node != null && !node.phantomLeaf && node.blackLevel == 0;
+};
+RedBlack.prototype.get234GroupNodes = function(tree) {
+  if (!this.isNodeVisible(tree) || tree.phantomLeaf || tree.blackLevel != 1) {
+    return [];
+  }
+  const group = [tree];
+  if (this.isRedNonNullNode(tree.left))
+    group.push(tree.left);
+  if (this.isRedNonNullNode(tree.right))
+    group.push(tree.right);
+  return group;
+};
+RedBlack.prototype.get234ChildRoots = function(tree) {
+  if (!this.isNodeVisible(tree)) {
+    return [];
+  }
+  if (tree.blackLevel == 0) {
+    return [tree.left, tree.right].filter((child) => this.isNodeVisible(child));
+  }
+  const children = [];
+  if (this.isRedNonNullNode(tree.left)) {
+    children.push(tree.left.left, tree.left.right);
+  } else {
+    children.push(tree.left);
+  }
+  if (this.isRedNonNullNode(tree.right)) {
+    children.push(tree.right.left, tree.right.right);
+  } else {
+    children.push(tree.right);
+  }
+  return children.filter((child) => this.isNodeVisible(child));
+};
 RedBlack.prototype.updateGroupingsRec = function(tree, show) {
+  if (!this.isNodeVisible(tree) || tree.phantomLeaf) {
+    return;
+  }
   if (tree.left != null && !tree.left.phantomLeaf) {
     this.updateGroupingsRec(tree.left, show);
   }
@@ -20901,11 +24412,10 @@ RedBlack.prototype.updateGroupingsRec = function(tree, show) {
       minY = Math.min(minY, ly - LABEL_PAD_Y - OUTER_PAD);
       maxY = Math.max(maxY, ly + LABEL_PAD_Y + OUTER_PAD);
     };
-    addNodeBounds(tree);
-    if (tree.left && tree.left.blackLevel == 0)
-      addNodeBounds(tree.left);
-    if (tree.right && tree.right.blackLevel == 0)
-      addNodeBounds(tree.right);
+    const groupNodes = this.get234GroupNodes(tree);
+    for (const node of groupNodes) {
+      addNodeBounds(node);
+    }
     const width = Math.max(0, maxX - minX);
     const height = Math.max(0, maxY - minY);
     if (tree.containerBoxID) {
@@ -20918,6 +24428,7 @@ RedBlack.prototype.updateGroupingsRec = function(tree, show) {
       this.cmd("CreateRectangle", rectID, "", width, height, minX, minY, "left", "top");
       this.cmd("SetBackgroundColor", rectID, "rgba(255, 255, 255, 0)");
       this.cmd("SetForegroundColor", rectID, LINK_COLOR);
+      this.cmd("SetLineDash", rectID, "6 4");
       this.cmd("SetLayer", rectID, 0);
     }
   } else {
@@ -20932,10 +24443,15 @@ RedBlack.prototype.updateGroupingsRec = function(tree, show) {
 };
 RedBlack.prototype.updateGroupings = function(unused) {
   this.commands = [];
-  this.updateGroupingsInternal();
+  if (this.treeRoot) {
+    this.resizeTree();
+  } else {
+    this.updateGroupingsInternal();
+  }
   return this.commands;
 };
 RedBlack.prototype.updateGroupingsInternal = function() {
+  const show = this.show234GroupsEnabled();
   const deleteBoxesRec = (tree) => {
     if (tree == null)
       return;
@@ -20948,8 +24464,27 @@ RedBlack.prototype.updateGroupingsInternal = function() {
     if (tree.right != null && !tree.right.phantomLeaf)
       deleteBoxesRec(tree.right);
   };
-  if (this.treeRoot)
+  if (!this.treeRoot) {
+    return;
+  }
+  if (show) {
+    this.updateGroupingsRec(this.treeRoot, true);
+  } else {
     deleteBoxesRec(this.treeRoot);
+  }
+};
+RedBlack.prototype.deleteNodeVisuals = function(node) {
+  if (node == null) {
+    return;
+  }
+  if (node.containerBoxID) {
+    this.cmd("Delete", node.containerBoxID);
+    node.containerBoxID = null;
+  }
+  this.cmd("Delete", node.graphicID);
+  if (node.colorLabelID != null) {
+    this.cmd("Delete", node.colorLabelID);
+  }
 };
 RedBlack.prototype.setNullLeafLayers = function(tree, layer) {
   if (tree == null)
@@ -20965,6 +24500,9 @@ RedBlack.prototype.setNullLeafLayers = function(tree, layer) {
 };
 RedBlack.prototype.showNullLeavesCallback = function(event) {
   this.implementAction(this.toggleNullLeaves.bind(this), "");
+};
+RedBlack.prototype.show234GroupsCallback = function(event) {
+  this.implementAction(this.updateGroupings.bind(this), "");
 };
 RedBlack.prototype.deleteNullLeavesRec = function(tree) {
   if (tree == null)
@@ -21021,7 +24559,7 @@ RedBlack.prototype.toggleNullLeaves = function(unused) {
   return this.commands;
 };
 RedBlack.prototype.printTree = function(unused) {
-  this.commands = [];
+  this.beginRedBlackAnimation("print", "print tree", { tags: ["print", "in"] });
   if (this.treeRoot != null) {
     this.highlightID = this.nextIndex++;
     var firstLabel = this.nextIndex;
@@ -21036,12 +24574,14 @@ RedBlack.prototype.printTree = function(unused) {
     this.yPosOfNextLabel = this.first_print_pos_y;
     this.printTreeRec(this.treeRoot);
     this.cmd("Delete", this.highlightID);
-    this.cmd("Step");
+    this.markAnimationStep("finish print", { tags: ["print", "complete"] });
     for (var i = firstLabel; i < this.nextIndex; i++)
       this.cmd("Delete", i);
     this.nextIndex = this.highlightID;
+  } else {
+    this.markAnimationStep("tree empty", { tags: ["print", "empty"] });
   }
-  return this.commands;
+  return this.finishRedBlackAnimation();
 };
 RedBlack.prototype.printTreeRec = function(tree) {
   this.cmd("Step");
@@ -21070,10 +24610,12 @@ RedBlack.prototype.printTreeRec = function(tree) {
   return;
 };
 RedBlack.prototype.findElement = function(findValue) {
-  this.commands = [];
+  this.beginRedBlackAnimation("find", `find ${findValue}`, {
+    tags: ["search", "find"]
+  });
   this.highlightID = this.nextIndex++;
   this.findImpl(this.treeRoot, findValue);
-  return this.commands;
+  return this.finishRedBlackAnimation();
 };
 RedBlack.prototype.findImpl = function(tree, value) {
   this.cmd("SetMessage", "Searching for " + value);
@@ -21087,6 +24629,13 @@ RedBlack.prototype.findImpl = function(tree, value) {
       this.cmd("Step");
       this.cmd("SetMessage", "Found:" + value);
       this.cmd("SetHighlight", tree.graphicID, 0);
+      this.beginBlock(`found ${value}`, {
+        source: "RedBlack",
+        operation: this.currentAnimationOperation,
+        tags: ["search", "found"],
+        focusNodeId: tree.graphicID
+      });
+      this.cmd("SetMessage", "Found:" + value);
     } else {
       if (tree.data > value) {
         this.cmd(
@@ -21107,6 +24656,10 @@ RedBlack.prototype.findImpl = function(tree, value) {
           this.cmd("Step");
           this.cmd("Delete", this.highlightID);
         }
+        this.markAnimationStep(`${tree.data}: search left`, {
+          tags: ["search", "compare", "left"],
+          focusNodeId: tree.graphicID
+        });
         this.findImpl(tree.left, value);
       } else {
         this.cmd(
@@ -21127,6 +24680,10 @@ RedBlack.prototype.findImpl = function(tree, value) {
           this.cmd("Step");
           this.cmd("Delete", this.highlightID);
         }
+        this.markAnimationStep(`${tree.data}: search right`, {
+          tags: ["search", "compare", "right"],
+          focusNodeId: tree.graphicID
+        });
         this.findImpl(tree.right, value);
       }
     }
@@ -21136,6 +24693,15 @@ RedBlack.prototype.findImpl = function(tree, value) {
       " Searching for " + value + " : < Empty Tree > (Element not found)"
     );
     this.cmd("Step");
+    this.cmd(
+      "SetMessage",
+      " Searching for " + value + " :  (Element not found)"
+    );
+    this.beginBlock("value not found", {
+      source: "RedBlack",
+      operation: this.currentAnimationOperation,
+      tags: ["search", "not-found"]
+    });
     this.cmd(
       "SetMessage",
       " Searching for " + value + " :  (Element not found)"
@@ -21211,9 +24777,13 @@ RedBlack.prototype.attachNullLeaves = function(node) {
   this.attachRightNullLeaf(node);
 };
 RedBlack.prototype.insertElement = function(insertedValue) {
-  this.commands = new Array();
+  this.beginRedBlackAnimation("insert", `insert ${insertedValue}`, {
+    tags: ["insert"]
+  });
   this.cmd("SetMessage", " Inserting " + insertedValue);
-  this.cmd("Step");
+  this.markAnimationStep(`start insert ${insertedValue}`, {
+    tags: ["insert", "start"]
+  });
   this.highlightID = this.nextIndex++;
   var treeNodeID;
   if (this.treeRoot == null) {
@@ -21248,6 +24818,10 @@ RedBlack.prototype.insertElement = function(insertedValue) {
     this.treeRoot.blackLevel = 1;
     this.attachNullLeaves(this.treeRoot);
     this.resizeTree();
+    this.markAnimationStep("create root", {
+      tags: ["insert", "root"],
+      focusNodeId: treeNodeID
+    });
   } else {
     treeNodeID = this.nextIndex++;
     let labelID = this.nextIndex++;
@@ -21279,9 +24853,13 @@ RedBlack.prototype.insertElement = function(insertedValue) {
     insertElem.height = 1;
     this.insert(insertElem, this.treeRoot);
     this.resizeTree();
+    this.markAnimationStep(`insert node ${insertedValue}`, {
+      tags: ["insert", "node"],
+      focusNodeId: treeNodeID
+    });
   }
   this.cmd("SetMessage", " ");
-  return this.commands;
+  return this.finishRedBlackAnimation();
 };
 RedBlack.prototype.singleRotateRight = function(tree) {
   var B = tree;
@@ -21560,9 +25138,11 @@ RedBlack.prototype.fixDoubleRed = function(tree) {
   }
 };
 RedBlack.prototype.deleteElement = function(deletedValue) {
-  this.commands = new Array();
+  this.beginRedBlackAnimation("delete", `delete ${deletedValue}`, {
+    tags: ["delete"]
+  });
   this.cmd("SetMessage", "Deleting " + deletedValue);
-  this.cmd("Step");
+  this.markAnimationStep("start delete", { tags: ["delete", "start"] });
   this.cmd("SetMessage", " ");
   this.highlightID = this.nextIndex++;
   this.treeDelete(this.treeRoot, deletedValue);
@@ -21572,10 +25152,17 @@ RedBlack.prototype.deleteElement = function(deletedValue) {
   }
   this.resizeTree();
   if (this.treeRoot == null) {
-    this.cmd("Step");
+    this.markAnimationStep("tree empty after delete", {
+      tags: ["delete", "empty"]
+    });
   }
+  this.beginBlock("delete complete", {
+    source: "RedBlack",
+    operation: this.currentAnimationOperation,
+    tags: ["delete", "complete"]
+  });
   this.cmd("SetMessage", " ");
-  return this.commands;
+  return this.finishRedBlackAnimation();
 };
 RedBlack.prototype.fixLeftNull = function(tree) {
   var treeNodeID = this.nextIndex++;
@@ -21810,8 +25397,7 @@ RedBlack.prototype.treeDelete = function(tree, valueToDelete) {
       var needFix = tree.blackLevel > 0;
       if ((tree.left == null || tree.left.phantomLeaf) && (tree.right == null || tree.right.phantomLeaf)) {
         this.cmd("SetMessage", "Node to delete is a leaf.  Delete it.");
-        this.cmd("Delete", tree.graphicID);
-        this.cmd("Delete", tree.colorLabelID);
+        this.deleteNodeVisuals(tree);
         if (tree.left != null) {
           this.cmd("Delete", tree.left.graphicID);
         }
@@ -21857,8 +25443,7 @@ RedBlack.prototype.treeDelete = function(tree, valueToDelete) {
             LINK_COLOR
           );
           this.cmd("Step");
-          this.cmd("Delete", tree.graphicID);
-          this.cmd("Delete", tree.colorLabelID);
+          this.deleteNodeVisuals(tree);
           if (leftchild) {
             tree.parent.left = tree.right;
             if (needFix) {
@@ -21884,8 +25469,7 @@ RedBlack.prototype.treeDelete = function(tree, valueToDelete) {
           }
           tree.right.parent = tree.parent;
         } else {
-          this.cmd("Delete", tree.graphicID);
-          this.cmd("Delete", tree.colorLabelID);
+          this.deleteNodeVisuals(tree);
           this.treeRoot = tree.right;
           this.treeRoot.parent = null;
           if (this.treeRoot.blackLevel == 0) {
@@ -21921,8 +25505,7 @@ RedBlack.prototype.treeDelete = function(tree, valueToDelete) {
             LINK_COLOR
           );
           this.cmd("Step");
-          this.cmd("Delete", tree.graphicID);
-          this.cmd("Delete", tree.colorLabelID);
+          this.deleteNodeVisuals(tree);
           if (leftchild) {
             tree.parent.left = tree.left;
             if (needFix) {
@@ -21954,8 +25537,7 @@ RedBlack.prototype.treeDelete = function(tree, valueToDelete) {
           }
           tree.left.parent = tree.parent;
         } else {
-          this.cmd("Delete", tree.graphicID);
-          this.cmd("Delete", tree.colorLabelID);
+          this.deleteNodeVisuals(tree);
           this.treeRoot = tree.left;
           this.treeRoot.parent = null;
           if (this.treeRoot.blackLevel == 0) {
@@ -22009,8 +25591,7 @@ RedBlack.prototype.treeDelete = function(tree, valueToDelete) {
         this.cmd("SetMessage", "Remove node whose value we copied.");
         needFix = tmp.blackLevel > 0;
         if (tmp.right == null) {
-          this.cmd("Delete", tmp.graphicID);
-          this.cmd("Delete", tmp.colorLabelID);
+          this.deleteNodeVisuals(tmp);
           if (tmp.parent != tree) {
             tmp.parent.left = null;
             this.resizeTree();
@@ -22045,8 +25626,7 @@ RedBlack.prototype.treeDelete = function(tree, valueToDelete) {
             LINK_COLOR
           );
           this.cmd("Step");
-          this.cmd("Delete", tmp.graphicID);
-          this.cmd("Delete", tmp.colorLabelID);
+          this.deleteNodeVisuals(tmp);
           if (tmp.parent != tree) {
             tmp.parent.left = tmp.right;
             tmp.right.parent = tmp.parent;
@@ -22169,9 +25749,44 @@ RedBlack.prototype.fixNodeColor = function(tree) {
     }
   }
 };
+RedBlack.prototype.describe = function() {
+  return describeBinaryTree(this.treeRoot, {
+    getDetails(node) {
+      if (node.blackLevel > 1) {
+        return ["double black"];
+      }
+      return [node.blackLevel === 0 ? "red" : "black"];
+    },
+    shouldInclude(node) {
+      return node != null && !node.phantomLeaf;
+    }
+  });
+};
+RedBlack.prototype.describeFromState = function(state) {
+  return describeBinaryTreeFromState(state, this.rootIndex, {
+    childPredicate(object) {
+      return object && object.kind === "circle";
+    },
+    classifySingleChild: classifySingleReplayChildByValue,
+    getDetails(node) {
+      if (node.object.backgroundColor === BACKGROUND_DOUBLE_BLACK) {
+        return ["double black"];
+      }
+      return [node.object.backgroundColor === BACKGROUND_RED ? "red" : "black"];
+    },
+    shouldIncludeObject(object) {
+      return getReplayObjectText(object) !== "NULL\nLEAF";
+    },
+    sortChildren: compareReplayObjectsByValue
+  });
+};
 RedBlack.prototype.resizeTree = function() {
   var startingPoint = this.startingX;
-  this.resizeWidths(this.treeRoot);
+  if (this.show234GroupsEnabled()) {
+    this.resizeWidths234(this.treeRoot);
+  } else {
+    this.resizeWidths(this.treeRoot);
+  }
   if (this.treeRoot != null) {
     if (this.treeRoot.leftWidth > startingPoint) {
       startingPoint = this.treeRoot.leftWidth;
@@ -22181,10 +25796,70 @@ RedBlack.prototype.resizeTree = function() {
         2 * startingPoint - this.treeRoot.rightWidth
       );
     }
-    this.setNewPositions(this.treeRoot, startingPoint, startingY, 0);
+    if (this.show234GroupsEnabled()) {
+      this.setNewPositions234(this.treeRoot, startingPoint, startingY);
+    } else {
+      this.setNewPositions(this.treeRoot, startingPoint, startingY, 0);
+    }
     this.animateNewPositions(this.treeRoot);
     this.updateGroupingsInternal();
     this.cmd("Step");
+  }
+};
+RedBlack.prototype.resizeWidths234 = function(tree) {
+  if (!this.isNodeVisible(tree)) {
+    return 0;
+  }
+  if (tree.blackLevel == 0) {
+    tree.leftWidth = Math.max(this.resizeWidths234(tree.left), widthDelta / 2);
+    tree.rightWidth = Math.max(this.resizeWidths234(tree.right), widthDelta / 2);
+    return tree.leftWidth + tree.rightWidth;
+  }
+  const childRoots = this.get234ChildRoots(tree);
+  const childWidths = childRoots.map((child) => this.resizeWidths234(child));
+  const childrenWidth = childWidths.reduce((total, width) => total + width, 0) + Math.max(0, childWidths.length - 1) * GROUP_CHILD_SPACING;
+  const groupNodeCount = this.get234GroupNodes(tree).length;
+  const ownWidth = Math.max(GROUP_MIN_WIDTH, NODE_SIZE * 2 + (groupNodeCount - 1) * GROUP_RED_X_DELTA * 2);
+  const totalWidth = Math.max(ownWidth, childrenWidth);
+  tree.groupChildRoots = childRoots;
+  tree.groupChildWidths = childWidths;
+  tree.groupOwnWidth = ownWidth;
+  tree.leftWidth = Math.max(totalWidth / 2, widthDelta / 2);
+  tree.rightWidth = Math.max(totalWidth / 2, widthDelta / 2);
+  return totalWidth;
+};
+RedBlack.prototype.setNewPositions234 = function(tree, xPosition, yPosition) {
+  if (!this.isNodeVisible(tree)) {
+    return;
+  }
+  if (tree.blackLevel == 0) {
+    this.setNewPositions(tree, xPosition, yPosition, 0);
+    return;
+  }
+  tree.x = xPosition;
+  tree.y = yPosition;
+  tree.heightLabelX = xPosition - 20;
+  tree.heightLabelY = yPosition - 20;
+  if (this.isRedNonNullNode(tree.left)) {
+    tree.left.x = xPosition - GROUP_RED_X_DELTA;
+    tree.left.y = yPosition + GROUP_RED_Y_DELTA;
+    tree.left.heightLabelX = tree.left.x - 20;
+    tree.left.heightLabelY = tree.left.y - 20;
+  }
+  if (this.isRedNonNullNode(tree.right)) {
+    tree.right.x = xPosition + GROUP_RED_X_DELTA;
+    tree.right.y = yPosition + GROUP_RED_Y_DELTA;
+    tree.right.heightLabelX = tree.right.x + 20;
+    tree.right.heightLabelY = tree.right.y - 20;
+  }
+  const childRoots = tree.groupChildRoots || this.get234ChildRoots(tree);
+  const childWidths = tree.groupChildWidths || childRoots.map((child) => this.resizeWidths234(child));
+  const childrenWidth = childWidths.reduce((total, width) => total + width, 0) + Math.max(0, childWidths.length - 1) * GROUP_CHILD_SPACING;
+  let nextX = xPosition - childrenWidth / 2;
+  for (let i = 0; i < childRoots.length; i++) {
+    const childWidth = childWidths[i];
+    this.setNewPositions234(childRoots[i], nextX + childWidth / 2, yPosition + GROUP_HEIGHT_DELTA);
+    nextX += childWidth + GROUP_CHILD_SPACING;
   }
 };
 RedBlack.prototype.setNewPositions = function(tree, xPosition, yPosition, side) {
@@ -22345,7 +26020,7 @@ SPLAYTREE.prototype.addControls = function() {
   this.findButton.onclick = this.findCallback.bind(this);
   this.clearButton = addControlToAlgorithmBar("Button", "Clear");
   this.clearButton.onclick = this.clearCallback.bind(this);
-  this.insertRandomButton = addControlToAlgorithmBar("Button", "Insert Random Values");
+  this.insertRandomButton = addControlToAlgorithmBar("Button", "Add Random Values");
   this.insertRandomButton.onclick = this.insertRandomCallback.bind(this);
   addSeparatorToAlgorithmBar();
   this.printButton = addControlToAlgorithmBar("Button", "Print");
@@ -22354,6 +26029,22 @@ SPLAYTREE.prototype.addControls = function() {
 SPLAYTREE.prototype.reset = function() {
   this.nextIndex = 1;
   this.treeRoot = null;
+};
+SPLAYTREE.prototype.beginSplayAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "SplayTree", operation, ...meta });
+};
+SPLAYTREE.prototype.markAnimationStep = function(label, meta = {}) {
+  this.step(label, {
+    source: "SplayTree",
+    operation: this.currentAnimationOperation,
+    ...meta
+  });
+};
+SPLAYTREE.prototype.finishSplayAnimation = function() {
+  this.currentAnimationOperation = null;
+  return this.finishAnimation();
 };
 SPLAYTREE.prototype.insertCallback = function(event) {
   var insertedValue = this.inputField.value;
@@ -22375,9 +26066,11 @@ SPLAYTREE.prototype.clearCallback = function(event) {
   this.implementAction(this.clearData.bind(this), "");
 };
 SPLAYTREE.prototype.clearData = function() {
-  if (this.treeRoot == null)
-    return;
-  this.commands = [];
+  this.beginSplayAnimation("clear", "clear tree", { tags: ["clear"] });
+  if (this.treeRoot == null) {
+    this.markAnimationStep("tree already empty", { tags: ["clear", "empty"] });
+    return this.finishSplayAnimation();
+  }
   function clearTree(tree, handler) {
     if (tree != null) {
       if (tree.left != null) {
@@ -22392,7 +26085,8 @@ SPLAYTREE.prototype.clearData = function() {
   clearTree(this.treeRoot, this);
   this.treeRoot = null;
   this.cmd("SetMessage", "");
-  return this.commands;
+  this.markAnimationStep("tree cleared", { tags: ["clear", "complete"] });
+  return this.finishSplayAnimation();
 };
 SPLAYTREE.prototype.insertRandomCallback = function(event) {
   var numToInsert = 10;
@@ -22464,7 +26158,7 @@ SPLAYTREE.prototype.printCallback = function(event) {
   this.implementAction(this.printTree.bind(this), "");
 };
 SPLAYTREE.prototype.printTree = function(unused) {
-  this.commands = [];
+  this.beginSplayAnimation("print", "print tree", { tags: ["print", "in"] });
   if (this.treeRoot != null) {
     this.highlightID = this.nextIndex++;
     var firstLabel = this.nextIndex;
@@ -22479,13 +26173,15 @@ SPLAYTREE.prototype.printTree = function(unused) {
     this.yPosOfNextLabel = this.first_print_pos_y;
     this.printTreeRec(this.treeRoot);
     this.cmd("Delete", this.highlightID);
-    this.cmd("Step");
+    this.markAnimationStep("finish print", { tags: ["print", "complete"] });
     for (var i = firstLabel; i < this.nextIndex; i++) {
       this.cmd("Delete", i);
     }
     this.nextIndex = this.highlightID;
+  } else {
+    this.markAnimationStep("tree empty", { tags: ["print", "empty"] });
   }
-  return this.commands;
+  return this.finishSplayAnimation();
 };
 SPLAYTREE.prototype.printTreeRec = function(tree) {
   this.cmd("Step");
@@ -22522,15 +26218,28 @@ SPLAYTREE.prototype.findCallback = function(event) {
   }
 };
 SPLAYTREE.prototype.findElement = function(findValue) {
-  this.commands = [];
+  this.beginSplayAnimation("find", `find ${findValue}`, {
+    tags: ["search", "find"]
+  });
   this.highlightID = this.nextIndex++;
   var found = this.doFind(this.treeRoot, findValue);
   if (found) {
+    this.beginBlock(`found ${findValue}`, {
+      source: "SplayTree",
+      operation: this.currentAnimationOperation,
+      tags: ["search", "found"],
+      focusNodeId: this.treeRoot ? this.treeRoot.graphicID : void 0
+    });
     this.cmd("SetMessage", "Element " + findValue + " found.");
   } else {
+    this.beginBlock(`not found ${findValue}`, {
+      source: "SplayTree",
+      operation: this.currentAnimationOperation,
+      tags: ["search", "not-found"]
+    });
     this.cmd("SetMessage", "Element " + findValue + " not found.");
   }
-  return this.commands;
+  return this.finishSplayAnimation();
 };
 SPLAYTREE.prototype.doFind = function(tree, value) {
   this.cmd("SetMessage", "Searching for " + value);
@@ -22610,7 +26319,9 @@ SPLAYTREE.prototype.doFind = function(tree, value) {
   }
 };
 SPLAYTREE.prototype.insertElement = function(insertedValue) {
-  this.commands = new Array();
+  this.beginSplayAnimation("insert", `insert ${insertedValue}`, {
+    tags: ["insert"]
+  });
   this.cmd("SetMessage", "Inserting " + insertedValue);
   this.highlightID = this.nextIndex++;
   if (this.treeRoot == null) {
@@ -22631,6 +26342,10 @@ SPLAYTREE.prototype.insertElement = function(insertedValue) {
       SPLAYTREE.STARTING_Y
     );
     this.nextIndex += 1;
+    this.markAnimationStep("create root", {
+      tags: ["insert", "root"],
+      focusNodeId: this.treeRoot.graphicID
+    });
   } else {
     this.cmd("CreateCircle", this.nextIndex, insertedValue, 100, 100);
     this.cmd("SetForegroundColor", this.nextIndex, SPLAYTREE.FOREGROUND_COLOR);
@@ -22642,11 +26357,14 @@ SPLAYTREE.prototype.insertElement = function(insertedValue) {
     this.insert(insertElem, this.treeRoot);
     this.resizeTree();
     this.cmd("SetMessage", "Splay inserted element to root of tree");
-    this.cmd("Step");
+    this.markAnimationStep(`insert node ${insertedValue}`, {
+      tags: ["insert", "node"],
+      focusNodeId: insertElem.graphicID
+    });
     this.splayUp(insertElem);
   }
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishSplayAnimation();
 };
 SPLAYTREE.prototype.insert = function(elem, tree) {
   this.cmd("SetHighlight", tree.graphicID, 1);
@@ -22711,14 +26429,21 @@ SPLAYTREE.prototype.insert = function(elem, tree) {
   }
 };
 SPLAYTREE.prototype.deleteElement = function(deletedValue) {
-  this.commands = [];
+  this.beginSplayAnimation("delete", `delete ${deletedValue}`, {
+    tags: ["delete"]
+  });
   this.cmd("SetMessage", "Deleting " + deletedValue);
-  this.cmd("Step");
+  this.markAnimationStep("start delete", { tags: ["delete", "start"] });
   this.cmd("SetMessage", "");
   this.highlightID = this.nextIndex++;
   this.treeDelete(this.treeRoot, deletedValue);
+  this.beginBlock("delete complete", {
+    source: "SplayTree",
+    operation: this.currentAnimationOperation,
+    tags: ["delete", "complete"]
+  });
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishSplayAnimation();
 };
 SPLAYTREE.prototype.treeDelete = function(tree, valueToDelete) {
   this.cmd("SetMessage", "Finding " + valueToDelete + " and splaying to rooot");
@@ -23153,6 +26878,15 @@ SPLAYTREE.prototype.animateNewPositions = function(tree) {
     this.animateNewPositions(tree.right);
   }
 };
+SPLAYTREE.prototype.describe = function() {
+  return describeBinaryTree(this.treeRoot);
+};
+SPLAYTREE.prototype.describeFromState = function(state) {
+  return describeBinaryTreeFromState(state, null, {
+    classifySingleChild: classifySingleReplayChildByValue,
+    sortChildren: compareReplayObjectsByValue
+  });
+};
 SPLAYTREE.prototype.resizeWidths = function(tree) {
   if (tree == null) {
     return 0;
@@ -23281,12 +27015,32 @@ Treap.prototype.addControls = function() {
   this.findButton.onclick = this.findCallback.bind(this);
   this.clearButton = addControlToAlgorithmBar("Button", "Clear");
   this.clearButton.onclick = this.clearCallback.bind(this);
-  this.insertRandomButton = addControlToAlgorithmBar("Button", "Insert Random Values");
+  this.insertRandomButton = addControlToAlgorithmBar("Button", "Add Random Values");
   this.insertRandomButton.onclick = this.insertRandomCallback.bind(this);
 };
 Treap.prototype.reset = function() {
   this.nextIndex = 2;
   this.treeRoot = null;
+};
+Treap.prototype.beginTreapAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, {
+    source: "Treap",
+    operation,
+    ...meta
+  });
+};
+Treap.prototype.markAnimationStep = function(label, meta = {}) {
+  this.step(label, {
+    source: "Treap",
+    operation: this.currentAnimationOperation,
+    ...meta
+  });
+};
+Treap.prototype.finishTreapAnimation = function() {
+  this.currentAnimationOperation = null;
+  return this.finishAnimation();
 };
 Treap.prototype.insertCallback = function() {
   var insertedValue = this.normalizeNumber(this.inputField.value, 4);
@@ -23330,11 +27084,25 @@ function TreapNode(val, prio, id, labelID, initialX, initialY) {
 }
 Treap.prototype.insertElement = function(insertedValue) {
   this.commands = [];
+  this.beginTreapAnimation("insert", "insert " + insertedValue, {
+    value: insertedValue,
+    tags: ["insert"]
+  });
   this.cmd("SetMessage", "Insert " + insertedValue);
   const prio = Math.floor(Math.random() * 1e3);
+  this.markAnimationStep("assign priority " + prio, {
+    value: insertedValue,
+    priority: prio,
+    tags: ["priority"]
+  });
   this.cmd("SetMessage", "Set priority " + prio + " for " + insertedValue);
   this.cmd("Step");
   if (this.treeRoot == null) {
+    this.markAnimationStep("create root", {
+      value: insertedValue,
+      priority: prio,
+      tags: ["create", "root"]
+    });
     const nodeID = this.nextIndex++;
     const labelID = this.nextIndex++;
     this.cmd("CreateCircle", nodeID, insertedValue, this.startingX, Treap.STARTING_Y);
@@ -23346,6 +27114,11 @@ Treap.prototype.insertElement = function(insertedValue) {
     this.cmd("Connect", 0, nodeID, Treap.LINK_COLOR);
     this.treeRoot = new TreapNode(insertedValue, prio, nodeID, labelID, this.startingX, Treap.STARTING_Y);
   } else {
+    this.markAnimationStep("create node " + insertedValue, {
+      value: insertedValue,
+      priority: prio,
+      tags: ["create"]
+    });
     const nodeID = this.nextIndex++;
     const labelID = this.nextIndex++;
     this.cmd("CreateCircle", nodeID, insertedValue, this.startingX - 200, Treap.STARTING_Y);
@@ -23361,9 +27134,14 @@ Treap.prototype.insertElement = function(insertedValue) {
     this.resizeTree();
   }
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishTreapAnimation();
 };
 Treap.prototype.insertBST = function(elem, tree) {
+  this.markAnimationStep("compare " + elem.data + " with " + tree.data, {
+    value: elem.data,
+    node: tree.data,
+    tags: ["compare"]
+  });
   this.cmd("SetHighlight", tree.graphicID, 1);
   this.cmd("SetHighlight", elem.graphicID, 1);
   if (elem.data < tree.data) {
@@ -23423,6 +27201,11 @@ Treap.prototype.singleRotateLeft = function(x) {
   const B = y.left;
   const p = x.parent;
   const xWasLeft = p && p.left === x;
+  this.markAnimationStep("rotate left at " + x.data, {
+    pivot: x.data,
+    promoted: y.data,
+    tags: ["rotate", "left"]
+  });
   this.cmd("SetMessage", "Rotate left at " + x.data + " (promote " + y.data + ")");
   this.cmd("SetHighlight", x.graphicID, 1);
   this.cmd("SetHighlight", y.graphicID, 1);
@@ -23463,6 +27246,11 @@ Treap.prototype.singleRotateRight = function(x) {
   const B = y.right;
   const p = x.parent;
   const xWasLeft = p && p.left === x;
+  this.markAnimationStep("rotate right at " + x.data, {
+    pivot: x.data,
+    promoted: y.data,
+    tags: ["rotate", "right"]
+  });
   this.cmd("SetMessage", "Rotate right at " + x.data + " (promote " + y.data + ")");
   this.cmd("SetHighlight", x.graphicID, 1);
   this.cmd("SetHighlight", y.graphicID, 1);
@@ -23498,18 +27286,35 @@ Treap.prototype.singleRotateRight = function(x) {
 };
 Treap.prototype.findElement = function(findValue) {
   this.commands = [];
+  this.beginTreapAnimation("find", "find " + findValue, {
+    value: findValue,
+    tags: ["find", "search"]
+  });
   this.cmd("SetMessage", "Search " + findValue + " from root");
   this.cmd("Step");
-  this.findImpl(this.treeRoot, findValue);
-  return this.commands;
+  const found = this.findImpl(this.treeRoot, findValue);
+  this.beginBlock((found ? "found " : "not found ") + findValue, {
+    source: "Treap",
+    operation: this.currentAnimationOperation,
+    value: findValue,
+    tags: [found ? "found" : "not-found"]
+  });
+  this.cmd("SetMessage", found ? "Found " + findValue : "Hit null: not found");
+  return this.finishTreapAnimation();
 };
 Treap.prototype.findImpl = function(tree, value) {
   if (tree != null) {
+    this.markAnimationStep("compare " + value + " with " + tree.data, {
+      value,
+      node: tree.data,
+      tags: ["compare"]
+    });
     this.cmd("SetHighlight", tree.graphicID, 1);
     if (tree.data == value) {
       this.cmd("SetMessage", "Found " + value);
       this.cmd("Step");
       this.cmd("SetHighlight", tree.graphicID, 0);
+      return tree;
     } else if (value < tree.data) {
       this.cmd("SetMessage", value + " < " + tree.data + ": go left");
       if (tree.left)
@@ -23518,7 +27323,7 @@ Treap.prototype.findImpl = function(tree, value) {
       if (tree.left)
         this.cmd("SetEdgeHighlight", tree.graphicID, tree.left.graphicID, 0);
       this.cmd("SetHighlight", tree.graphicID, 0);
-      this.findImpl(tree.left, value);
+      return this.findImpl(tree.left, value);
     } else {
       this.cmd("SetMessage", value + " > " + tree.data + ": go right");
       if (tree.right)
@@ -23527,24 +27332,40 @@ Treap.prototype.findImpl = function(tree, value) {
       if (tree.right)
         this.cmd("SetEdgeHighlight", tree.graphicID, tree.right.graphicID, 0);
       this.cmd("SetHighlight", tree.graphicID, 0);
-      this.findImpl(tree.right, value);
+      return this.findImpl(tree.right, value);
     }
   } else {
     this.cmd("SetMessage", "Hit null: not found");
     this.cmd("Step");
+    return null;
   }
 };
 Treap.prototype.deleteElement = function(deletedValue) {
   this.commands = [];
+  this.beginTreapAnimation("delete", "delete " + deletedValue, {
+    value: deletedValue,
+    tags: ["delete"]
+  });
   this.cmd("SetMessage", "Remove " + deletedValue);
   this.cmd("Step");
   this.treapDelete(this.treeRoot, deletedValue);
+  this.beginBlock("delete complete", {
+    source: "Treap",
+    operation: this.currentAnimationOperation,
+    value: deletedValue,
+    tags: ["complete"]
+  });
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishTreapAnimation();
 };
 Treap.prototype.treapDelete = function(tree, valueToDelete) {
   if (!tree)
     return;
+  this.markAnimationStep("compare " + valueToDelete + " with " + tree.data, {
+    value: valueToDelete,
+    node: tree.data,
+    tags: ["compare"]
+  });
   this.cmd("SetHighlight", tree.graphicID, 1);
   if (valueToDelete < tree.data) {
     this.cmd("SetMessage", valueToDelete + " < " + tree.data + ": go left");
@@ -23565,6 +27386,11 @@ Treap.prototype.treapDelete = function(tree, valueToDelete) {
     this.cmd("SetHighlight", tree.graphicID, 0);
     this.treapDelete(tree.right, valueToDelete);
   } else {
+    this.markAnimationStep("delete node " + tree.data, {
+      value: tree.data,
+      priority: tree.priority,
+      tags: ["delete", "found"]
+    });
     this.cmd("SetMessage", "Found node " + tree.data + " (prio " + tree.priority + ")");
     this.cmd("Step");
     while (tree.left && tree.right) {
@@ -23612,10 +27438,19 @@ Treap.prototype.treapDelete = function(tree, valueToDelete) {
 };
 Treap.prototype.clearData = function() {
   this.commands = [];
+  this.beginTreapAnimation("clear", "clear treap", {
+    tags: ["clear"]
+  });
   this.clearRec(this.treeRoot);
   this.treeRoot = null;
   this.cmd("SetNull", this.rootIndex, 1);
-  return this.commands;
+  this.beginBlock("treap cleared", {
+    source: "Treap",
+    operation: this.currentAnimationOperation,
+    tags: ["complete"]
+  });
+  this.cmd("SetMessage", "");
+  return this.finishTreapAnimation();
 };
 Treap.prototype.clearRec = function(tree) {
   if (!tree)
@@ -23624,6 +27459,44 @@ Treap.prototype.clearRec = function(tree) {
   this.clearRec(tree.right);
   this.cmd("Delete", tree.graphicID);
   this.cmd("Delete", tree.priorityLabelID);
+};
+Treap.prototype.describe = function() {
+  return describeBinaryTree(this.treeRoot, {
+    getDetails(node) {
+      return [`priority ${node.priority}`];
+    }
+  });
+};
+Treap.prototype.describeFromState = function(state) {
+  const findPriorityText = (nodeObject) => {
+    let bestLabel = null;
+    let bestDistance = Number.POSITIVE_INFINITY;
+    for (const object of state.objects.values()) {
+      if (object.kind !== "label" || object.fontSizePercent !== Treap.PRIORITY_FONT_PERCENT) {
+        continue;
+      }
+      const text = getReplayObjectText(object);
+      if (text == null || text === "") {
+        continue;
+      }
+      const dx = Math.abs((object.x ?? 0) - (nodeObject.x ?? 0));
+      const dy = Math.abs((object.y ?? 0) - (nodeObject.y ?? 0));
+      const distance = dx + dy;
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        bestLabel = text;
+      }
+    }
+    return bestLabel;
+  };
+  return describeBinaryTreeFromState(state, this.rootIndex, {
+    classifySingleChild: classifySingleReplayChildByValue,
+    getDetails(node) {
+      const priority = findPriorityText(node.object);
+      return priority == null ? [] : [`priority ${priority}`];
+    },
+    sortChildren: compareReplayObjectsByValue
+  });
 };
 Treap.prototype.resizeTree = function() {
   this.resizeWidths(this.treeRoot);
@@ -23856,6 +27729,28 @@ StackArray.prototype.reset = function() {
   this.top = 0;
   this.nextIndex = this.initialIndex;
 };
+StackArray.prototype.beginStackArrayAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "StackArray", operation, ...meta });
+};
+StackArray.prototype.markAnimationStep = function(label, meta = {}) {
+  this.step(label, {
+    source: "StackArray",
+    operation: this.currentAnimationOperation,
+    ...meta
+  });
+};
+StackArray.prototype.finishStackArrayAnimation = function() {
+  this.currentAnimationOperation = null;
+  return this.finishAnimation();
+};
+StackArray.prototype.describe = function() {
+  return describeStackArray(this.arrayData, this.top);
+};
+StackArray.prototype.describeFromState = function(state) {
+  return describeStackArrayFromState(state, this.arrayID, this.topID);
+};
 StackArray.prototype.pushCallback = function(event) {
   if (this.inputField.value !== "") {
     var pushVal = this.inputField.value;
@@ -23873,11 +27768,13 @@ StackArray.prototype.peekCallback = function(event) {
   this.implementAction(this.peek.bind(this), "");
 };
 StackArray.prototype.push = function(elemToPush) {
-  this.commands = new Array();
+  this.beginStackArrayAnimation("push", `push ${elemToPush}`, {
+    tags: ["stack", "push"]
+  });
   if (this.top >= SIZE7) {
     this.cmd("SetMessage", "Top == size. Stack is full. Cannot push.");
-    this.cmd("Step");
-    return this.commands;
+    this.markAnimationStep("stack full", { tags: ["stack", "push", "full"] });
+    return this.finishStackArrayAnimation();
   }
   var labPushValID = this.nextIndex++;
   this.arrayData[this.top] = elemToPush;
@@ -23890,7 +27787,10 @@ StackArray.prototype.push = function(elemToPush) {
     STACK_ELEMENT_X,
     STACK_ELEMENT_Y
   );
-  this.cmd("Step");
+  this.markAnimationStep(`stage ${elemToPush}`, {
+    tags: ["stack", "push", "stage"],
+    focusNodeId: labPushValID
+  });
   this.cmd("SetMessage", "Top gives next available location.");
   this.cmd(
     "CreateHighlightCircle",
@@ -23899,41 +27799,59 @@ StackArray.prototype.push = function(elemToPush) {
     TOP_POS_X6,
     TOP_POS_Y6
   );
-  this.cmd("Step");
+  this.markAnimationStep(`identify slot ${this.top}`, {
+    tags: ["stack", "push", "slot"]
+  });
   var xpos = this.top % ARRAY_ELEMS_PER_LINE2 * ARRAY_ELEM_WIDTH6 + ARRAY_START_X2;
   var ypos = Math.floor(this.top / ARRAY_ELEMS_PER_LINE2) * ARRAY_LINE_SPACING2 + ARRAY_START_Y2;
   this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT6);
-  this.cmd("Step");
+  this.markAnimationStep(`move to slot ${this.top}`, {
+    tags: ["stack", "push", "move"],
+    focusNodeId: this.arrayID[this.top]
+  });
   this.cmd("Move", labPushValID, xpos, ypos);
-  this.cmd("Step");
+  this.markAnimationStep(`place ${elemToPush} at ${this.top}`, {
+    tags: ["stack", "push", "place"],
+    focusNodeId: this.arrayID[this.top]
+  });
   this.cmd("Settext", this.arrayID[this.top], elemToPush);
   this.cmd("Delete", labPushValID);
   this.cmd("Delete", this.highlight1ID);
   this.cmd("SetHighlight", this.topID, 1);
   this.cmd("SetMessage", "Advance top to next location.");
-  this.cmd("Step");
+  this.markAnimationStep("advance top pointer", {
+    tags: ["stack", "push", "top-pointer"]
+  });
   this.top = this.top + 1;
   this.cmd("SetText", this.topID, this.top);
-  this.cmd("Step");
+  this.markAnimationStep("push complete", {
+    tags: ["stack", "push", "complete"]
+  });
   this.cmd("SetHighlight", this.topID, 0);
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishStackArrayAnimation();
 };
 StackArray.prototype.pop = function(ignored) {
-  this.commands = new Array();
+  this.beginStackArrayAnimation("pop", "pop", {
+    tags: ["stack", "pop"]
+  });
   if (this.top <= 0) {
     this.cmd("SetMessage", "Top == 0. Stack is empty.");
-    this.cmd("Step");
-    return this.commands;
+    this.markAnimationStep("stack empty", { tags: ["stack", "pop", "empty"] });
+    return this.finishStackArrayAnimation();
   }
   var labPopValID = this.nextIndex++;
   this.cmd("SetText", this.leftoverLabelID, "");
   this.cmd("SetHighlight", this.topID, 1);
   this.cmd("SetMessage", "Decrement top to previous location.");
-  this.cmd("Step");
+  this.markAnimationStep("decrement top pointer", {
+    tags: ["stack", "pop", "top-pointer"]
+  });
   this.top = this.top - 1;
   this.cmd("SetText", this.topID, this.top);
-  this.cmd("Step");
+  this.markAnimationStep(`identify slot ${this.top}`, {
+    tags: ["stack", "pop", "slot"]
+  });
   this.cmd("SetHighlight", this.topID, 0);
   this.cmd(
     "CreateHighlightCircle",
@@ -23943,7 +27861,10 @@ StackArray.prototype.pop = function(ignored) {
     TOP_POS_Y6
   );
   this.cmd("SetMessage", "Top gives location of last value.");
-  this.cmd("Step");
+  this.markAnimationStep(`move to slot ${this.top}`, {
+    tags: ["stack", "pop", "move"],
+    focusNodeId: this.arrayID[this.top]
+  });
   var xpos = this.top % ARRAY_ELEMS_PER_LINE2 * ARRAY_ELEM_WIDTH6 + ARRAY_START_X2;
   var ypos = Math.floor(this.top / ARRAY_ELEMS_PER_LINE2) * ARRAY_LINE_SPACING2 + ARRAY_START_Y2;
   this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT6);
@@ -23954,25 +27875,30 @@ StackArray.prototype.pop = function(ignored) {
   this.cmd("Settext", this.arrayID[this.top], "");
   this.cmd("Move", labPopValID, STACK_ELEMENT_X, STACK_ELEMENT_Y);
   this.cmd("SetMessage", `Pop ${poppedVal}`);
-  this.cmd("Step");
+  this.markAnimationStep(`extract ${poppedVal}`, {
+    tags: ["stack", "pop", "extract"],
+    focusNodeId: this.arrayID[this.top]
+  });
   this.cmd("Delete", labPopValID);
   this.cmd("SetText", this.leftoverLabelID, "Popped Value: " + poppedVal);
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishStackArrayAnimation();
 };
 StackArray.prototype.peek = function(ignored) {
-  this.commands = new Array();
+  this.beginStackArrayAnimation("peek", "peek", {
+    tags: ["stack", "peek"]
+  });
   if (this.top <= 0) {
     this.cmd("SetMessage", "Top == 0. Stack is empty.");
-    this.cmd("Step");
-    return this.commands;
+    this.markAnimationStep("stack empty", { tags: ["stack", "peek", "empty"] });
+    return this.finishStackArrayAnimation();
   }
   const labPeekValID = this.nextIndex++;
   const peekIndex = this.top - 1;
   const peekedVal = this.arrayData[peekIndex];
   this.cmd("SetText", this.leftoverLabelID, "");
   this.cmd("SetMessage", "Peek at top value");
-  this.cmd("Step");
+  this.markAnimationStep("start peek", { tags: ["stack", "peek", "start"] });
   this.cmd(
     "CreateHighlightCircle",
     this.highlight1ID,
@@ -23981,7 +27907,10 @@ StackArray.prototype.peek = function(ignored) {
     TOP_POS_Y6
   );
   this.cmd("SetMessage", "Top-1 gives location of last value.");
-  this.cmd("Step");
+  this.markAnimationStep(`inspect slot ${peekIndex}`, {
+    tags: ["stack", "peek", "inspect"],
+    focusNodeId: this.arrayID[peekIndex]
+  });
   const xpos = peekIndex % ARRAY_ELEMS_PER_LINE2 * ARRAY_ELEM_WIDTH6 + ARRAY_START_X2;
   const ypos = Math.floor(peekIndex / ARRAY_ELEMS_PER_LINE2) * ARRAY_LINE_SPACING2 + ARRAY_START_Y2;
   this.cmd("Move", this.highlight1ID, xpos, ypos + ARRAY_ELEM_HEIGHT6);
@@ -23990,14 +27919,19 @@ StackArray.prototype.peek = function(ignored) {
   this.cmd("CreateLabel", labPeekValID, peekedVal, xpos, ypos);
   this.cmd("Move", labPeekValID, STACK_ELEMENT_X, STACK_ELEMENT_Y);
   this.cmd("SetMessage", "Peeked Value: " + peekedVal);
-  this.cmd("Step");
+  this.markAnimationStep(`peek ${peekedVal}`, {
+    tags: ["stack", "peek", "value"],
+    focusNodeId: this.arrayID[peekIndex]
+  });
   this.cmd("Delete", labPeekValID);
   this.cmd("SetText", this.leftoverLabelID, "Peeked Value: " + peekedVal);
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishStackArrayAnimation();
 };
 StackArray.prototype.clearAll = function() {
-  this.commands = new Array();
+  this.beginStackArrayAnimation("clear", "clear stack", {
+    tags: ["stack", "clear"]
+  });
   this.cmd("SetText", this.leftoverLabelID, "");
   this.cmd("SetMessage", "");
   for (var i = 0; i < SIZE7; i++) {
@@ -24005,7 +27939,10 @@ StackArray.prototype.clearAll = function() {
   }
   this.top = 0;
   this.cmd("SetText", this.topID, "0");
-  return this.commands;
+  this.markAnimationStep("stack cleared", {
+    tags: ["stack", "clear", "complete"]
+  });
+  return this.finishStackArrayAnimation();
 };
 
 // AlgorithmLibrary/StackLL.js
@@ -24147,6 +28084,38 @@ StackLL.prototype.reset = function() {
   this.top = 0;
   this.nextIndex = this.initialIndex;
 };
+StackLL.prototype.beginStackLLAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "StackLL", operation, ...meta });
+};
+StackLL.prototype.markAnimationStep = function(label, meta = {}) {
+  this.step(label, {
+    source: "StackLL",
+    operation: this.currentAnimationOperation,
+    ...meta
+  });
+};
+StackLL.prototype.finishStackLLAnimation = function() {
+  this.currentAnimationOperation = null;
+  return this.finishAnimation();
+};
+StackLL.prototype.describe = function() {
+  const values = [];
+  for (let i = this.top - 1; i >= 0; i--) {
+    values.push(this.arrayData[i]);
+  }
+  return describeSinglyLinkedChain(values, {
+    emptyText: "Stack is empty.",
+    headLabel: "Top"
+  });
+};
+StackLL.prototype.describeFromState = function(state) {
+  return describeSinglyLinkedChainFromState(state, this.topID, {
+    emptyText: "Stack is empty.",
+    headLabel: "Top"
+  });
+};
 StackLL.prototype.pushCallback = function(event) {
   if (this.inputField.value !== "") {
     var pushVal = this.inputField.value;
@@ -24164,11 +28133,13 @@ StackLL.prototype.peekCallback = function(event) {
   this.implementAction(this.peek.bind(this), "");
 };
 StackLL.prototype.push = function(elemToPush) {
-  this.commands = new Array();
+  this.beginStackLLAnimation("push", `push ${elemToPush}`, {
+    tags: ["stack", "push"]
+  });
   if (this.top >= SIZE8) {
     this.cmd("SetMessage", "Top == size. Stack is full. Cannot push.");
-    this.cmd("Step");
-    return this.commands;
+    this.markAnimationStep("stack full", { tags: ["stack", "push", "full"] });
+    return this.finishStackLLAnimation();
   }
   var labPushValID = this.nextIndex++;
   this.arrayData[this.top] = elemToPush;
@@ -24195,7 +28166,10 @@ StackLL.prototype.push = function(elemToPush) {
     STACK_ELEMENT_Y2
   );
   this.cmd("Move", labPushValID, LINKED_LIST_INSERT_X, LINKED_LIST_INSERT_Y);
-  this.cmd("Step");
+  this.markAnimationStep(`allocate node ${elemToPush}`, {
+    tags: ["stack", "push", "allocate"],
+    focusNodeId: this.linkedListElemID[this.top]
+  });
   this.cmd("SetText", this.linkedListElemID[this.top], elemToPush);
   this.cmd("Delete", labPushValID);
   if (this.top == 0) {
@@ -24209,29 +28183,39 @@ StackLL.prototype.push = function(elemToPush) {
       "#000000",
       0.1
     );
-    this.cmd("Step");
+    this.markAnimationStep("link new top to previous top", {
+      tags: ["stack", "push", "link"],
+      focusNodeId: this.linkedListElemID[this.top]
+    });
     this.cmd("Disconnect", this.topID, this.linkedListElemID[this.top - 1]);
   }
   this.cmd("Connect", this.topID, this.linkedListElemID[this.top], "#000000", 0.1);
-  this.cmd("Step");
+  this.markAnimationStep("update top pointer", {
+    tags: ["stack", "push", "top-pointer"],
+    focusNodeId: this.linkedListElemID[this.top]
+  });
   this.top = this.top + 1;
   this.resetLinkedListPositions();
   this.cmd("SetMessage", "");
-  this.cmd("Step");
-  return this.commands;
+  this.markAnimationStep("push complete", {
+    tags: ["stack", "push", "complete"]
+  });
+  return this.finishStackLLAnimation();
 };
 StackLL.prototype.pop = function(ignored) {
-  this.commands = new Array();
+  this.beginStackLLAnimation("pop", "pop", {
+    tags: ["stack", "pop"]
+  });
   if (this.top <= 0) {
     this.cmd("SetMessage", "Top == 0. Stack is empty.");
-    this.cmd("Step");
-    return this.commands;
+    this.markAnimationStep("stack empty", { tags: ["stack", "pop", "empty"] });
+    return this.finishStackLLAnimation();
   }
   var labPopValID = this.nextIndex++;
   var poppedVal = this.arrayData[this.top - 1];
   this.cmd("SetText", this.leftoverLabelID, "");
   this.cmd("SetMessage", "Popping top value");
-  this.cmd("Step");
+  this.markAnimationStep("start pop", { tags: ["stack", "pop", "start"] });
   this.cmd(
     "CreateLabel",
     labPopValID,
@@ -24240,7 +28224,10 @@ StackLL.prototype.pop = function(ignored) {
     LINKED_LIST_START_Y6
   );
   this.cmd("Move", labPopValID, STACK_ELEMENT_X2, STACK_ELEMENT_Y2);
-  this.cmd("Step");
+  this.markAnimationStep(`capture ${poppedVal}`, {
+    tags: ["stack", "pop", "capture"],
+    focusNodeId: this.linkedListElemID[this.top - 1]
+  });
   this.cmd("Disconnect", this.topID, this.linkedListElemID[this.top - 1]);
   if (this.top == 1) {
     this.cmd("SetNull", this.topID, 1);
@@ -24253,28 +28240,34 @@ StackLL.prototype.pop = function(ignored) {
       0.1
     );
   }
-  this.cmd("Step");
+  this.markAnimationStep("advance top pointer", {
+    tags: ["stack", "pop", "top-pointer"]
+  });
   this.cmd("Delete", this.linkedListElemID[this.top - 1]);
   this.top = this.top - 1;
   this.resetLinkedListPositions();
   this.cmd("Delete", labPopValID);
   this.cmd("SetText", this.leftoverLabelID, "Popped Value: " + poppedVal);
   this.cmd("SetMessage", "");
-  this.cmd("Step");
-  return this.commands;
+  this.markAnimationStep("pop complete", {
+    tags: ["stack", "pop", "complete"]
+  });
+  return this.finishStackLLAnimation();
 };
 StackLL.prototype.peek = function(ignored) {
-  this.commands = new Array();
+  this.beginStackLLAnimation("peek", "peek", {
+    tags: ["stack", "peek"]
+  });
   if (this.top <= 0) {
     this.cmd("SetMessage", "Top == 0. Stack is empty.");
-    this.cmd("Step");
-    return this.commands;
+    this.markAnimationStep("stack empty", { tags: ["stack", "peek", "empty"] });
+    return this.finishStackLLAnimation();
   }
   const labPeekValID = this.nextIndex++;
   const peekedVal = this.arrayData[this.top - 1];
   this.cmd("SetText", this.leftoverLabelID, "");
   this.cmd("SetMessage", "Peeking at top value");
-  this.cmd("Step");
+  this.markAnimationStep("start peek", { tags: ["stack", "peek", "start"] });
   let srcX = LINKED_LIST_START_X6;
   let srcY = LINKED_LIST_START_Y6;
   try {
@@ -24289,15 +28282,22 @@ StackLL.prototype.peek = function(ignored) {
   this.cmd("CreateLabel", labPeekValID, peekedVal, srcX, srcY);
   this.cmd("Move", labPeekValID, STACK_ELEMENT_X2, STACK_ELEMENT_Y2);
   this.cmd("SetMessage", "Peeked Value: " + peekedVal);
-  this.cmd("Step");
+  this.markAnimationStep(`peek ${peekedVal}`, {
+    tags: ["stack", "peek", "value"],
+    focusNodeId: this.linkedListElemID[this.top - 1]
+  });
   this.cmd("Delete", labPeekValID);
   this.cmd("SetText", this.leftoverLabelID, "Peeked Value: " + peekedVal);
   this.cmd("SetMessage", "");
-  this.cmd("Step");
-  return this.commands;
+  this.markAnimationStep("peek complete", {
+    tags: ["stack", "peek", "complete"]
+  });
+  return this.finishStackLLAnimation();
 };
 StackLL.prototype.clearAll = function() {
-  this.commands = new Array();
+  this.beginStackLLAnimation("clear", "clear stack", {
+    tags: ["stack", "clear"]
+  });
   this.cmd("SetText", this.leftoverLabelID, "");
   this.cmd("SetMessage", "");
   for (var i = 0; i < this.top; i++) {
@@ -24305,7 +28305,10 @@ StackLL.prototype.clearAll = function() {
   }
   this.top = 0;
   this.cmd("SetNull", this.topID, 1);
-  return this.commands;
+  this.markAnimationStep("stack cleared", {
+    tags: ["stack", "clear", "complete"]
+  });
+  return this.finishStackLLAnimation();
 };
 
 // AlgorithmLibrary/ExpressionTree.js
@@ -24385,6 +28388,127 @@ ExpressionTree.prototype.init = function(am, w2, h) {
     this.implementAction(this.evaluateTree.bind(this), "");
   };
 };
+ExpressionTree.prototype.describe = function() {
+  if (!this.treeRoot) {
+    return "Tree is empty.";
+  }
+  const sentences = [];
+  const formatNode = (node) => String(node.label);
+  const visit = (node, isRoot = false) => {
+    if (!node) {
+      return;
+    }
+    const children = Array.isArray(node.children) ? node.children.filter(Boolean) : [];
+    const subject = isRoot ? `Root is ${formatNode(node)}` : formatNode(node);
+    if (children.length === 0) {
+      sentences.push(`${subject} has no children.`);
+    } else if (children.length === 1) {
+      sentences.push(`${subject} has child ${formatNode(children[0])}.`);
+    } else if (children.length === 2) {
+      sentences.push(
+        `${subject} has left child ${formatNode(children[0])} and right child ${formatNode(children[1])}.`
+      );
+    } else {
+      sentences.push(
+        `${subject} has children ${children.map(formatNode).join(", ")}.`
+      );
+    }
+    for (const child of children) {
+      visit(child);
+    }
+  };
+  visit(this.treeRoot, true);
+  return sentences.join(" ");
+};
+ExpressionTree.prototype.describeFromState = function(state) {
+  const rootCandidates = [];
+  const incoming = /* @__PURE__ */ new Set();
+  for (const edge of state.edges.values()) {
+    const fromObject = state.objects.get(edge.from);
+    const toObject = state.objects.get(edge.to);
+    if (fromObject?.kind !== "circle" || toObject?.kind !== "circle") {
+      continue;
+    }
+    incoming.add(edge.to);
+  }
+  for (const [id, object] of state.objects.entries()) {
+    if (object.kind !== "circle" || incoming.has(id)) {
+      continue;
+    }
+    rootCandidates.push({ id, object });
+  }
+  rootCandidates.sort(
+    (a, b) => (a.object.y ?? 0) - (b.object.y ?? 0) || (a.object.x ?? 0) - (b.object.x ?? 0) || a.id - b.id
+  );
+  const rootId = rootCandidates[0]?.id ?? null;
+  if (rootId == null) {
+    return "Tree is empty.";
+  }
+  const sentences = [];
+  const visited = /* @__PURE__ */ new Set();
+  const visit = (id, isRoot = false) => {
+    if (id == null || visited.has(id)) {
+      return;
+    }
+    const object = state.objects.get(id);
+    if (!object || object.kind !== "circle") {
+      return;
+    }
+    visited.add(id);
+    const children = [];
+    for (const edge of state.edges.values()) {
+      if (edge.from !== id) {
+        continue;
+      }
+      const childObject = state.objects.get(edge.to);
+      if (childObject?.kind !== "circle") {
+        continue;
+      }
+      children.push({ id: edge.to, object: childObject });
+    }
+    children.sort(
+      (a, b) => (a.object.x ?? 0) - (b.object.x ?? 0) || (a.object.y ?? 0) - (b.object.y ?? 0) || a.id - b.id
+    );
+    const subject = isRoot ? `Root is ${getReplayObjectText(object)}` : getReplayObjectText(object);
+    if (children.length === 0) {
+      sentences.push(`${subject} has no children.`);
+    } else if (children.length === 1) {
+      sentences.push(`${subject} has child ${getReplayObjectText(children[0].object)}.`);
+    } else if (children.length === 2) {
+      sentences.push(
+        `${subject} has left child ${getReplayObjectText(children[0].object)} and right child ${getReplayObjectText(children[1].object)}.`
+      );
+    } else {
+      sentences.push(
+        `${subject} has children ${children.map((child) => getReplayObjectText(child.object)).join(", ")}.`
+      );
+    }
+    for (const child of children) {
+      visit(child.id, false);
+    }
+  };
+  visit(rootId, true);
+  return sentences.join(" ");
+};
+ExpressionTree.prototype.beginExpressionTreeAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "ExpressionTree", operation, ...meta });
+};
+ExpressionTree.prototype.markAnimationStep = function(label, meta = {}) {
+  const stepMeta = {
+    source: "ExpressionTree",
+    operation: this.currentAnimationOperation,
+    ...meta
+  };
+  if (stepMeta.tags != null) {
+    stepMeta.tags = Array.isArray(stepMeta.tags) ? stepMeta.tags : [stepMeta.tags];
+  }
+  this.step(label, stepMeta);
+};
+ExpressionTree.prototype.finishExpressionTreeAnimation = function() {
+  return this.finishAnimation();
+};
 ExpressionTree.prototype.deleteTreeGraphicsRec = function(node, opts = {}) {
   if (!node)
     return;
@@ -24417,7 +28541,7 @@ ExpressionTree.prototype.deleteTreeGraphicsRec = function(node, opts = {}) {
   }
 };
 ExpressionTree.prototype.clearTree = function() {
-  this.commands = [];
+  this.beginExpressionTreeAnimation("clear", "clear tree", { tags: ["clear"] });
   if (Array.isArray(this.evalLabelIDs)) {
     for (const id of this.evalLabelIDs) {
       this.cmd("Delete", id);
@@ -24431,12 +28555,12 @@ ExpressionTree.prototype.clearTree = function() {
   this.printOutput = "";
   if (this.treeRoot) {
     this.cmd("SetMessage", "Clearing existing tree");
-    this.cmd("Step");
+    this.markAnimationStep("start clear", { tags: ["clear", "start"] });
     this.deleteTreeGraphicsRec(this.treeRoot);
     this.treeRoot = null;
     this.cmd("SetMessage", "");
   }
-  return this.commands;
+  return this.finishExpressionTreeAnimation();
 };
 ExpressionTree.prototype.resetPrintOutputLabel = function() {
   if (Number.isFinite(this.printOutputLabelID) && this.printOutputLabelID >= 0) {
@@ -24524,19 +28648,24 @@ ExpressionTree.prototype.evaluateCallback = function(event) {
   this.implementAction(this.evaluateTree.bind(this), "");
 };
 ExpressionTree.prototype.buildTreeFromInfix = function(expr) {
-  this.commands = [];
+  this.beginExpressionTreeAnimation("build", "build from infix", {
+    expression: String(expr ?? ""),
+    tags: ["build", "infix"]
+  });
   let root;
   try {
     root = this.parseInfixExpression(expr);
   } catch (e) {
     this.cmd("SetMessage", `Invalid expression: ${e?.message ?? String(e)}`);
     this.cmd("SetMessage", "");
-    return this.commands;
+    this.markAnimationStep("invalid infix expression", { tags: ["build", "invalid"] });
+    return this.finishExpressionTreeAnimation();
   }
   if (!root) {
     this.cmd("SetMessage", "No expression provided");
     this.cmd("SetMessage", "");
-    return this.commands;
+    this.markAnimationStep("no expression provided", { tags: ["build", "empty"] });
+    return this.finishExpressionTreeAnimation();
   }
   return this.buildTree(root);
 };
@@ -24794,7 +28923,9 @@ ExpressionTree.prototype.computeLayout = function(root) {
   toXY(root);
 };
 ExpressionTree.prototype.buildTree = function(root) {
-  this.commands = [];
+  this.beginExpressionTreeAnimation("build", "build expression tree", {
+    tags: ["build"]
+  });
   if (this.treeRoot) {
     if (Array.isArray(this.evalLabelIDs)) {
       for (const id of this.evalLabelIDs) {
@@ -24811,12 +28942,13 @@ ExpressionTree.prototype.buildTree = function(root) {
     this.deleteTreeGraphicsRec(this.treeRoot, { step: false });
     this.treeRoot = null;
     this.cmd("SetMessage", "");
+    this.markAnimationStep("clear previous tree", { tags: ["build", "clear"] });
   }
   if (!root) {
     this.cmd("SetMessage", "No expression provided");
-    this.cmd("Step");
+    this.markAnimationStep("no expression provided", { tags: ["build", "empty"] });
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishExpressionTreeAnimation();
   }
   this.treeRoot = root;
   this.computeLayout(root);
@@ -24829,6 +28961,10 @@ ExpressionTree.prototype.buildTree = function(root) {
       this.cmd("Connect", parentGraphicID, id, ExpressionTree.LINK_COLOR);
     }
     this.cmd("SetMessage", `Create node ${node.label}`);
+    this.markAnimationStep(`create node ${node.label}`, {
+      focusNodeId: id,
+      tags: ["build", "create"]
+    });
     if (node.children) {
       for (const child of node.children) {
         build(child, id);
@@ -24837,29 +28973,39 @@ ExpressionTree.prototype.buildTree = function(root) {
   };
   build(root, null);
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishExpressionTreeAnimation();
 };
 ExpressionTree.prototype.printTree = function(order) {
-  this.commands = [];
-  this.printOutput = "";
   if (order == void 0)
     order = "In";
+  this.beginExpressionTreeAnimation("print", `print ${order} order`, {
+    tags: ["print", String(order).toLowerCase()]
+  });
+  this.printOutput = "";
   if (!this.treeRoot) {
     this.cmd("SetMessage", "Tree is empty");
-    this.cmd("Step");
+    this.markAnimationStep("tree empty", { tags: ["print", "empty"] });
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishExpressionTreeAnimation();
   }
   this.resetPrintOutputLabel();
   this.cmd("SetText", this.printOutputLabelID, "Output: ");
   this.cmd("SetMessage", "Starting from root");
   this.cmd("SetHighlight", this.treeRoot.graphicID, 1);
-  this.cmd("Step");
+  this.markAnimationStep("visit root", {
+    focusNodeId: this.treeRoot.graphicID,
+    tags: ["print", "visit"]
+  });
   this.cmd("SetHighlight", this.treeRoot.graphicID, 0);
   this.printTreeRec(this.treeRoot, order);
+  this.beginBlock("final print output", {
+    source: "ExpressionTree",
+    operation: this.currentAnimationOperation,
+    tags: ["print", "output"]
+  });
   this.cmd("SetText", this.printOutputLabelID, "Output: " + this.printOutput);
   this.cmd("SetMessage", "Final output:\n" + this.printOutput);
-  return this.commands;
+  return this.finishExpressionTreeAnimation();
 };
 ExpressionTree.prototype.printSelf = function(node) {
   if (this.printOutput.length > 0) {
@@ -24873,7 +29019,10 @@ ExpressionTree.prototype.printSelf = function(node) {
     "SetMessage",
     "Print " + node.label + "\nCurrent output:\n" + this.printOutput
   );
-  this.cmd("Step");
+  this.markAnimationStep(`print ${node.label}`, {
+    focusNodeId: node.graphicID,
+    tags: ["print", "output"]
+  });
 };
 ExpressionTree.prototype.printToken = function(token, message) {
   if (this.printOutput.length > 0) {
@@ -24884,7 +29033,7 @@ ExpressionTree.prototype.printToken = function(token, message) {
     this.cmd("SetText", this.printOutputLabelID, "Output: " + this.printOutput);
   }
   this.cmd("SetMessage", message ?? "Print " + token);
-  this.cmd("Step");
+  this.markAnimationStep(`print token ${token}`, { tags: ["print", "token"] });
 };
 ExpressionTree.prototype.printChild = function(node, child, childIndex) {
   if (child) {
@@ -24893,7 +29042,10 @@ ExpressionTree.prototype.printChild = function(node, child, childIndex) {
       `${node.label} has child ${childIndex}, visit it...`
     );
     this.cmd("SetEdgeHighlight", node.graphicID, child.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`${node.label}: visit child ${childIndex}`, {
+      focusNodeId: node.graphicID,
+      tags: ["print", "traverse"]
+    });
     this.cmd("SetEdgeHighlight", node.graphicID, child.graphicID, 0);
   }
 };
@@ -24942,10 +29094,15 @@ ExpressionTree.prototype.printTreeRec = function(node, order) {
   }
   this.cmd("SetMessage", "Done with " + node.label + " return to parent");
   this.cmd("SetHighlight", node.graphicID, 0);
-  this.cmd("Step");
+  this.markAnimationStep(`finish ${node.label}`, {
+    focusNodeId: node.graphicID,
+    tags: ["print", "return"]
+  });
 };
 ExpressionTree.prototype.evaluateTree = function() {
-  this.commands = [];
+  this.beginExpressionTreeAnimation("evaluate", "evaluate expression tree", {
+    tags: ["evaluate"]
+  });
   if (Array.isArray(this.evalLabelIDs)) {
     for (const id of this.evalLabelIDs) {
       this.cmd("Delete", id);
@@ -24954,22 +29111,28 @@ ExpressionTree.prototype.evaluateTree = function() {
   this.evalLabelIDs = [];
   if (!this.treeRoot) {
     this.cmd("SetMessage", "No expression to evaluate");
-    this.cmd("Step");
+    this.markAnimationStep("no expression to evaluate", {
+      tags: ["evaluate", "empty"]
+    });
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishExpressionTreeAnimation();
   }
   this.cmd("SetMessage", "Evaluate expression tree");
-  this.cmd("Step");
+  this.markAnimationStep("start evaluation", { tags: ["evaluate", "start"] });
   const value = this.evaluateRec(this.treeRoot);
+  this.beginBlock(`final result ${String(value)}`, {
+    source: "ExpressionTree",
+    operation: this.currentAnimationOperation,
+    tags: ["evaluate", "result"]
+  });
   this.cmd("SetMessage", `Final result: ${String(value)}`);
-  this.cmd("Step");
   if (Array.isArray(this.evalLabelIDs)) {
     for (const id of this.evalLabelIDs) {
       this.cmd("Delete", id);
     }
   }
   this.evalLabelIDs = [];
-  return this.commands;
+  return this.finishExpressionTreeAnimation();
 };
 ExpressionTree.prototype.isOperator = function(token) {
   return token === "+" || token === "-" || token === "*" || token === "/" || token === "^";
@@ -25008,18 +29171,27 @@ ExpressionTree.prototype.showEvalValue = function(node, value) {
 };
 ExpressionTree.prototype.evaluateRec = function(node) {
   this.cmd("SetHighlight", node.graphicID, 1);
-  this.cmd("Step");
+  this.markAnimationStep(`evaluate ${node.label}`, {
+    focusNodeId: node.graphicID,
+    tags: ["evaluate", "visit"]
+  });
   const children = Array.isArray(node.children) ? node.children : [];
   if (children.length !== 0) {
     this.cmd("SetMessage", `Operator node ${node.label}, needs to evaluate children first`);
-    this.cmd("Step");
+    this.markAnimationStep(`evaluate children of ${node.label}`, {
+      focusNodeId: node.graphicID,
+      tags: ["evaluate", "operator"]
+    });
   }
   const childValues = [];
   for (let i = 0; i < children.length; i++) {
     const child = children[i];
     this.cmd("SetMessage", `Visit ${i == 0 ? "left" : "right"} child of ${node.label}`);
     this.cmd("SetEdgeHighlight", node.graphicID, child.graphicID, 1);
-    this.cmd("Step");
+    this.markAnimationStep(`visit child ${i} of ${node.label}`, {
+      focusNodeId: child.graphicID,
+      tags: ["evaluate", "traverse"]
+    });
     this.cmd("SetEdgeHighlight", node.graphicID, child.graphicID, 0);
     this.cmd("SetHighlight", node.graphicID, 0);
     const v = this.evaluateRec(child);
@@ -25030,23 +29202,35 @@ ExpressionTree.prototype.evaluateRec = function(node) {
   if (children.length === 0 && !this.isOperator(node.label)) {
     value = Number(node.label);
     this.cmd("SetMessage", `Leaf evaluates to ${String(value)}`);
-    this.cmd("Step");
+    this.markAnimationStep(`leaf ${node.label} = ${String(value)}`, {
+      focusNodeId: node.graphicID,
+      tags: ["evaluate", "leaf"]
+    });
   } else if (this.isOperator(node.label)) {
     value = this.applyOperator(node.label, childValues);
     this.cmd(
       "SetMessage",
       `Compute ${node.label}(${childValues.map((v) => String(v)).join(", ")}) = ${String(value)}`
     );
-    this.cmd("Step");
+    this.markAnimationStep(`compute ${node.label}`, {
+      focusNodeId: node.graphicID,
+      tags: ["evaluate", "compute"]
+    });
   } else {
     value = NaN;
     this.cmd("SetMessage", `Cannot evaluate token '${node.label}'`);
-    this.cmd("Step");
+    this.markAnimationStep(`cannot evaluate ${node.label}`, {
+      focusNodeId: node.graphicID,
+      tags: ["evaluate", "invalid"]
+    });
   }
   this.showEvalValue(node, value);
   this.cmd("SetMessage", `Value at ${node.label}: ${String(value)}`);
   this.cmd("SetHighlight", node.graphicID, 0);
-  this.cmd("Step");
+  this.markAnimationStep(`value at ${node.label}`, {
+    focusNodeId: node.graphicID,
+    tags: ["evaluate", "value"]
+  });
   return value;
 };
 
@@ -25111,7 +29295,7 @@ SkipList.prototype.addControls = function() {
   this.deleteButton.onclick = this.removeCallback.bind(this);
   this.clearButton = addControlToAlgorithmBar("Button", "Clear");
   this.clearButton.onclick = this.clearCallback.bind(this);
-  this.insertRandomButton = addControlToAlgorithmBar("Button", "Insert Random Values");
+  this.insertRandomButton = addControlToAlgorithmBar("Button", "Add Random Values");
   this.insertRandomButton.onclick = this.insertRandomCallback.bind(this);
 };
 SkipList.prototype.insertCallback = function() {
@@ -25145,6 +29329,22 @@ SkipList.prototype.reset = function() {
   this.valueSet = /* @__PURE__ */ new Set();
   this.towerByValue = /* @__PURE__ */ new Map();
   this.ensureLevel(0);
+};
+SkipList.prototype.beginSkipListAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "SkipList", operation, ...meta });
+};
+SkipList.prototype.markAnimationStep = function(label, meta = {}) {
+  this.step(label, {
+    source: "SkipList",
+    operation: this.currentAnimationOperation,
+    ...meta
+  });
+};
+SkipList.prototype.finishSkipListAnimation = function() {
+  this.currentAnimationOperation = null;
+  return this.finishAnimation();
 };
 SkipList.prototype.doInsert = function(v) {
   this.implementAction(this.insertElement.bind(this), v);
@@ -25181,7 +29381,7 @@ SkipList.prototype.insertRandomCallback = function() {
   this.animationManager.animatedObjects.draw();
 };
 SkipList.prototype.clearAll = function() {
-  this.commands = [];
+  this.beginSkipListAnimation("clear", "clear skip list", { tags: ["clear"] });
   for (let lvl = 0; lvl < this.nodesByLevel.length; lvl++) {
     for (let n of this.nodesByLevel[lvl]) {
       this.cmd("Delete", n.id);
@@ -25192,7 +29392,10 @@ SkipList.prototype.clearAll = function() {
   this.towerByValue = /* @__PURE__ */ new Map();
   this.knownIDs = /* @__PURE__ */ new Set();
   this.ensureLevel(0);
-  return this.commands;
+  this.markAnimationStep("skip list cleared", {
+    tags: ["clear", "complete"]
+  });
+  return this.finishSkipListAnimation();
 };
 SkipList.prototype.ensureLevel = function(level) {
   while (this.nodesByLevel.length <= level) {
@@ -25295,19 +29498,25 @@ SkipList.prototype.relayoutLevel = function(level) {
   this.nextByLevel[level] = newNext;
 };
 SkipList.prototype.insertElement = function(value) {
-  this.commands = [];
+  this.beginSkipListAnimation("insert", `insert ${value}`, {
+    tags: ["insert"]
+  });
   if (value === "" || value === null || Number.isNaN(Number(value))) {
-    return this.commands;
+    return this.finishSkipListAnimation();
   }
   value = Number(value);
   if (this.valueSet.has(value)) {
     this.cmd("SetMessage", "Value already exists: " + value);
-    this.cmd("Step");
+    this.markAnimationStep("value already exists", {
+      tags: ["insert", "duplicate"]
+    });
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishSkipListAnimation();
   }
   this.cmd("SetMessage", "Insert " + value);
-  this.cmd("Step");
+  this.markAnimationStep(`start insert ${value}`, {
+    tags: ["insert", "start"]
+  });
   const topLevel = this.nodesByLevel.length - 1;
   const prevIndexByLevel = /* @__PURE__ */ new Map();
   let lvl = topLevel;
@@ -25372,11 +29581,15 @@ SkipList.prototype.insertElement = function(value) {
     lvl = lvl - 1;
   }
   this.cmd("Delete", searchHi);
-  this.cmd("Step");
+  this.markAnimationStep("locate predecessors", {
+    tags: ["insert", "search"]
+  });
   const base = this.nodesByLevel[0];
   const idx0 = (prevIndexByLevel.get(0) || 0) + 1;
   this.cmd("SetMessage", "Base insert between " + (base[idx0 - 1].isSentinel ? "HEAD" : base[idx0 - 1].value) + " and " + (base[idx0].isSentinel ? "TAIL" : base[idx0].value));
-  this.cmd("Step");
+  this.markAnimationStep(`identify base slot ${idx0}`, {
+    tags: ["insert", "slot"]
+  });
   let height = 0;
   while (height < MAX_LEVELS - 1) {
     this.cmd("SetMessage", "Flip for level " + (height + 1));
@@ -25404,7 +29617,10 @@ SkipList.prototype.insertElement = function(value) {
     this.knownIDs.add(id);
     nodeIDs.push(id);
   }
-  this.cmd("Step");
+  this.markAnimationStep(`create tower for ${value}`, {
+    tags: ["insert", "tower"],
+    focusNodeId: nodeIDs[0]
+  });
   base.splice(idx0, 0, { id: nodeIDs[0], value, isSentinel: false });
   this.relayoutLevel(0);
   if (this.nodesByLevel.length > 1) {
@@ -25439,9 +29655,12 @@ SkipList.prototype.insertElement = function(value) {
   }
   this.towerByValue.set(value, { levelToID: tower });
   this.cmd("SetMessage", "Inserted " + value + (height > 0 ? " with height " + (height + 1) : ""));
-  this.cmd("Step");
+  this.markAnimationStep(`insert complete ${value}`, {
+    tags: ["insert", "complete"],
+    focusNodeId: nodeIDs[0]
+  });
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishSkipListAnimation();
 };
 SkipList.prototype.disableUI = function() {
   const ctrls = [
@@ -25472,15 +29691,19 @@ SkipList.prototype.enableUI = function() {
   }
 };
 SkipList.prototype.findElement = function(value) {
-  this.commands = [];
+  this.beginSkipListAnimation("find", `find ${value}`, {
+    tags: ["search", "find"]
+  });
   if (value === "" || value === null || Number.isNaN(Number(value))) {
-    return this.commands;
+    return this.finishSkipListAnimation();
   }
   value = Number(value);
   if (this.nodesByLevel.length === 0)
-    return this.commands;
+    return this.finishSkipListAnimation();
   this.cmd("SetMessage", "Find " + value);
-  this.cmd("Step");
+  this.markAnimationStep(`start find ${value}`, {
+    tags: ["search", "start"]
+  });
   const topLevel = this.nodesByLevel.length - 1;
   let lvl = topLevel;
   let idx = 0;
@@ -25545,7 +29768,11 @@ SkipList.prototype.findElement = function(value) {
         this.cmd("SetHighlight", nextNode.id, 0);
         this.cmd("SetMessage", "");
         this.cmd("Delete", highlightID);
-        return this.commands;
+        this.markAnimationStep(`found ${value}`, {
+          tags: ["search", "found"],
+          focusNodeId: targetID
+        });
+        return this.finishSkipListAnimation();
       } else {
         this.cmd("SetMessage", "Drop down: " + nextValText + " \u2265 " + value);
         this.cmd("Step");
@@ -25581,21 +29808,27 @@ SkipList.prototype.findElement = function(value) {
     lvl = lvl - 1;
   }
   this.cmd("SetMessage", "Not found: " + value);
-  this.cmd("Step");
+  this.markAnimationStep(`not found ${value}`, {
+    tags: ["search", "not-found"]
+  });
   this.cmd("SetMessage", "");
   this.cmd("Delete", highlightID);
-  return this.commands;
+  return this.finishSkipListAnimation();
 };
 SkipList.prototype.removeElement = function(value) {
-  this.commands = [];
+  this.beginSkipListAnimation("remove", `remove ${value}`, {
+    tags: ["delete"]
+  });
   if (value === "" || value === null || Number.isNaN(Number(value))) {
-    return this.commands;
+    return this.finishSkipListAnimation();
   }
   value = Number(value);
   if (this.nodesByLevel.length === 0)
-    return this.commands;
+    return this.finishSkipListAnimation();
   this.cmd("SetMessage", "Remove " + value);
-  this.cmd("Step");
+  this.markAnimationStep(`start remove ${value}`, {
+    tags: ["delete", "start"]
+  });
   const topLevel = this.nodesByLevel.length - 1;
   let lvl = topLevel;
   let idx = 0;
@@ -25665,10 +29898,12 @@ SkipList.prototype.removeElement = function(value) {
   }
   if (!found) {
     this.cmd("SetMessage", "Not found: " + value);
-    this.cmd("Step");
+    this.markAnimationStep(`not found ${value}`, {
+      tags: ["delete", "not-found"]
+    });
     this.cmd("Delete", hi);
     this.cmd("SetMessage", "");
-    return this.commands;
+    return this.finishSkipListAnimation();
   }
   const tower = this.towerByValue.get(value);
   if (tower) {
@@ -25700,9 +29935,11 @@ SkipList.prototype.removeElement = function(value) {
   this.towerByValue.delete(value);
   this.cmd("Delete", hi);
   this.cmd("SetMessage", "Removed " + value);
-  this.cmd("Step");
+  this.markAnimationStep(`remove complete ${value}`, {
+    tags: ["delete", "complete"]
+  });
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishSkipListAnimation();
 };
 
 // AlgorithmLibrary/TopoSortDFS.js
@@ -25837,6 +30074,26 @@ TopoSortDFS.prototype.init = function(am, w2, h, graphOpts) {
   this.showEdgeCosts = false;
   TopoSortDFS.superclass.init.call(this, am, w2, h, true, true, graphOpts);
 };
+TopoSortDFS.prototype.beginTopoSortAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, {
+    source: "TopoSortDFS",
+    operation,
+    ...meta
+  });
+};
+TopoSortDFS.prototype.markAnimationStep = function(label, meta = {}) {
+  this.step(label, {
+    source: "TopoSortDFS",
+    operation: this.currentAnimationOperation,
+    ...meta
+  });
+};
+TopoSortDFS.prototype.finishTopoSortAnimation = function() {
+  this.currentAnimationOperation = null;
+  return this.finishAnimation();
+};
 TopoSortDFS.prototype.setup = function() {
   TopoSortDFS.superclass.setup.call(this);
   this.animationManager.setAllLayers([0, this.currentLayer]);
@@ -25891,6 +30148,9 @@ TopoSortDFS.prototype.doTopoSort = function() {
 TopoSortDFS.prototype.doTopoSortAction = function(ignored) {
   this.visited = new Array(this.size);
   this.commands = new Array();
+  this.beginTopoSortAnimation("topoSort", "topological sort", {
+    tags: ["graph", "topological-sort"]
+  });
   this.topoOrderArrayL = new Array();
   this.topoOrderArrayAL = new Array();
   this.topoOrderArrayAM = new Array();
@@ -25904,6 +30164,9 @@ TopoSortDFS.prototype.doTopoSortAction = function(ignored) {
   this.messageID = new Array();
   this.cmd("SetMessage", "Run DFS and build topological order.");
   this.cmd("Step");
+  this.markAnimationStep("initialize topological order", {
+    tags: ["initialize"]
+  });
   var headerID = this.nextIndex++;
   this.messageID.push(headerID);
   this.cmd("CreateLabel", headerID, "Topological Order", TopoSortDFS.ORDERING_INITIAL_X, TopoSortDFS.ORDERING_INITIAL_Y - 1.5 * TopoSortDFS.ORDERING_DELTA_Y);
@@ -25942,6 +30205,10 @@ TopoSortDFS.prototype.doTopoSortAction = function(ignored) {
         this.callStackDepth = 0;
         this.stackRowCount = 0;
       }
+      this.markAnimationStep("start dfs root " + vertex, {
+        vertex,
+        tags: ["dfs", "root"]
+      });
       this.cmd("SetMessage", "Start DFS from vertex " + vertex + ".");
       this.cmd("Step");
       this.cmd(
@@ -25974,7 +30241,13 @@ TopoSortDFS.prototype.doTopoSortAction = function(ignored) {
       this.cmd("Delete", this.highlightCircleAM, 4);
     }
   }
-  return this.commands;
+  this.beginBlock("topological sort complete", {
+    source: "TopoSortDFS",
+    operation: this.currentAnimationOperation,
+    tags: ["complete"]
+  });
+  this.cmd("SetMessage", "Topological sort complete.");
+  return this.finishTopoSortAnimation();
 };
 TopoSortDFS.prototype.setup_large = function() {
   this.d_x_pos = TopoSortDFS.D_X_POS_LARGE;
@@ -26000,6 +30273,10 @@ TopoSortDFS.prototype.dfsVisit = function(startVertex, messageX, printCCNum) {
   this.stackLabelIDs.push(stackLabelID);
   this.cmd("CreateLabel", stackLabelID, "DFS(" + String(startVertex) + ")", this.stackBaseX + indentDepth * this.stackIndent, this.stackSectionY + this.stackRowCount * this.stackLineHeight);
   this.stackRowCount++;
+  this.markAnimationStep("visit " + startVertex, {
+    vertex: startVertex,
+    tags: ["visit"]
+  });
   this.cmd("SetMessage", "First visit to " + String(startVertex) + ".");
   this.cmd("Step");
   this.cmd("SetMessage", "DFS(" + String(startVertex) + ")");
@@ -26020,6 +30297,11 @@ TopoSortDFS.prototype.dfsVisit = function(startVertex, messageX, printCCNum) {
     this.cmd("Step");
     for (var neighbor = 0; neighbor < this.size; neighbor++) {
       if (this.adj_matrix[startVertex][neighbor] > 0) {
+        this.markAnimationStep("check edge " + startVertex + " -> " + neighbor, {
+          from: startVertex,
+          to: neighbor,
+          tags: ["edge"]
+        });
         this.highlightEdge(startVertex, neighbor, 1);
         if (this.visited[neighbor]) {
           this.cmd("SetMessage", "Neighbor " + String(neighbor) + " already visited; skip.");
@@ -26031,6 +30313,11 @@ TopoSortDFS.prototype.dfsVisit = function(startVertex, messageX, printCCNum) {
         if (this.visited[neighbor]) {
         }
         if (!this.visited[neighbor]) {
+          this.markAnimationStep("recurse " + startVertex + " -> " + neighbor, {
+            from: startVertex,
+            to: neighbor,
+            tags: ["dfs", "recurse"]
+          });
           this.cmd(
             "Disconnect",
             this.circleID[startVertex],
@@ -26065,6 +30352,11 @@ TopoSortDFS.prototype.dfsVisit = function(startVertex, messageX, printCCNum) {
           );
           this.cmd("Step");
           this.dfsVisit(neighbor, messageX + 10, printCCNum);
+          this.markAnimationStep("return to " + startVertex, {
+            from: neighbor,
+            to: startVertex,
+            tags: ["dfs", "return"]
+          });
           this.cmd("SetMessage", "Return from DFS(" + String(neighbor) + ")");
           this.cmd(
             "Move",
@@ -26090,6 +30382,10 @@ TopoSortDFS.prototype.dfsVisit = function(startVertex, messageX, printCCNum) {
       }
     }
     this.f_times[startVertex] = this.currentTime++;
+    this.markAnimationStep("finish " + startVertex, {
+      vertex: startVertex,
+      tags: ["finish"]
+    });
     this.cmd("CreateLabel", this.f_timesID_L[startVertex], "f = " + String(this.f_times[startVertex]), this.x_pos_logical[startVertex] - 44, this.y_pos_logical[startVertex] + 14);
     this.cmd(
       "CreateLabel",
@@ -26266,6 +30562,26 @@ Trie.prototype.reset = function() {
   this.nextIndex = 3;
   this.root = null;
 };
+Trie.prototype.beginTrieAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, {
+    source: "Trie",
+    operation,
+    ...meta
+  });
+};
+Trie.prototype.markAnimationStep = function(label, meta = {}) {
+  this.step(label, {
+    source: "Trie",
+    operation: this.currentAnimationOperation,
+    ...meta
+  });
+};
+Trie.prototype.finishTrieAnimation = function() {
+  this.currentAnimationOperation = null;
+  return this.finishAnimation();
+};
 Trie.prototype.insertCallback = function() {
   var insertedValue = this.inputField.value.toUpperCase();
   insertedValue = insertedValue.replace(/[^a-z]/gi, "");
@@ -26293,6 +30609,9 @@ Trie.prototype.findCallback = function() {
 };
 Trie.prototype.printTree = function(unused) {
   this.commands = [];
+  this.beginTrieAnimation("print", "print trie", {
+    tags: ["print"]
+  });
   if (this.root != null) {
     this.highlightID = this.nextIndex++;
     this.printLabel1 = this.nextIndex++;
@@ -26328,7 +30647,13 @@ Trie.prototype.printTree = function(unused) {
     }
     this.nextIndex = this.highlightID;
   }
-  return this.commands;
+  this.beginBlock("finish print", {
+    source: "Trie",
+    operation: this.currentAnimationOperation,
+    tags: ["complete", "print"]
+  });
+  this.cmd("SetMessage", "");
+  return this.finishTrieAnimation();
 };
 Trie.prototype.printTreeRec = function(tree, stringSoFar) {
   if (tree.wordRemainder != "") {
@@ -26380,11 +30705,21 @@ Trie.prototype.printTreeRec = function(tree, stringSoFar) {
 };
 Trie.prototype.findElement = function(word) {
   this.commands = [];
+  this.beginTrieAnimation("find", "find " + word, {
+    value: word,
+    tags: ["find", "search"]
+  });
   this.commands = new Array();
   this.cmd("SetMessage", "Finding: '" + word + "' ");
   this.cmd("AlignRight", 1, 0);
   this.cmd("Step");
   var node = this.doFind(this.root, word);
+  this.beginBlock((node != null ? "found " : "not found ") + word, {
+    source: "Trie",
+    operation: this.currentAnimationOperation,
+    value: word,
+    tags: [node != null ? "found" : "not-found"]
+  });
   if (node != null) {
     this.cmd("SetMessage", 'Found "' + word + '"');
   } else {
@@ -26392,7 +30727,7 @@ Trie.prototype.findElement = function(word) {
   }
   this.cmd("SetMessage", "");
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishTrieAnimation();
 };
 Trie.prototype.doFind = function(tree, s) {
   if (tree == null) {
@@ -26400,6 +30735,9 @@ Trie.prototype.doFind = function(tree, s) {
   }
   this.cmd("SetHighlight", tree.graphicID, 1);
   if (s.length == 0) {
+    this.markAnimationStep("check word flag", {
+      tags: ["check"]
+    });
     if (tree.isword == true) {
       this.cmd(
         "SetMessage",
@@ -26420,6 +30758,10 @@ Trie.prototype.doFind = function(tree, s) {
   } else {
     this.cmd("SetHighlightIndex", 1, 1);
     var index = s.charCodeAt(0) - "A".charCodeAt(0);
+    this.markAnimationStep("descend " + s.charAt(0), {
+      letter: s.charAt(0),
+      tags: ["descend"]
+    });
     if (tree.children[index] == null) {
       this.cmd(
         "SetMessage",
@@ -26464,11 +30806,19 @@ Trie.prototype.insert = function(elem, tree) {
 };
 Trie.prototype.deleteElement = function(word) {
   this.commands = [];
+  this.beginTrieAnimation("delete", "delete " + word, {
+    value: word,
+    tags: ["delete"]
+  });
   this.cmd("SetMessage", "Deleting: '" + word + "' ");
   this.cmd("AlignRight", 1, 0);
   this.cmd("Step");
   var node = this.doFind(this.root, word);
   if (node != null) {
+    this.markAnimationStep("unset word flag for " + word, {
+      value: word,
+      tags: ["delete", "word-flag"]
+    });
     this.cmd("SetHighlight", node.graphicID, 1);
     this.cmd(
       "SetMessage",
@@ -26488,7 +30838,14 @@ Trie.prototype.deleteElement = function(word) {
   this.cmd("SetMessage", "");
   this.cmd("SetMessage", "");
   this.cmd("SetMessage", "");
-  return this.commands;
+  this.beginBlock("delete complete", {
+    source: "Trie",
+    operation: this.currentAnimationOperation,
+    value: word,
+    tags: ["complete"]
+  });
+  this.cmd("SetMessage", "");
+  return this.finishTrieAnimation();
 };
 Trie.prototype.numChildren = function(tree) {
   if (tree == null) {
@@ -26502,9 +30859,58 @@ Trie.prototype.numChildren = function(tree) {
   }
   return children;
 };
+Trie.prototype.describe = function() {
+  if (this.root == null) {
+    return "Tree is empty.";
+  }
+  const sentences = [];
+  const childLetters = (node) => {
+    const letters = [];
+    for (let i = 0; i < 26; i++) {
+      if (node.children[i] != null) {
+        letters.push(node.children[i].wordRemainder || String.fromCharCode("A".charCodeAt(0) + i));
+      }
+    }
+    return letters;
+  };
+  const visit = (node, isRoot = false) => {
+    if (node == null) {
+      return;
+    }
+    const stored = node.wordRemainder === "" ? "an empty prefix" : `prefix ${node.wordRemainder}`;
+    const wordState = node.isword ? "marks a complete word" : "does not mark a complete word";
+    const children = childLetters(node);
+    let childText;
+    if (children.length === 0) {
+      childText = "has no children.";
+    } else if (children.length === 1) {
+      childText = `has child ${children[0]}.`;
+    } else {
+      childText = `has children ${children.slice(0, -1).join(", ")} and ${children[children.length - 1]}.`;
+    }
+    const subject = isRoot ? "Root node" : `Node ${node.wordRemainder || "<root>"}`;
+    sentences.push(`${subject} stores ${stored}, ${wordState}, and ${childText}`);
+    for (let i = 0; i < 26; i++) {
+      visit(node.children[i], false);
+    }
+  };
+  visit(this.root, true);
+  return sentences.join(" ");
+};
+Trie.prototype.describeFromState = function(state) {
+  return describePrefixTreeFromState(state, {
+    isWord(object) {
+      return object.backgroundColor === Trie.TRUE_COLOR;
+    }
+  });
+};
 Trie.prototype.cleanupAfterDelete = function(tree) {
   var children = this.numChildren(tree);
   if (children == 0 && !tree.isword) {
+    this.markAnimationStep("cleanup " + (tree.wordRemainder || "root"), {
+      value: tree.wordRemainder,
+      tags: ["cleanup"]
+    });
     this.cmd(
       "SetMessage",
       'Deletion left us with a "False" leaf\nRemoving false leaf'
@@ -26538,10 +30944,17 @@ Trie.prototype.resizeTree = function() {
 };
 Trie.prototype.add = function(word) {
   this.commands = new Array();
+  this.beginTrieAnimation("insert", "insert " + word, {
+    value: word,
+    tags: ["insert"]
+  });
   this.cmd("SetMessage", "Inserting '" + word + "'");
   this.cmd("AlignRight", 1, 0);
   this.cmd("Step");
   if (this.root == null) {
+    this.markAnimationStep("create root", {
+      tags: ["create", "root"]
+    });
     this.cmd(
       "CreateCircle",
       this.nextIndex,
@@ -26566,10 +30979,16 @@ Trie.prototype.add = function(word) {
     this.nextIndex += 1;
   }
   this.addR(word.toUpperCase(), this.root);
+  this.beginBlock("insert complete", {
+    source: "Trie",
+    operation: this.currentAnimationOperation,
+    value: word,
+    tags: ["complete"]
+  });
   this.cmd("SetMessage", "");
   this.cmd("SetMessage", "");
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishTrieAnimation();
 };
 Trie.prototype.addR = function(s, tree) {
   this.cmd("SetHighlight", tree.graphicID, 1);
@@ -26587,6 +31006,10 @@ Trie.prototype.addR = function(s, tree) {
     this.cmd("SetHighlightIndex", 1, 1);
     var index = s.charCodeAt(0) - "A".charCodeAt(0);
     if (tree.children[index] == null) {
+      this.markAnimationStep("create node " + s.charAt(0), {
+        letter: s.charAt(0),
+        tags: ["create"]
+      });
       this.cmd(
         "CreateCircle",
         this.nextIndex,
@@ -26623,6 +31046,10 @@ Trie.prototype.addR = function(s, tree) {
       this.nextIndex += 1;
       this.highlightID = this.nextIndex++;
     }
+    this.markAnimationStep("descend " + s.charAt(0), {
+      letter: s.charAt(0),
+      tags: ["descend"]
+    });
     this.cmd(
       "CreateHighlightCircle",
       this.highlightID,
@@ -26779,6 +31206,82 @@ StringHash.prototype.reset = function() {
   this.nextIndex = 0;
   this.commands = [];
 };
+StringHash.prototype.beginStringHashAnimation = function(operation, label, meta = {}) {
+  this.currentAnimationOperation = operation;
+  this.beginAnimation();
+  this.beginBlock(label, { source: "StringHash", operation, ...meta });
+};
+StringHash.prototype.markAnimationStep = function(label, meta = {}) {
+  this.step(label, {
+    source: "StringHash",
+    operation: this.currentAnimationOperation,
+    ...meta
+  });
+};
+StringHash.prototype.finishStringHashAnimation = function() {
+  this.currentAnimationOperation = null;
+  return this.finishAnimation();
+};
+StringHash.prototype.describe = function() {
+  const sentences = [`Table size is ${this.table_size}.`, "Mode is string hashing."];
+  if (Number.isFinite(this.currHash)) {
+    sentences.push(`Last computed hash value is ${this.currHash}.`);
+    sentences.push(`Last computed bucket is ${this.currHash % this.table_size}.`);
+  }
+  return sentences.join(" ");
+};
+StringHash.prototype.describeFromState = function(state) {
+  let hashValue = null;
+  let bucketValue = null;
+  const tryParseHash = (text) => {
+    if (typeof text !== "string") {
+      return;
+    }
+    let match = text.match(/hash\(".*?"\)\s*=\s*(\d+)/);
+    if (match) {
+      hashValue = Number(match[1]);
+    }
+    match = text.match(/Result is\s+(\d+)/);
+    if (match) {
+      hashValue = Number(match[1]);
+    }
+    match = text.match(/Computed hash\(".*?"\)\s*=\s*(\d+)/);
+    if (match) {
+      hashValue = Number(match[1]);
+    }
+    match = text.match(/^\s*=\s*(\d+)\s*$/);
+    if (match) {
+      hashValue = Number(match[1]);
+    }
+    match = text.match(/(\d+)\s*%\s*(\d+)\s*=\s*(\d+)/);
+    if (match) {
+      hashValue = Number(match[1]);
+      bucketValue = Number(match[3]);
+    }
+  };
+  for (const object of state?.objects?.values?.() ?? []) {
+    if (object.kind !== "label") {
+      continue;
+    }
+    tryParseHash(getReplayObjectText(object));
+  }
+  tryParseHash(state?.message ?? "");
+  const sentences = [`Table size is ${this.table_size}.`, "Mode is string hashing."];
+  if (Number.isFinite(hashValue)) {
+    sentences.push(`Last computed hash value is ${hashValue}.`);
+    if (!Number.isFinite(bucketValue)) {
+      bucketValue = hashValue % this.table_size;
+    }
+  } else if (Number.isFinite(this.currHash)) {
+    hashValue = this.currHash;
+    bucketValue = this.currHash % this.table_size;
+    sentences.push(`Last computed hash value is ${hashValue}.`);
+  }
+  if (Number.isFinite(bucketValue)) {
+    sentences.push(`Last computed bucket is ${bucketValue}.`);
+  }
+  return sentences.join(" ");
+};
 StringHash.prototype.hashCallback = function() {
   const value = String(this.inputField.value);
   if (value !== "") {
@@ -26787,12 +31290,21 @@ StringHash.prototype.hashCallback = function() {
   }
 };
 StringHash.prototype.runHash = function(str) {
-  this.commands = [];
+  this.beginStringHashAnimation("hash", `hash ${str}`, {
+    tags: ["hash", "string"]
+  });
   this.cmd("SetMessage", "Hash '" + str + "'");
-  this.cmd("Step");
+  this.markAnimationStep("start hash", {
+    tags: ["hash", "string", "start"]
+  });
   Hash.prototype.doHash.call(this, str, true);
+  this.beginBlock("hash complete", {
+    source: "StringHash",
+    operation: this.currentAnimationOperation,
+    tags: ["hash", "string", "complete"]
+  });
   this.cmd("SetMessage", "");
-  return this.commands;
+  return this.finishStringHashAnimation();
 };
 StringHash.prototype.disableUI = function() {
   const ctrls = [this.inputField, this.hashButton];

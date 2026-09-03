@@ -1,6 +1,9 @@
 @charset "UTF-8";
 
 /* visualizationPageStyle.css */
+html {
+  height: 100%;
+}
 body {
   font:
     1rem Roboto,
@@ -12,10 +15,26 @@ body {
   padding: 0;
   text-align: center;
   color: #000000;
+  height: 100%;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 #algoControlSection {
   background: var(--controlBackground);
   color: #000000;
+  width: 100%;
+}
+#algoControlSection * {
+  box-sizing: border-box;
 }
 canvas {
   font-size: 1.1rem;
@@ -41,14 +60,18 @@ canvas {
 #animationSurround {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  align-items: flex-start;
+  height: 100%;
+  overflow: hidden;
 }
-#animationSurround > svg {
-  flex: 1;
-  min-height: 150px;
+#animationViewport {
+  flex: 1 1 auto;
+  align-self: flex-start;
+  overflow: hidden;
+  max-height: 60vh;
 }
-#animationSurround > canvas {
-  flex: 0;
+#animationViewport > svg {
+  display: block;
 }
 #algoControlSection {
   font-size: 0.8rem;
@@ -74,10 +97,14 @@ svg {
   cursor: move;
   min-height: 200px;
 }
+svg:focus-visible {
+  outline: 3px solid var(--svgColor--althighlight);
+  outline-offset: -3px;
+}
 #algoControlSection {
   container-name: sidebar;
   container-type: inline-size;
-  min-width: 150px;
+  min-width: 200px;
 }
 @media (min-width: 600px) {
   #algoControlSection {
@@ -86,9 +113,14 @@ svg {
     width: 200px;
     scrollbar-width: thin;
     order: 0;
+    flex-shrink: 0;
   }
   #animationSurround {
     flex-direction: row;
+    align-items: stretch;
+  }
+  #animationViewport {
+    max-height: unset;
   }
 }
 svg circle {
