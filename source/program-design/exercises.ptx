@@ -74,15 +74,10 @@ convertDeclarationToCamel("double another_variable_name = 3.14;") -> "double ano
   <exercise label="program-design_exercises-ex-3">
     <statement>
 
-      <p>Given two blood types like <pf>AB+</pf> and <pf>O-</pf>, we want to determine if the first blood type can donate to the second blood type and if the second can donate to the first.</p>
+      <p>Blood that has type <pf>A</pf> antibodies (<pf>A</pf> or <pf>AB</pf>) can only be given to people with an <pf>A</pf> or <pf>AB</pf> blood type. Blood that has type <pf>B</pf> antibodies (<pf>B</pf> or <pf>AB</pf>) can only be given to people with a <pf>B</pf> or <pf>AB</pf> blood type. Blood that has type <pf>O</pf> antibodies can be given to anyone.</p>
+      <p>Blood that has the <pf>+</pf> factor can only be given to someone who also has the <pf>+</pf> factor. (Blood with the <pf>-</pf> factor can be given to anyone.)</p>
 
-      <note>
-        <title>How blood types work</title>
-        <p>Blood that has type <pf>A</pf> antibodies (<pf>A</pf> or <pf>AB</pf>) can only be given to people with an <pf>A</pf> or <pf>AB</pf> blood type. Blood that has type <pf>B</pf> antibodies (<pf>B</pf> or <pf>AB</pf>) can only be given to people with a <pf>B</pf> or <pf>AB</pf> blood type. Blood that has type <pf>O</pf> antibodies can be given to anyone.</p>
-        <p>Blood that has the <pf>+</pf> factor can only be given to someone who also has the <pf>+</pf> factor. (Blood with the <pf>-</pf> factor can be given to anyone.)</p>
-      </note>
-
-      <p>We want to write a program that can read in pairs of blood types and determine donation compatibility:</p>
+      <p>Given two blood types like <pf>AB+</pf> and <pf>O-</pf>, we want to determine if the first blood type can donate to the second blood type and if the second can donate to the first:</p>
 
       <console>
         <output>
