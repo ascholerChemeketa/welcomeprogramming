@@ -24187,7 +24187,7 @@ RedBlack.prototype.init = function(am, w2, h) {
   this.commands = [];
   this.groupBoxes = {};
   this.rootIndex = 0;
-  this.startingX = 100;
+  this.startingX = 150;
   this.print_max = w2 - PRINT_HORIZONTAL_GAP;
   this.first_print_pos_y = h - 2 * PRINT_VERTICAL_GAP2;
   this.cmd("CreateRectangle", this.nextIndex++, "", 50, 25, this.startingX - 70, EXPLANITORY_TEXT_Y + 20);
