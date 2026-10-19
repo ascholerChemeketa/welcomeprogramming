@@ -25,18 +25,18 @@ if (!(x &lt;= 5))
     <evaluation>
       <evaluate>
         <test correct="yes">
-          <strcmp>x\s*==\s*10</strcmp>
+          <strcmp>\s*\(?\s*x\s*==\s*10\s*\)?\s*</strcmp>
         </test>
-        <test>
+        <!-- <test>
           <strcmp>.*\(.*</strcmp>
           <feedback>
             You don't need parentheses.
           </feedback>
-        </test>
+        </test> -->
         <test>
           <strcmp>.*!.*</strcmp>
           <feedback>
-            You don't need any not symbols.
+            You do not need the exclamation point. The two <q>not</q> operations cancel each other out.
           </feedback>
         </test>
       </evaluate>
